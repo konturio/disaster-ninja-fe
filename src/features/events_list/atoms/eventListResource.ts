@@ -7,6 +7,7 @@ import { dispatchMetricsEventOnce } from '~core/metrics/dispatch';
 import { AppFeature } from '~core/app/types';
 import { currentEventFeedAtom } from '~core/shared_state/currentEventFeed';
 import { currentEventAtom } from '~core/shared_state/currentEvent';
+import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import { eventListFilters } from './eventListFilters';
 import type { Event } from '~core/types';
 
@@ -27,9 +28,10 @@ export const eventListResourceAtom = createAsyncAtom(
     };
 
     const responseData =
-      (await apiClient.get<Event[]>('/events/', params, true, {
+      (await apiClient.get<Event[]>('/events/', params, {
         signal: abortController.signal,
         errorsConfig: { hideErrors: true },
+        authRequirement: AUTH_REQUIREMENT.MUST,
       })) ?? ([] as Event[]);
 
     dispatchMetricsEventOnce(AppFeature.EVENTS_LIST, responseData.length > 0);

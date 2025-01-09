@@ -198,13 +198,13 @@ export class OidcSimpleClient {
   }
 
   private shouldRefreshToken(): 'must' | 'should' | false {
-    if (!this.tokenExpirationDate) return 'must';
+    if (!this.tokenExpirationDate) return AUTH_REQUIREMENT.MUST;
 
     const now = Date.now();
     const timeToExpiry = this.tokenExpirationDate.getTime() - now;
 
-    if (timeToExpiry <= 0) return 'must';
-    if (timeToExpiry < this.timeToRefresh) return 'should';
+    if (timeToExpiry <= 0) return AUTH_REQUIREMENT.MUST;
+    if (timeToExpiry < this.timeToRefresh) return AUTH_REQUIREMENT.SHOULD;
     return false;
   }
 
@@ -214,7 +214,7 @@ export class OidcSimpleClient {
     if (!refreshNeeded) return true;
 
     try {
-      if (refreshNeeded === 'must') {
+      if (refreshNeeded === AUTH_REQUIREMENT.MUST) {
         // If refresh token is expired, handle it gracefully
         if (this.isRefreshTokenExpired()) {
           this.resetAuth();
@@ -225,7 +225,7 @@ export class OidcSimpleClient {
         return true;
       }
 
-      // For 'should' case, try refresh but don't fail if current token still valid
+      // For AUTH_REQUIREMENT.SHOULD case, try refresh but don't fail if current token still valid
       try {
         await this.refreshAuthToken();
       } catch (error) {
@@ -247,17 +247,17 @@ export class OidcSimpleClient {
   }
 
   async getAccessToken(options: GetAccessTokenOptions = {}) {
-    const requirement = options.requirement || 'must';
+    const requirement = options.requirement || AUTH_REQUIREMENT.MUST;
     try {
       // For endpoints that can work without authentication
       if (!this.isUserLoggedIn) {
-        if (requirement === 'must') {
+        if (requirement === AUTH_REQUIREMENT.MUST) {
           throw new ApiClientError('Authentication required', {
             kind: 'unauthorized',
             data: 'not_authenticated',
           });
         }
-        return ''; // For 'should' or 'optional', proceed without token
+        return ''; // For AUTH_REQUIREMENT.SHOULD or 'optional', proceed without token
       }
 
       if (!this.tokenRefreshFlowPromise) {
@@ -266,14 +266,14 @@ export class OidcSimpleClient {
       const refreshResult = await this.tokenRefreshFlowPromise;
 
       if (!refreshResult) {
-        if (requirement === 'must') {
+        if (requirement === AUTH_REQUIREMENT.MUST) {
           this.setSessionState(SESSION_STATE.EXPIRED);
           throw new ApiClientError('Session expired', {
             kind: 'unauthorized',
             data: 'session_expired',
           });
         }
-        return ''; // For 'should' or 'optional', proceed without token
+        return ''; // For AUTH_REQUIREMENT.SHOULD or 'optional', proceed without token
       }
 
       if (
@@ -288,14 +288,14 @@ export class OidcSimpleClient {
         return this.token;
       }
 
-      if (requirement === 'must') {
+      if (requirement === AUTH_REQUIREMENT.MUST) {
         this.setSessionState(SESSION_STATE.ERROR, new Error('Invalid token state'));
         throw new ApiClientError('Invalid token state', {
           kind: 'unauthorized',
           data: 'invalid_token',
         });
       }
-      return ''; // For 'should' or 'optional', proceed without token
+      return ''; // For AUTH_REQUIREMENT.SHOULD or 'optional', proceed without token
     } catch (error) {
       this.tokenRefreshFlowPromise = undefined;
       if (error instanceof Error) {

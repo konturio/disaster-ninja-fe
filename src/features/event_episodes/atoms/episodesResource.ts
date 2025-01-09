@@ -4,6 +4,7 @@ import { createAtom } from '~utils/atoms';
 import { apiClient } from '~core/apiClientInstance';
 import { currentEventAtom } from '~core/shared_state/currentEvent';
 import { currentEventFeedAtom } from '~core/shared_state/currentEventFeed';
+import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import type { Episode } from '~core/types';
 
 const episodesResourceDependencyAtom = createAtom(
@@ -30,8 +31,10 @@ export const episodesResource = createAsyncAtom(
       const responseData = await apiClient.get<Episode[]>(
         `/events/${deps.feed.id}/${deps.event.id}/episodes`,
         undefined,
-        true,
-        { signal: abortController.signal },
+        {
+          signal: abortController.signal,
+          authRequirement: AUTH_REQUIREMENT.MUST,
+        },
       );
       if (!responseData) throw 'No data received';
 

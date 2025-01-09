@@ -3,6 +3,7 @@ import { apiClient } from '~core/apiClientInstance';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { i18n } from '~core/localization';
 import { v3toV2 } from '~utils/atoms/v3tov2';
+import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import { currentEventAtom } from './currentEvent';
 import { currentEventFeedAtom } from './currentEventFeed';
 import type { EventWithGeometry } from '~core/types';
@@ -22,12 +23,12 @@ export const currentEventResourceAtom = createAsyncAtom(
       const responseData = await apiClient.get<EventWithGeometry>(
         `/events/${deps.feed.id}/${deps.event.id}`,
         undefined,
-        true,
         {
           signal: abortController.signal,
           errorsConfig: {
             messages: { 404: i18n.t('current_event.not_found_request') },
           },
+          authRequirement: AUTH_REQUIREMENT.MUST,
         },
       );
       if (responseData === undefined) throw 'No data received';

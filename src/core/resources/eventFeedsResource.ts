@@ -1,5 +1,6 @@
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { apiClient } from '~core/apiClientInstance';
+import { AUTH_REQUIREMENT } from '~core/auth/constants';
 
 export interface EventFeed {
   feed: string;
@@ -11,12 +12,10 @@ export interface EventFeed {
 export const eventFeedsResourceAtom = createAsyncAtom(
   null,
   async (_, abortController) => {
-    const feedsResponse = apiClient.get<EventFeed[]>(
-      '/events/user_feeds',
-      undefined,
-      true,
-      { signal: abortController.signal },
-    );
+    const feedsResponse = apiClient.get<EventFeed[]>('/event_feeds', undefined, {
+      signal: abortController.signal,
+      authRequirement: AUTH_REQUIREMENT.MUST,
+    });
     return feedsResponse;
   },
   'eventFeedsResource',

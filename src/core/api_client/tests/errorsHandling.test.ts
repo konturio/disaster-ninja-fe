@@ -2,6 +2,7 @@
  * @vitest-environment happy-dom
  */
 import { test, expect, beforeEach, vi, describe } from 'vitest';
+import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import { ApiClientError } from '../apiClientError';
 import { createContext } from './_clientTestsContext';
 import type { TestContext } from './_clientTestsContext';
@@ -216,7 +217,10 @@ describe('Request Lifecycle', () => {
     });
 
     // Start the request and immediately cancel it
-    const promise = ctx.apiClient.get('/testCancel', undefined, false, { signal });
+    const promise = ctx.apiClient.get('/testCancel', undefined, {
+      signal,
+      authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+    });
     controller.abort();
 
     const error = (await promise.catch((e) => e)) as ApiClientError;
@@ -237,9 +241,18 @@ describe('Request Lifecycle', () => {
 
     // Start multiple requests
     const promises = [
-      ctx.apiClient.get('/test1', undefined, false, { signal: controller.signal }),
-      ctx.apiClient.get('/test2', undefined, false, { signal: controller.signal }),
-      ctx.apiClient.get('/test3', undefined, false, { signal: controller.signal }),
+      ctx.apiClient.get('/test1', undefined, {
+        signal: controller.signal,
+        authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+      }),
+      ctx.apiClient.get('/test2', undefined, {
+        signal: controller.signal,
+        authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+      }),
+      ctx.apiClient.get('/test3', undefined, {
+        signal: controller.signal,
+        authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+      }),
     ];
 
     // Cancel all requests

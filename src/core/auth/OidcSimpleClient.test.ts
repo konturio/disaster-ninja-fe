@@ -109,6 +109,11 @@ describe('OidcSimpleClient', () => {
         'kontur_platform',
       );
 
+      // Set up initial auth state
+      ctx.authClient['token'] = ctx.expiredToken;
+      ctx.authClient['refreshToken'] = ctx.refreshToken;
+      ctx.authClient['setSessionState'](SESSION_STATE.VALID);
+
       // Mock validateTokenState to return true for the new token
       vi.spyOn(ctx.authClient as any, 'validateTokenState').mockImplementation(
         (state: any) => {
@@ -528,8 +533,10 @@ describe('OidcSimpleClient', () => {
       // Mock isRefreshTokenExpired to return false
       vi.spyOn(ctx.authClient as any, 'isRefreshTokenExpired').mockReturnValue(false);
 
-      // Mock shouldRefreshToken to return 'must'
-      vi.spyOn(ctx.authClient as any, 'shouldRefreshToken').mockReturnValue('must');
+      // Mock shouldRefreshToken to return AUTH_REQUIREMENT.MUST
+      vi.spyOn(ctx.authClient as any, 'shouldRefreshToken').mockReturnValue(
+        AUTH_REQUIREMENT.MUST,
+      );
 
       const refreshSpy = vi.spyOn(ctx.authClient as any, 'refreshAuthToken');
       await ctx.authClient['_tokenRefreshFlow']();
@@ -563,8 +570,10 @@ describe('OidcSimpleClient', () => {
         new Date(Date.now() + TIME_TO_REFRESH_MS / 2),
       );
 
-      // Mock shouldRefreshToken to return 'should'
-      vi.spyOn(ctx.authClient as any, 'shouldRefreshToken').mockReturnValue('should');
+      // Mock shouldRefreshToken to return AUTH_REQUIREMENT.SHOULD
+      vi.spyOn(ctx.authClient as any, 'shouldRefreshToken').mockReturnValue(
+        AUTH_REQUIREMENT.SHOULD,
+      );
 
       // Mock isRefreshTokenExpired to return false
       vi.spyOn(ctx.authClient as any, 'isRefreshTokenExpired').mockReturnValue(false);
@@ -613,8 +622,10 @@ describe('OidcSimpleClient', () => {
         'kontur_platform',
       );
 
-      // Mock shouldRefreshToken to return 'must'
-      vi.spyOn(ctx.authClient as any, 'shouldRefreshToken').mockReturnValue('must');
+      // Mock shouldRefreshToken to return AUTH_REQUIREMENT.MUST
+      vi.spyOn(ctx.authClient as any, 'shouldRefreshToken').mockReturnValue(
+        AUTH_REQUIREMENT.MUST,
+      );
 
       // Mock isRefreshTokenExpired to return false
       vi.spyOn(ctx.authClient as any, 'isRefreshTokenExpired').mockReturnValue(false);
@@ -645,8 +656,10 @@ describe('OidcSimpleClient', () => {
         JSON.stringify(tokenData),
       );
 
-      // Mock shouldRefreshToken to return 'must'
-      vi.spyOn(ctx.authClient as any, 'shouldRefreshToken').mockReturnValue('must');
+      // Mock shouldRefreshToken to return AUTH_REQUIREMENT.MUST
+      vi.spyOn(ctx.authClient as any, 'shouldRefreshToken').mockReturnValue(
+        AUTH_REQUIREMENT.MUST,
+      );
 
       // Mock isRefreshTokenExpired to return false
       vi.spyOn(ctx.authClient as any, 'isRefreshTokenExpired').mockReturnValue(false);

@@ -147,10 +147,10 @@ test('should handle network errors', async ({ ctx }) => {
 
    ```typescript
    // Force refresh
-   vi.spyOn(client, 'shouldRefreshToken').mockReturnValue('must');
+   vi.spyOn(client, 'shouldRefreshToken').mockReturnValue(AUTH_REQUIREMENT.MUST);
 
    // Preemptive refresh
-   vi.spyOn(client, 'shouldRefreshToken').mockReturnValue('should');
+   vi.spyOn(client, 'shouldRefreshToken').mockReturnValue(AUTH_REQUIREMENT.SHOULD);
    ```
 
 3. **Error Handling**

@@ -1,5 +1,6 @@
 import { vi } from 'vitest';
 import fetchMock from '@fetch-mock/vitest';
+import { AUTH_REQUIREMENT } from '~core/auth/constants';
 
 export interface AuthConfig {
   baseUrl?: string;
@@ -75,7 +76,7 @@ export class AuthFactory {
     const token = this.createToken(config);
 
     if (config.isExpired) {
-      vi.spyOn(client, 'shouldRefreshToken').mockReturnValue('must');
+      vi.spyOn(client, 'shouldRefreshToken').mockReturnValue(AUTH_REQUIREMENT.MUST);
       vi.spyOn(client, 'isRefreshTokenExpired').mockReturnValue(false);
     }
 
@@ -83,7 +84,7 @@ export class AuthFactory {
       token,
       setToken: () => client.setToken(token),
       mockPreemptiveRefresh: () => {
-        vi.spyOn(client, 'shouldRefreshToken').mockReturnValue('should');
+        vi.spyOn(client, 'shouldRefreshToken').mockReturnValue(AUTH_REQUIREMENT.SHOULD);
         vi.spyOn(client, 'isRefreshTokenExpired').mockReturnValue(false);
       },
     };

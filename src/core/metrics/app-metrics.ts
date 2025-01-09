@@ -1,6 +1,7 @@
 import { apiClient } from '~core/apiClientInstance';
 import { KONTUR_METRICS_DEBUG } from '~utils/debug';
 import { AppFeature } from '~core/app/types';
+import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import {
   METRICS_EVENT,
   METRICS_REPORT_TEMPLATE,
@@ -218,8 +219,12 @@ export class AppMetrics implements Metric {
   }
 
   sendReports() {
-    apiClient.post('/rum/metrics', this.reports, true).catch((error) => {
-      console.error('error posting metrics :', error, this.reports);
-    });
+    apiClient
+      .post('/rum/metrics', this.reports, {
+        authRequirement: AUTH_REQUIREMENT.MUST,
+      })
+      .catch((error) => {
+        console.error('error posting metrics :', error, this.reports);
+      });
   }
 }

@@ -2,6 +2,7 @@ import { configRepo } from '~core/config';
 import { apiClient } from '~core/apiClientInstance';
 import { createAtom } from '~utils/atoms';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
+import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import { EditTargets, TEMPORARY_USER_LAYER_LEGEND } from '../constants';
 import { createLayerController } from '../control';
 import { createLayerEditorFormAtom } from './layerEditorForm';
@@ -117,10 +118,14 @@ export const editableLayerControllerAtom = createAtom(
               responseData = await apiClient.put<EditableLayers>(
                 `/layers/${data.id}`,
                 data,
-                true,
+                {
+                  authRequirement: AUTH_REQUIREMENT.MUST,
+                },
               );
             } else {
-              responseData = await apiClient.post<EditableLayers>(`/layers`, data, true);
+              responseData = await apiClient.post<EditableLayers>(`/layers`, data, {
+                authRequirement: AUTH_REQUIREMENT.MUST,
+              });
             }
 
             if (responseData) {
@@ -156,7 +161,9 @@ export const editableLayerControllerAtom = createAtom(
         const layer = registeredLayers.get(layerId)!;
         schedule(async (dispatch) => {
           try {
-            await apiClient.delete<unknown>(`/layers/${layerId}`, true);
+            await apiClient.delete<unknown>(`/layers/${layerId}`, {
+              authRequirement: AUTH_REQUIREMENT.MUST,
+            });
             dispatch([
               create('_update', {
                 loading: false,

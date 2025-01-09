@@ -1,4 +1,5 @@
 import { apiClient } from '~core/apiClientInstance';
+import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import { GeoJSONPoint } from '~utils/geoJSON/helpers';
 
 export function getBoundaries(
@@ -8,7 +9,9 @@ export function getBoundaries(
   return apiClient.post<GeoJSON.FeatureCollection>(
     '/boundaries',
     new GeoJSONPoint(coords),
-    false,
-    { signal: abortController ? abortController.signal : undefined },
+    {
+      signal: abortController ? abortController.signal : undefined,
+      authRequirement: AUTH_REQUIREMENT.MUST,
+    },
   );
 }

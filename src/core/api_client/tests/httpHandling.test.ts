@@ -1,5 +1,9 @@
+/**
+ * @vitest-environment happy-dom
+ */
 import { describe, it, expect, beforeEach } from 'vitest';
 import './mocks/replaceUrlWithProxy.mock';
+import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import { createContext } from './_clientTestsContext';
 import { MockFactory } from './factories/mock.factory';
 import type { TestContext } from './_clientTestsContext';
@@ -68,8 +72,9 @@ describe('ApiClient HTTP Handling', () => {
         headers: customHeaders,
       });
 
-      const response = await context.apiClient.get('/data', undefined, false, {
+      const response = await context.apiClient.get('/data', undefined, {
         headers: customHeaders,
+        authRequirement: AUTH_REQUIREMENT.OPTIONAL,
       });
       expect(response).toEqual(testData);
     });
@@ -81,9 +86,14 @@ describe('ApiClient HTTP Handling', () => {
         headers,
       });
 
-      const response = await context.apiClient.post('/data', { data: 'test' }, false, {
-        headers,
-      });
+      const response = await context.apiClient.post(
+        '/data',
+        { data: 'test' },
+        {
+          headers,
+          authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+        },
+      );
       expect(response).toEqual(testData);
     });
 
@@ -98,8 +108,9 @@ describe('ApiClient HTTP Handling', () => {
         headers,
       });
 
-      const response = await context.apiClient.get('/data', undefined, false, {
+      const response = await context.apiClient.get('/data', undefined, {
         headers,
+        authRequirement: AUTH_REQUIREMENT.OPTIONAL,
       });
       expect(response).toEqual(testData);
     });
@@ -111,8 +122,9 @@ describe('ApiClient HTTP Handling', () => {
         headers,
       });
 
-      const response = await context.apiClient.get('/data', undefined, false, {
+      const response = await context.apiClient.get('/data', undefined, {
         headers,
+        authRequirement: AUTH_REQUIREMENT.OPTIONAL,
       });
       expect(response).toEqual(testData);
     });

@@ -1,5 +1,6 @@
 import { createAtom } from '~utils/atoms';
 import { reportsClient } from '~core/apiClientInstance';
+import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import { i18n } from '~core/localization';
 
 export type Report = {
@@ -32,7 +33,7 @@ export const reportsAtom = createAtom(
         const responseData = await reportsClient.get<Report[]>(
           `/osm_reports_list.json`,
           undefined,
-          false,
+          { authRequirement: AUTH_REQUIREMENT.OPTIONAL },
         );
         if (responseData === null) throw new Error(i18n.t('no_data_received'));
         dispatch(reportsAtom.setReports(responseData));

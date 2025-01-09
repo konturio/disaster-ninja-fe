@@ -1,5 +1,9 @@
+/**
+ * @vitest-environment happy-dom
+ */
 import { describe, it, expect, beforeEach } from 'vitest';
 import './mocks/replaceUrlWithProxy.mock';
+import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import { createContext } from './_clientTestsContext';
 import { MockFactory } from './factories/mock.factory';
 import { replaceUrlWithProxyMock } from './mocks/replaceUrlWithProxy.mock';
@@ -24,7 +28,9 @@ describe('ApiClient URL Handling', () => {
       once: true,
     });
 
-    const response = await context.apiClient.get(absoluteUrl);
+    const response = await context.apiClient.get(absoluteUrl, undefined, {
+      authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+    });
     expect(response).toEqual(data);
   });
 
@@ -32,7 +38,9 @@ describe('ApiClient URL Handling', () => {
     const data = { data: 'test' };
     MockFactory.setupSuccessfulResponse('/test', data, { method: 'get' });
 
-    const response = await context.apiClient.get('/test');
+    const response = await context.apiClient.get('/test', undefined, {
+      authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+    });
     expect(response).toEqual(data);
   });
 
@@ -46,7 +54,9 @@ describe('ApiClient URL Handling', () => {
       once: true,
     });
 
-    const response = await context.apiClient.get('/test', params);
+    const response = await context.apiClient.get('/test', params, {
+      authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+    });
     expect(response).toEqual(data);
   });
 
@@ -59,7 +69,9 @@ describe('ApiClient URL Handling', () => {
       once: true,
     });
 
-    const response = await context.apiClient.get(path);
+    const response = await context.apiClient.get(path, undefined, {
+      authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+    });
     expect(response).toEqual(data);
   });
 
@@ -73,7 +85,9 @@ describe('ApiClient URL Handling', () => {
       once: true,
     });
 
-    const response = await context.apiClient.get('/test');
+    const response = await context.apiClient.get('/test', undefined, {
+      authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+    });
     expect(response).toEqual(data);
     expect(replaceUrlWithProxyMock).toHaveBeenCalled();
     const lastCall = replaceUrlWithProxyMock.mock.lastCall;
@@ -91,7 +105,9 @@ describe('ApiClient URL Handling', () => {
       once: true,
     });
 
-    const response = await context.apiClient.get('/test', params);
+    const response = await context.apiClient.get('/test', params, {
+      authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+    });
     expect(response).toEqual(data);
   });
 
@@ -105,7 +121,9 @@ describe('ApiClient URL Handling', () => {
       once: true,
     });
 
-    const response = await context.apiClient.get('/test', params);
+    const response = await context.apiClient.get('/test', params, {
+      authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+    });
     expect(response).toEqual(data);
   });
 
@@ -119,7 +137,9 @@ describe('ApiClient URL Handling', () => {
       once: true,
     });
 
-    const response = await context.apiClient.get('/test', params);
+    const response = await context.apiClient.get('/test', params, {
+      authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+    });
     expect(response).toEqual(data);
   });
 });

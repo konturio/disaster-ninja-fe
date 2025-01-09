@@ -2,6 +2,7 @@ import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { configRepo } from '~core/config';
 import { apiClient } from '~core/apiClientInstance';
 import { EDITABLE_LAYERS_GROUP } from '~core/constants';
+import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import type { EditableLayers } from '../types';
 
 export const editableLayersListResource = createAsyncAtom(
@@ -10,8 +11,10 @@ export const editableLayersListResource = createAsyncAtom(
     const responseData = await apiClient.post<EditableLayers[]>(
       '/layers/search/user',
       { appId: configRepo.get().id },
-      true,
-      { signal: abortController.signal },
+      {
+        signal: abortController.signal,
+        authRequirement: AUTH_REQUIREMENT.MUST,
+      },
     );
     if (responseData === null) return [];
 

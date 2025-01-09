@@ -2,6 +2,7 @@ import { apiClient } from '~core/apiClientInstance';
 import { i18n } from '~core/localization';
 import { AppFeature } from '~core/app/types';
 import { configRepo } from '~core/config';
+import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import type { CustomRequestConfig } from '~core/api_client/types';
 import type { GeometryWithHash } from '~core/focused_geometry/types';
 
@@ -25,7 +26,9 @@ function updateFeatureConfiguration(
   return apiClient.put(
     `/features/${featureId}?appId=${configRepo.get().id}`,
     featureConfiguration,
-    true,
-    requestConfig,
+    {
+      ...requestConfig,
+      authRequirement: AUTH_REQUIREMENT.MUST,
+    },
   );
 }

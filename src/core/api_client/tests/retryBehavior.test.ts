@@ -2,6 +2,7 @@
  * @vitest-environment happy-dom
  */
 import { test, expect, beforeEach, vi, describe } from 'vitest';
+import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import { ApiClientError } from '../apiClientError';
 import { createContext } from './_clientTestsContext';
 import { MockFactory } from './factories/mock.factory';
@@ -33,8 +34,9 @@ describe('Retry Behavior', () => {
       'GET',
     );
 
-    const result = await ctx.apiClient.get('/test', undefined, false, {
+    const result = await ctx.apiClient.get('/test', undefined, {
       retry: { attempts: 1 },
+      authRequirement: AUTH_REQUIREMENT.OPTIONAL,
     });
 
     expect(result).toEqual({ data: 'success' });
@@ -61,8 +63,9 @@ describe('Retry Behavior', () => {
     );
 
     await expect(
-      ctx.apiClient.get('/test', undefined, false, {
+      ctx.apiClient.get('/test', undefined, {
         retry: { attempts: 3 },
+        authRequirement: AUTH_REQUIREMENT.OPTIONAL,
       }),
     ).rejects.toMatchObject({
       problem: { kind: 'server' },
@@ -88,11 +91,12 @@ describe('Retry Behavior', () => {
       'GET',
     );
 
-    const result = await ctx.apiClient.get('/test', undefined, false, {
+    const result = await ctx.apiClient.get('/test', undefined, {
       retry: {
         attempts: 1,
         onErrorKinds: ['server', 'timeout'],
       },
+      authRequirement: AUTH_REQUIREMENT.OPTIONAL,
     });
 
     expect(result).toEqual({ data: 'success' });
@@ -124,8 +128,9 @@ describe('Retry Behavior', () => {
     );
 
     await expect(
-      ctx.apiClient.get('/test', undefined, false, {
+      ctx.apiClient.get('/test', undefined, {
         retry: { attempts: 2 },
+        authRequirement: AUTH_REQUIREMENT.OPTIONAL,
       }),
     ).rejects.toMatchObject({
       problem: { kind: 'timeout' },
@@ -156,11 +161,12 @@ describe('Retry Behavior', () => {
     try {
       vi.useFakeTimers();
 
-      const requestPromise = ctx.apiClient.get('/test', undefined, false, {
+      const requestPromise = ctx.apiClient.get('/test', undefined, {
         retry: {
           attempts: 1,
           delayMs: 1000,
         },
+        authRequirement: AUTH_REQUIREMENT.OPTIONAL,
       });
 
       // First request should happen immediately
@@ -201,8 +207,9 @@ describe('Retry Behavior', () => {
       'GET',
     );
 
-    const result = await ctx.apiClient.get('/test', undefined, false, {
+    const result = await ctx.apiClient.get('/test', undefined, {
       retry: { attempts: 1 }, // Only specify attempts, rest should use defaults
+      authRequirement: AUTH_REQUIREMENT.OPTIONAL,
     });
 
     expect(result).toEqual({ data: 'success' });
@@ -230,8 +237,9 @@ describe('Retry Behavior', () => {
     );
 
     await expect(
-      ctx.apiClient.get('/test', undefined, false, {
+      ctx.apiClient.get('/test', undefined, {
         retry: { attempts: 2 },
+        authRequirement: AUTH_REQUIREMENT.OPTIONAL,
       }),
     ).rejects.toMatchObject({
       problem: { kind: 'server' },

@@ -1,4 +1,8 @@
+/**
+ * @vitest-environment happy-dom
+ */
 import { beforeEach, describe, expect, it } from 'vitest';
+import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import { ApiClientError } from '../apiClientError';
 import { createContext } from './_clientTestsContext';
 import { MockFactory } from './factories/mock.factory';
@@ -21,7 +25,9 @@ describe('ApiClient Event Handling', () => {
 
       // Trigger an error
       await expect(
-        context.apiClient.get('/non-existent', undefined, false),
+        context.apiClient.get('/non-existent', undefined, {
+          authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+        }),
       ).rejects.toThrow();
 
       expect(errorEvents.length).toBe(1);
@@ -30,7 +36,9 @@ describe('ApiClient Event Handling', () => {
       // Test unsubscribe
       unsubscribe();
       await expect(
-        context.apiClient.get('/another-non-existent', undefined, false),
+        context.apiClient.get('/another-non-existent', undefined, {
+          authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+        }),
       ).rejects.toThrow();
 
       expect(errorEvents.length).toBe(1); // Should not increase after unsubscribe
@@ -43,7 +51,9 @@ describe('ApiClient Event Handling', () => {
       });
 
       // Make a request that will be added to the pool
-      const promise = context.apiClient.get('/test', undefined, false);
+      const promise = context.apiClient.get('/test', undefined, {
+        authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+      });
 
       // Should have at least one pool update with pending status
       expect(poolUpdates.length).toBeGreaterThan(0);
@@ -65,7 +75,9 @@ describe('ApiClient Event Handling', () => {
       context.apiClient.on('error', (error) => errors2.push(error));
 
       await expect(
-        context.apiClient.get('/non-existent', undefined, false),
+        context.apiClient.get('/non-existent', undefined, {
+          authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+        }),
       ).rejects.toThrow();
 
       expect(errors1.length).toBe(1);
@@ -85,7 +97,9 @@ describe('ApiClient Event Handling', () => {
       });
 
       // First request - both listeners should receive updates
-      await context.apiClient.get('/test', undefined, false);
+      await context.apiClient.get('/test', undefined, {
+        authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+      });
       expect(poolUpdates1.length).toBeGreaterThan(0);
       expect(poolUpdates2.length).toBeGreaterThan(0);
 
@@ -95,7 +109,9 @@ describe('ApiClient Event Handling', () => {
       const length2 = poolUpdates2.length;
 
       // Second request - only second listener should receive updates
-      await context.apiClient.get('/test', undefined, false);
+      await context.apiClient.get('/test', undefined, {
+        authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+      });
       expect(poolUpdates1.length).toBe(length1); // Should not increase
       expect(poolUpdates2.length).toBeGreaterThan(length2);
 
@@ -104,7 +120,9 @@ describe('ApiClient Event Handling', () => {
       const finalLength2 = poolUpdates2.length;
 
       // Third request - no listeners should receive updates
-      await context.apiClient.get('/test', undefined, false);
+      await context.apiClient.get('/test', undefined, {
+        authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+      });
       expect(poolUpdates1.length).toBe(length1);
       expect(poolUpdates2.length).toBe(finalLength2);
     });
@@ -119,9 +137,19 @@ describe('ApiClient Event Handling', () => {
 
       // Make multiple concurrent requests
       const promises = [
-        context.apiClient.get('/test', undefined, false),
-        context.apiClient.post('/test', { data: 'test' }, false),
-        context.apiClient.get('/test', undefined, false),
+        context.apiClient.get('/test', undefined, {
+          authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+        }),
+        context.apiClient.post(
+          '/test',
+          { data: 'test' },
+          {
+            authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+          },
+        ),
+        context.apiClient.get('/test', undefined, {
+          authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+        }),
       ];
 
       // Should have pool updates with multiple pending requests
@@ -142,8 +170,9 @@ describe('ApiClient Event Handling', () => {
       });
 
       const controller = new AbortController();
-      const promise = context.apiClient.get('/test', undefined, false, {
+      const promise = context.apiClient.get('/test', undefined, {
         signal: controller.signal,
+        authRequirement: AUTH_REQUIREMENT.OPTIONAL,
       });
 
       // Cancel the request
@@ -163,7 +192,9 @@ describe('ApiClient Event Handling', () => {
 
       // Make a request that will fail
       await expect(
-        context.apiClient.get('/non-existent', undefined, false),
+        context.apiClient.get('/non-existent', undefined, {
+          authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+        }),
       ).rejects.toThrow();
 
       // Pool should be empty after error
@@ -185,9 +216,11 @@ describe('ApiClient Event Handling', () => {
       MockFactory.setupNetworkError('/test');
 
       // Make a request that will fail with network error
-      await expect(context.apiClient.get('/test', undefined, false)).rejects.toThrow(
-        "Can't connect to server",
-      );
+      await expect(
+        context.apiClient.get('/test', undefined, {
+          authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+        }),
+      ).rejects.toThrow("Can't connect to server");
 
       // Pool should be empty after network error
       expect(poolUpdates[poolUpdates.length - 1].size).toBe(0);

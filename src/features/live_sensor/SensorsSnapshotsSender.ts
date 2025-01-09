@@ -1,4 +1,5 @@
 import { apiClient } from '~core/apiClientInstance';
+import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import { toSnapshotFormat } from './toSnapshotFormat';
 import type { SensorSnapshot } from './SensorSnapshot';
 
@@ -46,11 +47,12 @@ export class SensorsSnapshotsSender {
 
   private async send(snapshot: SensorSnapshot) {
     try {
-      await apiClient.post('/features/live-sensor', snapshot, true, {
+      await apiClient.post('/features/live-sensor', snapshot, {
         retry: {
           attempts: this.maxAttempts - 1, // -1 because first try counts
           delayMs: this.timeoutSec * 1000,
         },
+        authRequirement: AUTH_REQUIREMENT.MUST,
       });
     } catch (e) {
       throw Error('Failed attempts to send snapshot.');
