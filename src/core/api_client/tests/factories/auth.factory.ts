@@ -82,7 +82,14 @@ export class AuthFactory {
 
     return {
       token,
-      setToken: () => client.setToken(token),
+      setToken: async () => {
+        await client.updateTokenState({
+          token: token.access_token,
+          refreshToken: token.refresh_token,
+          expiresAt: new Date(Date.now() + token.expires_in * 1000),
+          refreshExpiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours from now
+        });
+      },
       mockPreemptiveRefresh: () => {
         vi.spyOn(client, 'shouldRefreshToken').mockReturnValue(AUTH_REQUIREMENT.SHOULD);
         vi.spyOn(client, 'isRefreshTokenExpired').mockReturnValue(false);

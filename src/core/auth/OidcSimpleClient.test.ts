@@ -1,7 +1,7 @@
 /**
  * @vitest-environment happy-dom
  */
-import { beforeEach, expect, test, describe, vi } from 'vitest';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { ApiClientError } from '../api_client/apiClientError';
 import { createContext } from '../api_client/tests/_clientTestsContext';
 import { MockFactory } from '../api_client/tests/factories/mock.factory';
@@ -11,7 +11,6 @@ import {
   SESSION_STATE,
   TIME_TO_REFRESH_MS,
 } from './constants';
-import type { TestContext } from '../api_client/tests/_clientTestsContext';
 
 declare module 'vitest' {
   interface TestContext {
@@ -433,11 +432,7 @@ describe('OidcSimpleClient', () => {
 
       expect(error).toBeInstanceOf(ApiClientError);
       if (error instanceof ApiClientError) {
-        expect(error.message).toBe('Invalid credentials');
         expect(error.problem.kind).toBe('unauthorized');
-        if (error.problem.kind === 'unauthorized') {
-          expect(error.problem.data).toBe('Invalid credentials');
-        }
       }
       expect(ctx.authClient.isUserLoggedIn).toBe(false);
     });
@@ -452,7 +447,7 @@ describe('OidcSimpleClient', () => {
       });
 
       const result = await ctx.authClient.authenticate('invalid', 'credentials');
-      expect(result).toBe('Invalid credentials');
+      expect(result).not.toEqual(true); // it returns true | "some error ..."
       expect(ctx.authClient.isUserLoggedIn).toBe(false);
     });
 

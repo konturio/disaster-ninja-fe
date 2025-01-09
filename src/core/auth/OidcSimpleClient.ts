@@ -75,17 +75,20 @@ export class OidcSimpleClient {
 
   constructor(
     private readonly storage: WindowLocalStorage['localStorage'] = localStorage,
+    private syncTabs = false,
   ) {
-    // Listen for storage events from other tabs
-    window.addEventListener('storage', (e) => {
-      if (e.key === LOCALSTORAGE_AUTH_KEY) {
-        if (!e.newValue) {
-          this.resetAuth();
-        } else {
-          this.checkLocalAuthToken();
+    if (this.syncTabs) {
+      // Listen for storage events from other tabs
+      window.addEventListener('storage', (e) => {
+        if (e.key === LOCALSTORAGE_AUTH_KEY) {
+          if (!e.newValue) {
+            this.resetAuth();
+          } else {
+            this.checkLocalAuthToken();
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   public async init(issuerUri: string, clientId: string) {
@@ -239,9 +242,6 @@ export class OidcSimpleClient {
       return true;
     } catch (error) {
       this.resetAuth();
-      if (error instanceof ApiClientError) {
-        throw error;
-      }
       throw createApiError(error);
     }
   }
@@ -276,15 +276,7 @@ export class OidcSimpleClient {
         return ''; // For AUTH_REQUIREMENT.SHOULD or 'optional', proceed without token
       }
 
-      if (
-        this.token &&
-        this.validateTokenState({
-          token: this.token,
-          refreshToken: this.refreshToken,
-          expiresAt: this.tokenExpirationDate ?? new Date(0),
-          refreshExpiresAt: this.refreshTokenExpirationDate ?? new Date(0),
-        })
-      ) {
+      if (this.validateTokenState(this.getMemoryTokenState())) {
         return this.token;
       }
 
@@ -307,21 +299,21 @@ export class OidcSimpleClient {
     }
   }
 
+  private getMemoryTokenState(): Partial<TokenState> {
+    return {
+      token: this.token,
+      refreshToken: this.refreshToken,
+      expiresAt: this.tokenExpirationDate,
+      refreshExpiresAt: this.refreshTokenExpirationDate,
+    };
+  }
+
   checkLocalAuthToken(): boolean {
     try {
       // First check in-memory tokens
-      if (this.token && this.refreshToken) {
-        const memoryTokenState: TokenState = {
-          token: this.token,
-          refreshToken: this.refreshToken,
-          expiresAt: this.tokenExpirationDate || new Date(0),
-          refreshExpiresAt: this.refreshTokenExpirationDate || new Date(0),
-        };
-
-        if (this.validateTokenState(memoryTokenState)) {
-          this.setSessionState(SESSION_STATE.VALID);
-          return true;
-        }
+      if (this.validateTokenState(this.getMemoryTokenState())) {
+        this.setSessionState(SESSION_STATE.VALID);
+        return true;
       }
 
       // Then check storage
@@ -347,7 +339,7 @@ export class OidcSimpleClient {
           token: sanitizedToken,
           refreshToken: sanitizedRefreshToken,
           expiresAt: new Date(stored.expiresAt),
-          refreshExpiresAt: decodedRefreshToken.expiringDate || new Date(0),
+          refreshExpiresAt: decodedRefreshToken.expiringDate,
         };
 
         if (!this.validateTokenState(tokenState)) {
@@ -406,7 +398,6 @@ export class OidcSimpleClient {
         .res();
     } catch (e) {
       // typically response is 204, but if endpoint fails, ignore it
-      console.warn('Logout endpoint failed:', e);
     }
   }
 
@@ -431,14 +422,11 @@ export class OidcSimpleClient {
     try {
       return await this.requestTokenOrThrow(this.tokenEndpoint, params);
     } catch (error) {
-      // If we get an invalid_grant error, the refresh token is no longer valid
+      // Handle invalid refresh token
       if (
         error instanceof ApiClientError &&
-        error.problem.kind === 'rejected' &&
-        typeof error.problem.data === 'object' &&
-        error.problem.data &&
-        'error' in error.problem.data &&
-        (error.problem.data as { error: string }).error === 'invalid_grant'
+        error.problem.kind === 'unauthorized' &&
+        error.problem.data === 'invalid_grant'
       ) {
         this.resetAuth();
       }
@@ -458,23 +446,19 @@ export class OidcSimpleClient {
         .addon(FormUrlAddon)
         .formUrl({ client_id: this.clientId, ...params })
         .post()
-        .unauthorized((_) => {
-          throw new ApiClientError('Invalid credentials', {
-            kind: 'unauthorized',
-            data: 'Invalid credentials',
-          });
+        .unauthorized((error) => {
+          throw createApiError(error);
         })
         .res(autoParseBody);
 
       if (!response.data?.access_token || !response.data?.refresh_token) {
-        throw new ApiClientError('Invalid response from auth server', {
-          kind: 'bad-data',
-        });
+        throw new ApiClientError('Invalid auth response', { kind: 'bad-data' });
       }
 
       const [sanitizedToken, decodedToken] = this.validateAndParseToken(
         response.data.access_token,
       );
+
       const [sanitizedRefreshToken, decodedRefreshToken] = this.validateAndParseToken(
         response.data.refresh_token,
       );
@@ -482,15 +466,12 @@ export class OidcSimpleClient {
       await this.updateTokenState({
         token: sanitizedToken,
         refreshToken: sanitizedRefreshToken,
-        expiresAt: decodedToken.expiringDate || new Date(0),
-        refreshExpiresAt: decodedRefreshToken.expiringDate || new Date(0),
+        expiresAt: decodedToken.expiringDate,
+        refreshExpiresAt: decodedRefreshToken.expiringDate,
       });
 
       return true;
     } catch (error) {
-      if (error instanceof ApiClientError) {
-        throw error;
-      }
       throw createApiError(error);
     }
   }
@@ -531,24 +512,13 @@ export class OidcSimpleClient {
       !this.refreshTokenExpirationDate || this.refreshTokenExpirationDate < new Date()
     );
   }
-
-  /**
-   * Check if authentication is required for the current state
-   * @returns true if authentication is needed, false if we have valid tokens
-   */
-  isAuthenticationRequired(): boolean {
-    return !this.isUserLoggedIn || this.isRefreshTokenExpired();
-  }
 }
 
 export function parseToken(token: string) {
   try {
     const decodedToken = jwtDecode<TokenPayload>(token);
-    const expiringDate = decodedToken.exp
-      ? new Date(decodedToken.exp * 1000)
-      : new Date(0);
-    const tokenLifetime =
-      decodedToken.exp && decodedToken.iat ? decodedToken.exp - decodedToken.iat : 0;
+    const expiringDate = new Date(decodedToken.exp * 1000);
+    const tokenLifetime = decodedToken.exp - decodedToken.iat;
     const expiresIn = +expiringDate - Date.now();
     const isExpired = expiresIn <= 0;
 
