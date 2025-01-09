@@ -3,6 +3,7 @@
  */
 import { beforeEach, expect, test, describe, vi } from 'vitest';
 import fetchMock from '@fetch-mock/vitest';
+import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import { ApiClientError, getApiErrorKind } from '../apiClientError';
 import { createContext } from './_clientTestsContext';
 import { TokenFactory } from './factories/token.factory';
@@ -17,103 +18,151 @@ declare module 'vitest' {
 
 beforeEach(async (context) => {
   context.ctx = await createContext();
+  MockFactory.resetMocks();
 });
 
-describe('API Client Authentication', () => {
-  test('should handle password grant authentication', async ({ ctx }) => {
-    // Reset mocks to ensure clean state
-    MockFactory.resetMocks();
-
-    const validToken = await TokenFactory.createToken({
-      sub: '1234567890',
-      iat: Math.floor(Date.now() / 1000),
-      exp: Math.floor(Date.now() / 1000) + 3600,
+describe('Authorization', () => {
+  describe('Access Token Management', () => {
+    test('should handle MUST requirement when logged in', async ({ ctx }) => {
+      await ctx.authClient.login(ctx.username, ctx.password);
+      const token = await ctx.authClient.getAccessToken({
+        requirement: AUTH_REQUIREMENT.MUST,
+      });
+      expect(token).toBe(ctx.token);
     });
 
-    const tokenEndpoint = AuthFactory.getTokenEndpoint(ctx);
-    await MockFactory.setupSuccessfulAuth(
-      { baseUrl: ctx.baseUrl, realm: ctx.keycloakRealm },
-      validToken,
-    );
-
-    // Set up the logout endpoint
-    MockFactory.setupLogoutEndpoint({
-      baseUrl: ctx.baseUrl,
-      realm: ctx.keycloakRealm,
+    test('should throw for MUST requirement when not logged in', async ({ ctx }) => {
+      await expect(
+        ctx.authClient.getAccessToken({
+          requirement: AUTH_REQUIREMENT.MUST,
+        }),
+      ).rejects.toThrow('Authentication required');
     });
 
-    await ctx.authClient.authenticate('test-user', 'test-password');
-    expect(ctx.authClient.isUserLoggedIn).toBe(true);
+    test('should handle SHOULD requirement when logged in', async ({ ctx }) => {
+      await ctx.authClient.login(ctx.username, ctx.password);
+      const token = await ctx.authClient.getAccessToken({
+        requirement: AUTH_REQUIREMENT.SHOULD,
+      });
+      expect(token).toBe(ctx.token);
+    });
 
-    const storedToken = await ctx.authClient.getAccessToken();
-    expect(storedToken).toBe(validToken);
+    test('should return empty for SHOULD requirement when not logged in', async ({
+      ctx,
+    }) => {
+      const token = await ctx.authClient.getAccessToken({
+        requirement: AUTH_REQUIREMENT.SHOULD,
+      });
+      expect(token).toBe('');
+    });
 
-    // Verify token request format
-    const lastCall = ctx.fetchMock.callHistory.lastCall();
-    const lastCallOptions = lastCall?.options as RequestInit;
-    expect(lastCall?.url).toBe(tokenEndpoint);
-    expect(lastCallOptions?.body?.toString()).toContain('grant_type=password');
-    expect(lastCallOptions?.body?.toString()).toContain('username=test-user');
-    expect(lastCallOptions?.body?.toString()).toContain('password=test-password');
+    test('should handle OPTIONAL requirement when logged in', async ({ ctx }) => {
+      await ctx.authClient.login(ctx.username, ctx.password);
+      const token = await ctx.authClient.getAccessToken({
+        requirement: AUTH_REQUIREMENT.OPTIONAL,
+      });
+      expect(token).toBe(ctx.token);
+    });
+
+    test('should return empty for OPTIONAL requirement when not logged in', async ({
+      ctx,
+    }) => {
+      const token = await ctx.authClient.getAccessToken({
+        requirement: AUTH_REQUIREMENT.OPTIONAL,
+      });
+      expect(token).toBe('');
+    });
   });
 
-  test('should handle authentication failures', async ({ ctx }) => {
-    // Reset mocks to ensure clean state
-    MockFactory.resetMocks();
+  describe('Token Refresh', () => {
+    test('should refresh token for MUST requirement when token is expiring', async ({
+      ctx,
+    }) => {
+      // Setup initial login with expiring token
+      const expiringToken = {
+        token: ctx.expiredToken,
+        refreshToken: ctx.refreshToken,
+        expiresAt: new Date(Date.now() + 1000).toISOString(), // Expiring soon
+        refreshExpiresAt: new Date(Date.now() + 7200000).toISOString(),
+      };
 
-    const tokenEndpoint = AuthFactory.getTokenEndpoint(ctx);
-    const config = { baseUrl: ctx.baseUrl, realm: ctx.keycloakRealm };
+      vi.spyOn(ctx.localStorageMock, 'getItem').mockReturnValue(
+        JSON.stringify(expiringToken),
+      );
 
-    // Set up the logout endpoint
-    MockFactory.setupLogoutEndpoint(config);
+      await ctx.authClient.init(
+        `${ctx.baseUrl}/realms/${ctx.keycloakRealm}`,
+        'kontur_platform',
+      );
 
-    // Test various error scenarios
-    const errorCases = [
-      {
-        setup: () =>
-          fetchMock.post(tokenEndpoint, {
-            status: 401,
-            headers: { 'Content-Type': 'application/json' },
-            body: {
-              error: 'invalid_grant',
-              error_description: 'Invalid username or password',
-            },
-          }),
-        expectedKind: 'unauthorized',
-      },
-      {
-        setup: () =>
-          fetchMock.post(tokenEndpoint, {
-            status: 400,
-            headers: { 'Content-Type': 'application/json' },
-            body: {
-              error: 'invalid_request',
-              error_description: 'Invalid request parameters',
-            },
-          }),
-        expectedKind: 'bad-request',
-      },
-      {
-        setup: () =>
-          fetchMock.post(tokenEndpoint, {
-            throws: new Error('Network error'),
-          }),
-        expectedKind: 'client-unknown',
-      },
-    ];
+      // Setup successful refresh
+      await MockFactory.setupSuccessfulAuth({
+        baseUrl: ctx.baseUrl,
+        realm: ctx.keycloakRealm,
+      });
 
-    for (const errorCase of errorCases) {
-      MockFactory.resetMocks();
-      errorCase.setup();
-      MockFactory.setupLogoutEndpoint(config); // Re-setup logout endpoint after reset
+      const token = await ctx.authClient.getAccessToken({
+        requirement: AUTH_REQUIREMENT.MUST,
+      });
+      expect(token).toBe(ctx.token);
+    });
 
-      try {
-        await ctx.authClient.login('test-user', 'test-password');
-        throw new Error('Should have failed authentication');
-      } catch (e) {
-        expect(e).toBeInstanceOf(ApiClientError);
-        expect(getApiErrorKind(e)).toBe(errorCase.expectedKind);
-      }
-    }
+    test('should not refresh token for OPTIONAL requirement when token is expiring', async ({
+      ctx,
+    }) => {
+      // Setup initial login with expiring token
+      const expiringToken = {
+        token: ctx.token,
+        refreshToken: ctx.refreshToken,
+        expiresAt: new Date(Date.now() + 1000).toISOString(), // Expiring soon
+        refreshExpiresAt: new Date(Date.now() + 7200000).toISOString(),
+      };
+
+      vi.spyOn(ctx.localStorageMock, 'getItem').mockReturnValue(
+        JSON.stringify(expiringToken),
+      );
+
+      await ctx.authClient.init(
+        `${ctx.baseUrl}/realms/${ctx.keycloakRealm}`,
+        'kontur_platform',
+      );
+
+      const token = await ctx.authClient.getAccessToken({
+        requirement: AUTH_REQUIREMENT.OPTIONAL,
+      });
+      expect(token).toBe(ctx.token);
+    });
+
+    test('should attempt refresh for SHOULD requirement when token is expiring', async ({
+      ctx,
+    }) => {
+      // Setup initial login with expiring token
+      const expiringToken = {
+        token: ctx.token,
+        refreshToken: ctx.refreshToken,
+        expiresAt: new Date(Date.now() + 1000).toISOString(), // Expiring soon
+        refreshExpiresAt: new Date(Date.now() + 7200000).toISOString(),
+      };
+
+      vi.spyOn(ctx.localStorageMock, 'getItem').mockReturnValue(
+        JSON.stringify(expiringToken),
+      );
+
+      await ctx.authClient.init(
+        `${ctx.baseUrl}/realms/${ctx.keycloakRealm}`,
+        'kontur_platform',
+      );
+
+      // Setup successful refresh
+      await MockFactory.setupSuccessfulAuth({
+        baseUrl: ctx.baseUrl,
+        realm: ctx.keycloakRealm,
+      });
+
+      const token = await ctx.authClient.getAccessToken({
+        requirement: AUTH_REQUIREMENT.SHOULD,
+      });
+      expect(token).toBe(ctx.token);
+    });
   });
 });

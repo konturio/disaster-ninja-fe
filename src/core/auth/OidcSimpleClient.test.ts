@@ -5,7 +5,12 @@ import { beforeEach, expect, test, describe, vi } from 'vitest';
 import { ApiClientError } from '../api_client/apiClientError';
 import { createContext } from '../api_client/tests/_clientTestsContext';
 import { MockFactory } from '../api_client/tests/factories/mock.factory';
-import { LOCALSTORAGE_AUTH_KEY, TIME_TO_REFRESH_MS } from './OidcSimpleClient';
+import {
+  AUTH_REQUIREMENT,
+  LOCALSTORAGE_AUTH_KEY,
+  SESSION_STATE,
+  TIME_TO_REFRESH_MS,
+} from './constants';
 import type { TestContext } from '../api_client/tests/_clientTestsContext';
 
 declare module 'vitest' {
@@ -42,7 +47,9 @@ describe('OidcSimpleClient', () => {
         'kontur_platform',
       );
       expect(ctx.authClient.isUserLoggedIn).toBe(true);
-      expect(await ctx.authClient.getAccessToken()).toBe(ctx.token);
+      expect(
+        await ctx.authClient.getAccessToken({ requirement: AUTH_REQUIREMENT.MUST }),
+      ).toBe(ctx.token);
     });
 
     test('should handle token validation errors', async ({ ctx }) => {
@@ -116,7 +123,7 @@ describe('OidcSimpleClient', () => {
       // Make concurrent requests - this should trigger a token refresh
       const requests = Array(5)
         .fill(null)
-        .map(() => ctx.authClient.getAccessToken());
+        .map(() => ctx.authClient.getAccessToken({ requirement: AUTH_REQUIREMENT.MUST }));
       const tokens = await Promise.all(requests);
 
       // All requests should get the same new token
@@ -167,7 +174,7 @@ describe('OidcSimpleClient', () => {
       );
 
       try {
-        await ctx.authClient.getAccessToken();
+        await ctx.authClient.getAccessToken({ requirement: AUTH_REQUIREMENT.MUST });
         throw new Error('Should have failed token refresh');
       } catch (e) {
         expect(e).toBeInstanceOf(ApiClientError);
@@ -575,7 +582,7 @@ describe('OidcSimpleClient', () => {
       // Set up token state
       ctx.authClient['token'] = ctx.token;
       ctx.authClient['refreshToken'] = ctx.refreshToken;
-      ctx.authClient.isUserLoggedIn = true;
+      ctx.authClient['setSessionState'](SESSION_STATE.VALID);
 
       const consoleSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
       const result = await ctx.authClient['_tokenRefreshFlow']();
