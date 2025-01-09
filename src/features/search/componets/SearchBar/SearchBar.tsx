@@ -1,6 +1,6 @@
 import { SelectItem } from '@konturio/ui-kit';
 import { useAction, useAtom } from '@reatom/npm-react';
-import { useMemo, useRef } from 'react';
+import { forwardRef, useCallback, useMemo } from 'react';
 import cn from 'clsx';
 import { searchLocationsAtom } from '~features/search/searchLocationAtoms';
 import {
@@ -22,150 +22,174 @@ import {
 } from '~features/search/searchMcdaAtoms';
 import { SearchInput } from '../SearchInput/SearchInput';
 import style from './SearchBar.module.css';
+import type { AggregatedSearchItem } from '~features/search/searchAtoms';
 
-export function SearchBar() {
-  const [isMenuOpen, setIsMenuOpen] = useAtom(isMenuOpenAtom);
-  const [highlightedIndex] = useAtom(highlightedIndexAtom);
-  const [showInfoBlock] = useAtom(showInfoBlockAtom);
+type SearchBarProps = {
+  onItemSelect?: () => void;
+  searchBarClass?: string;
+};
 
-  const inputPlaceholder = isMCDASearchEnabled
-    ? i18n.t('search.input_placeholder_mcda')
-    : i18n.t('search.input_placeholder');
+export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
+  ({ onItemSelect, searchBarClass }, ref) => {
+    const [isMenuOpen, setIsMenuOpen] = useAtom(isMenuOpenAtom);
+    const [highlightedIndex] = useAtom(highlightedIndexAtom);
+    const [showInfoBlock] = useAtom(showInfoBlockAtom);
 
-  const searchInputEl = useRef<HTMLInputElement>();
-  const searchBarRef = useOutsideClick<HTMLDivElement>(() => setIsMenuOpen(false));
+    const inputPlaceholder = isMCDASearchEnabled
+      ? i18n.t('search.input_placeholder_mcda')
+      : i18n.t('search.input_placeholder');
 
-  const handleInputKeyDown = useAction(handleKeyDownAction);
-  const handleSearch = useAction(searchAction);
-  const handleItemSelect = useAction(itemSelectAction);
-  const onReset = useAction(resetSearchAction);
+    const searchBarRef = useOutsideClick<HTMLDivElement>(() => setIsMenuOpen(false));
 
-  const handleReset = () => {
-    searchInputEl.current?.focus();
-    onReset();
-  };
+    const handleInputKeyDown = useAction(handleKeyDownAction);
+    const search = useAction(searchAction);
+    const itemSelect = useAction(itemSelectAction);
+    const reset = useAction(resetSearchAction);
 
-  const [{ error, loading, emptyResult }] = useAtom(searchLocationsAtom);
-  const [state] = useAtom(MCDASuggestionAtom);
-  const [aggregatedResults] = useAtom(aggregatedSearchAtom);
+    const handleReset = () => {
+      if (ref && typeof ref !== 'function') {
+        ref.current?.focus();
+      }
+      reset();
+    };
 
-  const inputProps = useMemo(
-    () => ({
-      ref: searchInputEl,
-      onKeyDown: handleInputKeyDown,
-      onClick: () => {
-        setIsMenuOpen(true);
+    const handleItemSelect = useCallback(
+      (item: AggregatedSearchItem) => {
+        itemSelect(item);
+        onItemSelect?.();
       },
-    }),
-    [handleInputKeyDown, setIsMenuOpen],
-  );
+      [itemSelect, onItemSelect],
+    );
 
-  const renderError = () => (
-    <SelectItem
-      key="error"
-      item={{
-        disabled: true,
-        title: 'Something went wrong. Please try again',
-        value: null,
-      }}
-      className={style.listItem}
-      itemProps={{ role: 'option' }}
-    />
-  );
+    const [{ error, loading, emptyResult }] = useAtom(searchLocationsAtom);
+    const [mcdaSearchStatus] = useAtom(MCDASuggestionAtom);
+    const [aggregatedResults] = useAtom(aggregatedSearchAtom);
 
-  const renderNoResults = () => (
-    <SelectItem
-      key="no-data"
-      item={{ disabled: true, title: i18n.t('search.locations_no_result'), value: null }}
-      className={style.listItem}
-      itemProps={{ role: 'option' }}
-    />
-  );
+    const inputProps = useMemo(
+      () => ({
+        ref,
+        onKeyDown: handleInputKeyDown,
+        onClick: () => {
+          setIsMenuOpen(true);
+        },
+      }),
+      [handleInputKeyDown, ref, setIsMenuOpen],
+    );
 
-  const renderItems = () => {
-    return (
+    const renderError = () => (
+      <SelectItem
+        key="error"
+        item={{
+          disabled: true,
+          title: 'Something went wrong. Please try again',
+          value: null,
+        }}
+        className={style.listItem}
+        itemProps={{ role: 'option' }}
+      />
+    );
+
+    const renderNoResults = () => (
+      <SelectItem
+        key="no-data"
+        item={{
+          disabled: true,
+          title: i18n.t('search.locations_no_result'),
+          value: null,
+        }}
+        className={style.listItem}
+        itemProps={{ role: 'option' }}
+      />
+    );
+
+    const renderItems = () => {
+      return (
+        <>
+          {aggregatedResults.map((item, index) => {
+            switch (item.source) {
+              case 'locations':
+                return (
+                  <SelectItem
+                    key={item.properties.osm_id}
+                    item={{
+                      title: item.properties.display_name,
+                      value: item.properties.osm_id,
+                      hasDivider: true,
+                    }}
+                    highlighted={highlightedIndex === index}
+                    className={style.listItem}
+                    itemProps={{
+                      onClick: () => handleItemSelect(item),
+                      role: 'option',
+                    }}
+                  />
+                );
+              case 'mcda':
+                return (
+                  <SelectItem
+                    key={item.name}
+                    className={cn(style.listItem, style.createMcdaAnalysis)}
+                    item={{
+                      title: `✨${i18n.t('search.mcda_create_analysis')} "${item.name}"`,
+                      value: item.name,
+                      hasDivider: true,
+                    }}
+                    highlighted={highlightedIndex === index}
+                    itemProps={{
+                      onClick: () => handleItemSelect(item),
+                      role: 'option',
+                    }}
+                  />
+                );
+              default:
+                return null;
+            }
+          })}
+        </>
+      );
+    };
+
+    const LocationSearchStatus = () => (
       <>
-        {aggregatedResults.map((item, index) => {
-          switch (item.source) {
-            case 'locations':
-              return (
-                <SelectItem
-                  key={item.properties.osm_id}
-                  item={{
-                    title: item.properties.display_name,
-                    value: item.properties.osm_id,
-                    hasDivider: true,
-                  }}
-                  highlighted={highlightedIndex === index}
-                  className={style.listItem}
-                  itemProps={{
-                    onClick: () => handleItemSelect(item),
-                    role: 'option',
-                  }}
-                />
-              );
-            case 'mcda':
-              return (
-                <SelectItem
-                  key={item.name}
-                  className={cn(style.listItem, style.createMcdaAnalysis)}
-                  item={{
-                    title: `✨${i18n.t('search.mcda_create_analysis')} "${item.name}"`,
-                    value: item.name,
-                    hasDivider: true,
-                  }}
-                  highlighted={highlightedIndex === index}
-                  itemProps={{
-                    onClick: () => handleItemSelect(item),
-                    role: 'option',
-                  }}
-                />
-              );
-            default:
-              return null;
-          }
-        })}
+        {error && renderError()}
+        {emptyResult && renderNoResults()}
       </>
     );
-  };
 
-  const LocationSearchStatus = () => (
-    <>
-      {error && renderError()}
-      {emptyResult && renderNoResults()}
-    </>
-  );
+    return (
+      <>
+        <div className={cn(style.searchBar, searchBarClass)} ref={searchBarRef}>
+          <SearchInput
+            inputAtom={inputAtom}
+            inputProps={inputProps}
+            isLoading={loading}
+            placeholder={inputPlaceholder}
+            onReset={handleReset}
+            onSearch={search}
+          />
+        </div>
+        {isMenuOpen && (
+          <>
+            {showInfoBlock && (
+              <div className={style.infoBanner}>
+                {isMCDASearchEnabled
+                  ? i18n.t('search.info_block_with_mcda')
+                  : i18n.t('search.info_block')}
+              </div>
+            )}
+            <ul className={style.resultsList}>
+              {isMCDASearchEnabled && <MCDASearchStatus state={mcdaSearchStatus} />}
+              {renderItems()}
+              <LocationSearchStatus />
+            </ul>
+          </>
+        )}
+      </>
+    );
+  },
+);
 
-  return (
-    <div className={style.searchBar} ref={searchBarRef}>
-      <SearchInput
-        inputAtom={inputAtom}
-        inputProps={inputProps}
-        isLoading={loading}
-        placeholder={inputPlaceholder}
-        onReset={handleReset}
-        onSearch={handleSearch}
-        classes={{ inputWrapper: style.searchInputWrapper }}
-      />
-      {isMenuOpen && (
-        <>
-          {showInfoBlock && (
-            <div className={style.infoBanner}>
-              {isMCDASearchEnabled
-                ? i18n.t('search.info_block_with_mcda')
-                : i18n.t('search.info_block')}
-            </div>
-          )}
-          <ul className={style.resultsList}>
-            {isMCDASearchEnabled && <MCDASearchStatus state={state} />}
-            {renderItems()}
-            <LocationSearchStatus />
-          </ul>
-        </>
-      )}
-    </div>
-  );
-}
+SearchBar.displayName = 'SearchBar';
 
 export function MCDASearchStatus({ state }) {
   const { error, loading } = state;
