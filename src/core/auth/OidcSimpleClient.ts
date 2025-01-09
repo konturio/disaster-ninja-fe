@@ -70,7 +70,7 @@ export class OidcSimpleClient {
     const event = new CustomEvent('sessionStateChanged', {
       detail: { state, error },
     });
-    window.dispatchEvent(event);
+    globalThis.dispatchEvent(event);
   }
 
   constructor(
@@ -79,7 +79,7 @@ export class OidcSimpleClient {
   ) {
     if (this.syncTabs) {
       // Listen for storage events from other tabs
-      window.addEventListener('storage', (e) => {
+      globalThis.addEventListener('storage', (e) => {
         if (e.key === LOCALSTORAGE_AUTH_KEY) {
           if (!e.newValue) {
             this.resetAuth();
