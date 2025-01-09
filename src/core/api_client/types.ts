@@ -1,14 +1,3 @@
-import type { WretchResponse } from 'wretch';
-import type { NotificationMessage } from '~core/types/notification';
-
-export interface INotificationService {
-  error: (message: NotificationMessage, lifetimeSec?: number) => void;
-}
-
-export interface ITranslationService {
-  t: (message: string) => string;
-}
-
 export const ApiMethodTypes = {
   GET: 'get',
   POST: 'post',
@@ -137,14 +126,3 @@ export type GeneralApiProblem =
    * Client-side catch all
    */
   | { kind: 'client-unknown' };
-
-export interface LocalAuthToken {
-  token: string;
-  refreshToken: string;
-  jwtData: JWTData;
-}
-
-export interface ApiResponse<T> extends WretchResponse {
-  ok: true;
-  data: T | null;
-}
