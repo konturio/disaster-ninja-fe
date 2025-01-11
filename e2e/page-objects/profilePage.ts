@@ -8,17 +8,17 @@ type ProfileOptions = {
 
 export class ProfilePage extends HelperBase {
   /**
-   * This method checks that at profile page there is a log out button. Also checks that at least one element with "Profile" text is present. After that it compares the email got with email passed to it.
+   * This method checks that at profile page there is a log out button. Also checks that at least one element with "profile title text is present. After that it compares the email got with email passed to it.
    * @param email expected email to what value should be equal to
    */
 
   async checkLogoutBtnProfileTitleAndEmail(email: string) {
-    const logoutBtn = this.page.getByRole('button', { name: 'Log out' });
-    const profileTextElements = this.page.getByText('Profile').nth(1);
+    const logoutBtn = this.page.locator('button', { hasText: 'Log out' }).first();
+    const profileTitle = this.page.getByText('Personalize your experience');
     await logoutBtn.scrollIntoViewIfNeeded();
     // Check that log out button is present
     await expect(logoutBtn).toBeVisible();
-    await expect(profileTextElements).toBeVisible();
+    await expect(profileTitle).toBeVisible();
     const actualEmail = await this.getEmailValueAndCheckThisFieldIsDisabled();
     expect(actualEmail).toEqual(email);
   }
@@ -38,18 +38,19 @@ export class ProfilePage extends HelperBase {
    * This method clicks log out and waits a bit after that
    */
   async clickLogout() {
-    await this.page.getByRole('button', { name: 'Log out' }).click({ delay: 330 });
+    const logoutBtn = this.page.locator('button', { hasText: 'Log out' }).first();
+    await logoutBtn.click({ delay: 330 });
   }
 
   /**
    * This method checks that page doesn't have any log out button or elements with Profile text
    */
   async checkLogoutBtnAndProfileAbsence() {
-    const logoutBtn = this.page.getByRole('button', { name: 'Log out' });
-    const profileTextElements = this.page.getByText('Profile').nth(1);
+    const logoutBtn = this.page.locator('button', { hasText: 'Log out' }).first();
+    const profileTitle = this.page.getByText('Personalize your experience');
     await Promise.all([
       expect(logoutBtn).not.toBeVisible(),
-      expect(profileTextElements).not.toBeVisible(),
+      expect(profileTitle).not.toBeVisible(),
     ]);
   }
 
@@ -144,7 +145,10 @@ export class ProfilePage extends HelperBase {
     // TO DO: remove  once 19141 task is done
     await this.page.waitForTimeout(1000);
     // Wait for a profile element to be ready for actions
-    await this.page.getByText('Settings').waitFor({ state: 'visible', timeout: 25000 });
+    await this.page
+      .getByText('Analysis objectives')
+      .first()
+      .waitFor({ state: 'visible', timeout: 25000 });
 
     const emailValue = await this.getEmailValueAndCheckThisFieldIsDisabled();
     const fullNameValue = await this.getFullNameValue();
@@ -152,12 +156,6 @@ export class ProfilePage extends HelperBase {
       .getByText('Bio')
       .locator('..')
       .locator('textarea')
-      .textContent();
-
-    const themeValue = await this.page
-      .getByText('Theme')
-      .locator('..')
-      .locator('span')
       .textContent();
     const languageValue = await this.page
       .getByText('Language')
@@ -198,7 +196,6 @@ export class ProfilePage extends HelperBase {
       fullNameValue,
       emailValue,
       bioValue,
-      themeValue,
       languageValue,
       isMetricUnitChecked,
       isImperialUnitChecked,
