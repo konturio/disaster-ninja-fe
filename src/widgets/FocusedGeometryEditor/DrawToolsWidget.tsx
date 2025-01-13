@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { i18n } from '~core/localization';
 import { useDrawTools } from '~core/draw_tools';
 import { ToolbarIcon } from '~features/toolbar/components/ToolbarIcon';
+import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME } from './constants';
 import s from './DrawToolsWidget.module.css';
 import type { WidgetProps } from '~core/toolbar/types';
@@ -13,6 +14,7 @@ export function DrawToolsWidget({
   controlComponent: ControlComponent,
 }: WidgetProps): JSX.Element {
   const [tools, { cancelDrawing, finishDrawing }] = useDrawTools();
+  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
 
   switch (state) {
     case 'disabled':
@@ -20,7 +22,7 @@ export function DrawToolsWidget({
       return (
         <ControlComponent
           icon={<EditGeometry16 width={16} height={16} />}
-          size="large"
+          size={isMobile ? 'medium' : 'large'}
           onClick={onClick}
           disabled={state === 'disabled'}
         >
@@ -42,11 +44,15 @@ export function DrawToolsWidget({
       return (
         <>
           {tools.map((tool) => {
+            const size =
+              isMobile && tool.mobilePreferredSize
+                ? tool.mobilePreferredSize
+                : tool.prefferedSize;
             return (
               <ControlComponent
                 key={tool.name}
                 icon={<ToolbarIcon width={16} height={16} icon={tool.icon} />}
-                size={tool.prefferedSize || 'tiny'}
+                size={size || 'tiny'}
                 onClick={tool.action}
                 active={tool.state === 'active'}
                 disabled={tool.state === 'disabled'}

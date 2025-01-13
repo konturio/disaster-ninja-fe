@@ -8,7 +8,7 @@
 
 .sectionDivider {
   width: 1px;
-  min-height: inherit;
+  min-height: 100%;
   background-color: var(--faint-weak);
   flex-shrink: 0;
 }
@@ -28,6 +28,19 @@
   display: flex;
   flex-flow: column nowrap;
   gap: var(--unit);
+  transition:
+    max-height 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.sectionArrow {
+  display: none;
+  rotate: 180deg;
+  margin-left: var(--unit);
+}
+
+.sectionToggleCheckbox {
+  display: none;
 }
 
 .sectionContent {
@@ -36,4 +49,56 @@
   grid-template-rows: repeat(6, auto);
   grid-auto-flow: column;
   gap: var(--half-unit);
+}
+
+@media screen and (max-width: 960px) {
+  .toolbarContent {
+    flex-direction: column;
+    gap: calc(var(--unit) * 3);
+    padding: calc(var(--unit) * 3) var(--double-unit);
+  }
+
+  .section {
+    gap: calc(var(--unit) * 3);
+  }
+
+  .sectionLabel {
+    order: -1; /* Move the label to come before the content */
+    text-align: start;
+    line-height: 18px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+  }
+
+  .sectionArrow {
+    display: inline;
+  }
+
+  .sectionDivider {
+    min-height: 1px;
+    width: 100%;
+  }
+
+  .sectionContent {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .section:has(.sectionToggleCheckbox:checked) .sectionContent {
+    max-height: 0;
+    opacity: 0;
+    display: none;
+  }
+
+  .section:has(.sectionToggleCheckbox:not(:checked)) .sectionContent {
+    max-height: 500px;
+    opacity: 1;
+  }
+
+  .sectionToggleCheckbox:not(:checked) ~ .sectionArrow {
+    rotate: 0deg;
+  }
 }

@@ -30,18 +30,4 @@
   .scrollable {
     width: 100%;
   }
-
-  .panelIcon.mobile {
-    display: flex;
-    &.show {
-      transition: opacity 0.33s linear 0s;
-      visibility: visible;
-      opacity: 1;
-    }
-
-    &.hide {
-      visibility: hidden;
-      opacity: 0;
-    }
-  }
 }

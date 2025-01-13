@@ -127,6 +127,7 @@ export const useDrawTools: DrawToolsHook = () => {
         state: activeDrawMode === mode ? 'active' : 'regular',
         action: () => toggleDrawMode(drawModes[mode]),
         prefferedSize: 'tiny',
+        mobilePreferredSize: 'medium',
       })) ?? [];
 
     controlsArray.push({

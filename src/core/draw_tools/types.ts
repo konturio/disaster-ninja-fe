@@ -1,3 +1,5 @@
+import type { ButtonProps } from '@konturio/ui-kit/tslib/Button';
+
 type DrawToolsState = 'regular' | 'active' | 'disabled';
 
 export interface DrawToolController {
@@ -6,7 +8,8 @@ export interface DrawToolController {
   icon: string;
   state: DrawToolsState;
   action: () => void;
-  prefferedSize?: 'tiny' | 'small' | 'medium' | 'large';
+  prefferedSize?: ButtonProps['size'];
+  mobilePreferredSize?: ButtonProps['size'];
 }
 
 export interface DrawToolsController {

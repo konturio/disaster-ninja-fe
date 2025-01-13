@@ -13,7 +13,6 @@ import { ScaleControl } from '~components/ConnectedMap/ScaleControl/ScaleControl
 import { Copyrights } from '~components/Copyrights/Copyrights';
 import { shortToolbar, toolbar } from '~features/toolbar';
 import { panelClasses } from '~components/Panel';
-import { ToolbarPanel } from '~features/toolbar/components/ToolbarPanel/ToolbarPanel';
 import { configRepo } from '~core/config';
 import { Search } from '~features/search';
 import { AppFeature } from '~core/app/types';
@@ -175,15 +174,17 @@ export function MapPage() {
 const Toolbar = () => {
   const getPanelClasses = () => ({ ...panelClasses, headerTitle: s.toolbarHeaderTitle });
   return (
-    <ToolbarPanel
-      id="toolbar"
-      key="toolbar"
-      fullState={toolbar()}
-      shortState={shortToolbar()}
-      panelIcon={toolbar().panelIcon}
-      header={toolbar().header}
-      getPanelClasses={getPanelClasses}
-    />
+    <div style={{ display: 'flex' }}>
+      <FullAndShortStatesPanelWidget
+        fullState={toolbar()}
+        shortState={shortToolbar()}
+        key="toolbar"
+        id="toolbar"
+        panelIcon={toolbar().panelIcon}
+        header={toolbar().header}
+        getPanelClasses={getPanelClasses}
+      />
+    </div>
   );
 };
 
