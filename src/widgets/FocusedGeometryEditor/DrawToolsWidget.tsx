@@ -47,7 +47,7 @@ export function DrawToolsWidget({
             const size =
               isMobile && tool.mobilePreferredSize
                 ? tool.mobilePreferredSize
-                : tool.prefferedSize;
+                : tool.preferredSize;
             return (
               <ControlComponent
                 key={tool.name}

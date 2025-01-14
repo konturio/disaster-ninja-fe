@@ -8,7 +8,7 @@ export interface DrawToolController {
   icon: string;
   state: DrawToolsState;
   action: () => void;
-  prefferedSize?: ButtonProps['size'];
+  preferredSize?: ButtonProps['size'];
   mobilePreferredSize?: ButtonProps['size'];
 }
 

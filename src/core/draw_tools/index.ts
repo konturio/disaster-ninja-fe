@@ -126,7 +126,7 @@ export const useDrawTools: DrawToolsHook = () => {
         icon: modeToIcon[mode],
         state: activeDrawMode === mode ? 'active' : 'regular',
         action: () => toggleDrawMode(drawModes[mode]),
-        prefferedSize: 'tiny',
+        preferredSize: 'tiny',
         mobilePreferredSize: 'medium',
       })) ?? [];
 
@@ -136,7 +136,7 @@ export const useDrawTools: DrawToolsHook = () => {
       icon: 'Trash24',
       state: selectedIndexes.length > 0 ? 'regular' : 'disabled',
       action: deleteFeatures,
-      prefferedSize: 'medium',
+      preferredSize: 'medium',
     });
 
     controlsArray.push({
@@ -145,7 +145,7 @@ export const useDrawTools: DrawToolsHook = () => {
       icon: 'Download24',
       state: 'regular',
       action: downloadDrawGeometry,
-      prefferedSize: 'medium',
+      preferredSize: 'medium',
     });
 
     return controlsArray;

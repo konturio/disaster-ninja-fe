@@ -37,11 +37,7 @@ export const ToolbarContent = () => {
                     })}
                   </div>
                   <label className={s.sectionLabel}>
-                    <input
-                      type="checkbox"
-                      id="toggle"
-                      className={s.sectionToggleCheckbox}
-                    />
+                    <input type="checkbox" className={s.sectionToggleCheckbox} />
 
                     {section.name}
                     <ChevronDown16 className={s.sectionArrow} />
