@@ -22,10 +22,6 @@
   .shortToolbarButton {
     margin-inline: var(--half-unit);
   }
-
-  button[data-testid='UploadMCDA'] {
-    display: none;
-  }
 }
 
 /* bump .active specificity to override ui-kit */

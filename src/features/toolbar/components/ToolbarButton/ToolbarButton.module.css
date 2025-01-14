@@ -13,10 +13,3 @@
   text-wrap: balance;
   width: 5rem;
 }
-
-/* Hide file loading button on mobile as it doesn't work  */
-@media screen and (max-width: 960px) {
-  button[data-testid='UploadMCDA'] {
-    display: none;
-  }
-}
