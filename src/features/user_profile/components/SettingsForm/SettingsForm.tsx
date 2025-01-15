@@ -18,6 +18,7 @@ import {
 import { SettingsNavigation } from '~features/user_profile/components/SettingsForm/SettingsNavigation/SettingsNavigation';
 import { SettingsSection } from '~features/user_profile/components/SettingsForm/SettingsSection/SettingsSection';
 import stylesV1 from '~features/user_profile/components/SettingsForm/SettingsForm.module.css';
+import { FullScreenLoader } from '~components/LoadingSpinner/LoadingSpinner';
 import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';
 import s from './SettingsForm.module.css';
 
@@ -47,12 +48,7 @@ export function SettingsForm() {
     getUserProfile();
   }, [getUserProfile]);
 
-  if (status === 'init')
-    return (
-      <div className={s.spinnerContainer}>
-        <KonturSpinner />
-      </div>
-    );
+  if (status === 'init') return <FullScreenLoader />;
 
   return <SettingsFormGen userProfile={user} updateUserProfile={updateUserProfile} />;
 }
