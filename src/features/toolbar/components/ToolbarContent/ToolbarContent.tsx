@@ -1,6 +1,6 @@
-import { Button } from '@konturio/ui-kit';
 import { Fragment } from 'react';
 import { useAtom } from '@reatom/react-v2';
+import { ChevronDown16 } from '@konturio/default-icons';
 import { toolbar } from '~core/toolbar';
 import { ToolbarControl } from '../ToolbarControl/ToolbarControl';
 import { ToolbarButton } from '../ToolbarButton/ToolbarButton';
@@ -36,7 +36,12 @@ export const ToolbarContent = () => {
                       );
                     })}
                   </div>
-                  <div className={s.sectionLabel}>{section.name}</div>
+                  <label className={s.sectionLabel}>
+                    <input type="checkbox" className={s.sectionToggleCheckbox} />
+
+                    {section.name}
+                    <ChevronDown16 className={s.sectionArrow} />
+                  </label>
                 </div>
               }
             </Fragment>

@@ -18,6 +18,12 @@
   position: relative;
 }
 
+@media screen and (max-width: 960px) {
+  .shortToolbarButton {
+    margin-inline: var(--half-unit);
+  }
+}
+
 /* bump .active specificity to override ui-kit */
 .shortToolbarButton.active.active {
   box-shadow: 0 0 0 1px var(--accent-weak-up, #9dd6f8);

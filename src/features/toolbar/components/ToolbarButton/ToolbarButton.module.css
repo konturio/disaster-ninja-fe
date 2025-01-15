@@ -13,20 +13,3 @@
   text-wrap: balance;
   width: 5rem;
 }
-
-@media screen and (max-width: 1164px) {
-  .toolbarButton_medium,
-  .toolbarButton_tiny {
-    & span {
-      display: none;
-    }
-  }
-}
-
-@media screen and (max-width: 584px) {
-  .toolbarButton_large {
-    & span {
-      display: none;
-    }
-  }
-}
