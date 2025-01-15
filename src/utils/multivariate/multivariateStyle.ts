@@ -6,6 +6,7 @@ import {
   addVariable,
   classResolver,
   colorResolver,
+  getVariable,
 } from '../bivariate/bivariate_style/styleGen';
 import { colorsMap } from '../bivariate/bivariate_style';
 import { DEFAULT_MULTIBIVARIATE_COLORS, DEFAULT_MULTIBIVARIATE_STEPS } from './constants';
@@ -52,25 +53,39 @@ export function generateBivariateColorsAndStyleForMultivariateLayer(
 }
 
 function setupColorClasses(
-  xValue: ExpressionSpecification,
-  yValue: ExpressionSpecification,
-  xSteps: Step[],
-  ySteps: Step[],
+  baseValue: ExpressionSpecification,
+  annexValue: ExpressionSpecification,
+  baseSteps: Step[],
+  annexSteps: Step[],
   colors: Record<string, string>,
 ): ExpressionSpecification {
   return addVariable(
-    'class',
-    classResolver(
-      {
-        propName: xValue,
-        borders: xSteps.reduce<number[]>((acc, { value }) => (acc.push(value), acc), []),
-      },
-      {
-        propName: yValue,
-        borders: ySteps.reduce<number[]>((acc, { value }) => (acc.push(value), acc), []),
-      },
+    'baseValue',
+    baseValue,
+    addVariable(
+      'annexValue',
+      annexValue,
+      addVariable(
+        'class',
+        classResolver(
+          {
+            propName: getVariable('baseValue'),
+            borders: baseSteps.reduce<number[]>(
+              (acc, { value }) => (acc.push(value), acc),
+              [],
+            ),
+          },
+          {
+            propName: getVariable('annexValue'),
+            borders: annexSteps.reduce<number[]>(
+              (acc, { value }) => (acc.push(value), acc),
+              [],
+            ),
+          },
+        ),
+        colorResolver('class', colors, 'transparent'),
+      ),
     ),
-    colorResolver('class', colors, 'transparent'),
   );
 }
 
@@ -81,8 +96,8 @@ function createBivariateMultivariateStyle({
   sourceLayer,
   id = 'multivariate-bivariate',
 }: MultivaritateBivariateGeneratorProps): FillLayerSpecification {
-  const xAxisValue = linearNormalization(base.layers);
-  const yAxisValue = linearNormalization(annex.layers);
+  const baseValueExpression = linearNormalization(base.layers);
+  const annesValueExpression = linearNormalization(annex.layers);
   const filter = mcdaFilterSetup([...base.layers, ...annex.layers]);
 
   const style: FillLayerSpecification = {
@@ -92,8 +107,8 @@ function createBivariateMultivariateStyle({
     filter,
     paint: {
       'fill-color': setupColorClasses(
-        xAxisValue,
-        yAxisValue,
+        baseValueExpression,
+        annesValueExpression,
         DEFAULT_MULTIBIVARIATE_STEPS,
         DEFAULT_MULTIBIVARIATE_STEPS,
         colorsMap(colors),
