@@ -12,6 +12,17 @@ export function PopupMultivariate(
       <div>{generateMCDAPopupTable(feature, baseMCDAAxes)}</div>
     </>
   );
+  let annexTable;
+  if (config.annex) {
+    const annexMCDAAxes = config.annex?.config.layers ?? [];
+    annexTable = (
+      <>
+        <div>Annex:</div>
+        <div>{generateMCDAPopupTable(feature, annexMCDAAxes)}</div>
+      </>
+    );
+  }
+
   // strength
   let strengthTable;
   if (config.strength) {
@@ -30,7 +41,7 @@ export function PopupMultivariate(
   let extrusionHeightTable;
   if (config.extrusionMax) {
     if (typeof config.extrusionMax === 'number') {
-      strengthTable = <div>Extrusion height: {config.extrusionMax}</div>;
+      extrusionHeightTable = <div>Extrusion height: {config.extrusionMax}</div>;
     } else {
       const extrusionHeightMCDAAxes = config.extrusionMax.config.layers;
       extrusionHeightTable = (
@@ -45,6 +56,7 @@ export function PopupMultivariate(
   return (
     <>
       {baseTable}
+      {annexTable}
       {strengthTable}
       {extrusionHeightTable}
     </>

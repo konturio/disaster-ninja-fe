@@ -1,3 +1,4 @@
+import type { ColorTheme } from '~core/types';
 import type { SymbolLayerSpecification } from 'maplibre-gl';
 import type {
   ColorsByMapLibreExpression,
@@ -20,7 +21,7 @@ export type LabelAxis = {
 export type MultivariateColorConfig =
   | {
       type: 'bivariate';
-      colors: { id: string; color: string }[];
+      colors: ColorTheme;
     }
   | {
       type: 'mcda';

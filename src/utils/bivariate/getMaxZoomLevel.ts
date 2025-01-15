@@ -1,5 +1,17 @@
+import type { MultivariateLayerConfig } from '~core/logical_layers/renderers/MultivariateRenderer/types';
 import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { Indicator } from '~utils/bivariate';
+
+export function getMaxMultivariateZoomLevel(
+  config: MultivariateLayerConfig,
+  fallbackMaxZoom: number,
+) {
+  const maxZoomLevelBase = getMaxMCDAZoomLevel(config.base.config, fallbackMaxZoom);
+  const maxZoomLevelAnnex = config.annex
+    ? getMaxMCDAZoomLevel(config.annex?.config, fallbackMaxZoom)
+    : fallbackMaxZoom;
+  return Math.max(maxZoomLevelBase, maxZoomLevelAnnex);
+}
 
 export function getMaxMCDAZoomLevel(config: MCDAConfig, fallbackMaxZoom: number) {
   return getMaxNumeratorZoomLevel(

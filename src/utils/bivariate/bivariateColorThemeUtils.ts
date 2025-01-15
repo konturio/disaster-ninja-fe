@@ -4,6 +4,7 @@ import { configRepo } from '~core/config';
 import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
 import { getMaxNumeratorZoomLevel } from '~utils/bivariate/getMaxZoomLevel';
 import { FALLBACK_BIVARIATE_MAX_ZOOM } from '~core/logical_layers/renderers/BivariateRenderer/constants';
+import type { FilterSpecification } from 'maplibre-gl';
 import type { CornerRange, Stat } from '~utils/bivariate';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import type { ColorTheme } from '~core/types';
@@ -24,7 +25,7 @@ export interface BivariateLayerStyle {
   type: 'fill';
   source?: BivariateLayerSource;
   layout: unknown;
-  filter: unknown[];
+  filter: FilterSpecification;
   paint: {
     'fill-color': unknown[];
     'fill-opacity': number;
@@ -173,7 +174,7 @@ export const generateColorTheme = (
   colors: Stat['colors'],
   xAxisDirection: Direction,
   yAxisDirection: Direction,
-) => {
+): ColorTheme => {
   const conv = new Hsluv();
 
   const corner00 = findColors(colors, [xAxisDirection[0], yAxisDirection[0]]);

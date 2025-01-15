@@ -191,7 +191,7 @@ export function createMCDAStyle(config: MCDAConfig): FillLayerSpecification {
       absoluteMax,
     }),
 
-    source: config.id + '_source',
+    source: config.id + '_source', // this id is replaced inside the Renderer
     'source-layer': SOURCE_LAYER_MCDA,
   };
 

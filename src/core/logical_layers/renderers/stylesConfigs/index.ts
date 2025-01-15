@@ -1,9 +1,11 @@
+import { generateBivariateColorsAndStyleForMultivariateLayer } from '~utils/multivariate/multivariateStyle';
+import { SOURCE_LAYER_BIVARIATE } from '../BivariateRenderer/constants';
 import { createMCDAStyle, linearNormalization } from './mcda/mcdaStyle';
 import { MapMath } from './mcda/calculations/operations';
 import type { MapExpression } from './mcda/calculations/operations';
 import type { MultivariateAxis } from '../MultivariateRenderer/types';
 import type { MCDALayerStyle, MultivariateLayerStyle } from './mcda/types';
-import type { LayerSpecification } from 'maplibre-gl';
+import type { FillLayerSpecification, LayerSpecification } from 'maplibre-gl';
 import type { LayerStyle } from '~core/logical_layers/types/style';
 
 export function multivariateAxisToScore(axis: MultivariateAxis | number) {
@@ -22,18 +24,29 @@ export const styleConfigs: Record<
     return new Array(createMCDAStyle(config));
   },
   multivariate: (config: MultivariateLayerStyle['config']) => {
-    let baseStyle = createMCDAStyle(config.base.config);
+    let multivariateStyle: FillLayerSpecification;
+
+    if (config.annex) {
+      // if we have both base and annex - the layer becomes bivariate
+      const colorsAndStyle = generateBivariateColorsAndStyleForMultivariateLayer(
+        config,
+        SOURCE_LAYER_BIVARIATE,
+      );
+      multivariateStyle = colorsAndStyle[1];
+    } else {
+      multivariateStyle = createMCDAStyle(config.base.config);
+    }
     if (config.strength) {
       const opacity = new MapMath().clamp(
         multivariateAxisToScore(config.strength) as unknown as MapExpression,
         0.2 as unknown as MapExpression,
         1 as unknown as MapExpression,
       );
-      baseStyle = {
-        ...baseStyle,
-        paint: { ...baseStyle.paint, 'fill-opacity': opacity },
+      multivariateStyle = {
+        ...multivariateStyle,
+        paint: { ...multivariateStyle.paint, 'fill-opacity': opacity },
       };
     }
-    return Array(baseStyle);
+    return Array(multivariateStyle);
   },
 };
