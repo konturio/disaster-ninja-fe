@@ -17,7 +17,7 @@ export function getPolygonDetails(
     {
       signal: abortController.signal,
       errorsConfig: { hideErrors: true },
-      authRequirement: AUTH_REQUIREMENT.MUST,
+      authRequirement: AUTH_REQUIREMENT.OPTIONAL,
     },
   );
 }
