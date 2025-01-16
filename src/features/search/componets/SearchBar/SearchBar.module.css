@@ -48,6 +48,7 @@
   .resultsList {
     width: 100%;
     box-shadow: none;
+    overflow-y: unset;
   }
 }
 
