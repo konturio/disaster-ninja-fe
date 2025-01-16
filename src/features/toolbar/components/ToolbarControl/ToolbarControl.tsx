@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 import { useAtom } from '@reatom/react-v2';
 import { passRefToSettings, resolveValue } from '~core/toolbar/utils';
+import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { ToolbarIcon } from '../ToolbarIcon';
 import type {
   ControlID,
@@ -22,6 +23,8 @@ export function ToolbarControl({
     ControlButttonProps & React.RefAttributes<HTMLButtonElement>
   >;
 }) {
+  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
+
   /* Implement "onRef" toolbar setting */
   const refChangeCallback = useCallback(
     (el: HTMLElement | null) => passRefToSettings(settings, el),
@@ -43,13 +46,17 @@ export function ToolbarControl({
   switch (settings.type) {
     case 'button':
       const icon = resolveValue(settings.typeSettings.icon, state);
+      const size = isMobile
+        ? (settings.typeSettings.mobilePreferredSize ?? 'medium')
+        : settings.typeSettings.preferredSize;
+
       return (
         <ControlComponent
           id={id}
           key={id}
           ref={refChangeCallback}
           icon={<ToolbarIcon icon={icon} width={16} height={16} />}
-          size={settings.typeSettings.preferredSize}
+          size={size}
           active={state === 'active'}
           disabled={state === 'disabled'}
           onClick={toggleState}

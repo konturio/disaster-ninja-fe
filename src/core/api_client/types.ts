@@ -1,14 +1,3 @@
-import type { WretchResponse } from 'wretch';
-import type { NotificationMessage } from '~core/types/notification';
-
-export interface INotificationService {
-  error: (message: NotificationMessage, lifetimeSec?: number) => void;
-}
-
-export interface ITranslationService {
-  t: (message: string) => string;
-}
-
 export const ApiMethodTypes = {
   GET: 'get',
   POST: 'post',
@@ -19,7 +8,9 @@ export const ApiMethodTypes = {
 
 export type ApiMethod = (typeof ApiMethodTypes)[keyof typeof ApiMethodTypes];
 
-export type ApiClientConfig = { baseUrl: string };
+export interface ApiClientConfig {
+  baseUrl?: string;
+}
 
 export interface KeycloakAuthResponse {
   access_token: string;
@@ -68,9 +59,13 @@ export interface CustomRequestConfig {
   headers?: Record<string, string>;
   errorsConfig?: RequestErrorsConfig;
   signal?: AbortSignal;
-  retryAfterTimeoutError?: {
-    times: number;
-    delayMs: number;
+  retry?: {
+    /** Maximum number of retry attempts. Default: 0 (no retries) */
+    attempts: number;
+    /** Delay in milliseconds between retries. Default: 1000 */
+    delayMs?: number;
+    /** Error kinds to retry on. Default: ['timeout'] */
+    onErrorKinds?: Array<GeneralApiProblem['kind']>;
   };
 }
 
@@ -131,14 +126,3 @@ export type GeneralApiProblem =
    * Client-side catch all
    */
   | { kind: 'client-unknown' };
-
-export interface LocalAuthToken {
-  token: string;
-  refreshToken: string;
-  jwtData: JWTData;
-}
-
-export interface ApiResponse<T> extends WretchResponse {
-  ok: true;
-  data: T | null;
-}

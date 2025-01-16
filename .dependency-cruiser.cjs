@@ -1,359 +1,167 @@
-/** @type {import('dependency-cruiser').IConfiguration} */
+// Base patterns
+const FILE_EXTS = '(?:js|mjs|cjs|jsx|ts|mts|cts|tsx)';
+const CONFIG_EXTS = '(?:json|config)';
+
+// Test patterns
+const TEST_FILES = `[.](?:spec|test|fixture)[.]${FILE_EXTS}$`;
+const TEST_FOLDERS = '(?:^|/)(?:tests|__tests__|mocks|__mocks__|fixtures|__fixtures__)/';
+const TEST_UTILS = '(?:^|/)_.*(?:Tests|Mock|Fixture)(?:Context|Config|Factory)?';
+
+// Config patterns
+const DOT_FILES = `(^|/)\\.[^/]+\\.(${FILE_EXTS}|${CONFIG_EXTS})$`;
+const TS_CONFIG = '(^|/)tsconfig\\.json$';
+const BUILD_CONFIG = `(^|/)(babel|webpack)\\.config\\.(${FILE_EXTS}|${CONFIG_EXTS})$`;
+
+// Type patterns
+const TS_DECLARATION = '\\.d\\.ts$';
+const TYPE_FILES = '^(.+?)/types.ts$';
+const TYPE_FOLDERS = '^(.+?)\\/types\\/([\\w]+\\.ts)$';
+
+// Deprecated core modules
+const DEPRECATED_CORE_MODULES = [
+  '^v8/tools/codemap$',
+  '^v8/tools/consarray$',
+  '^v8/tools/csvparser$',
+  '^v8/tools/logreader$',
+  '^v8/tools/profile_view$',
+  '^v8/tools/profile$',
+  '^v8/tools/SourceMap$',
+  '^v8/tools/splaytree$',
+  '^v8/tools/tickprocessor-driver$',
+  '^v8/tools/tickprocessor$',
+  '^node-inspect/lib/_inspect$',
+  '^node-inspect/lib/internal/inspect_client$',
+  '^node-inspect/lib/internal/inspect_repl$',
+  '^async_hooks$',
+  '^punycode$',
+  '^domain$',
+  '^constants$',
+  '^sys$',
+  '^_linklist$',
+  '^_stream_wrap$'
+];
+
+// Combined patterns for rules
+const ALL_TEST_PATTERNS = [TEST_FILES, TEST_FOLDERS, TEST_UTILS];
+const ALL_CONFIG_PATTERNS = [DOT_FILES, TS_CONFIG, BUILD_CONFIG];
+const ALL_TYPE_PATTERNS = [TS_DECLARATION, TYPE_FILES, TYPE_FOLDERS];
+
+const ORPHAN_EXCLUDES = [...ALL_CONFIG_PATTERNS, ...ALL_TYPE_PATTERNS];
+const DEV_DEP_EXCLUDES = [...ALL_TEST_PATTERNS, 'node_modules/@types/'];
+
+// Graph visualization settings
+const COLLAPSE_PATTERNS = {
+  NODE_MODULES: 'node_modules/(?:@[^/]+/[^/]+|[^/]+)',
+  HIGH_LEVEL: '^(?:packages|src|lib(s?)|app(s?)|bin|test(s?)|spec(s?))/[^/]+|node_modules/(?:@[^/]+/[^/]+|[^/]+)'
+};
+
 module.exports = {
   forbidden: [
-    /* rules from the 'recommended' preset: */
     {
       name: 'no-circular',
       severity: 'error',
-      comment:
-        'This dependency is part of a circular relationship. You might want to revise ' +
-        'your solution (i.e. use dependency inversion, make sure the modules have a single responsibility) ',
+      comment: 'This dependency is part of a circular relationship.',
       from: {},
-      to: {
-        circular: true,
-      },
+      to: { circular: true }
     },
     {
       name: 'no-orphans',
-      comment:
-        "This is an orphan module - it's likely not used (anymore?). Either use it or " +
-        "remove it. If it's logical this module is an orphan (i.e. it's a config file), " +
-        'add an exception for it in your dependency-cruiser configuration. By default ' +
-        'this rule does not scrutinize dotfiles (e.g. .eslintrc.js), TypeScript declaration ' +
-        'files (.d.ts), tsconfig.json and some of the babel and webpack configs.',
       severity: 'warn',
+      comment: 'This is an orphan module - it\'s likely not used (anymore?).',
       from: {
         orphan: true,
-        pathNot: [
-          '(^|/)\\.[^/]+\\.(js|cjs|mjs|ts|json)$', // dot files
-          '\\.d\\.ts$', // TypeScript declaration files
-          '^(.+?)/types.ts$', // types.ts files
-          '^(.+?)\\/types\\/([\\w]+\\.ts)$', // all content of types folders
-          '(^|/)tsconfig\\.json$', // TypeScript config
-          '(^|/)(babel|webpack)\\.config\\.(js|cjs|mjs|ts|json)$', // other configs
-        ],
+        pathNot: ORPHAN_EXCLUDES
       },
-      to: {},
+      to: {}
+    },
+    {
+      name: 'no-deprecated-core',
+      severity: 'warn',
+      comment: 'A module depends on a node core module that has been deprecated.',
+      from: {},
+      to: {
+        dependencyTypes: ['core'],
+        path: DEPRECATED_CORE_MODULES
+      }
     },
     {
       name: 'not-to-deprecated',
-      comment:
-        'This module uses a (version of an) npm module that has been deprecated. Either upgrade to a later ' +
-        'version of that module, or find an alternative. Deprecated modules are a security risk.',
       severity: 'warn',
+      comment: 'This module uses a (version of an) npm module that has been deprecated.',
       from: {},
-      to: {
-        dependencyTypes: ['deprecated'],
-      },
+      to: { dependencyTypes: ['deprecated'] }
     },
     {
       name: 'no-non-package-json',
       severity: 'error',
-      comment:
-        "This module depends on an npm package that isn't in the 'dependencies' section of your package.json. " +
-        "That's problematic as the package either (1) won't be available on live (2 - worse) will be " +
-        'available on live with an non-guaranteed version. Fix it by adding the package to the dependencies ' +
-        'in your package.json.',
+      comment: "This module depends on an npm package that isn't in the 'dependencies' section of your package.json.",
       from: {},
-      to: {
-        dependencyTypes: ['npm-no-pkg', 'npm-unknown'],
-      },
+      to: { dependencyTypes: ['npm-no-pkg', 'npm-unknown'] }
     },
     {
       name: 'not-to-unresolvable',
-      comment:
-        "This module depends on a module that cannot be found ('resolved to disk'). If it's an npm " +
-        'module: add it to your package.json. In all other cases you likely already know what to do.',
       severity: 'error',
+      comment: "This module depends on a module that cannot be found ('resolved to disk').",
       from: {
-        pathNot: ['src/core/localization/TranslationService.ts'], // as this file imports .json that are generated before dev/build scripts
+        pathNot: ['src/core/localization/TranslationService.ts']
       },
-      to: {
-        couldNotResolve: true,
-      },
+      to: { couldNotResolve: true }
     },
     {
       name: 'no-duplicate-dep-types',
-      comment:
-        "Likeley this module depends on an external ('npm') package that occurs more than once " +
-        'in your package.json i.e. bot as a devDependencies and in dependencies. This will cause ' +
-        'maintenance problems later on.',
       severity: 'warn',
+      comment: 'Likely this module depends on an external package that occurs more than once in your package.json',
       from: {},
       to: {
         moreThanOneDependencyType: true,
-        // as it's pretty common to have a type import be a type only import
-        // _and_ (e.g.) a devDependency - don't consider type-only dependency
-        // types for this rule
-        dependencyTypesNot: ['type-only'],
-      },
+        dependencyTypesNot: ['type-only']
+      }
     },
-
-    /* rules you might want to tweak for your specific situation: */
     {
       name: 'not-to-spec',
-      comment:
-        'This module depends on a spec (test) file. The sole responsibility of a spec file is to test code. ' +
-        "If there's something in a spec that's of use to other modules, it doesn't have that single " +
-        'responsibility anymore. Factor it out into (e.g.) a separate utility/ helper or a mock.',
       severity: 'error',
+      comment: 'This module depends on a spec (test) file.',
       from: {},
-      to: {
-        path: '\\.(spec|test)\\.(js|mjs|cjs|ts|ls|coffee|litcoffee|coffee\\.md)$',
-      },
+      to: { path: TEST_FILES }
     },
     {
       name: 'not-to-dev-dep',
       severity: 'error',
-      comment:
-        "This module depends on an npm package from the 'devDependencies' section of your " +
-        'package.json. It looks like something that ships to production, though. To prevent problems ' +
-        "with npm packages that aren't there on production declare it (only!) in the 'dependencies'" +
-        'section of your package.json. If this module is development only - add it to the ' +
-        'from.pathNot re of the not-to-dev-dep rule in the dependency-cruiser configuration',
+      comment: "This module depends on an npm package from the 'devDependencies' section.",
       from: {
         path: '^(src)',
-        pathNot: [
-          '\\.(spec|test|fixture)\\.(js|mjs|cjs|jsx|ts|tsx)$',
-          '_clientTestsContext.ts',
-          '_configMock.ts',
-        ],
+        pathNot: DEV_DEP_EXCLUDES
       },
       to: {
         dependencyTypes: ['npm-dev'],
-      },
-    },
-    {
-      name: 'optional-deps-used',
-      severity: 'info',
-      comment:
-        'This module depends on an npm package that is declared as an optional dependency ' +
-        "in your package.json. As this makes sense in limited situations only, it's flagged here. " +
-        "If you're using an optional dependency here by design - add an exception to your" +
-        'depdency-cruiser configuration.',
-      from: {},
-      to: {
-        dependencyTypes: ['npm-optional'],
-      },
-    },
-    {
-      name: 'peer-deps-used',
-      comment:
-        'This module depends on an npm package that is declared as a peer dependency ' +
-        'in your package.json. This makes sense if your package is e.g. a plugin, but in ' +
-        'other cases - maybe not so much. If the use of a peer dependency is intentional ' +
-        'add an exception to your dependency-cruiser configuration.',
-      severity: 'warn',
-      from: {},
-      to: {
-        dependencyTypes: ['npm-peer'],
-      },
-    },
+        dependencyTypesNot: ['type-only'],
+        pathNot: ['node_modules/@types/']
+      }
+    }
   ],
   options: {
-    /* conditions specifying which files not to follow further when encountered:
-       - path: a regular expression to match
-       - dependencyTypes: see https://github.com/sverweij/dependency-cruiser/blob/master/doc/rules-reference.md#dependencytypes-and-dependencytypesnot
-       for a complete list
-    */
     doNotFollow: {
-      path: 'node_modules',
+      path: ['node_modules']
     },
-
-    /* conditions specifying which dependencies to exclude
-       - path: a regular expression to match
-       - dynamic: a boolean indicating whether to ignore dynamic (true) or static (false) dependencies.
-          leave out if you want to exclude neither (recommended!)
-    */
-    // exclude : {
-    //   path: '',
-    //   dynamic: true
-    // },
-
-    /* pattern specifying which files to include (regular expression)
-       dependency-cruiser will skip everything not matching this pattern
-    */
-    // includeOnly : '',
-
-    /* dependency-cruiser will include modules matching against the focus
-       regular expression in its output, as well as their neighbours (direct
-       dependencies and dependents)
-    */
-    // focus : '',
-
-    /* list of module systems to cruise */
-    // moduleSystems: ['amd', 'cjs', 'es6', 'tsd'],
-
-    /* prefix for links in html and svg output (e.g. 'https://github.com/you/yourrepo/blob/develop/'
-       to open it on your online repo or `vscode://file/${process.cwd()}/` to
-       open it in visual studio code),
-     */
-    // prefix: '',
-
-    /* false (the default): ignore dependencies that only exist before typescript-to-javascript compilation
-       true: also detect dependencies that only exist before typescript-to-javascript compilation
-       "specify": for each dependency identify whether it only exists before compilation or also after
-     */
-    tsPreCompilationDeps: false,
-
-    /* list of extensions (typically non-parseable) to scan. Empty by default. */
-    // extraExtensionsToScan: [".json", ".jpg", ".png", ".svg", ".webp"],
-
-    /* if true combines the package.jsons found from the module up to the base
-       folder the cruise is initiated from. Useful for how (some) mono-repos
-       manage dependencies & dependency definitions.
-     */
-    // combinedDependencies: false,
-
-    /* if true leave symlinks untouched, otherwise use the realpath */
-    // preserveSymlinks: false,
-
-    /* TypeScript project file ('tsconfig.json') to use for
-       (1) compilation and
-       (2) resolution (e.g. with the paths property)
-
-       The (optional) fileName attribute specifies which file to take (relative to
-       dependency-cruiser's current working directory). When not provided
-       defaults to './tsconfig.json'.
-     */
     tsConfig: {
-      fileName: 'tsconfig.json',
+      fileName: 'tsconfig.json'
     },
-
-    /* Webpack configuration to use to get resolve options from.
-
-       The (optional) fileName attribute specifies which file to take (relative
-       to dependency-cruiser's current working directory. When not provided defaults
-       to './webpack.conf.js'.
-
-       The (optional) `env` and `args` attributes contain the parameters to be passed if
-       your webpack config is a function and takes them (see webpack documentation
-       for details)
-     */
-    // webpackConfig: {
-    //  fileName: './webpack.config.js',
-    //  env: {},
-    //  args: {},
-    // },
-
-    /* Babel config ('.babelrc', '.babelrc.json', '.babelrc.json5', ...) to use
-      for compilation (and whatever other naughty things babel plugins do to
-      source code). This feature is well tested and usable, but might change
-      behavior a bit over time (e.g. more precise results for used module
-      systems) without dependency-cruiser getting a major version bump.
-     */
-    // babelConfig: {
-    //   fileName: './.babelrc'
-    // },
-
-    /* List of strings you have in use in addition to cjs/ es6 requires
-       & imports to declare module dependencies. Use this e.g. if you've
-       redeclared require, use a require-wrapper or use window.require as
-       a hack.
-    */
-    // exoticRequireStrings: [],
-    /* options to pass on to enhanced-resolve, the package dependency-cruiser
-       uses to resolve module references to disk. You can set most of these
-       options in a webpack.conf.js - this section is here for those
-       projects that don't have a separate webpack config file.
-
-       Note: settings in webpack.conf.js override the ones specified here.
-     */
     enhancedResolveOptions: {
-      /* List of strings to consider as 'exports' fields in package.json. Use
-         ['exports'] when you use packages that use such a field and your environment
-         supports it (e.g. node ^12.19 || >=14.7 or recent versions of webpack).
-
-        If you have an `exportsFields` attribute in your webpack config, that one
-         will have precedence over the one specified here.
-      */
       exportsFields: ['exports'],
-      /* List of conditions to check for in the exports field. e.g. use ['imports']
-         if you're only interested in exposed es6 modules, ['require'] for commonjs,
-         or all conditions at once `(['import', 'require', 'node', 'default']`)
-         if anything goes for you. Only works when the 'exportsFields' array is
-         non-empty.
-
-        If you have a 'conditionNames' attribute in your webpack config, that one will
-        have precedence over the one specified here.
-      */
-      conditionNames: ['import', 'require', 'node', 'default'],
+      conditionNames: ['import', 'require', 'node', 'default', 'types'],
+      mainFields: ['module', 'main', 'types', 'typings']
     },
     reporterOptions: {
       dot: {
-        /* pattern of modules that can be consolidated in the detailed
-           graphical dependency graph. The default pattern in this configuration
-           collapses everything in node_modules to one folder deep so you see
-           the external modules, but not the innards your app depends upon.
-         */
-        collapsePattern: 'node_modules/[^/]+',
-
-        /* Options to tweak the appearance of your graph.See
-           https://github.com/sverweij/dependency-cruiser/blob/master/doc/options-reference.md#reporteroptions
-           for details and some examples. If you don't specify a theme
-           don't worry - dependency-cruiser will fall back to the default one.
-        */
-        // theme: {
-        //   graph: {
-        //     /* use splines: "ortho" for straight lines. Be aware though
-        //       graphviz might take a long time calculating ortho(gonal)
-        //       routings.
-        //    */
-        //     splines: "true"
-        //   },
-        //   modules: [
-        //     {
-        //       criteria: { source: "^src/model" },
-        //       attributes: { fillcolor: "#ccccff" }
-        //     },
-        //     {
-        //       criteria: { source: "^src/view" },
-        //       attributes: { fillcolor: "#ccffcc" }
-        //     }
-        //   ],
-        //   dependencies: [
-        //     {
-        //       criteria: { "rules[0].severity": "error" },
-        //       attributes: { fontcolor: "red", color: "red" }
-        //     },
-        //     {
-        //       criteria: { "rules[0].severity": "warn" },
-        //       attributes: { fontcolor: "orange", color: "orange" }
-        //     },
-        //     {
-        //       criteria: { "rules[0].severity": "info" },
-        //       attributes: { fontcolor: "blue", color: "blue" }
-        //     },
-        //     {
-        //       criteria: { resolved: "^src/model" },
-        //       attributes: { color: "#0000ff77" }
-        //     },
-        //     {
-        //       criteria: { resolved: "^src/view" },
-        //       attributes: { color: "#00770077" }
-        //     }
-        //   ]
-        // }
+        collapsePattern: COLLAPSE_PATTERNS.NODE_MODULES
       },
       archi: {
-        /* pattern of modules that can be consolidated in the high level
-          graphical dependency graph. If you use the high level graphical
-          dependency graph reporter (`archi`) you probably want to tweak
-          this collapsePattern to your situation.
-        */
-        collapsePattern:
-          '^(packages|src|lib|app|bin|test(s?)|spec(s?))/[^/]+|node_modules/[^/]+',
-
-        /* Options to tweak the appearance of your graph.See
-           https://github.com/sverweij/dependency-cruiser/blob/master/doc/options-reference.md#reporteroptions
-           for details and some examples. If you don't specify a theme
-           for 'archi' dependency-cruiser will use the one specified in the
-           dot section (see above), if any, and otherwise use the default one.
-         */
-        // theme: {
-        // },
+        collapsePattern: COLLAPSE_PATTERNS.HIGH_LEVEL
       },
-    },
-  },
+      text: {
+        highlightFocused: true
+      }
+    }
+  }
 };
-// generated: dependency-cruiser@11.8.0 on 2022-06-06T14:08:51.315Z
+// generated: dependency-cruiser@16.8.0 on 2024-12-25T15:49:17.492Z

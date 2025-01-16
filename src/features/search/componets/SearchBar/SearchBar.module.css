@@ -2,37 +2,40 @@
   position: relative;
 }
 
-.searchInputWrapper {
-  @media screen and (max-width: 960px) {
-    display: none;
-  }
-}
-
 .infoBanner,
 .resultsList {
   position: absolute;
   max-height: 90vh;
   z-index: 10;
+  top: 100%;
   left: 0;
 
   background: hsla(0, 100%, 100%, 0.99);
   outline: none;
   padding: 0;
   border-radius: var(--border-radius-unit);
-  box-shadow: var(--elevation-3);
+  box-shadow: var(--shadow-medium);
   margin: 2px 2px 0 0;
 }
 
 .listItem {
   padding: var(--double-unit);
+  white-space: normal;
+
   &:hover {
     background: var(--base-weak-up);
   }
 }
 
 .infoBanner {
+  max-width: 100%;
   width: 100%;
   padding: var(--unit) var(--double-unit);
+}
+@media screen and (max-width: 960px) {
+  .infoBanner {
+    width: unset;
+  }
 }
 
 .resultsList {
@@ -40,6 +43,12 @@
   min-width: 100%;
   list-style: none;
   white-space: nowrap;
+}
+@media screen and (max-width: 960px) {
+  .resultsList {
+    width: 100%;
+    box-shadow: none;
+  }
 }
 
 .createMcdaAnalysis {

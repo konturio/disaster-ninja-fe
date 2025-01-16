@@ -1,16 +1,19 @@
+import { jwtDecode } from 'jwt-decode';
 import wretch from 'wretch';
 import FormUrlAddon from 'wretch/addons/formUrl';
-import { jwtDecode } from 'jwt-decode';
 import { ApiClientError } from '~core/api_client/apiClientError';
 import { createApiError } from '~core/api_client/errors';
-import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
-import { KONTUR_DEBUG } from '~utils/debug';
-import { localStorage } from '~utils/storage';
 import { autoParseBody } from '~core/api_client/utils';
-import type { ApiResponse, KeycloakAuthResponse } from '~core/api_client/types';
+import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
+import { localStorage } from '~utils/storage';
 
 export const LOCALSTORAGE_AUTH_KEY = 'auth_token';
 const TIME_TO_REFRESH_MS = 1000 * 60 * 3;
+
+interface TokenPayload {
+  exp: number;
+  iat: number;
+}
 
 export class OidcSimpleClient {
   private issuerUri!: string;
@@ -55,30 +58,80 @@ export class OidcSimpleClient {
    * Authentication
    * @throws {ApiClientError}
    */
+  private sanitizeToken(token: string): string {
+    // Reject tokens with potential XSS payloads
+    if (
+      token.includes('<') ||
+      token.includes('>') ||
+      token.includes('javascript:') ||
+      token.includes('data:') ||
+      token.includes('\\u') ||
+      /[<>]|javascript:|data:|\\u|on\w+=/i.test(token)
+    ) {
+      throw new ApiClientError('Invalid token format: potential XSS', {
+        kind: 'bad-data',
+      });
+    }
+
+    // Validate JWT format: header.payload.signature
+    if (!/^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$/.test(token)) {
+      throw new ApiClientError('Invalid token format: not a valid JWT', {
+        kind: 'bad-data',
+      });
+    }
+
+    return token;
+  }
+
+  private validateAndParseToken(token: string): [string, ReturnType<typeof parseToken>] {
+    // Sanitize token
+    const sanitizedToken = this.sanitizeToken(token);
+
+    // Parse and validate token contents
+    const decodedToken = parseToken(sanitizedToken);
+
+    return [sanitizedToken, decodedToken];
+  }
+
   private storeTokens(token: string, refreshToken: string): boolean {
-    let errorMessage = '';
     try {
-      const decodedToken = parseToken(token);
-      const decodedRefreshToken = parseToken(refreshToken);
+      // Validate both tokens
+      const [sanitizedToken, decodedToken] = this.validateAndParseToken(token);
+      const [sanitizedRefreshToken, decodedRefreshToken] =
+        this.validateAndParseToken(refreshToken);
+
       if (!decodedToken.isExpired) {
         this.setAuth(
-          token,
-          refreshToken,
+          sanitizedToken,
+          sanitizedRefreshToken,
           decodedToken.expiringDate,
           decodedRefreshToken.expiringDate,
         );
+
+        // Store tokens
         this.storage.setItem(
           LOCALSTORAGE_AUTH_KEY,
-          JSON.stringify({ token, refreshToken }),
+          JSON.stringify({
+            token: sanitizedToken,
+            refreshToken: sanitizedRefreshToken,
+            expiresAt: decodedToken.expiringDate.toISOString(),
+          }),
         );
         return true;
       } else {
-        errorMessage = 'Token is expired right after receiving, clock is out of sync';
+        throw new ApiClientError(
+          'Token is expired right after receiving, clock is out of sync',
+          { kind: 'bad-data' },
+        );
       }
     } catch (e) {
-      errorMessage = e?.['message'];
+      if (e instanceof ApiClientError) {
+        throw e;
+      }
+      throw new ApiClientError(e?.['message'] || 'Token validation failed', {
+        kind: 'bad-data',
+      });
     }
-    throw new ApiClientError(errorMessage || 'Token error', { kind: 'bad-data' });
   }
 
   /**
@@ -92,36 +145,54 @@ export class OidcSimpleClient {
     try {
       const storedTokensJson = this.storage.getItem(LOCALSTORAGE_AUTH_KEY);
       if (storedTokensJson) {
-        const { token, refreshToken } = JSON.parse(storedTokensJson);
-        if (token && refreshToken) {
-          const decodedToken = parseToken(token);
-          // ensure timeToRefresh is shorter than tokenLifetime
-          this.timeToRefresh = Math.min(
-            Math.trunc((decodedToken.tokenLifetime * 1000) / 5),
-            TIME_TO_REFRESH_MS,
-          );
-          const decodedRefreshToken = parseToken(refreshToken);
-          this.setAuth(
-            token,
-            refreshToken,
-            decodedToken.expiringDate,
-            decodedRefreshToken.expiringDate,
-          );
-          return true;
+        const stored = JSON.parse(storedTokensJson);
+        if (stored.token && stored.refreshToken) {
+          try {
+            // Validate both tokens
+            const [sanitizedToken, decodedToken] = this.validateAndParseToken(
+              stored.token,
+            );
+            const [sanitizedRefreshToken, decodedRefreshToken] =
+              this.validateAndParseToken(stored.refreshToken);
+
+            // Validate expiration
+            if (decodedToken.isExpired) {
+              throw new Error('Token is expired');
+            }
+
+            this.timeToRefresh = Math.min(
+              Math.trunc((decodedToken.tokenLifetime * 1000) / 5),
+              TIME_TO_REFRESH_MS,
+            );
+
+            this.setAuth(
+              sanitizedToken,
+              sanitizedRefreshToken,
+              decodedToken.expiringDate,
+              decodedRefreshToken.expiringDate,
+            );
+            return true;
+          } catch (e) {
+            this.resetAuth();
+            return false;
+          }
         }
       }
     } catch (e) {
-      console.debug('checkLocalAuthToken:', e);
+      // Handle silently - invalid token state should just reset auth
     }
     this.resetAuth();
     return false;
   }
 
   private resetAuth() {
+    // Securely clear tokens from memory
     this.token = '';
     this.refreshToken = '';
     this.tokenExpirationDate = undefined;
     this.refreshTokenExpirationDate = undefined;
+
+    // Clear from storage
     this.storage.removeItem(LOCALSTORAGE_AUTH_KEY);
   }
 
@@ -162,7 +233,7 @@ export class OidcSimpleClient {
     if (!this.tokenRefreshFlowPromise) {
       this.tokenRefreshFlowPromise = this._tokenRefreshFlow();
     }
-    const tokenCheck = await this.tokenRefreshFlowPromise;
+    await this.tokenRefreshFlowPromise;
     this.tokenRefreshFlowPromise = undefined;
     return this.token;
   }
@@ -204,21 +275,47 @@ export class OidcSimpleClient {
   /**
    * @throws {ApiClientError}
    */
-  private async requestTokenOrThrow(url: string, params: object): Promise<boolean> {
+  private async requestTokenOrThrow(
+    grantType: string,
+    params: Record<string, string>,
+  ): Promise<boolean> {
     try {
-      const response = (await wretch(url)
+      const response = await wretch(this.tokenEndpoint)
         .addon(FormUrlAddon)
-        .formUrl(params)
-        .errorType('json')
+        .formUrl({ grant_type: grantType, client_id: this.clientId, ...params })
         .post()
-        .res(autoParseBody)) as ApiResponse<KeycloakAuthResponse>;
-      if (response?.data?.access_token) {
-        return this.storeTokens(response.data.access_token, response.data.refresh_token);
+        .unauthorized((_) => {
+          throw new ApiClientError('Invalid username or password', {
+            kind: 'unauthorized',
+            data: 'Invalid credentials',
+          });
+        })
+        .res(autoParseBody);
+
+      if (!response.data?.access_token || !response.data?.refresh_token) {
+        throw new ApiClientError('Invalid response from auth server', {
+          kind: 'bad-data',
+        });
       }
-      throw new ApiClientError('Token error', { kind: 'bad-data' });
-    } catch (err) {
-      // unable to login or refresh token
-      throw createApiError(err);
+
+      try {
+        // Validate and store tokens
+        const result = this.storeTokens(
+          response.data.access_token,
+          response.data.refresh_token,
+        );
+        this.isUserLoggedIn = true;
+        return result;
+      } catch (e) {
+        // Reset auth state on validation failure
+        this.resetAuth();
+        throw e;
+      }
+    } catch (e) {
+      if (e instanceof ApiClientError) {
+        throw e;
+      }
+      throw createApiError(e);
     }
   }
 
@@ -248,8 +345,8 @@ export class OidcSimpleClient {
         location.reload();
       }
       return true;
-    } catch (e: any) {
-      return e?.message || 'Login error';
+    } catch (e: unknown) {
+      return (e as { message?: string })?.message || 'Login error';
     }
   }
 
@@ -278,22 +375,24 @@ export class OidcSimpleClient {
   logout(doReload = true) {
     this.endSession().then((_) => {
       // reload to init with public config and profile
-      doReload && location.reload();
+      if (doReload) location.reload();
     });
   }
 }
 
-function parseToken(token: string) {
-  const now = Date.now();
-  const decodedToken = jwtDecode(token);
-  if (decodedToken.exp && decodedToken.iat) {
-    const expiringDate = new Date(decodedToken.exp * 1000);
-    const tokenLifetime = decodedToken.exp - decodedToken.iat;
-    const expiresIn = +expiringDate - now;
-    const isExpired = 0 >= expiresIn;
+export function parseToken(token: string) {
+  try {
+    const decodedToken = jwtDecode<TokenPayload>(token);
+    const expiringDate = decodedToken.exp
+      ? new Date(decodedToken.exp * 1000)
+      : new Date(0);
+    const tokenLifetime =
+      decodedToken.exp && decodedToken.iat ? decodedToken.exp - decodedToken.iat : 0;
+    const expiresIn = +expiringDate - Date.now();
+    const isExpired = expiresIn <= 0;
 
     return { decodedToken, expiringDate, expiresIn, isExpired, tokenLifetime };
+  } catch (e) {
+    throw new ApiClientError('Invalid token format', { kind: 'bad-data' });
   }
-  // invalid token?
-  throw new Error('Invalid token. Missing exp, iat in payload');
 }

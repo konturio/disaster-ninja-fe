@@ -1,0 +1,47 @@
+.searchPanel {
+  &.collapse {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 961px) {
+  .panelIcon {
+    display: none;
+  }
+}
+
+.searchWrapper {
+  display: flex;
+  column-gap: var(--unit);
+  align-items: center;
+  position: static;
+}
+
+.searchBar {
+  flex: 1;
+}
+
+.cancelButton {
+  color: var(--accent-strong);
+  display: none;
+}
+
+/* Mobile */
+@media screen and (max-width: 960px) {
+  .searchPanel {
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  .cancelButton {
+    display: block;
+  }
+
+  .contentContainer {
+    padding: var(--unit);
+  }
+
+  .searchWrapper {
+    position: relative;
+  }
+}

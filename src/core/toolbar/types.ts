@@ -35,6 +35,7 @@ interface ToolbarButtonSettings extends CommonToolbarControlSettings {
     hint: string | ValueForState<string>;
     icon: string | ValueForState<string>;
     preferredSize: ButtonProps['size'];
+    mobilePreferredSize?: ButtonProps['size'];
     /* Only for edge cases when you need direct access to element */
     onRef?: (el: HTMLElement) => void;
   };
@@ -48,6 +49,7 @@ export interface ControlComponentProps {
   disabled?: boolean;
   active?: boolean;
   size: ButtonProps['size'];
+  mobileSize?: ButtonProps['size'];
   variant?: ButtonProps['variant'];
   className?: string;
 }

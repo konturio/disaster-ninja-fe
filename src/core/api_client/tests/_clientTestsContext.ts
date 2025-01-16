@@ -1,86 +1,72 @@
-import 'vi-fetch/setup';
-import { mockFetch, mockGet, mockPost } from 'vi-fetch';
-import { OidcSimpleClient } from '~core/auth/OidcSimpleClient';
-import { ApiClient } from '../apiClient';
-import { base64UrlDecode, base64UrlEncode } from './_tokenUtils';
+/* eslint-disable import/order */
+import fetchMock from '@fetch-mock/vitest';
+import type { OidcSimpleClient } from '../../auth/OidcSimpleClient';
+import type { ApiClient } from '../apiClient';
+import { TokenFactory } from './factories/token.factory';
+import { AuthFactory } from './factories/auth.factory';
+import { MockFactory } from './factories/mock.factory';
+import { ClientFactory } from './factories/client.factory';
+import type { FallbackStorage } from '~utils/storage';
 
-const baseUrl = 'https://localhost/api';
-mockFetch.setOptions({ baseUrl });
-const mockAdapter = {
-  onGet: mockGet,
-  onPost: mockPost,
-  mockFetch,
-};
-
-export function setTimeOffset(timeOffsetMin: number): number {
-  return (new Date().getTime() + timeOffsetMin * 60 * 1000) / 1000;
+export interface TestContext {
+  baseUrl: string;
+  keycloakRealm: string;
+  username: string;
+  password: string;
+  token: string;
+  expiredToken: string;
+  refreshToken: string;
+  authClient: OidcSimpleClient;
+  apiClient: ApiClient;
+  localStorageMock: FallbackStorage;
+  fetchMock: typeof fetchMock;
+  loginFunc: () => Promise<any>;
 }
 
-export function setTokenExp(token: string, time: number): string {
-  const tokenSplitted = token.split('.');
-  const midToken = JSON.parse(base64UrlDecode(tokenSplitted[1]));
-  midToken.exp = time;
-  tokenSplitted[1] = base64UrlEncode(JSON.stringify(midToken));
-  return tokenSplitted.join('.');
-}
+export async function createContext(): Promise<TestContext> {
+  // Reset all mocks
+  MockFactory.resetMocks();
 
-export const createLocalStorageMock = () => ({
-  getItem: (key: string) => null,
-  setItem: (key: string, value: string) => null,
-  removeItem: (key: string) => null,
-  clear: () => null,
-  key: (idx: number) => null,
-  length: 0,
-});
+  // Create configuration and storage
+  const config = AuthFactory.createConfig();
+  const storage = MockFactory.createLocalStorage();
 
-export const createContext = () => {
-  const token =
-    'eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiYWRtaW4iLCJVc2VybmFtZSI6InRlc3R1c2VyIiwiZXhwIjoxNjk3MTA2NDM0LCJpYXQiOjE2MzQwMzQ0MzR9.0GUrGfXYioalJVDRfWgWfx3oQRwk9FsOeAvULj-3ins';
-  const expiredToken =
-    'eyJhbGciOiJIUzI1NiJ9.eyJSb2xlIjoiYWRtaW4iLCJVc2VybmFtZSI6InRlc3R1c2VyIiwiZXhwIjoxNjAyNDk4NDM0LCJpYXQiOjE2MzQwMzQ0MzR9.tIETTaRaiJYto0Wb4oPbfCJHUGGjw9--mTfXVWWsVMk';
-  const actualToken = setTokenExp(expiredToken, setTimeOffset(10));
-  const refreshToken =
-    'eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIyMGJjYzUzNy00MzRkLTQzMjItYTk2YS1hMjNlZDc0N2JhYjAi.ewogICJleHAiOiAxNzIwMDA0OTc0LAogICJpYXQiOiAxNzIwMDA0Njc0Cn0.RVI1MwYAh4Wle8vQeyRUYPy1id3wQWeXY0_M4jQ7ZV0'; //fake token
-  const username = 'testuser';
-  const password = 'testpassword';
+  // Create tokens
+  const [token, expiredToken, refreshToken] = await Promise.all([
+    TokenFactory.createToken(),
+    TokenFactory.createExpiredToken(),
+    TokenFactory.createRefreshToken(),
+  ]);
 
-  const localStorageMock = createLocalStorageMock();
+  // Create clients
+  const authClient = ClientFactory.createAuthClient({
+    auth: config,
+    storage,
+  });
+  const apiClient = ClientFactory.createApiClient(authClient);
 
-  const apiClient = new ApiClient({});
-  apiClient.init({ baseUrl });
-  const authClient = new OidcSimpleClient(localStorageMock);
-  apiClient.authService = authClient;
+  // Setup default mocks
+  await MockFactory.setupSuccessfulAuth(config, token);
+  MockFactory.setupFailedAuth(config);
+  MockFactory.setupLogoutEndpoint(config);
+  MockFactory.setupOidcConfiguration(config);
 
-  const keycloakRealm = 'keycloak_mock_realm';
-  authClient.init(`${baseUrl}/realms/${keycloakRealm}`, 'keycloak_mock_id');
-
-  (authClient as any).token = token;
-  (authClient as any).tokenExpirationDate = new Date(
-    new Date().getTime() + 1000 * 60 * 30,
-  );
-  (authClient as any).refreshToken = refreshToken;
-  (authClient as any).refreshTokenExpirationDate = new Date(
-    new Date().getTime() + 1000 * 60 * 60 * 24 * 30,
-  );
+  // Setup default API endpoint
+  MockFactory.setupSuccessfulResponse('/test', { data: 'test' }, { method: 'get' });
+  MockFactory.setupSuccessfulResponse('/test', { data: 'test' }, { method: 'post' });
 
   return {
-    apiClient,
+    baseUrl: config.baseUrl,
+    keycloakRealm: config.realm,
+    username: config.username,
+    password: config.password,
+    token,
+    expiredToken,
+    refreshToken,
     authClient,
-    loginFunc: async () => await authClient.login(username, password),
-    token: actualToken,
-    expiredToken: expiredToken,
-    refreshToken: refreshToken,
-    username,
-    password,
-    localStorageMock,
-    mockAdapter,
-    keycloakRealm,
+    apiClient,
+    localStorageMock: storage,
+    fetchMock,
+    loginFunc: () => authClient.login(config.username, config.password),
   };
-};
-
-type ExTestContext = ReturnType<typeof createContext>;
-declare module 'vitest' {
-  export interface TestContext {
-    ctx: ExTestContext;
-  }
 }

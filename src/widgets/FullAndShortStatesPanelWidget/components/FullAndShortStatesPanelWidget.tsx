@@ -92,6 +92,8 @@ export function FullAndShortStatesPanelWidget({
   return (
     <>
       <Panel
+        id={id}
+        data-testid={id}
         header={resultHeader}
         onHeaderClick={togglePanelState}
         headerIcon={resultPanelIcon || undefined}
@@ -100,7 +102,6 @@ export function FullAndShortStatesPanelWidget({
         isOpen={isOpen}
         modal={{ onModalClick: onPanelClose, showInModal: isMobile }}
         resize={resize}
-        contentClassName={s.contentWrap}
         contentContainerRef={handleRefChange}
         customControls={panelControls}
         contentHeight={contentHeight}
@@ -119,6 +120,7 @@ export function FullAndShortStatesPanelWidget({
           isMobile ? s.mobile : s.desktop,
         )}
         icon={resultPanelIcon || <></>}
+        data-testid={id}
       />
     </>
   );
