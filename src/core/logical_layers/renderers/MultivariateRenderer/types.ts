@@ -32,7 +32,7 @@ export interface MultivariateLayerConfig {
   version: 0;
   id: string;
   name: string;
-  base: MultivariateAxis;
+  base: MultivariateAxis; // TODO: base needs to be optional, and annex needs to be called "score" and be mandatory
   annex?: MultivariateAxis;
   strength?: MultivariateAxis | number;
   tileLabel?: LabelAxis;

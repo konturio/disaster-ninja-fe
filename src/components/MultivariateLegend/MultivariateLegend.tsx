@@ -3,7 +3,6 @@ import { generateMCDALegendColors } from '~utils/mcda/mcdaLegendsUtils';
 import { BIVARIATE_LEGEND_SIZE } from '~components/BivariateLegend/const';
 import { DEFAULT_MULTIBIVARIATE_STEPS } from '~utils/multivariate/constants';
 import { invertClusters } from '~utils/bivariate';
-import s from './MultivariateLegend.module.css';
 import type { ColorTheme } from '~core/types';
 import type { MultivariateLayerConfig } from '~core/logical_layers/renderers/MultivariateRenderer/types';
 import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
