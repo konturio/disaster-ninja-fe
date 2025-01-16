@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { LineChart, Line, CartesianGrid, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 import { scaleSqrt, scaleSymlog } from 'd3-scale';
-import { generateHclGradientColors } from '~features/mcda/utils/generateHclGradientColors';
+import { generateHclGradientColors } from '~utils/mcda/generateHclGradientColors';
 import { inViewCalculations } from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations';
 import s from './TransformationsChart.module.css';
 import type { TransformationFunction } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';

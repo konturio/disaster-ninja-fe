@@ -68,6 +68,7 @@ export const createMultivariateLayer = action((ctx, config: MultivariateLayerCon
       createAsyncWrapper({
         id,
         type: 'multivariate',
+        config,
       }),
     ),
 

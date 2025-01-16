@@ -33,7 +33,7 @@ function Legend({ layerState }: { layerState: LogicalLayerState }) {
       return <MCDALegend {...legendProps} />;
 
     case 'multivariate':
-      return <MultivariateLegend />;
+      return <MultivariateLegend config={layerState.legend.config} />;
     default:
       return null;
   }

@@ -1,3 +1,4 @@
+import type { MultivariateLayerConfig } from '../renderers/MultivariateRenderer/types';
 import type { Axis } from '~utils/bivariate';
 
 type SimpleLegendStepType = 'square' | 'circle' | 'hex';
@@ -71,9 +72,8 @@ export interface MCDALegend {
 export interface MultivariateLegend {
   type: 'multivariate';
   title?: string;
-  // MultivariateLegend doesn't really need steps property right now.
-  // Adding this for now to avoid type issues which require heavy refactoring
-  steps?: undefined;
+  steps?: BivariateLegendStep;
+  config: MultivariateLayerConfig;
 }
 
 export type LayerLegend =
