@@ -241,6 +241,13 @@ export class OidcSimpleClient {
     return await this.tokenRefreshFlowPromise;
   }
 
+  /**
+   * Retrieves the access token for the current user.
+   *
+   * @param requireAuth - Determines whether authentication is required.
+   * @returns A promise that resolves to the access token string or null if not available.
+   * @throws {ApiClientError} If authentication is required but not fulfilled, session has expired, or token state is invalid.
+   */
   async getAccessToken(requireAuth = true): Promise<string | null> {
     if (!this.isUserLoggedIn) {
       if (requireAuth) {

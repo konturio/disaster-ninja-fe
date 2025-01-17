@@ -100,26 +100,24 @@ export class ApiClient {
     requestConfig: CustomRequestConfig = {},
   ): Promise<T | null> {
     const RequestsWithBody = ['post', 'put', 'patch'];
-    let req;
-
     const requestId = Math.random().toString(36).substring(7);
     this.updateRequestPool(requestId, 'pending');
 
-    if (path.startsWith('http')) {
-      const url = new URL(path);
-      req = wretch(url.origin, { mode: 'cors' })
-        .addon(QueryStringAddon)
-        .url(url.pathname);
-    } else {
-      req = wretch(this.baseURL, { mode: 'cors' }).addon(QueryStringAddon).url(path);
-    }
+    const url =
+      path.startsWith('http://') || path.startsWith('https://')
+        ? new URL(path)
+        : new URL(path, this.baseURL);
+
+    const req = wretch(url.origin, { mode: 'cors' })
+      .addon(QueryStringAddon)
+      .url(url.pathname + url.search);
 
     if (requestConfig.signal) {
-      req = req.options({ signal: requestConfig.signal });
+      req.options({ signal: requestConfig.signal });
     }
 
     if (requestConfig.headers) {
-      req = req.headers(requestConfig.headers);
+      req.headers(requestConfig.headers);
     }
 
     let isAuthenticatedRequest = false;
@@ -129,7 +127,7 @@ export class ApiClient {
     // For endpoints that must not be authenticated
     if (authRequirement === AUTH_REQUIREMENT.NEVER) {
       // Explicitly avoid adding any auth headers
-      req = req.headers({ Authorization: '' });
+      req.headers({ Authorization: '' });
     } else {
       try {
         const requireAuth = authRequirement === AUTH_REQUIREMENT.MUST;
@@ -137,34 +135,7 @@ export class ApiClient {
 
         if (token) {
           isAuthenticatedRequest = true;
-          req = req
-            .auth(`Bearer ${token}`)
-            .catcher(401, async (error, originalRequest) => {
-              try {
-                const newToken = await this.authService.getAccessToken(requireAuth);
-                if (!newToken) {
-                  throw error;
-                }
-                // replay original request with new token
-                return originalRequest
-                  .auth(`Bearer ${newToken}`)
-                  .fetch()
-                  .unauthorized((err) => {
-                    // Redefine unauthorized hook to prevent infinite loops with multiple 401 errors
-                    throw err;
-                  })
-                  .res(autoParseBody);
-              } catch (refreshError) {
-                // Always throw the original API error to preserve its message
-                throw createApiError(error);
-              }
-            });
-        } else if (requireAuth) {
-          throw createApiError({
-            message: 'Authentication required',
-            kind: 'unauthorized',
-            data: 'not_authenticated',
-          });
+          req.auth(`Bearer ${token}`);
         }
       } catch (error) {
         if (authRequirement === AUTH_REQUIREMENT.OPTIONAL) {
@@ -176,7 +147,7 @@ export class ApiClient {
     }
 
     if (requestParams) {
-      req = RequestsWithBody.includes(method)
+      RequestsWithBody.includes(method)
         ? req.json(requestParams)
         : req.query(requestParams);
     }

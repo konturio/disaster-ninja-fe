@@ -14,39 +14,6 @@ export interface ApiClientConfig {
   baseUrl?: string;
 }
 
-export interface KeycloakAuthResponse {
-  access_token: string;
-  expires_in: number;
-  refresh_expires_in: number;
-  refresh_token: string;
-  scope: string;
-  session_state: string;
-  token_type: 'Bearer';
-  error_description?: string;
-}
-
-export type JWTData = {
-  acr: string;
-  aud: string;
-  azp: string;
-  email: string;
-  email_verified: boolean;
-  exp: number;
-  family_name: string;
-  given_name: string;
-  iat: number;
-  iss: string;
-  jti: string;
-  name: string;
-  preferred_username: string;
-  realm_access: { roles: string[] };
-  resource_access: { account: { roles: string[] } };
-  scope: string;
-  session_state: string;
-  sub: string;
-  typ: string;
-};
-
 // GeoJSON.GeoJSON conflict with  Record<string, unknown>
 // https://stackoverflow.com/questions/60697214/how-to-fix-index-signature-is-missing-in-type-error
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -134,7 +101,6 @@ export interface CustomRequestConfig {
   /**
    * Authentication requirement for the request:
    * - MUST: Request will fail if user is not authenticated
-   * - SHOULD: Will try to authenticate but proceed without token if not possible
    * - OPTIONAL (default): Will include auth token if available
    * - NEVER: Explicitly prevents authentication. Use for endpoints that must be called without auth
    *   (login, token refresh, public endpoints)
