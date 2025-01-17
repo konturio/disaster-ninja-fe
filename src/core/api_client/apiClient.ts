@@ -103,21 +103,26 @@ export class ApiClient {
     const requestId = Math.random().toString(36).substring(7);
     this.updateRequestPool(requestId, 'pending');
 
-    const url =
-      path.startsWith('http://') || path.startsWith('https://')
-        ? new URL(path)
-        : new URL(path, this.baseURL);
+    // Determine URL parts first for proper typing
+    const { origin, pathname, search } = path.startsWith('http')
+      ? new URL(path)
+      : {
+          origin: this.baseURL,
+          pathname: path,
+          search: '',
+        };
 
-    const req = wretch(url.origin, { mode: 'cors' })
+    // Create properly typed wretch instance with chaining
+    let req = wretch(origin, { mode: 'cors' })
       .addon(QueryStringAddon)
-      .url(url.pathname + url.search);
+      .url(pathname + search);
 
     if (requestConfig.signal) {
-      req.options({ signal: requestConfig.signal });
+      req = req.options({ signal: requestConfig.signal });
     }
 
     if (requestConfig.headers) {
-      req.headers(requestConfig.headers);
+      req = req.headers(requestConfig.headers);
     }
 
     let isAuthenticatedRequest = false;
@@ -127,7 +132,7 @@ export class ApiClient {
     // For endpoints that must not be authenticated
     if (authRequirement === AUTH_REQUIREMENT.NEVER) {
       // Explicitly avoid adding any auth headers
-      req.headers({ Authorization: '' });
+      req = req.headers({ Authorization: '' });
     } else {
       try {
         const requireAuth = authRequirement === AUTH_REQUIREMENT.MUST;
@@ -135,7 +140,7 @@ export class ApiClient {
 
         if (token) {
           isAuthenticatedRequest = true;
-          req.auth(`Bearer ${token}`);
+          req = req.auth(`Bearer ${token}`);
         }
       } catch (error) {
         if (authRequirement === AUTH_REQUIREMENT.OPTIONAL) {
@@ -147,7 +152,7 @@ export class ApiClient {
     }
 
     if (requestParams) {
-      RequestsWithBody.includes(method)
+      req = RequestsWithBody.includes(method)
         ? req.json(requestParams)
         : req.query(requestParams);
     }
