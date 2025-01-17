@@ -106,7 +106,7 @@ const result = await client.post('/endpoint', { data: 'value' });
 ```typescript
 // Authenticated request (requires configured authService)
 const data = await client.get('/protected-endpoint', null, {
-  authRequirement: AUTH_REQUIREMENT.REQUIRED,
+  authRequirement: AUTH_REQUIREMENT.MUST,
 });
 ```
 

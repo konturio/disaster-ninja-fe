@@ -8,6 +8,6 @@ export function getAsset(asset: string, abortController?: AbortController) {
   return apiClient.get(`${endpoint}/${asset}`, undefined, {
     headers: { 'user-language': i18n.instance.language },
     signal: abortController ? abortController.signal : undefined,
-    authRequirement: AUTH_REQUIREMENT.SHOULD,
+    authRequirement: AUTH_REQUIREMENT.OPTIONAL,
   });
 }

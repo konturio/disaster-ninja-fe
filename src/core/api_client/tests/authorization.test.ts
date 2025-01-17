@@ -240,13 +240,13 @@ describe('ApiClient Authorization', () => {
       {
         kind: 'unauthorized',
         message: 'Token expired',
-        data: 'Token expired',
+        data: 'token_expired',
       },
       'GET',
     );
 
     // Mock auth service to return null token
-    vi.spyOn(ctx.apiClient.authService, 'getAccessToken').mockResolvedValue('');
+    vi.spyOn(ctx.apiClient.authService, 'getAccessToken').mockResolvedValue(null);
 
     const error = (await ctx.apiClient
       .get('/protected-data', undefined, {

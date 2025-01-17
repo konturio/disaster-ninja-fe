@@ -76,7 +76,7 @@ export class AuthFactory {
     const token = this.createToken(config);
 
     if (config.isExpired) {
-      vi.spyOn(client, 'shouldRefreshToken').mockReturnValue(AUTH_REQUIREMENT.MUST);
+      vi.spyOn(client, 'shouldRefreshToken').mockReturnValue(true);
       vi.spyOn(client, 'isRefreshTokenExpired').mockReturnValue(false);
     }
 
@@ -91,7 +91,7 @@ export class AuthFactory {
         });
       },
       mockPreemptiveRefresh: () => {
-        vi.spyOn(client, 'shouldRefreshToken').mockReturnValue(AUTH_REQUIREMENT.SHOULD);
+        vi.spyOn(client, 'shouldRefreshToken').mockReturnValue(true);
         vi.spyOn(client, 'isRefreshTokenExpired').mockReturnValue(false);
       },
     };

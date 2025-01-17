@@ -46,9 +46,7 @@ describe('OidcSimpleClient', () => {
         'kontur_platform',
       );
       expect(ctx.authClient.isUserLoggedIn).toBe(true);
-      expect(
-        await ctx.authClient.getAccessToken({ requirement: AUTH_REQUIREMENT.MUST }),
-      ).toBe(ctx.token);
+      expect(await ctx.authClient.getAccessToken(true)).toBe(ctx.token);
     });
 
     test('should handle token validation errors', async ({ ctx }) => {
@@ -127,7 +125,7 @@ describe('OidcSimpleClient', () => {
       // Make concurrent requests - this should trigger a token refresh
       const requests = Array(5)
         .fill(null)
-        .map(() => ctx.authClient.getAccessToken({ requirement: AUTH_REQUIREMENT.MUST }));
+        .map(() => ctx.authClient.getAccessToken(true));
       const tokens = await Promise.all(requests);
 
       // All requests should get the same new token
@@ -178,7 +176,7 @@ describe('OidcSimpleClient', () => {
       );
 
       try {
-        await ctx.authClient.getAccessToken({ requirement: AUTH_REQUIREMENT.MUST });
+        await ctx.authClient.getAccessToken(true);
         throw new Error('Should have failed token refresh');
       } catch (e) {
         expect(e).toBeInstanceOf(ApiClientError);
@@ -528,10 +526,8 @@ describe('OidcSimpleClient', () => {
       // Mock isRefreshTokenExpired to return false
       vi.spyOn(ctx.authClient as any, 'isRefreshTokenExpired').mockReturnValue(false);
 
-      // Mock shouldRefreshToken to return AUTH_REQUIREMENT.MUST
-      vi.spyOn(ctx.authClient as any, 'shouldRefreshToken').mockReturnValue(
-        AUTH_REQUIREMENT.MUST,
-      );
+      // Mock shouldRefreshToken to return true
+      vi.spyOn(ctx.authClient as any, 'shouldRefreshToken').mockReturnValue(true);
 
       const refreshSpy = vi.spyOn(ctx.authClient as any, 'refreshAuthToken');
       await ctx.authClient['_tokenRefreshFlow']();
@@ -539,7 +535,9 @@ describe('OidcSimpleClient', () => {
       expect(refreshSpy).toHaveBeenCalled();
     });
 
-    test('should handle preemptive refresh failure gracefully', async ({ ctx }) => {
+    test('should handle preemptive refresh when token is near expiration', async ({
+      ctx,
+    }) => {
       // Set up initial token state
       const tokenData = {
         token: ctx.token,
@@ -565,10 +563,8 @@ describe('OidcSimpleClient', () => {
         new Date(Date.now() + TIME_TO_REFRESH_MS / 2),
       );
 
-      // Mock shouldRefreshToken to return AUTH_REQUIREMENT.SHOULD
-      vi.spyOn(ctx.authClient as any, 'shouldRefreshToken').mockReturnValue(
-        AUTH_REQUIREMENT.SHOULD,
-      );
+      // Mock shouldRefreshToken to return true
+      vi.spyOn(ctx.authClient as any, 'shouldRefreshToken').mockReturnValue(true);
 
       // Mock isRefreshTokenExpired to return false
       vi.spyOn(ctx.authClient as any, 'isRefreshTokenExpired').mockReturnValue(false);
@@ -617,10 +613,7 @@ describe('OidcSimpleClient', () => {
         'kontur_platform',
       );
 
-      // Mock shouldRefreshToken to return AUTH_REQUIREMENT.MUST
-      vi.spyOn(ctx.authClient as any, 'shouldRefreshToken').mockReturnValue(
-        AUTH_REQUIREMENT.MUST,
-      );
+      vi.spyOn(ctx.authClient as any, 'shouldRefreshToken').mockReturnValue(true);
 
       // Mock isRefreshTokenExpired to return false
       vi.spyOn(ctx.authClient as any, 'isRefreshTokenExpired').mockReturnValue(false);
@@ -651,10 +644,7 @@ describe('OidcSimpleClient', () => {
         JSON.stringify(tokenData),
       );
 
-      // Mock shouldRefreshToken to return AUTH_REQUIREMENT.MUST
-      vi.spyOn(ctx.authClient as any, 'shouldRefreshToken').mockReturnValue(
-        AUTH_REQUIREMENT.MUST,
-      );
+      vi.spyOn(ctx.authClient as any, 'shouldRefreshToken').mockReturnValue(true);
 
       // Mock isRefreshTokenExpired to return false
       vi.spyOn(ctx.authClient as any, 'isRefreshTokenExpired').mockReturnValue(false);

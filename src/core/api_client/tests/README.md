@@ -135,10 +135,7 @@ test('should handle storage errors', async ({ ctx }) => {
 
    ```typescript
    // Force refresh
-   vi.spyOn(client, 'shouldRefreshToken').mockReturnValue(AUTH_REQUIREMENT.MUST);
-
-   // Preemptive refresh
-   vi.spyOn(client, 'shouldRefreshToken').mockReturnValue(AUTH_REQUIREMENT.SHOULD);
+   vi.spyOn(client, 'shouldRefreshToken').mockReturnValue(true);
    ```
 
 3. **Error Handling**

@@ -76,7 +76,7 @@ describe('API Request Headers', () => {
     expect(lastCallOptions?.headers?.['Authorization']).toBeUndefined();
   });
 
-  test('should attempt auth when requirement is SHOULD', async ({ ctx }) => {
+  test('should attempt auth when requirement is OPTIONAL', async ({ ctx }) => {
     ctx.fetchMock.post(`${ctx.baseUrl}/test`, {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
@@ -88,7 +88,7 @@ describe('API Request Headers', () => {
       '/test',
       { param1: 'test' },
       {
-        authRequirement: AUTH_REQUIREMENT.SHOULD,
+        authRequirement: AUTH_REQUIREMENT.OPTIONAL,
       },
     );
 
@@ -100,7 +100,7 @@ describe('API Request Headers', () => {
     expect(authHeader).toBe(`Bearer ${ctx.token}`);
   });
 
-  test('should proceed without auth when SHOULD but not logged in', async ({ ctx }) => {
+  test('should proceed without auth when OPTIONAL but not logged in', async ({ ctx }) => {
     ctx.fetchMock.post(`${ctx.baseUrl}/test`, {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
@@ -111,7 +111,7 @@ describe('API Request Headers', () => {
       '/test',
       { param1: 'test' },
       {
-        authRequirement: AUTH_REQUIREMENT.SHOULD,
+        authRequirement: AUTH_REQUIREMENT.OPTIONAL,
       },
     );
 

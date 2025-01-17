@@ -200,94 +200,81 @@ export class OidcSimpleClient {
     }
   }
 
-  private shouldRefreshToken(): 'must' | 'should' | false {
-    if (!this.tokenExpirationDate) return AUTH_REQUIREMENT.MUST;
+  private shouldRefreshToken(): boolean {
+    if (!this.tokenExpirationDate) return true;
 
     const now = Date.now();
     const timeToExpiry = this.tokenExpirationDate.getTime() - now;
-
-    if (timeToExpiry <= 0) return AUTH_REQUIREMENT.MUST;
-    if (timeToExpiry < this.timeToRefresh) return AUTH_REQUIREMENT.SHOULD;
-    return false;
+    return timeToExpiry <= this.timeToRefresh;
   }
 
-  private async _tokenRefreshFlow() {
+  private async _tokenRefreshFlow(): Promise<boolean> {
     const refreshNeeded = this.shouldRefreshToken();
 
     if (!refreshNeeded) return true;
 
     try {
-      if (refreshNeeded === AUTH_REQUIREMENT.MUST) {
-        // If refresh token is expired, handle it gracefully
-        if (this.isRefreshTokenExpired()) {
-          this.resetAuth();
-          // Return false to indicate auth is needed, but don't throw
-          return false;
-        }
-        await this.refreshAuthToken();
-        return true;
+      // If refresh token is expired, handle it gracefully
+      if (this.isRefreshTokenExpired()) {
+        this.resetAuth();
+        return false;
       }
 
-      // For AUTH_REQUIREMENT.SHOULD case, try refresh but don't fail if current token still valid
-      try {
-        await this.refreshAuthToken();
-      } catch (error) {
-        const now = Date.now();
-        if (this.tokenExpirationDate && this.tokenExpirationDate.getTime() > now) {
-          console.warn('Preemptive token refresh failed, using existing token:', error);
-          return true;
-        }
-        throw error;
-      }
+      await this.refreshAuthToken();
       return true;
     } catch (error) {
+      const now = Date.now();
+      // If current token is still valid, allow the request to proceed
+      if (this.tokenExpirationDate && this.tokenExpirationDate.getTime() > now) {
+        console.warn('Preemptive token refresh failed, using existing token:', error);
+        return true;
+      }
       this.resetAuth();
       throw createApiError(error);
     }
   }
 
-  async getAccessToken(options: GetAccessTokenOptions = {}) {
-    const requirement = options.requirement || AUTH_REQUIREMENT.MUST;
+  private async handleTokenRefresh(): Promise<boolean> {
+    if (!this.tokenRefreshFlowPromise) {
+      this.tokenRefreshFlowPromise = this._tokenRefreshFlow();
+    }
+    return await this.tokenRefreshFlowPromise;
+  }
+
+  async getAccessToken(requireAuth = true): Promise<string | null> {
+    if (!this.isUserLoggedIn) {
+      if (requireAuth) {
+        throw new ApiClientError('Authentication required', {
+          kind: 'unauthorized',
+          data: 'not_authenticated',
+        });
+      }
+      return null;
+    }
+
     try {
-      // For endpoints that can work without authentication
-      if (!this.isUserLoggedIn) {
-        if (requirement === AUTH_REQUIREMENT.MUST) {
-          throw new ApiClientError('Authentication required', {
-            kind: 'unauthorized',
-            data: 'not_authenticated',
-          });
-        }
-        return ''; // For AUTH_REQUIREMENT.SHOULD or 'optional', proceed without token
-      }
-
-      if (!this.tokenRefreshFlowPromise) {
-        this.tokenRefreshFlowPromise = this._tokenRefreshFlow();
-      }
-      const refreshResult = await this.tokenRefreshFlowPromise;
-
+      const refreshResult = await this.handleTokenRefresh();
       if (!refreshResult) {
-        if (requirement === AUTH_REQUIREMENT.MUST) {
-          this.setSessionState(SESSION_STATE.EXPIRED);
+        if (requireAuth) {
           throw new ApiClientError('Session expired', {
             kind: 'unauthorized',
             data: 'session_expired',
           });
         }
-        return ''; // For AUTH_REQUIREMENT.SHOULD or 'optional', proceed without token
+        return null;
       }
 
       if (this.validateTokenState(this.getMemoryTokenState())) {
         return this.token;
       }
 
-      if (requirement === AUTH_REQUIREMENT.MUST) {
-        this.setSessionState(SESSION_STATE.ERROR, new Error('Invalid token state'));
+      if (requireAuth) {
         throw new ApiClientError('Invalid token state', {
           kind: 'unauthorized',
           data: 'invalid_token',
         });
       }
-      return ''; // For AUTH_REQUIREMENT.SHOULD or 'optional', proceed without token
+      return null;
     } catch (error) {
       this.tokenRefreshFlowPromise = undefined;
       if (error instanceof Error) {
