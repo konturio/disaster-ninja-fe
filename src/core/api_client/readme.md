@@ -4,11 +4,11 @@ The API Client is a robust HTTP client implementation built on top of [wretch](h
 
 ## Features
 
-- Authentication flow with token management
+- Authentication flow with OIDC token management
 - Request pooling and status tracking
-- Comprehensive error handling
-- Event system for error, pool updates, and idle state
-- Retry mechanism with configurable attempts and delay
+- Event system for errors, pool updates, and idle state
+- Configurable retry mechanism with attempts and delay
+- Custom error message handling
 - Support for both relative and absolute URLs
 - HTTP methods: GET, POST, PUT, PATCH, DELETE
 
@@ -39,54 +39,121 @@ classDiagram
         idle: boolean
     }
 
+    class RequestConfig {
+        authRequirement: AUTH_REQUIREMENT
+        headers: Record<string, string>
+        retry: RetryConfig
+        errorsConfig: ErrorsConfig
+        signal: AbortSignal
+    }
+
     ApiClient --> EventMap
+    ApiClient --> RequestConfig
 ```
 
-## Auth Flow
+## Authentication Flow
+
+The client uses OidcSimpleClient for authentication with the following flow:
 
 ```mermaid
 sequenceDiagram
     participant Client
     participant ApiClient
-    participant AuthService
+    participant OidcSimpleClient
     participant API
 
-    Client->>ApiClient: Make authenticated request
-    ApiClient->>AuthService: Check token
-    alt Token expired/expiring
-        AuthService->>AuthService: Refresh token
+    Client->>ApiClient: Make request
+    ApiClient->>OidcSimpleClient: getAccessToken(requirement)
+    alt Token exists and valid
+        OidcSimpleClient-->>ApiClient: Return token
+    else Token needs refresh
+        OidcSimpleClient->>OidcSimpleClient: Refresh token
+        OidcSimpleClient-->>ApiClient: Return new token
+    else No token/Invalid
+        OidcSimpleClient-->>ApiClient: Return null/throw error
     end
     ApiClient->>API: Make request with token
     alt Response 401
-        ApiClient->>AuthService: Try refresh token
-        AuthService-->>ApiClient: New token
-        ApiClient->>API: Retry request
-        alt Response 401 again
+        ApiClient->>OidcSimpleClient: Try refresh token
+        OidcSimpleClient-->>ApiClient: New token/error
+        alt New token received
+            ApiClient->>API: Retry request
+        else Token refresh failed
             ApiClient->>Client: Throw unauthorized error
         end
     end
     API-->>Client: Response
 ```
 
-## Error Handling Flow
+## Request Configuration
 
-```mermaid
-flowchart TD
-    A[API Error] --> B{Error Type}
-    B -->|ApiClientError| C[Return as is]
-    B -->|AbortError| D[Canceled Error]
-    B -->|WretchError| E{Status Code}
-    B -->|Other| F[Client Unknown Error]
+The client accepts the following configuration options:
 
-    E -->|400| G[Bad Request]
-    E -->|401| H[Unauthorized]
-    E -->|403| I[Forbidden]
-    E -->|404| J[Not Found]
-    E -->|408/504| K[Timeout]
-    E -->|500+| L[Server Error]
+```typescript
+interface CustomRequestConfig {
+  // Authentication requirement level (MUST | OPTIONAL | NEVER)
+  authRequirement?: AuthRequirement;
+
+  // Custom HTTP headers
+  headers?: Record<string, string>;
+
+  // Retry configuration
+  retry?: {
+    attempts: number; // Number of retry attempts
+    delayMs: number; // Delay between retries
+    onErrorKinds: string[]; // Error types to retry on
+  };
+
+  // Error handling configuration
+  errorsConfig?: {
+    messages?: Record<number, string> | string;
+    hideErrors?: boolean;
+  };
+
+  // AbortController signal
+  signal?: AbortSignal;
+}
 ```
 
-## Usage
+## Error Handling
+
+The client implements a comprehensive error handling system:
+
+1. **Error Types**:
+
+   - `bad-request` (400)
+   - `unauthorized` (401)
+   - `forbidden` (403)
+   - `not-found` (404)
+   - `timeout` (408/504)
+   - `server` (500+)
+   - `canceled` (AbortError)
+   - `client-unknown`
+
+2. **Retry Mechanism**:
+
+   ```typescript
+   const defaultRetryConfig = {
+     attempts: 0,
+     delayMs: 1000,
+     onErrorKinds: ['timeout'],
+   };
+   ```
+
+3. **Custom Error Messages**:
+   ```typescript
+   const config = {
+     errorsConfig: {
+       messages: {
+         401: 'Custom unauthorized message',
+         404: 'Custom not found message',
+       },
+       hideErrors: false,
+     },
+   };
+   ```
+
+## Usage Examples
 
 ### Basic Request
 
@@ -97,20 +164,25 @@ client.init({ baseUrl: 'https://api.example.com' });
 // GET request
 const data = await client.get('/endpoint', { param: 'value' });
 
-// POST request
+// POST request with body
 const result = await client.post('/endpoint', { data: 'value' });
 ```
 
-### With Authentication
+### Authenticated Request
 
 ```typescript
-// Authenticated request (requires configured authService)
-const data = await client.get('/protected-endpoint', null, {
+// Request with required authentication
+const data = await client.get('/protected', null, {
   authRequirement: AUTH_REQUIREMENT.MUST,
+});
+
+// Request with optional authentication
+const data = await client.get('/semi-protected', null, {
+  authRequirement: AUTH_REQUIREMENT.OPTIONAL,
 });
 ```
 
-### With Retry Configuration
+### Request with Retry
 
 ```typescript
 const data = await client.get('/endpoint', null, {
@@ -122,55 +194,35 @@ const data = await client.get('/endpoint', null, {
 });
 ```
 
-### Event Handling
+### Custom Error Handling
 
 ```typescript
-client.on('error', (error) => {
-  console.error('API Error:', error);
-});
-
-client.on('idle', (isIdle) => {
-  console.log('Client idle state:', isIdle);
-});
-
-client.on('poolUpdate', (pool) => {
-  console.log('Active requests:', pool);
+const data = await client.get('/endpoint', null, {
+  errorsConfig: {
+    messages: {
+      404: 'Resource not available',
+      500: 'Server error occurred',
+    },
+    hideErrors: true,
+  },
 });
 ```
 
-## Error Types
+### Event Handling
 
-The API client handles various error types:
+```typescript
+// Listen for API errors
+client.on('error', (error: ApiClientError) => {
+  console.error('API Error:', error);
+});
 
-- `bad-request` (400)
-- `unauthorized` (401)
-- `forbidden` (403)
-- `not-found` (404)
-- `timeout` (408/504)
-- `server` (500+)
-- `canceled` (AbortError)
-- `client-unknown` (Other errors)
+// Monitor request pool
+client.on('poolUpdate', (pool: Map<string, string>) => {
+  console.log('Active requests:', pool);
+});
 
-Each error includes:
-
-- Message: Human-readable error description
-- Problem: Error classification and metadata
-- Status: HTTP status code if applicable
-
-## Request Configuration
-
-The client accepts custom request configuration:
-
-- `authRequirement`: Authentication requirement level
-- `headers`: Custom HTTP headers
-- `retry`: Retry configuration
-- `errorsConfig`: Custom error handling
-- `signal`: AbortController signal
-
-## Event System
-
-The client emits events for:
-
-- `error`: When an API error occurs
-- `poolUpdate`: When the request pool changes
-- `idle`: When all requests complete
+// Track idle state
+client.on('idle', (isIdle: boolean) => {
+  console.log('Client idle state:', isIdle);
+});
+```
