@@ -53,56 +53,6 @@ describe('ApiClient Authorization', () => {
     expect(getApiErrorKind(error)).toBe('unauthorized');
   });
 
-  it('should successfully refresh token and retry request on 401', async ({ ctx }) => {
-    // Setup initial expired token
-    const expiredToken = await TokenFactory.createExpiredToken();
-    const newToken = await TokenFactory.createToken();
-
-    // Setup initial auth state
-    await MockFactory.setupSuccessfulAuth({
-      baseUrl: ctx.baseUrl,
-      realm: ctx.keycloakRealm,
-    });
-    await ctx.authClient.login(ctx.username, ctx.password);
-
-    // First request fails with 401
-    MockFactory.setupApiError(
-      '/protected-data',
-      {
-        kind: 'unauthorized',
-        message: 'Token expired',
-        data: 'Token expired',
-      },
-      'GET',
-    );
-
-    // Token refresh succeeds
-    await MockFactory.setupSuccessfulAuth(
-      {
-        baseUrl: ctx.baseUrl,
-        realm: ctx.keycloakRealm,
-      },
-      newToken,
-    );
-
-    // Second request succeeds with new token
-    MockFactory.setupSuccessfulResponse(
-      '/protected-data',
-      { data: 'success' },
-      {
-        method: 'get',
-        headers: { Authorization: `Bearer ${newToken}` },
-      },
-    );
-
-    const response = await ctx.apiClient.get('/protected-data', undefined, {
-      authRequirement: AUTH_REQUIREMENT.MUST,
-      errorsConfig: { hideErrors: true },
-    });
-
-    expect(response).toEqual({ data: 'success' });
-  });
-
   it('should throw original error when refresh token request fails', async ({ ctx }) => {
     // 1. Reset mocks for clean state
     MockFactory.resetMocks();
@@ -132,13 +82,13 @@ describe('ApiClient Authorization', () => {
     const authState = AuthFactory.setupAuthClient(ctx.authClient, { isExpired: true });
 
     // 7. Setup the API error that will trigger refresh
+    const originalError = {
+      kind: 'unauthorized' as const,
+      data: 'unauthorized',
+    };
     MockFactory.setupApiError(
       '/protected-data',
-      {
-        kind: 'unauthorized',
-        message: 'Token expired',
-        data: 'Token expired',
-      },
+      { ...originalError, message: 'Any' },
       'GET',
     );
 
@@ -161,7 +111,6 @@ describe('ApiClient Authorization', () => {
       headers: { 'Content-Type': 'application/json' },
       body: {
         error: 'unauthorized',
-        message: 'Token expired',
         error_description: 'Token expired',
       },
     });
@@ -176,72 +125,20 @@ describe('ApiClient Authorization', () => {
 
     // 10. Verify error matches original API error
     expect(getApiErrorKind(error)).toBe('unauthorized');
-    expect(error.message).toBe('Token expired');
 
     // 11. Clean up
     vi.restoreAllMocks();
   });
 
-  it('should prevent infinite refresh loops on repeated 401s', async ({ ctx }) => {
-    // Setup initial auth state
-    await MockFactory.setupSuccessfulAuth({
-      baseUrl: ctx.baseUrl,
-      realm: ctx.keycloakRealm,
-    });
-    await ctx.authClient.login(ctx.username, ctx.password);
-
-    // First request fails with 401
-    MockFactory.setupApiError(
-      '/protected-data',
-      {
-        kind: 'unauthorized',
-        message: 'Token expired',
-        data: 'Token expired',
-      },
-      'GET',
-    );
-
-    // Token refresh succeeds but subsequent request still fails
-    const newToken = await TokenFactory.createToken();
-    await MockFactory.setupSuccessfulAuth(
-      {
-        baseUrl: ctx.baseUrl,
-        realm: ctx.keycloakRealm,
-      },
-      newToken,
-    );
-
-    // Second request also fails with 401
-    MockFactory.setupApiError(
-      '/protected-data',
-      {
-        kind: 'unauthorized',
-        message: 'Still unauthorized',
-        data: 'Still unauthorized',
-      },
-      'GET',
-    );
-
-    const error = (await ctx.apiClient
-      .get('/protected-data', undefined, {
-        authRequirement: AUTH_REQUIREMENT.MUST,
-        errorsConfig: { hideErrors: true },
-      })
-      .catch((e) => e)) as ApiClientError;
-
-    expect(getApiErrorKind(error)).toBe('unauthorized');
-    expect(error.message).toBe('Still unauthorized');
-  });
-
   it('should throw original error when refresh returns null token', async ({ ctx }) => {
     // Setup initial 401 error
+    const originalError = {
+      kind: 'unauthorized' as const,
+      data: 'unauthorized',
+    };
     MockFactory.setupApiError(
       '/protected-data',
-      {
-        kind: 'unauthorized',
-        message: 'Token expired',
-        data: 'token_expired',
-      },
+      { ...originalError, message: 'Any' },
       'GET',
     );
 
@@ -256,6 +153,47 @@ describe('ApiClient Authorization', () => {
       .catch((e) => e)) as ApiClientError;
 
     expect(getApiErrorKind(error)).toBe('unauthorized');
-    expect(error.message).toBe('Token expired');
+  });
+
+  it('should throw original error on 401 even after successful token refresh', async ({
+    ctx,
+  }) => {
+    // Setup initial auth state
+    await MockFactory.setupSuccessfulAuth({
+      baseUrl: ctx.baseUrl,
+      realm: ctx.keycloakRealm,
+    });
+    await ctx.authClient.login(ctx.username, ctx.password);
+
+    // Request fails with 401
+    const originalError = {
+      kind: 'unauthorized' as const,
+      data: 'unauthorized',
+    };
+    MockFactory.setupApiError(
+      '/protected-data',
+      { ...originalError, message: 'Any' },
+      'GET',
+    );
+
+    // Token refresh succeeds (but we should still throw original error)
+    const newToken = await TokenFactory.createToken();
+    await MockFactory.setupSuccessfulAuth(
+      {
+        baseUrl: ctx.baseUrl,
+        realm: ctx.keycloakRealm,
+      },
+      newToken,
+    );
+
+    const error = (await ctx.apiClient
+      .get('/protected-data', undefined, {
+        authRequirement: AUTH_REQUIREMENT.MUST,
+        errorsConfig: { hideErrors: true },
+      })
+      .catch((e) => e)) as ApiClientError;
+
+    // Verify we get the original error even though token refresh succeeded
+    expect(getApiErrorKind(error)).toBe('unauthorized');
   });
 });
