@@ -1,6 +1,5 @@
 import { createAtom } from '~utils/atoms';
 import { apiClient } from '~core/apiClientInstance';
-import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import type { AdvancedAnalyticsData } from '~core/types';
 
 interface ResourceState {
@@ -29,7 +28,7 @@ export const worldAnalyticsResource = createAtom(
             `/advanced_polygon_details/`,
             null,
             {
-              authRequirement: AUTH_REQUIREMENT.MUST,
+              authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
             },
           );
           // 5. Now we have response - emit action for next state upate

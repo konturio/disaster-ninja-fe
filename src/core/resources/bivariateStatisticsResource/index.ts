@@ -9,7 +9,6 @@ import { i18n } from '~core/localization';
 import { axisDTOtoAxis } from '~utils/bivariate/helpers/converters/axisDTOtoAxis';
 import { v3toV2 } from '~utils/atoms/v3tov2';
 import { isGeoJSONEmpty } from '~utils/geoJSON/helpers';
-import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import type { Stat } from '~utils/bivariate';
 import type { BivariateStatisticsResponse } from './types';
 
@@ -36,7 +35,7 @@ export const bivariateStatisticsResourceAtom = createAsyncAtom(
       }>('/bivariate_matrix', body, {
         signal: abortController.signal,
         retry: { attempts: 2 },
-        authRequirement: AUTH_REQUIREMENT.MUST,
+        authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
       });
 
       if (!responseData) {

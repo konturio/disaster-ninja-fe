@@ -1,5 +1,4 @@
 import { apiClient } from '~core/apiClientInstance';
-import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import { generateColorTheme } from '~utils/bivariate/bivariateColorThemeUtils';
 import { isApiError } from '~core/api_client/apiClientError';
 import { fillBivariateLegend } from '~utils/bivariate/bivariateLegendUtils';
@@ -69,7 +68,7 @@ export const bivariateColorManagerResourceAtom = createAsyncAtom(
         data: BivariateStatisticsResponse;
       }>('/bivariate_matrix', body, {
         signal: abortController.signal,
-        authRequirement: AUTH_REQUIREMENT.MUST,
+        authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
       });
     } catch (e) {
       if (isApiError(e) && e.problem.kind === 'canceled') {

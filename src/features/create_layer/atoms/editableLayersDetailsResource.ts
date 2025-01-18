@@ -3,7 +3,6 @@ import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { configRepo } from '~core/config';
 import { apiClient } from '~core/apiClientInstance';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
-import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import { editableLayersListResource } from './editableLayersListResource';
 import type { LayerDetailsDto } from '~core/logical_layers/types/source';
 
@@ -58,7 +57,7 @@ export const editableLayersDetailsResourceAtom = createAsyncAtom(
       {
         headers: { 'user-language': configRepo.get().initialUser.language },
         signal: abortController.signal,
-        authRequirement: AUTH_REQUIREMENT.MUST,
+        authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
       },
     );
   },

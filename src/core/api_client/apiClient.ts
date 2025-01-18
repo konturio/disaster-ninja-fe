@@ -30,6 +30,7 @@ type ListenerMap = {
 };
 
 export class ApiClient {
+  AUTH_REQUIREMENT = AUTH_REQUIREMENT;
   private listeners: ListenerMap = {
     error: new Set(),
     poolUpdate: new Set(),

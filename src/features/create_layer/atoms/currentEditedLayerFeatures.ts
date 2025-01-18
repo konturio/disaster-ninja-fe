@@ -5,7 +5,6 @@ import { deepCopy } from '~core/logical_layers/utils/deepCopy';
 import { FeatureCollection } from '~utils/geoJSON/helpers';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import { drawnGeometryAtom } from '~core/draw_tools/atoms/drawnGeometryAtom';
-import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import { editableLayersListResource } from './editableLayersListResource';
 
 interface SafeCallbacks {
@@ -105,7 +104,7 @@ export const currentEditedLayerFeatures = createAtom(
               `/layers/${ctx.layerId}/items/`,
               new FeatureCollection(stateSnapshot),
               {
-                authRequirement: AUTH_REQUIREMENT.MUST,
+                authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
               },
             );
             notificationServiceInstance.info({ title: 'Features was saved' }, 3);

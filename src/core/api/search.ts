@@ -1,5 +1,4 @@
 import { apiClient } from '~core/apiClientInstance';
-import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import { configRepo } from '~core/config';
 import { i18n } from '~core/localization';
 import type { Geometry } from 'geojson';
@@ -24,7 +23,7 @@ export function getLocations(query: string, abortController?: AbortController) {
       signal: abortController ? abortController.signal : undefined,
       errorsConfig: { hideErrors: true },
       headers: { 'user-language': i18n.instance.language },
-      authRequirement: AUTH_REQUIREMENT.MUST,
+      authRequirement: apiClient.AUTH_REQUIREMENT.OPTIONAL,
     },
   );
 }
@@ -42,7 +41,7 @@ export function getMCDA(query: string, abortController?: AbortController) {
       signal: abortController ? abortController.signal : undefined,
       errorsConfig: { hideErrors: true },
       headers: { 'user-language': i18n.instance.language },
-      authRequirement: AUTH_REQUIREMENT.MUST,
+      authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
     },
   );
 }

@@ -1,7 +1,6 @@
 import { apiClient } from '~core/apiClientInstance';
 import { configRepo } from '~core/config';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
-import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import { areaLayersDetailsParamsAtom } from './areaLayersDetailsParamsAtom';
 import { areaLayersDetailsResourceAtomCache } from './areaLayersDetailsResourceAtomCache';
 import type { LayerDetailsDto } from '~core/logical_layers/types/source';
@@ -18,7 +17,7 @@ export const areaLayersDetailsResourceAtom = createAsyncAtom(
       {
         headers: { 'user-language': configRepo.get().initialUser.language },
         signal: abortController.signal,
-        authRequirement: AUTH_REQUIREMENT.MUST,
+        authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
       },
     );
     return request ?? null;

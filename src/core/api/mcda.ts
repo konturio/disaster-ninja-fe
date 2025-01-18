@@ -1,5 +1,4 @@
 import { apiClient } from '~core/apiClientInstance';
-import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import type { AxisTransformationWithPoints } from '~utils/bivariate';
 import type { AxisDTO } from '~core/resources/bivariateStatisticsResource/types';
 
@@ -9,7 +8,7 @@ export function getBivariateAxes(minQuality: number, abortController?: AbortCont
   }
   return apiClient.get<AxisDTO[]>(`/axis?minQuality=${minQuality}`, undefined, {
     signal: abortController ? abortController.signal : undefined,
-    authRequirement: AUTH_REQUIREMENT.MUST,
+    authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
   });
 }
 
@@ -23,7 +22,7 @@ export function getAxisTransformations(
     undefined,
     {
       signal: abortController ? abortController.signal : undefined,
-      authRequirement: AUTH_REQUIREMENT.MUST,
+      authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
     },
   );
 }

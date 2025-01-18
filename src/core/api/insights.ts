@@ -1,5 +1,4 @@
 import { apiClient } from '~core/apiClientInstance';
-import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import { configRepo } from '~core/config';
 import { i18n } from '~core/localization';
 import type { AdvancedAnalyticsData, AnalyticsData, LLMAnalyticsData } from '~core/types';
@@ -17,7 +16,7 @@ export function getPolygonDetails(
     {
       signal: abortController.signal,
       errorsConfig: { hideErrors: true },
-      authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+      authRequirement: apiClient.AUTH_REQUIREMENT.OPTIONAL,
     },
   );
 }
@@ -33,7 +32,7 @@ export function getAdvancedPolygonDetails(
     {
       signal: abortController.signal,
       errorsConfig: { hideErrors: true },
-      authRequirement: AUTH_REQUIREMENT.MUST,
+      authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
     },
   );
 }
@@ -53,7 +52,7 @@ export function getLlmAnalysis(
       headers: { 'user-language': i18n.instance.language },
       errorsConfig: { hideErrors: true },
       retry: { attempts: 5 },
-      authRequirement: AUTH_REQUIREMENT.MUST,
+      authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
     },
   );
 }

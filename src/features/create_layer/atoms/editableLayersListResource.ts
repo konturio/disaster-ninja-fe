@@ -2,7 +2,6 @@ import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { configRepo } from '~core/config';
 import { apiClient } from '~core/apiClientInstance';
 import { EDITABLE_LAYERS_GROUP } from '~core/constants';
-import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import type { EditableLayers } from '../types';
 
 export const editableLayersListResource = createAsyncAtom(
@@ -13,7 +12,7 @@ export const editableLayersListResource = createAsyncAtom(
       { appId: configRepo.get().id },
       {
         signal: abortController.signal,
-        authRequirement: AUTH_REQUIREMENT.MUST,
+        authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
       },
     );
     if (responseData === null) return [];
