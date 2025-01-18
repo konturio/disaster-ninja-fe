@@ -16,7 +16,7 @@ beforeEach(async (context) => {
 });
 
 describe('API Request Headers', () => {
-  test('should not add authorization header when auth is optional', async ({ ctx }) => {
+  test('should use auth header when OPTIONAL and logged in', async ({ ctx }) => {
     await ctx.authClient.login(ctx.username, ctx.password);
     await ctx.apiClient.post(
       '/test',
@@ -27,10 +27,14 @@ describe('API Request Headers', () => {
     );
 
     const lastCall = ctx.fetchMock.callHistory.lastCall();
-    expect(lastCall?.options?.headers?.['Authorization']).toBeUndefined();
+    const lastCallOptions = lastCall?.options as RequestInit;
+    const authHeader =
+      lastCallOptions?.headers?.['Authorization'] ||
+      lastCallOptions?.headers?.['authorization'];
+    expect(authHeader).toBe(`Bearer ${ctx.token}`);
   });
 
-  test('should include valid bearer token when auth is required', async ({ ctx }) => {
+  test('should require auth header when AUTH_REQUIREMENT.MUST', async ({ ctx }) => {
     ctx.fetchMock.post(`${ctx.baseUrl}/test`, {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
@@ -54,29 +58,7 @@ describe('API Request Headers', () => {
     expect(authHeader).toBe(`Bearer ${ctx.token}`);
   });
 
-  test('should make successful request without auth header when optional', async ({
-    ctx,
-  }) => {
-    ctx.fetchMock.post(`${ctx.baseUrl}/test`, {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-      body: { data: 'test' },
-    });
-
-    await ctx.apiClient.post(
-      '/test',
-      { param1: 'test' },
-      {
-        authRequirement: AUTH_REQUIREMENT.OPTIONAL,
-      },
-    );
-
-    const lastCall = ctx.fetchMock.callHistory.lastCall();
-    const lastCallOptions = lastCall?.options as RequestInit;
-    expect(lastCallOptions?.headers?.['Authorization']).toBeUndefined();
-  });
-
-  test('should attempt auth when requirement is OPTIONAL', async ({ ctx }) => {
+  test('should attempt auth when OPTIONAL and logged in', async ({ ctx }) => {
     ctx.fetchMock.post(`${ctx.baseUrl}/test`, {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
@@ -100,7 +82,7 @@ describe('API Request Headers', () => {
     expect(authHeader).toBe(`Bearer ${ctx.token}`);
   });
 
-  test('should proceed without auth when OPTIONAL but not logged in', async ({ ctx }) => {
+  test('should skip auth when OPTIONAL and not logged in', async ({ ctx }) => {
     ctx.fetchMock.post(`${ctx.baseUrl}/test`, {
       status: 200,
       headers: { 'Content-Type': 'application/json' },
@@ -112,6 +94,28 @@ describe('API Request Headers', () => {
       { param1: 'test' },
       {
         authRequirement: AUTH_REQUIREMENT.OPTIONAL,
+      },
+    );
+
+    const lastCall = ctx.fetchMock.callHistory.lastCall();
+    const lastCallOptions = lastCall?.options as RequestInit;
+    expect(lastCallOptions?.headers?.['Authorization']).toBeUndefined();
+  });
+
+  test('should not add auth header when AUTH_REQUIREMENT.NEVER', async ({ ctx }) => {
+    ctx.fetchMock.post(`${ctx.baseUrl}/test`, {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' },
+      body: { data: 'test' },
+    });
+
+    // Even if logged in, NEVER should not add auth header
+    await ctx.authClient.login(ctx.username, ctx.password);
+    await ctx.apiClient.post(
+      '/test',
+      { param1: 'test' },
+      {
+        authRequirement: AUTH_REQUIREMENT.NEVER,
       },
     );
 

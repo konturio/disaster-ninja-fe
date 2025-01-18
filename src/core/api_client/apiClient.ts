@@ -129,11 +129,7 @@ export class ApiClient {
 
     const authRequirement = requestConfig.authRequirement ?? AUTH_REQUIREMENT.OPTIONAL;
 
-    // For endpoints that must not be authenticated
-    if (authRequirement === AUTH_REQUIREMENT.NEVER) {
-      // Explicitly avoid adding any auth headers
-      req = req.headers({ Authorization: '' });
-    } else {
+    if (authRequirement !== AUTH_REQUIREMENT.NEVER) {
       try {
         const requireAuth = authRequirement === AUTH_REQUIREMENT.MUST;
         const token = await this.authService.getAccessToken(requireAuth);

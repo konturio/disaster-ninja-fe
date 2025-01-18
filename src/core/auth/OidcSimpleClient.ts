@@ -7,8 +7,6 @@ import { autoParseBody } from '~core/api_client/utils';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import { localStorage } from '~utils/storage';
 import {
-  AUTH_EVENT_TYPE,
-  AUTH_REQUIREMENT,
   LOCALSTORAGE_AUTH_KEY,
   SESSION_STATE,
   TIME_TO_REFRESH_MS,
