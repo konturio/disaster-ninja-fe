@@ -208,8 +208,8 @@ export class MockFactory {
           headers: { 'Content-Type': 'application/json' },
           body: {
             error: error.kind,
-            message: error.message,
-            data: error.data,
+            ...(error.message && { message: error.message }),
+            ...(error.data !== undefined && { data: error.data }),
           },
         };
       },

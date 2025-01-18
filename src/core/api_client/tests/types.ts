@@ -4,7 +4,7 @@ import type { ApiMethod, GeneralApiProblem } from '../types';
  * Standard API error response shape for API client tests
  */
 export type MockApiErrorResponse = GeneralApiProblem & {
-  message: string;
+  message?: string;
   data?: unknown;
 };
 
