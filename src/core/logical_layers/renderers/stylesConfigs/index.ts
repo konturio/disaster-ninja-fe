@@ -26,15 +26,15 @@ export const styleConfigs: Record<
   multivariate: (config: MultivariateLayerStyle['config']) => {
     let multivariateStyle: FillLayerSpecification;
 
-    if (config.annex) {
-      // if we have both base and annex - the layer becomes bivariate
+    if (config.base) {
+      // if we have both score and base - the layer becomes bivariate
       const colorsAndStyle = generateBivariateColorsAndStyleForMultivariateLayer(
         config,
         SOURCE_LAYER_BIVARIATE,
       );
       multivariateStyle = colorsAndStyle[1];
     } else {
-      multivariateStyle = createMCDAStyle(config.base.config);
+      multivariateStyle = createMCDAStyle(config.score.config);
     }
     if (config.strength) {
       const opacity = new MapMath().clamp(

@@ -30,14 +30,14 @@ function createMCDALegend(mcdaConfig: MCDAConfig): JSX.Element {
   return <MCDALegend title={mcdaConfig.name} steps={5} colors={legendColors} />;
 }
 
-function createBivariateLegend(base: MCDAConfig, annex: MCDAConfig, colors: ColorTheme) {
+function createBivariateLegend(score: MCDAConfig, base: MCDAConfig, colors: ColorTheme) {
   const xAxis: MultiBivariateLegendAxisProp = {
-    label: base.name,
+    label: score.name,
     steps: DEFAULT_MULTIBIVARIATE_STEPS,
     quotient: ['', ''],
   };
   const yAxis: MultiBivariateLegendAxisProp = {
-    label: annex.name,
+    label: base.name,
     steps: DEFAULT_MULTIBIVARIATE_STEPS,
     quotient: ['', ''],
   };
@@ -55,13 +55,13 @@ function createBivariateLegend(base: MCDAConfig, annex: MCDAConfig, colors: Colo
 }
 
 export function MultivariateLegend({ config }: MultivariateLegendProps) {
-  if (config.annex && config.colors?.type === 'bivariate') {
+  if (config.base && config.colors?.type === 'bivariate') {
     return createBivariateLegend(
+      config.score.config,
       config.base.config,
-      config.annex.config,
       config.colors.colors,
     );
   } else {
-    return createMCDALegend(config.base.config);
+    return createMCDALegend(config.score.config);
   }
 }

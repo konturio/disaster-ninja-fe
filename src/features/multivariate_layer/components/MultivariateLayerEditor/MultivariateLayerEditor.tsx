@@ -50,9 +50,9 @@ export function MultivariateLayerEditor({ layerId }: LayerEditorProps) {
 
   return (
     <div className={s.editor}>
-      {printMCDAAxes('Base', layerConfig.base.config.layers)}
-      {layerConfig.annex?.config.layers.length &&
-        printMCDAAxes('Annex', layerConfig.annex.config.layers)}
+      {printMCDAAxes('Score', layerConfig.score.config.layers)}
+      {layerConfig.base?.config.layers.length &&
+        printMCDAAxes('Base', layerConfig.base.config.layers)}
       {typeof layerConfig.strength === 'number'
         ? printValue('Strength', 'strength', layerConfig.strength)
         : layerConfig.strength?.type === 'mcda' &&

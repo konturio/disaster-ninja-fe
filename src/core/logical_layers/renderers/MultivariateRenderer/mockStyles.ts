@@ -7,8 +7,8 @@ const multivariate1: MultivariateLayerConfig = {
   version: 0,
   id: 'multivariate1',
   name: 'Multivariate layer 1',
-  base: mcda_population,
-  annex: mcda_elevation,
+  score: mcda_population,
+  base: mcda_elevation,
   strength: 1,
   colors: { type: 'bivariate', colors: bivariate_legend_steps },
 };

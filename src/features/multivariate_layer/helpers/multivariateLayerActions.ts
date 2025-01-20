@@ -21,7 +21,10 @@ import type { Action } from '@reatom/core-v2';
 export const createMultivariateLayer = action((ctx, config: MultivariateLayerConfig) => {
   const id = config.id;
   const name = config.name;
-  const json = config;
+  if (!config.score) {
+    console.error('Cannot create multivariate layer without score dimension');
+    return;
+  }
 
   const actions: Array<Action> = [
     // Set layer settings once
@@ -57,7 +60,7 @@ export const createMultivariateLayer = action((ctx, config: MultivariateLayerCon
         },
         style: {
           type: 'multivariate',
-          config: json,
+          config,
         },
       }),
     ),

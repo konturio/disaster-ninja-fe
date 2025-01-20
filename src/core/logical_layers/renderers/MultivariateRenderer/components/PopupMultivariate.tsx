@@ -5,20 +5,20 @@ export function PopupMultivariate(
   feature: GeoJSON.Feature,
   config: MultivariateLayerConfig,
 ) {
-  const baseMCDAAxes = config.base.config.layers;
-  const baseTable = (
+  const scoreMCDAAxes = config.score.config.layers;
+  const scoreTable = (
     <>
-      <div>Base:</div>
-      <div>{generateMCDAPopupTable(feature, baseMCDAAxes)}</div>
+      <div>Score:</div>
+      <div>{generateMCDAPopupTable(feature, scoreMCDAAxes)}</div>
     </>
   );
-  let annexTable;
-  if (config.annex) {
-    const annexMCDAAxes = config.annex?.config.layers ?? [];
-    annexTable = (
+  let baseTable;
+  if (config.base) {
+    const baseMCDAAxes = config.base?.config.layers ?? [];
+    baseTable = (
       <>
-        <div>Annex:</div>
-        <div>{generateMCDAPopupTable(feature, annexMCDAAxes)}</div>
+        <div>Base:</div>
+        <div>{generateMCDAPopupTable(feature, baseMCDAAxes)}</div>
       </>
     );
   }
@@ -55,8 +55,8 @@ export function PopupMultivariate(
 
   return (
     <>
+      {scoreTable}
       {baseTable}
-      {annexTable}
       {strengthTable}
       {extrusionHeightTable}
     </>

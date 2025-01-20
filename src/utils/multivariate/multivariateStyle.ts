@@ -17,8 +17,8 @@ import type { MCDALayerStyle } from '~core/logical_layers/renderers/stylesConfig
 import type { ExpressionSpecification, FillLayerSpecification } from 'maplibre-gl';
 
 export interface MultivaritateBivariateGeneratorProps {
+  score: MCDALayerStyle['config'];
   base: MCDALayerStyle['config'];
-  annex: MCDALayerStyle['config'];
   colors: OverlayColor[];
   id?: string;
   sourceLayer?: string;
@@ -28,9 +28,7 @@ export function generateBivariateColorsAndStyleForMultivariateLayer(
   config: MultivariateLayerConfig,
   sourceLayer: string,
 ): [ColorTheme, FillLayerSpecification] {
-  const xAxis = config.base;
-  const yAxis = config.annex;
-  if (!xAxis || !yAxis) {
+  if (!config.base || !config.score) {
     console.error('Both base and annex are required for bivariate style', config);
     throw Error('Both base and annex are required for bivariate style');
   }
@@ -43,8 +41,8 @@ export function generateBivariateColorsAndStyleForMultivariateLayer(
   }
 
   const bivariateStyle = createBivariateMultivariateStyle({
-    base: xAxis.config,
-    annex: yAxis.config,
+    score: config.score.config,
+    base: config.base.config,
     colors,
     sourceLayer,
   });
@@ -90,15 +88,15 @@ function setupColorClasses(
 }
 
 function createBivariateMultivariateStyle({
+  score,
   base,
-  annex,
   colors,
   sourceLayer,
   id = 'multivariate-bivariate',
 }: MultivaritateBivariateGeneratorProps): FillLayerSpecification {
+  const annexValueExpression = linearNormalization(score.layers);
   const baseValueExpression = linearNormalization(base.layers);
-  const annesValueExpression = linearNormalization(annex.layers);
-  const filter = mcdaFilterSetup([...base.layers, ...annex.layers]);
+  const filter = mcdaFilterSetup([...score.layers, ...base.layers]);
 
   const style: FillLayerSpecification = {
     id,
@@ -108,7 +106,8 @@ function createBivariateMultivariateStyle({
     paint: {
       'fill-color': setupColorClasses(
         baseValueExpression,
-        annesValueExpression,
+        annexValueExpression,
+        // TODO: multivariate - Where do we get steps from?
         DEFAULT_MULTIBIVARIATE_STEPS,
         DEFAULT_MULTIBIVARIATE_STEPS,
         colorsMap(colors),
@@ -116,7 +115,7 @@ function createBivariateMultivariateStyle({
       'fill-opacity': 1,
       'fill-antialias': false,
     },
-    source: id + '_source', // this id is replaced inside the Renderer
+    source: id + '_source', // this id is replaced inside the Renderer, do we need it here just as a placeholder?
   };
 
   if (sourceLayer) {

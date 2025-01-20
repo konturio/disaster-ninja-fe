@@ -6,11 +6,11 @@ export function getMaxMultivariateZoomLevel(
   config: MultivariateLayerConfig,
   fallbackMaxZoom: number,
 ) {
-  const maxZoomLevelBase = getMaxMCDAZoomLevel(config.base.config, fallbackMaxZoom);
-  const maxZoomLevelAnnex = config.annex
-    ? getMaxMCDAZoomLevel(config.annex?.config, fallbackMaxZoom)
+  const maxZoomLevelScore = getMaxMCDAZoomLevel(config.score.config, fallbackMaxZoom);
+  const maxZoomLevelBase = config.base
+    ? getMaxMCDAZoomLevel(config.base?.config, fallbackMaxZoom)
     : fallbackMaxZoom;
-  return Math.max(maxZoomLevelBase, maxZoomLevelAnnex);
+  return Math.max(maxZoomLevelScore, maxZoomLevelBase);
 }
 
 export function getMaxMCDAZoomLevel(config: MCDAConfig, fallbackMaxZoom: number) {
