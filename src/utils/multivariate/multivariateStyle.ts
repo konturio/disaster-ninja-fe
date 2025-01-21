@@ -71,15 +71,15 @@ function setupColorClasses(
         'class',
         classResolver(
           {
-            propName: getVariable('baseValue'),
-            borders: baseSteps.reduce<number[]>(
+            propName: getVariable('annexValue'),
+            borders: annexSteps.reduce<number[]>(
               (acc, { value }) => (acc.push(value), acc),
               [],
             ),
           },
           {
-            propName: getVariable('annexValue'),
-            borders: annexSteps.reduce<number[]>(
+            propName: getVariable('baseValue'),
+            borders: baseSteps.reduce<number[]>(
               (acc, { value }) => (acc.push(value), acc),
               [],
             ),
