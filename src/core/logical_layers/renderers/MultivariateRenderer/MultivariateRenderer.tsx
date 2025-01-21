@@ -7,6 +7,7 @@ import { formatMaplibreString } from './helpers/formatMaplibreString';
 import { generateMultivariatePopupContent } from './popup';
 import type {
   DataDrivenPropertyValueSpecification,
+  ExpressionSpecification,
   LayerSpecification,
 } from 'maplibre-gl';
 import type { LayerTileSource } from '~core/logical_layers/types/source';
@@ -80,10 +81,10 @@ export class MultivariateRenderer extends ClickableTilesRenderer {
       '*',
       multivariateAxisToScore(maxExtrusion),
       6000,
-    ] as DataDrivenPropertyValueSpecification<number>;
+    ] as ExpressionSpecification;
     const minExtrusionValue = (
-      minExtrusion !== undefined ? multivariateAxisToScore(maxExtrusion) : 0
-    ) as DataDrivenPropertyValueSpecification<number>;
+      minExtrusion !== undefined ? multivariateAxisToScore(minExtrusion) : 0
+    ) as ExpressionSpecification;
     const extrusionColor = mainLayerSpecification.paint?.['fill-color'];
     const extrusionFilter =
       mainLayerSpecification.type === 'fill' ? mainLayerSpecification.filter : undefined;
