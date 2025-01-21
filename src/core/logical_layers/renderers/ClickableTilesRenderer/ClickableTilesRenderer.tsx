@@ -54,6 +54,7 @@ export abstract class ClickableTilesRenderer extends LogicalLayerDefaultRenderer
   }
 
   protected abstract getSourcePrefix(): string;
+  protected abstract getClickableLayerId(): string;
 
   protected abstract mountLayers(
     map: ApplicationMap,
@@ -132,10 +133,11 @@ export abstract class ClickableTilesRenderer extends LogicalLayerDefaultRenderer
       // Don't show popup when click in empty place
       if (!features.length || !features[0].geometry) return true;
 
-      const [feature] = features;
+      const clickableLayerId = this.getClickableLayerId();
+      const feature = features.find((f) => f.layer.id === clickableLayerId);
 
       // Don't show popup when click on feature that filtered by map style
-      if (!isFeatureVisible(feature)) return true;
+      if (!feature || !isFeatureVisible(feature)) return true;
 
       // Show popup on click
       const popupNode = this.generatePopupContent(feature, style);

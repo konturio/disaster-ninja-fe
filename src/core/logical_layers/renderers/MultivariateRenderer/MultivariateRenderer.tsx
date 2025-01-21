@@ -23,6 +23,10 @@ export class MultivariateRenderer extends ClickableTilesRenderer {
     return 'multivariate-source-';
   }
 
+  protected getClickableLayerId(): string {
+    return MULTIVARIATE_LAYER_PREFIX + this.id;
+  }
+
   addTextLayer(
     map: ApplicationMap,
     labelAxis: LabelAxis,
@@ -111,7 +115,7 @@ export class MultivariateRenderer extends ClickableTilesRenderer {
 
   protected mountLayers(map: ApplicationMap, layer: LayerTileSource, style: LayerStyle) {
     // here is the only change in the method, we use layerStyle instead of generating it from the legend
-    const layerId = `${MULTIVARIATE_LAYER_PREFIX + this.id}`;
+    const layerId = this.getClickableLayerId();
     if (map.getLayer(layerId)) {
       return;
     }
