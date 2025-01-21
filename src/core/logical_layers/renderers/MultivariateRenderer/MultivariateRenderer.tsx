@@ -135,8 +135,8 @@ export class MultivariateRenderer extends ClickableTilesRenderer {
         layerRes,
         this.id,
       );
-      if (style.config.tileLabel) {
-        this.addTextLayer(map, style.config.tileLabel, layerId, layerRes);
+      if (style.config.text) {
+        this.addTextLayer(map, style.config.text, layerId, layerRes);
       }
       this._layerId = layerId;
     } else {

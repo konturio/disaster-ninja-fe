@@ -40,7 +40,7 @@ export interface MultivariateLayerConfig {
     scoreSteps?: Step[];
   };
   strength?: MultivariateAxis | number;
-  tileLabel?: LabelAxis;
+  text?: LabelAxis;
   extrusionMin?: MultivariateAxis | number;
   extrusionMax?: MultivariateAxis | number;
   colors?: MultivariateColorConfig;
