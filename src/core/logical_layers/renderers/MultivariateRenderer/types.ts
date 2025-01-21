@@ -1,3 +1,4 @@
+import type { Step } from '~utils/bivariate';
 import type { ColorTheme } from '~core/types';
 import type { SymbolLayerSpecification } from 'maplibre-gl';
 import type {
@@ -34,6 +35,10 @@ export interface MultivariateLayerConfig {
   name: string;
   score: MultivariateAxis;
   base?: MultivariateAxis;
+  stepOverrides?: {
+    baseSteps?: Step[];
+    scoreSteps?: Step[];
+  };
   strength?: MultivariateAxis | number;
   tileLabel?: LabelAxis;
   extrusionMin?: MultivariateAxis | number;

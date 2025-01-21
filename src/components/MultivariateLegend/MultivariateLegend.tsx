@@ -2,7 +2,7 @@ import { Legend as BiLegend, MCDALegend } from '@konturio/ui-kit';
 import { generateMCDALegendColors } from '~utils/mcda/mcdaLegendsUtils';
 import { BIVARIATE_LEGEND_SIZE } from '~components/BivariateLegend/const';
 import { DEFAULT_MULTIBIVARIATE_STEPS } from '~utils/multivariate/constants';
-import { invertClusters } from '~utils/bivariate';
+import { invertClusters, type Step } from '~utils/bivariate';
 import type { ColorTheme } from '~core/types';
 import type { MultivariateLayerConfig } from '~core/logical_layers/renderers/MultivariateRenderer/types';
 import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
@@ -30,15 +30,21 @@ function createMCDALegend(mcdaConfig: MCDAConfig): JSX.Element {
   return <MCDALegend title={mcdaConfig.name} steps={5} colors={legendColors} />;
 }
 
-function createBivariateLegend(score: MCDAConfig, base: MCDAConfig, colors: ColorTheme) {
+function createBivariateLegend(
+  score: MCDAConfig,
+  base: MCDAConfig,
+  scoreSteps: Step[],
+  baseSteps: Step[],
+  colors: ColorTheme,
+) {
   const xAxis: MultiBivariateLegendAxisProp = {
     label: base.name,
-    steps: DEFAULT_MULTIBIVARIATE_STEPS,
+    steps: baseSteps,
     quotient: ['', ''],
   };
   const yAxis: MultiBivariateLegendAxisProp = {
     label: score.name,
-    steps: DEFAULT_MULTIBIVARIATE_STEPS,
+    steps: scoreSteps,
     quotient: ['', ''],
   };
   const cells = invertClusters(
@@ -64,6 +70,8 @@ export function MultivariateLegend({ config }: MultivariateLegendProps) {
     return createBivariateLegend(
       config.score.config,
       config.base.config,
+      config.stepOverrides?.scoreSteps ?? DEFAULT_MULTIBIVARIATE_STEPS,
+      config.stepOverrides?.baseSteps ?? DEFAULT_MULTIBIVARIATE_STEPS,
       config.colors.colors,
     );
   } else {

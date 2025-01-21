@@ -1,4 +1,6 @@
-export const DEFAULT_MULTIBIVARIATE_STEPS = [
+import type { Step } from '~utils/bivariate';
+
+export const DEFAULT_MULTIBIVARIATE_STEPS: Step[] = [
   {
     value: 0,
   },
@@ -6,7 +8,7 @@ export const DEFAULT_MULTIBIVARIATE_STEPS = [
     value: 0.33,
   },
   {
-    value: 0.66,
+    value: 0.67,
   },
   {
     value: 1,

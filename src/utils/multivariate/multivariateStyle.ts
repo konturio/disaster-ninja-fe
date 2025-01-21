@@ -19,6 +19,8 @@ import type { ExpressionSpecification, FillLayerSpecification } from 'maplibre-g
 export interface MultivaritateBivariateGeneratorProps {
   score: MCDALayerStyle['config'];
   base: MCDALayerStyle['config'];
+  baseSteps: Step[];
+  scoreSteps: Step[];
   colors: OverlayColor[];
   id?: string;
   sourceLayer?: string;
@@ -43,6 +45,8 @@ export function generateBivariateColorsAndStyleForMultivariateLayer(
   const bivariateStyle = createBivariateMultivariateStyle({
     score: config.score.config,
     base: config.base.config,
+    baseSteps: config.stepOverrides?.baseSteps ?? DEFAULT_MULTIBIVARIATE_STEPS,
+    scoreSteps: config.stepOverrides?.scoreSteps ?? DEFAULT_MULTIBIVARIATE_STEPS,
     colors,
     sourceLayer,
   });
@@ -90,6 +94,8 @@ function setupColorClasses(
 function createBivariateMultivariateStyle({
   score,
   base,
+  scoreSteps,
+  baseSteps,
   colors,
   sourceLayer,
   id = 'multivariate-bivariate',
@@ -107,9 +113,8 @@ function createBivariateMultivariateStyle({
       'fill-color': setupColorClasses(
         baseValueExpression,
         annexValueExpression,
-        // TODO: multivariate - Where do we get steps from?
-        DEFAULT_MULTIBIVARIATE_STEPS,
-        DEFAULT_MULTIBIVARIATE_STEPS,
+        baseSteps,
+        scoreSteps,
         colorsMap(colors),
       ),
       'fill-opacity': 1,
