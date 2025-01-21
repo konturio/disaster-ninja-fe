@@ -32,12 +32,12 @@ function createMCDALegend(mcdaConfig: MCDAConfig): JSX.Element {
 
 function createBivariateLegend(score: MCDAConfig, base: MCDAConfig, colors: ColorTheme) {
   const xAxis: MultiBivariateLegendAxisProp = {
-    label: score.name,
+    label: base.name,
     steps: DEFAULT_MULTIBIVARIATE_STEPS,
     quotient: ['', ''],
   };
   const yAxis: MultiBivariateLegendAxisProp = {
-    label: base.name,
+    label: score.name,
     steps: DEFAULT_MULTIBIVARIATE_STEPS,
     quotient: ['', ''],
   };
@@ -50,7 +50,12 @@ function createBivariateLegend(score: MCDAConfig, base: MCDAConfig, colors: Colo
     'label',
   ) as Cell[];
   return (
-    <BiLegend cells={cells} size={BIVARIATE_LEGEND_SIZE} axis={{ x: xAxis, y: yAxis }} />
+    <BiLegend
+      cells={cells}
+      size={BIVARIATE_LEGEND_SIZE}
+      axis={{ x: xAxis, y: yAxis }}
+      showAxisLabels
+    />
   );
 }
 
