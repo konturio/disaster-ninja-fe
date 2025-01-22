@@ -4,6 +4,11 @@
 
 .linksWrapper {
   margin-top: 12px;
+  display: flex;
+  align-items: center;
+  line-height: 18px;
+  font-size: 12px;
+  color: var(--faint-strong);
 }
 
 .link {
@@ -14,12 +19,14 @@
 }
 
 .geometryNameContainer {
+  margin-top: var(--double-unit);
   display: flex;
   justify-content: space-between;
   width: 100%;
 
   & + * {
     margin-top: var(--unit);
+    color: var(--faint-strong);
   }
 }
 
@@ -28,4 +35,41 @@
   color: var(--faint-strong);
   padding: var(--half-unit) 0 0 0;
   height: 16px;
+}
+
+.tooltip {
+  margin-inline: 2px;
+}
+
+.delimiter {
+  margin-right: 4px;
+  margin-left: 2px;
+}
+
+.userLocationLoader {
+  color: var(--base-strong);
+
+  &::after {
+    content: '';
+    animation: dot-blink 1s infinite;
+  }
+}
+
+.errorMessage {
+  color: var(--base-strong);
+}
+
+@keyframes dot-blink {
+  0% {
+    content: '';
+  }
+  33% {
+    content: '.';
+  }
+  66% {
+    content: '..';
+  }
+  100% {
+    content: '...';
+  }
 }
