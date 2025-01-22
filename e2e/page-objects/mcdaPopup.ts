@@ -113,7 +113,7 @@ export class MCDAPopup extends HelperBase {
       saveButton,
       'Check that after inputs save button is not disabled',
     ).not.toHaveAttribute('disabled');
-    await saveButton.click({ delay: 100 });
+    await saveButton.click({ delay: 100, position: { x: 15, y: 15 } });
     // Wait for the popup to close
     await mcdaPopup.waitFor({ state: 'hidden' });
   }

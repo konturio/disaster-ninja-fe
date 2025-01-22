@@ -15,7 +15,7 @@ export class PricingPage extends HelperBase {
       expect(this.page.getByText('Educational', { exact: true })).toBeVisible(),
       expect(this.page.getByText('Custom', { exact: true })).toBeVisible(),
       expect(this.page.getByText('Contact sales', { exact: true })).toBeVisible(),
-      plansAndPricingTexts.forEach((text) => expect(text).toBeVisible()),
+      plansAndPricingTexts.forEach((textEl) => expect(textEl).toBeVisible()),
       expect(this.page.getByText('Save 5%', { exact: true })).toBeVisible(),
     ]);
   }
