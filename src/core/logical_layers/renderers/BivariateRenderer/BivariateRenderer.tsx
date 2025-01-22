@@ -175,7 +175,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       this._layerId = layer.id;
     } else {
       // We don't known source-layer id
-      throw new Error(`[GenericLayer ${this.id}] Vector layers must have legend`);
+      throw new Error(`[Bivariate ${this.id}] Vector layers must have legend`);
     }
   }
 
