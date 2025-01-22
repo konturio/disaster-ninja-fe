@@ -83,7 +83,7 @@ export class MCDAPopup extends HelperBase {
     for (let i = 0; i < inputs.length; i++) {
       // We should better get a new locator for each iteration
       const layerInput = mcdaPopup.getByPlaceholder('Select layers');
-      await layerInput.pressSequentially(inputs[i], { delay: 50 });
+      await layerInput.pressSequentially(inputs[i], { delay: 90 });
       // Wait for the list of layers to be visible
       const listbox = mcdaPopup.getByRole('listbox');
       await listbox.waitFor({ state: 'visible' });
@@ -113,7 +113,7 @@ export class MCDAPopup extends HelperBase {
       saveButton,
       'Check that after inputs save button is not disabled',
     ).not.toHaveAttribute('disabled');
-    await saveButton.click({ delay: 100 });
+    await saveButton.click({ delay: 100, position: { x: 15, y: 15 } });
     // Wait for the popup to close
     await mcdaPopup.waitFor({ state: 'hidden' });
   }
