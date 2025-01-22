@@ -4,12 +4,12 @@ import { store } from '~core/store/store';
 import { UPLOAD_MULTIVARIATE_CONTROL_ID } from './constants';
 import { pickMultivariateFile } from './helpers/pickMultivariateFile';
 import { createMultivariateLayer } from './helpers/multivariateLayerActions';
-import type { MultivariateLayerConfig } from '~core/logical_layers/renderers/MultivariateRenderer/types';
+import type { MultivariateLayerStyle } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 
 const uploadClickListener = (e) => {
   pickMultivariateFile((multivariateConfig) => {
     if (multivariateConfig) {
-      createMultivariateLayer(store.v3ctx, multivariateConfig as MultivariateLayerConfig);
+      createMultivariateLayer(store.v3ctx, multivariateConfig as MultivariateLayerStyle);
     }
   });
 };

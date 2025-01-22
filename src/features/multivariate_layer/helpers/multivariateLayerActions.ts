@@ -15,16 +15,21 @@ import { v3ActionToV2 } from '~utils/atoms/v3tov2';
 import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
 import { MultivariateRenderer } from '~core/logical_layers/renderers/MultivariateRenderer/MultivariateRenderer';
 import { MultivariateLayerEditor } from '../components/MultivariateLayerEditor/MultivariateLayerEditor';
-import type { MultivariateLayerConfig } from '~core/logical_layers/renderers/MultivariateRenderer/types';
+import type { MultivariateLayerStyle } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { Action } from '@reatom/core-v2';
 
-export const createMultivariateLayer = action((ctx, config: MultivariateLayerConfig) => {
-  const id = config.id;
-  const name = config.name;
-  if (!config.score) {
+export const createMultivariateLayer = action((ctx, style: MultivariateLayerStyle) => {
+  if (style.type !== 'multivariate') {
+    console.error('Incorrect layer configuration: multivariate type expected');
+    return;
+  }
+  if (!style.config.score) {
     console.error('Cannot create multivariate layer without score dimension');
     return;
   }
+  const config = style.config;
+  const id = config.id;
+  const name = config.name;
 
   const actions: Array<Action> = [
     // Set layer settings once
@@ -60,7 +65,7 @@ export const createMultivariateLayer = action((ctx, config: MultivariateLayerCon
         },
         style: {
           type: 'multivariate',
-          config,
+          config: config,
         },
       }),
     ),
@@ -71,7 +76,7 @@ export const createMultivariateLayer = action((ctx, config: MultivariateLayerCon
       createAsyncWrapper({
         id,
         type: 'multivariate',
-        config,
+        config: config,
       }),
     ),
 
