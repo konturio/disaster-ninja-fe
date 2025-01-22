@@ -83,7 +83,7 @@ export class MCDAPopup extends HelperBase {
     for (let i = 0; i < inputs.length; i++) {
       // We should better get a new locator for each iteration
       const layerInput = mcdaPopup.getByPlaceholder('Select layers');
-      await layerInput.pressSequentially(inputs[i], { delay: 50 });
+      await layerInput.pressSequentially(inputs[i], { delay: 90 });
       // Wait for the list of layers to be visible
       const listbox = mcdaPopup.getByRole('listbox');
       await listbox.waitFor({ state: 'visible' });
