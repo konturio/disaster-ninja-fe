@@ -162,6 +162,7 @@
     "good": "Good"
   },
   "search": {
+    "search_location": "Search location",
     "info_block": "You can search for 📍 locations",
     "info_block_with_mcda": "You can search for 📍 locations or ask ✨ AI your question like “Where is dead wood”",
     "input_placeholder": "Search",
@@ -379,7 +380,6 @@
     "no_data": "No data for this report",
     "sorting": "Sorting data...",
     "loading": "Loading data",
-    "search_location": "Search location",
     "open_josm": "Open via JOSM remote control",
     "josm_logo_alt": "JOSM logo",
     "see_all": "See all reports",
