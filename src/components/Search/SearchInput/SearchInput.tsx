@@ -14,8 +14,9 @@ export interface SearchInputProps {
   onReset: () => void;
   placeholder?: string;
   classes?: {
-    button?: string;
+    searchButton?: string;
     inputWrapper?: string;
+    container?: string;
   };
 }
 
@@ -30,8 +31,16 @@ export const SearchInput = reatomComponent<SearchInputProps>(
     onSearch,
     classes,
   }) => {
+    const reset = () => {
+      const { ref } = inputProps;
+      if (ref && typeof ref !== 'function') {
+        ref.current?.focus();
+      }
+      onReset();
+    };
+
     return (
-      <div className={styles.searchInputContainer}>
+      <div className={cn(styles.searchInputContainer, classes?.container)}>
         <div className={cn(styles.searchInputWrapper, classes?.inputWrapper)}>
           <input
             className={styles.searchInput}
@@ -45,7 +54,7 @@ export const SearchInput = reatomComponent<SearchInputProps>(
             className={cn(styles.LoadingSpinner, { [styles.shown]: isLoading })}
           />
 
-          <button type="reset" onClick={onReset} aria-label="Reset search input">
+          <button type="reset" onClick={reset} aria-label="Reset search input">
             <Close16 />
           </button>
         </div>
@@ -53,7 +62,7 @@ export const SearchInput = reatomComponent<SearchInputProps>(
         <Button
           variant="invert"
           onClick={onSearch}
-          className={classes?.button}
+          className={classes?.searchButton}
           aria-label="search"
         >
           <Search16 />
