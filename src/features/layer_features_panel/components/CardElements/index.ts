@@ -1,3 +1,4 @@
+import { SeverityIndicator } from '~components/SeverityIndicator/SeverityIndicator';
 import { ActionButtons } from './ActionButtons';
 import { Title } from './Title';
 import { Table } from './Table';
@@ -14,17 +15,38 @@ export const CardElementsMap = {
   actions: ActionButtons,
   progress: Progress,
   text: CardText,
+  severity: SeverityIndicator,
 };
 
 export type CardElementId = keyof typeof CardElementsMap;
 
-export type FeatureCardItemCfg<E extends CardElementId> = { type: E } & Parameters<
-  (typeof CardElementsMap)[E]
->[0];
+type InferProps<T> = T extends React.ComponentType<infer P> ? P : never;
+
+export type CardElementProps = {
+  [K in CardElementId]: InferProps<(typeof CardElementsMap)[K]>;
+};
+
+export type FeatureCardItem = {
+  [K in CardElementId]: {
+    type: K;
+  } & InferProps<(typeof CardElementsMap)[K]>;
+}[CardElementId];
 
 export type FeatureCardCfg = {
   id: number;
   focus?: LngLatBoundsLike;
   properties: object;
-  items: FeatureCardItemCfg<CardElementId>[];
+  items: FeatureCardItem[];
 };
+
+export type UniCardItem = {
+  [K in CardElementId]: {
+    [P in K]: InferProps<(typeof CardElementsMap)[K]>;
+  };
+}[CardElementId];
+
+const z: UniCardItem[] = [
+  { label: { items: [{ value: '2' }] } },
+  // { progress: { caption: 'oo', items: [{ value: 1 }] } },
+  { title: { title: '' } },
+];

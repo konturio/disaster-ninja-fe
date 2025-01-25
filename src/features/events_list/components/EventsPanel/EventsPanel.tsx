@@ -16,6 +16,8 @@ import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { sortedEventListAtom } from '~features/events_list/atoms/sortedEventList';
+import { LayerFeaturesCard } from '~features/layer_features_panel/components/LayerFeaturesCard';
+import { eventToFeatureCard } from '~features/events_list/eventToUniCard';
 import { MIN_HEIGHT } from '../../constants';
 import { EpisodeTimelineToggle } from '../EpisodeTimelineToggle/EpisodeTimelineToggle';
 import { EventCard } from '../EventCard/EventCard';
@@ -27,14 +29,13 @@ import type { Event } from '~core/types';
 
 const featureFlags = configRepo.get().features;
 const hasTimeline = !!featureFlags[AppFeature.EPISODES_TIMELINE];
+function shouldShowTimeline(event: Event, hasTimeline: boolean): boolean {
+  return hasTimeline && event.episodeCount > 1;
+}
 
 function findEventById(eventsList: Event[] | null, eventId?: string | null) {
   if (!eventId || !eventsList?.length) return null;
   return eventsList.find((event) => event.eventId === eventId);
-}
-
-function shouldShowTimeline(event: Event, hasTimeline: boolean): boolean {
-  return hasTimeline && event.episodeCount > 1;
 }
 
 export function EventsPanel({
@@ -83,18 +84,11 @@ export function EventsPanel({
 
   const renderEventCard = useCallback(
     (event: Event, isActive: boolean) => (
-      <EventCard
+      <LayerFeaturesCard
         key={event.eventId}
-        event={event}
+        feature={eventToFeatureCard(event, isActive)}
         isActive={isActive}
-        onClick={handleEventClick}
-        alternativeActionControl={
-          shouldShowTimeline(event, hasTimeline) ? (
-            <EpisodeTimelineToggle isActive={isActive} />
-          ) : null
-        }
-        externalUrls={event.externalUrls}
-        showDescription={isActive}
+        onClick={() => handleEventClick(event.eventId)}
       />
     ),
     [handleEventClick],
