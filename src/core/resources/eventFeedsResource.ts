@@ -13,7 +13,7 @@ export const eventFeedsResourceAtom = createAsyncAtom(
   async (_, abortController) => {
     const feedsResponse = apiClient.get<EventFeed[]>('/events/user_feeds', undefined, {
       signal: abortController.signal,
-      authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
+      authRequirement: apiClient.AUTH_REQUIREMENT.OPTIONAL,
     });
     return feedsResponse;
   },

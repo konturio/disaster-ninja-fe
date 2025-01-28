@@ -35,7 +35,7 @@ export const bivariateStatisticsResourceAtom = createAsyncAtom(
       }>('/bivariate_matrix', body, {
         signal: abortController.signal,
         retry: { attempts: 2 },
-        authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
+        authRequirement: apiClient.AUTH_REQUIREMENT.OPTIONAL,
       });
 
       if (!responseData) {

@@ -17,7 +17,7 @@ export const areaLayersDetailsResourceAtom = createAsyncAtom(
       {
         headers: { 'user-language': configRepo.get().initialUser.language },
         signal: abortController.signal,
-        authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
+        authRequirement: apiClient.AUTH_REQUIREMENT.OPTIONAL,
       },
     );
     return request ?? null;
