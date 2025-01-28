@@ -32,7 +32,9 @@ function getReferenceAreaFromConfigRepo(): GeometryWithHash | null {
 export const setReferenceArea = action(async (ctx, geometry: GeometryWithHash) => {
   if (geometry) {
     dispatchMetricsEvent('ref_area');
-    const hash = await crc32(JSON.stringify({ geometry }));
+    const hash = geometry.hash
+      ? geometry.hash
+      : await crc32(JSON.stringify({ geometry }));
     // update only in case if geometry source or hash has changed
     const referenceAreaOld = ctx.get(referenceAreaAtom);
     if (!referenceAreaOld || !referenceAreaOld.hash || referenceAreaOld.hash !== hash) {
