@@ -1,14 +1,11 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { Close16, Loader24, Search16 } from '@konturio/default-icons';
 import cn from 'clsx';
 import { Button } from '@konturio/ui-kit';
-import { reatomComponent } from '@reatom/npm-react';
 import styles from './SearchInput.module.css';
-import type { AtomMut } from '@reatom/framework';
 
 export interface SearchInputProps {
   inputProps: React.InputHTMLAttributes<HTMLInputElement>;
-  inputAtom: AtomMut<string>;
   isLoading: boolean;
   onSearch: () => void;
   onReset: () => void;
@@ -20,20 +17,13 @@ export interface SearchInputProps {
   };
 }
 
-export const SearchInput = reatomComponent<SearchInputProps>(
-  ({
-    ctx,
-    inputAtom,
-    inputProps,
-    isLoading,
-    placeholder,
-    onReset,
-    onSearch,
-    classes,
-  }) => {
+export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
+  (
+    { inputProps, isLoading, placeholder, onReset, onSearch, classes }: SearchInputProps,
+    ref,
+  ) => {
     const reset = () => {
-      const { ref } = inputProps;
-      if (ref && typeof ref !== 'function') {
+      if (ref && typeof ref !== 'function' && 'current' in ref) {
         ref.current?.focus();
       }
       onReset();
@@ -46,8 +36,6 @@ export const SearchInput = reatomComponent<SearchInputProps>(
             className={styles.searchInput}
             placeholder={placeholder}
             {...inputProps}
-            value={ctx.spy(inputAtom)}
-            onChange={(e) => inputAtom(ctx, e.target.value)}
           />
 
           <Loader24
@@ -71,3 +59,5 @@ export const SearchInput = reatomComponent<SearchInputProps>(
     );
   },
 );
+
+SearchInput.displayName = 'SearchInput';

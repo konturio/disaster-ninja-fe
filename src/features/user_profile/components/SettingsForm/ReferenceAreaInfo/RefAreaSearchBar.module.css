@@ -1,0 +1,23 @@
+.searchBar {
+  position: relative;
+  margin-top: 12px;
+}
+
+.resultsList {
+  position: absolute;
+  top: 100%;
+  background: #fffffffc;
+  max-height: 40vh;
+  overflow-y: auto;
+  min-width: 100%;
+  list-style: none;
+  white-space: nowrap;
+  z-index: 20;
+  border-radius: var(--border-radius-unit);
+  box-shadow: var(--elevation-3);
+  margin: 2px 2px 0 0;
+}
+
+.listItem {
+  white-space: normal;
+}
