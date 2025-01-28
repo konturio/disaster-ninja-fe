@@ -112,10 +112,7 @@ export function ReferenceAreaInfo() {
                 {i18n.t('profile.reference_area.accessing_location_error')}
               </span>
             ) : (
-              <button
-                className={clsx(s.link, s.userLocation)}
-                onClick={onSelectCurrentLocation}
-              >
+              <button className={clsx(s.link)} onClick={onSelectCurrentLocation}>
                 {i18n.t('profile.reference_area.select_location')}
               </button>
             )}
