@@ -41,7 +41,5 @@ export interface MultivariateLayerConfig {
   };
   strength?: MultivariateAxis | number;
   text?: LabelAxis;
-  extrusionMin?: MultivariateAxis | number;
-  extrusionMax?: MultivariateAxis | number;
   colors?: MultivariateColorConfig;
 }

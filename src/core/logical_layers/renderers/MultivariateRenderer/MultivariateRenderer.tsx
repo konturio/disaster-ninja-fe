@@ -2,12 +2,11 @@ import { layerByOrder } from '~core/logical_layers/utils/layersOrder/layerByOrde
 import { multivariateAxisToScore, styleConfigs } from '../stylesConfigs';
 import { ClickableTilesRenderer } from '../ClickableTilesRenderer';
 import { SOURCE_LAYER_MCDA } from '../stylesConfigs/mcda/constants';
-import { type LabelAxis, type MultivariateAxis } from './types';
+import { type LabelAxis } from './types';
 import { formatMaplibreString } from './helpers/formatMaplibreString';
 import { generateMultivariatePopupContent } from './popup';
 import type {
   DataDrivenPropertyValueSpecification,
-  ExpressionSpecification,
   LayerSpecification,
 } from 'maplibre-gl';
 import type { LayerTileSource } from '~core/logical_layers/types/source';
@@ -16,7 +15,6 @@ import type { LayerStyle } from '../../types/style';
 
 const MULTIVARIATE_LAYER_PREFIX = 'multivariate-layer-';
 const TEXT_POSTFIX = '-text';
-const EXTRUSION_POSTFIX = '-extrusion';
 
 export class MultivariateRenderer extends ClickableTilesRenderer {
   protected getSourcePrefix(): string {
@@ -74,45 +72,6 @@ export class MultivariateRenderer extends ClickableTilesRenderer {
     );
   }
 
-  addExtrusionLayer(
-    map: ApplicationMap,
-    mainLayerId: string,
-    mainLayerSpecification: LayerSpecification,
-    minExtrusion: MultivariateAxis | number | undefined,
-    maxExtrusion: MultivariateAxis | number,
-  ) {
-    const maxExtrusionValue = [
-      '*',
-      multivariateAxisToScore(maxExtrusion),
-      6000,
-    ] as ExpressionSpecification;
-    const minExtrusionValue = (
-      minExtrusion !== undefined ? multivariateAxisToScore(minExtrusion) : 0
-    ) as ExpressionSpecification;
-    const extrusionColor = mainLayerSpecification.paint?.['fill-color'];
-    const extrusionFilter =
-      mainLayerSpecification.type === 'fill' ? mainLayerSpecification.filter : undefined;
-    const layerStyle: LayerSpecification = {
-      id: mainLayerId + EXTRUSION_POSTFIX,
-      type: 'fill-extrusion',
-      filter: extrusionFilter,
-      layout: {},
-      paint: {
-        'fill-extrusion-height': maxExtrusionValue,
-        'fill-extrusion-base': minExtrusionValue,
-        'fill-extrusion-color': extrusionColor,
-        'fill-extrusion-opacity': 0.75,
-        'fill-extrusion-vertical-gradient': false,
-      },
-      source: this._sourceId,
-      'source-layer': SOURCE_LAYER_MCDA,
-    };
-    layerByOrder(map, this._layersOrderManager).addAboveLayerWithSameType(
-      layerStyle,
-      this.id,
-    );
-  }
-
   protected mountLayers(map: ApplicationMap, layer: LayerTileSource, style: LayerStyle) {
     // here is the only change in the method, we use layerStyle instead of generating it from the legend
     const layerId = this.getClickableLayerId();
@@ -127,15 +86,6 @@ export class MultivariateRenderer extends ClickableTilesRenderer {
         id: layerId,
         source: this._sourceId,
       };
-      if (style.config.extrusionMax !== undefined && style.config.extrusionMax !== null) {
-        this.addExtrusionLayer(
-          map,
-          layerId,
-          layerRes,
-          style.config.extrusionMin,
-          style.config.extrusionMax,
-        );
-      }
       layerByOrder(map, this._layersOrderManager).addAboveLayerWithSameType(
         layerRes,
         this.id,
@@ -166,10 +116,6 @@ export class MultivariateRenderer extends ClickableTilesRenderer {
       const textLayerId = this._layerId + TEXT_POSTFIX;
       if (map.getLayer(textLayerId)) {
         map.removeLayer(textLayerId);
-      }
-      const extrusionLayerId = this._layerId + EXTRUSION_POSTFIX;
-      if (map.getLayer(extrusionLayerId)) {
-        map.removeLayer(extrusionLayerId);
       }
     }
 

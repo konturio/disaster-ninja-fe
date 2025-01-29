@@ -75,20 +75,6 @@ export function PopupMultivariate(
       );
     }
   }
-  let extrusionHeightTable;
-  if (config.extrusionMax) {
-    if (typeof config.extrusionMax === 'number') {
-      extrusionHeightTable = <div>Extrusion height: {config.extrusionMax}</div>;
-    } else {
-      const extrusionHeightMCDAAxes = config.extrusionMax.config.layers;
-      extrusionHeightTable = (
-        <>
-          <div>Extrusion height:</div>
-          <div>{generateMCDAPopupTable(feature, extrusionHeightMCDAAxes)}</div>
-        </>
-      );
-    }
-  }
 
   return (
     <>
@@ -100,7 +86,6 @@ export function PopupMultivariate(
       {scoreTable}
       {baseTable}
       {strengthTable}
-      {extrusionHeightTable}
     </>
   );
 }

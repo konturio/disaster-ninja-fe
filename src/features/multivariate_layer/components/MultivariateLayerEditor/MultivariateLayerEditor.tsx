@@ -57,14 +57,6 @@ export function MultivariateLayerEditor({ layerId }: LayerEditorProps) {
         ? printValue('Strength', 'strength', layerConfig.strength)
         : layerConfig.strength?.type === 'mcda' &&
           printMCDAAxes('Strength', layerConfig.strength.config.layers)}
-      {typeof layerConfig.extrusionMax === 'number'
-        ? printValue('ExtrusionMax', 'extrusionMax', layerConfig.extrusionMax)
-        : layerConfig.extrusionMax?.type === 'mcda' &&
-          printMCDAAxes('ExtrusionMax', layerConfig.extrusionMax.config.layers)}
-      {typeof layerConfig.extrusionMin === 'number'
-        ? printValue('ExtrusionMin', 'extrusionMin', layerConfig.extrusionMin)
-        : layerConfig.extrusionMin?.type === 'mcda' &&
-          printMCDAAxes('ExtrusionMin', layerConfig.extrusionMin.config.layers)}
     </div>
   );
 }
