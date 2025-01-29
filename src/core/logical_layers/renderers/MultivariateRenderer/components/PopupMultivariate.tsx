@@ -1,10 +1,7 @@
 import { getCellLabelByValue } from '~utils/bivariate/bivariateLegendUtils';
 import { DEFAULT_MULTIBIVARIATE_STEPS } from '~utils/multivariate/constants';
 import { Hexagon } from '~components/Hexagon/Hexagon';
-import {
-  generateMCDALayersTableAndScore,
-  generateMCDAPopupTable,
-} from '../../MCDARenderer/popup';
+import { generateMCDALayersTableAndScore } from '../../MCDARenderer/popup';
 import { PopupMCDA } from '../../MCDARenderer/components/PopupMCDA';
 import type { MultivariateLayerConfig } from '../types';
 
@@ -60,22 +57,6 @@ export function PopupMultivariate(
     }
   }
 
-  // strength
-  let strengthTable;
-  if (config.strength) {
-    if (typeof config.strength === 'number') {
-      strengthTable = <div>Strength: {config.strength}</div>;
-    } else {
-      const strengthMCDAAxes = config.strength.config.layers;
-      strengthTable = (
-        <>
-          <div>Strength:</div>
-          {generateMCDAPopupTable(feature, strengthMCDAAxes)}
-        </>
-      );
-    }
-  }
-
   return (
     <>
       {hexagonLabel && hexagonColor ? (
@@ -85,7 +66,6 @@ export function PopupMultivariate(
       )}
       {scoreTable}
       {baseTable}
-      {strengthTable}
     </>
   );
 }

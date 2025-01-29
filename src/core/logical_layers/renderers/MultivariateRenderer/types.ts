@@ -28,6 +28,5 @@ export interface MultivariateLayerConfig {
     baseSteps?: Step[];
     scoreSteps?: Step[];
   };
-  strength?: MultivariateAxis | number;
   colors?: MultivariateColorConfig;
 }
