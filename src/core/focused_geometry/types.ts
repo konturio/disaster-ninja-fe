@@ -35,7 +35,7 @@ export type GeometrySource =
   | GeometrySourceFromFile
   | GeometrySourceDrawn;
 
-export type GeometryWithHash = GeoJSON.GeoJSON & { hash: string };
+export type GeometryWithHash = GeoJSON.GeoJSON & { hash?: string };
 
 export interface FocusedGeometry {
   source: GeometrySource;

@@ -1,15 +1,27 @@
-import { Text } from '@konturio/ui-kit';
+import { Heading, Text } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/npm-react';
 import { Rubber16 } from '@konturio/default-icons';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useState } from 'react';
+import clsx from 'clsx';
 import { i18n } from '~core/localization';
-import { referenceAreaAtom, resetReferenceArea } from '~core/shared_state/referenceArea';
+import {
+  referenceAreaAtom,
+  resetReferenceArea,
+  setReferenceArea,
+} from '~core/shared_state/referenceArea';
 import { goTo } from '~core/router/goTo';
 import { store } from '~core/store/store';
+import { PopupTooltipTrigger } from '~components/PopupTooltipTrigger';
+import { updateReferenceArea } from '~core/api/features';
+import { getUserLocation } from '~utils/common/userLocation';
+import { getBoundaries } from '~core/api/boundaries';
+import { notificationServiceInstance } from '~core/notificationServiceInstance';
 import s from './ReferenceAreaInfo.module.css';
 
 export function ReferenceAreaInfo() {
   const [referenceAreaGeometry] = useAtom(referenceAreaAtom);
+  const [isLocationLoading, setIsLocationLoading] = useState<boolean>(false);
+  const [locationLoadError, setLocationLoadError] = useState<boolean>(false);
 
   const referenceAreaName = useMemo(() => {
     if (
@@ -25,12 +37,50 @@ export function ReferenceAreaInfo() {
     resetReferenceArea(store.v3ctx);
   }, []);
 
+  const onSelectCurrentLocation = async () => {
+    setIsLocationLoading(true);
+    setLocationLoadError(false);
+
+    try {
+      const coords = await getUserLocation();
+      const response = await getBoundaries(coords);
+      if (!response) {
+        throw new Error('No response for boundaries request');
+      }
+
+      const features = response.features.sort(
+        (f1, f2) => f2.properties?.admin_level - f1.properties?.admin_level,
+      );
+
+      const refArea = features[0];
+      await updateReferenceArea(refArea);
+      await setReferenceArea(store.v3ctx, refArea);
+      notificationServiceInstance.success(
+        {
+          title: i18n.t('profile.reference_area.notification', {
+            name: refArea.properties?.name,
+          }),
+        },
+        2,
+      );
+    } catch (error) {
+      setLocationLoadError(true);
+      console.error('Error occurred while getting user location', error);
+    } finally {
+      setIsLocationLoading(false);
+    }
+  };
+
   return (
     <div className={s.infoContainer}>
+      <Text type="long-m">{i18n.t('profile.reference_area.description')}</Text>
+
       {referenceAreaGeometry ? (
         <>
           <div className={s.geometryNameContainer}>
-            <Text type="short-m">{referenceAreaName}</Text>
+            <Heading type="heading-04" margins={false}>
+              {referenceAreaName}
+            </Heading>
             <span className={s.clean} onClick={onDeleteReferenceAreaClicked}>
               <Rubber16 />
             </span>
@@ -43,11 +93,32 @@ export function ReferenceAreaInfo() {
         </>
       ) : (
         <>
-          <Text type="long-m">{i18n.t('profile.reference_area.description')}</Text>
           <div className={s.linksWrapper}>
             <a className={s.link} onClick={() => goTo('/map')}>
               {i18n.t('profile.reference_area.set_the_reference_area')}
             </a>
+            <PopupTooltipTrigger
+              tipText={i18n.t('profile.reference_area.tooltip_text')}
+              className={s.tooltip}
+              showedOnHover={true}
+            />
+            <span className={s.delimiter}>{i18n.t('or')}</span>
+            {isLocationLoading ? (
+              <span className={s.userLocationLoader}>
+                {i18n.t('profile.reference_area.accessing_location')}
+              </span>
+            ) : locationLoadError ? (
+              <span className={s.errorMessage}>
+                {i18n.t('profile.reference_area.accessing_location_error')}
+              </span>
+            ) : (
+              <button
+                className={clsx(s.link, s.userLocation)}
+                onClick={onSelectCurrentLocation}
+              >
+                {i18n.t('profile.reference_area.select_location')}
+              </button>
+            )}
           </div>
         </>
       )}

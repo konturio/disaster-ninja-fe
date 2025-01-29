@@ -16,8 +16,6 @@ import {
 import { invertClusters } from '~utils/bivariate';
 import { getCellLabelByValue } from '~utils/bivariate/bivariateLegendUtils';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
-import { configRepo } from '~core/config';
-import { AppFeature } from '~core/app/types';
 import { getMaxNumeratorZoomLevel } from '~utils/bivariate/getMaxZoomLevel';
 import { styleConfigs } from '../stylesConfigs';
 import { generateMCDAPopupContent } from '../MCDARenderer/popup';
@@ -55,8 +53,6 @@ const convertFillColorToRGBA = (fillColor: RGBAColor, withTransparency = true): 
   `rgba(${fillColor.r * 255 * 2},${fillColor.g * 255 * 2},${fillColor.b * 255 * 2}${
     withTransparency ? ',' + fillColor.a : ''
   })`;
-
-const featureFlags = configRepo.get().features;
 
 function calcValueByNumeratorDenominator(
   cellValues: Exclude<GeoJsonProperties, null>,
@@ -192,8 +188,6 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       /* Skip when color empty */
       if (!isFeatureVisible(feature)) return true;
       if (!feature.properties) return true;
-
-      const showValues = featureFlags[AppFeature.BIVARIATE_MANAGER];
       const [xNumerator, xDenominator] = legend.axis.x.quotient;
       const [yNumerator, yDenominator] = legend.axis.y.quotient;
       const xValue = calcValueByNumeratorDenominator(
@@ -227,7 +221,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
           cellLabel={cells[cellIndex].label}
           cellIndex={cellIndex}
           axis={legend.axis}
-          values={showValues ? { x: xValue, y: yValue } : undefined}
+          values={{ x: xValue, y: yValue }}
           hexagonColor={rgba}
         />,
       );
