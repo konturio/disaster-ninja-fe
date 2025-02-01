@@ -126,7 +126,7 @@
     "i18next-conv": "^15.1.0",
     "jwt-decode": "^4.0.0",
     "keepalive-for-react": "^3.0.8",
-    "maplibre-gl": "^3.6.2",
+    "maplibre-gl": "^5.1.0",
     "markdown-to-jsx": "^7.7.2",
     "nanoid": "^5.0.9",
     "nanoid-dictionary": "^4.3.0",
