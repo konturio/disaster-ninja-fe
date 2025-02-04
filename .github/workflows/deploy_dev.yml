@@ -1,0 +1,71 @@
+name: Deploy to Dev
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to deploy'
+        required: true
+        default: 'main'
+
+jobs:
+  build-and-publish:
+    uses: ./.github/workflows/build.yml
+    with:
+      branch: ${{ github.event.inputs.branch }}
+    secrets:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  update-helm-manifests:
+    needs: build-and-publish
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout CD-repository
+        uses: actions/checkout@v4
+        with:
+          repository: konturio/disaster-ninja-cd
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: cd
+
+      - name: Install yq
+        run: |
+          wget -qO /tmp/yq https://github.com/mikefarah/yq/releases/download/v4.34.2/yq_linux_amd64
+          chmod +x /tmp/yq
+          sudo mv /tmp/yq /usr/local/bin/yq
+
+      - name: Updating image tag in values-dev.yaml
+        working-directory: cd/helm/disaster-ninja-fe/values
+        run: |
+          IMAGE_TAG="${{ needs.build-and-publish.outputs.image_tag }}"
+          echo "Updating image tag to ${IMAGE_TAG}"
+          yq -i ".image.fe.tag = \"${IMAGE_TAG}\"" values-dev.yaml
+          echo "New content of values-dev.yaml:"
+          cat values-dev.yaml
+
+      - name: Bump Chart version
+        working-directory: cd/helm/disaster-ninja-fe
+        run: |
+          echo "Current content of Chart.yaml:"
+          cat Chart.yaml
+          CURRENT_VERSION=$(grep '^version:' Chart.yaml | awk '{print $2}')
+          IFS='.' read -r major minor patch <<< "$CURRENT_VERSION"
+          NEW_PATCH=$((patch + 1))
+          NEW_VERSION="${major}.${minor}.${NEW_PATCH}"
+          echo "Updating Chart version from $CURRENT_VERSION to $NEW_VERSION"
+          yq -i ".version = \"${NEW_VERSION}\"" Chart.yaml
+          echo "New content of Chart.yaml:"
+          cat Chart.yaml
+
+      - name: Commit and push changes
+        working-directory: cd
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Deploy FE: update image tag to ${{ needs.build-and-publish.outputs.image_tag }} and bump Chart version"
+            git push origin HEAD:main
+          fi
