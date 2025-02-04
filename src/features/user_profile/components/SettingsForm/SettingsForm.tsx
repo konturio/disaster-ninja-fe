@@ -138,10 +138,10 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                 {i18n.t('profile.ai_tools_compatibility')}
               </div>
               <Textarea
-                topPlaceholder={i18n.t('profile.user_bio_placeholder')}
-                placeholder={i18n.t('profile.bio_textarea_placeholder')}
-                value={localSettings.bio}
-                onChange={onChange('bio')}
+                topPlaceholder={i18n.t('profile.analysis_objectives')}
+                placeholder={i18n.t('profile.objectives_textarea_placeholder')}
+                value={localSettings.objectives}
+                onChange={onChange('objectives')}
                 classes={{
                   placeholder: s.placeholder,
                 }}
@@ -175,6 +175,18 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                   value={localSettings.email}
                   placeholder={i18n.t('profile.email')}
                   disabled
+                />
+                <Textarea
+                  topPlaceholder={i18n.t('profile.bio_placeholder')}
+                  placeholder={i18n.t('profile.bio_textarea_placeholder')}
+                  value={localSettings.bio}
+                  onChange={onChange('bio')}
+                  classes={{
+                    placeholder: s.placeholder,
+                  }}
+                  className={s.textArea}
+                  minHeight="250px"
+                  maxHeight="400px"
                 />
               </div>
             </SettingsSection>

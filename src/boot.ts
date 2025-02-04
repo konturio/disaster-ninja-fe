@@ -172,6 +172,7 @@ function createPublicUser({
     useMetricUnits: true,
     subscribedToKonturUpdates: false,
     bio: '',
+    objectives: '',
     osmEditor,
     defaultFeed,
     theme: 'kontur',
