@@ -32,7 +32,6 @@ export const episodesResource = createAsyncAtom(
         undefined,
         {
           signal: abortController.signal,
-          authRequirement: apiClient.AUTH_REQUIREMENT.OPTIONAL,
         },
       );
       if (!responseData) throw 'No data received';

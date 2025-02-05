@@ -13,7 +13,6 @@ export function getGlobalLayers(abortController: AbortController) {
     {
       errorsConfig: { messages: LAYERS_IN_AREA_API_ERROR },
       signal: abortController.signal,
-      authRequirement: apiClient.AUTH_REQUIREMENT.OPTIONAL,
     },
   );
 }
@@ -37,7 +36,6 @@ export function getLayersInArea(
     {
       errorsConfig: { messages: LAYERS_IN_AREA_API_ERROR },
       signal: abortController.signal,
-      authRequirement: apiClient.AUTH_REQUIREMENT.OPTIONAL,
     },
   );
 }
@@ -48,7 +46,6 @@ export async function getDefaultLayers(appId: string, language: string) {
     undefined,
     {
       headers: { 'user-language': language },
-      authRequirement: apiClient.AUTH_REQUIREMENT.OPTIONAL,
     },
   );
   // TODO: use layers source configs to cache layer data
@@ -64,7 +61,6 @@ export async function getLayersDetails(ids: string[], appId: string, language: s
     },
     {
       headers: { 'user-language': language },
-      authRequirement: apiClient.AUTH_REQUIREMENT.OPTIONAL,
     },
   );
   // TODO: use layers source configs to cache layer data
@@ -84,7 +80,6 @@ export function getLayerFeatures(
     },
     {
       signal: abortController.signal,
-      authRequirement: apiClient.AUTH_REQUIREMENT.OPTIONAL,
     },
   );
 }

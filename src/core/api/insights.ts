@@ -16,7 +16,6 @@ export function getPolygonDetails(
     {
       signal: abortController.signal,
       errorsConfig: { hideErrors: true },
-      authRequirement: apiClient.AUTH_REQUIREMENT.OPTIONAL,
     },
   );
 }
@@ -31,7 +30,6 @@ export function getAdvancedPolygonDetails(
     {
       signal: abortController.signal,
       errorsConfig: { hideErrors: true },
-      authRequirement: apiClient.AUTH_REQUIREMENT.OPTIONAL,
     },
   );
 }
@@ -51,7 +49,6 @@ export function getLlmAnalysis(
       headers: { 'user-language': i18n.instance.language },
       errorsConfig: { hideErrors: true },
       retry: { attempts: 5 },
-      authRequirement: apiClient.AUTH_REQUIREMENT.OPTIONAL,
     },
   );
 }

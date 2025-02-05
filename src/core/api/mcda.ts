@@ -8,7 +8,6 @@ export function getBivariateAxes(minQuality: number, abortController?: AbortCont
   }
   return apiClient.get<AxisDTO[]>(`/axis?minQuality=${minQuality}`, undefined, {
     signal: abortController ? abortController.signal : undefined,
-    authRequirement: apiClient.AUTH_REQUIREMENT.OPTIONAL,
   });
 }
 
@@ -22,7 +21,6 @@ export function getAxisTransformations(
     undefined,
     {
       signal: abortController ? abortController.signal : undefined,
-      authRequirement: apiClient.AUTH_REQUIREMENT.OPTIONAL,
     },
   );
 }

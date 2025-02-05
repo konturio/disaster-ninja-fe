@@ -23,7 +23,6 @@ export function getLocations(query: string, abortController?: AbortController) {
       signal: abortController ? abortController.signal : undefined,
       errorsConfig: { hideErrors: true },
       headers: { 'user-language': i18n.instance.language },
-      authRequirement: apiClient.AUTH_REQUIREMENT.OPTIONAL,
     },
   );
 }
@@ -41,7 +40,6 @@ export function getMCDA(query: string, abortController?: AbortController) {
       signal: abortController ? abortController.signal : undefined,
       errorsConfig: { hideErrors: true },
       headers: { 'user-language': i18n.instance.language },
-      authRequirement: apiClient.AUTH_REQUIREMENT.OPTIONAL,
     },
   );
 }

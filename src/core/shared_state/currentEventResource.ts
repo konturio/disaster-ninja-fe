@@ -27,7 +27,6 @@ export const currentEventResourceAtom = createAsyncAtom(
           errorsConfig: {
             messages: { 404: i18n.t('current_event.not_found_request') },
           },
-          authRequirement: apiClient.AUTH_REQUIREMENT.OPTIONAL,
         },
       );
       if (responseData === undefined) throw 'No data received';
