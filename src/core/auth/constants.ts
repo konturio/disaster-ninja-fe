@@ -27,9 +27,9 @@ export type SessionState = (typeof SESSION_STATE)[keyof typeof SESSION_STATE];
  * @property {string} NEVER - Authentication must not be included. Requests will fail if auth token is present
  */
 export const AUTH_REQUIREMENT = {
-  MUST: 'must', // Strict requirement
-  OPTIONAL: 'optional', // Use auth if available, proceed without if not
-  NEVER: 'never', // Explicitly prevent auth
+  MUST: 'must',
+  OPTIONAL: 'optional',
+  NEVER: 'never',
 } as const;
 
 export type AuthRequirement = (typeof AUTH_REQUIREMENT)[keyof typeof AUTH_REQUIREMENT];

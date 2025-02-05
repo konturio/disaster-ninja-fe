@@ -81,7 +81,7 @@ export function parseApiError(errorObj: WretchError): string {
  * @param {unknown} err - The error object, which can be a WretchError, DOMException, or any other error.
  * @returns {ApiClientError} A standardized ApiClientError object.
  */
-export function createApiError(err: unknown) {
+export function createApiError(err: unknown): ApiClientError {
   let errorMessage = '';
   let problem: GeneralApiProblem = { kind: 'unknown', temporary: true };
   let status = 0;

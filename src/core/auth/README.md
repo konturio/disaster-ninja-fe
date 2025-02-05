@@ -1,196 +1,174 @@
-# OidcSimpleClient
+# OIDC Simple Client Documentation
 
-A lightweight OpenID Connect client implementation focused on token management and session handling.
+## Overview
 
-## Features
+The OIDC Simple Client provides a lightweight implementation of OpenID Connect authentication flow, specifically focused on the Resource Owner Password Credentials (ROPC) grant type and refresh token handling.
 
-- Token-based authentication with JWT support
-- Automatic token refresh management
-- Cross-tab session synchronization
-- XSS protection for token handling
-- Configurable auth requirements (MUST, SHOULD, OPTIONAL)
-- Event-based state management
+## Architecture
 
-## Usage
+### Class Diagram
+
+```mermaid
+classDiagram
+    class OidcSimpleClient {
+        -issuerUri: string
+        -clientId: string
+        -token: string
+        -refreshToken: string
+        -sessionState: SessionState
+        +init(issuerUri: string, clientId: string)
+        +login(username: string, password: string)
+        +getAccessToken(requireAuth: boolean)
+        +logout(doReload: boolean)
+        -refreshAuthToken()
+        -handleTokenRefresh()
+    }
+
+    class TokenState {
+        +token: string
+        +refreshToken: string
+        +expiresAt: Date
+        +refreshExpiresAt: Date
+    }
+
+    class SessionState {
+        <<enumeration>>
+        NO_SESSION
+        VALID
+        EXPIRED
+        REFRESH_NEEDED
+        ERROR
+    }
+
+    OidcSimpleClient --> TokenState
+    OidcSimpleClient --> SessionState
+```
+
+### Authentication Flow
+
+```mermaid
+sequenceDiagram
+    participant App
+    participant OidcClient
+    participant TokenStorage
+    participant OIDC Server
+
+    App->>OidcClient: init(issuerUri, clientId)
+    OidcClient->>TokenStorage: checkLocalAuthToken()
+    alt has valid token
+        OidcClient->>OIDC Server: refresh token
+        OIDC Server-->>OidcClient: new tokens
+        OidcClient->>TokenStorage: store tokens
+    end
+    OidcClient-->>App: auth status
+
+    Note over App,OIDC Server: Login Flow
+    App->>OidcClient: login(username, password)
+    OidcClient->>OIDC Server: token request
+    OIDC Server-->>OidcClient: tokens
+    OidcClient->>TokenStorage: store tokens
+    OidcClient-->>App: success
+```
+
+### Token Refresh Flow
+
+```mermaid
+sequenceDiagram
+    participant App
+    participant OidcClient
+    participant OIDC Server
+
+    App->>OidcClient: getAccessToken()
+
+    alt token needs refresh
+        OidcClient->>OIDC Server: refresh token request
+        OIDC Server-->>OidcClient: new tokens
+        OidcClient->>OidcClient: update token state
+    end
+
+    OidcClient-->>App: access token
+```
+
+## Key Features
+
+### 1. Token Management
+
+- Secure token storage in localStorage
+- Automatic token refresh
+- Token validation and sanitization
+- Cross-tab synchronization support
+
+### 2. Session States
 
 ```typescript
-// Initialize the client
-const client = new OidcSimpleClient();
-await client.init('https://auth-server.com/realms/my-realm', 'my-client-id');
+const SESSION_STATE = {
+  NO_SESSION: 'NO_SESSION', // No active session
+  VALID: 'VALID', // Session is active and valid
+  EXPIRED: 'EXPIRED', // Session has expired
+  REFRESH_NEEDED: 'REFRESH_NEEDED', // Token needs refresh
+  ERROR: 'ERROR', // Error state
+};
+```
 
-// Login with username/password
+### 3. Authentication Requirements
+
+```typescript
+const AUTH_REQUIREMENT = {
+  MUST: 'must', // Authentication required
+  OPTIONAL: 'optional', // Authentication optional
+  NEVER: 'never', // No authentication allowed
+};
+```
+
+## Security Features
+
+### Token Sanitization
+
+The client implements several security measures:
+
+- XSS payload detection
+- JWT format validation
+- Token expiration validation
+
+## Usage Examples
+
+### Initialization
+
+```typescript
+const client = new OidcSimpleClient();
+await client.init('https://auth-server.com', 'client-id');
+```
+
+### Authentication
+
+```typescript
+// Login
 const success = await client.authenticate('username', 'password');
 
-// Get access token for API calls
-const token = await client.getAccessToken({
-  requirement: 'must', // 'must' | 'should' | 'optional'
-});
+// Get access token
+const token = await client.getAccessToken();
 
 // Logout
 await client.logout();
 ```
 
-## Authentication Flow
-
-```mermaid
-sequenceDiagram
-    participant App
-    participant Client as OidcSimpleClient
-    participant Storage as LocalStorage
-    participant Auth as AuthServer
-
-    App->>Client: init(issuerUri, clientId)
-    Client->>Storage: checkLocalAuthToken()
-    alt Has Valid Token
-        Storage-->>Client: Return stored token
-        Client->>Auth: Refresh token
-        Auth-->>Client: New tokens
-        Client->>Storage: Update token state
-    else No Valid Token
-        Client->>Client: Reset auth state
-    end
-    Client-->>App: {isAuthenticated, hasExpiredSession}
-
-    Note over App,Auth: Login Flow
-    App->>Client: authenticate(username, password)
-    Client->>Auth: Request tokens
-    Auth-->>Client: Access & refresh tokens
-    Client->>Storage: Store tokens
-    Client->>App: Reload application
-```
-
-## Token Refresh Flow
-
-```mermaid
-stateDiagram-v2
-    [*] --> CheckToken
-    CheckToken --> Valid: Token valid
-    CheckToken --> ShouldRefresh: Expires soon
-    CheckToken --> MustRefresh: Expired/Missing
-
-    ShouldRefresh --> TryRefresh: Attempt refresh
-    TryRefresh --> Valid: Success
-    TryRefresh --> UseExisting: Fail but current valid
-    TryRefresh --> Invalid: Fail and current invalid
-
-    MustRefresh --> TryRefresh: Has refresh token
-    MustRefresh --> Invalid: No refresh token
-
-    Valid --> [*]: Return token
-    UseExisting --> [*]: Return current token
-    Invalid --> [*]: Reset auth
-```
-
-## Session States
-
-```mermaid
-stateDiagram-v2
-    [*] --> NO_SESSION
-    NO_SESSION --> VALID: Login/Init success
-    VALID --> EXPIRED: Token expired
-    VALID --> REFRESH_NEEDED: Token expiring soon
-    VALID --> ERROR: Auth error
-    REFRESH_NEEDED --> VALID: Refresh success
-    REFRESH_NEEDED --> EXPIRED: Refresh failed
-    EXPIRED --> NO_SESSION: Reset auth
-    ERROR --> NO_SESSION: Reset auth
-```
-
-## Security Features
-
-1. **Token Validation**
-
-   - JWT format verification
-   - XSS payload detection
-   - Expiration checks
-   - Refresh token rotation
-
-2. **Storage Security**
-   - Secure token storage in localStorage
-   - Cross-tab synchronization
-   - Automatic cleanup on session end
-
-## API Reference
-
-### Constructor
-
-```typescript
-constructor(
-  storage: WindowLocalStorage['localStorage'] = localStorage,
-  syncTabs: boolean = false
-)
-```
-
-### Core Methods
-
-#### `init(issuerUri: string, clientId: string): Promise<AuthState>`
-
-Initializes the client and checks for existing auth state.
-
-#### `authenticate(username: string, password: string): Promise<boolean | string>`
-
-High-level authentication method that handles login and page reload.
-
-#### `getAccessToken(options?: GetAccessTokenOptions): Promise<string>`
-
-Gets the current access token, refreshing if necessary.
-
-#### `logout(doReload?: boolean): Promise<void>`
-
-Ends the current session and optionally reloads the page.
-
-### Types
-
-```typescript
-interface AuthState {
-  isAuthenticated: boolean;
-  hasExpiredSession: boolean;
-}
-
-interface GetAccessTokenOptions {
-  requirement?: 'must' | 'should' | 'optional';
-}
-
-type SessionState = 'NO_SESSION' | 'VALID' | 'EXPIRED' | 'REFRESH_NEEDED' | 'ERROR';
-```
-
-## Constants
-
-- `TIME_TO_REFRESH_MS`: 3 minutes (180000ms)
-- `LOCALSTORAGE_AUTH_KEY`: 'auth_token'
-
 ## Error Handling
 
-The client uses `ApiClientError` for error handling with the following kinds:
+The client uses a custom `ApiClientError` class for error handling with specific error types:
 
-- `unauthorized`: Authentication failures
-- `bad-data`: Invalid token format or storage issues
-
-## Event System
-
-The client emits `sessionStateChanged` events with the following structure:
-
-```typescript
-interface AuthEvent {
-  type: AuthEventType;
-  reason?: string;
-  error?: Error;
-  sessionState?: SessionState;
-}
-```
+- unauthorized
+- bad-data
+- network-error
 
 ## Best Practices
 
-1. Always handle authentication errors gracefully
-2. Use appropriate auth requirements for API calls
-3. Implement proper error handling for storage failures
-4. Consider enabling cross-tab synchronization for better UX
-5. Handle page reloads appropriately in your application
+1. **Token Refresh**: Always use `getAccessToken()` to get the current token, as it handles automatic refresh.
+2. **Error Handling**: Implement proper error handling for authentication failures.
+3. **Security**: Never store sensitive credentials in client-side code.
+4. **Cross-Tab Sync**: Enable `syncTabs` for applications requiring multi-tab support.
 
-## Development Notes
+## Limitations
 
-1. The client uses the legacy password grant type which is removed in OAuth 2.1
-2. Token refresh is handled automatically based on expiration time
-3. Cross-tab synchronization is optional but recommended
-4. Token validation includes XSS protection measures
-5. All token operations are atomic and handle concurrent requests
+1. Uses Resource Owner Password Credentials (ROPC) grant type, which is deprecated in OAuth 2.1
+2. Limited to single client_id per instance
+3. No support for additional OAuth flows (Authorization Code, Implicit)

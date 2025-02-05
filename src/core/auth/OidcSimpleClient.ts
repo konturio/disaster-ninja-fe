@@ -18,13 +18,6 @@ import {
 // Re-export only what's needed by external modules
 export type { AuthEventType, AuthRequirement, SessionState };
 
-export interface AuthEvent {
-  type: AuthEventType;
-  reason?: string;
-  error?: Error;
-  sessionState?: SessionState;
-}
-
 interface TokenPayload {
   exp: number;
   iat: number;
@@ -35,10 +28,6 @@ interface TokenState {
   refreshToken: string;
   expiresAt: Date;
   refreshExpiresAt: Date;
-}
-
-export interface GetAccessTokenOptions {
-  requirement?: AuthRequirement;
 }
 
 export class OidcSimpleClient {
