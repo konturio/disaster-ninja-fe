@@ -162,7 +162,11 @@
     "good": "Good"
   },
   "multivariate": {
-    "upload_analysis_layer": "Upload analysis layer"
+    "upload_analysis_layer": "Upload analysis layer",
+    "popup": {
+      "score_header": "Score {{level}}",
+      "base_header": "Base {{level}}"
+    }
   },
   "search": {
     "info_block": "You can search for 📍 locations",

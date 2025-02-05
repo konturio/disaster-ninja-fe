@@ -8,15 +8,17 @@ import type {
 
 export type MultivariateAxis = MCDALayerStyle;
 
-export type MultivariateColorConfig =
-  | {
-      type: 'bivariate';
-      colors: ColorTheme;
-    }
-  | {
-      type: 'mcda';
-      colors: ColorsBySentiments | ColorsByMapLibreExpression;
-    };
+export type BivariateColorConfig = {
+  type: 'bivariate';
+  colors: ColorTheme;
+};
+
+export type MCDAColorConfig = {
+  type: 'mcda';
+  colors: ColorsBySentiments | ColorsByMapLibreExpression;
+};
+
+export type MultivariateColorConfig = BivariateColorConfig | MCDAColorConfig;
 
 export interface MultivariateLayerConfig {
   version: 0;

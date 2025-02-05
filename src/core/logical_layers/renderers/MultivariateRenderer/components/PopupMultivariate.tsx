@@ -1,8 +1,9 @@
-import { getCellLabelByValue } from '~utils/bivariate/bivariateLegendUtils';
-import { DEFAULT_MULTIBIVARIATE_STEPS } from '~utils/multivariate/constants';
 import { Hexagon } from '~components/Hexagon/Hexagon';
+import { i18n } from '~core/localization';
 import { generateMCDALayersTableAndScore } from '../../MCDARenderer/popup';
 import { PopupMCDA } from '../../MCDARenderer/components/PopupMCDA';
+import { getDimensionLevelsAndHexagonParams } from '../helpers/multivariatePopupHelpers';
+import s from './PopupMultivariate.module.css';
 import type { MultivariateLayerConfig } from '../types';
 
 export function PopupMultivariate(
@@ -11,29 +12,37 @@ export function PopupMultivariate(
 ) {
   let hexagonColor: string | undefined;
   let hexagonLabel: string | undefined;
+  let scoreBivariateLevel: string | undefined;
+  let baseBivariateLevel: string | undefined;
   const scoreMCDAAxes = config.score.config.layers;
   const { mcdaLayersTable: scoreAxesTable, resultMCDAScore: scoreResult } =
     generateMCDALayersTableAndScore(feature, scoreMCDAAxes);
-  const scoreTable = (
-    <>
-      <div>Score:</div>
-      <div>
-        <PopupMCDA
-          layers={scoreMCDAAxes}
-          normalized={scoreAxesTable}
-          resultMCDA={scoreResult}
-        />
-      </div>
-    </>
-  );
   let baseTable;
   if (config.base) {
     const baseMCDAAxes = config.base?.config.layers ?? [];
     const { mcdaLayersTable: baseAxesTable, resultMCDAScore: baseResult } =
       generateMCDALayersTableAndScore(feature, baseMCDAAxes);
+
+    if (config.colors?.type === 'bivariate') {
+      const levelsAndHexagonParams = getDimensionLevelsAndHexagonParams(
+        config.colors,
+        config.stepOverrides,
+        scoreResult,
+        baseResult,
+      );
+      hexagonLabel = levelsAndHexagonParams.hexagonLabel;
+      hexagonColor = levelsAndHexagonParams.hexagonColor;
+      scoreBivariateLevel = levelsAndHexagonParams.scoreLevelLabel;
+      baseBivariateLevel = levelsAndHexagonParams.baseLevelLabel;
+    }
+
     baseTable = (
       <>
-        <div>Base:</div>
+        <div>
+          {i18n.t('multivariate.popup.base_header', {
+            level: baseBivariateLevel ? `(${baseBivariateLevel})` : '',
+          })}
+        </div>
         <div>
           <PopupMCDA
             layers={baseMCDAAxes}
@@ -43,19 +52,23 @@ export function PopupMultivariate(
         </div>
       </>
     );
-
-    if (config.colors?.type === 'bivariate') {
-      hexagonLabel = getCellLabelByValue(
-        config.stepOverrides?.scoreSteps ?? DEFAULT_MULTIBIVARIATE_STEPS,
-        config.stepOverrides?.baseSteps ?? DEFAULT_MULTIBIVARIATE_STEPS,
-        scoreResult,
-        baseResult,
-      );
-      hexagonColor = config.colors?.colors.find(
-        (color) => color.id === hexagonLabel,
-      )?.color;
-    }
   }
+  const scoreTable = (
+    <div className={s.dimension}>
+      <div>
+        {i18n.t('multivariate.popup.score_header', {
+          level: scoreBivariateLevel ? `(${scoreBivariateLevel})` : '',
+        })}
+      </div>
+      <div>
+        <PopupMCDA
+          layers={scoreMCDAAxes}
+          normalized={scoreAxesTable}
+          resultMCDA={scoreResult}
+        />
+      </div>
+    </div>
+  );
 
   return (
     <>
