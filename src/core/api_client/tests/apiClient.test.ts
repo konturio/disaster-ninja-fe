@@ -58,6 +58,25 @@ describe('API Request Headers', () => {
     expect(authHeader).toBe(`Bearer ${ctx.token}`);
   });
 
+  test('should throw error when auth fails with AUTH_REQUIREMENT.MUST and endpoint should not be called', async ({
+    ctx,
+  }) => {
+    // Do not log in, so auth should fail
+    await expect(
+      ctx.apiClient.post(
+        '/test',
+        { param1: 'test' },
+        {
+          authRequirement: AUTH_REQUIREMENT.MUST,
+        },
+      ),
+    ).rejects.toThrowError('Authentication required'); // Check for correct error message
+
+    const lastCall = ctx.fetchMock.callHistory.lastCall();
+    // Expect that the target API endpoint was not called
+    expect(lastCall).toBeUndefined();
+  });
+
   test('should attempt auth when OPTIONAL and logged in', async ({ ctx }) => {
     ctx.fetchMock.post(`${ctx.baseUrl}/test`, {
       status: 200,
