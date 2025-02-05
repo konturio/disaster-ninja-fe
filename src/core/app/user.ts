@@ -1,11 +1,9 @@
-export type UserProfileMain = {
-  username?: string;
-  email?: string;
-  fullName?: string;
-  bio?: string;
-};
-
-export type UserProfileSettings = {
+export type UserDto = {
+  username: string;
+  email: string;
+  fullName: string;
+  bio: string;
+  objectives: string;
   language: string;
   useMetricUnits: boolean;
   subscribedToKonturUpdates: boolean;
@@ -13,8 +11,6 @@ export type UserProfileSettings = {
   defaultFeed: string;
   theme: string;
 };
-
-export type UserDto = UserProfileMain & UserProfileSettings;
 
 export type CurrentUser = UserDto & {
   defaultLayers?: string[];
