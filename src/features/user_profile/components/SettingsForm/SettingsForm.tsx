@@ -31,7 +31,10 @@ const authInputClasses = { input: clsx(s.authInput) };
 const featureFlags = configRepo.get().features;
 
 const navigationSteps = [
-  { label: i18n.t('profile.analysis_objectives'), id: 'analysis-objectives' },
+  featureFlags?.[AppFeature.LLM_ANALYTICS] && {
+    label: i18n.t('profile.analysis_objectives'),
+    id: 'analysis-objectives',
+  },
   featureFlags?.[AppFeature.REFERENCE_AREA] && {
     label: i18n.t('profile.reference_area.title'),
     id: 'reference-area',
@@ -116,40 +119,42 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
         </div>
         <div className={s.settingsColumn}>
           <div className={s.settingsSection}>
-            <SettingsSection
-              id="analysis-objectives"
-              className={s.fancySection}
-              label={i18n.t('profile.improves_analysis')}
-              title={i18n.t('profile.analysis_objectives')}
-            >
-              <div className={s.descriptionBlock}>
-                {i18n.t('profile.personalization_prompt')}
-                <div className={s.tags}>
-                  <span className={clsx(s.tag, 'k-font-caption')}>
-                    {i18n.t('profile.your_current_job')}
-                  </span>
-                  <span className={clsx(s.tag, 'k-font-caption')}>
-                    {i18n.t('profile.area_of_expertise')}
-                  </span>
-                  <span className={clsx(s.tag, 'k-font-caption')}>
-                    {i18n.t('profile.challenges')}
-                  </span>
+            {featureFlags?.[AppFeature.LLM_ANALYTICS] && (
+              <SettingsSection
+                id="analysis-objectives"
+                className={s.fancySection}
+                label={i18n.t('profile.improves_analysis')}
+                title={i18n.t('profile.analysis_objectives')}
+              >
+                <div className={s.descriptionBlock}>
+                  {i18n.t('profile.personalization_prompt')}
+                  <div className={s.tags}>
+                    <span className={clsx(s.tag, 'k-font-caption')}>
+                      {i18n.t('profile.your_current_job')}
+                    </span>
+                    <span className={clsx(s.tag, 'k-font-caption')}>
+                      {i18n.t('profile.area_of_expertise')}
+                    </span>
+                    <span className={clsx(s.tag, 'k-font-caption')}>
+                      {i18n.t('profile.challenges')}
+                    </span>
+                  </div>
+                  {i18n.t('profile.ai_tools_compatibility')}
                 </div>
-                {i18n.t('profile.ai_tools_compatibility')}
-              </div>
-              <Textarea
-                topPlaceholder={i18n.t('profile.analysis_objectives')}
-                placeholder={i18n.t('profile.objectives_textarea_placeholder')}
-                value={localSettings.objectives}
-                onChange={onChange('objectives')}
-                classes={{
-                  placeholder: s.placeholder,
-                }}
-                className={s.textArea}
-                minHeight="250px"
-                maxHeight="400px"
-              />
-            </SettingsSection>
+                <Textarea
+                  topPlaceholder={i18n.t('profile.analysis_objectives')}
+                  placeholder={i18n.t('profile.objectives_textarea_placeholder')}
+                  value={localSettings.objectives}
+                  onChange={onChange('objectives')}
+                  classes={{
+                    placeholder: s.placeholder,
+                  }}
+                  className={s.textArea}
+                  minHeight="250px"
+                  maxHeight="400px"
+                />
+              </SettingsSection>
+            )}
             {featureFlags?.[AppFeature.REFERENCE_AREA] && (
               <SettingsSection
                 id="reference-area"
