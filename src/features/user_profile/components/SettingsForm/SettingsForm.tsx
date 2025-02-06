@@ -23,7 +23,6 @@ import { FullScreenLoader } from '~components/LoadingSpinner/LoadingSpinner';
 import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';
 import s from './SettingsForm.module.css';
 import type { LoginFeatureConfig } from '~core/config/types';
-import type { SubscriptionsConfig } from '~features/subscriptions/types';
 
 const { ReferenceAreaInfo } = lazily(
   () => import('./ReferenceAreaInfo/ReferenceAreaInfo'),
