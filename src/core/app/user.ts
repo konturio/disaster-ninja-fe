@@ -5,6 +5,11 @@ export type UserDto = {
   bio: string;
   objectives: string;
   language: string;
+  companyName?: string;
+  position?: string;
+  amountOfGis?: string;
+  linkedin?: string;
+  phone?: string;
   useMetricUnits: boolean;
   subscribedToKonturUpdates: boolean;
   osmEditor: string;
