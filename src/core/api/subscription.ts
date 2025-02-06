@@ -11,7 +11,7 @@ export async function getCurrentUserSubscription() {
   return await apiClient.get<CurrentSubscription | null>(
     '/users/current_user/billing_subscription',
     { appId: configRepo.get().id },
-    true,
+    { authRequirement: apiClient.AUTH_REQUIREMENT.MUST },
   );
 }
 
@@ -23,6 +23,6 @@ export async function setCurrentUserSubscription(
   return await apiClient.post<CurrentSubscription | null>(
     `/users/current_user/billing_subscription`,
     { appId, billingPlanId, billingSubscriptionId },
-    true,
+    { authRequirement: apiClient.AUTH_REQUIREMENT.MUST },
   );
 }

@@ -9,12 +9,11 @@ export const areaLayersDetailsResourceAtom = createAsyncAtom(
   areaLayersDetailsParamsAtom,
   async (params, abortController) => {
     if (params.skip) return []; // When all 100% layers in cache we still need to trigger ResourceAtomState to run listeners
-    // exclude layersToRetrieveWithEventId from body - in needed just for cache invalidation
+    // exclude layersToRetrieveWithEventId from body - it needed just for cache invalidation
     const { layersToRetrieveWithEventId, ...body } = params;
     const request = await apiClient.post<LayerDetailsDto[]>(
       '/layers/details',
       { ...body, appId: configRepo.get().id },
-      true,
       {
         headers: { 'user-language': configRepo.get().initialUser.language },
         signal: abortController.signal,

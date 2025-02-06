@@ -46,11 +46,12 @@ export class SensorsSnapshotsSender {
 
   private async send(snapshot: SensorSnapshot) {
     try {
-      await apiClient.post('/features/live-sensor', snapshot, true, {
+      await apiClient.post('/features/live-sensor', snapshot, {
         retry: {
           attempts: this.maxAttempts - 1, // -1 because first try counts
           delayMs: this.timeoutSec * 1000,
         },
+        authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
       });
     } catch (e) {
       throw Error('Failed attempts to send snapshot.');

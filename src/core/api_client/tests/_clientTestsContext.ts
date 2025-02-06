@@ -1,3 +1,6 @@
+/**
+ * @vitest-environment happy-dom
+ */
 /* eslint-disable import/order */
 import fetchMock from '@fetch-mock/vitest';
 import type { OidcSimpleClient } from '../../auth/OidcSimpleClient';

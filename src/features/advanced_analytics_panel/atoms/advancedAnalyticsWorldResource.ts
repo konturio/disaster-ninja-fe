@@ -27,7 +27,6 @@ export const worldAnalyticsResource = createAtom(
           const response = await apiClient.post<AdvancedAnalyticsData[] | null>(
             `/advanced_polygon_details/`,
             null,
-            true,
           );
           // 5. Now we have response - emit action for next state upate
           dispatch(

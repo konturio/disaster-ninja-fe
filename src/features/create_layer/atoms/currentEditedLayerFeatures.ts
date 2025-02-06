@@ -103,7 +103,9 @@ export const currentEditedLayerFeatures = createAtom(
             await apiClient.put<unknown>(
               `/layers/${ctx.layerId}/items/`,
               new FeatureCollection(stateSnapshot),
-              true,
+              {
+                authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
+              },
             );
             notificationServiceInstance.info({ title: 'Features was saved' }, 3);
             if (safeCallbacks) safeCallbacks.onSuccess();

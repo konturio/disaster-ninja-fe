@@ -22,14 +22,10 @@ const LOCAL_FEATURE_OVERRIDES_PATH = `${import.meta.env?.BASE_URL}config/feature
 
 export async function getAppConfig(appId?: string): Promise<AppConfig> {
   // In case appId absent in url - backend identifying it by domain
-  const appCfg = await apiClient.get<AppConfigDto>(
-    '/apps/configuration',
-    {
-      appId,
-      ts: Date.now(), // bypass cache
-    },
-    true,
-  );
+  const appCfg = await apiClient.get<AppConfigDto>('/apps/configuration', {
+    appId,
+    ts: Date.now(), // bypass cache
+  });
   if (appCfg === null) throw Error('App configuration unavailable');
 
   let features = createFeaturesConfig(appCfg.features) as AppConfig['features'];

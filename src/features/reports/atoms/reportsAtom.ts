@@ -1,6 +1,6 @@
-import { createAtom } from '~utils/atoms';
 import { reportsClient } from '~core/apiClientInstance';
 import { i18n } from '~core/localization';
+import { createAtom } from '~utils/atoms';
 
 export type Report = {
   id: string;
@@ -32,7 +32,7 @@ export const reportsAtom = createAtom(
         const responseData = await reportsClient.get<Report[]>(
           `/osm_reports_list.json`,
           undefined,
-          false,
+          { authRequirement: reportsClient.AUTH_REQUIREMENT.NEVER },
         );
         if (responseData === null) throw new Error(i18n.t('no_data_received'));
         dispatch(reportsAtom.setReports(responseData));

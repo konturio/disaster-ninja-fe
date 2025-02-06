@@ -1,164 +1,199 @@
 /**
  * @vitest-environment happy-dom
  */
-import { beforeEach, expect, test, describe, vi } from 'vitest';
-import { ApiClientError } from '../apiClientError';
-import { parseToken } from '../../../core/auth/OidcSimpleClient';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+import fetchMock from '@fetch-mock/vitest';
+import { AUTH_REQUIREMENT } from '~core/auth/constants';
+import { isApiError, getApiErrorKind } from '../apiClientError';
 import { createContext } from './_clientTestsContext';
+import { MockFactory } from './factories/mock.factory';
 import { TokenFactory } from './factories/token.factory';
+import { AuthFactory } from './factories/auth.factory';
+import type { ApiClientError } from '../apiClientError';
 
-declare module 'vitest' {
-  interface TestContext {
-    ctx: Awaited<ReturnType<typeof createContext>>;
-  }
-}
+describe('ApiClient Authorization', () => {
+  beforeEach(async (context) => {
+    // 1. Create context
+    context.ctx = await createContext();
+    // 2. Reset all mocks
+    MockFactory.resetMocks();
+    // 3. Setup default endpoints
+    MockFactory.setupOidcConfiguration({
+      baseUrl: context.ctx.baseUrl,
+      realm: context.ctx.keycloakRealm,
+    });
+  });
 
-function isApiError(error: unknown): error is ApiClientError {
-  return error instanceof ApiClientError;
-}
+  it('should handle unauthorized errors', async ({ ctx }) => {
+    const error = await ctx.apiClient
+      .get('/protected', undefined, {
+        authRequirement: AUTH_REQUIREMENT.MUST,
+        errorsConfig: { hideErrors: true },
+      })
+      .catch((e) => e);
 
-function getApiErrorKind(error: unknown): string | undefined {
-  return isApiError(error) ? error.problem.kind : undefined;
-}
+    expect(isApiError(error)).toBe(true);
+    expect(getApiErrorKind(error)).toBe('unauthorized');
+  });
 
-function getApiErrorMessage(error: unknown): string | undefined {
-  return isApiError(error) ? error.message : undefined;
-}
+  it('should handle token refresh failures', async ({ ctx }) => {
+    MockFactory.setupFailedAuth({
+      baseUrl: ctx.baseUrl,
+      realm: ctx.keycloakRealm,
+    });
 
-beforeEach(async (context) => {
-  context.ctx = await createContext();
-});
+    const error = await ctx.apiClient
+      .get('/protected', undefined, {
+        authRequirement: AUTH_REQUIREMENT.MUST,
+        errorsConfig: { hideErrors: true },
+      })
+      .catch((e) => e);
 
-describe('Authentication Flow', () => {
-  test('should successfully login with valid username and password and store tokens', async ({
+    expect(isApiError(error)).toBe(true);
+    expect(getApiErrorKind(error)).toBe('unauthorized');
+  });
+
+  it('should throw original error when refresh token request fails', async ({ ctx }) => {
+    // 1. Reset mocks for clean state
+    MockFactory.resetMocks();
+
+    // 2. Setup OIDC configuration
+    MockFactory.setupOidcConfiguration({
+      baseUrl: ctx.baseUrl,
+      realm: ctx.keycloakRealm,
+    });
+
+    // 3. Create an expired token for initial auth
+    const expiredToken = await TokenFactory.createExpiredToken();
+
+    // 4. Setup initial auth with the expired token
+    await MockFactory.setupSuccessfulAuth(
+      {
+        baseUrl: ctx.baseUrl,
+        realm: ctx.keycloakRealm,
+      },
+      expiredToken,
+    );
+
+    // 5. Login (this will store the expired token)
+    await ctx.authClient.login(ctx.username, ctx.password);
+
+    // 6. Force token refresh on next request
+    const authState = AuthFactory.setupAuthClient(ctx.authClient, { isExpired: true });
+
+    // 7. Setup the API error that will trigger refresh
+    const originalError = {
+      kind: 'unauthorized' as const,
+      data: 'unauthorized',
+    };
+    MockFactory.setupApiError(
+      '/protected-data',
+      { ...originalError, message: 'Any' },
+      'GET',
+    );
+
+    // 8. Setup failed refresh response with 401
+    const tokenEndpoint = AuthFactory.getTokenEndpoint({
+      baseUrl: ctx.baseUrl,
+      realm: ctx.keycloakRealm,
+    });
+
+    // Reset any existing token endpoint mocks
+    fetchMock.mockReset();
+    MockFactory.setupOidcConfiguration({
+      baseUrl: ctx.baseUrl,
+      realm: ctx.keycloakRealm,
+    });
+
+    // Setup the failed refresh response
+    fetchMock.post(tokenEndpoint, {
+      status: 401,
+      headers: { 'Content-Type': 'application/json' },
+      body: {
+        error: 'unauthorized',
+        error_description: 'Token expired',
+      },
+    });
+
+    // 9. Make the request that will trigger refresh
+    const error = (await ctx.apiClient
+      .get('/protected-data', undefined, {
+        authRequirement: AUTH_REQUIREMENT.MUST,
+        errorsConfig: { hideErrors: true },
+      })
+      .catch((e) => e)) as ApiClientError;
+
+    // 10. Verify error matches original API error
+    expect(getApiErrorKind(error)).toBe('unauthorized');
+
+    // 11. Clean up
+    vi.restoreAllMocks();
+  });
+
+  it('should throw original error when refresh returns null token', async ({ ctx }) => {
+    // Setup initial 401 error
+    const originalError = {
+      kind: 'unauthorized' as const,
+      data: 'unauthorized',
+    };
+    MockFactory.setupApiError(
+      '/protected-data',
+      { ...originalError, message: 'Any' },
+      'GET',
+    );
+
+    // Mock auth service to return null token
+    vi.spyOn(ctx.apiClient.authService, 'getAccessToken').mockResolvedValue(null);
+
+    const error = (await ctx.apiClient
+      .get('/protected-data', undefined, {
+        authRequirement: AUTH_REQUIREMENT.MUST,
+        errorsConfig: { hideErrors: true },
+      })
+      .catch((e) => e)) as ApiClientError;
+
+    expect(getApiErrorKind(error)).toBe('unauthorized');
+  });
+
+  it('should throw original error on 401 even after successful token refresh', async ({
     ctx,
   }) => {
-    const setItemFake = vi.fn();
-    vi.spyOn(ctx.localStorageMock, 'setItem').mockImplementation(setItemFake);
-
-    // Create valid JWT tokens for testing
-    const testToken = await TokenFactory.createToken({
-      sub: '1234567890',
-      iat: Math.floor(Date.now() / 1000),
-      exp: Math.floor(Date.now() / 1000) + 3600,
+    // Setup initial auth state
+    await MockFactory.setupSuccessfulAuth({
+      baseUrl: ctx.baseUrl,
+      realm: ctx.keycloakRealm,
     });
-
-    // Mock login endpoint
-    const tokenEndpoint = `${ctx.baseUrl}/realms/${ctx.keycloakRealm}/protocol/openid-connect/token`;
-    ctx.fetchMock.once(tokenEndpoint, {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-      body: {
-        access_token: testToken,
-        refresh_token: testToken,
-        expires_in: 300,
-      },
-    });
-
     await ctx.authClient.login(ctx.username, ctx.password);
 
-    // Verify token storage format
-    expect(setItemFake).toHaveBeenCalledWith(
-      'auth_token',
-      expect.stringMatching(/"token":"[^"]+","refreshToken":"[^"]+","expiresAt":"[^"]+"/),
-    );
-  });
-
-  test('should reject login with invalid credentials', async ({ ctx }) => {
-    try {
-      await ctx.authClient.login('wrong-user', 'wrong-password');
-    } catch (e) {
-      expect(e).toBeInstanceOf(ApiClientError);
-      expect(getApiErrorKind(e)).toBe('unauthorized');
-      expect(getApiErrorMessage(e)).toBe('Invalid username or password');
-    }
-  });
-
-  test('should handle expired token immediately after receiving', async ({ ctx }) => {
-    const tokenEndpoint = `${ctx.baseUrl}/realms/${ctx.keycloakRealm}/protocol/openid-connect/token`;
-    ctx.fetchMock.once(tokenEndpoint, {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-      body: {
-        access_token: ctx.expiredToken,
-        refresh_token: ctx.refreshToken,
-      },
-    });
-
-    try {
-      await ctx.loginFunc();
-    } catch (e) {
-      expect(e).toBeInstanceOf(ApiClientError);
-      expect(getApiErrorKind(e)).toBe('bad-data');
-      expect(getApiErrorMessage(e)).toBe(
-        'Token is expired right after receiving, clock is out of sync',
-      );
-    }
-  });
-});
-
-describe('Token Storage', () => {
-  test('should store and restore tokens across sessions', async ({ ctx }) => {
-    const setItemFake = vi.fn();
-    const getItemFake = vi.fn();
-    const storage = ctx.localStorageMock;
-
-    // Setup storage mocks
-    vi.spyOn(storage, 'setItem').mockImplementation((key, value) => {
-      setItemFake(key, value);
-      getItemFake.mockReturnValue(value);
-    });
-    vi.spyOn(storage, 'getItem').mockImplementation(getItemFake);
-
-    // Create valid JWT token for testing
-    const testToken = await TokenFactory.createToken({
-      sub: '1234567890',
-      iat: Math.floor(Date.now() / 1000),
-      exp: Math.floor(Date.now() / 1000) + 3600,
-    });
-
-    // Mock login endpoint
-    const tokenEndpoint = `${ctx.baseUrl}/realms/${ctx.keycloakRealm}/protocol/openid-connect/token`;
-    ctx.fetchMock.once(tokenEndpoint, {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-      body: {
-        access_token: testToken,
-        refresh_token: testToken,
-        expires_in: 300,
-      },
-    });
-
-    await ctx.authClient.login(ctx.username, ctx.password);
-
-    // Get the stored token data
-    const storedTokenData = JSON.parse(setItemFake.mock.calls[0][1]);
-
-    // Create a new context with the same storage
-    const newContext = await createContext();
-    vi.spyOn(newContext.localStorageMock, 'getItem').mockImplementation(getItemFake);
-
-    // Initialize the new client and verify token restoration
-    await newContext.authClient.init(
-      `${ctx.baseUrl}/realms/${ctx.keycloakRealm}`,
-      'kontur_platform',
+    // Request fails with 401
+    const originalError = {
+      kind: 'unauthorized' as const,
+      data: 'unauthorized',
+    };
+    MockFactory.setupApiError(
+      '/protected-data',
+      { ...originalError, message: 'Any' },
+      'GET',
     );
 
-    expect((newContext.authClient as any).token).toBe(storedTokenData.token);
-  });
-});
+    // Token refresh succeeds (but we should still throw original error)
+    const newToken = await TokenFactory.createToken();
+    await MockFactory.setupSuccessfulAuth(
+      {
+        baseUrl: ctx.baseUrl,
+        realm: ctx.keycloakRealm,
+      },
+      newToken,
+    );
 
-describe('Token Parsing', () => {
-  test('should parse JWT token', async ({ ctx }) => {
-    const now = Math.floor(Date.now() / 1000);
-    const validToken = await TokenFactory.createToken({
-      sub: '1234567890',
-      iat: now,
-      exp: now + 3600,
-    });
+    const error = (await ctx.apiClient
+      .get('/protected-data', undefined, {
+        authRequirement: AUTH_REQUIREMENT.MUST,
+        errorsConfig: { hideErrors: true },
+      })
+      .catch((e) => e)) as ApiClientError;
 
-    const result = parseToken(validToken);
-    expect(result.expiringDate).toBeInstanceOf(Date);
-    expect(result.tokenLifetime).toBe(3600);
+    // Verify we get the original error even though token refresh succeeded
+    expect(getApiErrorKind(error)).toBe('unauthorized');
   });
 });

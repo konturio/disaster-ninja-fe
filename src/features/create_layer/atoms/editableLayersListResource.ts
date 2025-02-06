@@ -10,8 +10,10 @@ export const editableLayersListResource = createAsyncAtom(
     const responseData = await apiClient.post<EditableLayers[]>(
       '/layers/search/user',
       { appId: configRepo.get().id },
-      true,
-      { signal: abortController.signal },
+      {
+        signal: abortController.signal,
+        authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
+      },
     );
     if (responseData === null) return [];
 

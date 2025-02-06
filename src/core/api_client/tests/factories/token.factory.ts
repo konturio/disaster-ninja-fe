@@ -5,28 +5,34 @@ export class TokenFactory {
   private static readonly SECRET = new TextEncoder().encode('test-secret');
 
   static async createToken(payload: Partial<JWTPayload> = {}): Promise<string> {
+    const now = Math.floor(Date.now() / 1000);
     const defaultPayload: JWTPayload = {
-      exp: 9999999999,
-      iat: 1700000000,
+      exp: now + 3600, // 1 hour from now
+      iat: now,
       ...payload,
     };
 
     return new SignJWT({ ...defaultPayload })
       .setProtectedHeader({ alg: 'HS256', typ: 'JWT' })
-      .setIssuedAt(defaultPayload.iat || 1700000000)
-      .setExpirationTime(defaultPayload.exp || 9999999999)
+      .setIssuedAt(defaultPayload.iat!)
+      .setExpirationTime(defaultPayload.exp!)
       .sign(this.SECRET);
   }
 
   static async createExpiredToken(): Promise<string> {
+    const now = Math.floor(Date.now() / 1000);
     return this.createToken({
-      exp: 1700000000,
-      iat: 1600000000,
+      exp: now - 1000, // Expired 1000 seconds ago
+      iat: now - 3600, // Created 1 hour ago
     });
   }
 
   static async createRefreshToken(): Promise<string> {
-    return this.createToken();
+    const now = Math.floor(Date.now() / 1000);
+    return this.createToken({
+      exp: now + 7200, // 2 hours from now
+      iat: now,
+    });
   }
 
   static async modifyTokenPayload(

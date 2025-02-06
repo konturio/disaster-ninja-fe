@@ -50,10 +50,10 @@ test('Replace init state with loading after delay', async () => {
 test('Replace ready state with loading after delay', async () => {
   const statesToComponents = createStateMap(
     { error: null, loading: true, data: {} },
-    { loadingStateDelayMs: 1000 },
+    { loadingStateDelayMs: 100 },
   );
 
-  render(
+  const { unmount } = render(
     <>
       {statesToComponents({
         init: <>Init</>,
@@ -61,12 +61,11 @@ test('Replace ready state with loading after delay', async () => {
         ready: () => <>Data</>,
       })}
     </>,
-    {
-      container: createIsolatedContainer(),
-    },
+    { container: createIsolatedContainer() },
   );
 
-  expect(screen.getByText(/Data/i)).toBeDefined();
-  await wait(1);
-  expect(screen.getByText(/Preloader/i)).toBeDefined();
+  await screen.findByText(/Data/i);
+  await screen.findByText(/Preloader/i, {}, { timeout: 200 });
+
+  unmount();
 });
