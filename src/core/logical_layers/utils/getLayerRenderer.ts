@@ -5,10 +5,11 @@ import type { LayerSummaryDto } from '~core/logical_layers/types/source';
 import type { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 
 export function getLayerRenderer(layer: LayerSummaryDto): LogicalLayerDefaultRenderer {
+  if (layer.type === 'multivariate') {
+    return new MultivariateRenderer({ id: layer.id });
+  }
+  // TODO: group and category should not be used to determine the renderer. Layer type needs to be used instead
   if (layer.group === 'bivariate' && layer.category === 'overlay') {
-    if (layer.type === 'multivariate') {
-      return new MultivariateRenderer({ id: layer.id });
-    }
     return new BivariateRenderer({ id: layer.id });
   }
 
