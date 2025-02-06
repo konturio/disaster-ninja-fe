@@ -9,7 +9,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, g as getDefaultExportFromCjs, c as commonjsGlobal, d as ReactDOM } from "./index-Bl7eqsRX.js";
+import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, g as getDefaultExportFromCjs, c as commonjsGlobal, d as ReactDOM } from "./index-CfJKzD0W.js";
 function getDefaultSelectValue({ options, defaultValue }) {
   if (typeof defaultValue === "string") {
     return defaultValue;
@@ -4800,6 +4800,11 @@ const queryString = {
     }
   }
 };
+const AUTH_REQUIREMENT = {
+  MUST: "must",
+  OPTIONAL: "optional",
+  NEVER: "never"
+};
 const wait = (sec = 1, opt = {}) => new Promise(
   (res, rej) => setTimeout(
     (opt == null ? void 0 : opt.failWithMessage) ? () => rej({ message: opt.failWithMessage }) : res,
@@ -4816,10 +4821,17 @@ class ApiClientError extends Error {
     Object.setPrototypeOf(this, ApiClientError.prototype);
   }
 }
+function isApiError(error2) {
+  return error2 instanceof ApiClientError;
+}
+function getApiErrorKind(error2) {
+  return isApiError(error2) ? error2.problem.kind : null;
+}
 function parseApiError(errorObj) {
   var _a;
   if (errorObj == null ? void 0 : errorObj.json) {
     const errorData = errorObj == null ? void 0 : errorObj.json;
+    if (errorData == null ? void 0 : errorData.message) return errorData.message;
     if (errorData == null ? void 0 : errorData.error_description) return errorData.error_description;
     if (errorData !== null) {
       if (Array.isArray(errorData)) {
@@ -4849,7 +4861,7 @@ function parseApiError(errorObj) {
   return res ?? "Unknown Error";
 }
 function createApiError(err) {
-  var _a;
+  var _a, _b;
   let errorMessage = "";
   let problem = { kind: "unknown", temporary: true };
   let status = 0;
@@ -4867,6 +4879,9 @@ function createApiError(err) {
       problem = { kind: "bad-request" };
     } else if (status === 401) {
       problem = { kind: "unauthorized", data: (_a = err.json) == null ? void 0 : _a.error };
+      if ((_b = err.json) == null ? void 0 : _b.message) {
+        errorMessage = err.json.message;
+      }
     } else if (status === 403) {
       problem = { kind: "forbidden" };
     } else if (status === 404) {
@@ -4909,6 +4924,7 @@ async function autoParseBody(res) {
 }
 class ApiClient {
   constructor({ on } = {}) {
+    __publicField(this, "AUTH_REQUIREMENT", AUTH_REQUIREMENT);
     __publicField(this, "listeners", {
       error: /* @__PURE__ */ new Set(),
       poolUpdate: /* @__PURE__ */ new Set(),
@@ -4947,18 +4963,31 @@ class ApiClient {
     this._emit("poolUpdate", new Map(this.requestPool));
     this._emit("idle", this.requestPool.size === 0);
   }
-  async call(method, path2, requestParams, useAuth = false, requestConfig = {}) {
+  /**
+   * Makes an HTTP request with configurable authentication behavior
+   * @template T - The expected response type
+   * @param {ApiMethod} method - HTTP method to use
+   * @param {string} path - Request URL or path
+   * @param {unknown} [requestParams] - Query parameters or body data
+   * @param {CustomRequestConfig} [requestConfig] - Additional request configuration
+   * @param {AuthRequirement} [requestConfig.authRequirement] - Authentication requirement level:
+   *   - MUST: Request will fail if user is not authenticated
+   *   - OPTIONAL (default): Will attempt to use auth if available, but proceed without if not possible
+   *   - NEVER: Explicitly prevents authentication
+   * @returns {Promise<T | null>} The response data
+   * @throws {ApiClientError} On request failure or auth requirement not met
+   */
+  async call(method, path2, requestParams, requestConfig = {}) {
     var _a;
     const RequestsWithBody = ["post", "put", "patch"];
-    let req;
     const requestId = Math.random().toString(36).substring(7);
     this.updateRequestPool(requestId, "pending");
-    if (path2.startsWith("http")) {
-      const url = new URL(path2);
-      req = factory(url.origin, { mode: "cors" }).addon(queryString).url(url.pathname);
-    } else {
-      req = factory(this.baseURL, { mode: "cors" }).addon(queryString).url(path2);
-    }
+    const { origin, pathname, search: search2 } = path2.startsWith("http") ? new URL(path2) : {
+      origin: this.baseURL,
+      pathname: path2,
+      search: ""
+    };
+    let req = factory(origin, { mode: "cors" }).addon(queryString).url(pathname + search2);
     if (requestConfig.signal) {
       req = req.options({ signal: requestConfig.signal });
     }
@@ -4966,16 +4995,21 @@ class ApiClient {
       req = req.headers(requestConfig.headers);
     }
     let isAuthenticatedRequest = false;
-    if (useAuth) {
-      const token = await this.authService.getAccessToken();
-      if (token) {
-        isAuthenticatedRequest = true;
-        req = req.auth(`Bearer ${token}`).catcher(401, async (_2, originalRequest) => {
-          const token2 = await this.authService.getAccessToken();
-          return originalRequest.auth(`Bearer ${token2}`).fetch().unauthorized((err) => {
-            throw err;
-          }).res(autoParseBody);
-        });
+    const authRequirement = requestConfig.authRequirement ?? AUTH_REQUIREMENT.OPTIONAL;
+    if (authRequirement !== AUTH_REQUIREMENT.NEVER) {
+      try {
+        const requireAuth = authRequirement === AUTH_REQUIREMENT.MUST;
+        const token = await this.authService.getAccessToken(requireAuth);
+        if (token) {
+          isAuthenticatedRequest = true;
+          req = req.auth(`Bearer ${token}`);
+        }
+      } catch (error2) {
+        if (authRequirement === AUTH_REQUIREMENT.OPTIONAL) {
+          console.warn("Authentication failed but proceeding with request:", error2);
+        } else {
+          throw error2;
+        }
       }
     }
     if (requestParams) {
@@ -4988,14 +5022,17 @@ class ApiClient {
     } catch (err) {
       this.updateRequestPool(requestId, null);
       const apiError = createApiError(err);
-      if (apiError.problem.kind === "canceled") {
+      if (getApiErrorKind(apiError) === "canceled") {
         throw apiError;
       }
-      if (isAuthenticatedRequest && apiError.problem.kind === "unauthorized") {
+      if (isAuthenticatedRequest && getApiErrorKind(apiError) === "unauthorized") {
         try {
-          await this.authService.getAccessToken();
+          const token = await this.authService.getAccessToken();
+          if (!token) {
+            throw apiError;
+          }
         } catch (error2) {
-          goTo("/profile");
+          throw apiError;
         }
         throw apiError;
       }
@@ -5010,12 +5047,14 @@ class ApiClient {
         onErrorKinds: ((_a = requestConfig.retry) == null ? void 0 : _a.onErrorKinds) ?? defaultRetryConfig.onErrorKinds
       };
       if (retryConfig.attempts > 0) {
-        const shouldRetry = retryConfig.onErrorKinds.includes(apiError.problem.kind);
+        const shouldRetry = retryConfig.onErrorKinds.includes(
+          getApiErrorKind(apiError)
+        );
         if (shouldRetry) {
           if (retryConfig.delayMs) {
             await wait(retryConfig.delayMs / 1e3);
           }
-          return this.call(method, path2, requestParams, useAuth, {
+          return this.call(method, path2, requestParams, {
             ...requestConfig,
             retry: {
               ...retryConfig,
@@ -5041,20 +5080,20 @@ class ApiClient {
     }
   }
   // method shortcuts
-  async get(path2, requestParams, useAuth = false, requestConfig) {
-    return this.call(ApiMethodTypes.GET, path2, requestParams, useAuth, requestConfig);
+  async get(path2, requestParams, requestConfig) {
+    return this.call(ApiMethodTypes.GET, path2, requestParams, requestConfig);
   }
-  async post(path2, requestParams, useAuth = false, requestConfig) {
-    return this.call(ApiMethodTypes.POST, path2, requestParams, useAuth, requestConfig);
+  async post(path2, requestParams, requestConfig) {
+    return this.call(ApiMethodTypes.POST, path2, requestParams, requestConfig);
   }
-  async put(path2, requestParams, useAuth = false, requestConfig) {
-    return this.call(ApiMethodTypes.PUT, path2, requestParams, useAuth, requestConfig);
+  async put(path2, requestParams, requestConfig) {
+    return this.call(ApiMethodTypes.PUT, path2, requestParams, requestConfig);
   }
-  async patch(path2, requestParams, useAuth = false, requestConfig) {
-    return this.call(ApiMethodTypes.PATCH, path2, requestParams, useAuth, requestConfig);
+  async patch(path2, requestParams, requestConfig) {
+    return this.call(ApiMethodTypes.PATCH, path2, requestParams, requestConfig);
   }
-  async delete(path2, useAuth = false, requestConfig) {
-    return this.call(ApiMethodTypes.DELETE, path2, void 0, useAuth, requestConfig);
+  async delete(path2, requestConfig) {
+    return this.call(ApiMethodTypes.DELETE, path2, void 0, requestConfig);
   }
 }
 const urlAlphabet = "useandom-26T198340PX75pxJACKVERYMINDBUSHWOLF_GQZbfghjklqvwyzrict";
@@ -10646,7 +10685,7 @@ const TranslationService = {
 };
 function getAsset(asset, abortController) {
   const endpoint = `/apps/${configRepo.get().id}/assets`;
-  return apiClient.get(`${endpoint}/${asset}`, void 0, true, {
+  return apiClient.get(`${endpoint}/${asset}`, void 0, {
     headers: { "user-language": TranslationService.instance.language },
     signal: void 0
   });
