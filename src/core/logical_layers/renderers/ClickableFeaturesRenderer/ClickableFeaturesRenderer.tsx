@@ -1,4 +1,5 @@
 import { Popup as MapPopup } from 'maplibre-gl';
+import { createRoot } from 'react-dom/client';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { layerByOrder } from '~core/logical_layers';
 import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
@@ -62,10 +63,10 @@ export abstract class ClickableFeaturesRenderer extends LogicalLayerDefaultRende
     style: LayerStyle,
   );
 
-  protected abstract generatePopupContent(
+  protected abstract createPopupContent(
     feature: GeoJSON.Feature,
     layerStyle: LayerStyle,
-  );
+  ): JSX.Element | null;
 
   protected createTileSource(
     map: ApplicationMap,
@@ -140,7 +141,9 @@ export abstract class ClickableFeaturesRenderer extends LogicalLayerDefaultRende
       if (!feature || !isFeatureVisible(feature)) return true;
 
       // Show popup on click
-      const popupNode = this.generatePopupContent(feature, style);
+      const popupNode = document.createElement('div');
+      const popupContent = this.createPopupContent(feature, style);
+      createRoot(popupNode).render(popupContent);
       dispatchMetricsEvent('mcda_popup');
       this.cleanPopup();
       this._popup = new MapPopup({

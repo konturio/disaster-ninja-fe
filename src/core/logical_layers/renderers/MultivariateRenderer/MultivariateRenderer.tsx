@@ -45,7 +45,10 @@ export class MultivariateRenderer extends ClickableFeaturesRenderer {
     }
   }
 
-  protected generatePopupContent(feature: GeoJSON.Feature, layerStyle: LayerStyle) {
+  protected createPopupContent(
+    feature: GeoJSON.Feature,
+    layerStyle: LayerStyle,
+  ): JSX.Element | null {
     if (layerStyle.type === 'multivariate') {
       return generateMultivariatePopupContent(feature, layerStyle);
     } else {
