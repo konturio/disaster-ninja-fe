@@ -218,7 +218,7 @@ export class AppMetrics implements Metric {
   }
 
   sendReports() {
-    apiClient.post('/rum/metrics', this.reports, true).catch((error) => {
+    apiClient.post('/rum/metrics', this.reports).catch((error) => {
       console.error('error posting metrics :', error, this.reports);
     });
   }

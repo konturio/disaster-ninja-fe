@@ -17,8 +17,9 @@ export const reportResourceAtom = createAsyncAtom(
   currentReportAtom,
   async (report, abortController) => {
     if (!report) return null;
-    const responseData = await reportsClient.get<string>(report.link, undefined, false, {
+    const responseData = await reportsClient.get<string>(report.link, undefined, {
       signal: abortController.signal,
+      authRequirement: reportsClient.AUTH_REQUIREMENT.NEVER,
     });
     if (responseData === undefined) throw new Error(i18n.t('no_data_received'));
     return responseData;

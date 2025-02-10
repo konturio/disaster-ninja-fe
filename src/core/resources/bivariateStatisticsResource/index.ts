@@ -32,7 +32,7 @@ export const bivariateStatisticsResourceAtom = createAsyncAtom(
       const responseData = await apiClient.post<{
         data: BivariateStatisticsResponse;
         errors?: unknown;
-      }>('/bivariate_matrix', body, true, {
+      }>('/bivariate_matrix', body, {
         signal: abortController.signal,
         retry: { attempts: 2 },
       });

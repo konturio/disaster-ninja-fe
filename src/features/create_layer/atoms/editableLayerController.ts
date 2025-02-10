@@ -117,10 +117,14 @@ export const editableLayerControllerAtom = createAtom(
               responseData = await apiClient.put<EditableLayers>(
                 `/layers/${data.id}`,
                 data,
-                true,
+                {
+                  authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
+                },
               );
             } else {
-              responseData = await apiClient.post<EditableLayers>(`/layers`, data, true);
+              responseData = await apiClient.post<EditableLayers>(`/layers`, data, {
+                authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
+              });
             }
 
             if (responseData) {
@@ -156,7 +160,9 @@ export const editableLayerControllerAtom = createAtom(
         const layer = registeredLayers.get(layerId)!;
         schedule(async (dispatch) => {
           try {
-            await apiClient.delete<unknown>(`/layers/${layerId}`, true);
+            await apiClient.delete<unknown>(`/layers/${layerId}`, {
+              authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
+            });
             dispatch([
               create('_update', {
                 loading: false,

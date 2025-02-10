@@ -66,8 +66,9 @@ export const bivariateColorManagerResourceAtom = createAsyncAtom(
       const body = createBivariateQuery();
       responseData = await apiClient.post<{
         data: BivariateStatisticsResponse;
-      }>('/bivariate_matrix', body, true, {
+      }>('/bivariate_matrix', body, {
         signal: abortController.signal,
+        authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
       });
     } catch (e) {
       if (isApiError(e) && e.problem.kind === 'canceled') {

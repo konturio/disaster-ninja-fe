@@ -6,13 +6,28 @@ import { createApiError } from '~core/api_client/errors';
 import { autoParseBody } from '~core/api_client/utils';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import { localStorage } from '~utils/storage';
+import {
+  LOCALSTORAGE_AUTH_KEY,
+  SESSION_STATE,
+  TIME_TO_REFRESH_MS,
+  type AuthEventType,
+  type AuthRequirement,
+  type SessionState,
+} from './constants';
 
-export const LOCALSTORAGE_AUTH_KEY = 'auth_token';
-const TIME_TO_REFRESH_MS = 1000 * 60 * 3;
+// Re-export only what's needed by external modules
+export type { AuthEventType, AuthRequirement, SessionState };
 
 interface TokenPayload {
   exp: number;
   iat: number;
+}
+
+interface TokenState {
+  token: string;
+  refreshToken: string;
+  expiresAt: Date;
+  refreshExpiresAt: Date;
 }
 
 export class OidcSimpleClient {
@@ -25,13 +40,43 @@ export class OidcSimpleClient {
   private tokenExpirationDate: Date | undefined;
   private refreshTokenExpirationDate: Date | undefined;
   private tokenRefreshFlowPromise: Promise<boolean> | undefined;
+  private sessionState: SessionState = SESSION_STATE.NO_SESSION;
+  private lastError: Error | null = null;
 
-  timeToRefresh: number = TIME_TO_REFRESH_MS; // Must be less then Access Token Lifespan
-  isUserLoggedIn = false;
+  timeToRefresh: number = TIME_TO_REFRESH_MS;
+
+  get isUserLoggedIn(): boolean {
+    return this.sessionState === SESSION_STATE.VALID;
+  }
+
+  private setSessionState(state: SessionState, error: Error | null = null) {
+    this.sessionState = state;
+    this.lastError = error;
+
+    // Emit event for session state change
+    const event = new CustomEvent('sessionStateChanged', {
+      detail: { state, error },
+    });
+    globalThis.dispatchEvent(event);
+  }
 
   constructor(
     private readonly storage: WindowLocalStorage['localStorage'] = localStorage,
-  ) {}
+    private syncTabs = false,
+  ) {
+    if (this.syncTabs) {
+      // Listen for storage events from other tabs
+      globalThis.addEventListener('storage', (e) => {
+        if (e.key === LOCALSTORAGE_AUTH_KEY) {
+          if (!e.newValue) {
+            this.resetAuth();
+          } else {
+            this.checkLocalAuthToken();
+          }
+        }
+      });
+    }
+  }
 
   public async init(issuerUri: string, clientId: string) {
     this.issuerUri = issuerUri;
@@ -39,19 +84,31 @@ export class OidcSimpleClient {
 
     // endpoints, can be found in ${this.issuerUri}/.well-known/openid-configuration
     this.tokenEndpoint = `${this.issuerUri}/protocol/openid-connect/token`;
-
-    // end_session_endpoint /protocol/openid-connect/logout
     this.endSessionEndpoint = `${this.issuerUri}/protocol/openid-connect/logout`;
 
     if (import.meta.env?.DEV) {
       this.tokenEndpoint = replaceUrlWithProxy(this.tokenEndpoint);
     }
 
-    if (this.checkLocalAuthToken()) {
-      this.isUserLoggedIn = true;
-      // It's required to refresh auth tokens to get the fresh roles data from keycloak
-      await this.refreshAuthToken();
+    // Check local storage for existing auth state
+    const hasValidToken = this.checkLocalAuthToken();
+
+    // If we have a valid token, try to refresh it
+    if (hasValidToken) {
+      try {
+        await this.refreshAuthToken();
+        this.setSessionState(SESSION_STATE.VALID);
+      } catch (error) {
+        // If refresh fails during init, just reset auth state
+        this.resetAuth();
+      }
     }
+
+    // Return auth state so application can handle initial routing
+    return {
+      isAuthenticated: this.isUserLoggedIn,
+      hasExpiredSession: hasValidToken && !this.isUserLoggedIn,
+    };
   }
 
   /**
@@ -93,172 +150,252 @@ export class OidcSimpleClient {
     return [sanitizedToken, decodedToken];
   }
 
-  private storeTokens(token: string, refreshToken: string): boolean {
+  private validateTokenState(state: Partial<TokenState>): boolean {
+    const now = Date.now();
+    return !!(
+      state.token &&
+      state.refreshToken &&
+      state.expiresAt &&
+      state.refreshExpiresAt &&
+      state.expiresAt.getTime() > now &&
+      state.refreshExpiresAt.getTime() > now
+    );
+  }
+
+  private async updateTokenState(newState: TokenState): Promise<void> {
     try {
-      // Validate both tokens
-      const [sanitizedToken, decodedToken] = this.validateAndParseToken(token);
-      const [sanitizedRefreshToken, decodedRefreshToken] =
-        this.validateAndParseToken(refreshToken);
+      await this.storage.setItem(
+        LOCALSTORAGE_AUTH_KEY,
+        JSON.stringify({
+          token: newState.token,
+          refreshToken: newState.refreshToken,
+          expiresAt: newState.expiresAt.toISOString(),
+          refreshExpiresAt: newState.refreshExpiresAt.toISOString(),
+        }),
+      );
 
-      if (!decodedToken.isExpired) {
-        this.setAuth(
-          sanitizedToken,
-          sanitizedRefreshToken,
-          decodedToken.expiringDate,
-          decodedRefreshToken.expiringDate,
-        );
-
-        // Store tokens
-        this.storage.setItem(
-          LOCALSTORAGE_AUTH_KEY,
-          JSON.stringify({
-            token: sanitizedToken,
-            refreshToken: sanitizedRefreshToken,
-            expiresAt: decodedToken.expiringDate.toISOString(),
-          }),
-        );
-        return true;
-      } else {
-        throw new ApiClientError(
-          'Token is expired right after receiving, clock is out of sync',
-          { kind: 'bad-data' },
-        );
-      }
+      this.token = newState.token;
+      this.refreshToken = newState.refreshToken;
+      this.tokenExpirationDate = newState.expiresAt;
+      this.refreshTokenExpirationDate = newState.refreshExpiresAt;
+      this.setSessionState(SESSION_STATE.VALID);
     } catch (e) {
-      if (e instanceof ApiClientError) {
-        throw e;
-      }
-      throw new ApiClientError(e?.['message'] || 'Token validation failed', {
+      this.resetAuth();
+      throw new ApiClientError('Failed to update token state', {
         kind: 'bad-data',
       });
     }
   }
 
-  /**
-   * check and use local token, reset auth if token is absent or invalid
-   * @returns true on success
-   */
-  checkLocalAuthToken(): boolean {
-    if (this.token && this.refreshToken) {
-      return true;
-    }
+  private shouldRefreshToken(): boolean {
+    if (!this.tokenExpirationDate) return true;
+
+    const now = Date.now();
+    const timeToExpiry = this.tokenExpirationDate.getTime() - now;
+    return timeToExpiry <= this.timeToRefresh;
+  }
+
+  private async _tokenRefreshFlow(): Promise<boolean> {
+    const refreshNeeded = this.shouldRefreshToken();
+
+    if (!refreshNeeded) return true;
+
     try {
-      const storedTokensJson = this.storage.getItem(LOCALSTORAGE_AUTH_KEY);
-      if (storedTokensJson) {
-        const stored = JSON.parse(storedTokensJson);
-        if (stored.token && stored.refreshToken) {
-          try {
-            // Validate both tokens
-            const [sanitizedToken, decodedToken] = this.validateAndParseToken(
-              stored.token,
-            );
-            const [sanitizedRefreshToken, decodedRefreshToken] =
-              this.validateAndParseToken(stored.refreshToken);
+      // If refresh token is expired, handle it gracefully
+      if (this.isRefreshTokenExpired()) {
+        this.resetAuth();
+        return false;
+      }
 
-            // Validate expiration
-            if (decodedToken.isExpired) {
-              throw new Error('Token is expired');
-            }
+      await this.refreshAuthToken();
+      return true;
+    } catch (error) {
+      const now = Date.now();
+      // If current token is still valid, allow the request to proceed
+      if (this.tokenExpirationDate && this.tokenExpirationDate.getTime() > now) {
+        console.warn('Preemptive token refresh failed, using existing token:', error);
+        return true;
+      }
+      this.resetAuth();
+      throw createApiError(error);
+    }
+  }
 
-            this.timeToRefresh = Math.min(
-              Math.trunc((decodedToken.tokenLifetime * 1000) / 5),
-              TIME_TO_REFRESH_MS,
-            );
+  private async handleTokenRefresh(): Promise<boolean> {
+    if (!this.tokenRefreshFlowPromise) {
+      this.tokenRefreshFlowPromise = this._tokenRefreshFlow();
+    }
+    return await this.tokenRefreshFlowPromise;
+  }
 
-            this.setAuth(
-              sanitizedToken,
-              sanitizedRefreshToken,
-              decodedToken.expiringDate,
-              decodedRefreshToken.expiringDate,
-            );
-            return true;
-          } catch (e) {
-            this.resetAuth();
-            return false;
-          }
+  /**
+   * Retrieves the access token for the current user.
+   *
+   * @param requireAuth - Determines whether authentication is required.
+   * @returns A promise that resolves to the access token string or null if not available.
+   * @throws {ApiClientError} If authentication is required but not fulfilled, session has expired, or token state is invalid.
+   */
+  async getAccessToken(requireAuth = true): Promise<string | null> {
+    if (!this.isUserLoggedIn) {
+      if (requireAuth) {
+        throw new ApiClientError('Authentication required', {
+          kind: 'unauthorized',
+          data: 'not_authenticated',
+        });
+      }
+      return null;
+    }
+
+    try {
+      const refreshResult = await this.handleTokenRefresh();
+      if (!refreshResult) {
+        if (requireAuth) {
+          throw new ApiClientError('Session expired', {
+            kind: 'unauthorized',
+            data: 'session_expired',
+          });
         }
+        return null;
+      }
+
+      if (this.validateTokenState(this.getMemoryTokenState())) {
+        return this.token;
+      }
+
+      if (requireAuth) {
+        throw new ApiClientError('Invalid token state', {
+          kind: 'unauthorized',
+          data: 'invalid_token',
+        });
+      }
+      return null;
+    } catch (error) {
+      this.tokenRefreshFlowPromise = undefined;
+      if (error instanceof Error) {
+        this.setSessionState(SESSION_STATE.ERROR, error);
+      }
+      throw error;
+    } finally {
+      this.tokenRefreshFlowPromise = undefined;
+    }
+  }
+
+  private getMemoryTokenState(): Partial<TokenState> {
+    return {
+      token: this.token,
+      refreshToken: this.refreshToken,
+      expiresAt: this.tokenExpirationDate,
+      refreshExpiresAt: this.refreshTokenExpirationDate,
+    };
+  }
+
+  checkLocalAuthToken(): boolean {
+    try {
+      // First check in-memory tokens
+      if (this.validateTokenState(this.getMemoryTokenState())) {
+        this.setSessionState(SESSION_STATE.VALID);
+        return true;
+      }
+
+      // Then check storage
+      const storedTokensJson = this.storage.getItem(LOCALSTORAGE_AUTH_KEY);
+      if (!storedTokensJson) {
+        this.resetAuth();
+        return false;
+      }
+
+      const stored = JSON.parse(storedTokensJson);
+      if (!stored.token || !stored.refreshToken || !stored.expiresAt) {
+        this.resetAuth();
+        return false;
+      }
+
+      try {
+        const [sanitizedToken, decodedToken] = this.validateAndParseToken(stored.token);
+        const [sanitizedRefreshToken, decodedRefreshToken] = this.validateAndParseToken(
+          stored.refreshToken,
+        );
+
+        const tokenState: TokenState = {
+          token: sanitizedToken,
+          refreshToken: sanitizedRefreshToken,
+          expiresAt: new Date(stored.expiresAt),
+          refreshExpiresAt: decodedRefreshToken.expiringDate,
+        };
+
+        if (!this.validateTokenState(tokenState)) {
+          throw new Error('Invalid token state');
+        }
+
+        this.timeToRefresh = Math.min(
+          Math.trunc((decodedToken.tokenLifetime * 1000) / 5),
+          TIME_TO_REFRESH_MS,
+        );
+
+        // Update instance state
+        this.token = tokenState.token;
+        this.refreshToken = tokenState.refreshToken;
+        this.tokenExpirationDate = tokenState.expiresAt;
+        this.refreshTokenExpirationDate = tokenState.refreshExpiresAt;
+        this.setSessionState(SESSION_STATE.VALID);
+        return true;
+      } catch (e) {
+        this.resetAuth();
+        return false;
       }
     } catch (e) {
-      // Handle silently - invalid token state should just reset auth
+      this.resetAuth();
+      return false;
     }
+  }
+
+  async logout(doReload = true) {
+    try {
+      await this.endSession();
+    } finally {
+      if (doReload) {
+        location.reload();
+      }
+    }
+  }
+
+  async endSession() {
+    // If we don't have a refresh token, just reset auth state
+    if (!this.refreshToken) {
+      this.resetAuth();
+      return;
+    }
+
+    const params = {
+      client_id: this.clientId,
+      refresh_token: this.refreshToken,
+    };
     this.resetAuth();
-    return false;
+    try {
+      await wretch(this.endSessionEndpoint)
+        .addon(FormUrlAddon)
+        .formUrl(params)
+        .post()
+        .res();
+    } catch (e) {
+      // typically response is 204, but if endpoint fails, ignore it
+    }
   }
 
   private resetAuth() {
-    // Securely clear tokens from memory
     this.token = '';
     this.refreshToken = '';
     this.tokenExpirationDate = undefined;
     this.refreshTokenExpirationDate = undefined;
-
-    // Clear from storage
+    this.setSessionState(SESSION_STATE.NO_SESSION);
     this.storage.removeItem(LOCALSTORAGE_AUTH_KEY);
-  }
-
-  private setAuth(
-    token: string,
-    refreshToken: string,
-    expiringDate: Date | undefined,
-    expiringRefreshDate?: Date | undefined,
-  ) {
-    this.token = token;
-    this.refreshToken = refreshToken;
-    this.tokenExpirationDate = expiringDate;
-    this.refreshTokenExpirationDate = expiringRefreshDate;
-  }
-
-  private async _tokenRefreshFlow() {
-    if (!this.tokenExpirationDate) {
-      return false;
-    }
-    const diffTime = this.tokenExpirationDate.getTime() - Date.now();
-    if (diffTime < this.timeToRefresh) {
-      // token expires soon, refresh it
-      try {
-        await this.refreshAuthToken();
-      } catch (error) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  /**
-   * return AT or throw error
-   * automatically refreshes expired or expiring soon AT
-   * @throws {ApiClientError}
-   */
-  async getAccessToken() {
-    if (!this.tokenRefreshFlowPromise) {
-      this.tokenRefreshFlowPromise = this._tokenRefreshFlow();
-    }
-    await this.tokenRefreshFlowPromise;
-    this.tokenRefreshFlowPromise = undefined;
-    return this.token;
-  }
-
-  isRefreshTokenExpired() {
-    return (
-      !this.refreshTokenExpirationDate || this.refreshTokenExpirationDate < new Date()
-    );
   }
 
   /**
    * @throws {ApiClientError}
    */
   private async refreshAuthToken(): Promise<boolean> {
-    // if refresh token is expired, logout
-    if (this.isRefreshTokenExpired()) {
-      await this.logout();
-      throw new ApiClientError('Refresh token expired', {
-        kind: 'unauthorized',
-        data: 'Refresh token not found or expired',
-      });
-    }
-
     const params = {
-      client_id: this.clientId,
       refresh_token: this.refreshToken,
       grant_type: 'refresh_token',
     };
@@ -266,8 +403,14 @@ export class OidcSimpleClient {
     try {
       return await this.requestTokenOrThrow(this.tokenEndpoint, params);
     } catch (error) {
-      // logout on refresh token error
-      await this.logout();
+      // Handle invalid refresh token
+      if (
+        error instanceof ApiClientError &&
+        error.problem.kind === 'unauthorized' &&
+        error.problem.data === 'invalid_grant'
+      ) {
+        this.resetAuth();
+      }
       throw error;
     }
   }
@@ -276,46 +419,41 @@ export class OidcSimpleClient {
    * @throws {ApiClientError}
    */
   private async requestTokenOrThrow(
-    grantType: string,
+    endpoint: string,
     params: Record<string, string>,
   ): Promise<boolean> {
     try {
-      const response = await wretch(this.tokenEndpoint)
+      const response = await wretch(endpoint)
         .addon(FormUrlAddon)
-        .formUrl({ grant_type: grantType, client_id: this.clientId, ...params })
+        .formUrl({ client_id: this.clientId, ...params })
         .post()
-        .unauthorized((_) => {
-          throw new ApiClientError('Invalid username or password', {
-            kind: 'unauthorized',
-            data: 'Invalid credentials',
-          });
+        .unauthorized((error) => {
+          throw createApiError(error);
         })
         .res(autoParseBody);
 
       if (!response.data?.access_token || !response.data?.refresh_token) {
-        throw new ApiClientError('Invalid response from auth server', {
-          kind: 'bad-data',
-        });
+        throw new ApiClientError('Invalid auth response', { kind: 'bad-data' });
       }
 
-      try {
-        // Validate and store tokens
-        const result = this.storeTokens(
-          response.data.access_token,
-          response.data.refresh_token,
-        );
-        this.isUserLoggedIn = true;
-        return result;
-      } catch (e) {
-        // Reset auth state on validation failure
-        this.resetAuth();
-        throw e;
-      }
-    } catch (e) {
-      if (e instanceof ApiClientError) {
-        throw e;
-      }
-      throw createApiError(e);
+      const [sanitizedToken, decodedToken] = this.validateAndParseToken(
+        response.data.access_token,
+      );
+
+      const [sanitizedRefreshToken, decodedRefreshToken] = this.validateAndParseToken(
+        response.data.refresh_token,
+      );
+
+      await this.updateTokenState({
+        token: sanitizedToken,
+        refreshToken: sanitizedRefreshToken,
+        expiresAt: decodedToken.expiringDate,
+        refreshExpiresAt: decodedRefreshToken.expiringDate,
+      });
+
+      return true;
+    } catch (error) {
+      throw createApiError(error);
     }
   }
 
@@ -350,44 +488,18 @@ export class OidcSimpleClient {
     }
   }
 
-  async endSession() {
-    const params = {
-      client_id: this.clientId,
-      refresh_token: this.refreshToken,
-    };
-    this.resetAuth();
-    try {
-      wretch(this.endSessionEndpoint)
-        .addon(FormUrlAddon)
-        .formUrl(params)
-        .post()
-        .res()
-        .then();
-    } catch (e) {
-      // typically response is 204, but if endpoint fails, ignore it
-    }
-  }
-
-  /**
-   * reset auth, end session and reload
-   * @param doReload
-   */
-  logout(doReload = true) {
-    this.endSession().then((_) => {
-      // reload to init with public config and profile
-      if (doReload) location.reload();
-    });
+  isRefreshTokenExpired() {
+    return (
+      !this.refreshTokenExpirationDate || this.refreshTokenExpirationDate < new Date()
+    );
   }
 }
 
 export function parseToken(token: string) {
   try {
     const decodedToken = jwtDecode<TokenPayload>(token);
-    const expiringDate = decodedToken.exp
-      ? new Date(decodedToken.exp * 1000)
-      : new Date(0);
-    const tokenLifetime =
-      decodedToken.exp && decodedToken.iat ? decodedToken.exp - decodedToken.iat : 0;
+    const expiringDate = new Date(decodedToken.exp * 1000);
+    const tokenLifetime = decodedToken.exp - decodedToken.iat;
     const expiresIn = +expiringDate - Date.now();
     const isExpired = expiresIn <= 0;
 

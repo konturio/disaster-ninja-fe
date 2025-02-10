@@ -1,8 +1,9 @@
 import wretch from 'wretch';
 import QueryStringAddon from 'wretch/addons/queryString';
+import { AUTH_REQUIREMENT } from '~core/auth/constants';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import { wait } from '~utils/test/wait';
-import { goTo } from '~core/router/goTo';
+import { getApiErrorKind } from './apiClientError';
 import { createApiError } from './errors';
 import { ApiMethodTypes } from './types';
 import { autoParseBody } from './utils';
@@ -29,6 +30,7 @@ type ListenerMap = {
 };
 
 export class ApiClient {
+  AUTH_REQUIREMENT = AUTH_REQUIREMENT;
   private listeners: ListenerMap = {
     error: new Set(),
     poolUpdate: new Set(),
@@ -78,27 +80,43 @@ export class ApiClient {
     this._emit('idle', this.requestPool.size === 0);
   }
 
+  /**
+   * Makes an HTTP request with configurable authentication behavior
+   * @template T - The expected response type
+   * @param {ApiMethod} method - HTTP method to use
+   * @param {string} path - Request URL or path
+   * @param {unknown} [requestParams] - Query parameters or body data
+   * @param {CustomRequestConfig} [requestConfig] - Additional request configuration
+   * @param {AuthRequirement} [requestConfig.authRequirement] - Authentication requirement level:
+   *   - MUST: Request will fail if user is not authenticated
+   *   - OPTIONAL (default): Will attempt to use auth if available, but proceed without if not possible
+   *   - NEVER: Explicitly prevents authentication
+   * @returns {Promise<T | null>} The response data
+   * @throws {ApiClientError} On request failure or auth requirement not met
+   */
   private async call<T>(
     method: ApiMethod,
     path: string,
     requestParams?: unknown,
-    useAuth = false,
     requestConfig: CustomRequestConfig = {},
   ): Promise<T | null> {
     const RequestsWithBody = ['post', 'put', 'patch'];
-    let req;
-
     const requestId = Math.random().toString(36).substring(7);
     this.updateRequestPool(requestId, 'pending');
 
-    if (path.startsWith('http')) {
-      const url = new URL(path);
-      req = wretch(url.origin, { mode: 'cors' })
-        .addon(QueryStringAddon)
-        .url(url.pathname);
-    } else {
-      req = wretch(this.baseURL, { mode: 'cors' }).addon(QueryStringAddon).url(path);
-    }
+    // Determine URL parts first for proper typing
+    const { origin, pathname, search } = path.startsWith('http')
+      ? new URL(path)
+      : {
+          origin: this.baseURL,
+          pathname: path,
+          search: '',
+        };
+
+    // Create properly typed wretch instance with chaining
+    let req = wretch(origin, { mode: 'cors' })
+      .addon(QueryStringAddon)
+      .url(pathname + search);
 
     if (requestConfig.signal) {
       req = req.options({ signal: requestConfig.signal });
@@ -110,22 +128,23 @@ export class ApiClient {
 
     let isAuthenticatedRequest = false;
 
-    if (useAuth) {
-      const token = await this.authService.getAccessToken();
-      if (token) {
-        isAuthenticatedRequest = true;
-        req = req.auth(`Bearer ${token}`).catcher(401, async (_, originalRequest) => {
-          const token = await this.authService.getAccessToken();
-          // replay original request with new token
-          return originalRequest
-            .auth(`Bearer ${token}`)
-            .fetch()
-            .unauthorized((err) => {
-              // Redefine unauthorized hook to prevent infinite loops with multiple 401 errors
-              throw err;
-            })
-            .res(autoParseBody);
-        });
+    const authRequirement = requestConfig.authRequirement ?? AUTH_REQUIREMENT.OPTIONAL;
+
+    if (authRequirement !== AUTH_REQUIREMENT.NEVER) {
+      try {
+        const requireAuth = authRequirement === AUTH_REQUIREMENT.MUST;
+        const token = await this.authService.getAccessToken(requireAuth);
+
+        if (token) {
+          isAuthenticatedRequest = true;
+          req = req.auth(`Bearer ${token}`);
+        }
+      } catch (error) {
+        if (authRequirement === AUTH_REQUIREMENT.OPTIONAL) {
+          console.warn('Authentication failed but proceeding with request:', error);
+        } else {
+          throw error;
+        }
       }
     }
 
@@ -143,18 +162,21 @@ export class ApiClient {
       this.updateRequestPool(requestId, null);
       const apiError = createApiError(err);
 
-      if (apiError.problem.kind === 'canceled') {
+      if (getApiErrorKind(apiError) === 'canceled') {
         throw apiError;
       }
 
-      if (isAuthenticatedRequest && apiError.problem.kind === 'unauthorized') {
+      if (isAuthenticatedRequest && getApiErrorKind(apiError) === 'unauthorized') {
         try {
           // sometimes infrastructure returns 401
           // try refreshing token to ensure it's auth problem and not infrastructure error
-          await this.authService.getAccessToken();
+          const token = await this.authService.getAccessToken();
+          if (!token) {
+            throw apiError;
+          }
         } catch (error) {
-          // logout is handled in authService for this case
-          goTo('/profile');
+          // Always throw the original API error
+          throw apiError;
         }
         throw apiError;
       }
@@ -174,13 +196,15 @@ export class ApiClient {
       };
 
       if (retryConfig.attempts > 0) {
-        const shouldRetry = retryConfig.onErrorKinds.includes(apiError.problem.kind);
+        const shouldRetry = retryConfig.onErrorKinds.includes(
+          getApiErrorKind(apiError) as GeneralApiProblem['kind'],
+        );
 
         if (shouldRetry) {
           if (retryConfig.delayMs) {
             await wait(retryConfig.delayMs / 1000);
           }
-          return this.call(method, path, requestParams, useAuth, {
+          return this.call(method, path, requestParams, {
             ...requestConfig,
             retry: {
               ...retryConfig,
@@ -214,44 +238,39 @@ export class ApiClient {
   public async get<T>(
     path: string,
     requestParams?: RequestParams,
-    useAuth = false,
     requestConfig?: CustomRequestConfig,
   ): Promise<T | null> {
-    return this.call<T>(ApiMethodTypes.GET, path, requestParams, useAuth, requestConfig);
+    return this.call<T>(ApiMethodTypes.GET, path, requestParams, requestConfig);
   }
 
   public async post<T>(
     path: string,
     requestParams?: unknown,
-    useAuth = false,
     requestConfig?: CustomRequestConfig,
   ): Promise<T | null> {
-    return this.call(ApiMethodTypes.POST, path, requestParams, useAuth, requestConfig);
+    return this.call(ApiMethodTypes.POST, path, requestParams, requestConfig);
   }
 
   public async put<T>(
     path: string,
     requestParams?: RequestParams,
-    useAuth = false,
     requestConfig?: CustomRequestConfig,
   ): Promise<T | null> {
-    return this.call(ApiMethodTypes.PUT, path, requestParams, useAuth, requestConfig);
+    return this.call(ApiMethodTypes.PUT, path, requestParams, requestConfig);
   }
 
   public async patch<T>(
     path: string,
     requestParams?: RequestParams,
-    useAuth = false,
     requestConfig?: CustomRequestConfig,
   ): Promise<T | null> {
-    return this.call(ApiMethodTypes.PATCH, path, requestParams, useAuth, requestConfig);
+    return this.call(ApiMethodTypes.PATCH, path, requestParams, requestConfig);
   }
 
   public async delete<T>(
     path: string,
-    useAuth = false,
     requestConfig?: CustomRequestConfig,
   ): Promise<T | null> {
-    return this.call(ApiMethodTypes.DELETE, path, undefined, useAuth, requestConfig);
+    return this.call(ApiMethodTypes.DELETE, path, undefined, requestConfig);
   }
 }

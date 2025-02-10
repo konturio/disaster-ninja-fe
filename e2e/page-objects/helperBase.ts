@@ -20,11 +20,8 @@ export type Project = {
 };
 
 export class HelperBase {
-  readonly page: Page;
+  constructor(public readonly page: Page) {}
 
-  constructor(page: Page) {
-    this.page = page;
-  }
   /**
    * This method opens up a project like disaster-ninja, atlas, etc. After that it checks the title to correspond to this project and accepts cookies if needed
    * @param project object with details about project to open like name, url, title, etc.

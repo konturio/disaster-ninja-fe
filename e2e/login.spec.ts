@@ -3,6 +3,9 @@ import { getProjects } from './page-objects/helperBase.ts';
 
 const projects = getProjects();
 
+const linkToSurveyProd =
+  'https://docs.google.com/forms/d/e/1FAIpQLSe86tGwmJcIvs8aTc1-zyw6ihmXqIeObpeJZmd6y_fMGL70iA/viewform';
+
 // Create a loop to loop over all the projects and create a test for everyone
 for (const project of projects) {
   test(`As Guest, I can log in to ${project.title}, check that this profile is mine, and log out`, async ({
@@ -24,12 +27,12 @@ for (const project of projects) {
       await pageManager.atPricingPage.clickBtnAndAssertUrl({
         context,
         buttonName: 'Request trial',
-        expectedUrlPart: 'demo-call',
+        expectedUrlPart: project.env === 'test' ? 'demo-call' : linkToSurveyProd,
       });
       await pageManager.atPricingPage.clickBtnAndAssertUrl({
         context,
         buttonName: 'Book a demo',
-        expectedUrlPart: 'atlas-demo',
+        expectedUrlPart: project.env === 'test' ? 'atlas-demo' : linkToSurveyProd,
       });
       await pageManager.atNavigationMenu.clickButtonToOpenPage('Profile');
     }

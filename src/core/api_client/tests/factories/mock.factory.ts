@@ -18,13 +18,16 @@ export class MockFactory {
     const accessToken = token || (await TokenFactory.createToken());
     const refreshToken = await TokenFactory.createRefreshToken();
 
-    fetchMock.postOnce(tokenEndpoint, {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-      body: {
-        access_token: accessToken,
-        refresh_token: refreshToken,
-      },
+    fetchMock.post(tokenEndpoint, (url: string, opts: any) => {
+      this.callCount++;
+      return {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+        body: {
+          access_token: accessToken,
+          refresh_token: refreshToken,
+        },
+      };
     });
   }
 
@@ -35,17 +38,20 @@ export class MockFactory {
       status: 401,
       headers: { 'Content-Type': 'application/json' },
       body: {
-        error: 'invalid_grant',
-        error_description: 'Invalid username or password',
+        error: 'unauthorized',
+        message: 'Token expired',
+        error_description: 'Token expired',
       },
     });
   }
 
   static setupLogoutEndpoint(config: AuthConfig = {}): void {
-    const { baseUrl, realm } = AuthFactory.createConfig(config);
-    const logoutEndpoint = `${baseUrl}/realms/${realm}/protocol/openid-connect/logout`;
-    fetchMock.post(logoutEndpoint, {
-      status: 204,
+    const logoutEndpoint = AuthFactory.getLogoutEndpoint(config);
+    fetchMock.post(logoutEndpoint, (url: string, opts: any) => {
+      this.callCount++;
+      return {
+        status: 204,
+      };
     });
   }
 
@@ -188,13 +194,12 @@ export class MockFactory {
       forbidden: 403,
       'not-found': 404,
       timeout: 408,
-      'cannot-connect': 503,
       server: 500,
-      'client-unknown': 400,
+      'bad-request': 400,
       'bad-data': 422,
     };
 
-    fetchMock[method.toLowerCase()](
+    fetchMock.once(
       AuthFactory.getApiUrl(path),
       (url: string, opts: any) => {
         this.callCount++;
@@ -203,11 +208,12 @@ export class MockFactory {
           headers: { 'Content-Type': 'application/json' },
           body: {
             error: error.kind,
-            message: error.message,
-            data: error.data,
+            ...(error.message && { message: error.message }),
+            ...(error.data !== undefined && { data: error.data }),
           },
         };
       },
+      { method: method.toLowerCase() },
     );
   }
 
@@ -216,7 +222,8 @@ export class MockFactory {
     data: T,
     options: MockApiResponseOptions = {},
   ): void {
-    const { method = 'POST', headers = {}, once = false } = options;
+    const { method = 'POST', headers = {}, once = true } = options;
+    const url = path.startsWith('http') ? path : AuthFactory.getApiUrl(path);
 
     const response = (url: string, opts: any) => {
       this.callCount++;
@@ -230,44 +237,19 @@ export class MockFactory {
       };
     };
 
-    if (once) {
-      fetchMock.once(AuthFactory.getApiUrl(path), response, { method });
-    } else {
-      fetchMock[method.toLowerCase()](AuthFactory.getApiUrl(path), response);
-    }
+    fetchMock.once(url, response, { method });
   }
 
-  static setupNetworkError(path: string, method: string = 'POST'): void {
-    fetchMock[method.toLowerCase()](
-      AuthFactory.getApiUrl(path),
-      (url: string, opts: any) => {
-        this.callCount++;
-        return {
-          throws: new ApiClientError("Can't connect to server", {
-            kind: 'cannot-connect',
-            temporary: true,
-          }),
-        };
-      },
-    );
+  static setupNetworkError(path: string, method: string = 'GET'): void {
+    fetchMock[method.toLowerCase()](AuthFactory.getApiUrl(path), {
+      throws: new Error("Can't connect to server"),
+    });
   }
 
   static setupTimeoutError(path: string, method: string = 'POST'): void {
-    fetchMock[method.toLowerCase()](
-      AuthFactory.getApiUrl(path),
-      (url: string, opts: any) => {
-        this.callCount++;
-        return {
-          status: 408,
-          headers: { 'Content-Type': 'application/json' },
-          body: {
-            error: 'timeout',
-            message: 'Request Timeout',
-            data: null,
-          },
-        };
-      },
-    );
+    fetchMock[method.toLowerCase()](AuthFactory.getApiUrl(path), {
+      throws: new Error('Request Timeout'),
+    });
   }
 
   static setupSequentialResponses(
