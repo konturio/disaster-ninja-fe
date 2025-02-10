@@ -1,0 +1,69 @@
+name: Deploy to Dev
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to deploy'
+        required: true
+        default: 'main'
+
+jobs:
+  build-and-publish:
+    uses: ./.github/workflows/build.yml
+    with:
+      branch: ${{ github.event.inputs.branch }}
+    secrets:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  update-helm-manifests:
+    needs: build-and-publish
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout CD repository
+        uses: actions/checkout@v4
+        with:
+          repository: konturio/disaster-ninja-cd
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: cd
+
+      - name: Install yq utility
+        run: |
+          wget -qO /tmp/yq https://github.com/mikefarah/yq/releases/download/v4.34.2/yq_linux_amd64
+          chmod +x /tmp/yq
+          sudo mv /tmp/yq /usr/local/bin/yq
+
+      - name: Update image tag in values-dev.yaml
+        working-directory: cd/helm/disaster-ninja-fe/values
+        run: |
+          IMAGE_TAG="${{ needs.build-and-publish.outputs.image_tag }}"
+          echo "Updating image tag to ${IMAGE_TAG}"
+          yq -i ".image.fe.tag = \"${IMAGE_TAG}\"" values-dev.yaml
+          echo "New contents of values-dev.yaml:"
+          cat values-dev.yaml
+
+      - name: Bump version in Chart.yaml
+        working-directory: cd/helm/disaster-ninja-fe
+        run: |
+          echo "Current contents of Chart.yaml:"
+          cat Chart.yaml
+          CURRENT_VERSION=$(grep '^version:' Chart.yaml | awk '{print $2}')
+          IFS='.' read -r major minor patch <<< "$CURRENT_VERSION"
+          NEW_PATCH=$((patch + 1))
+          NEW_VERSION="${major}.${minor}.${NEW_PATCH}"
+          echo "Updating Chart version from $CURRENT_VERSION to $NEW_VERSION"
+          yq -i ".version = \"${NEW_VERSION}\"" Chart.yaml
+          echo "New contents of Chart.yaml:"
+          cat Chart.yaml
+
+      - name: Create Pull Request for helm manifest updates
+        uses: peter-evans/create-pull-request@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'Deploy FE: update image tag to ${{ needs.build-and-publish.outputs.image_tag }} and bump Chart version'
+          branch: deploy-dn-fe-dev-${{ github.run_id }}
+          title: 'Deploy FE: update image tag to ${{ needs.build-and-publish.outputs.image_tag }} and bump Chart version'
+          body: 'Automatically created PR to update helm manifests with the new image tag.'
+          base: main
+          path: cd
