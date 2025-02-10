@@ -1,6 +1,6 @@
 import { layerByOrder } from '~core/logical_layers/utils/layersOrder/layerByOrder';
 import { styleConfigs } from '../stylesConfigs';
-import { ClickableTilesRenderer } from '../ClickableTilesRenderer';
+import { ClickableFeaturesRenderer } from '../ClickableFeaturesRenderer';
 import { generateMultivariatePopupContent } from './popup';
 import type { LayerSpecification } from 'maplibre-gl';
 import type { LayerTileSource } from '~core/logical_layers/types/source';
@@ -9,7 +9,7 @@ import type { LayerStyle } from '../../types/style';
 
 const MULTIVARIATE_LAYER_PREFIX = 'multivariate-layer-';
 
-export class MultivariateRenderer extends ClickableTilesRenderer {
+export class MultivariateRenderer extends ClickableFeaturesRenderer {
   protected getSourcePrefix(): string {
     return 'multivariate-source-';
   }

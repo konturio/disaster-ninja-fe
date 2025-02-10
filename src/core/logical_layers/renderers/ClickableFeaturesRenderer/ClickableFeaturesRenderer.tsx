@@ -28,7 +28,7 @@ import type { LayerTileSource } from '~core/logical_layers/types/source';
 import type { LayersOrderManager } from '../../utils/layersOrder/layersOrder';
 import type { LayerStyle } from '../../types/style';
 
-export abstract class ClickableTilesRenderer extends LogicalLayerDefaultRenderer {
+export abstract class ClickableFeaturesRenderer extends LogicalLayerDefaultRenderer {
   public readonly id: string;
   protected _layerId?: string;
   protected _sourceId: string;

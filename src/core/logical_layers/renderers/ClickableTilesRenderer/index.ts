@@ -1,1 +1,0 @@
-export { ClickableTilesRenderer } from './ClickableTilesRenderer';
