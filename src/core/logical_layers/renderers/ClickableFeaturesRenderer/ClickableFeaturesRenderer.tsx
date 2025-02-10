@@ -13,9 +13,9 @@ import {
   FALLBACK_BIVARIATE_MIN_ZOOM,
   SOURCE_LAYER_BIVARIATE,
 } from '../BivariateRenderer/constants';
-import { createFeatureStateHandlers } from '../BivariateRenderer/activeAndHoverFeatureStates';
+import { createFeatureStateHandlers } from '../helpers/activeAndHoverFeatureStates';
 import { H3_HOVER_LAYER } from '../BivariateRenderer/constants';
-import { isFeatureVisible } from '../BivariateRenderer/featureVisibilityCheck';
+import { isFeatureVisible } from '../helpers/featureVisibilityCheck';
 import type {
   LineLayerSpecification,
   MapLibreZoomEvent,

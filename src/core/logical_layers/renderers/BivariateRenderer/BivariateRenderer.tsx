@@ -20,6 +20,8 @@ import { getMaxNumeratorZoomLevel } from '~utils/bivariate/getMaxZoomLevel';
 import { styleConfigs } from '../stylesConfigs';
 import { generateMCDAPopupContent } from '../MCDARenderer/popup';
 import { setTileScheme } from '../setTileScheme';
+import { createFeatureStateHandlers } from '../helpers/activeAndHoverFeatureStates';
+import { isFeatureVisible } from '../helpers/featureVisibilityCheck';
 import {
   FALLBACK_BIVARIATE_MIN_ZOOM,
   FALLBACK_BIVARIATE_MAX_ZOOM,
@@ -27,8 +29,6 @@ import {
   SOURCE_LAYER_BIVARIATE,
 } from './constants';
 import { generateLayerFromLegend } from './legends';
-import { createFeatureStateHandlers } from './activeAndHoverFeatureStates';
-import { isFeatureVisible } from './featureVisibilityCheck';
 import type { MCDALayerStyle } from '../stylesConfigs/mcda/types';
 import type {
   LayerSpecification,
