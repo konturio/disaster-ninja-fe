@@ -51,13 +51,13 @@ jobs:
       - name: Enable surge.sh redirects
         run: cp dist/index.html dist/200.html
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: github.event.action != 'closed'
         with:
           name: main-app
           path: ${{ github.workspace }}/dist
 
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         if: github.event.action != 'closed'
         with:
           name: cosmos
@@ -78,12 +78,12 @@ jobs:
       - name: Install Surge
         run: npm install -g surge
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: main-app
           path: dist
 
-      - uses: actions/download-artifact@v3
+      - uses: actions/download-artifact@v4
         with:
           name: cosmos
           path: cosmos-export
