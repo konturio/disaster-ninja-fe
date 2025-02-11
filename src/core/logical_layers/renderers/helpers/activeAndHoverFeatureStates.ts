@@ -1,6 +1,6 @@
 import { haveValue } from '~utils/common';
 import { isFeatureVisible } from './featureVisibilityCheck';
-import type { FEATURE_STATES } from './constants';
+import type { FEATURE_STATES } from '../BivariateRenderer/constants';
 
 function featureHaveId<T extends { id?: string | number }>(
   feature: T,
