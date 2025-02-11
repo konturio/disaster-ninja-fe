@@ -8,7 +8,7 @@ export function getLayerRenderer(layer: LayerSummaryDto): LogicalLayerDefaultRen
   if (layer.type === 'multivariate') {
     return new MultivariateRenderer({ id: layer.id });
   }
-  // TODO: group and category should not be used to determine the renderer. Layer type needs to be used instead
+  // TODO: #20714 group and category should not be used to determine the renderer. Layer type needs to be used instead
   if (layer.group === 'bivariate' && layer.category === 'overlay') {
     return new BivariateRenderer({ id: layer.id });
   }
