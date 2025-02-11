@@ -3,6 +3,10 @@ import { generateMCDALegendColors } from '~utils/mcda/mcdaLegendsUtils';
 import { BIVARIATE_LEGEND_SIZE } from '~components/BivariateLegend/const';
 import { DEFAULT_MULTIBIVARIATE_STEPS } from '~utils/multivariate/constants';
 import { invertClusters, type Step } from '~utils/bivariate';
+import { CornerTooltipWrapper } from '~components/BivariateLegend/CornerTooltipWrapper';
+import { DEFAULT_BASE_DIRECTION, DEFAULT_SCORE_DIRECTION } from './constants';
+import type { Direction } from '~utils/bivariate';
+import type { LayerMeta } from '~core/logical_layers/types/meta';
 import type { ColorTheme } from '~core/types';
 import type { MultivariateLayerConfig } from '~core/logical_layers/renderers/MultivariateRenderer/types';
 import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
@@ -30,6 +34,22 @@ function createMCDALegend(mcdaConfig: MCDAConfig): JSX.Element {
   return <MCDALegend title={mcdaConfig.name} steps={5} colors={legendColors} />;
 }
 
+function getCornerHintsForDimension(
+  dimension: MCDAConfig,
+  defaultDirection: Direction,
+): {
+  label: string;
+  direction: Direction;
+} {
+  const label = dimension.name;
+  let direction = defaultDirection;
+  const mcdaAxes = dimension.layers;
+  if (mcdaAxes.length === 1 && mcdaAxes[0].indicators.length > 0) {
+    direction = mcdaAxes[0].indicators[0].direction;
+  }
+  return { label, direction };
+}
+
 function createBivariateLegend(
   score: MCDAConfig,
   base: MCDAConfig,
@@ -55,13 +75,20 @@ function createBivariateLegend(
     })),
     'label',
   ) as Cell[];
+
+  const hints: LayerMeta['hints'] = {
+    x: getCornerHintsForDimension(score, DEFAULT_SCORE_DIRECTION),
+    y: getCornerHintsForDimension(base, DEFAULT_BASE_DIRECTION),
+  };
   return (
-    <BiLegend
-      cells={cells}
-      size={BIVARIATE_LEGEND_SIZE}
-      axis={{ x: xAxis, y: yAxis }}
-      showAxisLabels
-    />
+    <CornerTooltipWrapper hints={hints}>
+      <BiLegend
+        cells={cells}
+        size={BIVARIATE_LEGEND_SIZE}
+        axis={{ x: xAxis, y: yAxis }}
+        showAxisLabels
+      />
+    </CornerTooltipWrapper>
   );
 }
 
