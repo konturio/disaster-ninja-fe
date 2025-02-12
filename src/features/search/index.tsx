@@ -2,11 +2,11 @@ import { Button, Panel, PanelIcon, Text } from '@konturio/ui-kit';
 import { Search24 } from '@konturio/default-icons';
 import clsx from 'clsx';
 import { useEffect, useRef } from 'react';
-import { SearchBar } from '~features/search/componets/SearchBar/SearchBar';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { i18n } from '~core/localization';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
+import { SearchBar } from '~features/search/componets/SearchBar/SearchBar';
 import s from './styles.module.css';
 
 export function Search() {
@@ -15,7 +15,7 @@ export function Search() {
   });
   useAutoCollapsePanel(isOpen, closePanel);
 
-  const inputRef = useRef<HTMLInputElement | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
 
   useEffect(() => {

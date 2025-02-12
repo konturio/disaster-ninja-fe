@@ -1,51 +1,48 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import { Close16, Loader24, Search16 } from '@konturio/default-icons';
 import cn from 'clsx';
 import { Button } from '@konturio/ui-kit';
-import { reatomComponent } from '@reatom/npm-react';
 import styles from './SearchInput.module.css';
-import type { AtomMut } from '@reatom/framework';
 
 export interface SearchInputProps {
   inputProps: React.InputHTMLAttributes<HTMLInputElement>;
-  inputAtom: AtomMut<string>;
   isLoading: boolean;
   onSearch: () => void;
   onReset: () => void;
   placeholder?: string;
   classes?: {
-    button?: string;
+    searchButton?: string;
     inputWrapper?: string;
+    container?: string;
   };
 }
 
-export const SearchInput = reatomComponent<SearchInputProps>(
-  ({
-    ctx,
-    inputAtom,
-    inputProps,
-    isLoading,
-    placeholder,
-    onReset,
-    onSearch,
-    classes,
-  }) => {
+export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
+  (
+    { inputProps, isLoading, placeholder, onReset, onSearch, classes }: SearchInputProps,
+    ref,
+  ) => {
+    const reset = () => {
+      if (ref && typeof ref !== 'function' && 'current' in ref) {
+        ref.current?.focus();
+      }
+      onReset();
+    };
+
     return (
-      <div className={styles.searchInputContainer}>
+      <div className={cn(styles.searchInputContainer, classes?.container)}>
         <div className={cn(styles.searchInputWrapper, classes?.inputWrapper)}>
           <input
             className={styles.searchInput}
             placeholder={placeholder}
             {...inputProps}
-            value={ctx.spy(inputAtom)}
-            onChange={(e) => inputAtom(ctx, e.target.value)}
           />
 
           <Loader24
             className={cn(styles.LoadingSpinner, { [styles.shown]: isLoading })}
           />
 
-          <button type="reset" onClick={onReset} aria-label="Reset search input">
+          <button type="reset" onClick={reset} aria-label="Reset search input">
             <Close16 />
           </button>
         </div>
@@ -53,7 +50,7 @@ export const SearchInput = reatomComponent<SearchInputProps>(
         <Button
           variant="invert"
           onClick={onSearch}
-          className={classes?.button}
+          className={classes?.searchButton}
           aria-label="search"
         >
           <Search16 />
@@ -62,3 +59,5 @@ export const SearchInput = reatomComponent<SearchInputProps>(
     );
   },
 );
+
+SearchInput.displayName = 'SearchInput';
