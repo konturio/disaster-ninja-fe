@@ -119,6 +119,7 @@ export const RefAreaSearchBar = () => {
         placeholder={i18n.t('search.search_location')}
         onReset={handleReset}
         onSearch={handleSearch}
+        classes={{ container: s.searchContainer }}
       />
       {isMenuOpen && (
         <ul className={s.resultsList}>

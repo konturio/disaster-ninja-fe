@@ -1,8 +1,7 @@
 import { Heading, Text } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/npm-react';
 import { Rubber16 } from '@konturio/default-icons';
-import { useCallback, useMemo, useState } from 'react';
-import clsx from 'clsx';
+import { useMemo, useState } from 'react';
 import { i18n } from '~core/localization';
 import {
   referenceAreaAtom,
@@ -110,10 +109,7 @@ export function ReferenceAreaInfo() {
                 {i18n.t('profile.reference_area.accessing_location_error')}
               </span>
             ) : (
-              <button
-                className={clsx(s.link, s.userLocation)}
-                onClick={onSelectCurrentLocation}
-              >
+              <button className={s.link} onClick={onSelectCurrentLocation}>
                 {i18n.t('profile.reference_area.select_location')}
               </button>
             )}

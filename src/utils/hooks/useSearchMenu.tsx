@@ -23,7 +23,7 @@ export function useSearchMenu<T extends ListItem = ListItem>({
   const [inputValue, setInputValue] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
-  const searchInputEl = useRef<HTMLInputElement>();
+  const searchInputEl = useRef<HTMLInputElement>(null);
   const searchBarRef = useOutsideClick<HTMLDivElement>(() => setIsMenuOpen(false));
 
   useEffect(() => {

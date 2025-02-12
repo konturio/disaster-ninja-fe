@@ -3,10 +3,14 @@
   margin-top: 12px;
 }
 
+.searchContainer {
+  box-shadow: 0 0 0 1px var(--faint-strong-down);
+}
+
 .resultsList {
   position: absolute;
   top: 100%;
-  background: #fffffffc;
+  background: #ffffff;
   max-height: 40vh;
   overflow-y: auto;
   min-width: 100%;
