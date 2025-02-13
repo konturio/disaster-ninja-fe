@@ -96,6 +96,10 @@ function MapboxMap(
       ...mapLocation,
       ...options,
     });
+    mapInstance.once('styledata', () => {
+      // sets up the neutral white light for extrusion layers
+      mapInstance.setLight({ anchor: 'viewport', color: '#FFF', intensity: 1 });
+    });
 
     if (mapLibre.getRTLTextPluginStatus() === 'unavailable') {
       mapLibre.setRTLTextPlugin(
