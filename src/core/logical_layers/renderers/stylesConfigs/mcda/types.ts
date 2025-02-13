@@ -1,12 +1,14 @@
+import type { MultivariateLayerConfig } from '../../MultivariateRenderer/types';
 import type {
   AxisDatasetStats,
   AxisTransformation,
+  Direction,
   Indicator,
 } from '~utils/bivariate/types/stat.types';
 
 export type ColorsByMapLibreExpression = {
   type: 'mapLibreExpression';
-  parameters: Record<string, string | number | boolean | maplibregl.Expression>;
+  parameters: maplibregl.Expression;
 };
 
 export type ColorsBySentiments = {

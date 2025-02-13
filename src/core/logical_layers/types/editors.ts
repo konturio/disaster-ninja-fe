@@ -1,5 +1,5 @@
 export interface LayerEditor {
-  type: 'mcda';
+  type: 'mcda' | 'multivariate';
   component: React.FunctionComponent<LayerEditorProps>;
 }
 
