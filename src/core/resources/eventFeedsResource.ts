@@ -11,12 +11,9 @@ export interface EventFeed {
 export const eventFeedsResourceAtom = createAsyncAtom(
   null,
   async (_, abortController) => {
-    const feedsResponse = apiClient.get<EventFeed[]>(
-      '/events/user_feeds',
-      undefined,
-      true,
-      { signal: abortController.signal },
-    );
+    const feedsResponse = apiClient.get<EventFeed[]>('/events/user_feeds', undefined, {
+      signal: abortController.signal,
+    });
     return feedsResponse;
   },
   'eventFeedsResource',

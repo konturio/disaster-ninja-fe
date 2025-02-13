@@ -25,7 +25,9 @@ function updateFeatureConfiguration(
   return apiClient.put(
     `/features/${featureId}?appId=${configRepo.get().id}`,
     featureConfiguration,
-    true,
-    requestConfig,
+    {
+      ...requestConfig,
+      authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
+    },
   );
 }

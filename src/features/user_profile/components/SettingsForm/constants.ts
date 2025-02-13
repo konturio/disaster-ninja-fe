@@ -68,3 +68,22 @@ export const OPTIONS_THEME = [
   { title: i18n.t('profile.konturTheme'), value: 'kontur' },
   // { title: i18n.t('profile.HOTTheme'), value: 'hot' },
 ];
+
+export const GIS_SPECIALISTS = [
+  {
+    title: i18n.t('profile.dont_know'),
+    value: 'unknown',
+  },
+  {
+    title: '0',
+    value: '0',
+  },
+  {
+    title: '1',
+    value: '1',
+  },
+  {
+    title: '2+',
+    value: '2+',
+  },
+];

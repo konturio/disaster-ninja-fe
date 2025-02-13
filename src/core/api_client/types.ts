@@ -1,3 +1,5 @@
+import type { AuthRequirement } from '~core/auth/constants';
+
 export const ApiMethodTypes = {
   GET: 'get',
   POST: 'post',
@@ -12,39 +14,6 @@ export interface ApiClientConfig {
   baseUrl?: string;
 }
 
-export interface KeycloakAuthResponse {
-  access_token: string;
-  expires_in: number;
-  refresh_expires_in: number;
-  refresh_token: string;
-  scope: string;
-  session_state: string;
-  token_type: 'Bearer';
-  error_description?: string;
-}
-
-export type JWTData = {
-  acr: string;
-  aud: string;
-  azp: string;
-  email: string;
-  email_verified: boolean;
-  exp: number;
-  family_name: string;
-  given_name: string;
-  iat: number;
-  iss: string;
-  jti: string;
-  name: string;
-  preferred_username: string;
-  realm_access: { roles: string[] };
-  resource_access: { account: { roles: string[] } };
-  scope: string;
-  session_state: string;
-  sub: string;
-  typ: string;
-};
-
 // GeoJSON.GeoJSON conflict with  Record<string, unknown>
 // https://stackoverflow.com/questions/60697214/how-to-fix-index-signature-is-missing-in-type-error
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -55,20 +24,6 @@ export type RequestErrorsConfig = {
   messages?: Record<number, string> | string;
 };
 
-export interface CustomRequestConfig {
-  headers?: Record<string, string>;
-  errorsConfig?: RequestErrorsConfig;
-  signal?: AbortSignal;
-  retry?: {
-    /** Maximum number of retry attempts. Default: 0 (no retries) */
-    attempts: number;
-    /** Delay in milliseconds between retries. Default: 1000 */
-    delayMs?: number;
-    /** Error kinds to retry on. Default: ['timeout'] */
-    onErrorKinds?: Array<GeneralApiProblem['kind']>;
-  };
-}
-
 /** ----------------------------------------------------------------------------
  *          API PROBLEM
  * -------------------------------------------------------------------------- */
@@ -78,10 +33,6 @@ export type GeneralApiProblem =
    * Times up.
    */
   | { kind: 'timeout'; temporary: true }
-  /**
-   * Cannot connect to the server for some reason.
-   */
-  | { kind: 'cannot-connect'; temporary: true }
   /**
    * The server experienced a problem. Any 5xx error.
    */
@@ -126,3 +77,35 @@ export type GeneralApiProblem =
    * Client-side catch all
    */
   | { kind: 'client-unknown' };
+
+export interface RetryConfig {
+  /** Maximum number of retry attempts. Default: 0 (no retries) */
+  attempts: number;
+  /** Delay in milliseconds between retries. Default: 1000 */
+  delayMs?: number;
+  /** Error kinds to retry on. Default: ['timeout'] */
+  onErrorKinds?: Array<GeneralApiProblem['kind']>;
+}
+
+/**
+ * Configuration options for API requests
+ * @interface
+ */
+export interface CustomRequestConfig {
+  /** AbortSignal for request cancellation */
+  signal?: AbortSignal;
+  /** Additional headers to include in the request */
+  headers?: Record<string, string>;
+  /** Error handling configuration */
+  errorsConfig?: RequestErrorsConfig;
+  /**
+   * Authentication requirement for the request:
+   * - MUST: Request will fail if user is not authenticated
+   * - OPTIONAL (default): Will include auth token if available
+   * - NEVER: Explicitly prevents authentication. Use for endpoints that must be called without auth
+   *   (login, token refresh, public endpoints)
+   */
+  authRequirement?: AuthRequirement;
+  /** Retry configuration for failed requests */
+  retry?: RetryConfig;
+}

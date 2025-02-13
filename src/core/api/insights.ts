@@ -1,5 +1,5 @@
-import { configRepo } from '~core/config';
 import { apiClient } from '~core/apiClientInstance';
+import { configRepo } from '~core/config';
 import { i18n } from '~core/localization';
 import type { AdvancedAnalyticsData, AnalyticsData, LLMAnalyticsData } from '~core/types';
 
@@ -13,12 +13,13 @@ export function getPolygonDetails(
       appId: configRepo.get().id,
       features,
     },
-    true,
-    { signal: abortController.signal, errorsConfig: { hideErrors: true } },
+    {
+      signal: abortController.signal,
+      errorsConfig: { hideErrors: true },
+    },
   );
 }
 
-// Advanced Analytics for authenticated user
 export function getAdvancedPolygonDetails(
   geometry: GeoJSON.GeoJSON,
   abortController: AbortController,
@@ -26,8 +27,10 @@ export function getAdvancedPolygonDetails(
   return apiClient.post<AdvancedAnalyticsData[] | null>(
     `/advanced_polygon_details/`,
     geometry,
-    true,
-    { signal: abortController.signal, errorsConfig: { hideErrors: true } },
+    {
+      signal: abortController.signal,
+      errorsConfig: { hideErrors: true },
+    },
   );
 }
 
@@ -41,7 +44,6 @@ export function getLlmAnalysis(
       appId: configRepo.get().id,
       features: geometry,
     },
-    true,
     {
       signal: abortController.signal,
       headers: { 'user-language': i18n.instance.language },

@@ -54,10 +54,10 @@ export const editableLayersDetailsResourceAtom = createAsyncAtom(
     return await apiClient.post<LayerDetailsDto[]>(
       '/layers/details',
       { ...params, appId: configRepo.get().id },
-      true,
       {
         headers: { 'user-language': configRepo.get().initialUser.language },
         signal: abortController.signal,
+        authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
       },
     );
   },

@@ -99,3 +99,11 @@ export type AboutFeatureConfig = {
     assetUrl?: string;
   }[];
 };
+
+export type LoginFeatureConfig = {
+  profile_form: {
+    organization_section: boolean;
+    phone: boolean;
+    linkedin: boolean;
+  };
+};

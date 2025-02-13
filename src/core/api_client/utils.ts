@@ -1,4 +1,4 @@
-import type { WretchResponse } from 'wretch/types';
+import type { WretchResponse } from 'wretch';
 
 export async function autoParseBody(res: WretchResponse) {
   if (res.status === 204) {

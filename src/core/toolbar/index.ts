@@ -106,17 +106,6 @@ class ToolbarImpl implements Toolbar {
     );
   }
 
-  resetOtherActiveControls(activeControlId: ControlID) {
-    this.updateControlsState(
-      (stateAtom) => {
-        if (stateAtom.getState() === 'active') store.dispatch(stateAtom.set('regular'));
-      },
-      (controlId, settings) =>
-        controlId !== activeControlId &&
-        settings.id !== FOCUSED_GEOMETRY_EDITOR_CONTROL_ID,
-    );
-  }
-
   // Sets up a control with its settings and state management logic
   setupControl<Ctx extends Record<string, unknown>>(
     settings: ToolbarControlSettings,
@@ -146,9 +135,6 @@ class ToolbarImpl implements Toolbar {
 
     // Subscribing to state changes to manage enabling/disabling of controls
     const unsubscribe = controlStateAtom.subscribe((state) => {
-      // Order of execution is important here, resetOtherActiveControls should be called before disableBorrowMapControls
-      if (state === 'active') this.resetOtherActiveControls(settings.id);
-
       if (state === 'active' && settings.borrowMapInteractions)
         this.disableBorrowMapControls(settings.id);
 

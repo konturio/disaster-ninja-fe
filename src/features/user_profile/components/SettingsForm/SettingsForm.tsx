@@ -12,6 +12,7 @@ import { DEFAULT_OSM_EDITOR } from '~core/constants';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 import { AppFeature } from '~core/app/types';
 import {
+  GIS_SPECIALISTS,
   OPTIONS_LANGUAGE,
   OPTIONS_OSM,
 } from '~features/user_profile/components/SettingsForm/constants';
@@ -21,6 +22,7 @@ import stylesV1 from '~features/user_profile/components/SettingsForm/SettingsFor
 import { FullScreenLoader } from '~components/LoadingSpinner/LoadingSpinner';
 import { currentProfileAtom, pageStatusAtom } from '../../atoms/userProfile';
 import s from './SettingsForm.module.css';
+import type { LoginFeatureConfig } from '~core/config/types';
 
 const { ReferenceAreaInfo } = lazily(
   () => import('./ReferenceAreaInfo/ReferenceAreaInfo'),
@@ -29,14 +31,26 @@ const { SelectFeeds } = lazily(() => import('./SelectFeeds'));
 
 const authInputClasses = { input: clsx(s.authInput) };
 const featureFlags = configRepo.get().features;
+const loginPageConfig = featureFlags?.[AppFeature.APP_LOGIN];
+const profileConfig =
+  loginPageConfig && typeof loginPageConfig === 'object'
+    ? (loginPageConfig as LoginFeatureConfig).profile_form
+    : null;
 
 const navigationSteps = [
-  { label: i18n.t('profile.analysis_objectives'), id: 'analysis-objectives' },
+  featureFlags?.[AppFeature.LLM_ANALYTICS] && {
+    label: i18n.t('profile.analysis_objectives'),
+    id: 'analysis-objectives',
+  },
   featureFlags?.[AppFeature.REFERENCE_AREA] && {
     label: i18n.t('profile.reference_area.title'),
     id: 'reference-area',
   },
   { label: i18n.t('profile.your_contacts'), id: 'your-contacts' },
+  profileConfig?.organization_section !== false && {
+    label: i18n.t('profile.your_organization'),
+    id: 'your-organization',
+  },
   { label: i18n.t('profile.appSettingsHeader'), id: 'settings' },
 ].filter(Boolean);
 
@@ -116,40 +130,42 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
         </div>
         <div className={s.settingsColumn}>
           <div className={s.settingsSection}>
-            <SettingsSection
-              id="analysis-objectives"
-              className={s.fancySection}
-              label={i18n.t('profile.improves_analysis')}
-              title={i18n.t('profile.analysis_objectives')}
-            >
-              <div className={s.descriptionBlock}>
-                {i18n.t('profile.personalization_prompt')}
-                <div className={s.tags}>
-                  <span className={clsx(s.tag, 'k-font-caption')}>
-                    {i18n.t('profile.your_current_job')}
-                  </span>
-                  <span className={clsx(s.tag, 'k-font-caption')}>
-                    {i18n.t('profile.area_of_expertise')}
-                  </span>
-                  <span className={clsx(s.tag, 'k-font-caption')}>
-                    {i18n.t('profile.challenges')}
-                  </span>
+            {featureFlags?.[AppFeature.LLM_ANALYTICS] && (
+              <SettingsSection
+                id="analysis-objectives"
+                className={s.fancySection}
+                label={i18n.t('profile.improves_analysis')}
+                title={i18n.t('profile.analysis_objectives')}
+              >
+                <div className={s.descriptionBlock}>
+                  {i18n.t('profile.personalization_prompt')}
+                  <div className={s.tags}>
+                    <span className={clsx(s.tag, 'k-font-caption')}>
+                      {i18n.t('profile.your_current_job')}
+                    </span>
+                    <span className={clsx(s.tag, 'k-font-caption')}>
+                      {i18n.t('profile.area_of_expertise')}
+                    </span>
+                    <span className={clsx(s.tag, 'k-font-caption')}>
+                      {i18n.t('profile.challenges')}
+                    </span>
+                  </div>
+                  {i18n.t('profile.ai_tools_compatibility')}
                 </div>
-                {i18n.t('profile.ai_tools_compatibility')}
-              </div>
-              <Textarea
-                topPlaceholder={i18n.t('profile.user_bio_placeholder')}
-                placeholder={i18n.t('profile.bio_textarea_placeholder')}
-                value={localSettings.bio}
-                onChange={onChange('bio')}
-                classes={{
-                  placeholder: s.placeholder,
-                }}
-                className={s.textArea}
-                minHeight="250px"
-                maxHeight="400px"
-              />
-            </SettingsSection>
+                <Textarea
+                  topPlaceholder={i18n.t('profile.analysis_objectives')}
+                  placeholder={i18n.t('profile.objectives_textarea_placeholder')}
+                  value={localSettings.objectives}
+                  onChange={onChange('objectives')}
+                  classes={{
+                    placeholder: s.placeholder,
+                  }}
+                  className={s.textArea}
+                  minHeight="250px"
+                  maxHeight="400px"
+                />
+              </SettingsSection>
+            )}
             {featureFlags?.[AppFeature.REFERENCE_AREA] && (
               <SettingsSection
                 id="reference-area"
@@ -176,8 +192,69 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                   placeholder={i18n.t('profile.email')}
                   disabled
                 />
+                {profileConfig?.phone !== false && (
+                  <Input
+                    showTopPlaceholder
+                    value={localSettings.phone}
+                    placeholder={i18n.t('profile.phone_number')}
+                    onChange={onChange('phone')}
+                  />
+                )}
+                {profileConfig?.linkedin !== false && (
+                  <Input
+                    showTopPlaceholder
+                    value={localSettings.linkedin}
+                    placeholder={i18n.t('profile.linkedin')}
+                    onChange={onChange('linkedin')}
+                  />
+                )}
+                <Textarea
+                  topPlaceholder={i18n.t('profile.bio_placeholder')}
+                  placeholder={i18n.t('profile.bio_textarea_placeholder')}
+                  value={localSettings.bio}
+                  onChange={onChange('bio')}
+                  classes={{
+                    placeholder: s.placeholder,
+                  }}
+                  className={s.textArea}
+                  minHeight="250px"
+                  maxHeight="400px"
+                />
               </div>
             </SettingsSection>
+
+            {profileConfig?.organization_section !== false && (
+              <SettingsSection
+                title={i18n.t('profile.your_organization')}
+                id="your-organization"
+              >
+                <div className={s.fieldsWrapper}>
+                  <Input
+                    showTopPlaceholder
+                    placeholder={i18n.t('profile.organization_name')}
+                    value={localSettings.companyName}
+                    onChange={onChange('companyName')}
+                  />
+
+                  <Input
+                    showTopPlaceholder
+                    placeholder={i18n.t('profile.position')}
+                    value={localSettings.position}
+                    onChange={onChange('position')}
+                  />
+
+                  <Select
+                    alwaysShowPlaceholder
+                    value={localSettings.amountOfGis}
+                    items={GIS_SPECIALISTS}
+                    withResetButton={false}
+                    onSelect={onChange('amountOfGis')}
+                  >
+                    {i18n.t('profile.gis_specialists')}
+                  </Select>
+                </div>
+              </SettingsSection>
+            )}
 
             <SettingsSection title={i18n.t('profile.appSettingsHeader')} id="settings">
               <div className={s.fieldsWrapper}>

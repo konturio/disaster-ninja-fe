@@ -8,7 +8,8 @@ export function getBoundaries(
   return apiClient.post<GeoJSON.FeatureCollection>(
     '/boundaries',
     new GeoJSONPoint(coords),
-    false,
-    { signal: abortController ? abortController.signal : undefined },
+    {
+      signal: abortController ? abortController.signal : undefined,
+    },
   );
 }

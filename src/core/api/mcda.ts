@@ -6,7 +6,7 @@ export function getBivariateAxes(minQuality: number, abortController?: AbortCont
   if (minQuality < 0 || minQuality > 1) {
     throw new Error('minQuality must be >= 0 and <= 1');
   }
-  return apiClient.get<AxisDTO[]>(`/axis?minQuality=${minQuality}`, undefined, true, {
+  return apiClient.get<AxisDTO[]>(`/axis?minQuality=${minQuality}`, undefined, {
     signal: abortController ? abortController.signal : undefined,
   });
 }
@@ -19,7 +19,6 @@ export function getAxisTransformations(
   return apiClient.get<AxisTransformationWithPoints[]>(
     `/axis/${numeratorName}/${denominatorName}/transformations`,
     undefined,
-    true,
     {
       signal: abortController ? abortController.signal : undefined,
     },

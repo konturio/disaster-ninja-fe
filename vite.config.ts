@@ -1,19 +1,21 @@
 /// <reference types="vitest" />
-import { defineConfig, HtmlTagDescriptor, loadEnv, UserConfig, Rollup } from 'vite';
-import { visualizer } from 'rollup-plugin-visualizer';
+import * as path from 'node:path';
+import { codecovVitePlugin } from '@codecov/vite-plugin';
+import { configDefaults } from 'vitest/config';
 import react from '@vitejs/plugin-react-swc';
+import { visualizer } from 'rollup-plugin-visualizer';
+import { defineConfig, loadEnv } from 'vite';
 import { createHtmlPlugin } from 'vite-plugin-html';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import buildSizeReport from 'bundle-size-diff/plugin';
+import mkcert from 'vite-plugin-mkcert';
 import viteBuildInfoPlugin from './scripts/build-info-plugin';
-import { codecovVitePlugin } from '@codecov/vite-plugin';
 // @ts-ignore
 import { selectConfig, useConfig } from './scripts/select-config.mjs';
 // @ts-ignore
 import { buildScheme, validateConfig } from './scripts/build-config-scheme.mjs';
 import { proxyConfig } from './vite.proxy';
-import buildSizeReport from 'bundle-size-diff/plugin';
-import mkcert from 'vite-plugin-mkcert';
-import path from 'path';
+import type { HtmlTagDescriptor, Rollup } from 'vite';
 
 const parseEnv = <T extends Record<string, string | boolean>>(
   env: Record<string, string>,
@@ -142,7 +144,7 @@ export default ({ mode }) => {
         ],
       },
       include: ['src/**/*.{test,spec}.?(c|m)[jt]s?(x)'], // '**\/*.{test,spec}.?(c|m)[jt]s?(x)'
-      exclude: ['**/node_modules/**', 'e2e/**', 'dist/**', 'coverage/**', 'scripts/**'],
+      exclude: [...configDefaults.exclude, 'e2e\/**', 'e2e', 'coverage/**', 'scripts/**'],
     },
   });
 
@@ -162,7 +164,7 @@ function entryCodeInjector(options?) {
       if (modPath.startsWith(srcPath) && /\.(ts|tsx)$/.test(module)) {
         const relPath = path.relative(srcPath, module);
         console.log('Processing module:', relPath);
-        let processedCode =
+        const processedCode =
           code + `\n;console.info('ROLL_MODULE:${relPath.replace(/\\/g, '/')}');`;
         return { code: processedCode, map: null };
       }
