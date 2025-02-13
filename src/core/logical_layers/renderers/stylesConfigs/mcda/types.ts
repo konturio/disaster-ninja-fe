@@ -62,8 +62,3 @@ export interface MCDALayerStyle {
   type: 'mcda';
   config: MCDAConfig;
 }
-
-export interface MultivariateLayerStyle {
-  type: 'multivariate';
-  config: MultivariateLayerConfig;
-}

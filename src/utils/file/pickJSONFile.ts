@@ -7,6 +7,7 @@ const input = (() => {
   return input;
 })();
 
+// TODO: use for MCDA too
 export function pickJSONFile(): Promise<object> {
   return new Promise((res, rej) => {
     async function onchange() {

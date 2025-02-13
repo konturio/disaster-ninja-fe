@@ -1,8 +1,9 @@
 import { generateBivariateColorsAndStyleForMultivariateLayer } from '~utils/multivariate/multivariateStyle';
 import { SOURCE_LAYER_BIVARIATE } from '../BivariateRenderer/constants';
 import { createMCDAStyle, linearNormalization } from './mcda/mcdaStyle';
+import type { MultivariateLayerStyle } from './multivariate/multivariateStyle';
 import type { MultivariateAxis } from '../MultivariateRenderer/types';
-import type { MCDALayerStyle, MultivariateLayerStyle } from './mcda/types';
+import type { MCDALayerStyle } from './mcda/types';
 import type { FillLayerSpecification, LayerSpecification } from 'maplibre-gl';
 import type { LayerStyle } from '~core/logical_layers/types/style';
 

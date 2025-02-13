@@ -15,7 +15,7 @@ import { v3ActionToV2 } from '~utils/atoms/v3tov2';
 import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
 import { MultivariateRenderer } from '~core/logical_layers/renderers/MultivariateRenderer/MultivariateRenderer';
 import { MultivariateLayerEditor } from '../components/MultivariateLayerEditor/MultivariateLayerEditor';
-import type { MultivariateLayerStyle } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { MultivariateLayerStyle } from '~core/logical_layers/renderers/stylesConfigs/multivariate/multivariateStyle';
 import type { Action } from '@reatom/core-v2';
 
 export const createMultivariateLayer = action((ctx, style: MultivariateLayerStyle) => {
