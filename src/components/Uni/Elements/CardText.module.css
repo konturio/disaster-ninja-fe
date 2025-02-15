@@ -1,0 +1,9 @@
+.text {
+  font: 400 var(--font-xs);
+  margin-bottom: var(--half-unit);
+}
+
+.title {
+  font: 600 var(--font-xs);
+  margin-bottom: var(--half-unit);
+}

@@ -6,11 +6,7 @@ import type {
   AcapsProtectionRisks,
   AcapsSeasonalEvents,
 } from '../../types/acaps';
-import type {
-  CardElementId,
-  FeatureCardCfg,
-  FeatureCardItemCfg,
-} from '../../components/CardElements';
+import type { FeatureCardCfg, FeatureCardItem } from '../../components/CardElements';
 
 const ACAPS_SOURCE_DATASETS = {
   RISK_LIST: 'Risk list',
@@ -31,7 +27,7 @@ export function getAcapsPanelData(featuresListAcaps: object): FeatureCardCfg[] {
   const featuresList: FeatureCardCfg[] = Object.values(featuresListAcaps).map(
     (feature) => {
       const p = feature.properties as AcapsFeatureProperties;
-      const cardItems: FeatureCardItemCfg<CardElementId>[] = [];
+      const cardItems: FeatureCardItem[] = [];
       cardItems.push({
         type: 'label',
         items: [{ value: p.acaps_source_dataset }],
@@ -68,8 +64,8 @@ export function getAcapsPanelData(featuresListAcaps: object): FeatureCardCfg[] {
   return featuresList;
 }
 
-function getRiskListCardItems(p: AcapsRiskList): FeatureCardItemCfg<CardElementId>[] {
-  const cardItems: FeatureCardItemCfg<CardElementId>[] = [];
+function getRiskListCardItems(p: AcapsRiskList): FeatureCardItem[] {
+  const cardItems: FeatureCardItem[] = [];
   if (p.comment) {
     cardItems.push({ type: 'title', title: p.comment });
   }
@@ -117,10 +113,8 @@ function getRiskListCardItems(p: AcapsRiskList): FeatureCardItemCfg<CardElementI
   return cardItems;
 }
 
-function getInfoLandscapeCardItems(
-  p: AcapsInfoLandscape,
-): FeatureCardItemCfg<CardElementId>[] {
-  const cardItems: FeatureCardItemCfg<CardElementId>[] = [];
+function getInfoLandscapeCardItems(p: AcapsInfoLandscape): FeatureCardItem[] {
+  const cardItems: FeatureCardItem[] = [];
   if (p.indicator) {
     cardItems.push({ type: 'title', title: joinArray(p.indicator) });
   }
@@ -156,10 +150,8 @@ function getInfoLandscapeCardItems(
   return cardItems;
 }
 
-function getSeasonalEventsCardItems(
-  p: AcapsSeasonalEvents,
-): FeatureCardItemCfg<CardElementId>[] {
-  const cardItems: FeatureCardItemCfg<CardElementId>[] = [];
+function getSeasonalEventsCardItems(p: AcapsSeasonalEvents): FeatureCardItem[] {
+  const cardItems: FeatureCardItem[] = [];
   if (p.indicator) {
     cardItems.push({ type: 'title', title: joinArray(p.indicator) });
   }
@@ -191,10 +183,8 @@ function getSeasonalEventsCardItems(
   return cardItems;
 }
 
-function getProtectionsRisksCardItems(
-  p: AcapsProtectionRisks,
-): FeatureCardItemCfg<CardElementId>[] {
-  const cardItems: FeatureCardItemCfg<CardElementId>[] = [];
+function getProtectionsRisksCardItems(p: AcapsProtectionRisks): FeatureCardItem[] {
+  const cardItems: FeatureCardItem[] = [];
   if (p.indicator) {
     cardItems.push({ type: 'title', title: joinArray(p.indicator) });
   }

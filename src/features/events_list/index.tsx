@@ -5,6 +5,7 @@ import { currentEventAtom } from '~core/shared_state/currentEvent';
 import { currentEventBbox } from './atoms/currentEventBbox';
 import { autoSelectEvent } from './atoms/autoSelectEvent';
 import { EventsPanel } from './components/EventsPanel/EventsPanel';
+import { EventsUniPanel } from './components/EventsPanel/EventsUniPanel';
 
 export function EventList() {
   const [currentEvent, currentEventActions] = useAtom(currentEventAtom);
@@ -16,6 +17,7 @@ export function EventList() {
 
   useAtomV3(autoSelectEvent);
   return (
-    <EventsPanel currentEventId={currentEvent?.id} onCurrentChange={onCurrentChange} />
+    <EventsUniPanel currentEventId={currentEvent?.id} onCurrentChange={onCurrentChange} />
+    // <EventsPanel currentEventId={currentEvent?.id} onCurrentChange={onCurrentChange} />
   );
 }

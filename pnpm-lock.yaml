@@ -28,17 +28,17 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1
       '@konturio/default-icons':
-        specifier: ^2.4.0
-        version: 2.4.0(react@18.3.1)
+        specifier: ^2.5.0
+        version: 2.5.0(react@18.3.1)
       '@konturio/default-theme':
         specifier: ~3.2.6
         version: 3.2.6
       '@konturio/floating':
-        specifier: ^1.1.2
-        version: 1.1.2(clsx@1.2.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 1.2.0
+        version: 1.2.0(clsx@1.2.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@konturio/ui-kit':
-        specifier: ^5.4.0
-        version: 5.4.0(@egjs/hammerjs@2.0.17)(clsx@1.2.1)(component-emitter@1.3.1)(keycharm@0.4.0)(moment@2.30.1)(propagating-hammerjs@2.0.1(@egjs/hammerjs@2.0.17))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(uuid@8.3.2)(vis-util@5.0.7(@egjs/hammerjs@2.0.17)(component-emitter@1.3.1))(xss@1.0.15)
+        specifier: ^5.4.1
+        version: 5.4.1(@egjs/hammerjs@2.0.17)(clsx@1.2.1)(component-emitter@1.3.1)(keycharm@0.4.0)(moment@2.30.1)(propagating-hammerjs@2.0.1(@egjs/hammerjs@2.0.17))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(uuid@8.3.2)(vis-util@5.0.7(@egjs/hammerjs@2.0.17)(component-emitter@1.3.1))(xss@1.0.15)
       '@nebula.gl/edit-modes':
         specifier: 1.1.0-alpha.5
         version: 1.1.0-alpha.5
@@ -244,8 +244,8 @@ importers:
         specifier: ^4.4.5
         version: 4.4.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-virtuoso:
-        specifier: ^4.12.3
-        version: 4.12.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^4.12.5
+        version: 4.12.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       recharts:
         specifier: ^2.15.0
         version: 2.15.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -1138,22 +1138,22 @@ packages:
   '@jridgewell/trace-mapping@0.3.9':
     resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
 
-  '@konturio/default-icons@2.4.0':
-    resolution: {integrity: sha512-cD167SKUuj859tS82wi5KyurQSKipSsyxtdG6KFzgL5N+9Xv1i5YHfRYrJ1E4o2Sh4G3OJ7/aFLTQa0bcJ9/4w==}
+  '@konturio/default-icons@2.5.0':
+    resolution: {integrity: sha512-8/RrVYUwXEfhzFzN+VaEXRcy0i/N7LdKiKfAZzAyOr/i25bZBoA3Dpcv4OeHsnoglfYGq6EpJS3FDJVsQ1YbBg==}
     peerDependencies:
       react: ^18.2.0
 
   '@konturio/default-theme@3.2.6':
     resolution: {integrity: sha512-ndIs4bn7JD6fBwTRWxbY+IK5+EYk/BCIkxImRFNseY4RRz+5LWXoHYzSeQiAHz8wNQ/IUOUs1n6+98QxeTRNvA==}
 
-  '@konturio/floating@1.1.2':
-    resolution: {integrity: sha512-7k93nbfHKef6qMgSDBVwlS26M66piJO5QHFKPuDhAbjhds//v3nx/MUCdtPU0+KOurTyd7p/+oZ2po0TDUyvhg==}
+  '@konturio/floating@1.2.0':
+    resolution: {integrity: sha512-gSyQdd1IcljQTib1MJ8fCai1ltj7yBY8TZY6/vMF45lZw3+At3sZ/42/VB9/Ji9AqfxB32Sua45bi3SqAR7mTw==}
     peerDependencies:
       clsx: ^1.2.1
       react: ^18.2.0
 
-  '@konturio/ui-kit@5.4.0':
-    resolution: {integrity: sha512-5bYYJbl/1LSp4ZIu0o2Zs8ksTgi+aMTuDm0e7vq/U2hL3z3fcaZZsUIBp7EpbKMh9QbBvacuNQ5SbEr00SK9Lw==}
+  '@konturio/ui-kit@5.4.1':
+    resolution: {integrity: sha512-93DOSDBnpk3XpNCGLn1Td9WSe8ERd4kWdr20q2gu/Q7UHwx2x9pIV1vIzJrCZCZGPHJNILTqdZnW6n+iXK9t5A==}
     peerDependencies:
       clsx: ^1.2.1
       react: ^18.2.0
@@ -5020,12 +5020,11 @@ packages:
       react: '>=16.6.0'
       react-dom: '>=16.6.0'
 
-  react-virtuoso@4.12.3:
-    resolution: {integrity: sha512-6X1p/sU7hecmjDZMAwN+r3go9EVjofKhwkUbVlL8lXhBZecPv9XVCkZ/kBPYOr0Mv0Vl5+Ziwgexg9Kh7+NNXQ==}
-    engines: {node: '>=10'}
+  react-virtuoso@4.12.5:
+    resolution: {integrity: sha512-YeCbRRsC9CLf0buD0Rct7WsDbzf+yBU1wGbo05/XjbcN2nJuhgh040m3y3+6HVogTZxEqVm45ac9Fpae4/MxRQ==}
     peerDependencies:
-      react: '>=16 || >=17 || >= 18'
-      react-dom: '>=16 || >=17 || >= 18'
+      react: '>=16 || >=17 || >= 18 || >= 19'
+      react-dom: '>=16 || >=17 || >= 18 || >=19'
 
   react@18.3.1:
     resolution: {integrity: sha512-wS+hAgJShR0KhEvPJArfuPVN1+Hz1t0Y6n5jLrGQbkb4urgPE/0Rve+1kMB1v/oWgHgm4WIcV+i7F2pTVj+2iQ==}
@@ -6686,13 +6685,13 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
 
-  '@konturio/default-icons@2.4.0(react@18.3.1)':
+  '@konturio/default-icons@2.5.0(react@18.3.1)':
     dependencies:
       react: 18.3.1
 
   '@konturio/default-theme@3.2.6': {}
 
-  '@konturio/floating@1.1.2(clsx@1.2.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@konturio/floating@1.2.0(clsx@1.2.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@floating-ui/core': 1.6.8
       '@floating-ui/react': 0.21.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -6702,10 +6701,10 @@ snapshots:
     transitivePeerDependencies:
       - react-dom
 
-  '@konturio/ui-kit@5.4.0(@egjs/hammerjs@2.0.17)(clsx@1.2.1)(component-emitter@1.3.1)(keycharm@0.4.0)(moment@2.30.1)(propagating-hammerjs@2.0.1(@egjs/hammerjs@2.0.17))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(uuid@8.3.2)(vis-util@5.0.7(@egjs/hammerjs@2.0.17)(component-emitter@1.3.1))(xss@1.0.15)':
+  '@konturio/ui-kit@5.4.1(@egjs/hammerjs@2.0.17)(clsx@1.2.1)(component-emitter@1.3.1)(keycharm@0.4.0)(moment@2.30.1)(propagating-hammerjs@2.0.1(@egjs/hammerjs@2.0.17))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(uuid@8.3.2)(vis-util@5.0.7(@egjs/hammerjs@2.0.17)(component-emitter@1.3.1))(xss@1.0.15)':
     dependencies:
       '@floating-ui/react-dom': 1.3.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@konturio/floating': 1.1.2(clsx@1.2.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@konturio/floating': 1.2.0(clsx@1.2.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       clsx: 1.2.1
       downshift: 8.5.0(react@18.3.1)
       nanoid: 4.0.2
@@ -11238,7 +11237,7 @@ snapshots:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  react-virtuoso@4.12.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  react-virtuoso@4.12.5(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
