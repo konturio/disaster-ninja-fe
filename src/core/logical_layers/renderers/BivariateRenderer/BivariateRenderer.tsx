@@ -18,8 +18,10 @@ import { getCellLabelByValue } from '~utils/bivariate/bivariateLegendUtils';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 import { getMaxNumeratorZoomLevel } from '~utils/bivariate/getMaxZoomLevel';
 import { styleConfigs } from '../stylesConfigs';
-import { generatePopupContent } from '../MCDARenderer/popup';
+import { generateMCDAPopupContent } from '../MCDARenderer/popup';
 import { setTileScheme } from '../setTileScheme';
+import { createFeatureStateHandlers } from '../helpers/activeAndHoverFeatureStates';
+import { isFeatureVisible } from '../helpers/featureVisibilityCheck';
 import {
   FALLBACK_BIVARIATE_MIN_ZOOM,
   FALLBACK_BIVARIATE_MAX_ZOOM,
@@ -27,8 +29,7 @@ import {
   SOURCE_LAYER_BIVARIATE,
 } from './constants';
 import { generateLayerFromLegend } from './legends';
-import { createFeatureStateHandlers } from './activeAndHoverFeatureStates';
-import { isFeatureVisible } from './featureVisibilityCheck';
+import type { MCDALayerStyle } from '../stylesConfigs/mcda/types';
 import type {
   LayerSpecification,
   LineLayerSpecification,
@@ -170,7 +171,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       this._layerId = layer.id;
     } else {
       // We don't known source-layer id
-      throw new Error(`[GenericLayer ${this.id}] Vector layers must have legend`);
+      throw new Error(`[Bivariate ${this.id}] Vector layers must have legend`);
     }
   }
 
@@ -261,7 +262,11 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     this.removeBivariatePopupClickHandler = removeClickListener;
   }
 
-  async mountMCDALayer(map: ApplicationMap, layer: LayerTileSource, style: LayerStyle) {
+  async mountMCDALayer(
+    map: ApplicationMap,
+    layer: LayerTileSource,
+    style: MCDALayerStyle,
+  ) {
     /* Create source */
     const mapSource: VectorSourceSpecification = {
       type: 'vector',
@@ -282,7 +287,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     if (map.getLayer(layerId)) {
       return;
     }
-    const layerStyle = styleConfigs.mcda(style.config)[0];
+    const layerStyle: LayerSpecification = styleConfigs.mcda(style.config)[0];
     const layerRes = { ...layerStyle, id: layerId, source: this._sourceId };
     layerByOrder(map, this._layersOrderManager).addAboveLayerWithSameType(
       layerRes as LayerSpecification,
@@ -291,7 +296,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     this._layerId = layerId;
   }
 
-  addMCDAPopup(map: ApplicationMap, style: LayerStyle) {
+  addMCDAPopup(map: ApplicationMap, style: MCDALayerStyle) {
     const clickHandler = (ev: MapMouseEvent) => {
       const features = ev.target
         .queryRenderedFeatures(ev.point)
@@ -306,7 +311,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       if (!isFeatureVisible(feature)) return true;
 
       // Show popup on click
-      const popupNode = generatePopupContent(feature, style.config.layers);
+      const popupNode = generateMCDAPopupContent(feature, style.config.layers);
       dispatchMetricsEvent('mcda_popup');
       this.cleanPopup();
       this._popup = new MapPopup({
