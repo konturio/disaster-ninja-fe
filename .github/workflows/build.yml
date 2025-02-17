@@ -18,14 +18,6 @@ on:
   workflow_dispatch:
   workflow_call: # Enables this workflow to be called from other workflows via the 'workflow_call' event.
     # In our particular case, we use this to trigger the build from the deploy_dev workflow.
-    inputs:
-      branch:
-        description: 'Branch to build'
-        required: false
-        type: string
-    secrets:
-      CODECOV_TOKEN:
-        required: false
 
 env:
   NODE_ENV: production
@@ -46,7 +38,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.branch || github.ref }}
+          ref: ${{ github.ref }}
           fetch-depth: 2
 
       - name: Install pnpm
@@ -109,7 +101,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.branch || github.ref }}
+          ref: ${{ github.ref }}
           fetch-depth: 2
 
       - name: Install pnpm

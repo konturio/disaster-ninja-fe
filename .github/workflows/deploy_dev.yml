@@ -2,20 +2,10 @@ name: Deploy to Dev
 
 on:
   workflow_dispatch:
-    inputs:
-      branch:
-        description: 'Branch to deploy'
-        required: true
-        default: 'main'
 
 jobs:
   build-and-publish:
     uses: ./.github/workflows/build.yml
-    with:
-      branch: ${{ github.event.inputs.branch }}
-    secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   update-helm-manifests:
     needs: build-and-publish
