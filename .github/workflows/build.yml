@@ -23,8 +23,6 @@ on:
         required: false
         type: string
     secrets:
-      GITHUB_TOKEN:
-        required: true
       CODECOV_TOKEN:
         required: false
 
@@ -34,7 +32,6 @@ env:
   HUSKY: 0
   REGISTRY: ghcr.io
   IMAGE_REPO: ${{ github.repository }}
-  # For pull_request we take sha from pull_request.head.sha, for others – regular github.sha:
   GH_COMMIT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
 
 jobs:
@@ -185,8 +182,8 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_REPO }}
           tags: |
-            type=raw,value=${{ github.ref_name }}.{{sha}}.${{ github.run_attempt }},enable=${{github.event_name == 'push' || github.event_name == 'workflow_dispatch'}}
-            type=raw,value=${{ github.head_ref }}.{{sha}}.${{ github.run_attempt }},enable=${{github.event_name == 'pull_request'}}
+            type=raw,value=${{ github.ref_name }}.{{sha}}.${{ github.run_attempt }},enable=${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+            type=raw,value=${{ github.head_ref }}.{{sha}}.${{ github.run_attempt }},enable=${{ github.event_name == 'pull_request' }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
