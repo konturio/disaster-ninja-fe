@@ -1,26 +1,22 @@
 import { SelectItem } from '@konturio/ui-kit';
 import { useAction, useAtom } from '@reatom/npm-react';
-import { forwardRef, useCallback, useMemo } from 'react';
 import cn from 'clsx';
+import { forwardRef } from 'react';
 import { searchLocationsAtom } from '~features/search/searchLocationAtoms';
 import {
   itemSelectAction,
-  handleKeyDownAction,
-  highlightedIndexAtom,
-  inputAtom,
-  isMenuOpenAtom,
   searchAction,
   resetSearchAction,
   showInfoBlockAtom,
   aggregatedSearchAtom,
 } from '~features/search/searchAtoms';
-import { useOutsideClick } from '~utils/hooks/useOutsideClick';
 import { i18n } from '~core/localization';
 import {
   isMCDASearchEnabled,
   MCDASuggestionAtom,
 } from '~features/search/searchMcdaAtoms';
-import { SearchInput } from '../SearchInput/SearchInput';
+import { SearchInput } from '~components/Search/SearchInput/SearchInput';
+import { useSearchMenu } from '~utils/hooks/useSearchMenu';
 import style from './SearchBar.module.css';
 import type { AggregatedSearchItem } from '~features/search/searchAtoms';
 
@@ -30,58 +26,33 @@ type SearchBarProps = {
 };
 
 export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
-  ({ onItemSelect, searchBarClass }, ref) => {
-    const [isMenuOpen, setIsMenuOpen] = useAtom(isMenuOpenAtom);
-    const [highlightedIndex] = useAtom(highlightedIndexAtom);
+  ({ onItemSelect, searchBarClass }, ref: React.ForwardedRef<HTMLInputElement>) => {
     const [showInfoBlock] = useAtom(showInfoBlockAtom);
 
     const inputPlaceholder = isMCDASearchEnabled
       ? i18n.t('search.input_placeholder_mcda')
       : i18n.t('search.input_placeholder');
 
-    const searchBarRef = useOutsideClick<HTMLDivElement>(() => setIsMenuOpen(false));
-
-    const handleInputKeyDown = useAction(handleKeyDownAction);
     const search = useAction(searchAction);
-    const itemSelect = useAction(itemSelectAction);
+    const itemSelectActionFn = useAction(itemSelectAction);
     const reset = useAction(resetSearchAction);
 
-    const handleReset = () => {
-      if (ref && typeof ref !== 'function') {
-        ref.current?.focus();
-      }
-      reset();
+    const itemSelect = (item: AggregatedSearchItem) => {
+      itemSelectActionFn(item);
+      onItemSelect?.();
     };
 
-    const handleItemSelect = useCallback(
-      (item: AggregatedSearchItem) => {
-        itemSelect(item);
-        onItemSelect?.();
-      },
-      [itemSelect, onItemSelect],
-    );
-
-    const [{ error, loading, emptyResult }] = useAtom(searchLocationsAtom);
+    const [{ error, loading, data }] = useAtom(searchLocationsAtom);
+    const emptyLocations = data ? data.length === 0 : false;
     const [mcdaSearchStatus] = useAtom(MCDASuggestionAtom);
     const [aggregatedResults] = useAtom(aggregatedSearchAtom);
-
-    const inputProps = useMemo(
-      () => ({
-        ref,
-        onKeyDown: handleInputKeyDown,
-        onClick: () => {
-          setIsMenuOpen(true);
-        },
-      }),
-      [handleInputKeyDown, ref, setIsMenuOpen],
-    );
 
     const renderError = () => (
       <SelectItem
         key="error"
         item={{
           disabled: true,
-          title: 'Something went wrong. Please try again',
+          title: i18n.t('errors.error_try_again'),
           value: null,
         }}
         className={style.listItem}
@@ -152,20 +123,41 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
     const LocationSearchStatus = () => (
       <>
         {error && renderError()}
-        {emptyResult && renderNoResults()}
+        {emptyLocations && renderNoResults()}
       </>
     );
+
+    const {
+      inputProps,
+      isMenuOpen,
+      highlightedIndex,
+      handleItemSelect,
+      handleSearch,
+      handleReset,
+      searchBarRef,
+    } = useSearchMenu({
+      items: aggregatedResults,
+      onSearch: search,
+      onItemSelect: itemSelect,
+      onReset: reset,
+      open:
+        !!aggregatedResults.length ||
+        !!error ||
+        mcdaSearchStatus.loading ||
+        emptyLocations,
+    });
 
     return (
       <>
         <div className={cn(style.searchBar, searchBarClass)} ref={searchBarRef}>
           <SearchInput
-            inputAtom={inputAtom}
+            ref={ref}
             inputProps={inputProps}
             isLoading={loading}
             placeholder={inputPlaceholder}
+            classes={{ container: style.inputContainer }}
             onReset={handleReset}
-            onSearch={search}
+            onSearch={handleSearch}
           />
         </div>
         {isMenuOpen && (
