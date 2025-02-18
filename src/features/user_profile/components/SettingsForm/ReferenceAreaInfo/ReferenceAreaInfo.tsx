@@ -15,7 +15,7 @@ import { updateReferenceArea } from '~core/api/features';
 import { getUserLocation } from '~utils/common/userLocation';
 import { getBoundaries } from '~core/api/boundaries';
 import { notificationServiceInstance } from '~core/notificationServiceInstance';
-import { RefAreaSearchBar } from '~features/user_profile/components/SettingsForm/ReferenceAreaInfo/RefAreaSearchBar';
+import { SearchBar } from '~features/user_profile/components/SettingsForm/ReferenceAreaInfo/SearchBar';
 import s from './ReferenceAreaInfo.module.css';
 
 export function ReferenceAreaInfo() {
@@ -89,7 +89,7 @@ export function ReferenceAreaInfo() {
         </>
       ) : (
         <>
-          <RefAreaSearchBar />
+          <SearchBar />
           <div className={s.linksWrapper}>
             <a className={s.link} onClick={() => goTo('/map')}>
               {i18n.t('profile.reference_area.set_the_reference_area')}

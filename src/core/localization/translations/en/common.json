@@ -62,7 +62,8 @@
     "forbidden": "Forbidden",
     "not_found": "Not found",
     "unknown": "Unknown",
-    "server_error": "Server error"
+    "server_error": "Server error",
+    "error_try_again": "Something went wrong. Please try again"
   },
   "categories": {
     "overlays": "Overlays",

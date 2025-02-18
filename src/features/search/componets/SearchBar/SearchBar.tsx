@@ -52,7 +52,7 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
         key="error"
         item={{
           disabled: true,
-          title: 'Something went wrong. Please try again',
+          title: i18n.t('errors.error_try_again'),
           value: null,
         }}
         className={style.listItem}

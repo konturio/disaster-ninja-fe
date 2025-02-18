@@ -8,14 +8,14 @@ import {
   resetSearchRefAreaAtom,
   searchRefAreaAtom,
   searchAction,
-} from '~features/user_profile/components/SettingsForm/ReferenceAreaInfo/searchRefAreaAtoms';
+} from '~features/user_profile/components/SettingsForm/ReferenceAreaInfo/searchAtoms';
 import { updateReferenceArea } from '~core/api/features';
 import { setReferenceArea } from '~core/shared_state/referenceArea';
 import { store } from '~core/store/store';
 import { notificationServiceInstance } from '~core/notificationServiceInstance';
-import s from './RefAreaSearchBar.module.css';
+import s from './SearchBar.module.css';
 
-export const RefAreaSearchBar = () => {
+export const SearchBar = () => {
   const [{ data, loading, error }] = useAtom(searchRefAreaAtom);
   const search = useAction(searchAction);
   const reset = useAction(resetSearchRefAreaAtom);
@@ -60,7 +60,7 @@ export const RefAreaSearchBar = () => {
       key="error"
       item={{
         disabled: true,
-        title: 'Something went wrong. Please try again',
+        title: i18n.t('errors.error_try_again'),
         value: null,
       }}
       itemProps={{ role: 'option' }}

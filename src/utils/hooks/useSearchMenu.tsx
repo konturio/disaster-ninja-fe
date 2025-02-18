@@ -50,6 +50,9 @@ export function useSearchMenu<T extends ListItem = ListItem>({
     (event: React.KeyboardEvent<HTMLInputElement>) => {
       if (isMenuOpen && items) {
         switch (event.key) {
+          case 'Escape':
+            setIsMenuOpen(false);
+            break;
           case 'ArrowDown':
             setHighlightedIndex((prevIndex) => (prevIndex + 1) % items.length);
             break;
