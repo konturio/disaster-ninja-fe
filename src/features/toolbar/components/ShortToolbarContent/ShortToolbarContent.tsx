@@ -20,7 +20,6 @@ export const ShortToolbarContent = () => {
               controlComponent={ShortToolbarButton}
             />
           ))}
-          )
         </div>
       ))}
     </div>
