@@ -6,6 +6,8 @@ on:
 jobs:
   build-and-publish:
     uses: ./.github/workflows/build.yml
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   update-helm-manifests:
     needs: build-and-publish
