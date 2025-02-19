@@ -9,3 +9,8 @@
   background-color: var(--base-weak);
   box-shadow: var(--shadow-small);
 }
+
+.nav {
+  /* negative margin used to compensate for breadcrumbs' margin */
+  margin: calc(-1 * var(--half-unit));
+}
