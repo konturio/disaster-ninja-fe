@@ -162,6 +162,9 @@
     "bad": "Bad",
     "good": "Good"
   },
+  "multivariate": {
+    "upload_analysis_layer": "Upload analysis layer"
+  },
   "search": {
     "search_location": "Search location",
     "info_block": "You can search for 📍 locations",

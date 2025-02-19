@@ -21,9 +21,10 @@ export function EditControl({
 }) {
   const editLayer = useCallback(async () => {
     if (layerState.style?.type === 'mcda' && featureFlags[AppFeature.MCDA]) {
+      const config = layerState.style?.config;
       dispatchMetricsEvent('mcda_edit');
       import('~features/mcda').then(async ({ editMCDA }) => {
-        editMCDA(layerState, layerActions);
+        editMCDA(config, layerActions);
       });
     }
   }, [layerActions, layerState]);

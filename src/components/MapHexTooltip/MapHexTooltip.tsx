@@ -8,6 +8,7 @@ import {
   MEDIUM,
 } from '~components/BivariateLegend/const';
 import { formatBivariateAxisLabel } from '~utils/bivariate';
+import { Hexagon } from '~components/Hexagon/Hexagon';
 import s from './MapHexTooltip.module.css';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
 
@@ -42,9 +43,7 @@ export const MapHexTooltip = ({
 }: MapHexTooltipProps) => {
   return (
     <div className={s.tootipRoot}>
-      <div className={s.hexagon}>
-        <div style={{ background: hexagonColor }}>{cellLabel}</div>
-      </div>
+      <Hexagon color={hexagonColor}>{cellLabel}</Hexagon>
 
       <div className={s.labels}>
         <div className={s.column}>
