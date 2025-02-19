@@ -118,7 +118,7 @@
   position: sticky;
   bottom: 0;
   padding: var(--double-unit);
-  z-index: 10;
+  z-index: 30;
   background-color: white;
   border-top: 1px solid var(--faint-weak-up);
   width: var(--settingColumnWidth);

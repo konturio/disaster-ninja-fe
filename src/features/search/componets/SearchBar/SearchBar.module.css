@@ -2,6 +2,10 @@
   position: relative;
 }
 
+.inputContainer {
+  box-shadow: var(--shadow-medium);
+}
+
 .infoBanner,
 .resultsList {
   position: absolute;
