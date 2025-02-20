@@ -3,17 +3,18 @@ import { useCallback, useEffect, useState } from 'react';
 import { Heading, Toggler } from '@konturio/ui-kit';
 import usePromise from 'react-promise-suspense';
 import { compiler } from 'markdown-to-jsx';
+import { useAtom } from '@reatom/npm-react';
+import { atom } from '@reatom/framework';
 import { configRepo } from '~core/config';
 import { i18n } from '~core/localization';
-import { getCurrentUserSubscription } from '~core/api/subscription';
 import PaymentPlanCard from '~features/subscriptions/components/PaymentPlanCard/PaymentPlanCard';
 import { goTo } from '~core/router/goTo';
 import { showModal } from '~core/modal';
 import { getAsset } from '~core/api/assets';
 import { MarkdownLink, MarkdownMedia, splitIntoSections } from '~core/pages';
+import { currentUserSubscriptionResource } from '~core/shared_state/currentSubscription';
 import SubscriptionSuccessModal from '../SubscriptionSuccessModal/SubscriptionSuccessModal';
 import s from './PricingContent.module.css';
-import type { CurrentSubscription } from '~core/api/subscription';
 import type { SubscriptionsConfig } from '~features/subscriptions/types';
 
 const togglerInitialValue = 'year';
@@ -32,23 +33,15 @@ function parsePlans(markdown: string) {
 export function PricingContent({ config }: { config: SubscriptionsConfig }) {
   const user = configRepo.get().user;
   const plansConfigs = config.plans;
-  const [currentSubscription, markdown] = usePromise<
-    [],
-    [CurrentSubscription | null, string | null]
-  >(() => {
-    const subscriptionPromise = user
-      ? getCurrentUserSubscription().catch((err) => {
-          console.error('Error while fetching current subscription:', err);
-          return null;
-        })
-      : Promise.resolve(null);
 
-    const assetPromise = getAsset('plans.md').catch((err) => {
+  const [currentSubscription] = useAtom(
+    user ? currentUserSubscriptionResource.dataAtom : atom(() => null),
+  );
+  const markdown = usePromise<[], string | null>(() => {
+    return getAsset('plans.md').catch((err) => {
       console.error('Error while fetching plans.md:', err);
       return null;
     }) as Promise<string | null>;
-
-    return Promise.all([subscriptionPromise, assetPromise]);
   }, []);
 
   const [currentBillingCycleID, setCurrentBillingCycleID] = useState<'month' | 'year'>(
@@ -87,6 +80,7 @@ export function PricingContent({ config }: { config: SubscriptionsConfig }) {
     }
   }, [config.plans, currentSubscription]);
 
+  if (currentSubscription === undefined) return null; // current subscription is loading
   if (!markdown)
     return (
       <div style={{ margin: 'auto' }}>
@@ -123,11 +117,11 @@ export function PricingContent({ config }: { config: SubscriptionsConfig }) {
           )}
         </div>
         <div className={s.plans}>
-          {plansConfigs.map((planConfig, i) => (
+          {plansContent.map((planContent, i) => (
             <PaymentPlanCard
-              planConfig={planConfig}
-              planContent={plansContent[i]} // Order of configs in configuration should match order of plans in asset!
-              key={planConfig.id}
+              planConfig={plansConfigs[i]}
+              planContent={planContent} // Order of configs in configuration should match order of plans in asset!
+              key={plansConfigs[i].id}
               currentBillingCycleId={currentBillingCycleID}
               currentSubscription={currentSubscription}
               isUserAuthorized={!!user}
