@@ -9,7 +9,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, g as getDefaultExportFromCjs, c as commonjsGlobal, d as ReactDOM } from "./index-BYzTMXmS.js";
+import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, g as getDefaultExportFromCjs, c as commonjsGlobal, d as ReactDOM } from "./index-BMFCphCm.js";
 function getDefaultSelectValue({ options, defaultValue }) {
   if (typeof defaultValue === "string") {
     return defaultValue;
@@ -8148,6 +8148,13 @@ const mcda$6 = {
   bad: "Bad",
   good: "Good"
 };
+const multivariate = {
+  upload_analysis_layer: "Upload analysis layer",
+  popup: {
+    score_header: "Score {{level}}",
+    base_header: "Base {{level}}"
+  }
+};
 const search = {
   search_location: "Search location",
   info_block: "You can search for 📍 locations",
@@ -8527,6 +8534,7 @@ const en_common = {
   groups: groups$6,
   advanced_analytics_data_list: advanced_analytics_data_list$6,
   mcda: mcda$6,
+  multivariate,
   search,
   event_list: event_list$6,
   create_layer: create_layer$6,
