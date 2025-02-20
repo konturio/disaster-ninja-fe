@@ -7,6 +7,7 @@ import { createMCDAConfig, editMCDAConfig } from './mcdaConfig';
 import { MCDA_CONTROL_ID, UPLOAD_MCDA_CONTROL_ID } from './constants';
 import { askMcdaJSONFile } from './utils/openMcdaFile';
 import { applyNewMCDAConfig } from './utils/applyNewMCDAConfig';
+import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type {
   LogicalLayerActions,
   LogicalLayerState,
@@ -75,22 +76,16 @@ uploadMcdaControl.onStateChange((ctx, state) => {
 });
 
 /** Edit MCDA */
-export async function editMCDA(
-  layerState: LogicalLayerState,
-  layerActions: LogicalLayerActions,
-) {
-  const oldConfig = layerState.style?.config;
-  if (oldConfig) {
-    const config = await editMCDAConfig(oldConfig);
-    if (config?.id) {
-      if (config.id === oldConfig.id) {
-        // update existing MCDA
-        applyNewMCDAConfig(config);
-      } else {
-        // recreate MCDA with a new id
-        layerActions.destroy();
-        store.dispatch([mcdaLayerAtom.createMCDALayer({ ...config, id: config.id })]);
-      }
+export async function editMCDA(oldConfig: MCDAConfig, layerActions: LogicalLayerActions) {
+  const config = await editMCDAConfig(oldConfig);
+  if (config?.id) {
+    if (config.id === oldConfig.id) {
+      // update existing MCDA
+      applyNewMCDAConfig(config);
+    } else {
+      // recreate MCDA with a new id
+      layerActions.destroy();
+      store.dispatch([mcdaLayerAtom.createMCDALayer({ ...config, id: config.id })]);
     }
   }
 }

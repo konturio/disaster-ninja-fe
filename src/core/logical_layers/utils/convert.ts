@@ -4,10 +4,18 @@ import type {
   LayerGeoJSONSource,
   LayerTileSource,
 } from '~core/logical_layers/types/source';
-import type { LayerLegend } from '~core/logical_layers/types/legends';
+import type { LayerLegend, MultivariateLegend } from '~core/logical_layers/types/legends';
 
 export function convertDetailsToLegends(response: LayerDetailsDto): LayerLegend | null {
-  if (!response.legend) return null;
+  if (!response.legend) {
+    if (response.style?.type === 'multivariate') {
+      return {
+        type: 'multivariate',
+        config: response.style.config,
+      } as MultivariateLegend;
+    }
+    return null;
+  }
   return legendFormatter(response);
 }
 

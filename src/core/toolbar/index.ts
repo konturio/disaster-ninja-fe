@@ -6,6 +6,7 @@ import { SENSOR_CONTROL_ID } from '~features/live_sensor/constants';
 import { SAVE_AS_REFERENCE_AREA_CONTROL_ID } from '~features/reference_area/constants';
 import { FOCUSED_GEOMETRY_EDITOR_CONTROL_ID } from '~widgets/FocusedGeometryEditor/constants';
 import { BOUNDARY_SELECTOR_CONTROL_ID } from '~features/boundary_selector/constants';
+import { UPLOAD_MULTIVARIATE_CONTROL_ID } from '~features/multivariate_layer/constants';
 import type {
   ControlID,
   ControlState,
@@ -54,6 +55,7 @@ class ToolbarImpl implements Toolbar {
           SENSOR_CONTROL_ID,
           MCDA_CONTROL_ID,
           UPLOAD_MCDA_CONTROL_ID,
+          UPLOAD_MULTIVARIATE_CONTROL_ID,
           'EditableLayer',
         ],
       },
