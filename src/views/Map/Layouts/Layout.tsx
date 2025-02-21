@@ -50,7 +50,7 @@ export function Layout({
             {layerFeaturesPanel}
           </>
         }
-        topColumn={<>{breadcrumbs}</>}
+        topColumn={breadcrumbs}
         mapColumnBottom={timeline}
         footer={footer}
       />

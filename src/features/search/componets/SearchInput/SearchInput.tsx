@@ -55,9 +55,8 @@ export const SearchInput = reatomComponent<SearchInputProps>(
           onClick={onSearch}
           className={classes?.button}
           aria-label="search"
-        >
-          <Search16 />
-        </Button>
+          iconAfter={<Search16 />}
+        />
       </div>
     );
   },
