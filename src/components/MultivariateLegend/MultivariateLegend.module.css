@@ -1,0 +1,5 @@
+.legendName {
+  display: flex;
+  align-items: center;
+  margin-top: calc(var(--unit) * 3);
+}

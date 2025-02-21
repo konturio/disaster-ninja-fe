@@ -1,32 +1,34 @@
-export function featureProp<T>(name: T) {
+import type { ExpressionSpecification } from 'maplibre-gl';
+
+export function featureProp(name: string): ExpressionSpecification {
   return ['get', name];
 }
 
-export function getVariable<T>(name: T) {
+export function getVariable(name: string): ExpressionSpecification {
   return ['var', name];
 }
 
-export function less<T, R>(first: T, second: R) {
+export function less(first, second): ExpressionSpecification {
   return ['<', first, second];
 }
 
-export function lessOrEqual<T, R>(first: T, second: R) {
+export function lessOrEqual(first, second): ExpressionSpecification {
   return ['<=', first, second];
 }
 
-export function greaterOrEqual(first, second) {
+export function greaterOrEqual(first, second): ExpressionSpecification {
   return ['>=', first, second];
 }
 
-export function notEqual<T, R>(first: T, second: R) {
+export function notEqual(first, second): ExpressionSpecification {
   return ['!=', first, second];
 }
 
-export function equal<T, R>(first: T, second: R) {
+export function equal(first, second): ExpressionSpecification {
   return ['==', first, second];
 }
 
-export function caseFn<T, R>(condition: T, output: R) {
+export function caseFn(condition, output): ExpressionSpecification {
   return [condition, output];
 }
 
@@ -38,7 +40,7 @@ export function concat<T, R>(first: T, second: R) {
   return ['concat', first, second];
 }
 
-export function addVariable<T, R>(name: string, binding: T, expression: R) {
+export function addVariable(name, binding, expression): ExpressionSpecification {
   return ['let', name, binding, expression];
 }
 
@@ -46,24 +48,15 @@ export function toNumber(value) {
   return ['to-number', value, 0];
 }
 
-export function allCondition(...conditionInputs) {
+export function allCondition(...conditionInputs): ExpressionSpecification {
   return ['all', ...conditionInputs];
 }
 
-export function anyCondition(...conditionInputs) {
+export function anyCondition(...conditionInputs): ExpressionSpecification {
   return ['any', ...conditionInputs];
 }
 
 type FeaturePropReturn = number | string | Array<FeaturePropReturn>;
-
-function stringsToFeatureProp(expression: Array<string> | string): FeaturePropReturn {
-  if (typeof expression === 'string') {
-    return expression === '1' ? 1 : featureProp(expression);
-  } else {
-    // ignore first item in array - it's operator
-    return expression.map((exp, i) => (i === 0 ? exp : stringsToFeatureProp(exp)));
-  }
-}
 
 const AT_CHAR_CODE = 64; // '@'.charCodeAt(0);
 export const getCharByIndex = (i: number) => String.fromCharCode(AT_CHAR_CODE + i); //get A - C by index
@@ -79,7 +72,7 @@ const getConditionFunc = (currentIndex: number, totalBorders: number) =>
   currentIndex === totalBorders - 1 ? lessOrEqual : less;
 
 export type AxisValue = {
-  propName: Array<string>;
+  propName: ExpressionSpecification;
   borders: Array<number>;
 };
 /**
@@ -90,14 +83,14 @@ export type AxisValue = {
  * @param yValue.borders  - yValue class borders
  */
 export function classResolver(xValue: AxisValue, yValue: AxisValue) {
-  const xAxisValue = stringsToFeatureProp(xValue.propName);
-  const yAxisValue = stringsToFeatureProp(yValue.propName);
-
   return concat(
     switchFn(
       // cases for a, b, c ...
       xValue.borders.map((border, i, arr) =>
-        caseFn(getConditionFunc(i, arr.length)(xAxisValue, border), getCharByIndex(i)),
+        caseFn(
+          getConditionFunc(i, arr.length)(xValue.propName, border),
+          getCharByIndex(i),
+        ),
       ),
       // default case required
       getCharByIndex(xValue.borders.length),
@@ -105,7 +98,7 @@ export function classResolver(xValue: AxisValue, yValue: AxisValue) {
     switchFn(
       // cases for 1, 2, 3 ...
       yValue.borders.map((border, i, arr) =>
-        caseFn(getConditionFunc(i, arr.length)(yAxisValue, border), i),
+        caseFn(getConditionFunc(i, arr.length)(yValue.propName, border), i),
       ),
       // default case required
       yValue.borders.length,

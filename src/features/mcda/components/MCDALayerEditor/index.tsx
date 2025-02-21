@@ -1,5 +1,5 @@
 import { useAtom } from '@reatom/npm-react';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import { applyNewMCDAConfig } from '~features/mcda/utils/applyNewMCDAConfig';
 import s from './style.module.css';
@@ -8,12 +8,17 @@ import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcd
 import type { LayerEditorProps } from '~core/logical_layers/types/editors';
 
 export function MCDALayerEditor({ layerId }: LayerEditorProps) {
-  const [mcdaConfig] = useAtom(
+  const [layerStyle] = useAtom(
     (ctx) => {
       const layerSource = ctx.spy(layersSourcesAtom.v3atom).get(layerId);
-      return layerSource?.data?.style?.config;
+      return layerSource?.data?.style;
     },
     [layerId],
+  );
+
+  const mcdaConfig = useMemo(
+    () => (layerStyle?.type === 'mcda' ? layerStyle.config : null),
+    [layerStyle],
   );
 
   const onLayerEdited = useCallback(

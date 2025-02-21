@@ -1,8 +1,7 @@
 import { Heading, Text } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/npm-react';
 import { Rubber16 } from '@konturio/default-icons';
-import { useCallback, useMemo, useState } from 'react';
-import clsx from 'clsx';
+import { useMemo, useState } from 'react';
 import { i18n } from '~core/localization';
 import {
   referenceAreaAtom,
@@ -16,6 +15,7 @@ import { updateReferenceArea } from '~core/api/features';
 import { getUserLocation } from '~utils/common/userLocation';
 import { getBoundaries } from '~core/api/boundaries';
 import { notificationServiceInstance } from '~core/notificationServiceInstance';
+import { SearchBar } from '~features/user_profile/components/SettingsForm/ReferenceAreaInfo/SearchBar';
 import s from './ReferenceAreaInfo.module.css';
 
 export function ReferenceAreaInfo() {
@@ -32,10 +32,6 @@ export function ReferenceAreaInfo() {
     }
     return i18n.t('profile.reference_area.freehand_geometry');
   }, [referenceAreaGeometry]);
-
-  const onDeleteReferenceAreaClicked = useCallback(() => {
-    resetReferenceArea(store.v3ctx);
-  }, []);
 
   const onSelectCurrentLocation = async () => {
     setIsLocationLoading(true);
@@ -81,7 +77,7 @@ export function ReferenceAreaInfo() {
             <Heading type="heading-04" margins={false}>
               {referenceAreaName}
             </Heading>
-            <span className={s.clean} onClick={onDeleteReferenceAreaClicked}>
+            <span className={s.clean} onClick={() => resetReferenceArea(store.v3ctx)}>
               <Rubber16 />
             </span>
           </div>
@@ -93,6 +89,7 @@ export function ReferenceAreaInfo() {
         </>
       ) : (
         <>
+          <SearchBar />
           <div className={s.linksWrapper}>
             <a className={s.link} onClick={() => goTo('/map')}>
               {i18n.t('profile.reference_area.set_the_reference_area')}
@@ -112,10 +109,7 @@ export function ReferenceAreaInfo() {
                 {i18n.t('profile.reference_area.accessing_location_error')}
               </span>
             ) : (
-              <button
-                className={clsx(s.link, s.userLocation)}
-                onClick={onSelectCurrentLocation}
-              >
+              <button className={s.link} onClick={onSelectCurrentLocation}>
                 {i18n.t('profile.reference_area.select_location')}
               </button>
             )}

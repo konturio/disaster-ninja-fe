@@ -39,13 +39,32 @@ function calcMcdaIndex(
   return sumNormalized / coeffsSum;
 }
 
-export function generatePopupContent(
+export function generateMCDALayersTableAndScore(
+  feature: GeoJSON.Feature,
+  layers: MCDAConfig['layers'],
+) {
+  const mcdaLayersTable = createTableWithCalculations(feature, layers);
+  const resultMCDAScore = calcMcdaIndex(layers, mcdaLayersTable);
+  return { mcdaLayersTable, resultMCDAScore };
+}
+
+export function generateMCDAPopupTable(
+  feature: GeoJSON.Feature,
+  layers: MCDAConfig['layers'],
+) {
+  const { mcdaLayersTable, resultMCDAScore } = generateMCDALayersTableAndScore(
+    feature,
+    layers,
+  );
+
+  return PopupMCDA({ layers, normalized: mcdaLayersTable, resultMCDA: resultMCDAScore });
+}
+
+export function generateMCDAPopupContent(
   feature: GeoJSON.Feature,
   layers: MCDAConfig['layers'],
 ): HTMLDivElement {
-  const normalized = createTableWithCalculations(feature, layers);
-  const resultMCDA = calcMcdaIndex(layers, normalized);
   const popupNode = document.createElement('div');
-  createRoot(popupNode).render(PopupMCDA({ layers, normalized, resultMCDA }));
+  createRoot(popupNode).render(generateMCDAPopupTable(feature, layers));
   return popupNode;
 }

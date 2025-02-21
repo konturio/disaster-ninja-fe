@@ -1,6 +1,5 @@
 .searchInputContainer {
   display: flex;
-  box-shadow: var(--shadow-medium);
   background-color: var(--base-weak);
   border-radius: var(--border-radius);
 }

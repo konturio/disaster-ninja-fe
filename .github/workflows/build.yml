@@ -1,4 +1,5 @@
 name: build
+
 on:
   push:
     branches:
@@ -14,11 +15,12 @@ on:
       - reopened
       - ready_for_review
       - synchronize
-    # paths-ignore:
-    #   - 'e2e/**'
-    #   - 'playwright.config.ts'
-    #   - '.github/workflows/run_e2e_tests.yml'
   workflow_dispatch:
+  workflow_call: # Enables this workflow to be called from other workflows via the 'workflow_call' event.
+    # In our particular case, we use this to trigger the build from the deploy_dev workflow.
+    secrets:
+      CODECOV_TOKEN:
+        required: true
 
 env:
   NODE_ENV: production
@@ -26,36 +28,44 @@ env:
   HUSKY: 0
   REGISTRY: ghcr.io
   IMAGE_REPO: ${{ github.repository }}
-  GH_COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
+  GH_COMMIT_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
 
 jobs:
   test:
     runs-on: ubuntu-24.04
-    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || !github.event.pull_request.draft }}
+    if: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' || !github.event.pull_request.draft || github.event_name == 'workflow_call' }}
     steps:
-      - run: sudo apt-get update && sudo apt-get install -y gettext
-      - uses: actions/checkout@v4
+      - name: Install gettext
+        run: sudo apt-get update && sudo apt-get install -y gettext
+
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
+          ref: ${{ github.ref }}
           fetch-depth: 2
+
       - name: Install pnpm
         uses: pnpm/action-setup@v4
         with:
           version: 9
+
       - name: Get pnpm store directory
         shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
-      - uses: actions/cache@v4
-        name: Setup pnpm cache
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
         with:
           path: ${{ env.STORE_PATH }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
 
-      - run: pnpm run i18n:gettext-sync
-      - shell: bash
+      - name: Sync i18n
+        run: pnpm run i18n:gettext-sync
+
+      - name: Check translations sync
+        shell: bash
         run: |
           status=$(git status --porcelain)
           if [ -n "$status" ]; then
@@ -64,11 +74,22 @@ jobs:
           else
             echo "Translations are synced."
           fi
-      - run: pnpm i --prod=false
-      - run: pnpm run postinstall
-      - run: pnpm run lint
-      - run: pnpm run typecheck
-      - run: env NODE_ENV=test pnpm run coverage
+
+      - name: Install deps
+        run: pnpm i --prod=false
+
+      - name: Postinstall
+        run: pnpm run postinstall
+
+      - name: Lint
+        run: pnpm run lint
+
+      - name: Typecheck
+        run: pnpm run typecheck
+
+      - name: Coverage
+        run: env NODE_ENV=test pnpm run coverage
+
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4
         with:
@@ -80,8 +101,10 @@ jobs:
     runs-on: ubuntu-24.04
     needs: test
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
+          ref: ${{ github.ref }}
           fetch-depth: 2
 
       - name: Install pnpm
@@ -91,43 +114,54 @@ jobs:
 
       - name: Get pnpm store directory
         shell: bash
-        run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
 
-      - uses: actions/cache@v4
-        name: Setup pnpm cache
+      - name: Setup pnpm cache
+        uses: actions/cache@v4
         with:
           path: ${{ env.STORE_PATH }}
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-      - run: pnpm i --prod=false
-      - name: vite build
+
+      - name: Install deps
+        run: pnpm i --prod=false
+
+      - name: Vite build
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         run: pnpm run build
+
       - name: Display structure of builded files
         run: ls -R
         working-directory: .
+
       - name: Make artifact folder for dist (workaround for actions/upload-artifact@v4 bug)
         run: mkdir ./_artifact && mv ./dist ./_artifact
         working-directory: .
-      - uses: actions/upload-artifact@v4
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ github.sha }}
           path: ./_artifact
 
   publish:
     needs: build
-    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && (startsWith(github.ref_name, 'release') || github.ref_name == 'main')) }}
+    if: ${{ github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && (startsWith(github.ref_name, 'release') || github.ref_name == 'main')) || github.event_name == 'workflow_call' }}
     runs-on: ubuntu-24.04
+    outputs:
+      image_tag: ${{ steps.set_output.outputs.image_tag }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/download-artifact@v4
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
         with:
           name: ${{ github.sha }}
 
-      - name: Display structure of downloaded files
+      - name: Display artifact structure
         run: ls -R
         working-directory: .
 
@@ -139,13 +173,13 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Extract Docker metadata
-        uses: docker/metadata-action@v5
         id: meta
+        uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_REPO }}
           tags: |
-            type=raw,value=${{ github.ref_name }}.{{sha}}.${{ github.run_attempt }},enable=${{github.event_name == 'push' || github.event_name == 'workflow_dispatch'}}
-            type=raw,value=${{ github.head_ref }}.{{sha}}.${{ github.run_attempt }},enable=${{github.event_name == 'pull_request'}}
+            type=raw,value=${{ github.ref_name }}.{{sha}}.${{ github.run_attempt }},enable=${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
+            type=raw,value=${{ github.head_ref }}.{{sha}}.${{ github.run_attempt }},enable=${{ github.event_name == 'pull_request' }}
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
@@ -156,3 +190,7 @@ jobs:
           tags: |
             ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Set output for image tag
+        id: set_output
+        run: echo "image_tag=${{ steps.meta.outputs.tags }}" >> $GITHUB_OUTPUT

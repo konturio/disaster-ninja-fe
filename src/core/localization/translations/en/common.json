@@ -62,7 +62,8 @@
     "forbidden": "Forbidden",
     "not_found": "Not found",
     "unknown": "Unknown",
-    "server_error": "Server error"
+    "server_error": "Server error",
+    "error_try_again": "Something went wrong. Please try again"
   },
   "categories": {
     "overlays": "Overlays",
@@ -161,7 +162,15 @@
     "bad": "Bad",
     "good": "Good"
   },
+  "multivariate": {
+    "upload_analysis_layer": "Upload analysis layer",
+    "popup": {
+      "score_header": "Score {{level}}",
+      "base_header": "Base {{level}}"
+    }
+  },
   "search": {
+    "search_location": "Search location",
     "info_block": "You can search for 📍 locations",
     "info_block_with_mcda": "You can search for 📍 locations or ask ✨ AI your question like “Where is dead wood”",
     "input_placeholder": "Search",
@@ -379,7 +388,6 @@
     "no_data": "No data for this report",
     "sorting": "Sorting data...",
     "loading": "Loading data",
-    "search_location": "Search location",
     "open_josm": "Open via JOSM remote control",
     "josm_logo_alt": "JOSM logo",
     "see_all": "See all reports",

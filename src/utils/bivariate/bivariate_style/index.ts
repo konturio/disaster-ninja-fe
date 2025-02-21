@@ -6,14 +6,15 @@ import {
   featureProp,
   notEqual,
 } from './styleGen';
-import type { Stat, Axis, OverlayColor } from '../types/stat.types';
+import type { ExpressionSpecification, FilterSpecification } from 'maplibre-gl';
+import type { Stat, Axis, OverlayColor, Step } from '../types/stat.types';
 import type { BivariateLayerStyle } from '~utils/bivariate/bivariateColorThemeUtils';
 
-function colorsMap(colors: Array<OverlayColor>): Record<string, string> {
+export function colorsMap(colors: Array<OverlayColor>): Record<string, string> {
   return Object.fromEntries(colors.map(({ id, color }) => [id, color]));
 }
 
-function filterSetup(xAxis: Axis, yAxis: Axis) {
+function filterSetup(xAxis: Axis, yAxis: Axis): FilterSpecification {
   return anyCondition(
     notEqual(['/', featureProp(xAxis.quotient[0]), featureProp(xAxis.quotient[1])], 0),
     notEqual(['/', featureProp(yAxis.quotient[0]), featureProp(yAxis.quotient[1])], 0),
@@ -21,18 +22,29 @@ function filterSetup(xAxis: Axis, yAxis: Axis) {
 }
 
 function colorSetup(xAxis: Axis, yAxis: Axis, colors: Record<string, string>) {
+  const xAxisProp: ExpressionSpecification = [
+    '/',
+    featureProp(xAxis.quotient[0]),
+    featureProp(xAxis.quotient[1]),
+  ];
+  const yAxisProp: ExpressionSpecification = [
+    '/',
+    featureProp(yAxis.quotient[0]),
+    featureProp(yAxis.quotient[1]),
+  ];
+
   return addVariable(
     'class',
     classResolver(
       {
-        propName: ['/', ...xAxis.quotient],
+        propName: xAxisProp,
         borders: xAxis.steps.reduce<number[]>(
           (acc, { value }) => (acc.push(value), acc),
           [],
         ),
       },
       {
-        propName: ['/', ...yAxis.quotient],
+        propName: yAxisProp,
         borders: yAxis.steps.reduce<number[]>(
           (acc, { value }) => (acc.push(value), acc),
           [],

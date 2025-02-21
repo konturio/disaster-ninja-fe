@@ -3,7 +3,7 @@ import { capitalize } from '~utils/common';
 import s from './PopupMCDA.module.css';
 import type { PopupMCDAProps } from '../types';
 
-function OneLayerPopup({
+export function OneLayerPopup({
   layer,
   normalized,
   resultMCDA,
@@ -50,7 +50,7 @@ function OneLayerPopup({
 }
 
 type MultiLayerPopup = PopupMCDAProps;
-function MultiLayerPopup({ layers, normalized, resultMCDA }: MultiLayerPopup) {
+export function MultiLayerPopup({ layers, normalized, resultMCDA }: MultiLayerPopup) {
   return (
     <table>
       <thead>
@@ -63,12 +63,12 @@ function MultiLayerPopup({ layers, normalized, resultMCDA }: MultiLayerPopup) {
         </tr>
       </thead>
       <tbody className={s.tableBody}>
-        {layers.map(({ axis, range, coefficient }) => {
+        {layers.map(({ axis, range, coefficient }, index) => {
           const [min, max] = range;
           const [num, den] = axis;
 
           return (
-            <tr key={`${num}-${den}`}>
+            <tr key={`${num}-${den}-${index}`}>
               <td>
                 {num} / {den}
               </td>
