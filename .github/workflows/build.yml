@@ -18,6 +18,9 @@ on:
   workflow_dispatch:
   workflow_call: # Enables this workflow to be called from other workflows via the 'workflow_call' event.
     # In our particular case, we use this to trigger the build from the deploy_dev workflow.
+    secrets:
+      CODECOV_TOKEN:
+        required: true
 
 env:
   NODE_ENV: production
