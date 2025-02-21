@@ -10,18 +10,12 @@ export async function onLogin() {
 }
 
 function externalLoginTasks(user: UserDto) {
-  const { username, email } = user;
-  // now when intercom is a feature it can be saved in window after this check happens
-  if (window['Intercom']) {
-    window['Intercom']('update', {
-      name: username,
-      email: email,
-    });
-  }
+  const { email, fullName, phone } = user;
   // in case we do have intercom - lets store right credentials for when it will be ready
   configRepo.updateIntercomSettings({
-    name: username,
+    name: fullName,
     email: email,
+    ...(phone && { phone }),
   });
 
   yandexMetrics.mark('setUserID', user.email);

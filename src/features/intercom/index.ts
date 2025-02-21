@@ -1,9 +1,11 @@
 import { createBooleanAtom } from '~utils/atoms';
 import { configRepo } from '~core/config';
+import { currentUserSubscriptionResource } from '~core/shared_state/currentSubscription';
+import { store } from '~core/store/store';
 
 export const intercomVisibleAtom = createBooleanAtom(false, 'intercomVisibleAtom');
 
-export function initIntercom() {
+export async function initIntercom() {
   connectAndConfigureIntercom();
   intercomVisibleAtom.setTrue.dispatch(); // Add empty space in footer for intercom
 }
@@ -16,8 +18,16 @@ export function openIntercomChat() {
   }
 }
 
+export function updateUserData(data) {
+  if (typeof globalThis.Intercom === 'function' && globalThis.intercomSettings) {
+    globalThis.Intercom('update', data);
+  } else {
+    console.warn('Intercom is not available, cant save', data);
+  }
+}
+
 function connectAndConfigureIntercom() {
-  const { name, email, intercomAppId, intercomSelector } =
+  const { email, intercomAppId, intercomSelector, name, phone } =
     configRepo.getIntercomSettings();
 
   // need this to reset intercom session for unregistered users on startup
@@ -30,6 +40,7 @@ function connectAndConfigureIntercom() {
       custom_launcher_selector: intercomSelector,
     };
     if (email) globalThis.intercomSettings.email = email;
+    if (phone) globalThis.intercomSettings.phone = phone;
   }
 
   /* eslint-disable */
@@ -73,4 +84,18 @@ function connectAndConfigureIntercom() {
       }
     }
   })();
+
+  sendUserPlanId();
+}
+
+async function sendUserPlanId() {
+  const user = configRepo.get().user;
+  if (!user) return;
+
+  try {
+    const data = await currentUserSubscriptionResource(store.v3ctx);
+    updateUserData({ plan_id: data?.id || '' });
+  } catch {
+    console.error('Cannot load current user subscription');
+  }
 }

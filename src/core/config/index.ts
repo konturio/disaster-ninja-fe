@@ -58,6 +58,7 @@ class ConfigRepository {
       intercomSelector: this.#config!.intercomSelector,
       name: this.#readSessionIntercomSetting('name'),
       email: this.#readSessionIntercomSetting('email'),
+      phone: this.#readSessionIntercomSetting('phone'),
     };
   }
 
@@ -65,7 +66,7 @@ class ConfigRepository {
     const key = `kontur.intercom.${k}`;
     v ? sessionStorage.setItem(key, v) : sessionStorage.removeItem(key);
   };
-  updateIntercomSettings(settings: { name?: string; email?: string }) {
+  updateIntercomSettings(settings: Record<string, string>) {
     Object.entries(settings).forEach(([k, v]) => this.#setIntercomSetting(k, v));
   }
 }
