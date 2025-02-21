@@ -9,7 +9,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, g as getDefaultExportFromCjs, c as commonjsGlobal, d as ReactDOM } from "./index-BMFCphCm.js";
+import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, g as getDefaultExportFromCjs, c as commonjsGlobal, d as ReactDOM } from "./index-Dd8AqPJ_.js";
 function getDefaultSelectValue({ options, defaultValue }) {
   if (typeof defaultValue === "string") {
     return defaultValue;
@@ -690,7 +690,7 @@ const computePosition$1 = async (reference, floating, config2) => {
       x: nextX,
       y: nextY,
       data,
-      reset
+      reset: reset2
     } = await fn({
       x: x2,
       y: y2,
@@ -714,18 +714,18 @@ const computePosition$1 = async (reference, floating, config2) => {
         ...data
       }
     };
-    if (reset && resetCount <= 50) {
+    if (reset2 && resetCount <= 50) {
       resetCount++;
-      if (typeof reset === "object") {
-        if (reset.placement) {
-          statefulPlacement = reset.placement;
+      if (typeof reset2 === "object") {
+        if (reset2.placement) {
+          statefulPlacement = reset2.placement;
         }
-        if (reset.rects) {
-          rects = reset.rects === true ? await platform2.getElementRects({
+        if (reset2.rects) {
+          rects = reset2.rects === true ? await platform2.getElementRects({
             reference,
             floating,
             strategy
-          }) : reset.rects;
+          }) : reset2.rects;
         }
         ({
           x: x2,
@@ -3556,11 +3556,11 @@ const impossibleValue = Symbol(), callSafely = function(fn) {
 function throwReatomError(condition, message) {
   if (condition) throw new Error(`Reatom error: ${message}`);
 }
-const isAtom$1 = (thing) => void 0 !== (thing == null ? void 0 : thing.__reatom), isConnected = (cache) => cache.subs.size + cache.listeners.size > 0;
+const isAtom$1 = (thing) => void 0 !== (thing == null ? void 0 : thing.__reatom), isConnected$1 = (cache) => cache.subs.size + cache.listeners.size > 0;
 function assertFunction(thing) {
   throwReatomError("function" != typeof thing, `invalid "${typeof thing}", function expected`);
 }
-const getRootCause$1 = (cause) => null === cause.cause ? cause : getRootCause$1(cause.cause), isBrowser = () => {
+const getRootCause$2 = (cause) => null === cause.cause ? cause : getRootCause$2(cause.cause), isBrowser = () => {
   var _a;
   return !!((_a = globalThis.navigator) == null ? void 0 : _a.userAgent);
 };
@@ -3582,13 +3582,13 @@ const createCtx = ({ callLateEffect = callSafely, callNearEffect = callSafely, r
       subProto.patch && !subProto.actual || 0 === addPatch(subCache, cache).listeners.size && enqueueComputers(subCache);
     }
   }, disconnect = (proto, pubPatch) => {
-    if (pubPatch.subs.delete(proto) && (trRollbacks.push(() => pubPatch.subs.add(proto)), !isConnected(pubPatch))) {
+    if (pubPatch.subs.delete(proto) && (trRollbacks.push(() => pubPatch.subs.add(proto)), !isConnected$1(pubPatch))) {
       null !== pubPatch.proto.disconnectHooks && nearEffects.push(...pubPatch.proto.disconnectHooks);
       for (let parentParent of pubPatch.pubs) disconnect(pubPatch.proto, parentParent);
     }
   }, connect = (proto, pubPatch) => {
     if (!pubPatch.subs.has(proto)) {
-      let wasConnected = isConnected(pubPatch);
+      let wasConnected = isConnected$1(pubPatch);
       if (pubPatch.subs.add(proto), trRollbacks.push(() => pubPatch.subs.delete(proto)), !wasConnected) {
         null !== pubPatch.proto.connectHooks && nearEffects.push(...pubPatch.proto.connectHooks);
         for (let parentParentPatch of pubPatch.pubs) connect(pubPatch.proto, parentParentPatch);
@@ -3596,7 +3596,7 @@ const createCtx = ({ callLateEffect = callSafely, callNearEffect = callSafely, r
     }
   }, actualize = (ctx2, proto, updater) => {
     let { patch, actual } = proto, updating = void 0 !== updater;
-    if (!updating && actual && (0 === patch.pubs.length || isConnected(patch))) return patch;
+    if (!updating && actual && (0 === patch.pubs.length || isConnected$1(patch))) return patch;
     let cache = patch ?? read(proto), isInt = !cache, cause = updating ? ctx2.cause : read(__root);
     if (isInt) cache = { state: proto.initState(ctx2), proto, cause, pubs: [], subs: /* @__PURE__ */ new Set(), listeners: /* @__PURE__ */ new Set() };
     else if (null === proto.computer && !updating) return cache;
@@ -3614,7 +3614,7 @@ const createCtx = ({ callLateEffect = callSafely, callNearEffect = callSafely, r
             if (!cb || !isDepChanged && Object.is(state2, prevDepPatch.state)) return state2;
             if (depProto.isAction) for (const call of state2) cb(call);
             else cb(state2, isDepChanged ? void 0 : prevDepPatch == null ? void 0 : prevDepPatch.state);
-          }, patch2.state = patch2.proto.computer(patchCtx2, patch2.state), patch2.pubs = newPubs, (isDepsChanged || pubs.length > newPubs.length) && isConnected(patch2)) {
+          }, patch2.state = patch2.proto.computer(patchCtx2, patch2.state), patch2.pubs = newPubs, (isDepsChanged || pubs.length > newPubs.length) && isConnected$1(patch2)) {
             for (let { proto: depProto } of pubs) newPubs.every((dep) => dep.proto !== depProto) && disconnect(proto2, depProto.patch ?? read(depProto));
             for (let { proto: depProto } of newPubs) pubs.every((dep) => dep.proto !== depProto) && connect(proto2, depProto.patch ?? read(depProto));
           }
@@ -3630,11 +3630,11 @@ const createCtx = ({ callLateEffect = callSafely, callNearEffect = callSafely, r
     }
     return patch;
   }, ctx = { get(atomOrCb) {
-    if (throwReatomError(CTX && getRootCause$1(CTX.cause) !== read(__root), "cause collision"), isAtom$1(atomOrCb)) {
+    if (throwReatomError(CTX && getRootCause$2(CTX.cause) !== read(__root), "cause collision"), isAtom$1(atomOrCb)) {
       let proto = atomOrCb.__reatom;
       if (inTr) return actualize(this, proto).state;
       let cache = read(proto);
-      return void 0 === cache || null !== proto.computer && !isConnected(cache) ? this.get(() => actualize(this, proto).state) : cache.state;
+      return void 0 === cache || null !== proto.computer && !isConnected$1(cache) ? this.get(() => actualize(this, proto).state) : cache.state;
     }
     if (throwReatomError(null !== trError, "tr failed"), inTr) return atomOrCb(read, actualize);
     inTr = true, trNearEffectsStart = nearEffects.length, trLateEffectsStart = lateEffects.length;
@@ -3678,12 +3678,12 @@ const createCtx = ({ callLateEffect = callSafely, callNearEffect = callSafely, r
   }, subscribe(atom2, cb = atom2) {
     if (assertFunction(cb), atom2 === cb) return logsListeners.add(cb), () => logsListeners.delete(cb);
     let { __reatom: proto } = atom2, lastState = impossibleValue, listener = (state) => Object.is(lastState, state) || cb(lastState = state), cache = read(proto);
-    return void 0 !== cache && isConnected(cache) ? cache.listeners.add(listener) : this.get(() => {
+    return void 0 !== cache && isConnected$1(cache) ? cache.listeners.add(listener) : this.get(() => {
       cache = actualize(this, proto, (patchCtx, patch) => {
       }), cache.listeners.add(listener), trRollbacks.push(() => proto.patch.listeners.delete(listener)), null !== proto.connectHooks && nearEffects.push(...proto.connectHooks);
       for (let pubPatch of cache.pubs) connect(proto, pubPatch);
     }), lastState === impossibleValue && listener((proto.patch ?? read(proto)).state), () => {
-      if (cache.listeners.delete(listener) && !isConnected(cache)) {
+      if (cache.listeners.delete(listener) && !isConnected$1(cache)) {
         proto.disconnectHooks && nearEffects.push(...proto.disconnectHooks);
         for (let pubCache of cache.pubs) disconnect(proto, pubCache);
         inTr || (trRollbacks.length = 0, walkLateEffects());
@@ -3746,7 +3746,7 @@ function isAction(thing) {
 function getState(atom2, store2 = defaultStore) {
   return store2.getState(atom2);
 }
-const getRootCause = (cause) => null === cause.cause ? cause : getRootCause(cause.cause), spyChange = (ctx, anAtom, handler) => {
+const getRootCause$1 = (cause) => null === cause.cause ? cause : getRootCause$1(cause.cause), spyChange = (ctx, anAtom, handler) => {
   let isChanged = false;
   return ctx.spy(anAtom, (newState, prevState) => {
     isChanged = true, handler == null ? void 0 : handler(newState, prevState);
@@ -3779,7 +3779,7 @@ function createAtom$1(dependencies, reducer, options = {}) {
       return actionCreators2[name](...[].slice.call(arguments, 1));
     };
     return (v3ctx, state) => {
-      const rootCause = getRootCause(v3ctx.cause);
+      const rootCause = getRootCause$1(v3ctx.cause);
       ctxs.has(rootCause) || ctxs.set(rootCause, /* @__PURE__ */ new WeakMap()), ctxs.get(rootCause).has(reducer2) || ctxs.get(rootCause).set(reducer2, {});
       const ctx = ctxs.get(rootCause).get(reducer2);
       return reducer2({ create: create2, get: (name) => v3ctx.spy(dependencies2[name].v3atom), getUnlistedState: (targetAtom) => v3ctx.get(targetAtom.v3atom), onAction: (name, reaction) => {
@@ -3791,7 +3791,7 @@ function createAtom$1(dependencies, reducer, options = {}) {
         spyChange(v3ctx, dependencies2[name].v3atom, (prev, next) => reaction(prev, next));
       }, onInit: (cb) => {
         v3ctx.get((read) => read(v3ctx.cause.proto)) || cb();
-      }, schedule: (effect) => v3ctx.schedule(() => effect(getRootCause(v3ctx.cause).v2store.dispatch, ctx, []), 2), v3ctx }, state);
+      }, schedule: (effect) => v3ctx.schedule(() => effect(getRootCause$1(v3ctx.cause).v2store.dispatch, ctx, []), 2), v3ctx }, state);
     };
   }(reducer, dependencies, 0, actionCreators, externalActions);
   function atom$1(transaction) {
@@ -3807,7 +3807,7 @@ function createStore({ callSafety = callSafely, v3ctx = createCtx({ callNearEffe
       actions.forEach((action3) => action3.v3action(v3ctx, action3.payload)), actions.forEach(({ targets }) => targets == null ? void 0 : targets.forEach((target) => v3ctx.get(target.v3atom)));
     });
   }, getCache: (atom2) => v3ctx.get((read) => read(atom2.v3atom.__reatom)), getState: (atom2) => v3ctx.get(atom2.v3atom), subscribe: (atom2, cb) => v3ctx.subscribe(atom2.v3atom, (state) => cb(state, [])), v3ctx };
-  return getRootCause(v3ctx.cause).v2store = store2, store2;
+  return getRootCause$1(v3ctx.cause).v2store = store2, store2;
 }
 const defaultStore = createStore();
 let n = 0;
@@ -3828,7 +3828,8 @@ let c$1 = 0;
 function o$1(e = false, t2 = "boolean" + ++c$1) {
   return r(e, { toggle: (e2) => !e2, setTrue: () => true, setFalse: () => false, change: (e2, t3) => t3(e2), set: (e2, t3) => t3 }, t2);
 }
-const isObject = (thing) => "object" == typeof thing && null !== thing, isShallowEqual = (a2, b2, is = Object.is) => {
+const noop$2 = () => {
+}, isObject = (thing) => "object" == typeof thing && null !== thing, isShallowEqual = (a2, b2, is = Object.is) => {
   if (Object.is(a2, b2)) return true;
   if (!isObject(a2) || !isObject(b2) || a2.__proto__ !== b2.__proto__ || a2 instanceof Error) return false;
   if (Symbol.iterator in a2) {
@@ -3842,11 +3843,350 @@ const isObject = (thing) => "object" == typeof thing && null !== thing, isShallo
   if (a2 instanceof RegExp) return String(a2) === String(b2);
   for (let k2 in a2) if (k2 in b2 == 0 || !is(a2[k2], b2[k2])) return false;
   return Object.keys(a2).length === Object.keys(b2).length;
+}, isDeepEqual = (a2, b2) => {
+  const visited = /* @__PURE__ */ new WeakMap(), is = (a3, b3) => {
+    if (isObject(a3)) {
+      if (visited.has(a3)) return visited.get(a3) === b3;
+      visited.set(a3, b3);
+    }
+    return isShallowEqual(a3, b3, is);
+  };
+  return isShallowEqual(a2, b2, is);
+}, assign = Object.assign, merge = function() {
+  return Object.assign({}, ...[].slice.call(arguments));
 };
-Object.assign(function() {
+const { toString } = Object.prototype, toAbortError = (reason) => {
+  if (reason instanceof Error == 0 || "AbortError" !== reason.name) {
+    if (reason instanceof Error) {
+      var options = { cause: reason };
+      reason = reason.message;
+    } else reason = isObject(reason) ? toString.call(reason) : String(reason);
+    "undefined" == typeof DOMException ? (reason = new Error(reason, options)).name = "AbortError" : reason = assign(new DOMException(reason, "AbortError"), options);
+  }
+  return reason;
+}, throwIfAborted = (controller) => {
+  if (controller == null ? void 0 : controller.signal.aborted) throw toAbortError(controller.signal.reason);
+}, isAbort = (thing) => thing instanceof Error && "AbortError" === thing.name, setTimeout$1 = Object.assign(function() {
   const intervalId = globalThis.setTimeout(...[].slice.call(arguments));
   return "number" == typeof intervalId ? intervalId : Object.assign(intervalId, { toJSON: () => -1 });
-}, globalThis.setTimeout);
+}, globalThis.setTimeout), MAX_SAFE_TIMEOUT = 2 ** 31 - 1;
+function _catch(body, recover) {
+  try {
+    var result = body();
+  } catch (e) {
+    return recover(e);
+  }
+  return result && result.then ? result.then(void 0, recover) : result;
+}
+class CauseContext extends WeakMap {
+  has(cause) {
+    return super.has(cause) || null !== cause.cause && this.has(cause.cause);
+  }
+  get(cause) {
+    for (; !super.has(cause) && cause.cause; ) cause = cause.cause;
+    return super.get(cause);
+  }
+}
+const abortCauseContext = new CauseContext(), getTopController = (patch) => abortCauseContext.get(patch) ?? null, onCtxAbort = (ctx, cb) => {
+  const controller = getTopController(ctx.cause);
+  if (controller) {
+    const handler = () => cb(toAbortError(controller.signal.reason)), cleanup = () => controller.signal.removeEventListener("abort", handler);
+    if (!controller.signal.aborted) return controller.signal.addEventListener("abort", handler), cleanup;
+    handler();
+  }
+}, CHAINS = /* @__PURE__ */ new WeakMap(), __thenReatomed = (ctx, origin, onFulfill, onReject) => {
+  let chain = CHAINS.get(origin);
+  if (!chain) {
+    const promise = origin.then((value) => (ctx.get((read, actualize) => chain.then.forEach((cb) => cb(value, read, actualize))), value), (error2) => {
+      throw ctx.get((read, actualize) => chain.catch.forEach((cb) => cb(error2, read, actualize))), isAbort(error2) && promise.catch(noop$2), error2;
+    });
+    CHAINS.set(origin, chain = { promise, then: [], catch: [] }), CHAINS.set(promise, chain);
+  }
+  return onFulfill && chain.then.push(onFulfill), onReject && chain.catch.push(onReject), chain.promise;
+}, withAbortableSchedule = (ctx) => {
+  const { schedule } = ctx;
+  return merge(ctx, { schedule(cb, step = 1) {
+    const _this = this;
+    if (step < 1) return schedule.call(this, cb, step);
+    let resolve, reject;
+    const promise = new Promise((res, rej) => {
+      resolve = res, reject = rej;
+    }), unabort = onCtxAbort(this, (error2) => {
+      promise.catch(noop$2), reject(error2);
+    });
+    return schedule.call(this, function(_ctx) {
+      try {
+        let _temp3 = function() {
+          unabort == null ? void 0 : unabort();
+        };
+        const _temp2 = _catch(function() {
+          const controller = getTopController(_this.cause);
+          return throwIfAborted(controller), Promise.resolve(cb(_ctx)).then(function(value) {
+            throwIfAborted(controller), resolve(value);
+          });
+        }, function(error2) {
+          reject(error2);
+        });
+        return Promise.resolve(_temp2 && _temp2.then ? _temp2.then(_temp3) : _temp3());
+      } catch (e) {
+        return Promise.reject(e);
+      }
+    }, step).catch((error2) => {
+      reject(error2), unabort == null ? void 0 : unabort();
+    }), promise;
+  } });
+}, _spawn = action(function(ctx, fn, controller) {
+  return abortCauseContext.set(ctx.cause, controller), fn(ctx, ...[].slice.call(arguments, 3));
+}, "_spawn"), spawn = (ctx, fn, args = [], controller = new AbortController()) => _spawn(ctx, fn, controller, ...args);
+const getRootCause = (cause) => null === cause.cause ? cause : getRootCause(cause.cause), isSameCtx = (ctx1, ctx2) => getRootCause(ctx1.cause) === getRootCause(ctx2.cause), addOnConnect = (anAtom, cb) => {
+  var _a;
+  return ((_a = anAtom.__reatom).connectHooks ?? (_a.connectHooks = /* @__PURE__ */ new Set())).add(cb);
+}, addOnDisconnect = (anAtom, cb) => {
+  var _a;
+  return ((_a = anAtom.__reatom).disconnectHooks ?? (_a.disconnectHooks = /* @__PURE__ */ new Set())).add(cb);
+}, _onConnect = action((ctx, anAtom, fn, controller) => {
+  ctx.cause.cause = getRootCause(ctx.cause), abortCauseContext.set(ctx.cause, controller);
+  const result = fn(withAbortableSchedule({ ...ctx, controller, isConnected: () => isConnected(ctx, anAtom) }));
+  return result instanceof Promise && controller.signal.addEventListener("abort", () => result.catch(noop$2)), result;
+}, "_onConnect"), onConnect = (anAtom, cb) => {
+  const connectHook = (ctx) => {
+    const controller = new AbortController(), cleanup = _onConnect(ctx, anAtom, cb, controller);
+    cleanup instanceof Promise && cleanup.catch(noop$2);
+    const cleanupHook = (_ctx) => {
+      isSameCtx(ctx, _ctx) && disconnectHooks.delete(cleanupHook) && connectHooks.has(connectHook) && (controller.abort(toAbortError(`${anAtom.__reatom.name} disconnect`)), "function" == typeof cleanup && cleanup());
+    }, disconnectHooks = addOnDisconnect(anAtom, cleanupHook);
+  }, connectHooks = addOnConnect(anAtom, connectHook);
+  return () => connectHooks.delete(connectHook);
+}, isConnected = (ctx, { __reatom: proto }) => ctx.get((read) => {
+  const cache = proto.patch ?? read(proto);
+  return !!cache && cache.subs.size + cache.listeners.size > 0;
+}), initializations = atom(null, "initializations");
+initializations.__reatom.initState = () => /* @__PURE__ */ new WeakMap();
+const withAssign = (getProps) => (target) => assign(target, getProps(target, target.__reatom.name)), reatomMap = (initState = /* @__PURE__ */ new Map(), name) => atom(initState, name).pipe(withAssign((target, name2) => {
+  const getOrCreate = action((ctx, key, value) => (actions.set(ctx, key, value), value), `${name2}.getOrCreate`), actions = { get: (ctx, key) => ctx.get(target).get(key), getOrCreate: (ctx, key, creator) => actions.has(ctx, key) ? actions.get(ctx, key) : getOrCreate(ctx, key, creator()), has: (ctx, key) => ctx.get(target).has(key), set: action((ctx, key, value) => target(ctx, (prev) => {
+    const valuePrev = prev.get(key);
+    return Object.is(valuePrev, value) && (void 0 !== value || prev.has(key)) ? prev : new Map(prev).set(key, value);
+  }), `${name2}.set`), delete: action((ctx, key) => target(ctx, (prev) => {
+    if (!prev.has(key)) return prev;
+    const next = new Map(prev);
+    return next.delete(key), next;
+  }), `${name2}.delete`), clear: action((ctx) => target(ctx, /* @__PURE__ */ new Map()), `${name2}.clear`), reset: action((ctx) => target(ctx, initState), `${name2}.reset`) };
+  return actions;
+}));
+const handleEffect = (anAsync, params, { shouldPending = true, shouldFulfill = true, shouldReject = true, effect = anAsync.__reatom.unstable_fn } = {}) => {
+  const pendingAtom = anAsync.pendingAtom, [ctx] = params;
+  shouldPending && pendingAtom(ctx, (s2) => ++s2);
+  const origin = ctx.schedule(() => new Promise((res, rej) => {
+    throwIfAborted(ctx.controller), effect(...params).then(res, rej), ctx.controller.signal.addEventListener("abort", () => rej(toAbortError(ctx.controller.signal.reason)));
+  }));
+  return assign(__thenReatomed(ctx, origin, (v2) => {
+    shouldFulfill && anAsync.onFulfill(ctx, v2), shouldPending && pendingAtom(ctx, (s2) => --s2);
+  }, (e) => {
+    shouldReject && !isAbort(e) && anAsync.onReject(ctx, e), shouldPending && pendingAtom(ctx, (s2) => --s2);
+  }), { controller: ctx.controller });
+}, NOOP_TIMEOUT_ID = -1, withCache = ({ ignoreAbort = true, length = 5, paramsLength, staleTime = 3e5, swr: swrOptions = true, withPersist, paramsToKey, isEqual = (ctx, a2, b2) => isDeepEqual(a2, b2) } = {}) => (anAsync) => {
+  if (!anAsync.cacheAtom) {
+    const swr = !!swrOptions, { shouldPending = false, shouldFulfill = swr, shouldReject = false } = swrOptions;
+    Infinity !== staleTime && (staleTime = Math.min(MAX_SAFE_TIMEOUT, staleTime));
+    const find = paramsToKey ? (ctx, params, state = ctx.get(cacheAtom)) => {
+      const key = paramsToKey(ctx, params);
+      return { cached: state.get(key), key };
+    } : (ctx, params, state = ctx.get(cacheAtom)) => {
+      for (const [key, cached] of state) if (isEqual(ctx, key, params)) return { cached, key };
+      return { cached: void 0, key: params };
+    }, findLatestWithValue = (ctx, state = ctx.get(cacheAtom)) => {
+      for (const cached of state.values()) if (cached.version > 0 && (!latestCached || cached.lastUpdate > latestCached.lastUpdate)) var latestCached = cached;
+      return latestCached;
+    }, deleteOldest = (cache) => {
+      for (const [key, cached] of cache) if (!oldestCached || oldestCached.lastUpdate > cached.lastUpdate) var oldestKey = key, oldestCached = cached;
+      oldestCached && cache.delete(oldestKey);
+    }, planCleanup = (ctx, key, time = staleTime) => {
+      var _a;
+      const clearTimeoutId = Infinity === staleTime ? NOOP_TIMEOUT_ID : setTimeout$1(() => {
+        var _a2;
+        ((_a2 = cacheAtom.get(ctx, key)) == null ? void 0 : _a2.clearTimeoutId) === clearTimeoutId && cacheAtom.delete(ctx, key);
+      }, time);
+      return (_a = clearTimeoutId.unref) == null ? void 0 : _a.call(clearTimeoutId), ctx.schedule(() => clearTimeout(clearTimeoutId), -1), clearTimeoutId;
+    }, cacheAtom = anAsync.cacheAtom = reatomMap(/* @__PURE__ */ new Map(), `${anAsync.__reatom.name}._cacheAtom`).pipe(withAssign((target, name) => ({ setWithParams: action((ctx, params, value) => {
+      const { cached, key } = find(ctx, params);
+      cacheAtom.set(ctx, key, { clearTimeoutId: planCleanup(ctx, key), promise: void 0, value, version: cached ? cached.version + 1 : 1, controller: new AbortController(), lastUpdate: Date.now(), params });
+    }), deleteWithParams: action((ctx, params) => {
+      const { cached, key } = find(ctx, params);
+      cached && cacheAtom.delete(ctx, key);
+    }) })));
+    cacheAtom.invalidate = action((ctx) => {
+      const latest = findLatestWithValue(ctx);
+      return cacheAtom.clear(ctx), "promiseAtom" in anAsync ? anAsync(ctx) : latest ? anAsync(ctx, ...latest.params) : null;
+    }, `${cacheAtom.__reatom.name}.invalidate`), cacheAtom.options = { ignoreAbort, length, paramsLength, staleTime, swr, withPersist }, withPersist && cacheAtom.pipe(withPersist({ key: cacheAtom.__reatom.name, fromSnapshot: (ctx, snapshot, state = /* @__PURE__ */ new Map()) => {
+      if (snapshot.length <= (state == null ? void 0 : state.size) && snapshot.every(([, { params, value }]) => {
+        const { cached } = find(ctx, params, state);
+        return !!cached && isDeepEqual(cached.value, value);
+      })) return state;
+      const newState = new Map(snapshot);
+      for (const [key, rec] of newState) staleTime - (Date.now() - rec.lastUpdate) <= 0 ? newState.delete(key) : rec.clearTimeoutId = planCleanup(ctx, key, staleTime - (Date.now() - rec.lastUpdate));
+      for (const [key, rec] of state) if (rec.promise) {
+        const { cached } = find(ctx, rec.params, newState);
+        cached ? cached.promise = rec.promise : newState.set(key, rec);
+      }
+      return newState;
+    }, time: Math.min(staleTime, MAX_SAFE_TIMEOUT), toSnapshot: (ctx, cache) => [...cache].filter(([, rec]) => !rec.promise) }));
+    const swrPendingAtom = anAsync.swrPendingAtom = atom(0, `${anAsync.__reatom.name}.swrPendingAtom`), handlePromise = (ctx, key, cached, swr2) => {
+      cached.clearTimeoutId = planCleanup(ctx, key);
+      const isSame = () => {
+        var _a;
+        return ((_a = cacheAtom.get(ctx, key)) == null ? void 0 : _a.clearTimeoutId) === cached.clearTimeoutId;
+      }, { unstable_fn } = anAsync.__reatom;
+      let res, rej;
+      return cached.promise = new Promise(function() {
+        return [res, rej] = [].slice.call(arguments);
+      }), function() {
+        try {
+          let _temp2 = function() {
+            return cached.promise;
+          };
+          var a2;
+          a2 = [].slice.call(arguments);
+          const _temp = function(body, recover) {
+            try {
+              var result = Promise.resolve(ignoreAbort ? spawn(a2[0], function(ctx2) {
+                return unstable_fn({ ...ctx2, controller: getTopController(ctx2.cause) }, ...[].slice.call(arguments, 1));
+              }, a2.slice(1)) : unstable_fn(...a2)).then(function(value) {
+                res(value), ctx.get(() => {
+                  isSame() && cacheAtom.set(ctx, key, { ...cached, promise: void 0, value, version: cached.version + 1 }), swr2 && swrPendingAtom(ctx, (s2) => s2 - 1);
+                });
+              });
+            } catch (e) {
+              return recover(e);
+            }
+            return result && result.then ? result.then(void 0, recover) : result;
+          }(0, function(error2) {
+            rej(error2), ctx.get(() => {
+              isSame() && (cached.version > 0 ? cacheAtom.set(ctx, key, { ...cached, promise: void 0 }) : cacheAtom.delete(ctx, key)), swr2 && swrPendingAtom(ctx, (s2) => s2 - 1);
+            });
+          });
+          return Promise.resolve(_temp && _temp.then ? _temp.then(_temp2) : _temp2());
+        } catch (e) {
+          return Promise.reject(e);
+        }
+      };
+    };
+    if (anAsync._handleCache = action(function() {
+      var params = [].slice.call(arguments);
+      const [ctx] = params, controller = getTopController(ctx.cause.cause);
+      abortCauseContext.set(ctx.cause, ctx.controller = controller);
+      const paramsKey = params.slice(1, 1 + (paramsLength ?? params.length));
+      let { cached = { clearTimeoutId: NOOP_TIMEOUT_ID, promise: void 0, value: void 0, version: 0, controller, lastUpdate: -1, params: [] }, key } = find(ctx, paramsKey);
+      const prevController = cached.controller;
+      cached = { ...cached, lastUpdate: Date.now(), params: paramsKey, controller };
+      const cache = cacheAtom.set(ctx, key, cached);
+      return cache.size > length && deleteOldest(cache), 0 === cached.version && !cached.promise || cached.promise && prevController.signal.aborted ? handleEffect(anAsync, params, { effect: handlePromise(ctx, key, cached, false) }) : (cached.version > 0 && anAsync.onFulfill(ctx, cached.value), cached.promise || !swr ? handleEffect(anAsync, params, { effect: function() {
+        try {
+          return Promise.resolve(cached.promise ?? cached.value);
+        } catch (e) {
+          return Promise.reject(e);
+        }
+      }, shouldPending: false, shouldFulfill, shouldReject }) : (swr && swrPendingAtom(ctx, (s2) => s2 + 1), handleEffect(anAsync, params, { effect: handlePromise(ctx, key, cached, swr), shouldPending, shouldFulfill, shouldReject })));
+    }, `${anAsync.__reatom.name}._handleCache`), "dataAtom" in anAsync) {
+      const { initState } = anAsync.dataAtom.__reatom;
+      anAsync.dataAtom.__reatom.initState = (ctx) => {
+        const cached = findLatestWithValue(ctx), iniState = initState(ctx);
+        return cached ? anAsync.dataAtom.mapFulfill ? anAsync.dataAtom.mapFulfill(ctx, cached.value, iniState) : cached.value : iniState;
+      };
+    }
+    withPersist && "dataAtom" in anAsync && onConnect(anAsync.dataAtom, (ctx) => ctx.subscribe(cacheAtom, () => {
+    }));
+  }
+  return anAsync;
+}, resolved = /* @__PURE__ */ new WeakSet(), reatomResource = (asyncComputed, name = __count("asyncAtom")) => {
+  const promises = new CauseContext(), theAsync = reatomAsync((ctx) => {
+    const promise = promises.get(ctx.cause);
+    return throwReatomError(!promise, "reaction manual call"), promise;
+  }, name), promiseAtom = atom((_ctx, state) => {
+    if (state && !_ctx.cause.pubs.length) return state;
+    const params = [], ctx = merge(_ctx, { spy(anAtom, cb) {
+      throwReatomError(cb, "spy reactions are unsupported in ResourceAtom");
+      const value = _ctx.spy(anAtom);
+      return params.push(value), value;
+    } }), controller = new AbortController(), unabort = onCtxAbort(ctx, (error2) => {
+      isConnected(ctx, theReaction) || controller.abort(error2);
+    });
+    unabort && controller.signal.addEventListener("abort", unabort), abortCauseContext.set(ctx.cause, ctx.controller = controller);
+    const computedPromise = asyncComputed(withAbortableSchedule(ctx));
+    computedPromise.catch(noop$2), promises.set(ctx.cause, computedPromise);
+    const pendingBefore = ctx.get(theAsync.pendingAtom), fulfillCallsBefore = ctx.get(theAsync.onFulfill);
+    let promise = theAsync(ctx, ...params);
+    promise.controller.signal.addEventListener("abort", () => {
+      var _a;
+      ((_a = theReaction.cacheAtom) == null ? void 0 : _a.options.ignoreAbort) || controller.abort(promise.controller.signal.reason);
+    });
+    const cached = pendingBefore === ctx.get(theAsync.pendingAtom), fulfillCalls = ctx.get(theAsync.onFulfill);
+    return cached && controller.abort(toAbortError("cached")), cached && fulfillCallsBefore !== fulfillCalls && (promise = Object.assign(Promise.resolve(fulfillCalls[fulfillCalls.length - 1].payload), { controller })), __thenReatomed(ctx, promise, () => resolved.add(promise), () => resolved.add(promise)).catch(noop$2), state == null ? void 0 : state.controller.abort(toAbortError("concurrent")), promise;
+  }, `${name}._promiseAtom`);
+  onConnect(theAsync, (ctx) => ctx.subscribe(promiseAtom, noop$2)), onConnect(promiseAtom, (ctx) => () => {
+    ctx.get((read) => {
+      var _a;
+      const state = (_a = read(promiseAtom.__reatom)) == null ? void 0 : _a.state;
+      state == null ? void 0 : state.controller.abort(ctx.controller.signal.reason), resolved.has(state) || reset(ctx, promiseAtom.__reatom, ctx.controller.signal.reason);
+    });
+  });
+  const theReaction = Object.assign((ctx) => ctx.get((read, actualize) => {
+    var _a;
+    reset(ctx, promiseAtom.__reatom, toAbortError("force")), actualize(ctx, promiseAtom.__reatom, noop$2);
+    const state = ctx.get(theAsync), payload = (_a = state[state.length - 1]) == null ? void 0 : _a.payload;
+    return throwReatomError(!payload, "unexpectedly failed invalidation. Please, report the issue"), payload;
+  }), theAsync, { promiseAtom, init: (ctx) => ctx.subscribe(promiseAtom, noop$2), reset: action((ctx) => {
+    reset(ctx, promiseAtom.__reatom, toAbortError("reset"));
+  }, `${name}.reset`) });
+  return Object.defineProperty(theAsync, "_handleCache", { get: () => theReaction._handleCache }), theReaction;
+}, reset = (ctx, proto, reason) => ctx.get((read, actualize) => {
+  if (read(proto)) {
+    const { computer } = proto;
+    proto.computer = null;
+    try {
+      actualize(ctx, proto, (patchCtx, patch) => {
+        var _a;
+        (_a = patch.state) == null ? void 0 : _a.controller.abort(reason), patch.pubs = [], patch.state = void 0;
+      });
+    } finally {
+      proto.computer = computer;
+    }
+  }
+}), reatomAsync = (effect, options = {}) => {
+  const { name = __count("async"), onEffect: onEffectHook, onFulfill: onFulfillHook, onReject: onRejectHook, onSettle: onSettleHook } = "string" == typeof options ? { name: options } : options, pendingAtom = atom(0, `${name}.pendingAtom`), theAsync = Object.assign(function() {
+    var params = [].slice.call(arguments);
+    return params[0].get((read, actualize) => {
+      const { state } = actualize(params[0], theAsync.__reatom, (ctx, patch) => {
+        abortCauseContext.set(ctx.cause, ctx.controller = new AbortController());
+        const unabort = onCtxAbort(params[0], (error2) => {
+          payload == null ? void 0 : payload.catch(noop$2), ctx.controller.abort(error2);
+        });
+        unabort && ctx.controller.signal.addEventListener("abort", unabort), params[0] = withAbortableSchedule(ctx);
+        var payload = theAsync._handleCache ? theAsync._handleCache(...params) : handleEffect(theAsync, params);
+        __thenReatomed(ctx, payload, void 0, () => {
+          onReject.__reatom.updateHooks.size > 1 && payload.catch(noop$2);
+        }), patch.state = [...patch.state, { params: params.slice(1), payload }];
+      });
+      return state[state.length - 1].payload;
+    });
+  }, action(effect, name)), onFulfill = action(`${name}.onFulfill`), onReject = action(`${name}.onReject`), onSettle = action(`${name}._onSettle`);
+  return onFulfill.onCall((ctx) => onSettle(ctx)), onReject.onCall((ctx) => onSettle(ctx)), onEffectHook && theAsync.onCall((ctx, promise, params) => onEffectHook(ctx, params, promise)), onFulfillHook && onFulfill.onCall(onFulfillHook), onRejectHook && onReject.onCall(onRejectHook), onSettleHook && onSettle.onCall(onSettleHook), onConnect(pendingAtom, (ctx) => ctx.subscribe(theAsync, noop$2)), assign(theAsync, { onFulfill, onReject, onSettle, pendingAtom });
+};
+reatomAsync.from = (effect, options = {}) => (effect.name.length > 2 && ("object" == typeof options ? options.name ?? (options.name = effect.name) : options ?? (options = effect.name)), reatomAsync(function(ctx) {
+  return effect(...[].slice.call(arguments, 1));
+}, options));
+const withDataAtom = (initState, mapFulfill) => (anAsync) => {
+  if (!anAsync.dataAtom) {
+    const dataAtom = anAsync.dataAtom = Object.assign(atom(initState, `${anAsync.__reatom.name}.dataAtom`), { reset: action((ctx) => {
+      dataAtom(ctx, initState);
+    }, `${anAsync.__reatom.name}.dataAtom.reset`), mapFulfill });
+    dataAtom.__reatom.computer = (ctx, state) => (ctx.spy(anAsync.onFulfill, ({ payload }) => {
+      state = payload;
+    }), state), anAsync.onFulfill.onCall((ctx) => {
+      ctx.get(dataAtom);
+    }), onConnect(dataAtom, (ctx) => ctx.subscribe(anAsync, noop$2));
+  }
+  return anAsync;
+};
 const getCause = (patch, log = "") => log.length > 1e4 ? `${log} ...` : null !== patch.cause && patch.cause.proto !== __root ? getCause(patch.cause, log + " <-- " + (patch.cause.proto.name ?? "unnamed")) : log || "root", getTimeStampDefault = () => {
   let ms = (/* @__PURE__ */ new Date()).getMilliseconds();
   return ms = ms.toString().padStart(3, "0"), `${(/* @__PURE__ */ new Date()).toLocaleTimeString()} ${ms}ms`;
@@ -3972,7 +4312,8 @@ class ConfigRepository {
       intercomAppId: __privateGet(this, _config).intercomAppId,
       intercomSelector: __privateGet(this, _config).intercomSelector,
       name: __privateGet(this, _readSessionIntercomSetting).call(this, "name"),
-      email: __privateGet(this, _readSessionIntercomSetting).call(this, "email")
+      email: __privateGet(this, _readSessionIntercomSetting).call(this, "email"),
+      phone: __privateGet(this, _readSessionIntercomSetting).call(this, "phone")
     };
   }
   updateIntercomSettings(settings) {
@@ -4092,388 +4433,6 @@ const addStoreInOptions = (options) => ({
 });
 const createAtom = (deps, reducer, options) => createAtom$1(deps, reducer, addStoreInOptions(options));
 const createBooleanAtom = (initState, options) => o$1(initState, addStoreInOptions(options));
-createBooleanAtom(false, "intercomVisibleAtom");
-function openIntercomChat() {
-  if (globalThis.Intercom && globalThis.intercomSettings) {
-    globalThis.Intercom("showMessages");
-  } else {
-    console.warn("Intercom is not available");
-  }
-}
-function isExternalLink(href) {
-  const externalProtocols = ["http://", "https://", "mailto:", "ftp://", "tel:"];
-  return externalProtocols.some((protocol) => href.startsWith(protocol));
-}
-function isInnerAnchorLink(href) {
-  return href.startsWith("#");
-}
-const MEDIA_PARAMS_SEPARATOR = "::";
-const MEDIA_PARAMS_DELIMITER = ",";
-function parseMediaParams(url) {
-  const parts = url.split(MEDIA_PARAMS_SEPARATOR);
-  if (parts.length !== 2) return { originalUrl: url, params: null };
-  const [width, height, fullscreen] = parts[1].split(MEDIA_PARAMS_DELIMITER);
-  return {
-    originalUrl: parts[0],
-    params: {
-      ...width && { width: parseInt(width) },
-      ...height && { height: parseInt(height) },
-      ...fullscreen !== void 0 && { allowFullscreen: fullscreen === "1" }
-    }
-  };
-}
-const YOUTUBE_DOMAINS = ["youtube.com", "youtu.be"];
-const isYoutubeUrl = (url) => {
-  try {
-    const parsedUrl = new URL(url);
-    return YOUTUBE_DOMAINS.some((domain) => parsedUrl.hostname.endsWith(domain));
-  } catch {
-    return false;
-  }
-};
-function getYoutubeEmbedUrl(url) {
-  try {
-    const parsedUrl = new URL(url);
-    let videoId = null;
-    if (parsedUrl.hostname.includes("youtu.be")) {
-      videoId = parsedUrl.pathname.slice(1);
-    } else {
-      if (parsedUrl.pathname.includes("shorts")) {
-        videoId = parsedUrl.pathname.split("/shorts/")[1];
-      } else if (parsedUrl.pathname.includes("embed")) {
-        videoId = parsedUrl.pathname.split("/embed/")[1];
-      } else {
-        videoId = parsedUrl.searchParams.get("v");
-      }
-    }
-    return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
-  } catch {
-    return url;
-  }
-}
-const appProtocolHandlers = {
-  intercom: () => openIntercomChat()
-  // Add more handlers here:
-  // someCommand: (url) => { /* handle someCommand */ },
-};
-function handleAppProtocol(url) {
-  const handler = appProtocolHandlers[url.hostname];
-  if (handler) {
-    handler(url);
-    return true;
-  }
-  console.warn(`Unknown app protocol handler: ${url.hostname}`);
-  return false;
-}
-function MarkdownLink({
-  children,
-  href,
-  title
-}) {
-  const handleClick = reactExports.useCallback(
-    (e) => {
-      if (isInnerAnchorLink(href)) {
-        return;
-      }
-      try {
-        const url = new URL(href);
-        if (url.protocol === "app:") {
-          handleAppProtocol(url);
-          e.preventDefault();
-          return;
-        }
-      } catch {
-      }
-      goTo(href);
-      e.preventDefault();
-    },
-    [href]
-  );
-  if (isExternalLink(href)) {
-    return /* @__PURE__ */ jsxRuntimeExports.jsx("a", { title, href, target: "_blank", rel: "noreferrer", className: "external", children });
-  }
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("a", { title, href, onClick: handleClick, className: "internal", children });
-}
-function buildAssetUrl(asset) {
-  return `${configRepo.get().apiGateway}/apps/${configRepo.get().id}/assets/${asset}`;
-}
-function MarkdownMedia({
-  title,
-  alt,
-  src
-}) {
-  const { originalUrl, params } = parseMediaParams(src);
-  if (isYoutubeUrl(originalUrl)) {
-    return /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "iframe",
-      {
-        src: getYoutubeEmbedUrl(originalUrl),
-        width: (params == null ? void 0 : params.width) || 560,
-        height: (params == null ? void 0 : params.height) || 315,
-        title: title || alt || "YouTube video player",
-        frameBorder: "0",
-        allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
-        allowFullScreen: (params == null ? void 0 : params.allowFullscreen) ?? true,
-        referrerPolicy: "strict-origin-when-cross-origin"
-      }
-    );
-  }
-  let realSrc = originalUrl;
-  if (!isExternalLink(originalUrl)) {
-    realSrc = buildAssetUrl(originalUrl);
-  }
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(
-    "img",
-    {
-      src: realSrc,
-      alt,
-      title,
-      ...(params == null ? void 0 : params.width) && { width: params.width },
-      ...(params == null ? void 0 : params.height) && { height: params.height }
-    }
-  );
-}
-function wrapContentInSection(content, idPrefix, classPrefix) {
-  const result = [];
-  const stack = [];
-  let keyCounter = 0;
-  const parentCounters = /* @__PURE__ */ new Map();
-  const wrapAndPushContent = (level) => {
-    while (stack.length > 0 && stack[stack.length - 1].level >= level) {
-      const { level: stackLevel, content: content2, id } = stack.pop();
-      if (content2.length > 0) {
-        const wrappedContent = React$1.createElement(
-          "div",
-          {
-            className: `${classPrefix}-${id}`,
-            key: `div-h${stackLevel}-${++keyCounter}`
-          },
-          content2
-        );
-        if (stack.length > 0) {
-          stack[stack.length - 1].content.push(wrappedContent);
-        } else {
-          result.push(wrappedContent);
-        }
-      }
-    }
-  };
-  const processElement = (element) => {
-    const headingMatch = element.type.toString().match(/^h([1-6])$/);
-    if (headingMatch) {
-      const level = Number.parseInt(headingMatch[1]);
-      wrapAndPushContent(level);
-      const parentId = stack.length > 0 ? stack[stack.length - 1].id : "";
-      const currentCount = (parentCounters.get(parentId) || 0) + 1;
-      parentCounters.set(parentId, currentCount);
-      const fullId = parentId ? `${parentId}-${currentCount}` : `${idPrefix}-${currentCount}`;
-      const clonedElement = React$1.cloneElement(element, {
-        key: `heading-${++keyCounter}`,
-        id: fullId
-      });
-      if (stack.length > 0 && level > stack[stack.length - 1].level) {
-        stack[stack.length - 1].content.push(clonedElement);
-      } else {
-        result.push(clonedElement);
-      }
-      stack.push({ level, content: [], id: fullId });
-    } else {
-      const clonedElement = React$1.cloneElement(element, {
-        key: `content-${++keyCounter}`
-      });
-      if (stack.length > 0) {
-        stack[stack.length - 1].content.push(clonedElement);
-      } else {
-        result.push(clonedElement);
-      }
-    }
-  };
-  React$1.Children.forEach(content, (element) => {
-    if (React$1.isValidElement(element)) {
-      processElement(element);
-    }
-  });
-  wrapAndPushContent(0);
-  return result;
-}
-function splitIntoSections(compiled) {
-  const sections = [];
-  let currentSection = [];
-  React$1.Children.forEach(compiled, (element) => {
-    if (React$1.isValidElement(element) && element.type === "hr") {
-      if (currentSection.length > 0) {
-        sections.push(currentSection);
-        currentSection = [];
-      }
-    } else {
-      currentSection.push(element);
-    }
-  });
-  if (currentSection.length > 0) {
-    sections.push(currentSection);
-  }
-  return sections;
-}
-function structureMarkdownContent(compiled, idPrefix = "hdr", classPrefix = "wrap") {
-  const sections = splitIntoSections(compiled);
-  return sections.map(
-    (section, index2) => React$1.createElement(
-      "section",
-      { key: `section-${index2}` },
-      wrapContentInSection(section, idPrefix, classPrefix)
-    )
-  );
-}
-const markdownOptions = {
-  overrides: {
-    a: MarkdownLink,
-    img: MarkdownMedia,
-    h1: { props: { id: void 0 } },
-    h2: { props: { id: void 0 } },
-    h3: { props: { id: void 0 } },
-    h4: { props: { id: void 0 } },
-    h5: { props: { id: void 0 } },
-    h6: { props: { id: void 0 } }
-  },
-  wrapper: null
-};
-function MarkdownContent({ content }) {
-  const compiled = Ze(content, markdownOptions);
-  return structureMarkdownContent(compiled);
-}
-var isArray = Array.isArray;
-var keyList = Object.keys;
-var hasProp = Object.prototype.hasOwnProperty;
-var fastDeepEqual = function equal(a2, b2) {
-  if (a2 === b2) return true;
-  if (a2 && b2 && typeof a2 == "object" && typeof b2 == "object") {
-    var arrA = isArray(a2), arrB = isArray(b2), i2, length, key;
-    if (arrA && arrB) {
-      length = a2.length;
-      if (length != b2.length) return false;
-      for (i2 = length; i2-- !== 0; )
-        if (!equal(a2[i2], b2[i2])) return false;
-      return true;
-    }
-    if (arrA != arrB) return false;
-    var dateA = a2 instanceof Date, dateB = b2 instanceof Date;
-    if (dateA != dateB) return false;
-    if (dateA && dateB) return a2.getTime() == b2.getTime();
-    var regexpA = a2 instanceof RegExp, regexpB = b2 instanceof RegExp;
-    if (regexpA != regexpB) return false;
-    if (regexpA && regexpB) return a2.toString() == b2.toString();
-    var keys = keyList(a2);
-    length = keys.length;
-    if (length !== keyList(b2).length)
-      return false;
-    for (i2 = length; i2-- !== 0; )
-      if (!hasProp.call(b2, keys[i2])) return false;
-    for (i2 = length; i2-- !== 0; ) {
-      key = keys[i2];
-      if (!equal(a2[key], b2[key])) return false;
-    }
-    return true;
-  }
-  return a2 !== a2 && b2 !== b2;
-};
-var __values = commonjsGlobal && commonjsGlobal.__values || function(o2) {
-  var s2 = typeof Symbol === "function" && Symbol.iterator, m2 = s2 && o2[s2], i2 = 0;
-  if (m2) return m2.call(o2);
-  if (o2 && typeof o2.length === "number") return {
-    next: function() {
-      if (o2 && i2 >= o2.length) o2 = void 0;
-      return { value: o2 && o2[i2++], done: !o2 };
-    }
-  };
-  throw new TypeError(s2 ? "Object is not iterable." : "Symbol.iterator is not defined.");
-};
-var __read = commonjsGlobal && commonjsGlobal.__read || function(o2, n2) {
-  var m2 = typeof Symbol === "function" && o2[Symbol.iterator];
-  if (!m2) return o2;
-  var i2 = m2.call(o2), r2, ar = [], e;
-  try {
-    while ((n2 === void 0 || n2-- > 0) && !(r2 = i2.next()).done) ar.push(r2.value);
-  } catch (error2) {
-    e = { error: error2 };
-  } finally {
-    try {
-      if (r2 && !r2.done && (m2 = i2["return"])) m2.call(i2);
-    } finally {
-      if (e) throw e.error;
-    }
-  }
-  return ar;
-};
-var __spreadArray = commonjsGlobal && commonjsGlobal.__spreadArray || function(to2, from, pack) {
-  if (pack || arguments.length === 2) for (var i2 = 0, l2 = from.length, ar; i2 < l2; i2++) {
-    if (ar || !(i2 in from)) {
-      if (!ar) ar = Array.prototype.slice.call(from, 0, i2);
-      ar[i2] = from[i2];
-    }
-  }
-  return to2.concat(ar || Array.prototype.slice.call(from));
-};
-var deepEqual = fastDeepEqual;
-var promiseCaches = [];
-var usePromise = function(promise, inputs, lifespan) {
-  var e_1, _a;
-  if (lifespan === void 0) {
-    lifespan = 0;
-  }
-  try {
-    for (var promiseCaches_1 = __values(promiseCaches), promiseCaches_1_1 = promiseCaches_1.next(); !promiseCaches_1_1.done; promiseCaches_1_1 = promiseCaches_1.next()) {
-      var promiseCache_1 = promiseCaches_1_1.value;
-      if (deepEqual(inputs, promiseCache_1.inputs)) {
-        if (Object.prototype.hasOwnProperty.call(promiseCache_1, "error")) {
-          throw promiseCache_1.error;
-        } else if (Object.prototype.hasOwnProperty.call(promiseCache_1, "response")) {
-          return promiseCache_1.response;
-        }
-        throw promiseCache_1.promise;
-      }
-    }
-  } catch (e_1_1) {
-    e_1 = { error: e_1_1 };
-  } finally {
-    try {
-      if (promiseCaches_1_1 && !promiseCaches_1_1.done && (_a = promiseCaches_1.return)) _a.call(promiseCaches_1);
-    } finally {
-      if (e_1) throw e_1.error;
-    }
-  }
-  var promiseCache = {
-    promise: promise.apply(void 0, __spreadArray([], __read(inputs), false)).then(function(response) {
-      promiseCache.response = response;
-    }).catch(function(e) {
-      promiseCache.error = e;
-    }).then(function() {
-      if (lifespan > 0) {
-        setTimeout(function() {
-          var index2 = promiseCaches.indexOf(promiseCache);
-          if (index2 !== -1) {
-            promiseCaches.splice(index2, 1);
-          }
-        }, lifespan);
-      }
-    }),
-    inputs
-  };
-  promiseCaches.push(promiseCache);
-  throw promiseCache.promise;
-};
-var build = usePromise;
-const usePromise$1 = /* @__PURE__ */ getDefaultExportFromCjs(build);
-const article = "_article_b9f5o_1";
-const s$a = {
-  article
-};
-function Article({
-  children,
-  className = "",
-  id = ""
-}) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("article", { className: `${s$a.article} ${className}`, id, children });
-}
 const JSON_MIME = "application/json";
 const CONTENT_TYPE_HEADER = "Content-Type";
 const FETCH_ERROR = Symbol();
@@ -5202,6 +5161,398 @@ new ApiClient({
     idle: () => dispatchMetricsEvent("reportsClient_isIdle")
   }
 });
+async function getCurrentUserSubscription() {
+  return await apiClient.get(
+    "/users/current_user/billing_subscription",
+    { appId: configRepo.get().id },
+    { authRequirement: apiClient.AUTH_REQUIREMENT.MUST }
+  );
+}
+reatomResource(async () => {
+  return await getCurrentUserSubscription();
+}, "currentUserSubscriptionResource").pipe(withDataAtom(), withCache());
+createBooleanAtom(false, "intercomVisibleAtom");
+function openIntercomChat() {
+  if (globalThis.Intercom && globalThis.intercomSettings) {
+    globalThis.Intercom("showMessages");
+  } else {
+    console.warn("Intercom is not available");
+  }
+}
+function isExternalLink(href) {
+  const externalProtocols = ["http://", "https://", "mailto:", "ftp://", "tel:"];
+  return externalProtocols.some((protocol) => href.startsWith(protocol));
+}
+function isInnerAnchorLink(href) {
+  return href.startsWith("#");
+}
+const MEDIA_PARAMS_SEPARATOR = "::";
+const MEDIA_PARAMS_DELIMITER = ",";
+function parseMediaParams(url) {
+  const parts = url.split(MEDIA_PARAMS_SEPARATOR);
+  if (parts.length !== 2) return { originalUrl: url, params: null };
+  const [width, height, fullscreen] = parts[1].split(MEDIA_PARAMS_DELIMITER);
+  return {
+    originalUrl: parts[0],
+    params: {
+      ...width && { width: parseInt(width) },
+      ...height && { height: parseInt(height) },
+      ...fullscreen !== void 0 && { allowFullscreen: fullscreen === "1" }
+    }
+  };
+}
+const YOUTUBE_DOMAINS = ["youtube.com", "youtu.be"];
+const isYoutubeUrl = (url) => {
+  try {
+    const parsedUrl = new URL(url);
+    return YOUTUBE_DOMAINS.some((domain) => parsedUrl.hostname.endsWith(domain));
+  } catch {
+    return false;
+  }
+};
+function getYoutubeEmbedUrl(url) {
+  try {
+    const parsedUrl = new URL(url);
+    let videoId = null;
+    if (parsedUrl.hostname.includes("youtu.be")) {
+      videoId = parsedUrl.pathname.slice(1);
+    } else {
+      if (parsedUrl.pathname.includes("shorts")) {
+        videoId = parsedUrl.pathname.split("/shorts/")[1];
+      } else if (parsedUrl.pathname.includes("embed")) {
+        videoId = parsedUrl.pathname.split("/embed/")[1];
+      } else {
+        videoId = parsedUrl.searchParams.get("v");
+      }
+    }
+    return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
+  } catch {
+    return url;
+  }
+}
+const appProtocolHandlers = {
+  intercom: () => openIntercomChat()
+  // Add more handlers here:
+  // someCommand: (url) => { /* handle someCommand */ },
+};
+function handleAppProtocol(url) {
+  const handler = appProtocolHandlers[url.hostname];
+  if (handler) {
+    handler(url);
+    return true;
+  }
+  console.warn(`Unknown app protocol handler: ${url.hostname}`);
+  return false;
+}
+function MarkdownLink({
+  children,
+  href,
+  title
+}) {
+  const handleClick = reactExports.useCallback(
+    (e) => {
+      if (isInnerAnchorLink(href)) {
+        return;
+      }
+      try {
+        const url = new URL(href);
+        if (url.protocol === "app:") {
+          handleAppProtocol(url);
+          e.preventDefault();
+          return;
+        }
+      } catch {
+      }
+      goTo(href);
+      e.preventDefault();
+    },
+    [href]
+  );
+  if (isExternalLink(href)) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("a", { title, href, target: "_blank", rel: "noreferrer", className: "external", children });
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("a", { title, href, onClick: handleClick, className: "internal", children });
+}
+function buildAssetUrl(asset) {
+  return `${configRepo.get().apiGateway}/apps/${configRepo.get().id}/assets/${asset}`;
+}
+function MarkdownMedia({
+  title,
+  alt,
+  src
+}) {
+  const { originalUrl, params } = parseMediaParams(src);
+  if (isYoutubeUrl(originalUrl)) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "iframe",
+      {
+        src: getYoutubeEmbedUrl(originalUrl),
+        width: (params == null ? void 0 : params.width) || 560,
+        height: (params == null ? void 0 : params.height) || 315,
+        title: title || alt || "YouTube video player",
+        frameBorder: "0",
+        allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
+        allowFullScreen: (params == null ? void 0 : params.allowFullscreen) ?? true,
+        referrerPolicy: "strict-origin-when-cross-origin"
+      }
+    );
+  }
+  let realSrc = originalUrl;
+  if (!isExternalLink(originalUrl)) {
+    realSrc = buildAssetUrl(originalUrl);
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "img",
+    {
+      src: realSrc,
+      alt,
+      title,
+      ...(params == null ? void 0 : params.width) && { width: params.width },
+      ...(params == null ? void 0 : params.height) && { height: params.height }
+    }
+  );
+}
+function wrapContentInSection(content, idPrefix, classPrefix) {
+  const result = [];
+  const stack = [];
+  let keyCounter = 0;
+  const parentCounters = /* @__PURE__ */ new Map();
+  const wrapAndPushContent = (level) => {
+    while (stack.length > 0 && stack[stack.length - 1].level >= level) {
+      const { level: stackLevel, content: content2, id } = stack.pop();
+      if (content2.length > 0) {
+        const wrappedContent = React$1.createElement(
+          "div",
+          {
+            className: `${classPrefix}-${id}`,
+            key: `div-h${stackLevel}-${++keyCounter}`
+          },
+          content2
+        );
+        if (stack.length > 0) {
+          stack[stack.length - 1].content.push(wrappedContent);
+        } else {
+          result.push(wrappedContent);
+        }
+      }
+    }
+  };
+  const processElement = (element) => {
+    const headingMatch = element.type.toString().match(/^h([1-6])$/);
+    if (headingMatch) {
+      const level = Number.parseInt(headingMatch[1]);
+      wrapAndPushContent(level);
+      const parentId = stack.length > 0 ? stack[stack.length - 1].id : "";
+      const currentCount = (parentCounters.get(parentId) || 0) + 1;
+      parentCounters.set(parentId, currentCount);
+      const fullId = parentId ? `${parentId}-${currentCount}` : `${idPrefix}-${currentCount}`;
+      const clonedElement = React$1.cloneElement(element, {
+        key: `heading-${++keyCounter}`,
+        id: fullId
+      });
+      if (stack.length > 0 && level > stack[stack.length - 1].level) {
+        stack[stack.length - 1].content.push(clonedElement);
+      } else {
+        result.push(clonedElement);
+      }
+      stack.push({ level, content: [], id: fullId });
+    } else {
+      const clonedElement = React$1.cloneElement(element, {
+        key: `content-${++keyCounter}`
+      });
+      if (stack.length > 0) {
+        stack[stack.length - 1].content.push(clonedElement);
+      } else {
+        result.push(clonedElement);
+      }
+    }
+  };
+  React$1.Children.forEach(content, (element) => {
+    if (React$1.isValidElement(element)) {
+      processElement(element);
+    }
+  });
+  wrapAndPushContent(0);
+  return result;
+}
+function splitIntoSections(compiled) {
+  const sections = [];
+  let currentSection = [];
+  React$1.Children.forEach(compiled, (element) => {
+    if (React$1.isValidElement(element) && element.type === "hr") {
+      if (currentSection.length > 0) {
+        sections.push(currentSection);
+        currentSection = [];
+      }
+    } else {
+      currentSection.push(element);
+    }
+  });
+  if (currentSection.length > 0) {
+    sections.push(currentSection);
+  }
+  return sections;
+}
+function structureMarkdownContent(compiled, idPrefix = "hdr", classPrefix = "wrap") {
+  const sections = splitIntoSections(compiled);
+  return sections.map(
+    (section, index2) => React$1.createElement(
+      "section",
+      { key: `section-${index2}` },
+      wrapContentInSection(section, idPrefix, classPrefix)
+    )
+  );
+}
+const markdownOptions = {
+  overrides: {
+    a: MarkdownLink,
+    img: MarkdownMedia,
+    h1: { props: { id: void 0 } },
+    h2: { props: { id: void 0 } },
+    h3: { props: { id: void 0 } },
+    h4: { props: { id: void 0 } },
+    h5: { props: { id: void 0 } },
+    h6: { props: { id: void 0 } }
+  },
+  wrapper: null
+};
+function MarkdownContent({ content }) {
+  const compiled = Ze(content, markdownOptions);
+  return structureMarkdownContent(compiled);
+}
+var isArray = Array.isArray;
+var keyList = Object.keys;
+var hasProp = Object.prototype.hasOwnProperty;
+var fastDeepEqual = function equal(a2, b2) {
+  if (a2 === b2) return true;
+  if (a2 && b2 && typeof a2 == "object" && typeof b2 == "object") {
+    var arrA = isArray(a2), arrB = isArray(b2), i2, length, key;
+    if (arrA && arrB) {
+      length = a2.length;
+      if (length != b2.length) return false;
+      for (i2 = length; i2-- !== 0; )
+        if (!equal(a2[i2], b2[i2])) return false;
+      return true;
+    }
+    if (arrA != arrB) return false;
+    var dateA = a2 instanceof Date, dateB = b2 instanceof Date;
+    if (dateA != dateB) return false;
+    if (dateA && dateB) return a2.getTime() == b2.getTime();
+    var regexpA = a2 instanceof RegExp, regexpB = b2 instanceof RegExp;
+    if (regexpA != regexpB) return false;
+    if (regexpA && regexpB) return a2.toString() == b2.toString();
+    var keys = keyList(a2);
+    length = keys.length;
+    if (length !== keyList(b2).length)
+      return false;
+    for (i2 = length; i2-- !== 0; )
+      if (!hasProp.call(b2, keys[i2])) return false;
+    for (i2 = length; i2-- !== 0; ) {
+      key = keys[i2];
+      if (!equal(a2[key], b2[key])) return false;
+    }
+    return true;
+  }
+  return a2 !== a2 && b2 !== b2;
+};
+var __values = commonjsGlobal && commonjsGlobal.__values || function(o2) {
+  var s2 = typeof Symbol === "function" && Symbol.iterator, m2 = s2 && o2[s2], i2 = 0;
+  if (m2) return m2.call(o2);
+  if (o2 && typeof o2.length === "number") return {
+    next: function() {
+      if (o2 && i2 >= o2.length) o2 = void 0;
+      return { value: o2 && o2[i2++], done: !o2 };
+    }
+  };
+  throw new TypeError(s2 ? "Object is not iterable." : "Symbol.iterator is not defined.");
+};
+var __read = commonjsGlobal && commonjsGlobal.__read || function(o2, n2) {
+  var m2 = typeof Symbol === "function" && o2[Symbol.iterator];
+  if (!m2) return o2;
+  var i2 = m2.call(o2), r2, ar = [], e;
+  try {
+    while ((n2 === void 0 || n2-- > 0) && !(r2 = i2.next()).done) ar.push(r2.value);
+  } catch (error2) {
+    e = { error: error2 };
+  } finally {
+    try {
+      if (r2 && !r2.done && (m2 = i2["return"])) m2.call(i2);
+    } finally {
+      if (e) throw e.error;
+    }
+  }
+  return ar;
+};
+var __spreadArray = commonjsGlobal && commonjsGlobal.__spreadArray || function(to2, from, pack) {
+  if (pack || arguments.length === 2) for (var i2 = 0, l2 = from.length, ar; i2 < l2; i2++) {
+    if (ar || !(i2 in from)) {
+      if (!ar) ar = Array.prototype.slice.call(from, 0, i2);
+      ar[i2] = from[i2];
+    }
+  }
+  return to2.concat(ar || Array.prototype.slice.call(from));
+};
+var deepEqual = fastDeepEqual;
+var promiseCaches = [];
+var usePromise = function(promise, inputs, lifespan) {
+  var e_1, _a;
+  if (lifespan === void 0) {
+    lifespan = 0;
+  }
+  try {
+    for (var promiseCaches_1 = __values(promiseCaches), promiseCaches_1_1 = promiseCaches_1.next(); !promiseCaches_1_1.done; promiseCaches_1_1 = promiseCaches_1.next()) {
+      var promiseCache_1 = promiseCaches_1_1.value;
+      if (deepEqual(inputs, promiseCache_1.inputs)) {
+        if (Object.prototype.hasOwnProperty.call(promiseCache_1, "error")) {
+          throw promiseCache_1.error;
+        } else if (Object.prototype.hasOwnProperty.call(promiseCache_1, "response")) {
+          return promiseCache_1.response;
+        }
+        throw promiseCache_1.promise;
+      }
+    }
+  } catch (e_1_1) {
+    e_1 = { error: e_1_1 };
+  } finally {
+    try {
+      if (promiseCaches_1_1 && !promiseCaches_1_1.done && (_a = promiseCaches_1.return)) _a.call(promiseCaches_1);
+    } finally {
+      if (e_1) throw e_1.error;
+    }
+  }
+  var promiseCache = {
+    promise: promise.apply(void 0, __spreadArray([], __read(inputs), false)).then(function(response) {
+      promiseCache.response = response;
+    }).catch(function(e) {
+      promiseCache.error = e;
+    }).then(function() {
+      if (lifespan > 0) {
+        setTimeout(function() {
+          var index2 = promiseCaches.indexOf(promiseCache);
+          if (index2 !== -1) {
+            promiseCaches.splice(index2, 1);
+          }
+        }, lifespan);
+      }
+    }),
+    inputs
+  };
+  promiseCaches.push(promiseCache);
+  throw promiseCache.promise;
+};
+var build = usePromise;
+const usePromise$1 = /* @__PURE__ */ getDefaultExportFromCjs(build);
+const article = "_article_b9f5o_1";
+const s$a = {
+  article
+};
+function Article({
+  children,
+  className = "",
+  id = ""
+}) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("article", { className: `${s$a.article} ${className}`, id, children });
+}
 const isString = (obj) => typeof obj === "string";
 const defer = () => {
   let res;
@@ -5677,8 +6028,8 @@ class Translator extends EventEmitter {
     if (key === void 0 || key === null) {
       return false;
     }
-    const resolved = this.resolve(key, options);
-    return resolved && resolved.res !== void 0;
+    const resolved2 = this.resolve(key, options);
+    return resolved2 && resolved2.res !== void 0;
   }
   extractFromKey(key, options) {
     let nsSeparator = options.nsSeparator !== void 0 ? options.nsSeparator : this.options.nsSeparator;
@@ -5750,10 +6101,10 @@ class Translator extends EventEmitter {
       }
       return key;
     }
-    const resolved = this.resolve(keys, options);
-    let res = resolved && resolved.res;
-    const resUsedKey = resolved && resolved.usedKey || key;
-    const resExactUsedKey = resolved && resolved.exactUsedKey || key;
+    const resolved2 = this.resolve(keys, options);
+    let res = resolved2 && resolved2.res;
+    const resUsedKey = resolved2 && resolved2.usedKey || key;
+    const resExactUsedKey = resolved2 && resolved2.exactUsedKey || key;
     const resType = Object.prototype.toString.apply(res);
     const noObject = ["[object Number]", "[object Function]", "[object RegExp]"];
     const joinArrays = options.joinArrays !== void 0 ? options.joinArrays : this.options.joinArrays;
@@ -5769,9 +6120,9 @@ class Translator extends EventEmitter {
           ns: namespaces
         }) : `key '${key} (${this.language})' returned an object instead of string.`;
         if (returnDetails) {
-          resolved.res = r2;
-          resolved.usedParams = this.getUsedParamsDetails(options);
-          return resolved;
+          resolved2.res = r2;
+          resolved2.usedParams = this.getUsedParamsDetails(options);
+          return resolved2;
         }
         return r2;
       }
@@ -5864,7 +6215,7 @@ class Translator extends EventEmitter {
           }
         }
       }
-      res = this.extendTranslation(res, keys, options, resolved, lastKey);
+      res = this.extendTranslation(res, keys, options, resolved2, lastKey);
       if (usedKey && res === key && this.options.appendNamespaceToMissingKey) res = `${namespace}:${key}`;
       if ((usedKey || usedDefault) && this.options.parseMissingKeyHandler) {
         if (this.options.compatibilityAPI !== "v1") {
@@ -5875,20 +6226,20 @@ class Translator extends EventEmitter {
       }
     }
     if (returnDetails) {
-      resolved.res = res;
-      resolved.usedParams = this.getUsedParamsDetails(options);
-      return resolved;
+      resolved2.res = res;
+      resolved2.usedParams = this.getUsedParamsDetails(options);
+      return resolved2;
     }
     return res;
   }
-  extendTranslation(res, key, options, resolved, lastKey) {
+  extendTranslation(res, key, options, resolved2, lastKey) {
     var _this = this;
     if (this.i18nFormat && this.i18nFormat.parse) {
       res = this.i18nFormat.parse(res, {
         ...this.options.interpolation.defaultVariables,
         ...options
-      }, options.lng || this.language || resolved.usedLng, resolved.usedNS, resolved.usedKey, {
-        resolved
+      }, options.lng || this.language || resolved2.usedLng, resolved2.usedNS, resolved2.usedKey, {
+        resolved: resolved2
       });
     } else if (!options.skipInterpolation) {
       if (options.interpolation) this.interpolator.init({
@@ -5911,13 +6262,13 @@ class Translator extends EventEmitter {
         ...this.options.interpolation.defaultVariables,
         ...data
       };
-      res = this.interpolator.interpolate(res, data, options.lng || this.language || resolved.usedLng, options);
+      res = this.interpolator.interpolate(res, data, options.lng || this.language || resolved2.usedLng, options);
       if (skipOnVariables) {
         const na = res.match(this.interpolator.nestingRegexp);
         const nestAft = na && na.length;
         if (nestBef < nestAft) options.nest = false;
       }
-      if (!options.lng && this.options.compatibilityAPI !== "v1" && resolved && resolved.res) options.lng = this.language || resolved.usedLng;
+      if (!options.lng && this.options.compatibilityAPI !== "v1" && resolved2 && resolved2.res) options.lng = this.language || resolved2.usedLng;
       if (options.nest !== false) res = this.interpolator.nest(res, function() {
         for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
           args[_key] = arguments[_key];
@@ -5935,7 +6286,7 @@ class Translator extends EventEmitter {
     if (res !== void 0 && res !== null && postProcessorNames && postProcessorNames.length && options.applyPostProcessor !== false) {
       res = postProcessor.handle(postProcessorNames, res, key, this.options && this.options.postProcessPassResolved ? {
         i18nResolved: {
-          ...resolved,
+          ...resolved2,
           usedParams: this.getUsedParamsDetails(options)
         },
         ...options
