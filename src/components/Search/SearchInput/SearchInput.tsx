@@ -52,9 +52,8 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
           onClick={onSearch}
           className={classes?.searchButton}
           aria-label="search"
-        >
-          <Search16 />
-        </Button>
+          iconAfter={<Search16 />}
+        />
       </div>
     );
   },

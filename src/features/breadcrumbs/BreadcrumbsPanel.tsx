@@ -22,10 +22,9 @@ export function BreadcrumbsPanel() {
     : [noBreadcrumbsOption];
   const clickHandler = items?.length ? breadcrumbItemClick : zoomToTheWorld;
 
-  /** Don't render the Breadcrumbs panel or empty label until items have been fetched from the server. */
-  return items ? (
-    <Panel resize="none" className={s.breadcrumbsPanel}>
+  return (
+    <Panel resize="none" className={s.breadcrumbsPanel} contentClassName={s.content}>
       <Breadcrumbs items={options} onClick={clickHandler} />
     </Panel>
-  ) : null;
+  );
 }

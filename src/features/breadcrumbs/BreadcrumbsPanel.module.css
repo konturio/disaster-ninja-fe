@@ -3,6 +3,9 @@
   background-color: transparent;
   box-shadow: none;
   overflow: visible;
-  /* negative margin used to compensate for content's margin */
-  margin: calc(-1 * var(--half-unit));
+  min-height: 40px;
+}
+
+.content {
+  overflow: visible;
 }

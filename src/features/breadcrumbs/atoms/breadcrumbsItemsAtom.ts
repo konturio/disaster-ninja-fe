@@ -14,6 +14,7 @@ const debouncedItemsFetch = debounce(
         const coords: [number, number] = getCenterFromPosition(position);
         const response = await getBoundaries(coords, ctx.controller);
 
+        // TODO: check with the previous items
         breadcrumbsItemsAtom(ctx, response?.features ?? null);
       } catch (error) {
         if (!isAbortError(error)) {

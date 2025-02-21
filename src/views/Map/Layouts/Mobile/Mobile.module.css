@@ -64,4 +64,8 @@
   grid-row: 1;
   grid-column: 1/-1;
   padding: var(--unit);
+
+  &:empty {
+    padding: 0;
+  }
 }

@@ -41,6 +41,7 @@ export function Layout({
         firstColumn={
           <>
             {searchBar}
+            {toolbar}
             {analytics}
             {disasters}
             {editPanel}
@@ -49,12 +50,7 @@ export function Layout({
             {layerFeaturesPanel}
           </>
         }
-        topColumn={
-          <>
-            {breadcrumbs}
-            {toolbar}
-          </>
-        }
+        topColumn={breadcrumbs}
         mapColumnBottom={timeline}
         footer={footer}
       />
