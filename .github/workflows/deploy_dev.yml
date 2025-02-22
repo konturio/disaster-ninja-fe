@@ -50,7 +50,8 @@ jobs:
           cat Chart.yaml
 
       - name: Create Pull Request for helm manifest updates
-        uses: peter-evans/create-pull-request@v4
+        id: cpr
+        uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: 'Deploy FE: update image tag to ${{ needs.build-and-publish.outputs.image_tag }} and bump Chart version'
@@ -59,3 +60,12 @@ jobs:
           body: 'Automatically created PR to update helm manifests with the new image tag.'
           base: main
           path: cd
+
+      - name: Merge Pull Request
+        if: steps.cpr.outputs.pull-request-number
+        run: |
+          PR_NUMBER=${{ steps.cpr.outputs.pull-request-number }}
+          echo "Merging PR #$PR_NUMBER"
+          gh pr merge $PR_NUMBER --auto --squash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
