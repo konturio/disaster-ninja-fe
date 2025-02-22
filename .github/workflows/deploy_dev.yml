@@ -49,23 +49,35 @@ jobs:
           echo "New contents of Chart.yaml:"
           cat Chart.yaml
 
-      - name: Create Pull Request for helm manifest updates
-        id: cpr
-        uses: peter-evans/create-pull-request@v7
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: 'Deploy FE: update image tag to ${{ needs.build-and-publish.outputs.image_tag }} and bump Chart version'
-          branch: deploy-dn-fe-dev-${{ github.run_id }}
-          title: 'Deploy FE: update image tag to ${{ needs.build-and-publish.outputs.image_tag }} and bump Chart version'
-          body: 'Automatically created PR to update helm manifests with the new image tag.'
-          base: main
-          path: cd
-
-      - name: Merge Pull Request
-        if: steps.cpr.outputs.pull-request-number
+      - name: Create and push changes branch
+        working-directory: cd
         run: |
-          PR_NUMBER=${{ steps.cpr.outputs.pull-request-number }}
+          BRANCH_NAME="deploy-dn-fe-dev-${{ github.run_id }}"
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git checkout -b $BRANCH_NAME
+          git add .
+          git commit -m "Deploy FE: update image tag to ${{ needs.build-and-publish.outputs.image_tag }} and bump Chart version"
+          git push origin $BRANCH_NAME
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Pull Request using gh
+        working-directory: cd
+        run: |
+          BRANCH_NAME="deploy-dn-fe-dev-${{ github.run_id }}"
+          gh pr create \
+            --title "Deploy FE: update image tag to ${{ needs.build-and-publish.outputs.image_tag }} and bump Chart version" \
+            --body "Automatically created PR to update helm manifests with the new image tag." \
+            --base main --head $BRANCH_NAME
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Merge Pull Request using gh
+        working-directory: cd
+        run: |
+          PR_NUMBER=$(gh pr list --head "deploy-dn-fe-dev-${{ github.run_id }}" --json number --jq '.[0].number')
           echo "Merging PR #$PR_NUMBER"
-          gh pr merge $PR_NUMBER --auto --squash
+          gh pr merge $PR_NUMBER --auto --squash --delete-branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
