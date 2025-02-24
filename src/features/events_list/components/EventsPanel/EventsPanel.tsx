@@ -155,7 +155,7 @@ export function EventsPanel({
           </div>
         }
         onHeaderClick={togglePanel}
-        className={clsx(s.eventsPanel, isOpen ? s.show : s.collapse)}
+        className={clsx(s.eventsPanel, isOpen ? s.show : s.collapse, 'knt-panel')}
         classes={panelClasses}
         isOpen={isOpen}
         modal={{ onModalClick: closePanel, showInModal: isMobile }}
@@ -176,6 +176,7 @@ export function EventsPanel({
           isOpen && s.hide,
           !isOpen && s.show,
           isMobile ? s.mobile : s.desktop,
+          'knt-panel-icon',
         )}
         icon={<Disasters24 />}
       />

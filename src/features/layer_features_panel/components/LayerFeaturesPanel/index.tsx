@@ -112,7 +112,7 @@ export function LayerFeaturesPanel() {
           </div>
         }
         onHeaderClick={togglePanelState}
-        className={clsx(s.featuresPanel, isOpen ? s.show : s.collapse)}
+        className={clsx(s.featuresPanel, isOpen ? s.show : s.collapse, 'knt-panel')}
         classes={{ ...panelClasses, headerTitle: s.headerTitle }}
         isOpen={isOpen}
         modal={{ onModalClick: onPanelClose, showInModal: isMobile }}
@@ -133,6 +133,7 @@ export function LayerFeaturesPanel() {
           isOpen && s.hide,
           !isOpen && s.show,
           isMobile ? s.mobile : s.desktop,
+          'knt-panel-icon',
         )}
         icon={<Legend24 />}
       />

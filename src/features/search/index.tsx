@@ -27,7 +27,7 @@ export function Search() {
   return (
     <>
       <Panel
-        className={clsx(s.searchPanel, { [s.collapse]: !isOpen })}
+        className={clsx(s.searchPanel, { [s.collapse]: !isOpen }, 'knt-panel')}
         contentClassName={s.contentContainer}
         isOpen={isOpen}
         contentHeight="100%"
@@ -46,7 +46,7 @@ export function Search() {
       </Panel>
       <PanelIcon
         icon={<Search24 />}
-        className={s.panelIcon}
+        className={clsx(s.panelIcon, 'knt-panel-icon')}
         clickHandler={openFullState}
       />
     </>

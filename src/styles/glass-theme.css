@@ -1,0 +1,21 @@
+:not(:hover) {
+  &.knt-breadcrumbs,
+  &.knt-panel-icon {
+    background-color: transparent;
+    backdrop-filter: blur(10px);
+  }
+}
+
+@media screen and (min-width: 961px) {
+  :not(:hover, :focus-within) {
+    &.knt-panel,
+    &.knt-search-button {
+      background-color: transparent;
+      backdrop-filter: blur(10px);
+
+      & * {
+        scrollbar-color: var(--scrollbar-thumb) transparent;
+      }
+    }
+  }
+}

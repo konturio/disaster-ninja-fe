@@ -6,6 +6,7 @@ import '@konturio/default-theme/variables.css';
 import '@konturio/default-theme/defaults.css';
 import '@konturio/default-theme/typography.css';
 import './global.css';
+import './styles/glass-theme.css';
 
 async function showCriticalError(e: Error) {
   const root = document.getElementById('root');

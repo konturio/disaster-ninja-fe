@@ -2,6 +2,7 @@ import React, { forwardRef } from 'react';
 import { Close16, Loader24, Search16 } from '@konturio/default-icons';
 import cn from 'clsx';
 import { Button } from '@konturio/ui-kit';
+import clsx from 'clsx';
 import styles from './SearchInput.module.css';
 
 export interface SearchInputProps {
@@ -50,7 +51,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
         <Button
           variant="invert"
           onClick={onSearch}
-          className={classes?.searchButton}
+          className={clsx(classes?.searchButton, 'knt-search-button')}
           aria-label="search"
           iconAfter={<Search16 />}
         />
