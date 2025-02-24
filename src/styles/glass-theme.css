@@ -1,7 +1,7 @@
 :not(:hover) {
   &.knt-breadcrumbs,
   &.knt-panel-icon {
-    background-color: transparent;
+    background-color: rgba(255, 255, 255, 0.75);
     backdrop-filter: blur(10px);
   }
 }
@@ -10,11 +10,11 @@
   :not(:hover, :focus-within) {
     &.knt-panel,
     &.knt-search-button {
-      background-color: transparent;
+      background-color: rgba(255, 255, 255, 0.75);
       backdrop-filter: blur(10px);
 
       & * {
-        scrollbar-color: var(--scrollbar-thumb) transparent;
+        scrollbar-color: var(--scrollbar-thumb) rgba(255, 255, 255, 0.75);
       }
     }
   }
