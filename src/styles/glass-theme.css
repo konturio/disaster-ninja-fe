@@ -14,7 +14,7 @@
       backdrop-filter: blur(10px);
 
       & * {
-        scrollbar-color: var(--scrollbar-thumb) rgba(255, 255, 255, 0.75);
+        scrollbar-color: var(--scrollbar-thumb) transparent;
       }
     }
   }
