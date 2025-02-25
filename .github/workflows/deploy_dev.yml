@@ -81,3 +81,14 @@ jobs:
           gh pr merge $PR_NUMBER --auto --squash --delete-branch
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Send Slack notification
+        uses: slackapi/slack-github-action@v1.23.0
+        with:
+          slack-message: |
+            *Deployment Notification*
+            Deploy DN FE to DEV.
+            Branch: `deploy-dn-fe-dev-${{ github.run_id }}`
+            Image Tag: `${{ needs.build-and-publish.outputs.image_tag }}`
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
