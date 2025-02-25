@@ -60,7 +60,7 @@ jobs:
           git commit -m "Deploy FE: update image tag to ${{ needs.build-and-publish.outputs.image_tag }} and bump Chart version"
           git push origin $BRANCH_NAME
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.CD_GITHUB_TOKEN }}
 
       - name: Create Pull Request using gh
         working-directory: cd
@@ -71,20 +71,20 @@ jobs:
             --body "Automatically created PR to update helm manifests with the new image tag." \
             --base main --head $BRANCH_NAME
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.CD_GITHUB_TOKEN }}
 
       - name: Merge Pull Request using gh
         working-directory: cd
         run: |
           PR_NUMBER=$(gh pr list --head "deploy-dn-fe-dev-${{ github.run_id }}" --json number --jq '.[0].number')
-          if [ -z "$PR_NUMBER" ]; then  
-            echo "No PR found for branch deploy-dn-fe-dev-${{ github.run_id }}. Exiting."  
-            exit 1  
+          if [ -z "$PR_NUMBER" ]; then
+            echo "No PR found for branch deploy-dn-fe-dev-${{ github.run_id }}. Exiting."
+            exit 1
           fi  
           echo "Merging PR #$PR_NUMBER"
           gh pr merge $PR_NUMBER --auto --squash --delete-branch
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.CD_GITHUB_TOKEN }}
 
       - name: Send Slack notification
         uses: slackapi/slack-github-action@v1.23.0
