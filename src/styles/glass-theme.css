@@ -12,6 +12,7 @@
     border-radius: 8px;
 
     --faint-weak: none;
+    --accent-weak: #0516260f;
 
     & * {
       scrollbar-color: var(--scrollbar-thumb) rgba(255, 255, 255, 0.7);
