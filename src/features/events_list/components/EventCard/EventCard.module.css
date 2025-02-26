@@ -11,7 +11,7 @@
     background-color: var(--base-weak-up);
   }
   &.active {
-    background-color: var(--accent-weak);
+    background-color: #0516260f;
     box-shadow: 0px 0px 0px 0px var(--accent-strong);
     border-left: var(--half-unit) solid var(--accent-strong);
   }

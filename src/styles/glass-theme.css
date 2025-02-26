@@ -1,19 +1,24 @@
 .knt-breadcrumbs:not(.add-spec),
 .knt-panel-icon:not(.add-spec) {
-  background-color: rgba(255, 255, 255, 0.5);
-  backdrop-filter: blur(10px);
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
 }
 
 @media screen and (min-width: 961px) {
-  .knt-panel:not(.add-spec),
-  .knt-panel-header:not(.add-spec),
-  .knt-search-button:not(.add-spec),
-  .knt-toolbar-button:not(.add-spec) {
-    background-color: rgba(255, 255, 255, 0.5);
-    backdrop-filter: blur(10px);
+  .knt-panel:not(.add-spec) {
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(16px);
+    box-shadow: var(--shadow-small);
+    border-radius: 8px;
+
+    --faint-weak: none;
 
     & * {
-      scrollbar-color: var(--scrollbar-thumb) rgba(255, 255, 255, 0.5);
+      scrollbar-color: var(--scrollbar-thumb) rgba(255, 255, 255, 0.7);
     }
+  }
+
+  .knt-toolbar-button:not(.add-spec) {
+    border: none;
   }
 }
