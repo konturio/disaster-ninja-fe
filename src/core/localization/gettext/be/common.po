@@ -1,1 +1,1556 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"mime-version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
+#: km
+msgid "km"
+msgstr "км"
+
+#: m
+msgid "m"
+msgstr "м"
+
+#: to
+msgid "to"
+msgstr "да"
+
+#: or
+msgid "or"
+msgstr "ці"
+
+#: logout
+msgid "Log out"
+msgstr "Выйсці"
+
+#: save
+msgid "Save"
+msgstr "Захаваць"
+
+#: cancel
+#: mcda##btn_cancel
+msgid "Cancel"
+msgstr "Адмяніць"
+
+#: ok
+msgid "OK"
+msgstr "ОК"
+
+#: create
+msgid "Create"
+msgstr "Стварыць"
+
+#: disasters
+msgid "Disasters"
+msgstr "Катастрофы"
+
+#: loading
+msgid "Loading..."
+msgstr "Загрузка..."
+
+#: loading_events
+msgid "Loading disasters"
+msgstr "Загрузка катастроф"
+
+#: legend
+#: mcda##legend_title
+msgid "Legend"
+msgstr "Легенда"
+
+#: maps
+msgid "maps"
+msgstr "карты"
+
+#: vertical_direction
+msgid "Vertical direction"
+msgstr "Вертыкальны напрамак"
+
+#: horizontal_direction
+msgid "Horizontal direction"
+msgstr "Гарызантальны напрамак"
+
+#: legend_presentation
+msgid "Legend presentation"
+msgstr "Адлюстраванне легенды"
+
+#: layers
+#: bivariate##color_manager##layers_filter
+msgid "Layers"
+msgstr "Слаі"
+
+#: toolbar##map_ruler
+msgid "Measure distance"
+msgstr "Вымераць адлегласць"
+
+#: toolbar##locate_me
+#: locate_me##feature_title
+msgid "Locate me"
+msgstr "Вызначыць маё месцазнаходжанне"
+
+#: toolbar##panel_title
+msgid "Toolbar"
+msgstr "Панэль інструментаў"
+
+#: toolbar##download
+#: layer_actions##tooltips##download
+msgid "Download"
+msgstr "Спампаваць"
+
+#: toolbar##delete
+msgid "Delete"
+msgstr "Выдаліць"
+
+#: toolbar##boundary_selector
+msgid "Select admin boundary"
+msgstr "Выбраць адміністрацыйную мяжу"
+
+#: toolbar##create_layer
+msgid "Create layer"
+msgstr "Стварыць слой"
+
+#: toolbar##geometry_uploader
+msgid "Upload GeoJSON"
+msgstr "Загрузіць GeoJSON"
+
+#: toolbar##focused_geometry_editor
+msgid "Draw or edit geometry"
+msgstr "Маляваць або рэдагаваць геаметрыю"
+
+#: toolbar##edit_in_osm
+msgid "Edit map in OSM"
+msgstr "Рэдагаваць карту ў OSM"
+
+#: toolbar##record_sensors
+msgid "Record sensors"
+msgstr "Запісваць дадзеныя датчыкаў"
+
+#: toolbar##tools_label
+msgid "Tools"
+msgstr "Інструменты"
+
+#: toolbar##selected_area_label
+#: focus_geometry_layer##settings##name
+msgid "Selected area"
+msgstr "Вылучаная вобласць"
+
+#: toolbar##upload_mcda
+msgid "Upload MCDA"
+msgstr "Загрузіць MCDA"
+
+#: layer_actions##tooltips##erase
+msgid "Erase"
+msgstr "Сцерці"
+
+#: layer_actions##tooltips##edit
+msgid "Edit"
+msgstr "Рэдагаваць"
+
+#: layer_actions##tooltips##hide
+#: mcda##layer_editor##outliers_options##hide
+msgid "Hide"
+msgstr "Схаваць"
+
+#: layer_actions##tooltips##show
+msgid "Show"
+msgstr "Паказаць"
+
+#: feed
+msgid "Feed"
+msgstr "Стужка"
+
+#: deselect
+msgid "Deselect"
+msgstr "Зняць вылучэнне"
+
+#: spinner_text
+msgid "Gathering data"
+msgstr "Збор дадзеных"
+
+#: updated
+msgid "Updated"
+msgstr "Абноўлена"
+
+#: started
+msgid "Started"
+msgstr "Пачалося"
+
+#: no_data_received
+msgid "No data received"
+msgstr "Дадзеныя не атрыманы"
+
+#: wrong_data_received
+msgid "Wrong data received"
+msgstr "Атрыманы памылковыя дадзеныя"
+
+#: error
+msgid "Error"
+msgstr "Памылка"
+
+#: sort_icon
+msgid "Sort Icon"
+msgstr "Сартаванне"
+
+#: configs##Kontur_public_feed
+msgid "Kontur Public"
+msgstr "Kontur Public"
+
+#: configs##Kontur_public_feed_description
+msgid ""
+"The feed contains real-time data about Cyclones, Droughts, Earthquakes, "
+"Floods, Volcanoes, Wildfires."
+msgstr ""
+"Стужка змяшчае дадзеныя ў рэжыме рэальнага часу аб цыклонах, засухах, "
+"землятрусах, паводках, вулканах і лясных пажарах."
+
+#: errors##default
+msgid "Sorry, we are having issues which will be fixed soon"
+msgstr "Прабачце, узніклі праблемы, якія хутка будуць выпраўлены"
+
+#: errors##timeout
+msgid "Request timeout"
+msgstr "Час чакання запыту скончыўся"
+
+#: errors##cannot_connect
+msgid "Cannot connect to server"
+msgstr "Не ўдалося падключыцца да сервера"
+
+#: errors##forbidden
+msgid "Forbidden"
+msgstr "Забаронена"
+
+#: errors##not_found
+msgid "Not found"
+msgstr "Не знойдзена"
+
+#: errors##unknown
+#: event_list##severity_unknown
+msgid "Unknown"
+msgstr "Невядома"
+
+#: errors##server_error
+msgid "Server error"
+msgstr "Памылка сервера"
+
+#: errors##error_try_again
+msgid "Something went wrong. Please try again"
+msgstr "Нешта пайшло не так. Калі ласка, паспрабуйце зноў"
+
+#: categories##overlays
+msgid "Overlays"
+msgstr "Оверлэі"
+
+#: categories##basemap
+msgid "Basemap"
+msgstr "Базавая карта"
+
+#: groups##layers_in_selected_area
+msgid "Layers in selected area"
+msgstr "Слаі ў вылучанай зоне"
+
+#: groups##your_layers
+msgid "Your layers"
+msgstr "Вашы слаі"
+
+#: groups##kontur_analytics
+msgid "Kontur analytics"
+msgstr "Аналітыка Kontur"
+
+#: groups##qa
+msgid "OpenStreetMap inspector"
+msgstr "Інспектар OpenStreetMap"
+
+#: groups##osmbasedmap
+msgid "OpenStreetMap based"
+msgstr "На аснове OpenStreetMap"
+
+#: groups##other
+msgid "Other"
+msgstr "Іншае"
+
+#: groups##elevation
+msgid "Elevation"
+msgstr "Вышыня"
+
+#: groups##photo
+msgid "Imagery"
+msgstr "Здымкі"
+
+#: groups##map
+#: modes##map
+msgid "Map"
+msgstr "Карта"
+
+#: advanced_analytics_data_list##load_world_data
+msgid "Load World Data"
+msgstr "Загрузіць сусветныя дадзеныя"
+
+#: advanced_analytics_data_list##numerator
+msgid "Numerator"
+msgstr "Лічнік"
+
+#: advanced_analytics_data_list##normalized_by
+msgid "Normalized By"
+msgstr "Нармалізавана па"
+
+#: advanced_analytics_data_list##sum
+msgid "Sum"
+msgstr "Сума"
+
+#: advanced_analytics_data_list##min
+msgid "Min"
+msgstr "Мінімум"
+
+#: advanced_analytics_data_list##max
+msgid "Max"
+msgstr "Максімум"
+
+#: advanced_analytics_data_list##mean
+msgid "Mean"
+msgstr "Сярэдняе"
+
+#: advanced_analytics_data_list##stddev
+msgid "Stddev"
+msgstr "Стандартнае адхіленне"
+
+#: advanced_analytics_data_list##median
+msgid "Median"
+msgstr "Медыяна"
+
+#: advanced_analytics_data_list##filter_numerator
+msgid "Filter Numerator"
+msgstr "Фільтр па лічніку"
+
+#: advanced_analytics_data_list##filter_denominator
+msgid "Filter Denominator"
+msgstr "Фільтр па назоўніку"
+
+#: mcda##title
+msgid "Multi-criteria decision analysis"
+msgstr "Шматкрытэрыяльны аналіз"
+
+#: mcda##name
+msgid "Create MCDA"
+msgstr "Стварыць шматкрытэрыяльны аналіз"
+
+#: mcda##modal_input_name
+msgid "Analysis name"
+msgstr "Назва аналізу"
+
+#: mcda##modal_input_name_placeholder
+msgid "e.g., Climate change"
+msgstr "Напрыклад, Кліматычныя змены"
+
+#: mcda##modal_input_indicators
+msgid "Layer list"
+msgstr "Спіс слаёў"
+
+#: mcda##modal_input_indicators_placeholder
+msgid "Select layers"
+msgstr "Абраць слаі"
+
+#: mcda##modal_input_indicators_no_options
+msgid "No options"
+msgstr "Няма варыянтаў"
+
+#: mcda##btn_save
+msgid "Save analysis"
+msgstr "Захаваць аналіз"
+
+#: mcda##error_analysis_name_cannot_be_empty
+msgid "Analysis name cannot be empty"
+msgstr "Назва аналізу не можа быць пустой"
+
+#: mcda##error_bad_layer_data
+msgid "Invalid MCDA layer data"
+msgstr "Няправільныя дадзеныя MCDA-слоя"
+
+#: mcda##error_invalid_file
+msgid "Invalid MCDA file format"
+msgstr "Няправільны фармат файла MCDA"
+
+#: mcda##error_invalid_parameter
+msgid "Invalid '{{parameter}}' parameter"
+msgstr "Няправільны параметр '{{parameter}}'"
+
+#: mcda##error_invalid_layer_parameter
+msgid "Invalid '{{parameter}}' parameter in '{{axisName}}' layer"
+msgstr "Няправільны параметр '{{parameter}}' у слоі '{{axisName}}'"
+
+#: mcda##error_wrong_mcda_version
+msgid "Wrong MCDA version"
+msgstr "Няправільная версія MCDA"
+
+#: mcda##legend_subtitle
+msgid ""
+"Hexagons are colored based on analysis layer settings. Click a hexagon to "
+"see its values."
+msgstr ""
+"Шасцікутнікі афарбаваны згодна з наладамі аналітычных слаёў. "
+"Націсніце на шасцікутнік, каб убачыць яго значэнні."
+
+#: mcda##layer_editor##save_changes
+#: profile##saveButton
+msgid "Save changes"
+msgstr "Захаваць змены"
+
+#: mcda##layer_editor##range
+msgid "Value range"
+msgstr "Дыяпазон значэнняў"
+
+#: mcda##layer_editor##outliers
+msgid "Outliers"
+msgstr "Выбітныя значэнні"
+
+#: mcda##layer_editor##reverse_to_good_bad
+msgid "Reverse to Good → Bad"
+msgstr "Перавярнуць з Добра → Дрэнна"
+
+#: mcda##layer_editor##reverse_to_bad_good
+msgid "Reverse to Bad → Good"
+msgstr "Перавярнуць з Дрэнна → Добра"
+
+#: mcda##layer_editor##weight
+msgid "Weight"
+msgstr "Вага"
+
+#: mcda##layer_editor##transform
+msgid "Transform"
+msgstr "Трансфармаваць"
+
+#: mcda##layer_editor##transformation
+msgid "Transformation"
+msgstr "Трансфармацыя"
+
+#: mcda##layer_editor##normalize
+msgid "Normalize"
+msgstr "Нармалізаваць"
+
+#: mcda##layer_editor##normalization
+msgid "Normalization"
+msgstr "Нармалізацыя"
+
+#: mcda##layer_editor##range_buttons##full_range
+msgid "Full range"
+msgstr "Поўны дыяпазон"
+
+#: mcda##layer_editor##range_buttons##3_sigma
+msgid "3σ"
+msgstr "3σ"
+
+#: mcda##layer_editor##range_buttons##2_sigma
+msgid "2σ"
+msgstr "2σ"
+
+#: mcda##layer_editor##range_buttons##1_sigma
+msgid "1σ"
+msgstr "1σ"
+
+#: mcda##layer_editor##outliers_options##clamp
+msgid "Clamp"
+msgstr "Абмежаваць"
+
+#: mcda##layer_editor##outliers_options##dont_modify
+msgid "Don't modify"
+msgstr "Не змяняць"
+
+#: mcda##layer_editor##transformations##no_transformation
+msgid "No transformation"
+msgstr "Без трансфармацыі"
+
+#: mcda##layer_editor##transformations##square_root
+msgid "Square root: sign(x)⋅√|x|"
+msgstr "Квадратны корань: sign(x)⋅√|x|"
+
+#: mcda##layer_editor##transformations##cube_root
+msgid "Cube root: ∛x"
+msgstr "Кубічны корань: ∛x"
+
+#: mcda##layer_editor##transformations##log
+msgid "log₁₀(x - xmin + 1)"
+msgstr "log₁₀(x - xmin + 1)"
+
+#: mcda##layer_editor##transformations##log_epsilon
+msgid "log₁₀(x - xmin + ε)"
+msgstr "log₁₀(x - xmin + ε)"
+
+#: mcda##layer_editor##no
+msgid "No"
+msgstr "Не"
+
+#: mcda##layer_editor##max_min
+msgid "Max-min"
+msgstr "Максімум-мінімум"
+
+#: mcda##layer_editor##errors##weight_cannot_be_empty
+msgid "Weight cannot be empty"
+msgstr "Вага не можа быць пустой"
+
+#: mcda##layer_editor##errors##weight_must_be_a_number
+msgid "Weight must be a valid number"
+msgstr "Вага павінна быць лікам"
+
+#: mcda##layer_editor##errors##range_from_cannot_be_bigger
+msgid "The ‘from’ value cannot be bigger than the ‘to’ value"
+msgstr "Значэнне ‘ад’ не можа быць большым за значэнне ‘да’"
+
+#: mcda##layer_editor##errors##range_cannot_be_empty
+msgid "Range cannot be empty"
+msgstr "Дыяпазон не можа быць пустым"
+
+#: mcda##layer_editor##errors##range_must_be_a_number
+msgid "Range must be a valid number"
+msgstr "Дыяпазон павінен быць лікам"
+
+#: mcda##layer_editor##tips##range
+msgid "The values that will be considered the worst and the best in your analysis."
+msgstr "Значэнні, якія будуць лічыцца найгоршымі і найлепшымі ў вашым аналізе."
+
+#: mcda##layer_editor##tips##sentiment
+msgid ""
+"Determine the direction of sentiment for the layer's impact on the "
+"analysis:\n"
+"* **Bad → Good**: Higher values indicate a positive sentiment.\n"
+"* **Good → Bad**: Higher values indicate a negative sentiment."
+msgstr ""
+"Вызначце кірунак уздзеяння для аналізу:\n"
+"* **Дрэнна → Добра**: Больш высокія значэнні паказваюць на станоўчую канатацыю.\n"
+"* **Добра → Дрэнна**: Больш высокія значэнні паказваюць на адмоўную канатацыю."
+
+#: mcda##layer_editor##tips##weight
+msgid ""
+"By default, all layers contribute equally to the analysis through a "
+"weighted average. Adjusting the increased weight of a layer (2, 3, etc.) "
+"allows you to assign additional importance to it in the analysis."
+msgstr ""
+"Па змаўчанні ўсе слаі аднолькава ўплываюць на аналіз праз узважаную сярэднюю.\n"
+"Павелічэнне вагі слоя (напрыклад, 2, 3 і г.д.) дазваляе надаць яму большую важкасць у аналізе."
+
+#: mcda##layer_editor##tips##transform
+msgid ""
+"Apply calculations to the values. Achieving a more linear distribution will "
+"provide more useful information for analysis.\n"
+"\n"
+" **Note**: Calculations are done before normalization."
+msgstr ""
+"Прымяняйце разлікі да значэнняў. Атрыманне больш лінейнага размеркавання забяспечыць карысную інфармацыю для аналізу.\n"
+"\n"
+" **Заўвага**: Разлікі выконваюцца перад нармалізацыяй."
+
+#: mcda##layer_editor##tips##normalize
+msgid ""
+"Adjusts values to a standardized scale. This helps compare them easily and "
+"make decisions.\n"
+"* **Standard score scaling**: This option adjusts values to a стандартызаваную шкалу, забяспечваючы іх супастаўнасць.\n"
+"* **No (for specialists only)**: Захоўвае значэнні без змен."
+msgstr ""
+"Прыводзіць значэнні да стандартызаванай шкалы. Гэта дапамагае лёгка параўноўваць іх і прымаць рашэнні.\n"
+"* **Стандартызацыя па Z-выніках**: Гэты варыянт прыводзіць значэнні да стандартызаванай шкалы, робячы іх супастаўнымі.\n"
+"* **Не (толькі для спецыялістаў)**: Пакідае значэнні без змен."
+
+#: mcda##layer_editor##tips##outliers
+msgid ""
+"* **Clamp**: Set values above the range to 1 and below the range to 0.\n"
+"* **Don’t modify**: Keep 0 and 1 for min and max, but allow outlier scores beyond this range.\n"
+"* **Exclude**: Exclude areas where values are out of range."
+msgstr ""
+"* **Абмежаваць**: Задаць значэнні вышэй за дыяпазон як 1, ніжэй — як 0.\n"
+"* **Не змяняць**: Захаваць 0 і 1 як мінімум і максімум, але дапускаць значэнні за межамі гэтага дыяпазону.\n"
+"* **Выключыць**: Выключыць з аналізу вобласці, дзе значэнні выходзяць за межы дыяпазону."
+
+#: mcda##bad
+msgid "Bad"
+msgstr "Дрэнна"
+
+#: mcda##good
+msgid "Good"
+msgstr "Добра"
+
+#: multivariate##upload_analysis_layer
+msgid "Upload analysis layer"
+msgstr "Загрузіць аналітычны слой"
+
+#: multivariate##popup##score_header
+msgid "Score {{level}}"
+msgstr "Лік {{level}}"
+
+#: multivariate##popup##base_header
+msgid "Base {{level}}"
+msgstr "Аснова {{level}}"
+
+#: search##search_location
+msgid "Search location"
+msgstr "Пошук месца"
+
+#: search##info_block
+msgid "You can search for 📍 locations"
+msgstr "Вы можаце шукаць 📍 месцы"
+
+#: search##info_block_with_mcda
+msgid ""
+"You can search for 📍 locations or ask ✨ AI your question like “Where is "
+"dead wood”"
+msgstr ""
+"Вы можаце шукаць 📍 месцы або задаць ✨ AI ваша пытанне, напрыклад: «Дзе знаходзіцца сухастой?»"
+
+#: search##input_placeholder
+msgid "Search"
+msgstr "Пошук"
+
+#: search##input_placeholder_mcda
+msgid "Search or ask AI"
+msgstr "Пошук або спытацца ў AI"
+
+#: search##locations_no_result
+msgid "No locations found"
+msgstr "Няма знойдзеных месцаў"
+
+#: search##mcda_loading_message
+msgid "AI is generating an analysis for you"
+msgstr "AI стварае аналіз для вас"
+
+#: search##mcda_no_result
+msgid "No AI suggestion"
+msgstr "Няма прапаноў ад AI"
+
+#: search##mcda_error_message
+msgid "AI engine did not respond. Please try again later"
+msgstr "AI не адказаў. Паспрабуйце пазней"
+
+#: search##mcda_create_analysis
+msgid "Create analysis"
+msgstr "Стварыць аналіз"
+
+#: search##upload_analysis
+msgid "“{{name}}” Multi-Criteria Decision Analysis has been created"
+msgstr "“{{name}}” мультыкрытэрыяльны аналіз быў створаны"
+
+#: event_list##warning_title
+msgid "Cannot filter by map view"
+msgstr "Немагчыма адфільтраваць па віду карты"
+
+#: event_list##warning_description
+msgid "Map is not ready yet, try later"
+msgstr "Карта яшчэ не гатовая, паспрабуйце пазней"
+
+#: event_list##bbox_filter_button
+msgid "Filter by map view"
+msgstr "Адфільтраваць па віду карты"
+
+#: event_list##analytics##affected_people##tooltip
+msgid "Affected people"
+msgstr "Пацярпелыя людзі"
+
+#: event_list##analytics##affected_people##value
+msgid "No humanitarian impact"
+msgstr "Няма гуманітарных наступстваў"
+
+#: event_list##analytics##settled_area_tooltip
+msgid "Settled area"
+msgstr "Заселеная тэрыторыя"
+
+#: event_list##analytics##loss_tooltip
+msgid "Estimated loss"
+msgstr "Прыблізныя страты"
+
+#: event_list##no_event_in_feed
+msgid "The disaster was not found in the current disaster feed"
+msgstr "Катастрофа не была знойдзеная ў цякучай стужцы катастроф"
+
+#: event_list##no_selected_disaster
+msgid "No disaster selected"
+msgstr "Катастрофа не выбрана"
+
+#: event_list##chose_disaster
+msgid "Choose disaster"
+msgstr "Выбраць катастрофу"
+
+#: event_list##no_historical_disasters
+msgid "No historical disasters in this area"
+msgstr "Няма гістарычных катастроф у дадзеным раёне"
+
+#: event_list##no_feed_disasters
+msgid "No disasters in this feed"
+msgstr "Няма катастроф у гэтай стужцы"
+
+#: event_list##no_feed_disasters_matching_your_filters
+msgid "No disasters matching your filters"
+msgstr "Няма катастроф, што адпавядаюць вашым фільтрам"
+
+#: event_list##no_disasters
+msgid "No disasters"
+msgstr "Няма катастроф"
+
+#: event_list##severity_termination
+msgid "Termination"
+msgstr "Спыненне"
+
+#: event_list##severity_minor
+msgid "Minor"
+msgstr "Нязначная"
+
+#: event_list##severity_moderate
+msgid "Moderate"
+msgstr "Умераная"
+
+#: event_list##severity_severe
+msgid "Severe"
+msgstr "Сур'ёзная"
+
+#: event_list##severity_extreme
+msgid "Extreme"
+msgstr "Экстрэмальная"
+
+#: event_list##open_timeline_button
+#: episode
+msgid "Timeline"
+msgstr "Часавая шкала"
+
+#: create_layer##edit_layer
+msgid "Edit Layer"
+msgstr "Рэдагаваць слой"
+
+#: create_layer##edit_features
+msgid "Edit Features"
+msgstr "Рэдагаваць аб'екты"
+
+#: create_layer##delete_layer
+msgid "Delete Layer"
+msgstr "Выдаліць слой"
+
+#: create_layer##create_layer
+msgid "Create Layer"
+msgstr "Стварыць слой"
+
+#: create_layer##saving_layer
+msgid "Saving layer..."
+msgstr "Захаванне слоя..."
+
+#: create_layer##field_name
+msgid "Field name"
+msgstr "Назва поля"
+
+#: create_layer##layer_name
+msgid "Layer name"
+msgstr "Назва слоя"
+
+#: create_layer##marker_icon
+msgid "Marker icon"
+msgstr "Іконка маркера"
+
+#: create_layer##type
+msgid "Type"
+msgstr "Тып"
+
+#: create_layer##select
+msgid "Select"
+msgstr "Выбраць"
+
+#: create_layer##short_text
+msgid "Short Text"
+msgstr "Кароткі тэкст"
+
+#: create_layer##long_text
+msgid "Long Text"
+msgstr "Доўгі тэкст"
+
+#: create_layer##link
+msgid "Link"
+msgstr "Спасылка"
+
+#: create_layer##image
+msgid "Image"
+msgstr "Выява"
+
+#: create_layer##fields
+msgid "Fields"
+msgstr "Палі"
+
+#: create_layer##add_field
+msgid "Add field"
+msgstr "Дадаць поле"
+
+#: create_layer##location
+msgid "Location"
+msgstr "Месцазнаходжанне"
+
+#: create_layer##edit_feature_placeholder
+msgid "Select some feature for start edit feature properties"
+msgstr "Выберыце аб'ект для пачатку рэдагавання яго ўласцівасцей"
+
+#: analytics_panel##header_title
+msgid "Analytics"
+msgstr "Аналітыка"
+
+#: analytics_panel##error_loading
+msgid "Failed receiving data about selected area. It may be too large."
+msgstr "Не атрымалася атрымаць дадзеныя аб вылучанай вобласці. Магчыма, яна занадта вялікая."
+
+#: analytics_panel##info_short
+msgid "Calculations are made for selected area"
+msgstr "Разлікі зроблены для вылучанай вобласці"
+
+#: advanced_analytics_panel##header_title
+msgid "Advanced analytics"
+msgstr "Пашыраная аналітыка"
+
+#: advanced_analytics_panel##error
+msgid "Error while fetching advanced analytics data"
+msgstr "Памылка падчас атрымання дадзеных пашыранай аналітыкі"
+
+#: advanced_analytics_empty##not_found
+#: current_event##not_found_request
+msgid "Sorry, the requested disaster was not found"
+msgstr "Прабачце, запытаная катастрофа не знойдзена"
+
+#: advanced_analytics_empty##error
+msgid "An error occurred"
+msgstr "Адбылася памылка"
+
+#: advanced_analytics_empty##analytics_for_selected
+msgid "Analytics for selected area"
+msgstr "Аналітыка для выбранай вобласці"
+
+#: advanced_analytics_empty##will_be_provided
+msgid "will be provided here"
+msgstr "будзе пададзена тут"
+
+#: advanced_analytics_empty##no_analytics
+msgid "No analytics for the selected area"
+msgstr "Няма аналітыкі для выбранай вобласці"
+
+#: llm_analytics##header
+msgid "AI insights"
+msgstr "AI інсайты"
+
+#: llm_analytics##placeholder##select_area
+msgid ""
+"Select area (<icon1 />,<icon2 />,<icon3 />) you want to explore to get AI "
+"Insights."
+msgstr ""
+"ВыВылучыце вобласць (<icon1 />,<icon2 />,<icon3 />), якую хочаце даследаваць для атрымання AI інсайтаў."
+
+#: llm_analytics##placeholder##you_can_also
+msgid "You can also:"
+msgstr "Вы таксама можаце:"
+
+#: llm_analytics##placeholder##fill_bio
+msgid "<icon /> <lnk>Fill out bio</lnk> to personalize AI analysis"
+msgstr "<icon /> <lnk>Запоўніце біяграфію</lnk>, каб персаналізаваць AI аналіз"
+
+#: llm_analytics##placeholder##select_and_save_as_reference_area
+msgid ""
+"<icon /> Select an area and save it as a reference to compare with another "
+"one"
+msgstr ""
+"<icon /> Вылучыце вобласць і захавайце яе як эталонную для параўнання з іншай"
+
+#: llm_analytics##placeholder##learn_more
+msgid "<lnk><icon/> Learn more about AI Insights</lnk>"
+msgstr "<lnk><icon/> Даведайцеся больш пра AI інсайты</lnk>"
+
+#: draw_tools##area
+msgid "Polygon"
+msgstr "Шматвугольнік"
+
+#: draw_tools##line
+msgid "Line"
+msgstr "Лінія"
+
+#: draw_tools##point
+msgid "Point"
+msgstr "Кропка"
+
+#: draw_tools##finish_drawing
+msgid "Finish Drawing"
+msgstr "Скончыць маляванне"
+
+#: draw_tools##caption
+msgid "Click on the map to begin drawing"
+msgstr "Націсніце на карту, каб пачаць маляванне"
+
+#: draw_tools##no_geometry_error
+msgid "No drawn geometry to download"
+msgstr "Няма намаляванай геаметрыі для загрузкі"
+
+#: draw_tools##overlap_error
+msgid "Polygon should not overlap itself"
+msgstr "Шматвугольнік не павінен перакрываць сам сябе"
+
+#: draw_tools##save_features
+msgid "Save features"
+msgstr "Захаваць аб'екты"
+
+#: boundary_selector##title
+msgid "Focus to administrative boundary"
+msgstr "Фокус на адміністрацыйную мяжу"
+
+#: geometry_uploader##title
+msgid "Focus to uploaded geometry"
+msgstr "Фокус на загружаную геаметрыю"
+
+#: geometry_uploader##error
+msgid "Error while reading uploaded file"
+msgstr "Памылка пры чытанні загружанага файла"
+
+#: focus_geometry##title
+msgid "Focus to freehand geometry"
+msgstr "Фокус на адвольную геаметрыю"
+
+#: reference_area_layer##settings##name
+#: profile##reference_area##title
+msgid "Reference area"
+msgstr "Эталонная вобласць"
+
+#: drawings##self_directions_not_supported
+msgid "Self intersections are not supported"
+msgstr "Самаперакрыцці не падтрымліваюцца"
+
+#: bivariate##panel##header
+msgid "Bivariate matrix"
+msgstr "Біварыятыўная матрыца"
+
+#: bivariate##matrix##caption##base_axis
+msgid "Base axis"
+msgstr "Базавая вось"
+
+#: bivariate##matrix##caption##annex_axis
+msgid "Annex axis"
+msgstr "Дапаможная вось"
+
+#: bivariate##matrix##caption##tooltip##p1
+msgid ""
+"Charts involving the Base and Annex axes help establish a relationship "
+"between two data sets."
+msgstr ""
+"Графікі, якія выкарыстоўваюць базавую і дапаможную восі, дапамагаюць "
+"вызначыць сувязь паміж двума наборамі дадзеных."
+
+#: bivariate##matrix##caption##tooltip##li1
+msgid "Annex axis - parameters that we analyse"
+msgstr "Дапаможная вось - параметры, якія мы аналізуем"
+
+#: bivariate##matrix##caption##tooltip##li2
+msgid "Base axis - reference point in the analysis"
+msgstr "Базавая вось - апорная кропка ў аналізе"
+
+#: bivariate##matrix##caption##tooltip##b
+msgid "Ex: the best location to open a cafe"
+msgstr "Напрыклад: найлепшае месца для адкрыцця кавярні"
+
+#: bivariate##matrix##caption##tooltip##p2
+msgid ""
+"We can explore the number of eatery places (Annex axis) against Population "
+"density (Base axis)."
+msgstr ""
+"Мы можам даследаваць колькасць месцаў грамадскага харчавання (дапаможная вось) "
+"у параўнанні са шчыльнасцю насельніцтва (базавая вось)."
+
+#: bivariate##matrix##caption##tooltip##p3
+msgid ""
+"In this scenario, we are first interested in a small number of eatery "
+"places, and the number of people in that place gives us additional "
+"information."
+msgstr ""
+"У гэтым выпадку нас найперш цікавіць невялікая колькасць месцаў грамадскага харчавання, "
+"а колькасць людзей у гэтым месцы дае дадатковую інфармацыю."
+
+#: bivariate##matrix##header##title
+msgid "Choose two layers to explore correlations"
+msgstr "Выберыце два слоя для даследавання карэляцый"
+
+#: bivariate##matrix##header##hint
+msgid "Layers and correlations are displayed for the current Selected Area"
+msgstr "Слаі і карэляцыі адлюстроўваюцца для вылучанай вобласці"
+
+#: bivariate##matrix##icon##population
+msgid "Value divided by Population"
+msgstr "Значэнне, падзеленае на насельніцтва"
+
+#: bivariate##matrix##icon##area_km2
+msgid "Value divided by Area"
+msgstr "Значэнне, падзеленае на плошчу"
+
+#: bivariate##matrix##icon##total_building_count
+msgid "Value divided by Total Buildings Estimate"
+msgstr "Значэнне, падзеленае на агульную колькасць будынкаў"
+
+#: bivariate##matrix##icon##populated_area_km2
+msgid "Value divided by Populated Area"
+msgstr "Значэнне, падзеленае на заселеную тэрыторыю"
+
+#: bivariate##matrix##icon##one
+msgid "Without divider"
+msgstr "Без дзялення"
+
+#: bivariate##matrix##icon##roads
+msgid "Value divided by Total Roads Length"
+msgstr "Значэнне, падзеленае на агульную даўжыню дарог"
+
+#: bivariate##matrix##progress##rendering
+msgid "Rendering"
+msgstr "Адмалёўка"
+
+#: bivariate##matrix##progress##applied
+msgid "Applied on the map"
+msgstr "Ужыта на карце"
+
+#: bivariate##matrix##loading_error
+msgid ""
+"Unfortunately, we cannot display the matrix. Try refreshing the page or "
+"come back later."
+msgstr ""
+"На жаль, мы не можам адлюстраваць матрыцу. Паспрабуйце абнавіць старонку "
+"ці вярнуцца пазней."
+
+#: bivariate##legend##high
+msgid "High"
+msgstr "Высокі"
+
+#: bivariate##legend##low
+msgid "Low"
+msgstr "Нізкі"
+
+#: bivariate##legend##medium
+msgid "Medium"
+msgstr "Сярэдні"
+
+#: bivariate##color_manager##not_defined
+msgid "Not defined"
+msgstr "Не вызначана"
+
+#: bivariate##color_manager##sentiments_combinations_filter
+msgid "Sentiments combinations"
+msgstr "Спалучэнні канатацый"
+
+#: bivariate##color_manager##no_legends
+msgid "There are no legends satisfying the conditions."
+msgstr "Няма легенд, якія адпавядаюць умовам."
+
+#: bivariate##color_manager##no_data
+msgid "No Data."
+msgstr "Няма дадзеных."
+
+#: bivariate##color_manager##sentiments_tab
+msgid "Sentiments"
+msgstr "Канатацыі"
+
+#: bivariate##color_manager##color_legends_tab
+msgid "Color Legends"
+msgstr "Каляровыя легенды"
+
+#: bivariate##color_manager##layers_tab
+msgid "Layers (indicators)"
+msgstr "Слаі (індыкатары)"
+
+#: sidebar##biv_color_manager
+msgid "Сolor manager"
+msgstr "Кіраванне колерамі"
+
+#: sidebar##edit_osm
+msgid "Edit in OpenStreetMap"
+msgstr "Рэдагаваць у OpenStreetMap"
+
+#: sidebar##ruler
+msgid "Ruler"
+msgstr "Лінейка"
+
+#: sidebar##collapse
+msgid "Collapse"
+msgstr "Згарнуць"
+
+#: sidebar##expand
+msgid "Expand"
+msgstr "Разгарнуць"
+
+#: sidebar##icon_alt
+msgid "Application logo"
+msgstr "Лагатып дадатку"
+
+#: login##email
+#: profile##email
+msgid "Email"
+msgstr "Электронная пошта"
+
+#: login##password
+msgid "Password"
+msgstr "Пароль"
+
+#: login##login_button
+msgid "Login"
+msgstr "Увайсці"
+
+#: login##sign_up
+msgid "Sign up"
+msgstr "Зарэгістравацца"
+
+#: login##logging_in
+msgid "Logging in..."
+msgstr "Уваход..."
+
+#: login##log_in
+msgid "Log in"
+msgstr "Увайсці"
+
+#: login##forgot_password
+msgid "Forgot password?"
+msgstr "Забыліся пароль?"
+
+#: login##description
+msgid "Please log in to change your settings"
+msgstr "Калі ласка, увайдзіце, каб змяніць налады"
+
+#: login##error##email_empty
+msgid "Email cannot be empty"
+msgstr "Поле электроннай пошты не можа быць пустым"
+
+#: login##error##email_invalid
+msgid "Email has to be valid"
+msgstr "Увядзіце сапраўдны адрас электроннай пошты"
+
+#: login##error##password
+msgid "Password cannot be empty"
+msgstr "Поле пароля не можа быць пустым"
+
+#: login##error##connect
+msgid "Could not connect to authentication service"
+msgstr "Не ўдалося падключыцца да службы аўтэнтыфікацыі"
+
+#: currency##usd
+msgid "USD"
+msgstr "USD"
+
+#: subscription##title
+msgid "Plans & Pricing"
+msgstr "Тарыфы і цэны"
+
+#: subscription##price_summary
+msgid "* Billed as ${{pricePerYear}} USD once yearly"
+msgstr "* Выстаўляецца рахунак ${{pricePerYear}} USD раз на год"
+
+#: subscription##unauthorized_button
+msgid "Sign in to subscribe"
+msgstr "Увайдзіце, каб аформіць падпіску"
+
+#: subscription##current_plan_button
+msgid "Current plan"
+msgstr "Цяперашні план"
+
+#: subscription##sales_button
+msgid "Contact sales"
+msgstr "Звязацца з аддзелам продажаў"
+
+#: subscription##book_demo_button
+msgid "Book a demo"
+msgstr "Замовіць дэма"
+
+#: subscription##request_trial_button
+msgid "Request trial"
+msgstr "Запытаць пробны перыяд"
+
+#: subscription##errors##payment_initialization
+msgid ""
+"There was an error during payment initialization. Please try again or "
+"contact our support"
+msgstr ""
+"Адбылася памылка падчас ініцыялізацыі плацяжу. Калі ласка, паспрабуйце яшчэ раз "
+"ці звяжыцеся са службай падтрымкі"
+
+#: subscription##success_modal##title
+msgid "Success"
+msgstr "Паспяхова"
+
+#: subscription##success_modal##thank_you_for_subscribing
+msgid "Thank you for subscribing to our platform!"
+msgstr "Дзякуй за падпіску на нашу платформу!"
+
+#: subscription##success_modal##after_the_page_refreshes
+msgid "After the page refreshes, you can start using Kontur Atlas"
+msgstr "Пасля абнаўлення старонкі вы можаце пачаць выкарыстоўваць Kontur Atlas"
+
+#: reports##title
+msgid "Disaster Ninja Reports"
+msgstr "Справаздачы Disaster Ninja"
+
+#: reports##no_data
+msgid "No data for this report"
+msgstr "Няма дадзеных для гэтай справаздачы"
+
+#: reports##sorting
+msgid "Sorting data..."
+msgstr "Сартыроўка дадзеных..."
+
+#: reports##loading
+msgid "Loading data"
+msgstr "Загрузка дадзеных"
+
+#: reports##open_josm
+msgid "Open via JOSM remote control"
+msgstr "Адкрыць праз дыстанцыйнае кіраванне JOSM"
+
+#: reports##josm_logo_alt
+msgid "JOSM logo"
+msgstr "Лагатып JOSM"
+
+#: reports##see_all
+msgid "See all reports"
+msgstr "Паглядзець усе справаздачы"
+
+#: reports##wrong_id
+msgid "Wrong report ID"
+msgstr "Няправільны ідэнтыфікатар справаздачы"
+
+#: reports##description
+msgid ""
+"<0>Kontur </0> generates several reports that help validate OpenStreetMap "
+"quality. They contain links to areas on <4>osm.org </4> and links to open "
+"them in the JOSM editor with enabled remote control for editing."
+msgstr ""
+"<0>Kontur </0> стварае некалькі справаздач, якія дапамагаюць ацаніць якасць "
+"OpenStreetMap. Яны ўтрымліваюць спасылкі на вобласці на <4>osm.org </4> "
+"і спасылкі для адкрыцця іх у рэдактары JOSM з уключаным дыстанцыйным кіраваннем."
+
+#: modes##about
+msgid "About"
+msgstr "Пра сервіс"
+
+#: modes##cookies
+msgid "Cookies"
+msgstr "Файлы cookie"
+
+#: modes##reports
+msgid "Reports"
+msgstr "Справаздачы"
+
+#: modes##report
+msgid "Report"
+msgstr "Справаздача"
+
+#: modes##profile
+msgid "Profile"
+msgstr "Профіль"
+
+#: modes##privacy
+msgid "Privacy"
+msgstr "Прыватнасць"
+
+#: modes##terms
+msgid "Terms"
+msgstr "Умовы"
+
+#: modes##user_guide
+msgid "User guide"
+msgstr "Кіраўніцтва карыстальніка"
+
+#: profile##interfaceTheme
+msgid "Theme"
+msgstr "Тэма"
+
+#: profile##interfaceLanguage
+msgid "Language"
+msgstr "Мова"
+
+#: profile##units
+msgid "Units"
+msgstr "Адзінкі вымярэння"
+
+#: profile##fullName
+msgid "Full name"
+msgstr "Поўнае імя"
+
+#: profile##metric
+msgid "metric"
+msgstr "метрычная сістэма"
+
+#: profile##imperialBeta
+msgid "imperial (beta)"
+msgstr "імперская сістэма (бэта)"
+
+#: profile##profileSettingsHeader
+msgid "Personalize your experience"
+msgstr "Наладзьце свой вопыт выкарыстання"
+
+#: profile##your_current_job
+msgid "your current job"
+msgstr "ваша цяперашняя праца"
+
+#: profile##area_of_expertise
+msgid "area of expertise"
+msgstr "сфера дзейнасці"
+
+#: profile##challenges
+msgid "challenges"
+msgstr "праблемы"
+
+#: profile##personalization_prompt
+msgid "For better personalization, please include details such as:"
+msgstr "Для лепшай персаналізацыі, калі ласка, пазначце наступнае:"
+
+#: profile##ai_tools_compatibility
+msgid "This information is compatible with AI tools"
+msgstr "Гэтая інфармацыя сумяшчальная з інструментамі AI"
+
+#: profile##improves_analysis
+msgid "Improves analysis"
+msgstr "Паляпшае аналіз"
+
+#: profile##bio_placeholder
+msgid "Bio"
+msgstr "Аб сабе"
+
+#: profile##bio_textarea_placeholder
+msgid ""
+"e.g. GIS specialist with 5+ years of experience in disaster risk analysis, "
+"focused on urban resilience."
+msgstr ""
+"Напрыклад, спецыяліст у галіне ГІС з 5+ гадамі вопыту ў аналізе рызык катастроф, "
+"арыентаваны на гарадскую ўстойлівасць."
+
+#: profile##analysis_objectives
+msgid "Analysis objectives"
+msgstr "Мэты аналізу"
+
+#: profile##objectives_textarea_placeholder
+msgid ""
+"e.g. Urban planning analysis with a focus on climate resilience. My current "
+"challenge is improving flood risk mapping."
+msgstr ""
+"Напрыклад, аналіз гарадскога планавання з акцэнтам на кліматычную ўстойлівасць. "
+"Мая цяперашняя задача — паляпшэнне картаграфавання рызык паводак."
+
+#: profile##appSettingsHeader
+msgid "Settings"
+msgstr "Налады"
+
+#: profile##your_organization
+msgid "Your organization"
+msgstr "Ваша арганізацыя"
+
+#: profile##your_contacts
+msgid "Your contact info"
+msgstr "Вашыя кантактныя дадзеныя"
+
+#: profile##organization_name
+msgid "Organization name"
+msgstr "Назва арганізацыі"
+
+#: profile##position
+msgid "Position"
+msgstr "Пасада"
+
+#: profile##gis_specialists
+msgid "GIS specialists in your team"
+msgstr "ГІС-спецыялісты ў вашай камандзе"
+
+#: profile##phone_number
+msgid "Phone number with country code"
+msgstr "Нумар тэлефона з кодам краіны"
+
+#: profile##linkedin
+msgid "LinkedIn profile"
+msgstr "Профіль у LinkedIn"
+
+#: profile##konturTheme
+msgid "Kontur"
+msgstr "Kontur"
+
+#: profile##HOTTheme
+msgid "HOT"
+msgstr "HOT"
+
+#: profile##defaultDisasterFeed
+msgid "Default disaster feed"
+msgstr "Стужка катастроф па змаўчанні"
+
+#: profile##defaultOSMeditor
+msgid "Default OpenStreetMap editor (beta)"
+msgstr "Рэдактар OpenStreetMap па змаўчанні (бэта)"
+
+#: profile##successNotification
+msgid "All changes have been applied successfully"
+msgstr "Усе змены былі паспяхова захаваны"
+
+#: profile##dont_know
+msgid "I don’t know"
+msgstr "Я не ведаю"
+
+#: profile##languageOption##en
+msgid "English"
+msgstr "Англійская"
+
+#: profile##languageOption##es
+msgid "Spanish"
+msgstr "Іспанская"
+
+#: profile##languageOption##ar
+msgid "Arabic"
+msgstr "Арабская"
+
+#: profile##languageOption##ko
+msgid "Korean"
+msgstr "Карэйская"
+
+#: profile##languageOption##id
+msgid "Indonesian"
+msgstr "Інданезійская"
+
+#: profile##languageOption##de
+msgid "German"
+msgstr "Нямецкая"
+
+#: profile##languageOption##be
+msgid "Belarusian"
+msgstr "Беларуская"
+
+#: profile##languageOption##ru
+msgid "Russian"
+msgstr "Руская"
+
+#: profile##languageOption##uk
+msgid "Ukrainian"
+msgstr "Украінская"
+
+#: profile##reference_area##freehand_geometry
+msgid "Freehand geometry"
+msgstr "Адвольная геаметрыя"
+
+#: profile##reference_area##to_replace_reference_area
+msgid ""
+"You can redefine your reference area on map. Select an area and click "
+"\"Save as reference area\" on toolbar.\n"
+msgstr ""
+"Вы можаце пераназначыць вашу эталонную вобласць на карце. Вылучыце вобласць і "
+"націсніце \"Захаваць як эталонную вобласць\" у панэлі інструментаў.\n"
+
+#: profile##reference_area##description
+msgid ""
+"Save an area you are familiar with as a reference. We will use it as a "
+"baseline to compare other areas and explain the differences."
+msgstr ""
+"Захавайце знаёмую вам вобласць як эталонную. Мы будзем выкарыстоўваць яе "
+"як падставу для параўнання іншых абласцей і тлумачэння адрозненняў."
+
+#: profile##reference_area##set_the_reference_area
+msgid "Set area on map"
+msgstr "Вылучыць вобласць на карце"
+
+#: profile##reference_area##tooltip_text
+msgid ""
+"1. Select an area of interest on the map using the Admin Boundary or Draw "
+"Geometry tool. <br/> 2. Click the 'Save as Reference' button on the toolbar."
+msgstr ""
+"1. Вылучыце вобласць цікавасці на карце, выкарыстоўваючы інструменты "
+"'Адміністрацыйныя межы' або 'Маляванне геаметрыі'. <br/> 2. Націсніце кнопку "
+"'Захаваць як эталонную вобласць' у панэлі інструментаў."
+
+#: profile##reference_area##accessing_location
+msgid "Accessing your location"
+msgstr "Атрыманне вашага месцазнаходжання"
+
+#: profile##reference_area##accessing_location_error
+msgid "Error. Try another way."
+msgstr "Памылка. Паспрабуйце іншы спосаб."
+
+#: profile##reference_area##select_location
+msgid "Select my current location"
+msgstr "Абраць маю цякучае месцазнаходжанне"
+
+#: profile##reference_area##notification
+msgid "Your reference area {{name}} has been saved"
+msgstr "Ваша эталонная вобласць {{name}} была захаваная"
+
+#: locate_me##get_location_error
+msgid "Error while getting location"
+msgstr "Памылка пры атрыманні месцазнаходжання"
+
+#: loading_episodes
+msgid "Loading Episodes"
+msgstr "Загрузка эпізодаў"
+
+#: zoom_to_world
+msgid "Zoom to the whole world"
+msgstr "Аддаліцца да ўсяго свету"
+
+#: cookie_banner##header
+msgid "We value your privacy"
+msgstr "Мы цэнім вашу прыватнасць"
+
+#: cookie_banner##body
+msgid ""
+"We use absolutely necessary cookies to provide you personalized services "
+"and optional cookies to improve {{appName}} and your experience. You can "
+"manage cookie settings or withdraw consent to optional cookies at any time.\n"
+"For more information, please, check our [Privacy Policy](about/privacy)"
+msgstr ""
+"Мы выкарыстоўваем неабходныя файлы cookie для прадастаўлення вам "
+"персаналізаваных паслуг, а таксама дадатковыя файлы cookie для "
+"паляпшэння {{appName}} і вашага вопыту выкарыстання. Вы можаце "
+"кіраваць наладамі cookie або адклікаць згоду на дадатковыя cookie ў любы "
+"момант.\n"
+"Для атрымання дадатковай інфармацыі азнаёмцеся з нашай [Палітыкай прыватнасці](about/privacy)"
+
+#: cookie_banner##decline_all
+msgid "Decline optional cookies"
+msgstr "Адмовіцца ад дадатковых cookie"
+
+#: cookie_banner##accept_all
+msgid "Accept optional cookies"
+msgstr "Прыняць дадатковыя cookie"
+
+#: live_sensor##start
+msgid "Start sensor recording"
+msgstr "Пачаць запіс з датчыкаў"
+
+#: live_sensor##finish
+msgid "Stop sensor recording"
+msgstr "Спыніць запіс з датчыкаў"
+
+#: live_sensor##finishMessage
+msgid "Recording has been finished"
+msgstr "Запіс завершаны"
+
+#: live_sensor##startMessage
+msgid "Recording has been started"
+msgstr "Запіс пачаты"
+
+#: live_sensor##noSensorsError
+msgid "Your device does not have the required sensors"
+msgstr "Вашае прылада не мае неабходных датчыкаў"
+
+#: layer_features_panel##empty
+msgid "Layer features within selected area will be provided here"
+msgstr "Аб'екты слоя ў выбранай вобласці будуць паказаны тут"
+
+#: layer_features_panel##noFeatureSelected
+msgid "No layer feature selected"
+msgstr "Не абраны аб'ект слоя"
+
+#: layer_features_panel##chooseFeature
+msgid "Choose layer feature"
+msgstr "Абярыце аб'ект слоя"
+
+#: layer_features_panel##listInfo
+msgid "The list is filtered by selected area and sorted by project number"
+msgstr "Спіс адфільтраваны па вылучанай вобласці і адсартаваны па нумары праекта"
+
+#: layer_features_panel##error_loading
+msgid "Failed to load layer features data. Please try again."
+msgstr "Не атрымалася загрузіць дадзеныя аб'ектаў слоя. Калі ласка, паспрабуйце яшчэ раз."
+
+#: layer_features_panel##no_features
+msgid "No features found in the selected area."
+msgstr "У вылучанай вобласці не знойдзена аб'ектаў."
+
+#: reference_area##save_as_reference_area
+msgid "Save as reference area"
+msgstr "Захаваць як эталонную вобласць"
+
+#: reference_area##error_couldnt_save
+msgid "Unfortunately, we could not save your reference area. Please try again."
+msgstr "На жаль, не атрымалася захаваць вашу эталонную вобласць. Калі ласка, паспрабуйце яшчэ раз."
+
+#: reference_area##selected_area_saved_as_reference_area
+msgid "Selected area has been saved as reference area in your profile"
+msgstr "Вылучаная вобласць была захаваная як эталонная ў вашым профілі"
