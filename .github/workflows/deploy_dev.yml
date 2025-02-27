@@ -49,13 +49,50 @@ jobs:
           echo "New contents of Chart.yaml:"
           cat Chart.yaml
 
-      - name: Create Pull Request for helm manifest updates
-        uses: peter-evans/create-pull-request@v4
+      - name: Create and push changes branch
+        working-directory: cd
+        run: |
+          BRANCH_NAME="deploy-dn-fe-dev-${{ github.run_id }}"
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git checkout -b $BRANCH_NAME
+          git add .
+          git commit -m "Deploy FE: update image tag to ${{ needs.build-and-publish.outputs.image_tag }} and bump Chart version"
+          git push origin $BRANCH_NAME
+        env:
+          GITHUB_TOKEN: ${{ secrets.CD_GITHUB_TOKEN }}
+
+      - name: Create Pull Request using gh
+        working-directory: cd
+        run: |
+          BRANCH_NAME="deploy-dn-fe-dev-${{ github.run_id }}"
+          gh pr create \
+            --title "Deploy FE: update image tag to ${{ needs.build-and-publish.outputs.image_tag }} and bump Chart version" \
+            --body "Automatically created PR to update helm manifests with the new image tag." \
+            --base main --head $BRANCH_NAME
+        env:
+          GITHUB_TOKEN: ${{ secrets.CD_GITHUB_TOKEN }}
+
+      - name: Merge Pull Request using gh
+        working-directory: cd
+        run: |
+          PR_NUMBER=$(gh pr list --head "deploy-dn-fe-dev-${{ github.run_id }}" --json number --jq '.[0].number')
+          if [ -z "$PR_NUMBER" ]; then
+            echo "No PR found for branch deploy-dn-fe-dev-${{ github.run_id }}. Exiting."
+            exit 1
+          fi  
+          echo "Merging PR #$PR_NUMBER"
+          gh pr merge $PR_NUMBER --auto --squash --delete-branch
+        env:
+          GITHUB_TOKEN: ${{ secrets.CD_GITHUB_TOKEN }}
+
+      - name: Send Slack notification
+        uses: slackapi/slack-github-action@v1.23.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          commit-message: 'Deploy FE: update image tag to ${{ needs.build-and-publish.outputs.image_tag }} and bump Chart version'
-          branch: deploy-dn-fe-dev-${{ github.run_id }}
-          title: 'Deploy FE: update image tag to ${{ needs.build-and-publish.outputs.image_tag }} and bump Chart version'
-          body: 'Automatically created PR to update helm manifests with the new image tag.'
-          base: main
-          path: cd
+          slack-message: |
+            *Deployment Notification*
+            Deploy DN FE to DEV.
+            Branch: `deploy-dn-fe-dev-${{ github.run_id }}`
+            Image Tag: `${{ needs.build-and-publish.outputs.image_tag }}`
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_DEPLOY_DEV_WEBHOOK_URL }}
