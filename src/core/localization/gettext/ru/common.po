@@ -324,7 +324,7 @@ msgstr "Многокритериальный анализ"
 
 #: mcda##name
 msgid "Create MCDA"
-msgstr "Создать многокритериальный анализ"
+msgstr "Создать анализ"
 
 #: mcda##modal_input_name
 msgid "Analysis name"

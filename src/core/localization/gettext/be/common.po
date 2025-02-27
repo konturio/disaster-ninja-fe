@@ -324,7 +324,7 @@ msgstr "Шматкрытэрыяльны аналіз"
 
 #: mcda##name
 msgid "Create MCDA"
-msgstr "Стварыць шматкрытэрыяльны аналіз"
+msgstr "Стварыць аналіз"
 
 #: mcda##modal_input_name
 msgid "Analysis name"
