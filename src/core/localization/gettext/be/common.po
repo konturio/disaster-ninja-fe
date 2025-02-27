@@ -215,7 +215,7 @@ msgstr "Час чакання запыту скончыўся"
 
 #: errors##cannot_connect
 msgid "Cannot connect to server"
-msgstr "Не ўдалося падключыцца да сервера"
+msgstr "Не атрымалася злучыцца з серверам"
 
 #: errors##forbidden
 msgid "Forbidden"
