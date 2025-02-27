@@ -881,7 +881,7 @@ msgstr "Няма намаляванай геаметрыі для загрузк
 
 #: draw_tools##overlap_error
 msgid "Polygon should not overlap itself"
-msgstr "Шматвугольнік не павінен перакрываць сам сябе"
+msgstr "Шматкутнік не павінен перакрываць сам сябе"
 
 #: draw_tools##save_features
 msgid "Save features"
