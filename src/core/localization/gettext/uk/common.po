@@ -18,17 +18,26 @@ msgstr "м"
 msgid "to"
 msgstr "до"
 
+#: or
+msgid "or"
+msgstr ""
+
 #: logout
-msgid "Logout"
-msgstr "Вийти"
+#, fuzzy
+msgid "Log out"
+msgstr "Увійти"
 
 #: save
 msgid "Save"
 msgstr "Зберегти"
 
-#: cancel
+#: cancel mcda##btn_cancel
 msgid "Cancel"
 msgstr "Скасувати"
+
+#: ok
+msgid "OK"
+msgstr ""
 
 #: create
 msgid "Create"
@@ -43,10 +52,11 @@ msgid "Loading..."
 msgstr "Завантаження..."
 
 #: loading_events
-msgid "Loading events"
-msgstr "Завантажуємо події"
+#, fuzzy
+msgid "Loading disasters"
+msgstr "Ніяких катастроф"
 
-#: legend
+#: legend mcda##legend_title
 msgid "Legend"
 msgstr "Легенда"
 
@@ -70,6 +80,84 @@ msgstr "Презентація легенди"
 msgid "Layers"
 msgstr "Шари"
 
+#: toolbar##map_ruler
+msgid "Measure distance"
+msgstr ""
+
+#: toolbar##locate_me locate_me##feature_title
+msgid "Locate me"
+msgstr "Знайти мене"
+
+#: toolbar##panel_title
+msgid "Toolbar"
+msgstr ""
+
+#: toolbar##download layer_actions##tooltips##download
+msgid "Download"
+msgstr ""
+
+#: toolbar##delete
+#, fuzzy
+msgid "Delete"
+msgstr "Видалити шар"
+
+#: toolbar##boundary_selector
+#, fuzzy
+msgid "Select admin boundary"
+msgstr "Фокусувати на адміністративну одиницю"
+
+#: toolbar##create_layer
+#, fuzzy
+msgid "Create layer"
+msgstr "Створити шар"
+
+#: toolbar##geometry_uploader
+msgid "Upload GeoJSON"
+msgstr ""
+
+#: toolbar##focused_geometry_editor
+msgid "Draw or edit geometry"
+msgstr ""
+
+#: toolbar##edit_in_osm
+#, fuzzy
+msgid "Edit map in OSM"
+msgstr "Редагувати в OpenStreetMap"
+
+#: toolbar##record_sensors
+#, fuzzy
+msgid "Record sensors"
+msgstr "Запис даних розпочато"
+
+#: toolbar##tools_label
+msgid "Tools"
+msgstr ""
+
+#: toolbar##selected_area_label focus_geometry_layer##settings##name
+#, fuzzy
+msgid "Selected area"
+msgstr "Вибраний полігон"
+
+#: toolbar##upload_mcda
+msgid "Upload MCDA"
+msgstr ""
+
+#: layer_actions##tooltips##erase
+msgid "Erase"
+msgstr ""
+
+#: layer_actions##tooltips##edit
+msgid "Edit"
+msgstr ""
+
+#: layer_actions##tooltips##hide mcda##layer_editor##outliers_options##hide
+msgid "Hide"
+msgstr ""
+
+#: layer_actions##tooltips##show
+msgid "Show"
+msgstr ""
+
 #: feed
 msgid "Feed"
 msgstr "Стрічка"
@@ -85,6 +173,10 @@ msgstr "Збираємо дані"
 #: updated
 msgid "Updated"
 msgstr "Оновлено"
+
+#: started
+msgid "Started"
+msgstr ""
 
 #: no_data_received
 msgid "No data received"
@@ -115,15 +207,18 @@ msgstr ""
 "повені, вулкани, лісові пожежі."
 
 #: errors##default
-msgid "Sorry, we are having issues, which will be fixed soon"
+#, fuzzy
+msgid "Sorry, we are having issues which will be fixed soon"
 msgstr "Вибачте, у нас виникли проблеми, які незабаром будуть вирішені"
 
 #: errors##timeout
-msgid "Request Timeout"
+#, fuzzy
+msgid "Request timeout"
 msgstr "Час очікування запиту минув"
 
 #: errors##cannot_connect
-msgid "Can't connect to server"
+#, fuzzy
+msgid "Cannot connect to server"
 msgstr "Не вдається під'єднатися до сервера"
 
 #: errors##forbidden
@@ -139,8 +234,13 @@ msgid "Unknown"
 msgstr "Невідомий"
 
 #: errors##server_error
-msgid "Server Error"
+#, fuzzy
+msgid "Server error"
 msgstr "Помилка серверу"
+
+#: errors##error_try_again
+msgid "Something went wrong. Please try again"
+msgstr ""
 
 #: categories##overlays
 msgid "Overlays"
@@ -155,19 +255,23 @@ msgid "Layers in selected area"
 msgstr "Шари у вибраній області"
 
 #: groups##your_layers
-msgid "Your Layers"
+#, fuzzy
+msgid "Your layers"
 msgstr "Ваші шари"
 
 #: groups##kontur_analytics
-msgid "Kontur Analytics"
+#, fuzzy
+msgid "Kontur analytics"
 msgstr "Аналітика Kontur"
 
 #: groups##qa
-msgid "QA"
-msgstr "Аналітика якості"
+#, fuzzy
+msgid "OpenStreetMap inspector"
+msgstr "На основі OpenStreetMap"
 
 #: groups##osmbasedmap
-msgid "OpenStreetMap Based"
+#, fuzzy
+msgid "OpenStreetMap based"
 msgstr "На основі OpenStreetMap"
 
 #: groups##other
@@ -179,8 +283,9 @@ msgid "Elevation"
 msgstr "Рел'єф"
 
 #: groups##photo
-msgid "Photo"
-msgstr "Фото"
+#, fuzzy
+msgid "Imagery"
+msgstr "Зображення"
 
 #: groups##map modes##map
 msgid "Map"
@@ -230,28 +335,322 @@ msgstr "Фільтр чисельника"
 msgid "Filter Denominator"
 msgstr "Фільтр знаменника"
 
-#: mcda##title
+#: mcda##title mcda##modal_title
 msgid "Multi-criteria decision analysis"
 msgstr ""
 
 #: mcda##name
-msgid "MCDA"
+#, fuzzy
+msgid "Create MCDA"
+msgstr "Створити"
+
+#: mcda##modal_input_name
+#, fuzzy
+msgid "Analysis name"
+msgstr "Аналітика"
+
+#: mcda##modal_input_name_placeholder
+msgid "e.g., Climate change"
+msgstr ""
+
+#: mcda##modal_input_indicators
+#, fuzzy
+msgid "Layer list"
+msgstr "Шари"
+
+#: mcda##modal_input_indicators_placeholder
+#, fuzzy
+msgid "Select layers"
+msgstr "Видалити шар"
+
+#: mcda##modal_input_indicators_no_options
+msgid "No options"
+msgstr ""
+
+#: mcda##btn_save
+#, fuzzy
+msgid "Save analysis"
+msgstr "Розширена аналітика"
+
+#: mcda##error_analysis_name_cannot_be_empty
+#, fuzzy
+msgid "Analysis name cannot be empty"
+msgstr "Пароль не може бути пустим!"
+
+#: mcda##error_bad_layer_data
+msgid "Invalid MCDA layer data"
+msgstr ""
+
+#: mcda##error_invalid_file
+msgid "Invalid MCDA file format"
+msgstr ""
+
+#: mcda##error_invalid_parameter
+msgid "Invalid '{{parameter}}' parameter"
+msgstr ""
+
+#: mcda##error_invalid_layer_parameter
+msgid "Invalid '{{parameter}}' parameter in '{{axisName}}' layer"
+msgstr ""
+
+#: mcda##error_wrong_mcda_version
+msgid "Wrong MCDA version"
+msgstr ""
+
+#: mcda##legend_subtitle
+msgid ""
+"Hexagons are colored based on analysis layer settings. Click a hexagon to "
+"see its values."
+msgstr ""
+
+#: mcda##layer_editor##save_changes profile##saveButton
+msgid "Save changes"
+msgstr "Зберегти зміни"
+
+#: mcda##layer_editor##range
+#, fuzzy
+msgid "Value range"
+msgstr "Зберегти зміни"
+
+#: mcda##layer_editor##outliers
+msgid "Outliers"
+msgstr ""
+
+#: mcda##layer_editor##reverse_to_good_bad
+msgid "Reverse to Good → Bad"
+msgstr ""
+
+#: mcda##layer_editor##reverse_to_bad_good
+msgid "Reverse to Bad → Good"
+msgstr ""
+
+#: mcda##layer_editor##weight
+msgid "Weight"
+msgstr ""
+
+#: mcda##layer_editor##transform
+msgid "Transform"
+msgstr ""
+
+#: mcda##layer_editor##transformation
+#, fuzzy
+msgid "Transformation"
+msgstr "Припинення"
+
+#: mcda##layer_editor##normalize
+#, fuzzy
+msgid "Normalize"
+msgstr "Нормалізовано за"
+
+#: mcda##layer_editor##normalization
+#, fuzzy
+msgid "Normalization"
+msgstr "Припинення"
+
+#: mcda##layer_editor##range_buttons##full_range
+#, fuzzy
+msgid "Full range"
+msgstr "Прізвище Ім'я"
+
+#: mcda##layer_editor##range_buttons##3_sigma
+msgid "3σ"
+msgstr ""
+
+#: mcda##layer_editor##range_buttons##2_sigma
+msgid "2σ"
+msgstr ""
+
+#: mcda##layer_editor##range_buttons##1_sigma
+msgid "1σ"
+msgstr ""
+
+#: mcda##layer_editor##outliers_options##clamp
+msgid "Clamp"
+msgstr ""
+
+#: mcda##layer_editor##outliers_options##dont_modify
+msgid "Don't modify"
+msgstr ""
+
+#: mcda##layer_editor##transformations##no_transformation
+msgid "No transformation"
+msgstr ""
+
+#: mcda##layer_editor##transformations##square_root
+msgid "Square root: sign(x)⋅√|x|"
+msgstr ""
+
+#: mcda##layer_editor##transformations##cube_root
+msgid "Cube root: ∛x"
+msgstr ""
+
+#: mcda##layer_editor##transformations##log
+msgid "log₁₀(x - xmin + 1)"
+msgstr ""
+
+#: mcda##layer_editor##transformations##log_epsilon
+msgid "log₁₀(x - xmin + ε)"
+msgstr ""
+
+#: mcda##layer_editor##no
+msgid "No"
+msgstr ""
+
+#: mcda##layer_editor##max_min
+msgid "Max-min"
+msgstr ""
+
+#: mcda##layer_editor##errors##weight_cannot_be_empty
+#, fuzzy
+msgid "Weight cannot be empty"
+msgstr "Електронна пошта не може бути пустою!"
+
+#: mcda##layer_editor##errors##weight_must_be_a_number
+msgid "Weight must be a valid number"
+msgstr ""
+
+#: mcda##layer_editor##errors##range_from_cannot_be_bigger
+msgid "The ‘from’ value cannot be bigger than the ‘to’ value"
+msgstr ""
+
+#: mcda##layer_editor##errors##range_cannot_be_empty
+#, fuzzy
+msgid "Range cannot be empty"
+msgstr "Електронна пошта не може бути пустою!"
+
+#: mcda##layer_editor##errors##range_must_be_a_number
+msgid "Range must be a valid number"
+msgstr ""
+
+#: mcda##layer_editor##tips##range
+msgid ""
+"The values that will be considered the worst and the best in your analysis."
+msgstr ""
+
+#: mcda##layer_editor##tips##sentiment
+msgid ""
+"Determine the direction of sentiment for the layer's impact on the "
+"analysis:\n"
+"* **Bad → Good**: Higher values indicate a positive sentiment.\n"
+"* **Good → Bad**: Higher values indicate a negative sentiment."
+msgstr ""
+
+#: mcda##layer_editor##tips##weight
+msgid ""
+"By default, all layers contribute equally to the analysis through a weighted "
+"average. Adjusting the increased weight of a layer (2, 3, etc.) allows you "
+"to assign additional importance to it in the analysis."
+msgstr ""
+
+#: mcda##layer_editor##tips##transform
+msgid ""
+"Apply calculations to the values. Achieving a more linear distribution will "
+"provide more useful information for analysis.\n"
+"\n"
+" **Note**: Calculations are done before normalization."
+msgstr ""
+
+#: mcda##layer_editor##tips##normalize
+msgid ""
+"Adjusts values to a standardized scale. This helps compare them easily and "
+"make decisions.\n"
+"* **Standard score scaling**: This option adjusts values to a standardized "
+"scale, ensuring they are all comparable.\n"
+"* **No (for specialists only)**: Leaves values unmodified."
+msgstr ""
+
+#: mcda##layer_editor##tips##outliers
+msgid ""
+"* **Clamp**: Set values above the range to 1 and below the range to 0.\n"
+"* **Don’t modify**: Keep 0 and 1 for min and max, but allow outlier scores "
+"beyond this range.\n"
+"* **Exclude**: Exclude areas where values are out of range."
+msgstr ""
+
+#: mcda##bad
+msgid "Bad"
+msgstr ""
+
+#: mcda##good
+msgid "Good"
+msgstr ""
+
+#: multivariate##upload_analysis_layer
+msgid "Upload analysis layer"
+msgstr ""
+
+#: multivariate##popup##score_header
+msgid "Score {{level}}"
+msgstr ""
+
+#: multivariate##popup##base_header
+msgid "Base {{level}}"
+msgstr ""
+
+#: search##search_location
+msgid "Search location"
+msgstr "Знайти місцеположення"
+
+#: search##info_block
+msgid "You can search for 📍 locations"
+msgstr ""
+
+#: search##info_block_with_mcda
+msgid ""
+"You can search for 📍 locations or ask ✨ AI your question like “Where is dead "
+"wood”"
+msgstr ""
+
+#: search##input_placeholder
+msgid "Search"
+msgstr ""
+
+#: search##input_placeholder_mcda
+msgid "Search or ask AI"
+msgstr ""
+
+#: search##locations_no_result
+#, fuzzy
+msgid "No locations found"
+msgstr "Не знайдено"
+
+#: search##mcda_loading_message
+msgid "AI is generating an analysis for you"
+msgstr ""
+
+#: search##mcda_no_result
+msgid "No AI suggestion"
+msgstr ""
+
+#: search##mcda_error_message
+msgid "AI engine did not respond. Please try again later"
+msgstr ""
+
+#: search##mcda_create_analysis
+#, fuzzy
+msgid "Create analysis"
+msgstr "Створити шар"
+
+#: search##upload_analysis
+msgid "“{{name}}” Multi-Criteria Decision Analysis has been created"
 msgstr ""
 
 #: event_list##warning_title
-msgid "Can't use map as filter"
-msgstr "Не можливо використовувати карту як фільтр"
+msgid "Cannot filter by map view"
+msgstr ""
 
 #: event_list##warning_description
-msgid "Map not ready yet, try later"
+#, fuzzy
+msgid "Map is not ready yet, try later"
 msgstr "Карта ще не готова, спробуйте пізніше"
 
 #: event_list##bbox_filter_button
-msgid "Use map view as filter"
-msgstr "Використовуйте перегляд карти як фільтр"
+msgid "Filter by map view"
+msgstr ""
 
 #: event_list##analytics##affected_people##tooltip
-msgid "Affected People"
+#, fuzzy
+msgid "Affected people"
 msgstr "Люди які постраждали"
 
 #: event_list##analytics##affected_people##value
@@ -259,7 +658,8 @@ msgid "No humanitarian impact"
 msgstr "Жодного гуманітарного впливу"
 
 #: event_list##analytics##settled_area_tooltip
-msgid "Settled Area"
+#, fuzzy
+msgid "Settled area"
 msgstr "Заселений район"
 
 #: event_list##analytics##loss_tooltip
@@ -267,7 +667,8 @@ msgid "Estimated loss"
 msgstr "Орієнтовні збитки"
 
 #: event_list##no_event_in_feed
-msgid "Event not found in the current event feed"
+#, fuzzy
+msgid "The disaster was not found in the current disaster feed"
 msgstr "Подія не знайдена у вибраній стрічці подій"
 
 #: event_list##no_selected_disaster
@@ -284,6 +685,11 @@ msgstr "Катастроф на цій території не знайдено"
 
 #: event_list##no_feed_disasters
 msgid "No disasters in this feed"
+msgstr "У стрічці немає катастроф"
+
+#: event_list##no_feed_disasters_matching_your_filters
+#, fuzzy
+msgid "No disasters matching your filters"
 msgstr "У стрічці немає катастроф"
 
 #: event_list##no_disasters
@@ -310,8 +716,9 @@ msgstr "Сильний"
 msgid "Extreme"
 msgstr "Екстримальний"
 
-#: event_list##open_timeline_button
-msgid "Open timeline"
+#: event_list##open_timeline_button episode
+#, fuzzy
+msgid "Timeline"
 msgstr "Відкрити темпоральну шкалу"
 
 #: create_layer##edit_layer
@@ -391,12 +798,12 @@ msgid "Analytics"
 msgstr "Аналітика"
 
 #: analytics_panel##error_loading
-msgid "Error while fetching analytics data"
-msgstr "Помилка під час отримання даних аналітики"
+msgid "Failed receiving data about selected area. It may be too large."
+msgstr ""
 
 #: analytics_panel##info_short
 #, fuzzy
-msgid "Calculations are made for the selected area."
+msgid "Calculations are made for selected area"
 msgstr "Аналітика для обраної території"
 
 #: advanced_analytics_panel##header_title
@@ -408,24 +815,60 @@ msgid "Error while fetching advanced analytics data"
 msgstr "Помилка під час отримання даних розширеної аналітики"
 
 #: advanced_analytics_empty##not_found current_event##not_found_request
-msgid "Sorry, requested event not found."
+#, fuzzy
+msgid "Sorry, the requested disaster was not found"
 msgstr "Вибачте, подію не знайдено."
 
 #: advanced_analytics_empty##error
-msgid "An error occured!"
+#, fuzzy
+msgid "An error occurred"
 msgstr "Сталася помилка!"
 
 #: advanced_analytics_empty##analytics_for_selected
-msgid "Analytics for a selected area"
+#, fuzzy
+msgid "Analytics for selected area"
 msgstr "Аналітика для обраної території"
 
 #: advanced_analytics_empty##will_be_provided
 msgid "will be provided here"
 msgstr "буде надано тут"
 
+#: advanced_analytics_empty##no_analytics
+#, fuzzy
+msgid "No analytics for the selected area"
+msgstr "Аналітика для обраної території"
+
+#: llm_analytics##header
+msgid "AI insights"
+msgstr ""
+
+#: llm_analytics##placeholder##select_area
+msgid ""
+"Select area (<icon1 />,<icon2 />,<icon3 />) you want to explore to get AI "
+"Insights."
+msgstr ""
+
+#: llm_analytics##placeholder##you_can_also
+msgid "You can also:"
+msgstr ""
+
+#: llm_analytics##placeholder##fill_bio
+msgid "<icon /> <lnk>Fill out bio</lnk> to personalize AI analysis"
+msgstr ""
+
+#: llm_analytics##placeholder##select_and_save_as_reference_area
+msgid ""
+"<icon /> Select an area and save it as a reference to compare with another "
+"one"
+msgstr ""
+
+#: llm_analytics##placeholder##learn_more
+msgid "<lnk><icon/> Learn more about AI Insights</lnk>"
+msgstr ""
+
 #: draw_tools##area
-msgid "Area"
-msgstr "Полігон"
+msgid "Polygon"
+msgstr ""
 
 #: draw_tools##line
 msgid "Line"
@@ -471,16 +914,18 @@ msgstr "Помилка під час завантаження файлу"
 msgid "Focus to freehand geometry"
 msgstr "Фокусувати на намальовану геометрію"
 
-#: focus_geometry_layer##settings##name
-msgid "Selected Area"
-msgstr "Вибраний полігон"
+#: reference_area_layer##settings##name profile##reference_area##title
+msgid "Reference area"
+msgstr ""
 
 #: drawings##self_directions_not_supported
-msgid "Self intersections are not supported!"
+#, fuzzy
+msgid "Self intersections are not supported"
 msgstr "Самоперетин не підтримується!"
 
 #: bivariate##panel##header
-msgid "Bivariate Matrix"
+#, fuzzy
+msgid "Bivariate matrix"
 msgstr "Біваріативна Матриця"
 
 #: bivariate##matrix##caption##base_axis
@@ -664,25 +1109,84 @@ msgstr "Входимо..."
 msgid "Log in"
 msgstr "Увійти"
 
+#: login##forgot_password
+msgid "Forgot password?"
+msgstr ""
+
 #: login##description
 msgid "Please log in to change your settings"
 msgstr "Увійдіть, щоб змінити налаштування"
 
 #: login##error##email_empty
-msgid "Email has not to be empty!"
+#, fuzzy
+msgid "Email cannot be empty"
 msgstr "Електронна пошта не може бути пустою!"
 
 #: login##error##email_invalid
-msgid "Email has to be valid!"
+#, fuzzy
+msgid "Email has to be valid"
 msgstr "Електронна пошта має бути коректною!"
 
 #: login##error##password
-msgid "Password has not to be empty!"
+#, fuzzy
+msgid "Password cannot be empty"
 msgstr "Пароль не може бути пустим!"
 
 #: login##error##connect
-msgid "Couldn't connect to authentication service"
+#, fuzzy
+msgid "Could not connect to authentication service"
 msgstr "Не вдалося під'єднатися до служби аутентифікації"
+
+#: currency##usd
+msgid "USD"
+msgstr ""
+
+#: subscription##title
+msgid "Plans & Pricing"
+msgstr ""
+
+#: subscription##price_summary
+msgid "* Billed as ${{pricePerYear}} USD once yearly"
+msgstr ""
+
+#: subscription##unauthorized_button
+msgid "Sign in to subscribe"
+msgstr ""
+
+#: subscription##current_plan_button
+msgid "Current plan"
+msgstr ""
+
+#: subscription##sales_button
+msgid "Contact sales"
+msgstr ""
+
+#: subscription##book_demo_button
+msgid "Book a demo"
+msgstr ""
+
+#: subscription##request_trial_button
+#, fuzzy
+msgid "Request trial"
+msgstr "Час очікування запиту минув"
+
+#: subscription##errors##payment_initialization
+msgid ""
+"There was an error during payment initialization. Please try again or "
+"contact our support"
+msgstr ""
+
+#: subscription##success_modal##title
+msgid "Success"
+msgstr ""
+
+#: subscription##success_modal##thank_you_for_subscribing
+msgid "Thank you for subscribing to our platform!"
+msgstr ""
+
+#: subscription##success_modal##after_the_page_refreshes
+msgid "After the page refreshes, you can start using Kontur Atlas"
+msgstr ""
 
 #: reports##title
 msgid "Disaster Ninja Reports"
@@ -699,10 +1203,6 @@ msgstr "Сортуємо дані..."
 #: reports##loading
 msgid "Loading data"
 msgstr "Завантажуємо дані"
-
-#: reports##search_location
-msgid "Search location"
-msgstr "Знайти місцеположення"
 
 #: reports##open_josm
 msgid "Open via JOSM remote control"
@@ -734,17 +1234,34 @@ msgstr ""
 msgid "About"
 msgstr "Про нас"
 
+#: modes##cookies
+msgid "Cookies"
+msgstr ""
+
 #: modes##reports
 msgid "Reports"
 msgstr "Звіти"
 
-#: modes##profile profile##profileSettingsHeader
+#: modes##report
+#, fuzzy
+msgid "Report"
+msgstr "Звіти"
+
+#: modes##profile
 msgid "Profile"
 msgstr "Профіль"
 
 #: modes##privacy
 msgid "Privacy"
 msgstr "Конфіденційність"
+
+#: modes##terms
+msgid "Terms"
+msgstr ""
+
+#: modes##user_guide
+msgid "User guide"
+msgstr ""
 
 #: about##title
 msgid "Welcome to Disaster Ninja!"
@@ -873,7 +1390,8 @@ msgid "Units"
 msgstr "Одиниці вимірювання"
 
 #: profile##fullName
-msgid "Full Name"
+#, fuzzy
+msgid "Full name"
 msgstr "Прізвище Ім'я"
 
 #: profile##metric
@@ -884,13 +1402,87 @@ msgstr "метрична система"
 msgid "imperial (beta)"
 msgstr "англійська система (бета)"
 
+#: profile##profileSettingsHeader
+msgid "Personalize your experience"
+msgstr ""
+
+#: profile##your_current_job
+msgid "your current job"
+msgstr ""
+
+#: profile##area_of_expertise
+msgid "area of expertise"
+msgstr ""
+
+#: profile##challenges
+#, fuzzy
+msgid "challenges"
+msgstr "Зберегти зміни"
+
+#: profile##personalization_prompt
+msgid "For better personalization, please include details such as:"
+msgstr ""
+
+#: profile##ai_tools_compatibility
+msgid "This information is compatible with AI tools"
+msgstr ""
+
+#: profile##improves_analysis
+msgid "Improves analysis"
+msgstr ""
+
+#: profile##bio_placeholder
+msgid "Bio"
+msgstr "Про себе"
+
+#: profile##bio_textarea_placeholder
+msgid ""
+"e.g. GIS specialist with 5+ years of experience in disaster risk analysis, "
+"focused on urban resilience."
+msgstr ""
+
+#: profile##analysis_objectives
+msgid "Analysis objectives"
+msgstr ""
+
+#: profile##objectives_textarea_placeholder
+msgid ""
+"e.g. Urban planning analysis with a focus on climate resilience. My current "
+"challenge is improving flood risk mapping."
+msgstr ""
+
 #: profile##appSettingsHeader
 msgid "Settings"
 msgstr "Налаштування"
 
-#: profile##saveButton
-msgid "Save changes"
-msgstr "Зберегти зміни"
+#: profile##your_organization
+msgid "Your organization"
+msgstr ""
+
+#: profile##your_contacts
+msgid "Your contact info"
+msgstr ""
+
+#: profile##organization_name
+msgid "Organization name"
+msgstr ""
+
+#: profile##position
+#, fuzzy
+msgid "Position"
+msgstr "Позиція"
+
+#: profile##gis_specialists
+msgid "GIS specialists in your team"
+msgstr ""
+
+#: profile##phone_number
+msgid "Phone number with country code"
+msgstr ""
+
+#: profile##linkedin
+msgid "LinkedIn profile"
+msgstr ""
 
 #: profile##konturTheme
 msgid "Kontur"
@@ -899,10 +1491,6 @@ msgstr ""
 #: profile##HOTTheme
 msgid "HOT"
 msgstr ""
-
-#: profile##userBio(about)
-msgid "Bio"
-msgstr "Про себе"
 
 #: profile##defaultDisasterFeed
 msgid "Default disaster feed"
@@ -915,6 +1503,10 @@ msgstr "Редактор OpenStreetMap за замовчуванням (бета
 #: profile##successNotification
 msgid "All changes have been applied successfully"
 msgstr "Усі зміни успішно застосовано"
+
+#: profile##dont_know
+msgid "I don’t know"
+msgstr ""
 
 #: profile##languageOption##en
 msgid "English"
@@ -940,43 +1532,91 @@ msgstr "Індонезійська"
 msgid "German"
 msgstr "Німецька"
 
+#: profile##languageOption##be
+msgid "Belarusian"
+msgstr ""
+
+#: profile##languageOption##ru
+msgid "Russian"
+msgstr ""
+
 #: profile##languageOption##uk
 msgid "Ukrainian"
 msgstr "Українська"
+
+#: profile##reference_area##freehand_geometry
+#, fuzzy
+msgid "Freehand geometry"
+msgstr "Фокусувати на намальовану геометрію"
+
+#: profile##reference_area##to_replace_reference_area
+msgid ""
+"You can redefine your reference area on map. Select an area and click \"Save "
+"as reference area\" on toolbar.\n"
+msgstr ""
+
+#: profile##reference_area##description
+msgid ""
+"Save an area you are familiar with as a reference. We will use it as a "
+"baseline to compare other areas and explain the differences."
+msgstr ""
+
+#: profile##reference_area##set_the_reference_area
+msgid "Set area on map"
+msgstr ""
+
+#: profile##reference_area##tooltip_text
+msgid ""
+"1.Select an area of interest on the map using the Admin Boundary or Draw "
+"Geometry tool. <br/> 2. Click the 'Save as Reference' button on the toolbar."
+msgstr ""
+
+#: profile##reference_area##accessing_location
+msgid "Accessing your location"
+msgstr ""
+
+#: profile##reference_area##accessing_location_error
+msgid "Error. Try another way."
+msgstr ""
+
+#: profile##reference_area##select_location
+msgid "Select my current location"
+msgstr ""
+
+#: profile##reference_area##notification
+msgid "Your reference area {{name}} has been saved"
+msgstr ""
 
 #: locate_me##get_location_error
 msgid "Error while getting location"
 msgstr "Помилка під час визначення місцеположення"
 
-#: locate_me##feature_title
-msgid "Locate me"
-msgstr "Знайти мене"
-
-#: episode
-msgid "Episode"
-msgstr "Епізод"
-
 #: loading_episodes
 msgid "Loading Episodes"
 msgstr "Завантаження епізодів"
+
+#: zoom_to_world
+msgid "Zoom to the whole world"
+msgstr ""
 
 #: cookie_banner##header
 msgid "We value your privacy"
 msgstr "Ми цінуємо вашу приватність"
 
 #: cookie_banner##body
+#, fuzzy
 msgid ""
 "We use absolutely necessary cookies to provide you personalized services and "
-"optional cookies to improve Disaster Ninja and your experience. You can "
-"manage cookies settings or withdraw consent to optional cookies at any "
-"time.\n"
+"optional cookies to improve {{appName}} and your experience. You can manage "
+"cookie settings or withdraw consent to optional cookies at any time.\n"
 "For more information, please, check our [Privacy Policy](about/privacy)"
 msgstr ""
 "Ми використовуємо абсолютно необхідні файли cookies, щоб надавати вам "
 "персоналізовані послуги, і додаткові файли cookies, щоб покращити Disaster "
 "Ninja та ваш досвід. Ви можете будь-коли змінити налаштування файлів cookies "
 "або відкликати згоду на використання додаткових файлів cookies.\n"
-"Щоб дізнатися більше, перегляньте нашу [Політику конфіденційності](about/privacy)"
+"Щоб дізнатися більше, перегляньте нашу [Політику конфіденційності](about/"
+"privacy)"
 
 #: cookie_banner##decline_all
 msgid "Decline optional cookies"
@@ -1003,8 +1643,75 @@ msgid "Recording has been started"
 msgstr "Запис даних розпочато"
 
 #: live_sensor##noSensorsError
-msgid "Your device desn't have the required sensors"
+#, fuzzy
+msgid "Your device does not have the required sensors"
 msgstr "Ваш пристрій не має необхідних сенсорів"
+
+#: layer_features_panel##empty
+msgid "Layer features within selected area will be provided here"
+msgstr ""
+
+#: layer_features_panel##noFeatureSelected
+#, fuzzy
+msgid "No layer feature selected"
+msgstr "Катастрофа не вибрана"
+
+#: layer_features_panel##chooseFeature
+#, fuzzy
+msgid "Choose layer feature"
+msgstr "Зберегти об'єкти"
+
+#: layer_features_panel##listInfo
+msgid "The list is filtered by selected area and sorted by project number"
+msgstr ""
+
+#: layer_features_panel##error_loading
+msgid "Failed to load layer features data. Please try again."
+msgstr ""
+
+#: layer_features_panel##no_features
+#, fuzzy
+msgid "No features found in the selected area."
+msgstr "Аналітика для обраної території"
+
+#: reference_area##save_as_reference_area
+msgid "Save as reference area"
+msgstr ""
+
+#: reference_area##error_couldnt_save
+msgid "Unfortunately, we could not save your reference area. Please try again."
+msgstr ""
+
+#: reference_area##selected_area_saved_as_reference_area
+msgid "Selected area has been saved as reference area in your profile"
+msgstr ""
+
+#~ msgid "Logout"
+#~ msgstr "Вийти"
+
+#~ msgid "Loading events"
+#~ msgstr "Завантажуємо події"
+
+#~ msgid "QA"
+#~ msgstr "Аналітика якості"
+
+#~ msgid "Photo"
+#~ msgstr "Фото"
+
+#~ msgid "Can't use map as filter"
+#~ msgstr "Не можливо використовувати карту як фільтр"
+
+#~ msgid "Use map view as filter"
+#~ msgstr "Використовуйте перегляд карти як фільтр"
+
+#~ msgid "Error while fetching analytics data"
+#~ msgstr "Помилка під час отримання даних аналітики"
+
+#~ msgid "Area"
+#~ msgstr "Полігон"
+
+#~ msgid "Episode"
+#~ msgstr "Епізод"
 
 #~ msgid "INFO"
 #~ msgstr "ІНФО"

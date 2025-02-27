@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"mime-version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
@@ -30,8 +30,7 @@ msgstr "Выйсці"
 msgid "Save"
 msgstr "Захаваць"
 
-#: cancel
-#: mcda##btn_cancel
+#: cancel mcda##btn_cancel
 msgid "Cancel"
 msgstr "Адмяніць"
 
@@ -55,8 +54,7 @@ msgstr "Загрузка..."
 msgid "Loading disasters"
 msgstr "Загрузка катастроф"
 
-#: legend
-#: mcda##legend_title
+#: legend mcda##legend_title
 msgid "Legend"
 msgstr "Легенда"
 
@@ -76,8 +74,7 @@ msgstr "Гарызантальны напрамак"
 msgid "Legend presentation"
 msgstr "Адлюстраванне легенды"
 
-#: layers
-#: bivariate##color_manager##layers_filter
+#: layers bivariate##color_manager##layers_filter
 msgid "Layers"
 msgstr "Слаі"
 
@@ -85,8 +82,7 @@ msgstr "Слаі"
 msgid "Measure distance"
 msgstr "Вымераць адлегласць"
 
-#: toolbar##locate_me
-#: locate_me##feature_title
+#: toolbar##locate_me locate_me##feature_title
 msgid "Locate me"
 msgstr "Вызначыць маё месцазнаходжанне"
 
@@ -94,8 +90,7 @@ msgstr "Вызначыць маё месцазнаходжанне"
 msgid "Toolbar"
 msgstr "Панэль інструментаў"
 
-#: toolbar##download
-#: layer_actions##tooltips##download
+#: toolbar##download layer_actions##tooltips##download
 msgid "Download"
 msgstr "Спампаваць"
 
@@ -131,8 +126,7 @@ msgstr "Запісваць дадзеныя датчыкаў"
 msgid "Tools"
 msgstr "Інструменты"
 
-#: toolbar##selected_area_label
-#: focus_geometry_layer##settings##name
+#: toolbar##selected_area_label focus_geometry_layer##settings##name
 msgid "Selected area"
 msgstr "Вылучаная вобласць"
 
@@ -148,8 +142,7 @@ msgstr "Сцерці"
 msgid "Edit"
 msgstr "Рэдагаваць"
 
-#: layer_actions##tooltips##hide
-#: mcda##layer_editor##outliers_options##hide
+#: layer_actions##tooltips##hide mcda##layer_editor##outliers_options##hide
 msgid "Hide"
 msgstr "Схаваць"
 
@@ -225,8 +218,7 @@ msgstr "Забаронена"
 msgid "Not found"
 msgstr "Не знойдзена"
 
-#: errors##unknown
-#: event_list##severity_unknown
+#: errors##unknown event_list##severity_unknown
 msgid "Unknown"
 msgstr "Невядома"
 
@@ -278,8 +270,7 @@ msgstr "Вышыня"
 msgid "Imagery"
 msgstr "Здымкі"
 
-#: groups##map
-#: modes##map
+#: groups##map modes##map
 msgid "Map"
 msgstr "Карта"
 
@@ -327,7 +318,7 @@ msgstr "Фільтр па лічніку"
 msgid "Filter Denominator"
 msgstr "Фільтр па назоўніку"
 
-#: mcda##title
+#: mcda##title mcda##modal_title
 msgid "Multi-criteria decision analysis"
 msgstr "Шматкрытэрыяльны аналіз"
 
@@ -388,11 +379,10 @@ msgid ""
 "Hexagons are colored based on analysis layer settings. Click a hexagon to "
 "see its values."
 msgstr ""
-"Шасцікутнікі афарбаваны згодна з наладамі аналітычных слаёў. "
-"Націсніце на шасцікутнік, каб убачыць яго значэнні."
+"Шасцікутнікі афарбаваны згодна з наладамі аналітычных слаёў. Націсніце на "
+"шасцікутнік, каб убачыць яго значэнні."
 
-#: mcda##layer_editor##save_changes
-#: profile##saveButton
+#: mcda##layer_editor##save_changes profile##saveButton
 msgid "Save changes"
 msgstr "Захаваць змены"
 
@@ -505,7 +495,8 @@ msgid "Range must be a valid number"
 msgstr "Дыяпазон павінен быць лікам"
 
 #: mcda##layer_editor##tips##range
-msgid "The values that will be considered the worst and the best in your analysis."
+msgid ""
+"The values that will be considered the worst and the best in your analysis."
 msgstr "Значэнні, якія будуць лічыцца найгоршымі і найлепшымі ў вашым аналізе."
 
 #: mcda##layer_editor##tips##sentiment
@@ -516,17 +507,21 @@ msgid ""
 "* **Good → Bad**: Higher values indicate a negative sentiment."
 msgstr ""
 "Вызначце кірунак уздзеяння для аналізу:\n"
-"* **Дрэнна → Добра**: Больш высокія значэнні паказваюць на станоўчую канатацыю.\n"
-"* **Добра → Дрэнна**: Больш высокія значэнні паказваюць на адмоўную канатацыю."
+"* **Дрэнна → Добра**: Больш высокія значэнні паказваюць на станоўчую "
+"канатацыю.\n"
+"* **Добра → Дрэнна**: Больш высокія значэнні паказваюць на адмоўную "
+"канатацыю."
 
 #: mcda##layer_editor##tips##weight
 msgid ""
-"By default, all layers contribute equally to the analysis through a "
-"weighted average. Adjusting the increased weight of a layer (2, 3, etc.) "
-"allows you to assign additional importance to it in the analysis."
+"By default, all layers contribute equally to the analysis through a weighted "
+"average. Adjusting the increased weight of a layer (2, 3, etc.) allows you "
+"to assign additional importance to it in the analysis."
 msgstr ""
-"Па змаўчанні ўсе слаі аднолькава ўплываюць на аналіз праз узважаную сярэднюю.\n"
-"Павелічэнне вагі слоя (напрыклад, 2, 3 і г.д.) дазваляе надаць яму большую важкасць у аналізе."
+"Па змаўчанні ўсе слаі аднолькава ўплываюць на аналіз праз узважаную "
+"сярэднюю.\n"
+"Павелічэнне вагі слоя (напрыклад, 2, 3 і г.д.) дазваляе надаць яму большую "
+"важкасць у аналізе."
 
 #: mcda##layer_editor##tips##transform
 msgid ""
@@ -535,7 +530,8 @@ msgid ""
 "\n"
 " **Note**: Calculations are done before normalization."
 msgstr ""
-"Прымяняйце разлікі да значэнняў. Атрыманне больш лінейнага размеркавання забяспечыць карысную інфармацыю для аналізу.\n"
+"Прымяняйце разлікі да значэнняў. Атрыманне больш лінейнага размеркавання "
+"забяспечыць карысную інфармацыю для аналізу.\n"
 "\n"
 " **Заўвага**: Разлікі выконваюцца перад нармалізацыяй."
 
@@ -546,21 +542,25 @@ msgid ""
 "* **Standard score scaling**: This option adjusts values to a standardized "
 "scale, ensuring they are all comparable.\n"
 "* **No (for specialists only)**: Leaves values unmodified."
-
 msgstr ""
-"Прыводзіць значэнні да стандартызаванай шкалы. Гэта дапамагае лёгка параўноўваць іх і прымаць рашэнні.\n"
-"* **Стандартызацыя па Z-выніках**: Гэты варыянт прыводзіць значэнні да стандартызаванай шкалы, робячы іх супастаўнымі.\n"
+"Прыводзіць значэнні да стандартызаванай шкалы. Гэта дапамагае лёгка "
+"параўноўваць іх і прымаць рашэнні.\n"
+"* **Стандартызацыя па Z-выніках**: Гэты варыянт прыводзіць значэнні да "
+"стандартызаванай шкалы, робячы іх супастаўнымі.\n"
 "* **Не (толькі для спецыялістаў)**: Пакідае значэнні без змен."
 
 #: mcda##layer_editor##tips##outliers
 msgid ""
 "* **Clamp**: Set values above the range to 1 and below the range to 0.\n"
-"* **Don’t modify**: Keep 0 and 1 for min and max, but allow outlier scores beyond this range.\n"
+"* **Don’t modify**: Keep 0 and 1 for min and max, but allow outlier scores "
+"beyond this range.\n"
 "* **Exclude**: Exclude areas where values are out of range."
 msgstr ""
 "* **Абмежаваць**: Задаць значэнні вышэй за дыяпазон як 1, ніжэй — як 0.\n"
-"* **Не змяняць**: Захаваць 0 і 1 як мінімум і максімум, але дапускаць значэнні за межамі гэтага дыяпазону.\n"
-"* **Выключыць**: Выключыць з аналізу вобласці, дзе значэнні выходзяць за межы дыяпазону."
+"* **Не змяняць**: Захаваць 0 і 1 як мінімум і максімум, але дапускаць "
+"значэнні за межамі гэтага дыяпазону.\n"
+"* **Выключыць**: Выключыць з аналізу вобласці, дзе значэнні выходзяць за "
+"межы дыяпазону."
 
 #: mcda##bad
 msgid "Bad"
@@ -592,10 +592,11 @@ msgstr "Вы можаце шукаць 📍 месцы"
 
 #: search##info_block_with_mcda
 msgid ""
-"You can search for 📍 locations or ask ✨ AI your question like “Where is "
-"dead wood”"
+"You can search for 📍 locations or ask ✨ AI your question like “Where is dead "
+"wood”"
 msgstr ""
-"Вы можаце шукаць 📍 месцы або задаць ✨ AI ваша пытанне, напрыклад: «Дзе знаходзіцца сухастой?»"
+"Вы можаце шукаць 📍 месцы або задаць ✨ AI ваша пытанне, напрыклад: «Дзе "
+"знаходзіцца сухастой?»"
 
 #: search##input_placeholder
 msgid "Search"
@@ -705,8 +706,7 @@ msgstr "Сур'ёзная"
 msgid "Extreme"
 msgstr "Экстрэмальная"
 
-#: event_list##open_timeline_button
-#: episode
+#: event_list##open_timeline_button episode
 msgid "Timeline"
 msgstr "Часавая шкала"
 
@@ -788,7 +788,9 @@ msgstr "Аналітыка"
 
 #: analytics_panel##error_loading
 msgid "Failed receiving data about selected area. It may be too large."
-msgstr "Не атрымалася атрымаць дадзеныя аб вылучанай вобласці. Магчыма, яна занадта вялікая."
+msgstr ""
+"Не атрымалася атрымаць дадзеныя аб вылучанай вобласці. Магчыма, яна занадта "
+"вялікая."
 
 #: analytics_panel##info_short
 msgid "Calculations are made for selected area"
@@ -802,8 +804,7 @@ msgstr "Пашыраная аналітыка"
 msgid "Error while fetching advanced analytics data"
 msgstr "Памылка падчас атрымання дадзеных пашыранай аналітыкі"
 
-#: advanced_analytics_empty##not_found
-#: current_event##not_found_request
+#: advanced_analytics_empty##not_found current_event##not_found_request
 msgid "Sorry, the requested disaster was not found"
 msgstr "Прабачце, запытаная катастрофа не знойдзена"
 
@@ -832,7 +833,8 @@ msgid ""
 "Select area (<icon1 />,<icon2 />,<icon3 />) you want to explore to get AI "
 "Insights."
 msgstr ""
-"Вылучыце вобласць (<icon1 />,<icon2 />,<icon3 />), якую хочаце даследаваць для атрымання Аналітыкі AI."
+"Вылучыце вобласць (<icon1 />,<icon2 />,<icon3 />), якую хочаце даследаваць "
+"для атрымання Аналітыкі AI."
 
 #: llm_analytics##placeholder##you_can_also
 msgid "You can also:"
@@ -901,8 +903,7 @@ msgstr "Памылка пры чытанні загружанага файла"
 msgid "Focus to freehand geometry"
 msgstr "Фокус на адвольную геаметрыю"
 
-#: reference_area_layer##settings##name
-#: profile##reference_area##title
+#: reference_area_layer##settings##name profile##reference_area##title
 msgid "Reference area"
 msgstr "Эталонная вобласць"
 
@@ -947,8 +948,8 @@ msgid ""
 "We can explore the number of eatery places (Annex axis) against Population "
 "density (Base axis)."
 msgstr ""
-"Мы можам даследаваць колькасць месцаў грамадскага харчавання (дапаможная вось) "
-"у параўнанні са шчыльнасцю насельніцтва (базавая вось)."
+"Мы можам даследаваць колькасць месцаў грамадскага харчавання (дапаможная "
+"вось) у параўнанні са шчыльнасцю насельніцтва (базавая вось)."
 
 #: bivariate##matrix##caption##tooltip##p3
 msgid ""
@@ -956,8 +957,8 @@ msgid ""
 "places, and the number of people in that place gives us additional "
 "information."
 msgstr ""
-"У гэтым выпадку нас найперш цікавіць невялікая колькасць месцаў грамадскага харчавання, "
-"а колькасць людзей у гэтым месцы дае дадатковую інфармацыю."
+"У гэтым выпадку нас найперш цікавіць невялікая колькасць месцаў грамадскага "
+"харчавання, а колькасць людзей у гэтым месцы дае дадатковую інфармацыю."
 
 #: bivariate##matrix##header##title
 msgid "Choose two layers to explore correlations"
@@ -1001,11 +1002,11 @@ msgstr "Ужыта на карце"
 
 #: bivariate##matrix##loading_error
 msgid ""
-"Unfortunately, we cannot display the matrix. Try refreshing the page or "
-"come back later."
+"Unfortunately, we cannot display the matrix. Try refreshing the page or come "
+"back later."
 msgstr ""
-"На жаль, мы не можам адлюстраваць матрыцу. Паспрабуйце абнавіць старонку "
-"ці вярнуцца пазней."
+"На жаль, мы не можам адлюстраваць матрыцу. Паспрабуйце абнавіць старонку ці "
+"вярнуцца пазней."
 
 #: bivariate##legend##high
 msgid "High"
@@ -1071,8 +1072,7 @@ msgstr "Разгарнуць"
 msgid "Application logo"
 msgstr "Лагатып дадатку"
 
-#: login##email
-#: profile##email
+#: login##email profile##email
 msgid "Email"
 msgstr "Электронная пошта"
 
@@ -1157,8 +1157,8 @@ msgid ""
 "There was an error during payment initialization. Please try again or "
 "contact our support"
 msgstr ""
-"Адбылася памылка падчас ініцыялізацыі плацяжу. Калі ласка, паспрабуйце яшчэ раз "
-"ці звяжыцеся са службай падтрымкі"
+"Адбылася памылка падчас ініцыялізацыі плацяжу. Калі ласка, паспрабуйце яшчэ "
+"раз ці звяжыцеся са службай падтрымкі"
 
 #: subscription##success_modal##title
 msgid "Success"
@@ -1211,8 +1211,9 @@ msgid ""
 "them in the JOSM editor with enabled remote control for editing."
 msgstr ""
 "<0>Kontur </0> стварае некалькі справаздач, якія дапамагаюць ацаніць якасць "
-"OpenStreetMap. Яны ўтрымліваюць спасылкі на вобласці на <4>osm.org </4> "
-"і спасылкі для адкрыцця іх у рэдактары JOSM з уключаным дыстанцыйным кіраваннем."
+"OpenStreetMap. Яны ўтрымліваюць спасылкі на вобласці на <4>osm.org </4> і "
+"спасылкі для адкрыцця іх у рэдактары JOSM з уключаным дыстанцыйным "
+"кіраваннем."
 
 #: modes##about
 msgid "About"
@@ -1245,6 +1246,89 @@ msgstr "Умовы"
 #: modes##user_guide
 msgid "User guide"
 msgstr "Кіраўніцтва карыстальніка"
+
+#: about##title
+msgid "Welcome to Disaster Ninja!"
+msgstr ""
+
+#: about##intro
+msgid ""
+"Do you want to be notified about ongoing disasters? Are you interested in "
+"instant population data and other analytics for any region in the world? "
+"Disaster Ninja showcases some of <2>Kontur</2>’s capabilities in addressing "
+"these needs.<br/><br/>We initially designed it as a decision support tool "
+"for humanitarian mappers. Now it has grown in functionality and use cases. "
+"Whether you work in disaster management, build a smart city, or perform "
+"research on climate change, Disaster Ninja can help you to:"
+msgstr ""
+
+#: about##l1
+msgid "1. Stay up to date with the latest hazard events globally."
+msgstr ""
+
+#: about##p1
+msgid ""
+"The Disasters panel continually refreshes to inform you about ongoing "
+"events. It consumes data from the <2>Kontur Event Feed</2>, which you can "
+"also access via an API."
+msgstr ""
+
+#: about##l2
+msgid "2. Focus on your area of interest."
+msgstr ""
+
+#: about##p2
+msgid ""
+"The Drawing Tools panel allows you to draw or upload your own geometry on "
+"the map. You can also focus on a disaster-exposed area or an administrative "
+"unit — a country, city, or region."
+msgstr ""
+
+#: about##l3
+#, fuzzy
+msgid "3. Get analytics for the focused area."
+msgstr "Няма аналітыкі для выбранай вобласці"
+
+#: about##p3
+msgid ""
+"The Analytics panel shows the number of people living in that area per "
+"<2>Kontur Population</2> and estimated mapping gaps in OpenStreetMap. "
+"Kontur’s customers have access to hundreds of other indicators through "
+"Advanced Analytics."
+msgstr ""
+
+#: about##l4
+msgid "4. Explore data on the map and make conclusions."
+msgstr ""
+
+#: about##p4
+msgid ""
+"The Layers panel gives you various options to display two indicators "
+"simultaneously on a bivariate map, e.g., population density and distance to "
+"the nearest fire station. Use the color legend to assess which areas require "
+"attention. <br/>Hint: in general, green indicates low risk / few gaps, red — "
+"high risk / many gaps."
+msgstr ""
+
+#: about##p5
+msgid ""
+"In addition, you can switch to Reports in the left panel to access data on "
+"potential errors and inconsistencies in OpenStreetMap and help fix them by "
+"mapping the respective area with the JOSM editor."
+msgstr ""
+
+#: about##goToMap
+msgid "Go to the map now"
+msgstr ""
+
+#: about##p6
+msgid ""
+"We hope you find this tool valuable. Use the chatbox on Disaster Ninja for "
+"any questions about the functionality, and we will be happy to guide you. "
+"You can also contact us by email at <1>hello@kontur.io</1> if you have "
+"feedback or suggestions on improving the tool.<br/><br/>Disaster Ninja is an "
+"open-source project. Find the code in <8>Kontur’s GitHub account</8>."
+msgstr ""
 
 #: profile##interfaceTheme
 msgid "Theme"
@@ -1307,8 +1391,8 @@ msgid ""
 "e.g. GIS specialist with 5+ years of experience in disaster risk analysis, "
 "focused on urban resilience."
 msgstr ""
-"Напрыклад, спецыяліст у галіне ГІС з 5+ гадамі вопыту ў аналізе рызык катастроф, "
-"арыентаваны на гарадскую ўстойлівасць."
+"Напрыклад, спецыяліст у галіне ГІС з 5+ гадамі вопыту ў аналізе рызык "
+"катастроф, арыентаваны на гарадскую ўстойлівасць."
 
 #: profile##analysis_objectives
 msgid "Analysis objectives"
@@ -1319,8 +1403,9 @@ msgid ""
 "e.g. Urban planning analysis with a focus on climate resilience. My current "
 "challenge is improving flood risk mapping."
 msgstr ""
-"Напрыклад, аналіз гарадскога планавання з акцэнтам на кліматычную ўстойлівасць. "
-"Мая цяперашняя задача — паляпшэнне картаграфавання рызык паводак."
+"Напрыклад, аналіз гарадскога планавання з акцэнтам на кліматычную "
+"ўстойлівасць. Мая цяперашняя задача — паляпшэнне картаграфавання рызык "
+"паводак."
 
 #: profile##appSettingsHeader
 msgid "Settings"
@@ -1420,27 +1505,28 @@ msgstr "Адвольная геаметрыя"
 
 #: profile##reference_area##to_replace_reference_area
 msgid ""
-"You can redefine your reference area on map. Select an area and click "
-"\"Save as reference area\" on toolbar.\n"
+"You can redefine your reference area on map. Select an area and click \"Save "
+"as reference area\" on toolbar.\n"
 msgstr ""
-"Вы можаце пераназначыць вашу эталонную вобласць на карце. Вылучыце вобласць і "
-"націсніце \"Захаваць як эталонную вобласць\" у панэлі інструментаў.\n"
+"Вы можаце пераназначыць вашу эталонную вобласць на карце. Вылучыце вобласць "
+"і націсніце \"Захаваць як эталонную вобласць\" у панэлі інструментаў.\n"
 
 #: profile##reference_area##description
 msgid ""
 "Save an area you are familiar with as a reference. We will use it as a "
 "baseline to compare other areas and explain the differences."
 msgstr ""
-"Захавайце знаёмую вам вобласць як эталонную. Мы будзем выкарыстоўваць яе "
-"як падставу для параўнання іншых абласцей і тлумачэння адрозненняў."
+"Захавайце знаёмую вам вобласць як эталонную. Мы будзем выкарыстоўваць яе як "
+"падставу для параўнання іншых абласцей і тлумачэння адрозненняў."
 
 #: profile##reference_area##set_the_reference_area
 msgid "Set area on map"
 msgstr "Вылучыць вобласць на карце"
 
 #: profile##reference_area##tooltip_text
+#, fuzzy
 msgid ""
-"1. Select an area of interest on the map using the Admin Boundary or Draw "
+"1.Select an area of interest on the map using the Admin Boundary or Draw "
 "Geometry tool. <br/> 2. Click the 'Save as Reference' button on the toolbar."
 msgstr ""
 "1. Вылучыце вобласць цікавасці на карце, выкарыстоўваючы інструменты "
@@ -1481,17 +1567,17 @@ msgstr "Мы цэнім вашу прыватнасць"
 
 #: cookie_banner##body
 msgid ""
-"We use absolutely necessary cookies to provide you personalized services "
-"and optional cookies to improve {{appName}} and your experience. You can "
-"manage cookie settings or withdraw consent to optional cookies at any time.\n"
+"We use absolutely necessary cookies to provide you personalized services and "
+"optional cookies to improve {{appName}} and your experience. You can manage "
+"cookie settings or withdraw consent to optional cookies at any time.\n"
 "For more information, please, check our [Privacy Policy](about/privacy)"
 msgstr ""
 "Мы выкарыстоўваем неабходныя файлы cookie для прадастаўлення вам "
-"персаналізаваных паслуг, а таксама дадатковыя файлы cookie для "
-"паляпшэння {{appName}} і вашага вопыту выкарыстання. Вы можаце "
-"кіраваць наладамі cookie або адклікаць згоду на дадатковыя cookie ў любы "
-"момант.\n"
-"Для атрымання дадатковай інфармацыі азнаёмцеся з нашай [Палітыкай прыватнасці](about/privacy)"
+"персаналізаваных паслуг, а таксама дадатковыя файлы cookie для паляпшэння "
+"{{appName}} і вашага вопыту выкарыстання. Вы можаце кіраваць наладамі cookie "
+"або адклікаць згоду на дадатковыя cookie ў любы момант.\n"
+"Для атрымання дадатковай інфармацыі азнаёмцеся з нашай [Палітыкай "
+"прыватнасці](about/privacy)"
 
 #: cookie_banner##decline_all
 msgid "Decline optional cookies"
@@ -1535,11 +1621,14 @@ msgstr "Абярыце аб'ект слоя"
 
 #: layer_features_panel##listInfo
 msgid "The list is filtered by selected area and sorted by project number"
-msgstr "Спіс адфільтраваны па вылучанай вобласці і адсартаваны па нумары праекта"
+msgstr ""
+"Спіс адфільтраваны па вылучанай вобласці і адсартаваны па нумары праекта"
 
 #: layer_features_panel##error_loading
 msgid "Failed to load layer features data. Please try again."
-msgstr "Не атрымалася загрузіць дадзеныя аб'ектаў слоя. Калі ласка, паспрабуйце яшчэ раз."
+msgstr ""
+"Не атрымалася загрузіць дадзеныя аб'ектаў слоя. Калі ласка, паспрабуйце яшчэ "
+"раз."
 
 #: layer_features_panel##no_features
 msgid "No features found in the selected area."
@@ -1551,7 +1640,9 @@ msgstr "Захаваць як эталонную вобласць"
 
 #: reference_area##error_couldnt_save
 msgid "Unfortunately, we could not save your reference area. Please try again."
-msgstr "На жаль, не атрымалася захаваць вашу эталонную вобласць. Калі ласка, паспрабуйце яшчэ раз."
+msgstr ""
+"На жаль, не атрымалася захаваць вашу эталонную вобласць. Калі ласка, "
+"паспрабуйце яшчэ раз."
 
 #: reference_area##selected_area_saved_as_reference_area
 msgid "Selected area has been saved as reference area in your profile"
