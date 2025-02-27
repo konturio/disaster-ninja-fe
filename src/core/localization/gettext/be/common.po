@@ -825,7 +825,7 @@ msgstr "Няма аналітыкі для выбранай вобласці"
 
 #: llm_analytics##header
 msgid "AI insights"
-msgstr "AI інсайты"
+msgstr "Аналітыка AI"
 
 #: llm_analytics##placeholder##select_area
 msgid ""
