@@ -365,7 +365,7 @@ msgstr "Назва аналізу не можа быць пустой"
 
 #: mcda##error_bad_layer_data
 msgid "Invalid MCDA layer data"
-msgstr "Няправільныя дадзеныя MCDA-слоя"
+msgstr "Няправільныя дадзеныя шматкрытэрыяльнага слоя"
 
 #: mcda##error_invalid_file
 msgid "Invalid MCDA file format"
