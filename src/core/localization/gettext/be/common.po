@@ -855,7 +855,7 @@ msgstr "<lnk><icon/> Даведайцеся больш пра AI інсайты<
 
 #: draw_tools##area
 msgid "Polygon"
-msgstr "Шматвугольнік"
+msgstr "Шматкутнік"
 
 #: draw_tools##line
 msgid "Line"
