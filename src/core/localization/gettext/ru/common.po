@@ -605,7 +605,7 @@ msgstr "Поиск"
 
 #: search##input_placeholder_mcda
 msgid "Search or ask AI"
-msgstr "Поиск или спросить ИИ"
+msgstr "Найти или спросить ИИ"
 
 #: search##locations_no_result
 msgid "No locations found"
