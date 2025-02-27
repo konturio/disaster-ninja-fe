@@ -832,7 +832,7 @@ msgid ""
 "Select area (<icon1 />,<icon2 />,<icon3 />) you want to explore to get AI "
 "Insights."
 msgstr ""
-"ВыВылучыце вобласць (<icon1 />,<icon2 />,<icon3 />), якую хочаце даследаваць для атрымання AI інсайтаў."
+"Вылучыце вобласць (<icon1 />,<icon2 />,<icon3 />), якую хочаце даследаваць для атрымання Аналітыкі AI."
 
 #: llm_analytics##placeholder##you_can_also
 msgid "You can also:"
