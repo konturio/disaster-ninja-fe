@@ -814,7 +814,7 @@ msgstr "Адбылася памылка"
 
 #: advanced_analytics_empty##analytics_for_selected
 msgid "Analytics for selected area"
-msgstr "Аналітыка для вфлучанай вобласці"
+msgstr "Аналітыка для вылучанай вобласці"
 
 #: advanced_analytics_empty##will_be_provided
 msgid "will be provided here"
