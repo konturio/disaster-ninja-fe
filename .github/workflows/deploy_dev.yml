@@ -87,12 +87,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.CD_GITHUB_TOKEN }}
 
       - name: Send Slack notification
-        uses: slackapi/slack-github-action@v1.23.0
+        uses: slackapi/slack-github-action@v2.0.0
         with:
-          slack-message: |
-            *Deployment Notification*
-            Deploy DN FE to DEV.
-            Branch: `deploy-dn-fe-dev-${{ github.run_id }}`
-            Image Tag: `${{ needs.build-and-publish.outputs.image_tag }}`
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_DEPLOY_DEV_WEBHOOK_URL }}
+          webhook: ${{ secrets.SLACK_DEPLOY_DEV_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            text: "*Deployment Notification*\nDeploy DN FE to DEV.\nBranch: `deploy-dn-fe-dev-${{ github.run_id }}`\nImage Tag: `${{ needs.build-and-publish.outputs.image_tag }}`"
