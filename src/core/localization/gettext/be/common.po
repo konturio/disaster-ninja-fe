@@ -468,7 +468,7 @@ msgstr "log₁₀(x - xmin + ε)"
 
 #: mcda##layer_editor##no
 msgid "No"
-msgstr "Не"
+msgstr "Без нармалізацыі"
 
 #: mcda##layer_editor##max_min
 msgid "Max-min"
