@@ -60,7 +60,7 @@ msgstr "Легенда"
 
 #: maps
 msgid "maps"
-msgstr "карты"
+msgstr "мапы"
 
 #: vertical_direction
 msgid "Vertical direction"
@@ -76,7 +76,7 @@ msgstr "Адлюстраванне легенды"
 
 #: layers bivariate##color_manager##layers_filter
 msgid "Layers"
-msgstr "Пласты"
+msgstr "Слаі"
 
 #: toolbar##map_ruler
 msgid "Measure distance"
@@ -104,7 +104,7 @@ msgstr "Выбраць адміністрацыйную мяжу"
 
 #: toolbar##create_layer
 msgid "Create layer"
-msgstr "Стварыць пласт"
+msgstr "Стварыць слой"
 
 #: toolbar##geometry_uploader
 msgid "Upload GeoJSON"
@@ -116,7 +116,7 @@ msgstr "Маляваць або рэдагаваць геаметрыю"
 
 #: toolbar##edit_in_osm
 msgid "Edit map in OSM"
-msgstr "Рэдагаваць карту ў OSM"
+msgstr "Рэдагаваць мапу ў OSM"
 
 #: toolbar##record_sensors
 msgid "Record sensors"
@@ -232,19 +232,19 @@ msgstr "Нешта пайшло не так. Калі ласка, паспраб
 
 #: categories##overlays
 msgid "Overlays"
-msgstr "Накладныя пласты"
+msgstr "Оверлэй"
 
 #: categories##basemap
 msgid "Basemap"
-msgstr "Базавая карта"
+msgstr "Базавая мапа"
 
 #: groups##layers_in_selected_area
 msgid "Layers in selected area"
-msgstr "Пласты ў вылучанай зоне"
+msgstr "Слаі ў вылучанай зоне"
 
 #: groups##your_layers
 msgid "Your layers"
-msgstr "Вашы пласты"
+msgstr "Вашы слаі"
 
 #: groups##kontur_analytics
 msgid "Kontur analytics"
@@ -272,7 +272,7 @@ msgstr "Здымкі"
 
 #: groups##map modes##map
 msgid "Map"
-msgstr "Карта"
+msgstr "Мапа"
 
 #: advanced_analytics_data_list##load_world_data
 msgid "Load World Data"
@@ -336,11 +336,11 @@ msgstr "Напрыклад, Кліматычныя змены"
 
 #: mcda##modal_input_indicators
 msgid "Layer list"
-msgstr "Спіс пластоў"
+msgstr "Спіс слаёў"
 
 #: mcda##modal_input_indicators_placeholder
 msgid "Select layers"
-msgstr "Абраць пласты"
+msgstr "Абраць слаі"
 
 #: mcda##modal_input_indicators_no_options
 msgid "No options"
@@ -356,7 +356,7 @@ msgstr "Назва аналізу не можа быць пустой"
 
 #: mcda##error_bad_layer_data
 msgid "Invalid MCDA layer data"
-msgstr "Няправільныя дадзеныя пласта шматкрытэрыяльнага аналізу"
+msgstr "Няправільныя дадзеныя слоя шматкрытэрыяльнага аналізу"
 
 #: mcda##error_invalid_file
 msgid "Invalid MCDA file format"
@@ -379,7 +379,7 @@ msgid ""
 "Hexagons are colored based on analysis layer settings. Click a hexagon to "
 "see its values."
 msgstr ""
-"Шасцікутнікі афарбаваны згодна з наладамі аналітычных пластоў. Націсніце на "
+"Шасцікутнікі афарбаваны згодна з наладамі аналітычных слаёў. Націсніце на "
 "шасцікутнік, каб убачыць яго значэнні."
 
 #: mcda##layer_editor##save_changes profile##saveButton
@@ -518,9 +518,9 @@ msgid ""
 "average. Adjusting the increased weight of a layer (2, 3, etc.) allows you "
 "to assign additional importance to it in the analysis."
 msgstr ""
-"Па змаўчанні ўсе пласты аднолькава ўплываюць на аналіз праз узважаную "
+"Па змаўчанні ўсе слаі аднолькава ўплываюць на аналіз праз узважаную "
 "сярэднюю.\n"
-"Павелічэнне вагі пласта (напрыклад, 2, 3 і г.д.) дазваляе надаць яму большую "
+"Павелічэнне вагі слоя (напрыклад, 2, 3 і г.д.) дазваляе надаць яму большую "
 "важкасць у аналізе."
 
 #: mcda##layer_editor##tips##transform
@@ -572,7 +572,7 @@ msgstr "Добра"
 
 #: multivariate##upload_analysis_layer
 msgid "Upload analysis layer"
-msgstr "Загрузіць аналітычны пласт"
+msgstr "Загрузіць аналітычны слой"
 
 #: multivariate##popup##score_header
 msgid "Score {{level}}"
@@ -632,15 +632,15 @@ msgstr "“{{name}}” мультыкрытэрыяльны аналіз быў 
 
 #: event_list##warning_title
 msgid "Cannot filter by map view"
-msgstr "Немагчыма адфільтраваць па віду карты"
+msgstr "Немагчыма адфільтраваць па віду мапы"
 
 #: event_list##warning_description
 msgid "Map is not ready yet, try later"
-msgstr "Карта яшчэ не гатовая, паспрабуйце пазней"
+msgstr "Мапа яшчэ не гатовая, паспрабуйце пазней"
 
 #: event_list##bbox_filter_button
 msgid "Filter by map view"
-msgstr "Адфільтраваць па віду карты"
+msgstr "Адфільтраваць па віду мапы"
 
 #: event_list##analytics##affected_people##tooltip
 msgid "Affected people"
@@ -712,7 +712,7 @@ msgstr "Часавая шкала"
 
 #: create_layer##edit_layer
 msgid "Edit Layer"
-msgstr "Рэдагаваць пласт"
+msgstr "Рэдагаваць слой"
 
 #: create_layer##edit_features
 msgid "Edit Features"
@@ -720,15 +720,15 @@ msgstr "Рэдагаваць аб'екты"
 
 #: create_layer##delete_layer
 msgid "Delete Layer"
-msgstr "Выдаліць пласт"
+msgstr "Выдаліць слой"
 
 #: create_layer##create_layer
 msgid "Create Layer"
-msgstr "Стварыць пласт"
+msgstr "Стварыць слой"
 
 #: create_layer##saving_layer
 msgid "Saving layer..."
-msgstr "Захаванне пласта..."
+msgstr "Захаванне слоя..."
 
 #: create_layer##field_name
 msgid "Field name"
@@ -736,7 +736,7 @@ msgstr "Назва поля"
 
 #: create_layer##layer_name
 msgid "Layer name"
-msgstr "Назва пласта"
+msgstr "Назва слоя"
 
 #: create_layer##marker_icon
 msgid "Marker icon"
@@ -873,7 +873,7 @@ msgstr "Скончыць маляванне"
 
 #: draw_tools##caption
 msgid "Click on the map to begin drawing"
-msgstr "Націсніце на карту, каб пачаць маляванне"
+msgstr "Націсніце на мапу, каб пачаць маляванне"
 
 #: draw_tools##no_geometry_error
 msgid "No drawn geometry to download"
@@ -962,11 +962,11 @@ msgstr ""
 
 #: bivariate##matrix##header##title
 msgid "Choose two layers to explore correlations"
-msgstr "Выберыце два пласта для даследавання карэляцый"
+msgstr "Выберыце два слоя для даследавання карэляцый"
 
 #: bivariate##matrix##header##hint
 msgid "Layers and correlations are displayed for the current Selected Area"
-msgstr "Пласты і карэляцыі адлюстроўваюцца для вылучанай вобласці"
+msgstr "Слаі і карэляцыі адлюстроўваюцца для вылучанай вобласці"
 
 #: bivariate##matrix##icon##population
 msgid "Value divided by Population"
@@ -1046,7 +1046,7 @@ msgstr "Каляровыя легенды"
 
 #: bivariate##color_manager##layers_tab
 msgid "Layers (indicators)"
-msgstr "Пласты (індыкатары)"
+msgstr "Слаі (індыкатары)"
 
 #: sidebar##biv_color_manager
 msgid "Color manager"
@@ -1607,15 +1607,15 @@ msgstr "Вашае прылада не мае неабходных датчык�
 
 #: layer_features_panel##empty
 msgid "Layer features within selected area will be provided here"
-msgstr "Аб'екты пласта ў вылучанай вобласці будуць паказаны тут"
+msgstr "Аб'екты слоя ў вылучанай вобласці будуць паказаны тут"
 
 #: layer_features_panel##noFeatureSelected
 msgid "No layer feature selected"
-msgstr "Не абраны аб'ект пласта"
+msgstr "Не абраны аб'ект слоя"
 
 #: layer_features_panel##chooseFeature
 msgid "Choose layer feature"
-msgstr "Абярыце аб'ект пласта"
+msgstr "Абярыце аб'ект слоя"
 
 #: layer_features_panel##listInfo
 msgid "The list is filtered by selected area and sorted by project number"
@@ -1625,7 +1625,7 @@ msgstr ""
 #: layer_features_panel##error_loading
 msgid "Failed to load layer features data. Please try again."
 msgstr ""
-"Не атрымалася загрузіць дадзеныя аб'ектаў пласта. Калі ласка, паспрабуйце яшчэ "
+"Не атрымалася загрузіць дадзеныя аб'ектаў слоя. Калі ласка, паспрабуйце яшчэ "
 "раз."
 
 #: layer_features_panel##no_features
