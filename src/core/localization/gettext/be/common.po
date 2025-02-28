@@ -104,7 +104,7 @@ msgstr "Выбраць адміністрацыйную мяжу"
 
 #: toolbar##create_layer
 msgid "Create layer"
-msgstr "Стварыць слой"
+msgstr "Стварыць пласт"
 
 #: toolbar##geometry_uploader
 msgid "Upload GeoJSON"
