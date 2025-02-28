@@ -1049,7 +1049,7 @@ msgid "Layers (indicators)"
 msgstr "Пласты (індыкатары)"
 
 #: sidebar##biv_color_manager
-msgid "Сolor manager"
+msgid "Color manager"
 msgstr "Кіраванне колерамі"
 
 #: sidebar##edit_osm
