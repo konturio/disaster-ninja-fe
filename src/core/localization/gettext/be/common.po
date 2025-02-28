@@ -853,7 +853,7 @@ msgstr ""
 
 #: llm_analytics##placeholder##learn_more
 msgid "<lnk><icon/> Learn more about AI Insights</lnk>"
-msgstr "<lnk><icon/> Даведайцеся больш пра AI інсайты</lnk>"
+msgstr "<lnk><icon/> Даведайцеся больш пра Аналітыку AI</lnk>"
 
 #: draw_tools##area
 msgid "Polygon"
