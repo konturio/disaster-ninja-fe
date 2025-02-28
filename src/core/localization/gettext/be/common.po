@@ -240,7 +240,7 @@ msgstr "Базавая карта"
 
 #: groups##layers_in_selected_area
 msgid "Layers in selected area"
-msgstr "Слаі ў вылучанай зоне"
+msgstr "Пласты ў вылучанай зоне"
 
 #: groups##your_layers
 msgid "Your layers"
