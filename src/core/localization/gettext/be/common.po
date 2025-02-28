@@ -76,7 +76,7 @@ msgstr "Адлюстраванне легенды"
 
 #: layers bivariate##color_manager##layers_filter
 msgid "Layers"
-msgstr "Слаі"
+msgstr "Пласты"
 
 #: toolbar##map_ruler
 msgid "Measure distance"
@@ -244,7 +244,7 @@ msgstr "Пласты ў вылучанай зоне"
 
 #: groups##your_layers
 msgid "Your layers"
-msgstr "Вашы слаі"
+msgstr "Вашы пласты"
 
 #: groups##kontur_analytics
 msgid "Kontur analytics"
@@ -336,11 +336,11 @@ msgstr "Напрыклад, Кліматычныя змены"
 
 #: mcda##modal_input_indicators
 msgid "Layer list"
-msgstr "Спіс слаёў"
+msgstr "Спіс пластоў"
 
 #: mcda##modal_input_indicators_placeholder
 msgid "Select layers"
-msgstr "Абраць слаі"
+msgstr "Абраць пласты"
 
 #: mcda##modal_input_indicators_no_options
 msgid "No options"
@@ -356,11 +356,11 @@ msgstr "Назва аналізу не можа быць пустой"
 
 #: mcda##error_bad_layer_data
 msgid "Invalid MCDA layer data"
-msgstr "Няправільныя дадзеныя шматкрытэрыяльнага слоя"
+msgstr "Няправільныя дадзеныя пласта шматкрытэрыяльнага аналізу"
 
 #: mcda##error_invalid_file
 msgid "Invalid MCDA file format"
-msgstr "Няправільны фармат файла MCDA"
+msgstr "Няправільны фармат файла шматкрытэрыяльнага аналізу"
 
 #: mcda##error_invalid_parameter
 msgid "Invalid '{{parameter}}' parameter"
@@ -368,7 +368,7 @@ msgstr "Няправільны параметр '{{parameter}}'"
 
 #: mcda##error_invalid_layer_parameter
 msgid "Invalid '{{parameter}}' parameter in '{{axisName}}' layer"
-msgstr "Няправільны параметр '{{parameter}}' у слоі '{{axisName}}'"
+msgstr "Няправільны параметр '{{parameter}}' у пласце '{{axisName}}'"
 
 #: mcda##error_wrong_mcda_version
 msgid "Wrong MCDA version"
@@ -379,7 +379,7 @@ msgid ""
 "Hexagons are colored based on analysis layer settings. Click a hexagon to "
 "see its values."
 msgstr ""
-"Шасцікутнікі афарбаваны згодна з наладамі аналітычных слаёў. Націсніце на "
+"Шасцікутнікі афарбаваны згодна з наладамі аналітычных пластоў. Націсніце на "
 "шасцікутнік, каб убачыць яго значэнні."
 
 #: mcda##layer_editor##save_changes profile##saveButton
@@ -518,9 +518,9 @@ msgid ""
 "average. Adjusting the increased weight of a layer (2, 3, etc.) allows you "
 "to assign additional importance to it in the analysis."
 msgstr ""
-"Па змаўчанні ўсе слаі аднолькава ўплываюць на аналіз праз узважаную "
+"Па змаўчанні ўсе пласты аднолькава ўплываюць на аналіз праз узважаную "
 "сярэднюю.\n"
-"Павелічэнне вагі слоя (напрыклад, 2, 3 і г.д.) дазваляе надаць яму большую "
+"Павелічэнне вагі пласта (напрыклад, 2, 3 і г.д.) дазваляе надаць яму большую "
 "важкасць у аналізе."
 
 #: mcda##layer_editor##tips##transform
@@ -572,7 +572,7 @@ msgstr "Добра"
 
 #: multivariate##upload_analysis_layer
 msgid "Upload analysis layer"
-msgstr "Загрузіць аналітычны слой"
+msgstr "Загрузіць аналітычны пласт"
 
 #: multivariate##popup##score_header
 msgid "Score {{level}}"
@@ -712,7 +712,7 @@ msgstr "Часавая шкала"
 
 #: create_layer##edit_layer
 msgid "Edit Layer"
-msgstr "Рэдагаваць слой"
+msgstr "Рэдагаваць пласт"
 
 #: create_layer##edit_features
 msgid "Edit Features"
@@ -720,15 +720,15 @@ msgstr "Рэдагаваць аб'екты"
 
 #: create_layer##delete_layer
 msgid "Delete Layer"
-msgstr "Выдаліць слой"
+msgstr "Выдаліць пласт"
 
 #: create_layer##create_layer
 msgid "Create Layer"
-msgstr "Стварыць слой"
+msgstr "Стварыць пласт"
 
 #: create_layer##saving_layer
 msgid "Saving layer..."
-msgstr "Захаванне слоя..."
+msgstr "Захаванне пласта..."
 
 #: create_layer##field_name
 msgid "Field name"
@@ -736,7 +736,7 @@ msgstr "Назва поля"
 
 #: create_layer##layer_name
 msgid "Layer name"
-msgstr "Назва слоя"
+msgstr "Назва пласта"
 
 #: create_layer##marker_icon
 msgid "Marker icon"
@@ -962,11 +962,11 @@ msgstr ""
 
 #: bivariate##matrix##header##title
 msgid "Choose two layers to explore correlations"
-msgstr "Выберыце два слоя для даследавання карэляцый"
+msgstr "Выберыце два пласта для даследавання карэляцый"
 
 #: bivariate##matrix##header##hint
 msgid "Layers and correlations are displayed for the current Selected Area"
-msgstr "Слаі і карэляцыі адлюстроўваюцца для вылучанай вобласці"
+msgstr "Пласты і карэляцыі адлюстроўваюцца для вылучанай вобласці"
 
 #: bivariate##matrix##icon##population
 msgid "Value divided by Population"
@@ -1046,7 +1046,7 @@ msgstr "Каляровыя легенды"
 
 #: bivariate##color_manager##layers_tab
 msgid "Layers (indicators)"
-msgstr "Слаі (індыкатары)"
+msgstr "Пласты (індыкатары)"
 
 #: sidebar##biv_color_manager
 msgid "Сolor manager"
@@ -1607,15 +1607,15 @@ msgstr "Вашае прылада не мае неабходных датчык�
 
 #: layer_features_panel##empty
 msgid "Layer features within selected area will be provided here"
-msgstr "Аб'екты слоя ў вылучанай вобласці будуць паказаны тут"
+msgstr "Аб'екты пласта ў вылучанай вобласці будуць паказаны тут"
 
 #: layer_features_panel##noFeatureSelected
 msgid "No layer feature selected"
-msgstr "Не абраны аб'ект слоя"
+msgstr "Не абраны аб'ект пласта"
 
 #: layer_features_panel##chooseFeature
 msgid "Choose layer feature"
-msgstr "Абярыце аб'ект слоя"
+msgstr "Абярыце аб'ект пласта"
 
 #: layer_features_panel##listInfo
 msgid "The list is filtered by selected area and sorted by project number"
@@ -1625,7 +1625,7 @@ msgstr ""
 #: layer_features_panel##error_loading
 msgid "Failed to load layer features data. Please try again."
 msgstr ""
-"Не атрымалася загрузіць дадзеныя аб'ектаў слоя. Калі ласка, паспрабуйце яшчэ "
+"Не атрымалася загрузіць дадзеныя аб'ектаў пласта. Калі ласка, паспрабуйце яшчэ "
 "раз."
 
 #: layer_features_panel##no_features
