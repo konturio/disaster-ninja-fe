@@ -252,7 +252,7 @@ msgstr "Аналітика Kontur"
 
 #: groups##qa
 msgid "OpenStreetMap inspector"
-msgstr ""
+msgstr "Інспектор OpenStreetMap"
 
 #: groups##osmbasedmap
 msgid "OpenStreetMap based"
