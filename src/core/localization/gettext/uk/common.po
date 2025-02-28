@@ -597,7 +597,7 @@ msgstr ""
 
 #: search##mcda_create_analysis
 msgid "Create analysis"
-msgstr "С"
+msgstr "Створити аналіз"
 
 #: search##upload_analysis
 msgid "“{{name}}” Multi-Criteria Decision Analysis has been created"
@@ -777,7 +777,7 @@ msgstr "Помилка під час отримання даних розшир�
 
 #: advanced_analytics_empty##not_found current_event##not_found_request
 msgid "Sorry, the requested disaster was not found"
-msgstr "."
+msgstr "Вибачте, запитана катастрофа не знайдена"
 
 #: advanced_analytics_empty##error
 msgid "An error occurred"
@@ -1480,11 +1480,11 @@ msgstr "Німецька"
 
 #: profile##languageOption##be
 msgid "Belarusian"
-msgstr ""
+msgstr "Білоруська"
 
 #: profile##languageOption##ru
 msgid "Russian"
-msgstr ""
+msgstr "Російська"
 
 #: profile##languageOption##uk
 msgid "Ukrainian"
