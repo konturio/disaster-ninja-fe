@@ -2,6 +2,7 @@ import { createBooleanAtom } from '~utils/atoms';
 import { configRepo } from '~core/config';
 import { currentUserSubscriptionResource } from '~core/shared_state/currentSubscription';
 import { store } from '~core/store/store';
+import { AppFeature } from '~core/app/types';
 
 export const intercomVisibleAtom = createBooleanAtom(false, 'intercomVisibleAtom');
 
@@ -85,7 +86,9 @@ function connectAndConfigureIntercom() {
     }
   })();
 
-  sendUserPlanId();
+  if (configRepo.get().features[AppFeature.SUBSCRIPTION]) {
+    sendUserPlanId();
+  }
 }
 
 async function sendUserPlanId() {
