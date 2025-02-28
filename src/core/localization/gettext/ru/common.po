@@ -827,7 +827,7 @@ msgstr "Нет аналитики для выделенной области"
 
 #: llm_analytics##header
 msgid "AI insights"
-msgstr "ИИ инсайты"
+msgstr "Аналитика AI"
 
 #: llm_analytics##placeholder##select_area
 msgid ""
@@ -835,7 +835,7 @@ msgid ""
 "Insights."
 msgstr ""
 "Выберите область (<icon1 />,<icon2 />,<icon3 />), которую хотите "
-"исследовать, чтобы получить ИИ инсайты."
+"исследовать, чтобы получить аналитику AI."
 
 #: llm_analytics##placeholder##you_can_also
 msgid "You can also:"
@@ -856,7 +856,7 @@ msgstr ""
 
 #: llm_analytics##placeholder##learn_more
 msgid "<lnk><icon/> Learn more about AI Insights</lnk>"
-msgstr "<lnk><icon/> Узнать больше об ИИ инсайтах</lnk>"
+msgstr "<lnk><icon/> Узнать больше об аналитике AI</lnk>"
 
 #: draw_tools##area
 msgid "Polygon"
