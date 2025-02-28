@@ -232,7 +232,7 @@ msgstr "Нешта пайшло не так. Калі ласка, паспраб
 
 #: categories##overlays
 msgid "Overlays"
-msgstr "Оверлэі"
+msgstr "Накладныя пласты"
 
 #: categories##basemap
 msgid "Basemap"
