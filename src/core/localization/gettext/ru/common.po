@@ -132,7 +132,7 @@ msgstr "Выделенная область"
 
 #: toolbar##upload_mcda
 msgid "Upload MCDA"
-msgstr "Загрузить MCDA"
+msgstr "Загрузить анализ"
 
 #: layer_actions##tooltips##erase
 msgid "Erase"
