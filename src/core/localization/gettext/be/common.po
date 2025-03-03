@@ -792,7 +792,7 @@ msgstr ""
 
 #: analytics_panel##info_short
 msgid "Calculations are made for selected area"
-msgstr "Разлікі зроблены для вылучанай вобласці"
+msgstr "Разлікі зробленыя для вылучанай вобласці"
 
 #: advanced_analytics_panel##header_title
 msgid "Advanced analytics"
