@@ -392,15 +392,15 @@ msgstr "Диапазон значений"
 
 #: mcda##layer_editor##outliers
 msgid "Outliers"
-msgstr "Выбросы"
+msgstr "Выпадающие значения"
 
 #: mcda##layer_editor##reverse_to_good_bad
 msgid "Reverse to Good → Bad"
-msgstr "Обратить: Хорошо → Плохо"
+msgstr "Перевернуть: Хорошо → Плохо"
 
 #: mcda##layer_editor##reverse_to_bad_good
 msgid "Reverse to Bad → Good"
-msgstr "Обратить: Плохо → Хорошо"
+msgstr "Перевернуть: Плохо → Хорошо"
 
 #: mcda##layer_editor##weight
 msgid "Weight"
@@ -594,7 +594,7 @@ msgid ""
 "You can search for 📍 locations or ask ✨ AI your question like “Where is dead "
 "wood”"
 msgstr ""
-"Вы можете искать 📍 места или задать ✨ ИИ вопрос, например: «Где находится "
+"Вы можете искать 📍 места или задать ✨ AI вопрос, например: «Где находится "
 "сухостой?»"
 
 #: search##input_placeholder
@@ -603,7 +603,7 @@ msgstr "Поиск"
 
 #: search##input_placeholder_mcda
 msgid "Search or ask AI"
-msgstr "Найти или спросить ИИ"
+msgstr "Найти или спросить AI"
 
 #: search##locations_no_result
 msgid "No locations found"
@@ -611,15 +611,15 @@ msgstr "Места не найдены"
 
 #: search##mcda_loading_message
 msgid "AI is generating an analysis for you"
-msgstr "ИИ создаёт анализ для вас"
+msgstr "AI создаёт анализ для вас"
 
 #: search##mcda_no_result
 msgid "No AI suggestion"
-msgstr "Нет предложений от ИИ"
+msgstr "Нет предложений от AI"
 
 #: search##mcda_error_message
 msgid "AI engine did not respond. Please try again later"
-msgstr "ИИ не ответил. Пожалуйста, попробуйте позже"
+msgstr "AI не ответил. Пожалуйста, попробуйте позже"
 
 #: search##mcda_create_analysis
 msgid "Create analysis"
@@ -842,7 +842,7 @@ msgstr "Вы также можете:"
 #: llm_analytics##placeholder##fill_bio
 msgid "<icon /> <lnk>Fill out bio</lnk> to personalize AI analysis"
 msgstr ""
-"<icon /> <lnk>Заполните биографию</lnk>, чтобы персонализировать ИИ анализ"
+"<icon /> <lnk>Заполните биографию</lnk>, чтобы персонализировать AI анализ"
 
 #: llm_analytics##placeholder##select_and_save_as_reference_area
 msgid ""
@@ -1375,7 +1375,7 @@ msgstr "Для лучшей персонализации укажите, нап�
 
 #: profile##ai_tools_compatibility
 msgid "This information is compatible with AI tools"
-msgstr "Эта информация совместима с инструментами ИИ"
+msgstr "Эта информация совместима с инструментами AI"
 
 #: profile##improves_analysis
 msgid "Improves analysis"
