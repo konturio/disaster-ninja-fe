@@ -80,7 +80,7 @@ msgstr "Шари"
 
 #: toolbar##map_ruler
 msgid "Measure distance"
-msgstr ""
+msgstr "Виміряти відстань"
 
 #: toolbar##locate_me locate_me##feature_title
 msgid "Locate me"
@@ -88,11 +88,11 @@ msgstr "Знайти мене"
 
 #: toolbar##panel_title
 msgid "Toolbar"
-msgstr ""
+msgstr "Панель інструментів"
 
 #: toolbar##download layer_actions##tooltips##download
 msgid "Download"
-msgstr ""
+msgstr "Завантажити"
 
 #: toolbar##delete
 msgid "Delete"
@@ -100,7 +100,7 @@ msgstr "Видалити"
 
 #: toolbar##boundary_selector
 msgid "Select admin boundary"
-msgstr ""
+msgstr "Вибрати адміністративний кордон"
 
 #: toolbar##create_layer
 msgid "Create layer"
@@ -136,19 +136,19 @@ msgstr ""
 
 #: layer_actions##tooltips##erase
 msgid "Erase"
-msgstr ""
+msgstr "Стерти"
 
 #: layer_actions##tooltips##edit
 msgid "Edit"
-msgstr ""
+msgstr "Редагувати"
 
 #: layer_actions##tooltips##hide mcda##layer_editor##outliers_options##hide
 msgid "Hide"
-msgstr ""
+msgstr "Приховати"
 
 #: layer_actions##tooltips##show
 msgid "Show"
-msgstr ""
+msgstr "Показати"
 
 #: feed
 msgid "Feed"
