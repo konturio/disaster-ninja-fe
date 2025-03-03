@@ -368,7 +368,7 @@ msgstr "Няправільны параметр '{{parameter}}'"
 
 #: mcda##error_invalid_layer_parameter
 msgid "Invalid '{{parameter}}' parameter in '{{axisName}}' layer"
-msgstr "Няправільны параметр '{{parameter}}' у пласце '{{axisName}}'"
+msgstr "Няправільны параметр '{{parameter}}' у слоі '{{axisName}}'"
 
 #: mcda##error_wrong_mcda_version
 msgid "Wrong MCDA version"
@@ -517,8 +517,7 @@ msgid ""
 "to assign additional importance to it in the analysis."
 msgstr ""
 "Па змаўчанні ўсе слаі аднолькава ўплываюць на аналіз праз узважаную "
-"сярэднюю.\n"
-"Павелічэнне вагі слоя (напрыклад, 2, 3 і г.д.) дазваляе "
+"сярэднюю. Павелічэнне вагі слоя (напрыклад, 2, 3 і г.д.) дазваляе вам "
 "надаць яму большую важкасць у аналізе."
 
 #: mcda##layer_editor##tips##transform
@@ -626,7 +625,7 @@ msgstr "Стварыць аналіз"
 
 #: search##upload_analysis
 msgid "“{{name}}” Multi-Criteria Decision Analysis has been created"
-msgstr "“{{name}}” мультыкрытэрыяльны аналіз быў створаны"
+msgstr "“{{name}}” шматкрытэрыяльны аналіз быў створаны"
 
 #: event_list##warning_title
 msgid "Cannot filter by map view"
