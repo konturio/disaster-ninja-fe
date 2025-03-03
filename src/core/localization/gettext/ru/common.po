@@ -508,10 +508,8 @@ msgid ""
 "* **Good → Bad**: Higher values indicate a negative sentiment."
 msgstr ""
 "Определите направление коннотаций слоя на анализ:\n"
-"* **Плохо → Хорошо**: Более высокие значения указывают на положительную "
-"коннотацию.\n"
-"* **Хорошо → Плохо**: Более высокие значения указывают на отрицательную "
-"коннотацию."
+"* **Плохо → Хорошо**: Более высокие значения указывают на положительное направление.\n"
+"* **Хорошо → Плохо**: Более высокие значения указывают на отрицательное направление."
 
 #: mcda##layer_editor##tips##weight
 msgid ""
@@ -545,7 +543,7 @@ msgid ""
 msgstr ""
 "Приводит значения к стандартизированной шкале. Это упрощает их сравнение и "
 "принятие решений.\n"
-"* **Стандартизация по z-оценке**: Этот вариант приводит значения к "
+"* **Стандартная шкала оценки**: Этот вариант приводит значения к "
 "стандартизированной шкале, чтобы они были сопоставимы.\n"
 "* **Нет (только для специалистов)**: Оставляет значения без изменений."
 
@@ -577,7 +575,7 @@ msgstr "Загрузить слой анализа"
 
 #: multivariate##popup##score_header
 msgid "Score {{level}}"
-msgstr "Счёт {{level}}"
+msgstr "Оценка {{level}}"
 
 #: multivariate##popup##base_header
 msgid "Base {{level}}"
@@ -1029,7 +1027,7 @@ msgstr "Не определено"
 
 #: bivariate##color_manager##sentiments_combinations_filter
 msgid "Sentiments combinations"
-msgstr "Комбинации коннотаций"
+msgstr "Комбинации направлений"
 
 #: bivariate##color_manager##no_legends
 msgid "There are no legends satisfying the conditions."
@@ -1041,7 +1039,7 @@ msgstr "Нет данных."
 
 #: bivariate##color_manager##sentiments_tab
 msgid "Sentiments"
-msgstr "Коннотации"
+msgstr "Направление"
 
 #: bivariate##color_manager##color_legends_tab
 msgid "Color Legends"
