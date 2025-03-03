@@ -228,7 +228,7 @@ msgstr "Помилка серверу"
 
 #: errors##error_try_again
 msgid "Something went wrong. Please try again"
-msgstr ""
+msgstr "Щось пішло не так. Будь ласка, спробуйте знову"
 
 #: categories##overlays
 msgid "Overlays"
