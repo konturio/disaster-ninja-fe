@@ -1,6 +1,7 @@
 import { Panel, PanelIcon } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import { useCallback } from 'react';
+import { BottomSheet } from 'react-spring-bottom-sheet';
 import { panelClasses as defaultPanelClasses } from '~components/Panel';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useHeightResizer } from '~utils/hooks/useResizer';
@@ -9,6 +10,8 @@ import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import s from './FullAndShortStatesPanelWidget.module.css';
 import type { PanelState } from '~utils/hooks/useShortPanelState';
 import type { PanelFeatureInterface } from '~core/types/featuresTypes';
+
+import 'react-spring-bottom-sheet/dist/style.css';
 
 type PanelProps = {
   fullState?: PanelFeatureInterface | null;
@@ -89,27 +92,40 @@ export function FullAndShortStatesPanelWidget({
     closed: <></>,
   };
 
+  const panel = (
+    <Panel
+      id={id}
+      data-testid={id}
+      header={resultHeader}
+      onHeaderClick={togglePanelState}
+      headerIcon={resultPanelIcon || undefined}
+      className={clsx(s.panel, isOpen ? s.show : s.collapse)}
+      classes={getPanelClasses({ isOpen, isShort })}
+      resize={resize}
+      contentContainerRef={handleRefChange}
+      customControls={panelControls}
+      contentHeight={contentHeight}
+      minContentHeight={minHeight}
+      maxContentHeight={maxHeight}
+    >
+      {panelContent[panelState]}
+    </Panel>
+  );
+
   return (
     <>
-      <Panel
-        id={id}
-        data-testid={id}
-        header={resultHeader}
-        onHeaderClick={togglePanelState}
-        headerIcon={resultPanelIcon || undefined}
-        className={clsx(s.panel, isOpen ? s.show : s.collapse)}
-        classes={getPanelClasses({ isOpen, isShort })}
-        isOpen={isOpen}
-        modal={{ onModalClick: onPanelClose, showInModal: isMobile }}
-        resize={resize}
-        contentContainerRef={handleRefChange}
-        customControls={panelControls}
-        contentHeight={contentHeight}
-        minContentHeight={minHeight}
-        maxContentHeight={maxHeight}
-      >
-        {panelContent[panelState]}
-      </Panel>
+      {isMobile ? (
+        <BottomSheet
+          open={isOpen}
+          onDismiss={onPanelClose} // Закрытие по свайпу вниз
+          snapPoints={({ maxHeight }) => [maxHeight / 2, maxHeight]}
+          blocking={false}
+        >
+          {panel}
+        </BottomSheet>
+      ) : (
+        panel
+      )}
 
       <PanelIcon
         clickHandler={onPanelIconClick}
