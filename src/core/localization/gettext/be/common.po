@@ -60,7 +60,7 @@ msgstr "Легенда"
 
 #: maps
 msgid "maps"
-msgstr "мапы"
+msgstr "Мапы"
 
 #: vertical_direction
 msgid "Vertical direction"
