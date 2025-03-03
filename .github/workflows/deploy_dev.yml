@@ -26,12 +26,18 @@ jobs:
           chmod +x /tmp/yq
           sudo mv /tmp/yq /usr/local/bin/yq
 
+      - name: Set IMAGE_TAG output
+        id: set_image_tag
+        run: |
+          DOCKER_TAGS="${{ needs.build-and-publish.outputs.image_tag }}"
+          IMAGE_TAG="${DOCKER_TAGS##*:}"
+          echo "image_tag=${IMAGE_TAG}" >> $GITHUB_OUTPUT
+
       - name: Update image tag in values-dev.yaml
         working-directory: cd/helm/disaster-ninja-fe/values
         run: |
-          IMAGE_TAG="${{ needs.build-and-publish.outputs.image_tag }}"
-          echo "Updating image tag to ${IMAGE_TAG}"
-          yq -i ".image.fe.tag = \"${IMAGE_TAG}\"" values-dev.yaml
+          echo "Updating image tag to ${{ steps.set_image_tag.outputs.image_tag }}"
+          yq -i ".image.fe.tag = \"${{ steps.set_image_tag.outputs.image_tag }}\"" values-dev.yaml
           echo "New contents of values-dev.yaml:"
           cat values-dev.yaml
 
@@ -57,7 +63,7 @@ jobs:
           git config user.email "github-actions@github.com"
           git checkout -b $BRANCH_NAME
           git add .
-          git commit -m "Deploy FE: update image tag to ${{ needs.build-and-publish.outputs.image_tag }} and bump Chart version"
+          git commit -m "Deploy FE: update image tag to ${{ steps.set_image_tag.outputs.image_tag }} and bump Chart version"
           git push origin $BRANCH_NAME
         env:
           GITHUB_TOKEN: ${{ secrets.CD_GITHUB_TOKEN }}
@@ -67,7 +73,7 @@ jobs:
         run: |
           BRANCH_NAME="deploy-dn-fe-dev-${{ github.run_id }}"
           gh pr create \
-            --title "Deploy FE: update image tag to ${{ needs.build-and-publish.outputs.image_tag }} and bump Chart version" \
+            --title "Deploy FE: update image tag to ${{ steps.set_image_tag.outputs.image_tag }} and bump Chart version" \
             --body "Automatically created PR to update helm manifests with the new image tag." \
             --base main --head $BRANCH_NAME
         env:
@@ -92,4 +98,4 @@ jobs:
           webhook: ${{ secrets.SLACK_DEPLOY_DEV_WEBHOOK_URL }}
           webhook-type: incoming-webhook
           payload: |
-            text: "*Deployment Notification*\nDeploy DN FE to DEV.\nBranch: `deploy-dn-fe-dev-${{ github.run_id }}`\nImage Tag: `${{ needs.build-and-publish.outputs.image_tag }}`"
+            text: "*Deployment Notification*\nDeploy DN FE to DEV.\nBranch: `deploy-dn-fe-dev-${{ github.run_id }}`\nImage Tag: `${{ steps.set_image_tag.outputs.image_tag }}`"
