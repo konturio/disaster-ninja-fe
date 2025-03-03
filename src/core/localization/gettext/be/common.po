@@ -100,7 +100,7 @@ msgstr "Выдаліць"
 
 #: toolbar##boundary_selector
 msgid "Select admin boundary"
-msgstr "Выбраць адміністрацыйную мяжу"
+msgstr "Вылучыць адміністрацыйную мяжу"
 
 #: toolbar##create_layer
 msgid "Create layer"
