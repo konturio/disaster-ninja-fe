@@ -112,7 +112,7 @@ msgstr "Загрузить GeoJSON"
 
 #: toolbar##focused_geometry_editor
 msgid "Draw or edit geometry"
-msgstr "Нарисовать или отредактировать геометрию"
+msgstr "Рисовать или редактировать геометрию"
 
 #: toolbar##edit_in_osm
 msgid "Edit map in OSM"
