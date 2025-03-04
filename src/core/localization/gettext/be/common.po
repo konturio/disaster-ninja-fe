@@ -1244,7 +1244,7 @@ msgstr "Умовы"
 
 #: modes##user_guide
 msgid "User guide"
-msgstr "Дапаможнік карыстальніка"
+msgstr "Дапаможнік"
 
 #: about##title
 msgid "Welcome to Disaster Ninja!"
