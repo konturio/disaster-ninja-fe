@@ -120,7 +120,7 @@ msgstr "Рэдагаваць мапу ў OSM"
 
 #: toolbar##record_sensors
 msgid "Record sensors"
-msgstr "Запісваць дадзеныя датчыкаў"
+msgstr "Запісваць данныя датчыкаў"
 
 #: toolbar##tools_label
 msgid "Tools"
@@ -160,7 +160,7 @@ msgstr "Зняць вылучэнне"
 
 #: spinner_text
 msgid "Gathering data"
-msgstr "Збор дадзеных"
+msgstr "Збор данных"
 
 #: updated
 msgid "Updated"
@@ -172,11 +172,11 @@ msgstr "Пачалося"
 
 #: no_data_received
 msgid "No data received"
-msgstr "Дадзеныя не атрыманы"
+msgstr "Данныя не атрыманы"
 
 #: wrong_data_received
 msgid "Wrong data received"
-msgstr "Атрыманы памылковыя дадзеныя"
+msgstr "Атрыманы памылковыя данныя"
 
 #: error
 msgid "Error"
@@ -195,7 +195,7 @@ msgid ""
 "The feed contains real-time data about Cyclones, Droughts, Earthquakes, "
 "Floods, Volcanoes, Wildfires."
 msgstr ""
-"Стужка змяшчае дадзеныя ў рэжыме рэальнага часу аб цыклонах, засухах, "
+"Стужка змяшчае данныя ў рэжыме рэальнага часу аб цыклонах, засухах, "
 "землятрусах, паводках, вулканах і лясных пажарах."
 
 #: errors##default
@@ -276,7 +276,7 @@ msgstr "Мапа"
 
 #: advanced_analytics_data_list##load_world_data
 msgid "Load World Data"
-msgstr "Загрузіць сусветныя дадзеныя"
+msgstr "Загрузіць сусветныя данныя"
 
 #: advanced_analytics_data_list##numerator
 msgid "Numerator"
@@ -356,7 +356,7 @@ msgstr "Назва аналізу не можа быць пустой"
 
 #: mcda##error_bad_layer_data
 msgid "Invalid MCDA layer data"
-msgstr "Няправільныя дадзеныя слоя шматкрытэрыяльнага аналізу"
+msgstr "Няправільныя данныя слоя шматкрытэрыяльнага аналізу"
 
 #: mcda##error_invalid_file
 msgid "Invalid MCDA file format"
@@ -787,7 +787,7 @@ msgstr "Аналітыка"
 #: analytics_panel##error_loading
 msgid "Failed receiving data about selected area. It may be too large."
 msgstr ""
-"Не атрымалася атрымаць дадзеныя аб вылучанай вобласці. Магчыма, яна занадта "
+"Не атрымалася атрымаць данныя аб вылучанай вобласці. Магчыма, яна занадта "
 "вялікая."
 
 #: analytics_panel##info_short
@@ -800,7 +800,7 @@ msgstr "Пашыраная аналітыка"
 
 #: advanced_analytics_panel##error
 msgid "Error while fetching advanced analytics data"
-msgstr "Памылка падчас атрымання дадзеных пашыранай аналітыкі"
+msgstr "Памылка падчас атрымання данных пашыранай аналітыкі"
 
 #: advanced_analytics_empty##not_found current_event##not_found_request
 msgid "Sorry, the requested disaster was not found"
@@ -927,7 +927,7 @@ msgid ""
 "between two data sets."
 msgstr ""
 "Графікі, якія выкарыстоўваюць базавую і дапаможную восі, дапамагаюць "
-"вызначыць сувязь паміж двума наборамі дадзеных."
+"вызначыць сувязь паміж двума наборамі данных."
 
 #: bivariate##matrix##caption##tooltip##li1
 msgid "Annex axis - parameters that we analyse"
@@ -1032,7 +1032,7 @@ msgstr "Няма легенд, якія адпавядаюць умовам."
 
 #: bivariate##color_manager##no_data
 msgid "No Data."
-msgstr "Няма дадзеных."
+msgstr "Няма данных"
 
 #: bivariate##color_manager##sentiments_tab
 msgid "Sentiments"
@@ -1177,15 +1177,15 @@ msgstr "Справаздачы Disaster Ninja"
 
 #: reports##no_data
 msgid "No data for this report"
-msgstr "Няма дадзеных для гэтай справаздачы"
+msgstr "Няма данных для гэтай справаздачы"
 
 #: reports##sorting
 msgid "Sorting data..."
-msgstr "Сартыроўка дадзеных..."
+msgstr "Сартыроўка данных..."
 
 #: reports##loading
 msgid "Loading data"
-msgstr "Загрузка дадзеных"
+msgstr "Загрузка данных"
 
 #: reports##open_josm
 msgid "Open via JOSM remote control"
@@ -1415,7 +1415,7 @@ msgstr "Ваша арганізацыя"
 
 #: profile##your_contacts
 msgid "Your contact info"
-msgstr "Вашыя кантактныя дадзеныя"
+msgstr "Вашыя кантактныя данныя"
 
 #: profile##organization_name
 msgid "Organization name"
@@ -1624,7 +1624,7 @@ msgstr ""
 #: layer_features_panel##error_loading
 msgid "Failed to load layer features data. Please try again."
 msgstr ""
-"Не атрымалася загрузіць дадзеныя аб'ектаў слоя. Калі ласка, паспрабуйце яшчэ "
+"Не атрымалася загрузіць данныя аб'ектаў слоя. Калі ласка, паспрабуйце яшчэ "
 "раз."
 
 #: layer_features_panel##no_features
