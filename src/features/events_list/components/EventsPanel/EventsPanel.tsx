@@ -3,7 +3,8 @@ import { Panel, PanelIcon, Text } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/react-v2';
 import { useAtom as useAtomV3 } from '@reatom/npm-react';
 import clsx from 'clsx';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
+import { Sheet } from 'react-modal-sheet';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { panelClasses } from '~components/Panel';
 import { AppFeature } from '~core/app/types';
@@ -24,6 +25,7 @@ import { ShortState } from '../ShortState/ShortState';
 import { EventsPanelErrorMessage } from '../EventsPanelErrorMessage/EventsPanelErrorMessage';
 import s from './EventsPanel.module.css';
 import type { Event } from '~core/types';
+import type { SheetRef } from 'react-modal-sheet';
 
 const featureFlags = configRepo.get().features;
 const hasTimeline = !!featureFlags[AppFeature.EPISODES_TIMELINE];
@@ -57,6 +59,7 @@ export function EventsPanel({
   const [focusedGeometry] = useAtom(focusedGeometryAtom);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const [{ data: eventsList, error, loading }] = useAtomV3(sortedEventListAtom);
+  const sheetRef = useRef<SheetRef>(null);
 
   const handleRefChange = useHeightResizer(
     (isOpen) => !isOpen && closePanel(),
@@ -145,29 +148,49 @@ export function EventsPanel({
     </div>
   );
 
+  const panel = (
+    <Panel
+      header={header}
+      headerIcon={
+        <div className={s.iconWrap}>
+          <Disasters24 />
+        </div>
+      }
+      onHeaderClick={togglePanel}
+      className={clsx(s.eventsPanel, isOpen ? s.show : s.collapse)}
+      classes={panelClasses}
+      isOpen={isOpen}
+      resize={isMobile || isShort ? 'none' : 'vertical'}
+      contentClassName={s.contentWrap}
+      contentContainerRef={handleRefChange}
+      customControls={panelControls}
+      contentHeight={isShort ? 'min-content' : undefined}
+      minContentHeight={isShort ? 'min-content' : MIN_HEIGHT}
+    >
+      {panelContent(panelState)}
+    </Panel>
+  );
+
   return (
     <>
-      <Panel
-        header={header}
-        headerIcon={
-          <div className={s.iconWrap}>
-            <Disasters24 />
-          </div>
-        }
-        onHeaderClick={togglePanel}
-        className={clsx(s.eventsPanel, isOpen ? s.show : s.collapse)}
-        classes={panelClasses}
-        isOpen={isOpen}
-        modal={{ onModalClick: closePanel, showInModal: isMobile }}
-        resize={isMobile || isShort ? 'none' : 'vertical'}
-        contentClassName={s.contentWrap}
-        contentContainerRef={handleRefChange}
-        customControls={panelControls}
-        contentHeight={isShort ? 'min-content' : undefined}
-        minContentHeight={isShort ? 'min-content' : MIN_HEIGHT}
-      >
-        {panelContent(panelState)}
-      </Panel>
+      {isMobile ? (
+        <Sheet
+          ref={sheetRef}
+          isOpen={isOpen}
+          onClose={closePanel}
+          initialSnap={1}
+          snapPoints={[1, 0.5]}
+          detent="full-height"
+        >
+          <Sheet.Container>
+            <Sheet.Content style={{ paddingBottom: sheetRef.current?.y }}>
+              <Sheet.Scroller draggableAt="both">{panel}</Sheet.Scroller>
+            </Sheet.Content>
+          </Sheet.Container>
+        </Sheet>
+      ) : (
+        panel
+      )}
 
       <PanelIcon
         clickHandler={openFullState}

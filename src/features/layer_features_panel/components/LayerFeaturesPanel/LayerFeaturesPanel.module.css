@@ -52,25 +52,23 @@
 
 /* mobile */
 @media screen and (max-width: 960px) {
-  .featuresPanel.show {
-    max-height: calc(100vh - 60px);
-  }
   .featuresPanel.collapse {
     display: none;
   }
+}
 
-  .panelIcon.mobile {
-    display: flex;
-    &.show {
-      transition: opacity 0.33s linear 0s;
-      visibility: visible;
-      opacity: 1;
-    }
-
-    &.hide {
-      visibility: hidden;
-      opacity: 0;
-    }
+.header {
+  &:before {
+    position: absolute;
+    content: '';
+    display: block;
+    width: 36px;
+    height: 4px;
+    top: calc(8px + env(safe-area-inset-top));
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+    background-color: #cccccc;
   }
 }
 
