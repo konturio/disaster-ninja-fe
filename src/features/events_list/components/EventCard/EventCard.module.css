@@ -8,7 +8,7 @@
   width: 100%;
   transition: background-color ease-out 0.1s;
   &:hover {
-    background-color: var(--base-weak-up);
+    background-color: #0516261f;
   }
   &.active {
     background-color: #0516260f;
