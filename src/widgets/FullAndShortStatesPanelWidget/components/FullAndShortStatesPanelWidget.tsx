@@ -118,10 +118,10 @@ export function FullAndShortStatesPanelWidget({
           initialSnap={1}
           snapPoints={[1, 0.55]}
         >
+          <Sheet.Backdrop />
           <Sheet.Container>
-            {/*<Sheet.Header />*/}
             <Sheet.Content style={{ paddingBottom: sheetRef.current?.y }}>
-              <Sheet.Scroller draggableAt="both">{panel}</Sheet.Scroller>
+              {panel}
             </Sheet.Content>
           </Sheet.Container>
         </Sheet>

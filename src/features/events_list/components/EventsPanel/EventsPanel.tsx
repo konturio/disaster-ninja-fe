@@ -184,7 +184,7 @@ export function EventsPanel({
         >
           <Sheet.Container>
             <Sheet.Content style={{ paddingBottom: sheetRef.current?.y }}>
-              <Sheet.Scroller draggableAt="both">{panel}</Sheet.Scroller>
+              {panel}
             </Sheet.Content>
           </Sheet.Container>
         </Sheet>
@@ -194,12 +194,7 @@ export function EventsPanel({
 
       <PanelIcon
         clickHandler={openFullState}
-        className={clsx(
-          s.panelIcon,
-          isOpen && s.hide,
-          !isOpen && s.show,
-          isMobile ? s.mobile : s.desktop,
-        )}
+        className={clsx(s.panelIcon, isMobile ? s.mobile : s.desktop)}
         icon={<Disasters24 />}
       />
     </>

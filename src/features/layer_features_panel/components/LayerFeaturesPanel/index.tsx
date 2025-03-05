@@ -140,7 +140,7 @@ export function LayerFeaturesPanel() {
         >
           <Sheet.Container>
             <Sheet.Content style={{ paddingBottom: sheetRef.current?.y }}>
-              <Sheet.Scroller draggableAt="both">{panel}</Sheet.Scroller>
+              {panel}
             </Sheet.Content>
           </Sheet.Container>
         </Sheet>
