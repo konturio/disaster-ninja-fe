@@ -27,7 +27,7 @@ export function Search() {
   return (
     <>
       <Panel
-        className={clsx(s.searchPanel, { [s.collapse]: !isOpen }, 'knt-panel')}
+        className={clsx(s.searchPanel, { [s.collapse]: !isOpen })}
         contentClassName={s.contentContainer}
         isOpen={isOpen}
         contentHeight="100%"
@@ -36,7 +36,7 @@ export function Search() {
         <div className={s.searchWrapper}>
           <SearchBar
             onItemSelect={isMobile ? closePanel : undefined}
-            searchBarClass={s.searchBar}
+            searchBarClass={clsx(s.searchBar, 'knt-search-bar')}
             ref={inputRef}
           />
           <Button onClick={closePanel} variant="invert" className={s.cancelButton}>

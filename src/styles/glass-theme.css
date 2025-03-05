@@ -5,7 +5,8 @@
 }
 
 @media screen and (min-width: 961px) {
-  .knt-panel:not(.add-spec) {
+  .knt-panel:not(.add-spec),
+  .knt-search-bar:not(.add-spec) {
     background-color: rgba(255, 255, 255, 0.7);
     backdrop-filter: blur(16px);
     box-shadow: var(--shadow-small);
