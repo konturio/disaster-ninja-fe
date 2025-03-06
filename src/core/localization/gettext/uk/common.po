@@ -24,7 +24,7 @@ msgstr ""
 
 #: logout
 msgid "Log out"
-msgstr ""
+msgstr "Вийти"
 
 #: save
 msgid "Save"
