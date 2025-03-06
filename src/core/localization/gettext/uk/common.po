@@ -113,29 +113,27 @@ msgstr "Завантажити GeoJSON"
 #: toolbar##focused_geometry_editor
 msgid "Draw or edit geometry"
 msgstr "Намалювати або редагувати геометрію"
+
 #: toolbar##edit_in_osm
 msgid "Edit map in OSM"
 msgstr "Редагувати мапу в OpenStreetMap"
 
 #: toolbar##record_sensors
 msgid "Record sensors"
--msgstr ""
-+msgstr "Записати дані сенсорів"
+msgstr "Записати дані сенсорів"
 
 #: toolbar##tools_label
 msgid "Tools"
--msgstr ""
-+msgstr "Інструменти"
+msgstr "Інструменти"
 
 #: toolbar##selected_area_label focus_geometry_layer##settings##name
 msgid "Selected area"
--msgstr ""
-+msgstr "Вибрана область"
+msgstr "Вибрана область"
 
 #: toolbar##upload_mcda
 msgid "Upload MCDA"
--msgstr ""
-+msgstr "Завантажити MCDA"
+msgstr "Завантажити MCDA"
+
 #: layer_actions##tooltips##erase
 msgid "Erase"
 msgstr "Стерти"
