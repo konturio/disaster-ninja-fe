@@ -14,6 +14,7 @@
 
     --faint-weak: none;
     --accent-weak: #0516260f;
+    --base-weak-up: #0516260f;
 
     & * {
       scrollbar-color: var(--scrollbar-thumb) rgba(255, 255, 255, 0.7);
