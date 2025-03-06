@@ -399,7 +399,7 @@ msgstr "Перавярнуць на Добра → Дрэнна"
 
 #: mcda##layer_editor##reverse_to_bad_good
 msgid "Reverse to Bad → Good"
-msgstr "Перавярнуць з Дрэнна → Добра"
+msgstr "Перавярнуць на Дрэнна → Добра"
 
 #: mcda##layer_editor##weight
 msgid "Weight"
