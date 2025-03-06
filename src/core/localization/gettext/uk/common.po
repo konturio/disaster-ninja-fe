@@ -119,20 +119,23 @@ msgstr "Редагувати мапу в OpenStreetMap"
 
 #: toolbar##record_sensors
 msgid "Record sensors"
-msgstr ""
+-msgstr ""
++msgstr "Записати дані сенсорів"
 
 #: toolbar##tools_label
 msgid "Tools"
-msgstr ""
+-msgstr ""
++msgstr "Інструменти"
 
 #: toolbar##selected_area_label focus_geometry_layer##settings##name
 msgid "Selected area"
-msgstr ""
+-msgstr ""
++msgstr "Вибрана область"
 
 #: toolbar##upload_mcda
 msgid "Upload MCDA"
-msgstr ""
-
+-msgstr ""
++msgstr "Завантажити MCDA"
 #: layer_actions##tooltips##erase
 msgid "Erase"
 msgstr "Стерти"
