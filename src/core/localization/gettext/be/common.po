@@ -395,7 +395,7 @@ msgstr "Выбітныя значэнні"
 
 #: mcda##layer_editor##reverse_to_good_bad
 msgid "Reverse to Good → Bad"
-msgstr "Перавярнуць з Добра → Дрэнна"
+msgstr "Перавярнуць на Добра → Дрэнна"
 
 #: mcda##layer_editor##reverse_to_bad_good
 msgid "Reverse to Bad → Good"
