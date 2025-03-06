@@ -838,8 +838,8 @@ msgid "You can also:"
 msgstr "Вы таксама можаце:"
 
 #: llm_analytics##placeholder##fill_bio
-msgid "<icon /> <lnk>Fill out bio</lnk> to personalize AI analysis"
-msgstr "<icon /> <lnk>Запоўніце біяграфію</lnk>, каб персаналізаваць AI аналіз"
+msgid "<icon /> <lnk>Fill out analysis objectives</lnk> to personalize AI analysis"
+msgstr "<icon /> <lnk>Запоўніце мэты аналізу</lnk>, каб персаналізаваць AI аналіз"
 
 #: llm_analytics##placeholder##select_and_save_as_reference_area
 msgid ""
