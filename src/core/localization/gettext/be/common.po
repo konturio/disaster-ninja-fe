@@ -231,7 +231,7 @@ msgstr "Нешта пайшло не так. Калі ласка, паспраб
 
 #: categories##overlays
 msgid "Overlays"
-msgstr "Оверлэй"
+msgstr "Оверлэі"
 
 #: categories##basemap
 msgid "Basemap"
