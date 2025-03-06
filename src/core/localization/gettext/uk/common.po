@@ -1066,7 +1066,7 @@ msgstr "Увійти"
 
 #: login##forgot_password
 msgid "Forgot password?"
-msgstr ""
+msgstr "Забули пароль?"
 
 #: login##description
 msgid "Please log in to change your settings"
