@@ -4,7 +4,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
 #: km
 msgid "km"
@@ -20,39 +20,39 @@ msgstr "до"
 
 #: or
 msgid "or"
-msgstr ""
+msgstr "или"
 
 #: logout
 msgid "Log out"
-msgstr "Вийти"
+msgstr "Выйти"
 
 #: save
 msgid "Save"
-msgstr "Зберегти"
+msgstr "Сохранить"
 
 #: cancel mcda##btn_cancel
 msgid "Cancel"
-msgstr "Скасувати"
+msgstr "Отменить"
 
 #: ok
 msgid "OK"
-msgstr "OK"
+msgstr "ОК"
 
 #: create
 msgid "Create"
-msgstr "Створити"
+msgstr "Создать"
 
 #: disasters
 msgid "Disasters"
-msgstr "Катастрофа"
+msgstr "Катастрофы"
 
 #: loading
 msgid "Loading..."
-msgstr "Завантаження..."
+msgstr "Загрузка..."
 
 #: loading_events
 msgid "Loading disasters"
-msgstr ""
+msgstr "Загрузка катастроф"
 
 #: legend mcda##legend_title
 msgid "Legend"
@@ -60,442 +60,445 @@ msgstr "Легенда"
 
 #: maps
 msgid "maps"
-msgstr "мапи"
+msgstr "Карты"
 
 #: vertical_direction
 msgid "Vertical direction"
-msgstr "По вертикалі"
+msgstr "Вертикальное направление"
 
 #: horizontal_direction
 msgid "Horizontal direction"
-msgstr "По горизонталі"
+msgstr "Горизонтальное направление"
 
 #: legend_presentation
 msgid "Legend presentation"
-msgstr "Презентація легенди"
+msgstr "Отображение легенды"
 
 #: layers bivariate##color_manager##layers_filter
 msgid "Layers"
-msgstr "Шари"
+msgstr "Слои"
 
 #: toolbar##map_ruler
 msgid "Measure distance"
-msgstr "Виміряти відстань"
+msgstr "Измерить расстояние"
 
 #: toolbar##locate_me locate_me##feature_title
 msgid "Locate me"
-msgstr "Знайти мене"
+msgstr "Определить моё местоположение"
 
 #: toolbar##panel_title
 msgid "Toolbar"
-msgstr "Панель інструментів"
+msgstr "Панель инструментов"
 
 #: toolbar##download layer_actions##tooltips##download
 msgid "Download"
-msgstr "Завантажити"
+msgstr "Скачать"
 
 #: toolbar##delete
 msgid "Delete"
-msgstr "Видалити"
+msgstr "Удалить"
 
 #: toolbar##boundary_selector
 msgid "Select admin boundary"
-msgstr "Вибрати адміністративний кордон"
+msgstr "Выделить административную границу"
 
 #: toolbar##create_layer
 msgid "Create layer"
-msgstr "Створити шар"
+msgstr "Создать слой"
 
 #: toolbar##geometry_uploader
 msgid "Upload GeoJSON"
-msgstr "Завантажити GeoJSON"
+msgstr "Загрузить GeoJSON"
 
 #: toolbar##focused_geometry_editor
 msgid "Draw or edit geometry"
-msgstr "Намалювати або редагувати геометрію"
+msgstr "Рисовать или редактировать геометрию"
 
 #: toolbar##edit_in_osm
 msgid "Edit map in OSM"
-msgstr "Редагувати мапу в OpenStreetMap"
+msgstr "Редактировать карту в OSM"
 
 #: toolbar##record_sensors
 msgid "Record sensors"
-msgstr "Записати дані сенсорів"
+msgstr "Записать данные с датчиков"
 
 #: toolbar##tools_label
 msgid "Tools"
-msgstr "Інструменти"
+msgstr "Инструменты"
 
 #: toolbar##selected_area_label focus_geometry_layer##settings##name
 msgid "Selected area"
-msgstr "Вибрана область"
+msgstr "Выделенная область"
 
 #: toolbar##upload_mcda
 msgid "Upload MCDA"
-msgstr "Завантажити MCDA"
+msgstr "Загрузить анализ"
 
 #: layer_actions##tooltips##erase
 msgid "Erase"
-msgstr "Стерти"
+msgstr "Стереть"
 
 #: layer_actions##tooltips##edit
 msgid "Edit"
-msgstr "Редагувати"
+msgstr "Редактировать"
 
 #: layer_actions##tooltips##hide mcda##layer_editor##outliers_options##hide
 msgid "Hide"
-msgstr "Приховати"
+msgstr "Скрыть"
 
 #: layer_actions##tooltips##show
 msgid "Show"
-msgstr "Показати"
+msgstr "Показать"
 
 #: feed
 msgid "Feed"
-msgstr "Стрічка"
+msgstr "Лента"
 
 #: deselect
 msgid "Deselect"
-msgstr "Зняти вибір"
+msgstr "Снять выделение"
 
 #: spinner_text
 msgid "Gathering data"
-msgstr "Збираємо дані"
+msgstr "Сбор данных"
 
 #: updated
 msgid "Updated"
-msgstr "Оновлено"
+msgstr "Обновлено"
 
 #: started
 msgid "Started"
-msgstr ""
+msgstr "Запущено"
 
 #: no_data_received
 msgid "No data received"
-msgstr "Немає даних"
+msgstr "Данные не получены"
 
 #: wrong_data_received
 msgid "Wrong data received"
-msgstr "Отримано неправильні дані"
+msgstr "Получены неверные данные"
 
 #: error
 msgid "Error"
-msgstr "Помилка"
+msgstr "Ошибка"
 
 #: sort_icon
 msgid "Sort Icon"
-msgstr "Значок сортування"
+msgstr "Сортировка"
 
 #: configs##Kontur_public_feed
 msgid "Kontur Public"
-msgstr ""
+msgstr "Kontur Public"
 
 #: configs##Kontur_public_feed_description
 msgid ""
 "The feed contains real-time data about Cyclones, Droughts, Earthquakes, "
 "Floods, Volcanoes, Wildfires."
 msgstr ""
-"Стрічка містить дані в реальному часі про циклони, посухи, землетруси, "
-"повені, вулкани, лісові пожежі."
+"Лента содержит данные в реальном времени о циклонах, засухах, "
+"землетрясениях, наводнениях, вулканах, лесных пожарах."
 
 #: errors##default
 msgid "Sorry, we are having issues which will be fixed soon"
-msgstr "Вибачте, у нас виникли проблеми, які незабаром будуть вирішені"
+msgstr "Извините, у нас возникли проблемы, которые скоро будут исправлены"
 
 #: errors##timeout
 msgid "Request timeout"
-msgstr "Час очікування запиту минув"
+msgstr "Время ожидания запроса истекло"
 
 #: errors##cannot_connect
 msgid "Cannot connect to server"
-msgstr "Не вдається під'єднатися до сервера"
+msgstr "Не удается подключиться к серверу"
 
 #: errors##forbidden
 msgid "Forbidden"
-msgstr "Заборонено"
+msgstr "Доступ запрещен"
 
 #: errors##not_found
 msgid "Not found"
-msgstr "Не знайдено"
+msgstr "Не найдено"
 
 #: errors##unknown event_list##severity_unknown
 msgid "Unknown"
-msgstr "Невідомий"
+msgstr "Неизвестно"
 
 #: errors##server_error
 msgid "Server error"
-msgstr "Помилка серверу"
+msgstr "Ошибка сервера"
 
 #: errors##error_try_again
 msgid "Something went wrong. Please try again"
-msgstr "Щось пішло не так. Будь ласка, спробуйте знову"
+msgstr "Что-то пошло не так. Пожалуйста, попробуйте снова"
 
 #: categories##overlays
 msgid "Overlays"
-msgstr "Оверлеї"
+msgstr "Оверлеи"
 
 #: categories##basemap
 msgid "Basemap"
-msgstr "Базова карта"
+msgstr "Базовая карта"
 
 #: groups##layers_in_selected_area
 msgid "Layers in selected area"
-msgstr "Шари у вибраній області"
+msgstr "Слои в выделенной области"
 
 #: groups##your_layers
 msgid "Your layers"
-msgstr "Ваші шари"
+msgstr "Ваши слои"
 
 #: groups##kontur_analytics
 msgid "Kontur analytics"
-msgstr "Аналітика Kontur"
+msgstr "Аналитика Kontur"
 
 #: groups##qa
 msgid "OpenStreetMap inspector"
-msgstr "Інспектор OpenStreetMap"
+msgstr "Инспектор OpenStreetMap"
 
 #: groups##osmbasedmap
 msgid "OpenStreetMap based"
-msgstr "На основі OpenStreetMap"
+msgstr "На основе OpenStreetMap"
 
 #: groups##other
 msgid "Other"
-msgstr "Інше"
+msgstr "Другое"
 
 #: groups##elevation
 msgid "Elevation"
-msgstr "Рел'єф"
+msgstr "Высота"
 
 #: groups##photo
 msgid "Imagery"
-msgstr "Зображення"
+msgstr "Изображения"
 
 #: groups##map modes##map
 msgid "Map"
-msgstr "Мапа"
+msgstr "Карта"
 
 #: advanced_analytics_data_list##load_world_data
 msgid "Load World Data"
-msgstr "Завантажити дані на всю планету"
+msgstr "Загрузить мировые данные"
 
 #: advanced_analytics_data_list##numerator
 msgid "Numerator"
-msgstr "Чисельник"
+msgstr "Числитель"
 
 #: advanced_analytics_data_list##normalized_by
 msgid "Normalized By"
-msgstr "Нормалізовано за"
+msgstr "Нормализовано по"
 
 #: advanced_analytics_data_list##sum
 msgid "Sum"
-msgstr "Сума"
+msgstr "Сумма"
 
 #: advanced_analytics_data_list##min
 msgid "Min"
-msgstr "Мін."
+msgstr "Минимум"
 
 #: advanced_analytics_data_list##max
 msgid "Max"
-msgstr "Макс."
+msgstr "Максимум"
 
 #: advanced_analytics_data_list##mean
 msgid "Mean"
-msgstr "Середнє"
+msgstr "Среднее"
 
 #: advanced_analytics_data_list##stddev
 msgid "Stddev"
-msgstr "Стандартне відхилення"
+msgstr "Стандартное отклонение"
 
 #: advanced_analytics_data_list##median
 msgid "Median"
-msgstr "Медіана"
+msgstr "Медиана"
 
 #: advanced_analytics_data_list##filter_numerator
 msgid "Filter Numerator"
-msgstr "Фільтр чисельника"
+msgstr "Фильтр числителя"
 
 #: advanced_analytics_data_list##filter_denominator
 msgid "Filter Denominator"
-msgstr "Фільтр знаменника"
+msgstr "Фильтр знаменателя"
 
 #: mcda##title mcda##modal_title
 msgid "Multi-criteria decision analysis"
-msgstr ""
+msgstr "Многокритериальный анализ"
 
 #: mcda##name
 msgid "Create MCDA"
-msgstr ""
+msgstr "Создать анализ"
 
 #: mcda##modal_input_name
 msgid "Analysis name"
-msgstr ""
+msgstr "Название анализа"
 
 #: mcda##modal_input_name_placeholder
 msgid "e.g., Climate change"
-msgstr ""
+msgstr "Например, Изменение климата"
 
 #: mcda##modal_input_indicators
 msgid "Layer list"
-msgstr ""
+msgstr "Список слоёв"
 
 #: mcda##modal_input_indicators_placeholder
 msgid "Select layers"
-msgstr ""
+msgstr "Выберите слои"
 
 #: mcda##modal_input_indicators_no_options
 msgid "No options"
-msgstr ""
+msgstr "Нет доступных вариантов"
 
 #: mcda##btn_save
 msgid "Save analysis"
-msgstr ""
+msgstr "Сохранить анализ"
 
 #: mcda##error_analysis_name_cannot_be_empty
 msgid "Analysis name cannot be empty"
-msgstr ""
+msgstr "Название анализа не может быть пустым"
 
 #: mcda##error_bad_layer_data
 msgid "Invalid MCDA layer data"
-msgstr ""
+msgstr "Некорректные данные слоя многокритериального анализа"
 
 #: mcda##error_invalid_file
 msgid "Invalid MCDA file format"
-msgstr ""
+msgstr "Некорректный формат файла многокритериального анализа"
 
 #: mcda##error_invalid_parameter
 msgid "Invalid '{{parameter}}' parameter"
-msgstr ""
+msgstr "Некорректный параметр '{{parameter}}'"
 
 #: mcda##error_invalid_layer_parameter
 msgid "Invalid '{{parameter}}' parameter in '{{axisName}}' layer"
-msgstr ""
+msgstr "Некорректный параметр '{{parameter}}' в слое '{{axisName}}'"
 
 #: mcda##error_wrong_mcda_version
 msgid "Wrong MCDA version"
-msgstr ""
+msgstr "Неподдерживаемая версия многокритериального анализа"
 
 #: mcda##legend_subtitle
 msgid ""
 "Hexagons are colored based on analysis layer settings. Click a hexagon to "
 "see its values."
 msgstr ""
+"Шестиугольники окрашены в соответствии с настройками анализа слоя. Нажмите "
+"на шестиугольник, чтобы увидеть его значения."
 
 #: mcda##layer_editor##save_changes profile##saveButton
 msgid "Save changes"
-msgstr "Зберегти зміни"
+msgstr "Сохранить изменения"
 
 #: mcda##layer_editor##range
 msgid "Value range"
-msgstr ""
+msgstr "Диапазон значений"
 
 #: mcda##layer_editor##outliers
 msgid "Outliers"
-msgstr ""
+msgstr "Выпадающие значения"
 
 #: mcda##layer_editor##reverse_to_good_bad
 msgid "Reverse to Good → Bad"
-msgstr ""
+msgstr "Перевернуть: Хорошо → Плохо"
 
 #: mcda##layer_editor##reverse_to_bad_good
 msgid "Reverse to Bad → Good"
-msgstr ""
+msgstr "Перевернуть: Плохо → Хорошо"
 
 #: mcda##layer_editor##weight
 msgid "Weight"
-msgstr ""
+msgstr "Вес"
 
 #: mcda##layer_editor##transform
 msgid "Transform"
-msgstr ""
+msgstr "Трансформировать"
 
 #: mcda##layer_editor##transformation
 msgid "Transformation"
-msgstr ""
+msgstr "Трансформация"
 
 #: mcda##layer_editor##normalize
 msgid "Normalize"
-msgstr ""
+msgstr "Нормализовать"
 
 #: mcda##layer_editor##normalization
 msgid "Normalization"
-msgstr ""
+msgstr "Нормализация"
 
 #: mcda##layer_editor##range_buttons##full_range
 msgid "Full range"
-msgstr ""
+msgstr "Полный диапазон"
 
 #: mcda##layer_editor##range_buttons##3_sigma
 msgid "3σ"
-msgstr ""
+msgstr "3σ"
 
 #: mcda##layer_editor##range_buttons##2_sigma
 msgid "2σ"
-msgstr ""
+msgstr "2σ"
 
 #: mcda##layer_editor##range_buttons##1_sigma
 msgid "1σ"
-msgstr ""
+msgstr "1σ"
 
 #: mcda##layer_editor##outliers_options##clamp
 msgid "Clamp"
-msgstr ""
+msgstr "Ограничить"
 
 #: mcda##layer_editor##outliers_options##dont_modify
 msgid "Don't modify"
-msgstr ""
+msgstr "Не изменять"
 
 #: mcda##layer_editor##transformations##no_transformation
 msgid "No transformation"
-msgstr ""
+msgstr "Без трансформации"
 
 #: mcda##layer_editor##transformations##square_root
 msgid "Square root: sign(x)⋅√|x|"
-msgstr ""
+msgstr "Квадратный корень: sign(x)⋅√|x|"
 
 #: mcda##layer_editor##transformations##cube_root
 msgid "Cube root: ∛x"
-msgstr ""
+msgstr "Кубический корень: ∛x"
 
 #: mcda##layer_editor##transformations##log
 msgid "log₁₀(x - xmin + 1)"
-msgstr ""
+msgstr "log₁₀(x - xmin + 1)"
 
 #: mcda##layer_editor##transformations##log_epsilon
 msgid "log₁₀(x - xmin + ε)"
-msgstr ""
+msgstr "log₁₀(x - xmin + ε)"
 
 #: mcda##layer_editor##no
 msgid "No"
-msgstr ""
+msgstr "Без нормализации"
 
 #: mcda##layer_editor##max_min
 msgid "Max-min"
-msgstr ""
+msgstr "Макс-мин"
 
 #: mcda##layer_editor##errors##weight_cannot_be_empty
 msgid "Weight cannot be empty"
-msgstr ""
+msgstr "Вес не может быть пустым"
 
 #: mcda##layer_editor##errors##weight_must_be_a_number
 msgid "Weight must be a valid number"
-msgstr ""
+msgstr "Вес должен быть числом"
 
 #: mcda##layer_editor##errors##range_from_cannot_be_bigger
 msgid "The ‘from’ value cannot be bigger than the ‘to’ value"
-msgstr ""
+msgstr "Значение «от» не может быть больше, чем значение «до»"
 
 #: mcda##layer_editor##errors##range_cannot_be_empty
 msgid "Range cannot be empty"
-msgstr ""
+msgstr "Диапазон не может быть пустым"
 
 #: mcda##layer_editor##errors##range_must_be_a_number
 msgid "Range must be a valid number"
-msgstr ""
+msgstr "Диапазон должен быть числом"
 
 #: mcda##layer_editor##tips##range
 msgid ""
 "The values that will be considered the worst and the best in your analysis."
 msgstr ""
+"Значения, которые будут считаться наихудшими и наилучшими в вашем анализе."
 
 #: mcda##layer_editor##tips##sentiment
 msgid ""
@@ -504,6 +507,9 @@ msgid ""
 "* **Bad → Good**: Higher values indicate a positive sentiment.\n"
 "* **Good → Bad**: Higher values indicate a negative sentiment."
 msgstr ""
+"Определите направление коннотаций слоя на анализ:\n"
+"* **Плохо → Хорошо**: Более высокие значения указывают на положительное направление.\n"
+"* **Хорошо → Плохо**: Более высокие значения указывают на отрицательное направление."
 
 #: mcda##layer_editor##tips##weight
 msgid ""
@@ -511,6 +517,9 @@ msgid ""
 "average. Adjusting the increased weight of a layer (2, 3, etc.) allows you "
 "to assign additional importance to it in the analysis."
 msgstr ""
+"По умолчанию все слои вносят равный вклад в анализ через средневзвешенное "
+"значение. Увеличение веса слоя (2, 3 и т. д.) позволяет придать ему "
+"дополнительную значимость в анализе."
 
 #: mcda##layer_editor##tips##transform
 msgid ""
@@ -519,6 +528,10 @@ msgid ""
 "\n"
 " **Note**: Calculations are done before normalization."
 msgstr ""
+"Примените вычисления к значениям. Достижение более линейного распределения "
+"обеспечит более полезную информацию для анализа.\n"
+"\n"
+" **Примечание**: Вычисления выполняются перед нормализацией."
 
 #: mcda##layer_editor##tips##normalize
 msgid ""
@@ -528,6 +541,11 @@ msgid ""
 "scale, ensuring they are all comparable.\n"
 "* **No (for specialists only)**: Leaves values unmodified."
 msgstr ""
+"Приводит значения к стандартизированной шкале. Это упрощает их сравнение и "
+"принятие решений.\n"
+"* **Стандартная шкала оценки**: Этот вариант приводит значения к "
+"стандартизированной шкале, чтобы они были сопоставимы.\n"
+"* **Нет (только для специалистов)**: Оставляет значения без изменений."
 
 #: mcda##layer_editor##tips##outliers
 msgid ""
@@ -536,184 +554,192 @@ msgid ""
 "beyond this range.\n"
 "* **Exclude**: Exclude areas where values are out of range."
 msgstr ""
+"* **Ограничить**: Установить значения выше диапазона как 1, а ниже "
+"диапазона – как 0.\n"
+"* **Не изменять**: Сохранить 0 и 1 для минимального и "
+"максимального значений, но допустить выбросы за пределами этого диапазона.\n"
+"* **Исключить**: Исключить области, где значения выходят за "
+"пределы диапазона."
 
 #: mcda##bad
 msgid "Bad"
-msgstr ""
+msgstr "Плохо"
 
 #: mcda##good
 msgid "Good"
-msgstr ""
+msgstr "Хорошо"
 
 #: multivariate##upload_analysis_layer
 msgid "Upload analysis layer"
-msgstr ""
+msgstr "Загрузить слой анализа"
 
 #: multivariate##popup##score_header
 msgid "Score {{level}}"
-msgstr ""
+msgstr "Оценка {{level}}"
 
 #: multivariate##popup##base_header
 msgid "Base {{level}}"
-msgstr ""
+msgstr "Основа {{level}}"
 
 #: search##search_location
 msgid "Search location"
-msgstr "Знайти місцеположення"
+msgstr "Поиск мест"
 
 #: search##info_block
 msgid "You can search for 📍 locations"
-msgstr ""
+msgstr "Вы можете искать 📍 места"
 
 #: search##info_block_with_mcda
 msgid ""
 "You can search for 📍 locations or ask ✨ AI your question like “Where is dead "
 "wood”"
 msgstr ""
+"Вы можете искать 📍 места или задать ✨ AI вопрос, например: «Где находится "
+"сухостой?»"
 
 #: search##input_placeholder
 msgid "Search"
-msgstr ""
+msgstr "Поиск"
 
 #: search##input_placeholder_mcda
 msgid "Search or ask AI"
-msgstr ""
+msgstr "Найти или спросить AI"
 
 #: search##locations_no_result
 msgid "No locations found"
-msgstr ""
+msgstr "Места не найдены"
 
 #: search##mcda_loading_message
 msgid "AI is generating an analysis for you"
-msgstr ""
+msgstr "AI создаёт анализ для вас"
 
 #: search##mcda_no_result
 msgid "No AI suggestion"
-msgstr ""
+msgstr "Нет предложений от AI"
 
 #: search##mcda_error_message
 msgid "AI engine did not respond. Please try again later"
-msgstr ""
+msgstr "AI не ответил. Пожалуйста, попробуйте позже"
 
 #: search##mcda_create_analysis
 msgid "Create analysis"
-msgstr "Створити аналіз"
+msgstr "Создать анализ"
 
 #: search##upload_analysis
 msgid "“{{name}}” Multi-Criteria Decision Analysis has been created"
-msgstr ""
+msgstr "Многокритериальный анализ «{{name}}» создан"
 
 #: event_list##warning_title
 msgid "Cannot filter by map view"
-msgstr ""
+msgstr "Невозможно отфильтровать по виду карты"
 
 #: event_list##warning_description
 msgid "Map is not ready yet, try later"
-msgstr "Карта ще не готова, спробуйте пізніше"
+msgstr "Карта еще не готова, попробуйте позже"
 
 #: event_list##bbox_filter_button
 msgid "Filter by map view"
-msgstr ""
+msgstr "Фильтровать по виду карты"
 
 #: event_list##analytics##affected_people##tooltip
 msgid "Affected people"
-msgstr "Люди які постраждали"
+msgstr "Пострадавшие люди"
 
 #: event_list##analytics##affected_people##value
 msgid "No humanitarian impact"
-msgstr "Жодного гуманітарного впливу"
+msgstr "Гуманитарного воздействия нет"
 
 #: event_list##analytics##settled_area_tooltip
 msgid "Settled area"
-msgstr "Заселений район"
+msgstr "Заселённая территория"
 
 #: event_list##analytics##loss_tooltip
 msgid "Estimated loss"
-msgstr "Орієнтовні збитки"
+msgstr "Предполагаемый ущерб"
 
 #: event_list##no_event_in_feed
 msgid "The disaster was not found in the current disaster feed"
-msgstr ""
+msgstr "Катастрофа не найдена в текущей ленте катастроф"
 
 #: event_list##no_selected_disaster
 msgid "No disaster selected"
-msgstr "Катастрофа не вибрана"
+msgstr "Катастрофа не выбрана"
 
 #: event_list##chose_disaster
 msgid "Choose disaster"
-msgstr "Виберіть катастрофу"
+msgstr "Выберите катастрофу"
 
 #: event_list##no_historical_disasters
 msgid "No historical disasters in this area"
-msgstr "Катастроф на цій території не знайдено"
+msgstr "В этой области нет исторических катастроф"
 
 #: event_list##no_feed_disasters
 msgid "No disasters in this feed"
-msgstr "У стрічці немає катастроф"
+msgstr "В этой ленте нет катастроф"
 
 #: event_list##no_feed_disasters_matching_your_filters
 msgid "No disasters matching your filters"
-msgstr ""
+msgstr "Нет катастроф, соответствующих вашим фильтрам"
 
 #: event_list##no_disasters
 msgid "No disasters"
-msgstr "Ніяких катастроф"
+msgstr "Нет катастроф"
 
 #: event_list##severity_termination
 msgid "Termination"
-msgstr "Припинення"
+msgstr "Прекращение"
 
 #: event_list##severity_minor
 msgid "Minor"
-msgstr "Незначний"
+msgstr "Незначительное"
 
 #: event_list##severity_moderate
 msgid "Moderate"
-msgstr "Помірний"
+msgstr "Умеренное"
 
 #: event_list##severity_severe
 msgid "Severe"
-msgstr "Сильний"
+msgstr "Серьезное"
 
 #: event_list##severity_extreme
 msgid "Extreme"
-msgstr "Екстримальний"
+msgstr "Экстремальное"
 
 #: event_list##open_timeline_button episode
 msgid "Timeline"
-msgstr "Відкрити темпоральну шкалу"
+msgstr "Таймлайн"
 
 #: create_layer##edit_layer
 msgid "Edit Layer"
-msgstr "Редагувати шар"
+msgstr "Редактировать слой"
 
 #: create_layer##edit_features
 msgid "Edit Features"
-msgstr "Редагувати об'єкт"
+msgstr "Редактировать объекты"
 
 #: create_layer##delete_layer
 msgid "Delete Layer"
-msgstr "Видалити шар"
+msgstr "Удалить слой"
 
 #: create_layer##create_layer
 msgid "Create Layer"
-msgstr "Створити шар"
+msgstr "Создать слой"
 
 #: create_layer##saving_layer
 msgid "Saving layer..."
-msgstr "Зберігаємо зміни..."
+msgstr "Сохранение слоя..."
 
 #: create_layer##field_name
 msgid "Field name"
-msgstr "Назва поля"
+msgstr "Название поля"
 
 #: create_layer##layer_name
 msgid "Layer name"
-msgstr "Назва шару"
+msgstr "Название слоя"
 
 #: create_layer##marker_icon
 msgid "Marker icon"
-msgstr "Значок маркера"
+msgstr "Иконка маркера"
 
 #: create_layer##type
 msgid "Type"
@@ -721,23 +747,23 @@ msgstr "Тип"
 
 #: create_layer##select
 msgid "Select"
-msgstr "Вибрати"
+msgstr "Выбрать"
 
 #: create_layer##short_text
 msgid "Short Text"
-msgstr "Текст(короткий)"
+msgstr "Короткий текст"
 
 #: create_layer##long_text
 msgid "Long Text"
-msgstr "Текст(довгий)"
+msgstr "Длинный текст"
 
 #: create_layer##link
 msgid "Link"
-msgstr "Посилання"
+msgstr "Ссылка"
 
 #: create_layer##image
 msgid "Image"
-msgstr "Зображення"
+msgstr "Изображение"
 
 #: create_layer##fields
 msgid "Fields"
@@ -745,92 +771,98 @@ msgstr "Поля"
 
 #: create_layer##add_field
 msgid "Add field"
-msgstr "Додати поле"
+msgstr "Добавить поле"
 
 #: create_layer##location
 msgid "Location"
-msgstr "Позиція"
+msgstr "Местоположение"
 
 #: create_layer##edit_feature_placeholder
 msgid "Select some feature for start edit feature properties"
-msgstr "Виберіть об’єкт для редагування його значень"
+msgstr "Выберите объект, чтобы начать редактирование его свойств"
 
 #: analytics_panel##header_title
 msgid "Analytics"
-msgstr "Аналітика"
+msgstr "Аналитика"
 
 #: analytics_panel##error_loading
 msgid "Failed receiving data about selected area. It may be too large."
 msgstr ""
+"Не удалось получить данные о выделенной области. Возможно, она слишком "
+"велика."
 
 #: analytics_panel##info_short
 msgid "Calculations are made for selected area"
-msgstr "Аналітика для обраної території"
+msgstr "Расчеты выполняются для выделенной области"
 
 #: advanced_analytics_panel##header_title
 msgid "Advanced analytics"
-msgstr "Розширена аналітика"
+msgstr "Расширенная аналитика"
 
 #: advanced_analytics_panel##error
 msgid "Error while fetching advanced analytics data"
-msgstr "Помилка під час отримання даних розширеної аналітики"
+msgstr "Ошибка при получении данных расширенной аналитики"
 
 #: advanced_analytics_empty##not_found current_event##not_found_request
 msgid "Sorry, the requested disaster was not found"
-msgstr "Вибачте, запитана катастрофа не знайдена"
+msgstr "Извините, запрашиваемая катастрофа не найдена"
 
 #: advanced_analytics_empty##error
 msgid "An error occurred"
-msgstr "Сталася помилка"
+msgstr "Произошла ошибка"
 
 #: advanced_analytics_empty##analytics_for_selected
 msgid "Analytics for selected area"
-msgstr "Аналітика для обраної території"
+msgstr "Аналитика для выделенной области"
 
 #: advanced_analytics_empty##will_be_provided
 msgid "will be provided here"
-msgstr "буде надано тут"
+msgstr "будет представлена здесь"
 
 #: advanced_analytics_empty##no_analytics
 msgid "No analytics for the selected area"
-msgstr ""
+msgstr "Нет аналитики для выделенной области"
 
 #: llm_analytics##header
 msgid "AI insights"
-msgstr ""
+msgstr "Аналитика AI"
 
 #: llm_analytics##placeholder##select_area
 msgid ""
 "Select area (<icon1 />,<icon2 />,<icon3 />) you want to explore to get AI "
 "Insights."
 msgstr ""
+"Выберите область (<icon1 />,<icon2 />,<icon3 />), которую хотите "
+"исследовать, чтобы получить аналитику AI."
 
 #: llm_analytics##placeholder##you_can_also
 msgid "You can also:"
-msgstr ""
+msgstr "Вы также можете:"
 
 #: llm_analytics##placeholder##fill_bio
-msgid ""
-"<icon /> <lnk>Fill out analysis objectives</lnk> to personalize AI analysis"
+msgid "<icon /> <lnk>Fill out analysis objectives</lnk> to personalize AI analysis"
 msgstr ""
+"<icon /> <lnk>Заполните цели анализа</lnk>, чтобы персонализировать AI анализ"
 
 #: llm_analytics##placeholder##select_and_save_as_reference_area
 msgid ""
 "<icon /> Select an area and save it as a reference to compare with another "
 "one"
 msgstr ""
+"<icon /> Выберите область и сохраните её как эталонную, чтобы сравнивать с "
+"другой"
 
 #: llm_analytics##placeholder##learn_more
 msgid "<lnk><icon/> Learn more about AI Insights</lnk>"
-msgstr ""
+msgstr "<lnk><icon/> Узнать больше об аналитике AI</lnk>"
 
 #: draw_tools##area
 msgid "Polygon"
-msgstr ""
+msgstr "Многоугольник"
 
 #: draw_tools##line
 msgid "Line"
-msgstr "Лінія"
+msgstr "Линия"
 
 #: draw_tools##point
 msgid "Point"
@@ -838,87 +870,87 @@ msgstr "Точка"
 
 #: draw_tools##finish_drawing
 msgid "Finish Drawing"
-msgstr "Закінчити малювання"
+msgstr "Завершить рисование"
 
 #: draw_tools##caption
 msgid "Click on the map to begin drawing"
-msgstr "Натисніть на карту, щоб почати малювати"
+msgstr "Нажмите на карту, чтобы начать рисование"
 
 #: draw_tools##no_geometry_error
 msgid "No drawn geometry to download"
-msgstr "Немає геометрії для завантаження"
+msgstr "Нет нарисованной геометрии для загрузки"
 
 #: draw_tools##overlap_error
 msgid "Polygon should not overlap itself"
-msgstr "Полігон не має перетинати сам себе"
+msgstr "Полигон не должен пересекаться сам с собой"
 
 #: draw_tools##save_features
 msgid "Save features"
-msgstr "Зберегти об'єкти"
+msgstr "Сохранить объекты"
 
 #: boundary_selector##title
 msgid "Focus to administrative boundary"
-msgstr "Фокусувати на адміністративну одиницю"
+msgstr "Фокус на административной границе"
 
 #: geometry_uploader##title
 msgid "Focus to uploaded geometry"
-msgstr "Фокусувати на завантажену геометрію"
+msgstr "Фокус на загруженной геометрии"
 
 #: geometry_uploader##error
 msgid "Error while reading uploaded file"
-msgstr "Помилка під час завантаження файлу"
+msgstr "Ошибка при чтении загруженного файла"
 
 #: focus_geometry##title
 msgid "Focus to freehand geometry"
-msgstr "Фокусувати на намальовану геометрію"
+msgstr "Фокус на свободно нарисованной геометрии"
 
 #: reference_area_layer##settings##name profile##reference_area##title
 msgid "Reference area"
-msgstr ""
+msgstr "Эталонная область"
 
 #: drawings##self_directions_not_supported
 msgid "Self intersections are not supported"
-msgstr "Самоперетин не підтримується!"
+msgstr "Самопересечения не поддерживаются"
 
 #: bivariate##panel##header
 msgid "Bivariate matrix"
-msgstr "Біваріативна Матриця"
+msgstr "Бивариативная матрица"
 
 #: bivariate##matrix##caption##base_axis
 msgid "Base axis"
-msgstr "Базова вісь"
+msgstr "Базовая ось"
 
 #: bivariate##matrix##caption##annex_axis
 msgid "Annex axis"
-msgstr "Додаткова вісь"
+msgstr "Дополнительная ось"
 
 #: bivariate##matrix##caption##tooltip##p1
 msgid ""
 "Charts involving the Base and Annex axes help establish a relationship "
 "between two data sets."
 msgstr ""
-"Діаграми, що містять базову та додаткову осі, допомагають встановити зв’язок "
-"між двома наборами даних."
+"Графики с базовой и дополнительной осями помогают установить взаимосвязь "
+"между двумя наборами данных."
 
 #: bivariate##matrix##caption##tooltip##li1
 msgid "Annex axis - parameters that we analyse"
-msgstr "Додаткова вісь - параметри, які ми аналізуємо"
+msgstr "Дополнительная ось – параметры, которые мы анализируем"
 
 #: bivariate##matrix##caption##tooltip##li2
 msgid "Base axis - reference point in the analysis"
-msgstr "Базова вісь - орієнтир при аналізі"
+msgstr "Базовая ось – эталонная точка в анализе"
 
 #: bivariate##matrix##caption##tooltip##b
 msgid "Ex: the best location to open a cafe"
-msgstr "Наприклад: найкраще місце щоб відкрити кафе"
+msgstr "Например: лучшее место для открытия кафе"
 
 #: bivariate##matrix##caption##tooltip##p2
 msgid ""
 "We can explore the number of eatery places (Annex axis) against Population "
 "density (Base axis)."
 msgstr ""
-"Ми можемо дослідити кількість закладів харчування (додаткова вісь) проти "
-"щільності населення (базова вісь)."
+"Мы можем изучить количество мест общественного питания (дополнительная ось) "
+"по отношению к плотности населения (базовая ось)."
 
 #: bivariate##matrix##caption##tooltip##p3
 msgid ""
@@ -926,124 +958,124 @@ msgid ""
 "places, and the number of people in that place gives us additional "
 "information."
 msgstr ""
-"У цьому сценарії нас спочатку цікавить невелика кількість закладів "
-"харчування, а кількість людей у цьому місці дає нам додаткову інформацію."
+"В этом сценарии нас интересует небольшое количество мест общественного "
+"питания, а количество людей в этом месте даёт дополнительную информацию."
 
 #: bivariate##matrix##header##title
 msgid "Choose two layers to explore correlations"
-msgstr "Виберіть два шари, щоб дослідити їх кореляції"
+msgstr "Выберите два слоя для исследования корреляций"
 
 #: bivariate##matrix##header##hint
 msgid "Layers and correlations are displayed for the current Selected Area"
-msgstr "Шари та кореляції показані для виділеної області"
+msgstr "Слои и корреляции отображаются для текущей выделенной области"
 
 #: bivariate##matrix##icon##population
 msgid "Value divided by Population"
-msgstr "Значення, поділене на кількість населення"
+msgstr "Значение, делённое на население"
 
 #: bivariate##matrix##icon##area_km2
 msgid "Value divided by Area"
-msgstr "Значення, поділене на площу"
+msgstr "Значение, делённое на площадь"
 
 #: bivariate##matrix##icon##total_building_count
 msgid "Value divided by Total Buildings Estimate"
-msgstr "Значення, поділене на загальну кількість будівель"
+msgstr "Значение, делённое на общее количество зданий"
 
 #: bivariate##matrix##icon##populated_area_km2
 msgid "Value divided by Populated Area"
-msgstr "Значення, поділене на заселену площу"
+msgstr "Значение, делённое на заселённую площадь"
 
 #: bivariate##matrix##icon##one
 msgid "Without divider"
-msgstr "Без знаменника"
+msgstr "Без делителя"
 
 #: bivariate##matrix##icon##roads
 msgid "Value divided by Total Roads Length"
-msgstr "Значення, поділене на загальну довжину доріг"
+msgstr "Значение, делённое на общую длину дорог"
 
 #: bivariate##matrix##progress##rendering
 msgid "Rendering"
-msgstr "Візуалізація"
+msgstr "Отрисовка"
 
 #: bivariate##matrix##progress##applied
 msgid "Applied on the map"
-msgstr "Нанесено на карту"
+msgstr "Применено на карте"
 
 #: bivariate##matrix##loading_error
 msgid ""
 "Unfortunately, we cannot display the matrix. Try refreshing the page or come "
 "back later."
 msgstr ""
-"На жаль, ми не можемо показати матрицю. Спробуйте оновити сторінку або "
-"зачекать."
+"К сожалению, мы не можем отобразить матрицу. Попробуйте обновить страницу "
+"или зайдите позже."
 
 #: bivariate##legend##high
 msgid "High"
-msgstr "Високий"
+msgstr "Высокий"
 
 #: bivariate##legend##low
 msgid "Low"
-msgstr "Низький"
+msgstr "Низкий"
 
 #: bivariate##legend##medium
 msgid "Medium"
-msgstr "Середній"
+msgstr "Средний"
 
 #: bivariate##color_manager##not_defined
 msgid "Not defined"
-msgstr "Не задано"
+msgstr "Не определено"
 
 #: bivariate##color_manager##sentiments_combinations_filter
 msgid "Sentiments combinations"
-msgstr "Комбінація сентиментів"
+msgstr "Комбинации направлений"
 
 #: bivariate##color_manager##no_legends
 msgid "There are no legends satisfying the conditions."
-msgstr "Немає легенд, що задовольняють умовам."
+msgstr "Нет легенд, удовлетворяющих условиям."
 
 #: bivariate##color_manager##no_data
 msgid "No Data."
-msgstr "Немає даних."
+msgstr "Нет данных."
 
 #: bivariate##color_manager##sentiments_tab
 msgid "Sentiments"
-msgstr "Сентименти"
+msgstr "Направление"
 
 #: bivariate##color_manager##color_legends_tab
 msgid "Color Legends"
-msgstr "Легенда кольорів"
+msgstr "Цветовые легенды"
 
 #: bivariate##color_manager##layers_tab
 msgid "Layers (indicators)"
-msgstr "Шари (індикатори)"
+msgstr "Слои (индикаторы)"
 
 #: sidebar##biv_color_manager
 msgid "Сolor manager"
-msgstr "Редактор кольорів"
+msgstr "Менеджер цветов"
 
 #: sidebar##edit_osm
 msgid "Edit in OpenStreetMap"
-msgstr "Редагувати в OpenStreetMap"
+msgstr "Редактировать в OpenStreetMap"
 
 #: sidebar##ruler
 msgid "Ruler"
-msgstr "Лінійка"
+msgstr "Линейка"
 
 #: sidebar##collapse
 msgid "Collapse"
-msgstr "Згорнути"
+msgstr "Свернуть"
 
 #: sidebar##expand
 msgid "Expand"
-msgstr "Розгорнути"
+msgstr "Развернуть"
 
 #: sidebar##icon_alt
 msgid "Application logo"
-msgstr "Логотип аплікації"
+msgstr "Логотип приложения"
 
 #: login##email profile##email
 msgid "Email"
-msgstr "Електронна пошта"
+msgstr "Электронная почта"
 
 #: login##password
 msgid "Password"
@@ -1051,113 +1083,115 @@ msgstr "Пароль"
 
 #: login##login_button
 msgid "Login"
-msgstr "Логін"
+msgstr "Войти"
 
 #: login##sign_up
 msgid "Sign up"
-msgstr "Зареєструватися"
+msgstr "Регистрация"
 
 #: login##logging_in
 msgid "Logging in..."
-msgstr "Входимо..."
+msgstr "Вход в систему..."
 
 #: login##log_in
 msgid "Log in"
-msgstr "Увійти"
+msgstr "Войти"
 
 #: login##forgot_password
 msgid "Forgot password?"
-msgstr "Забули пароль?"
+msgstr "Забыли пароль?"
 
 #: login##description
 msgid "Please log in to change your settings"
-msgstr "Увійдіть, щоб змінити налаштування"
+msgstr "Пожалуйста, войдите в систему, чтобы изменить настройки"
 
 #: login##error##email_empty
 msgid "Email cannot be empty"
-msgstr "Електронна пошта не може бути пустою"
+msgstr "Поле электронной почты не может быть пустым"
 
 #: login##error##email_invalid
 msgid "Email has to be valid"
-msgstr "Електронна пошта має бути коректною"
+msgstr "Введите корректный адрес электронной почты"
 
 #: login##error##password
 msgid "Password cannot be empty"
-msgstr "Пароль не може бути пустим"
+msgstr "Пароль не может быть пустым"
 
 #: login##error##connect
 msgid "Could not connect to authentication service"
-msgstr "Не вдалося під'єднатися до служби аутентифікації"
+msgstr "Не удалось подключиться к службе аутентификации"
 
 #: currency##usd
 msgid "USD"
-msgstr ""
+msgstr "USD"
 
 #: subscription##title
 msgid "Plans & Pricing"
-msgstr ""
+msgstr "Тарифы и цены"
 
 #: subscription##price_summary
 msgid "* Billed as ${{pricePerYear}} USD once yearly"
-msgstr ""
+msgstr "* Выставляется счёт на ${{pricePerYear}} USD раз в год"
 
 #: subscription##unauthorized_button
 msgid "Sign in to subscribe"
-msgstr ""
+msgstr "Войдите, чтобы подписаться"
 
 #: subscription##current_plan_button
 msgid "Current plan"
-msgstr ""
+msgstr "Текущий план"
 
 #: subscription##sales_button
 msgid "Contact sales"
-msgstr ""
+msgstr "Связаться с отделом продаж"
 
 #: subscription##book_demo_button
 msgid "Book a demo"
-msgstr ""
+msgstr "Записаться на демонстрацию"
 
 #: subscription##request_trial_button
 msgid "Request trial"
-msgstr ""
+msgstr "Запросить пробную версию"
 
 #: subscription##errors##payment_initialization
 msgid ""
 "There was an error during payment initialization. Please try again or "
 "contact our support"
 msgstr ""
+"Произошла ошибка при инициализации платежа. Попробуйте снова или свяжитесь "
+"со службой поддержки"
 
 #: subscription##success_modal##title
 msgid "Success"
-msgstr ""
+msgstr "Успех"
 
 #: subscription##success_modal##thank_you_for_subscribing
 msgid "Thank you for subscribing to our platform!"
-msgstr ""
+msgstr "Спасибо за подписку на нашу платформу!"
 
 #: subscription##success_modal##after_the_page_refreshes
 msgid "After the page refreshes, you can start using Kontur Atlas"
-msgstr ""
+msgstr "После обновления страницы вы сможете начать использовать Kontur Atlas"
 
 #: reports##title
 msgid "Disaster Ninja Reports"
-msgstr "Звіти Disaster Ninja"
+msgstr "Отчёты Disaster Ninja"
 
 #: reports##no_data
 msgid "No data for this report"
-msgstr "Нема даних для звіту"
+msgstr "Нет данных для этого отчёта"
 
 #: reports##sorting
 msgid "Sorting data..."
-msgstr "Сортуємо дані..."
+msgstr "Сортировка данных..."
 
 #: reports##loading
 msgid "Loading data"
-msgstr "Завантажуємо дані"
+msgstr "Загрузка данных"
 
 #: reports##open_josm
 msgid "Open via JOSM remote control"
-msgstr "Відкрити в JOSM"
+msgstr "Открыть через удалённое управление JOSM"
 
 #: reports##josm_logo_alt
 msgid "JOSM logo"
@@ -1165,11 +1199,11 @@ msgstr "Логотип JOSM"
 
 #: reports##see_all
 msgid "See all reports"
-msgstr "Дивитися всі звіти"
+msgstr "Посмотреть все отчёты"
 
 #: reports##wrong_id
 msgid "Wrong report ID"
-msgstr "Неправильний ID звіту"
+msgstr "Неверный идентификатор отчёта"
 
 #: reports##description
 msgid ""
@@ -1177,45 +1211,45 @@ msgid ""
 "quality. They contain links to areas on <4>osm.org </4> and links to open "
 "them in the JOSM editor with enabled remote control for editing."
 msgstr ""
-"<0>Kontur </0> генерує декілька звітів які допомагають перевіряти якість "
-"даних OpenStreetMap. Вони містять посилання на <4>osm.org</4> і посилання, "
-"щоб відкрити їх у редакторі JOSM для редагування."
+"<0>Kontur </0> создаёт несколько отчётов, которые помогают проверять "
+"качество OpenStreetMap. Они содержат ссылки на области на <4>osm.org</4> и "
+"ссылки для открытия их в редакторе JOSM с включённым удалённым управлением."
 
 #: modes##about
 msgid "About"
-msgstr "Про нас"
+msgstr "О сервисе"
 
 #: modes##cookies
 msgid "Cookies"
-msgstr ""
+msgstr "Файлы cookie"
 
 #: modes##reports
 msgid "Reports"
-msgstr "Звіти"
+msgstr "Отчёты"
 
 #: modes##report
 msgid "Report"
-msgstr ""
+msgstr "Отчёт"
 
 #: modes##profile
 msgid "Profile"
-msgstr "Профіль"
+msgstr "Профиль"
 
 #: modes##privacy
 msgid "Privacy"
-msgstr "Конфіденційність"
+msgstr "Конфиденциальность"
 
 #: modes##terms
 msgid "Terms"
-msgstr ""
+msgstr "Условия"
 
 #: modes##user_guide
 msgid "User guide"
-msgstr ""
+msgstr "Руководство"
 
 #: about##title
 msgid "Welcome to Disaster Ninja!"
-msgstr "Вітаємо на Disaster Ninja!"
+msgstr ""
 
 #: about##intro
 msgid ""
@@ -1227,17 +1261,10 @@ msgid ""
 "Whether you work in disaster management, build a smart city, or perform "
 "research on climate change, Disaster Ninja can help you to:"
 msgstr ""
-"Ви хочете отримувати повідомлення про катастрофи? Вас цікавлять миттєві дані "
-"про населення та інша аналітика для будь-якого регіону світу? Disaster Ninja "
-"від <2>Kontur</2> може задовольнити ці потреби.<br/><br/> Ми розробили це як "
-"інструмент підтримки прийняття рішень для гуманітарних картографів. Тепер "
-"його функціональність зросла. Незалежно від того, чи працюєте ви в сфері "
-"боротьби зі стихійними лихами, будуєте розумне місто чи проводите "
-"дослідження щодо зміни клімату, Disaster Ninja може вам допомогти:"
 
 #: about##l1
 msgid "1. Stay up to date with the latest hazard events globally."
-msgstr "1. Будьте в курсі останніх катастроф у всьому світі."
+msgstr ""
 
 #: about##p1
 msgid ""
@@ -1245,13 +1272,10 @@ msgid ""
 "events. It consumes data from the <2>Kontur Event Feed</2>, which you can "
 "also access via an API."
 msgstr ""
-"Панель Катастроф постійно оновлюється, щоб інформувати вас про поточні "
-"події. Дані отримані з каналу подій <2>Kontur</2>, до якого також можна "
-"отримати доступ через API."
 
 #: about##l2
 msgid "2. Focus on your area of interest."
-msgstr "2. Фокусуйтеся на вашій сфері інтересів."
+msgstr ""
 
 #: about##p2
 msgid ""
@@ -1259,14 +1283,10 @@ msgid ""
 "the map. You can also focus on a disaster-exposed area or an administrative "
 "unit — a country, city, or region."
 msgstr ""
-"Панель \"Інструменти малювання\" дозволяє малювати або завантажувати власну "
-"геометрію на карту. Ви також можете фокусуватися на області, що постраждала "
-"від стихійного лиха, або на адміністративній одиниці — країна, район чи "
-"місто."
 
 #: about##l3
 msgid "3. Get analytics for the focused area."
-msgstr "3. Отримайте аналітику для вибраної області."
+msgstr ""
 
 #: about##p3
 msgid ""
@@ -1275,14 +1295,10 @@ msgid ""
 "Kontur’s customers have access to hundreds of other indicators through "
 "Advanced Analytics."
 msgstr ""
-"Панель Аналітика показує кількість людей, які проживають у цьому регіоні на "
-"основі <2>населення Kontur</2> і потенційні прогалини картографування в "
-"OpenStreetMap. Клієнти Kontur мають доступ до сотень інших показників за "
-"допомогою Детальної Аналітики."
 
 #: about##l4
 msgid "4. Explore data on the map and make conclusions."
-msgstr "4. Досліджуйте дані на карті та робіть висновки."
+msgstr ""
 
 #: about##p4
 msgid ""
@@ -1292,11 +1308,6 @@ msgid ""
 "attention. <br/>Hint: in general, green indicates low risk / few gaps, red — "
 "high risk / many gaps."
 msgstr ""
-"Панель \"Шари\" надає різні параметри для одночасного відображення двох "
-"індикаторів на карті, наприклад, щільність населення та відстань до "
-"найближчої пожежної частини. Використовуйте легенду кольорів, щоб визначити, "
-"які області потребують уваги. <br/>Підказка: загалом зелений колір означає "
-"низький ризик / мало прогалин, червоний — високий ризик / багато прогалин."
 
 #: about##p5
 msgid ""
@@ -1304,13 +1315,10 @@ msgid ""
 "potential errors and inconsistencies in OpenStreetMap and help fix them by "
 "mapping the respective area with the JOSM editor."
 msgstr ""
-"Крім того, ви можете перейти до звітів на лівій панелі, щоб отримати доступ "
-"до даних про потенційні помилки та невідповідності в даних OpenStreetMap і "
-"допомогти їх виправити, наприклад за допомогою редактора JOSM."
 
 #: about##goToMap
 msgid "Go to the map now"
-msgstr "Перейти до мапи"
+msgstr ""
 
 #: about##p6
 msgid ""
@@ -1320,12 +1328,6 @@ msgid ""
 "feedback or suggestions on improving the tool.<br/><br/>Disaster Ninja is an "
 "open-source project. Find the code in <8>Kontur’s GitHub account</8>."
 msgstr ""
-"Ми сподіваємося, що цей інструмент буде корисний. Використовуйте вікно чату "
-"на Disaster Ninja, щоб задати будь-які запитання щодо функціональності, і ми "
-"з радістю допоможемо вам. Ви також можете зв’язатися з нами електронною "
-"поштою <1>hello@kontur.io</1> якщо у вас є відгуки чи пропозиції щодо "
-"вдосконалення інструменту.<br/><br/> Disaster Ninja є проєктом з відкритим "
-"кодом. Дивіться код в обліковому записі GitHub <8>Kontur</8>."
 
 #: profile##interfaceTheme
 msgid "Theme"
@@ -1333,221 +1335,233 @@ msgstr "Тема"
 
 #: profile##interfaceLanguage
 msgid "Language"
-msgstr "Мова"
+msgstr "Язык"
 
 #: profile##units
 msgid "Units"
-msgstr "Одиниці вимірювання"
+msgstr "Единицы измерения"
 
 #: profile##fullName
 msgid "Full name"
-msgstr ""
+msgstr "Полное имя"
 
 #: profile##metric
 msgid "metric"
-msgstr "метрична система"
+msgstr "метрическая"
 
 #: profile##imperialBeta
 msgid "imperial (beta)"
-msgstr "англійська система (бета)"
+msgstr "имперская (бета)"
 
 #: profile##profileSettingsHeader
 msgid "Personalize your experience"
-msgstr ""
+msgstr "Персонализируйте свой опыт"
 
 #: profile##your_current_job
 msgid "your current job"
-msgstr ""
+msgstr "ваша текущая должность"
 
 #: profile##area_of_expertise
 msgid "area of expertise"
-msgstr ""
+msgstr "область экспертизы"
 
 #: profile##challenges
 msgid "challenges"
-msgstr ""
+msgstr "проблемы"
 
 #: profile##personalization_prompt
 msgid "For better personalization, please include details such as:"
-msgstr ""
+msgstr "Для лучшей персонализации укажите, например:"
 
 #: profile##ai_tools_compatibility
 msgid "This information is compatible with AI tools"
-msgstr ""
+msgstr "Эта информация совместима с инструментами AI"
 
 #: profile##improves_analysis
 msgid "Improves analysis"
-msgstr ""
+msgstr "Улучшает аналитику"
 
 #: profile##bio_placeholder
 msgid "Bio"
-msgstr "Про себе"
+msgstr "О себе"
 
 #: profile##bio_textarea_placeholder
 msgid ""
 "e.g. GIS specialist with 5+ years of experience in disaster risk analysis, "
 "focused on urban resilience."
 msgstr ""
+"Например, ГИС-специалист с более чем 5-летним опытом анализа рисков "
+"катастроф, с фокусом на устойчивость городов."
 
 #: profile##analysis_objectives
 msgid "Analysis objectives"
-msgstr ""
+msgstr "Цели анализа"
 
 #: profile##objectives_textarea_placeholder
 msgid ""
 "e.g. Urban planning analysis with a focus on climate resilience. My current "
 "challenge is improving flood risk mapping."
 msgstr ""
+"Например, анализ городского планирования с акцентом на устойчивость к "
+"климатическим изменениям. Моя текущая задача — улучшение картографирования "
+"рисков наводнений."
 
 #: profile##appSettingsHeader
 msgid "Settings"
-msgstr "Налаштування"
+msgstr "Настройки"
 
 #: profile##your_organization
 msgid "Your organization"
-msgstr ""
+msgstr "Ваша организация"
 
 #: profile##your_contacts
 msgid "Your contact info"
-msgstr ""
+msgstr "Ваши контактные данные"
 
 #: profile##organization_name
 msgid "Organization name"
-msgstr ""
+msgstr "Название организации"
 
 #: profile##position
 msgid "Position"
-msgstr "Позиція"
+msgstr "Должность"
 
 #: profile##gis_specialists
 msgid "GIS specialists in your team"
-msgstr ""
+msgstr "ГИС-специалисты в вашей команде"
 
 #: profile##phone_number
 msgid "Phone number with country code"
-msgstr ""
+msgstr "Номер телефона с кодом страны"
 
 #: profile##linkedin
 msgid "LinkedIn profile"
-msgstr ""
+msgstr "Профиль в LinkedIn"
 
 #: profile##konturTheme
 msgid "Kontur"
-msgstr ""
+msgstr "Kontur"
 
 #: profile##HOTTheme
 msgid "HOT"
-msgstr ""
+msgstr "HOT"
 
 #: profile##defaultDisasterFeed
 msgid "Default disaster feed"
-msgstr "Стрічка катастроф за замовчуванням"
+msgstr "Лента катастроф по умолчанию"
 
 #: profile##defaultOSMeditor
 msgid "Default OpenStreetMap editor (beta)"
-msgstr "Редактор OpenStreetMap за замовчуванням (бета)"
+msgstr "Редактор OpenStreetMap по умолчанию (бета)"
 
 #: profile##successNotification
 msgid "All changes have been applied successfully"
-msgstr "Усі зміни успішно застосовано"
+msgstr "Все изменения успешно применены"
 
 #: profile##dont_know
 msgid "I don’t know"
-msgstr ""
+msgstr "Не знаю"
 
 #: profile##languageOption##en
 msgid "English"
-msgstr "Англійська"
+msgstr "Английский"
 
 #: profile##languageOption##es
 msgid "Spanish"
-msgstr "Іспанська"
+msgstr "Испанский"
 
 #: profile##languageOption##ar
 msgid "Arabic"
-msgstr "Арабська"
+msgstr "Арабский"
 
 #: profile##languageOption##ko
 msgid "Korean"
-msgstr "Корейська"
+msgstr "Корейский"
 
 #: profile##languageOption##id
 msgid "Indonesian"
-msgstr "Індонезійська"
+msgstr "Индонезийский"
 
 #: profile##languageOption##de
 msgid "German"
-msgstr "Німецька"
+msgstr "Немецкий"
 
 #: profile##languageOption##be
 msgid "Belarusian"
-msgstr "Білоруська"
+msgstr "Белорусский"
 
 #: profile##languageOption##ru
 msgid "Russian"
-msgstr "Російська"
+msgstr "Русский"
 
 #: profile##languageOption##uk
 msgid "Ukrainian"
-msgstr "Українська"
+msgstr "Украинский"
 
 #: profile##reference_area##freehand_geometry
 msgid "Freehand geometry"
-msgstr ""
+msgstr "Свободная геометрия"
 
 #: profile##reference_area##to_replace_reference_area
 msgid ""
 "You can redefine your reference area on map. Select an area and click \"Save "
 "as reference area\" on toolbar.\n"
 msgstr ""
+"Вы можете переопределить свою эталонную область на карте. Выберите область и "
+"нажмите \"Сохранить как эталонную область\" на панели инструментов.\n"
 
 #: profile##reference_area##description
 msgid ""
 "Save an area you are familiar with as a reference. We will use it as a "
 "baseline to compare other areas and explain the differences."
 msgstr ""
+"Сохраните знакомую вам область как эталонную. Мы будем использовать её в "
+"качестве основания для сравнения с другими областями и объяснения различий."
 
 #: profile##reference_area##set_the_reference_area
 msgid "Set area on map"
-msgstr ""
+msgstr "Выделить область на карте"
 
 #: profile##reference_area##tooltip_text
 msgid ""
 "1.Select an area of interest on the map using the Admin Boundary or Draw "
 "Geometry tool. <br/> 2. Click the 'Save as Reference' button on the toolbar."
 msgstr ""
+"1. Выделите интересующую область на карте, используя инструмент границ "
+"администраций или инструмент рисования геометрии. <br/> 2. Нажмите кнопку "
+"'Сохранить как эталонную область' на панели инструментов."
 
 #: profile##reference_area##accessing_location
 msgid "Accessing your location"
-msgstr ""
+msgstr "Определение вашего местоположения"
 
 #: profile##reference_area##accessing_location_error
 msgid "Error. Try another way."
-msgstr ""
+msgstr "Ошибка. Попробуйте другой способ."
 
 #: profile##reference_area##select_location
 msgid "Select my current location"
-msgstr ""
+msgstr "Выбрать моё текущее местоположение"
 
 #: profile##reference_area##notification
 msgid "Your reference area {{name}} has been saved"
-msgstr ""
+msgstr "Ваша эталонная область {{name}} была сохранена"
 
 #: locate_me##get_location_error
 msgid "Error while getting location"
-msgstr "Помилка під час визначення місцеположення"
+msgstr "Ошибка при определении местоположения"
 
 #: loading_episodes
 msgid "Loading Episodes"
-msgstr "Завантаження епізодів"
+msgstr "Загрузка эпизодов"
 
 #: zoom_to_world
 msgid "Zoom to the whole world"
-msgstr ""
+msgstr "Отдалиться ко всему миру"
 
 #: cookie_banner##header
 msgid "We value your privacy"
-msgstr "Ми цінуємо вашу приватність"
+msgstr "Мы ценим вашу конфиденциальность"
 
 #: cookie_banner##body
 msgid ""
@@ -1556,73 +1570,75 @@ msgid ""
 "cookie settings or withdraw consent to optional cookies at any time.\n"
 "For more information, please, check our [Privacy Policy](about/privacy)"
 msgstr ""
-"Ми використовуємо абсолютно необхідні файли cookies, щоб надавати вам "
-"персоналізовані послуги, і додаткові файли cookies, щоб покращити Disaster "
-"Ninja та ваш досвід. Ви можете будь-коли змінити налаштування файлів cookies "
-"або відкликати згоду на використання додаткових файлів cookies.\n"
-"Щоб дізнатися більше, перегляньте нашу [Політику конфіденційності](about/"
-"privacy)"
+"Мы используем исключительно необходимые файлы cookie для предоставления "
+"персонализированных услуг, а также дополнительные файлы cookie для улучшения "
+"{{appName}} и вашего опыта. Вы можете управлять настройками cookie или "
+"отозвать согласие на их использование в любое время.\n"
+"Дополнительную информацию можно найти в нашей [Политике конфиденциальности]"
+"(about/privacy)."
 
 #: cookie_banner##decline_all
 msgid "Decline optional cookies"
-msgstr "Відхилити файли cookies"
+msgstr "Отклонить необязательные файлы cookie"
 
 #: cookie_banner##accept_all
 msgid "Accept optional cookies"
-msgstr "Прийняти файли cookies"
+msgstr "Принять необязательные файлы cookie"
 
 #: live_sensor##start
 msgid "Start sensor recording"
-msgstr "Почати запис даних з сенсорів"
+msgstr "Начать запись данных с сенсоров"
 
 #: live_sensor##finish
 msgid "Stop sensor recording"
-msgstr "Зупинити запис даних з сенсорів"
+msgstr "Остановить запись данных с сенсоров"
 
 #: live_sensor##finishMessage
 msgid "Recording has been finished"
-msgstr "Запис даних завершенно"
+msgstr "Запись завершена"
 
 #: live_sensor##startMessage
 msgid "Recording has been started"
-msgstr "Запис даних розпочато"
+msgstr "Запись началась"
 
 #: live_sensor##noSensorsError
 msgid "Your device does not have the required sensors"
-msgstr "Ваш пристрій не має необхідних сенсорів"
+msgstr "Ваше устройство не имеет необходимые сенсоры"
 
 #: layer_features_panel##empty
 msgid "Layer features within selected area will be provided here"
-msgstr ""
+msgstr "Здесь будут отображены объекты слоёв в выделенной области"
 
 #: layer_features_panel##noFeatureSelected
 msgid "No layer feature selected"
-msgstr ""
+msgstr "Не выбрано ни одного объекта слоя"
 
 #: layer_features_panel##chooseFeature
 msgid "Choose layer feature"
-msgstr ""
+msgstr "Выберите объект слоя"
 
 #: layer_features_panel##listInfo
 msgid "The list is filtered by selected area and sorted by project number"
 msgstr ""
+"Список отфильтрован по выделенной области и отсортирован по номеру проекта"
 
 #: layer_features_panel##error_loading
 msgid "Failed to load layer features data. Please try again."
-msgstr ""
+msgstr "Не удалось загрузить данные об объектах слоя. Попробуйте снова."
 
 #: layer_features_panel##no_features
 msgid "No features found in the selected area."
-msgstr ""
+msgstr "В выделенной области не найдено ни одного объекта."
 
 #: reference_area##save_as_reference_area
 msgid "Save as reference area"
-msgstr ""
+msgstr "Сохранить как эталонную область"
 
 #: reference_area##error_couldnt_save
 msgid "Unfortunately, we could not save your reference area. Please try again."
 msgstr ""
+"К сожалению, не удалось сохранить вашу эталонную область. Попробуйте снова."
 
 #: reference_area##selected_area_saved_as_reference_area
 msgid "Selected area has been saved as reference area in your profile"
-msgstr ""
+msgstr "Выбранная область сохранена как эталонная область в вашем профиле"
