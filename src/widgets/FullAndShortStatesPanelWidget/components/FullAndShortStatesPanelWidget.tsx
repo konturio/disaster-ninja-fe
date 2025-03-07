@@ -120,7 +120,7 @@ export function FullAndShortStatesPanelWidget({
           initialSnap={1}
           snapPoints={[1, 0.55]}
         >
-          <Sheet.Backdrop />
+          <Sheet.Backdrop onTap={closePanel} className={s.backdrop} />
           <Sheet.Container>
             <Sheet.Content style={{ paddingBottom: sheetRef.current?.y }}>
               {panel}

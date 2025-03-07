@@ -1,5 +1,5 @@
 import { Panel, PanelIcon } from '@konturio/ui-kit';
-import { useCallback, useRef } from 'react';
+import { useRef } from 'react';
 import { clsx } from 'clsx';
 import { Legend24 } from '@konturio/default-icons';
 import { useAction, useAtom } from '@reatom/npm-react';
@@ -47,7 +47,14 @@ export function LayerFeaturesPanel() {
 
   const [featuresList] = useAtom(layerFeaturesCollectionAtom);
 
-  const { panelState, panelControls, setPanelState } = useShortPanelState({ isMobile });
+  const {
+    panelState,
+    panelControls,
+    openFullState,
+    togglePanel,
+    closePanel,
+    setPanelState,
+  } = useShortPanelState({ isMobile });
 
   const isOpen = panelState !== 'closed';
   const isShort = panelState === 'short';
@@ -59,19 +66,7 @@ export function LayerFeaturesPanel() {
     'lf_list',
   );
 
-  const openFullState = useCallback(() => {
-    setPanelState('full');
-  }, [setPanelState]);
-
-  const onPanelClose = useCallback(() => {
-    setPanelState('closed');
-  }, [setPanelState]);
-
-  const togglePanelState = useCallback(() => {
-    setPanelState(isOpen ? 'closed' : 'full');
-  }, [isOpen, setPanelState]);
-
-  useAutoCollapsePanel(isOpen, onPanelClose);
+  useAutoCollapsePanel(isOpen, closePanel);
 
   const panelContent =
     featuresList === null || featuresList.length === 0 ? (
@@ -114,7 +109,7 @@ export function LayerFeaturesPanel() {
           <Legend24 />
         </div>
       }
-      onHeaderClick={togglePanelState}
+      onHeaderClick={togglePanel}
       className={clsx(s.featuresPanel, isOpen ? s.show : s.collapse)}
       classes={{ ...panelClasses, headerTitle: s.headerTitle, header: s.header }}
       isOpen={isOpen}
@@ -135,10 +130,11 @@ export function LayerFeaturesPanel() {
         <Sheet
           ref={sheetRef}
           isOpen={isOpen}
-          onClose={onPanelClose}
+          onClose={closePanel}
           initialSnap={1}
           snapPoints={[1, 0.5]}
         >
+          <Sheet.Backdrop onTap={closePanel} className={s.backdrop} />
           <Sheet.Container>
             <Sheet.Content style={{ paddingBottom: sheetRef.current?.y }}>
               {panel}

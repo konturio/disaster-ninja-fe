@@ -9,6 +9,11 @@
   }
 }
 
+/* Overrides hardcoded color in the lib */
+.backdrop {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+}
+
 .scrollable {
   overflow-y: auto;
   height: 100%;

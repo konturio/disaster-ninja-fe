@@ -33,6 +33,11 @@
   display: flex;
 }
 
+/* Overrides hardcoded color in the lib */
+.backdrop {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+}
+
 .eventsPanel {
   position: relative;
   overflow: hidden;

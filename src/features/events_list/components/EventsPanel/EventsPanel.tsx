@@ -183,6 +183,7 @@ export function EventsPanel({
           snapPoints={[1, 0.5]}
           detent="full-height"
         >
+          <Sheet.Backdrop onTap={closePanel} className={s.backdrop} />
           <Sheet.Container>
             <Sheet.Content style={{ paddingBottom: sheetRef.current?.y }}>
               {panel}
