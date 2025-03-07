@@ -9,7 +9,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, g as getDefaultExportFromCjs, c as commonjsGlobal, d as ReactDOM } from "./index-Dd8AqPJ_.js";
+import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, g as getDefaultExportFromCjs, c as commonjsGlobal, d as ReactDOM } from "./index-fXccxtXG.js";
 function getDefaultSelectValue({ options, defaultValue }) {
   if (typeof defaultValue === "string") {
     return defaultValue;
@@ -87,13 +87,13 @@ var reactJsxRuntime_production_min = {};
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-var f$2 = reactExports, k$1 = Symbol.for("react.element"), l$1 = Symbol.for("react.fragment"), m$8 = Object.prototype.hasOwnProperty, n$2 = f$2.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner, p$1 = { key: true, ref: true, __self: true, __source: true };
+var f$2 = reactExports, k$1 = Symbol.for("react.element"), l$1 = Symbol.for("react.fragment"), m$a = Object.prototype.hasOwnProperty, n$2 = f$2.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner, p$1 = { key: true, ref: true, __self: true, __source: true };
 function q$1(c2, a2, g2) {
   var b2, d2 = {}, e = null, h2 = null;
   void 0 !== g2 && (e = "" + g2);
   void 0 !== a2.key && (e = "" + a2.key);
   void 0 !== a2.ref && (h2 = a2.ref);
-  for (b2 in a2) m$8.call(a2, b2) && !p$1.hasOwnProperty(b2) && (d2[b2] = a2[b2]);
+  for (b2 in a2) m$a.call(a2, b2) && !p$1.hasOwnProperty(b2) && (d2[b2] = a2[b2]);
   if (c2 && c2.defaultProps) for (b2 in a2 = c2.defaultProps, a2) void 0 === d2[b2] && (d2[b2] = a2[b2]);
   return { $$typeof: k$1, type: c2, key: e, ref: h2, props: d2, _owner: n$2.current };
 }
@@ -118,7 +118,7 @@ var i$1;
 !function(e) {
   e[e.MAX = 0] = "MAX", e[e.HIGH = 1] = "HIGH", e[e.MED = 2] = "MED", e[e.LOW = 3] = "LOW", e[e.MIN = 4] = "MIN";
 }(i$1 || (i$1 = {}));
-const l = ["allowFullScreen", "allowTransparency", "autoComplete", "autoFocus", "autoPlay", "cellPadding", "cellSpacing", "charSet", "classId", "colSpan", "contentEditable", "contextMenu", "crossOrigin", "encType", "formAction", "formEncType", "formMethod", "formNoValidate", "formTarget", "frameBorder", "hrefLang", "inputMode", "keyParams", "keyType", "marginHeight", "marginWidth", "maxLength", "mediaGroup", "minLength", "noValidate", "radioGroup", "readOnly", "rowSpan", "spellCheck", "srcDoc", "srcLang", "srcSet", "tabIndex", "useMap"].reduce((e, t2) => (e[t2.toLowerCase()] = t2, e), { class: "className", for: "htmlFor" }), a$1 = { amp: "&", apos: "'", gt: ">", lt: "<", nbsp: " ", quot: "“" }, o$2 = ["style", "script"], c$2 = /([-A-Z0-9_:]+)(?:\s*=\s*(?:(?:"((?:\\.|[^"])*)")|(?:'((?:\\.|[^'])*)')|(?:\{((?:\\.|{[^}]*?}|[^}])*)\})))?/gi, s$e = /mailto:/i, d = /\n{2,}$/, p = /^(\s*>[\s\S]*?)(?=\n\n|$)/, u = /^ *> ?/gm, f$1 = /^(?:\[!([^\]]*)\]\n)?([\s\S]*)/, h = /^ {2,}\n/, m$7 = /^(?:( *[-*_])){3,} *(?:\n *)+\n/, g = /^(?: {1,3})?(`{3,}|~{3,}) *(\S+)? *([^\n]*?)?\n([\s\S]*?)(?:\1\n?|$)/, y = /^(?: {4}[^\n]+\n*)+(?:\n *)+\n?/, k = /^(`+)\s*([\s\S]*?[^`])\s*\1(?!`)/, x = /^(?:\n *)*\n/, b = /\r\n?/g, v = /^\[\^([^\]]+)](:(.*)((\n+ {4,}.*)|(\n(?!\[\^).+))*)/, S = /^\[\^([^\]]+)]/, C = /\f/g, $ = /^---[ \t]*\n(.|\n)*\n---[ \t]*\n/, E = /^\s*?\[(x|\s)\]/, w = /^ *(#{1,6}) *([^\n]+?)(?: +#*)?(?:\n *)*(?:\n|$)/, z = /^ *(#{1,6}) +([^\n]+?)(?: +#*)?(?:\n *)*(?:\n|$)/, L = /^([^\n]+)\n *(=|-){3,} *(?:\n *)+\n/, A = /^ *(?!<[a-z][^ >/]* ?\/>)<([a-z][^ >/]*) ?((?:[^>]*[^/])?)>\n?(\s*(?:<\1[^>]*?>[\s\S]*?<\/\1>|(?!<\1\b)[\s\S])*?)<\/\1>(?!<\/\1>)\n*/i, T = /&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-fA-F]{1,6});/gi, O = /^<!--[\s\S]*?(?:-->)/, B = /^(data|aria|x)-[a-z_][a-z\d_.-]*$/, M = /^ *<([a-z][a-z0-9:]*)(?:\s+((?:<.*?>|[^>])*))?\/?>(?!<\/\1>)(\s*\n)?/i, R = /^\{.*\}$/, I = /^(https?:\/\/[^\s<]+[^<.,:;"')\]\s])/, U = /^<([^ >]+@[^ >]+)>/, D = /^<([^ >]+:\/[^ >]+)>/, N = /-([a-z])?/gi, j = /^(\|.*)\n(?: *(\|? *[-:]+ *\|[-| :]*)\n((?:.*\|.*\n)*))?\n?/, H = /^\[([^\]]*)\]:\s+<?([^\s>]+)>?\s*("([^"]*)")?/, P = /^!\[([^\]]*)\] ?\[([^\]]*)\]/, F = /^\[([^\]]*)\] ?\[([^\]]*)\]/, _ = /(\n|^[-*]\s|^#|^ {2,}|^-{2,}|^>\s)/, G = /\t/g, W = /(^ *\||\| *$)/g, Z = /^ *:-+: *$/, q = /^ *:-+ *$/, Q = /^ *-+: *$/, V = "((?:\\[.*?\\][([].*?[)\\]]|<.*?>(?:.*?<.*?>)?|`.*?`|~~.*?~~|==.*?==|.|\\n)*?)", X = new RegExp(`^([*_])\\1${V}\\1\\1(?!\\1)`), J = new RegExp(`^([*_])${V}\\1(?!\\1|\\w)`), K = new RegExp(`^==${V}==`), Y = new RegExp(`^~~${V}~~`), ee = /^\\([^0-9A-Za-z\s])/, te = /^[\s\S]+?(?=[^0-9A-Z\s\u00c0-\uffff&#;.()'"]|\d+\.|\n\n| {2,}\n|\w+:\S|$)/i, ne = /^\n+/, re = /^([ \t]*)/, ie = /\\([^\\])/g, le = / *\n+$/, ae = /(?:^|\n)( *)$/, oe = "(?:\\d+\\.)", ce = "(?:[*+-])";
+const l = ["allowFullScreen", "allowTransparency", "autoComplete", "autoFocus", "autoPlay", "cellPadding", "cellSpacing", "charSet", "classId", "colSpan", "contentEditable", "contextMenu", "crossOrigin", "encType", "formAction", "formEncType", "formMethod", "formNoValidate", "formTarget", "frameBorder", "hrefLang", "inputMode", "keyParams", "keyType", "marginHeight", "marginWidth", "maxLength", "mediaGroup", "minLength", "noValidate", "radioGroup", "readOnly", "rowSpan", "spellCheck", "srcDoc", "srcLang", "srcSet", "tabIndex", "useMap"].reduce((e, t2) => (e[t2.toLowerCase()] = t2, e), { class: "className", for: "htmlFor" }), a$1 = { amp: "&", apos: "'", gt: ">", lt: "<", nbsp: " ", quot: "“" }, o$2 = ["style", "script"], c$2 = /([-A-Z0-9_:]+)(?:\s*=\s*(?:(?:"((?:\\.|[^"])*)")|(?:'((?:\\.|[^'])*)')|(?:\{((?:\\.|{[^}]*?}|[^}])*)\})))?/gi, s$e = /mailto:/i, d = /\n{2,}$/, p = /^(\s*>[\s\S]*?)(?=\n\n|$)/, u = /^ *> ?/gm, f$1 = /^(?:\[!([^\]]*)\]\n)?([\s\S]*)/, h = /^ {2,}\n/, m$9 = /^(?:( *[-*_])){3,} *(?:\n *)+\n/, g = /^(?: {1,3})?(`{3,}|~{3,}) *(\S+)? *([^\n]*?)?\n([\s\S]*?)(?:\1\n?|$)/, y = /^(?: {4}[^\n]+\n*)+(?:\n *)+\n?/, k = /^(`+)\s*([\s\S]*?[^`])\s*\1(?!`)/, x = /^(?:\n *)*\n/, b = /\r\n?/g, v = /^\[\^([^\]]+)](:(.*)((\n+ {4,}.*)|(\n(?!\[\^).+))*)/, S = /^\[\^([^\]]+)]/, C = /\f/g, $ = /^---[ \t]*\n(.|\n)*\n---[ \t]*\n/, E = /^\s*?\[(x|\s)\]/, w = /^ *(#{1,6}) *([^\n]+?)(?: +#*)?(?:\n *)*(?:\n|$)/, z = /^ *(#{1,6}) +([^\n]+?)(?: +#*)?(?:\n *)*(?:\n|$)/, L = /^([^\n]+)\n *(=|-){3,} *(?:\n *)+\n/, A = /^ *(?!<[a-z][^ >/]* ?\/>)<([a-z][^ >/]*) ?((?:[^>]*[^/])?)>\n?(\s*(?:<\1[^>]*?>[\s\S]*?<\/\1>|(?!<\1\b)[\s\S])*?)<\/\1>(?!<\/\1>)\n*/i, T = /&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-fA-F]{1,6});/gi, O = /^<!--[\s\S]*?(?:-->)/, B = /^(data|aria|x)-[a-z_][a-z\d_.-]*$/, M = /^ *<([a-z][a-z0-9:]*)(?:\s+((?:<.*?>|[^>])*))?\/?>(?!<\/\1>)(\s*\n)?/i, R = /^\{.*\}$/, I = /^(https?:\/\/[^\s<]+[^<.,:;"')\]\s])/, U = /^<([^ >]+@[^ >]+)>/, D = /^<([^ >]+:\/[^ >]+)>/, N = /-([a-z])?/gi, j = /^(\|.*)\n(?: *(\|? *[-:]+ *\|[-| :]*)\n((?:.*\|.*\n)*))?\n?/, H = /^\[([^\]]*)\]:\s+<?([^\s>]+)>?\s*("([^"]*)")?/, P = /^!\[([^\]]*)\] ?\[([^\]]*)\]/, F = /^\[([^\]]*)\] ?\[([^\]]*)\]/, _ = /(\n|^[-*]\s|^#|^ {2,}|^-{2,}|^>\s)/, G = /\t/g, W = /(^ *\||\| *$)/g, Z = /^ *:-+: *$/, q = /^ *:-+ *$/, Q = /^ *-+: *$/, V = "((?:\\[.*?\\][([].*?[)\\]]|<.*?>(?:.*?<.*?>)?|`.*?`|~~.*?~~|==.*?==|.|\\n)*?)", X = new RegExp(`^([*_])\\1${V}\\1\\1(?!\\1)`), J = new RegExp(`^([*_])${V}\\1(?!\\1|\\w)`), K = new RegExp(`^==${V}==`), Y = new RegExp(`^~~${V}~~`), ee = /^\\([^0-9A-Za-z\s])/, te = /^[\s\S]+?(?=[^0-9A-Z\s\u00c0-\uffff&#;.()'"]|\d+\.|\n\n| {2,}\n|\w+:\S|$)/i, ne = /^\n+/, re = /^([ \t]*)/, ie = /\\([^\\])/g, le = / *\n+$/, ae = /(?:^|\n)( *)$/, oe = "(?:\\d+\\.)", ce = "(?:[*+-])";
 function se(e) {
   return "( *)(" + (1 === e ? oe : ce) + ") +";
 }
@@ -316,7 +316,7 @@ function Ze(n2 = "", i2 = {}) {
   }, render(e, t2, n3) {
     const l2 = { key: n3.key };
     return e.alert && (l2.className = "markdown-alert-" + i2.slugify(e.alert.toLowerCase(), we), e.children.unshift({ attrs: {}, children: [{ type: r$2.text, text: e.alert }], noInnerParse: true, type: r$2.htmlBlock, tag: "header" })), d2("blockquote", l2, t2(e.children, n3));
-  } }, [r$2.breakLine]: { match: Re(h), order: 1, parse: Fe, render: (e, t2, n3) => d2("br", { key: n3.key }) }, [r$2.breakThematic]: { match: Me(m$7), order: 1, parse: Fe, render: (e, t2, n3) => d2("hr", { key: n3.key }) }, [r$2.codeBlock]: { match: Me(y), order: 0, parse: (e) => ({ lang: void 0, text: e[0].replace(/^ {4}/gm, "").replace(/\n+$/, "") }), render: (e, n3, r2) => d2("pre", { key: r2.key }, d2("code", t({}, e.attrs, { className: e.lang ? `lang-${e.lang}` : "" }), e.text)) }, [r$2.codeFenced]: { match: Me(g), order: 0, parse: (e) => ({ attrs: Z2("code", e[3] || ""), lang: e[2] || void 0, text: e[4], type: r$2.codeBlock }) }, [r$2.codeInline]: { match: Be(k), order: 3, parse: (e) => ({ text: e[2] }), render: (e, t2, n3) => d2("code", { key: n3.key }, e.text) }, [r$2.footnote]: { match: Me(v), order: 0, parse: (e) => (q2.push({ footnote: e[2], identifier: e[1] }), {}), render: _e }, [r$2.footnoteReference]: { match: Oe(S), order: 1, parse: (e) => ({ target: `#${i2.slugify(e[1], we)}`, text: e[1] }), render: (e, t2, n3) => d2("a", { key: n3.key, href: i2.sanitizer(e.target, "a", "href") }, d2("sup", { key: n3.key }, e.text)) }, [r$2.gfmTask]: { match: Oe(E), order: 1, parse: (e) => ({ completed: "x" === e[1].toLowerCase() }), render: (e, t2, n3) => d2("input", { checked: e.completed, key: n3.key, readOnly: true, type: "checkbox" }) }, [r$2.heading]: { match: Me(i2.enforceAtxHeadings ? z : w), order: 1, parse: (e, t2, n3) => ({ children: Ne(t2, e[2], n3), id: i2.slugify(e[2], we), level: e[1].length }), render: (e, t2, n3) => d2(`h${e.level}`, { id: e.id, key: n3.key }, t2(e.children, n3)) }, [r$2.headingSetext]: { match: Me(L), order: 0, parse: (e, t2, n3) => ({ children: Ne(t2, e[1], n3), level: "=" === e[2] ? 1 : 2, type: r$2.heading }) }, [r$2.htmlBlock]: { match: Re(A), order: 1, parse(e, t2, n3) {
+  } }, [r$2.breakLine]: { match: Re(h), order: 1, parse: Fe, render: (e, t2, n3) => d2("br", { key: n3.key }) }, [r$2.breakThematic]: { match: Me(m$9), order: 1, parse: Fe, render: (e, t2, n3) => d2("hr", { key: n3.key }) }, [r$2.codeBlock]: { match: Me(y), order: 0, parse: (e) => ({ lang: void 0, text: e[0].replace(/^ {4}/gm, "").replace(/\n+$/, "") }), render: (e, n3, r2) => d2("pre", { key: r2.key }, d2("code", t({}, e.attrs, { className: e.lang ? `lang-${e.lang}` : "" }), e.text)) }, [r$2.codeFenced]: { match: Me(g), order: 0, parse: (e) => ({ attrs: Z2("code", e[3] || ""), lang: e[2] || void 0, text: e[4], type: r$2.codeBlock }) }, [r$2.codeInline]: { match: Be(k), order: 3, parse: (e) => ({ text: e[2] }), render: (e, t2, n3) => d2("code", { key: n3.key }, e.text) }, [r$2.footnote]: { match: Me(v), order: 0, parse: (e) => (q2.push({ footnote: e[2], identifier: e[1] }), {}), render: _e }, [r$2.footnoteReference]: { match: Oe(S), order: 1, parse: (e) => ({ target: `#${i2.slugify(e[1], we)}`, text: e[1] }), render: (e, t2, n3) => d2("a", { key: n3.key, href: i2.sanitizer(e.target, "a", "href") }, d2("sup", { key: n3.key }, e.text)) }, [r$2.gfmTask]: { match: Oe(E), order: 1, parse: (e) => ({ completed: "x" === e[1].toLowerCase() }), render: (e, t2, n3) => d2("input", { checked: e.completed, key: n3.key, readOnly: true, type: "checkbox" }) }, [r$2.heading]: { match: Me(i2.enforceAtxHeadings ? z : w), order: 1, parse: (e, t2, n3) => ({ children: Ne(t2, e[2], n3), id: i2.slugify(e[2], we), level: e[1].length }), render: (e, t2, n3) => d2(`h${e.level}`, { id: e.id, key: n3.key }, t2(e.children, n3)) }, [r$2.headingSetext]: { match: Me(L), order: 0, parse: (e, t2, n3) => ({ children: Ne(t2, e[1], n3), level: "=" === e[2] ? 1 : 2, type: r$2.heading }) }, [r$2.htmlBlock]: { match: Re(A), order: 1, parse(e, t2, n3) {
     const [, r2] = e[3].match(re), i3 = new RegExp(`^${r2}`, "gm"), l2 = e[3].replace(i3, ""), a2 = (c2 = l2, Ee.some((e2) => e2.test(c2)) ? He : Ne);
     var c2;
     const s2 = e[1].toLowerCase(), d3 = -1 !== o$2.indexOf(s2), p2 = (d3 ? s2 : e[1]).trim(), u2 = { attrs: Z2(p2, e[2]), noInnerParse: d3, tag: p2 };
@@ -8336,25 +8336,25 @@ class Browser {
   }
 }
 Browser.type = "languageDetector";
-const km$6 = "km";
-const m$6 = "m";
-const to$6 = "to";
-const or = "or";
-const logout$6 = "Log out";
-const save$6 = "Save";
-const cancel$6 = "Cancel";
-const ok = "OK";
-const create$6 = "Create";
-const disasters$6 = "Disasters";
-const loading$6 = "Loading...";
-const loading_events$6 = "Loading disasters";
-const legend$6 = "Legend";
-const maps$6 = "maps";
-const vertical_direction$6 = "Vertical direction";
-const horizontal_direction$6 = "Horizontal direction";
-const legend_presentation$6 = "Legend presentation";
-const layers$6 = "Layers";
-const toolbar = {
+const km$8 = "km";
+const m$8 = "m";
+const to$8 = "to";
+const or$2 = "or";
+const logout$3 = "Log out";
+const save$8 = "Save";
+const cancel$8 = "Cancel";
+const ok$3 = "OK";
+const create$8 = "Create";
+const disasters$8 = "Disasters";
+const loading$8 = "Loading...";
+const loading_events$2 = "Loading disasters";
+const legend$8 = "Legend";
+const maps$8 = "maps";
+const vertical_direction$8 = "Vertical direction";
+const horizontal_direction$8 = "Horizontal direction";
+const legend_presentation$8 = "Legend presentation";
+const layers$8 = "Layers";
+const toolbar$8 = {
   map_ruler: "Measure distance",
   locate_me: "Locate me",
   panel_title: "Toolbar",
@@ -8370,7 +8370,7 @@ const toolbar = {
   selected_area_label: "Selected area",
   upload_mcda: "Upload MCDA"
 };
-const layer_actions = {
+const layer_actions$8 = {
   tooltips: {
     erase: "Erase",
     download: "Download",
@@ -8379,20 +8379,20 @@ const layer_actions = {
     show: "Show"
   }
 };
-const feed$6 = "Feed";
-const deselect$6 = "Deselect";
-const spinner_text$6 = "Gathering data";
-const updated$6 = "Updated";
-const started = "Started";
-const no_data_received$6 = "No data received";
-const wrong_data_received$6 = "Wrong data received";
-const error$6 = "Error";
-const sort_icon$6 = "Sort Icon";
-const configs$6 = {
+const feed$8 = "Feed";
+const deselect$8 = "Deselect";
+const spinner_text$8 = "Gathering data";
+const updated$8 = "Updated";
+const started$2 = "Started";
+const no_data_received$8 = "No data received";
+const wrong_data_received$8 = "Wrong data received";
+const error$8 = "Error";
+const sort_icon$8 = "Sort Icon";
+const configs$8 = {
   Kontur_public_feed: "Kontur Public",
   Kontur_public_feed_description: "The feed contains real-time data about Cyclones, Droughts, Earthquakes, Floods, Volcanoes, Wildfires."
 };
-const errors$6 = {
+const errors$8 = {
   "default": "Sorry, we are having issues which will be fixed soon",
   timeout: "Request timeout",
   cannot_connect: "Cannot connect to server",
@@ -8402,11 +8402,11 @@ const errors$6 = {
   server_error: "Server error",
   error_try_again: "Something went wrong. Please try again"
 };
-const categories$6 = {
+const categories$8 = {
   overlays: "Overlays",
   basemap: "Basemap"
 };
-const groups$6 = {
+const groups$8 = {
   layers_in_selected_area: "Layers in selected area",
   your_layers: "Your layers",
   kontur_analytics: "Kontur analytics",
@@ -8417,7 +8417,7 @@ const groups$6 = {
   photo: "Imagery",
   map: "Map"
 };
-const advanced_analytics_data_list$6 = {
+const advanced_analytics_data_list$8 = {
   load_world_data: "Load World Data",
   numerator: "Numerator",
   normalized_by: "Normalized By",
@@ -8430,7 +8430,7 @@ const advanced_analytics_data_list$6 = {
   filter_numerator: "Filter Numerator",
   filter_denominator: "Filter Denominator"
 };
-const mcda$6 = {
+const mcda$8 = {
   title: "Multi-criteria decision analysis",
   name: "Create MCDA",
   modal_title: "Multi-criteria decision analysis",
@@ -8499,14 +8499,14 @@ const mcda$6 = {
   bad: "Bad",
   good: "Good"
 };
-const multivariate = {
+const multivariate$8 = {
   upload_analysis_layer: "Upload analysis layer",
   popup: {
     score_header: "Score {{level}}",
     base_header: "Base {{level}}"
   }
 };
-const search = {
+const search$8 = {
   search_location: "Search location",
   info_block: "You can search for 📍 locations",
   info_block_with_mcda: "You can search for 📍 locations or ask ✨ AI your question like “Where is dead wood”",
@@ -8519,7 +8519,7 @@ const search = {
   mcda_create_analysis: "Create analysis",
   upload_analysis: "“{{name}}” Multi-Criteria Decision Analysis has been created"
 };
-const event_list$6 = {
+const event_list$8 = {
   warning_title: "Cannot filter by map view",
   warning_description: "Map is not ready yet, try later",
   bbox_filter_button: "Filter by map view",
@@ -8546,7 +8546,7 @@ const event_list$6 = {
   severity_extreme: "Extreme",
   open_timeline_button: "Timeline"
 };
-const create_layer$6 = {
+const create_layer$8 = {
   edit_layer: "Edit Layer",
   edit_features: "Edit Features",
   delete_layer: "Delete Layer",
@@ -8566,33 +8566,33 @@ const create_layer$6 = {
   location: "Location",
   edit_feature_placeholder: "Select some feature for start edit feature properties"
 };
-const analytics_panel$6 = {
+const analytics_panel$8 = {
   header_title: "Analytics",
   error_loading: "Failed receiving data about selected area. It may be too large.",
   info_short: "Calculations are made for selected area"
 };
-const advanced_analytics_panel$6 = {
+const advanced_analytics_panel$8 = {
   header_title: "Advanced analytics",
   error: "Error while fetching advanced analytics data"
 };
-const advanced_analytics_empty$6 = {
+const advanced_analytics_empty$8 = {
   not_found: "Sorry, the requested disaster was not found",
   error: "An error occurred",
   analytics_for_selected: "Analytics for selected area",
   will_be_provided: "will be provided here",
   no_analytics: "No analytics for the selected area"
 };
-const llm_analytics = {
+const llm_analytics$8 = {
   header: "AI insights",
   placeholder: {
     select_area: "Select area (<icon1 />,<icon2 />,<icon3 />) you want to explore to get AI Insights.",
     you_can_also: "You can also:",
-    fill_bio: "<icon /> <lnk>Fill out bio</lnk> to personalize AI analysis",
+    fill_bio: "<icon /> <lnk>Fill out analysis objectives</lnk> to personalize AI analysis",
     select_and_save_as_reference_area: "<icon /> Select an area and save it as a reference to compare with another one",
     learn_more: "<lnk><icon/> Learn more about AI Insights</lnk>"
   }
 };
-const draw_tools$6 = {
+const draw_tools$8 = {
   area: "Polygon",
   line: "Line",
   point: "Point",
@@ -8602,30 +8602,30 @@ const draw_tools$6 = {
   overlap_error: "Polygon should not overlap itself",
   save_features: "Save features"
 };
-const boundary_selector$6 = {
+const boundary_selector$8 = {
   title: "Focus to administrative boundary"
 };
-const geometry_uploader$6 = {
+const geometry_uploader$8 = {
   title: "Focus to uploaded geometry",
   error: "Error while reading uploaded file"
 };
-const focus_geometry$6 = {
+const focus_geometry$8 = {
   title: "Focus to freehand geometry"
 };
-const focus_geometry_layer$6 = {
+const focus_geometry_layer$3 = {
   settings: {
     name: "Selected area"
   }
 };
-const reference_area_layer = {
+const reference_area_layer$8 = {
   settings: {
     name: "Reference area"
   }
 };
-const drawings$6 = {
+const drawings$3 = {
   self_directions_not_supported: "Self intersections are not supported"
 };
-const bivariate$6 = {
+const bivariate$8 = {
   panel: {
     header: "Bivariate matrix"
   },
@@ -8676,7 +8676,7 @@ const bivariate$6 = {
     layers_tab: "Layers (indicators)"
   }
 };
-const sidebar$6 = {
+const sidebar$8 = {
   biv_color_manager: "Сolor manager",
   edit_osm: "Edit in OpenStreetMap",
   ruler: "Ruler",
@@ -8684,7 +8684,7 @@ const sidebar$6 = {
   expand: "Expand",
   icon_alt: "Application logo"
 };
-const login$6 = {
+const login$8 = {
   email: "Email",
   password: "Password",
   login_button: "Login",
@@ -8700,10 +8700,10 @@ const login$6 = {
     connect: "Could not connect to authentication service"
   }
 };
-const currency = {
+const currency$8 = {
   usd: "USD"
 };
-const subscription = {
+const subscription$8 = {
   title: "Plans & Pricing",
   price_summary: "* Billed as ${{pricePerYear}} USD once yearly",
   unauthorized_button: "Sign in to subscribe",
@@ -8720,7 +8720,7 @@ const subscription = {
     after_the_page_refreshes: "After the page refreshes, you can start using Kontur Atlas"
   }
 };
-const reports$6 = {
+const reports$8 = {
   title: "Disaster Ninja Reports",
   no_data: "No data for this report",
   sorting: "Sorting data...",
@@ -8731,7 +8731,7 @@ const reports$6 = {
   wrong_id: "Wrong report ID",
   description: "<0>Kontur </0> generates several reports that help validate OpenStreetMap quality. They contain links to areas on <4>osm.org </4> and links to open them in the JOSM editor with enabled remote control for editing."
 };
-const modes$6 = {
+const modes$8 = {
   map: "Map",
   about: "About",
   cookies: "Cookies",
@@ -8742,22 +8742,7 @@ const modes$6 = {
   terms: "Terms",
   user_guide: "User guide"
 };
-const about$6 = {
-  title: "Welcome to Disaster Ninja!",
-  intro: "Do you want to be notified about ongoing disasters? Are you interested in instant population data and other analytics for any region in the world? Disaster Ninja showcases some of <2>Kontur</2>’s capabilities in addressing these needs.<br/><br/>We initially designed it as a decision support tool for humanitarian mappers. Now it has grown in functionality and use cases. Whether you work in disaster management, build a smart city, or perform research on climate change, Disaster Ninja can help you to:",
-  l1: "1. Stay up to date with the latest hazard events globally.",
-  p1: "The Disasters panel continually refreshes to inform you about ongoing events. It consumes data from the <2>Kontur Event Feed</2>, which you can also access via an API.",
-  l2: "2. Focus on your area of interest.",
-  p2: "The Drawing Tools panel allows you to draw or upload your own geometry on the map. You can also focus on a disaster-exposed area or an administrative unit — a country, city, or region.",
-  l3: "3. Get analytics for the focused area.",
-  p3: "The Analytics panel shows the number of people living in that area per <2>Kontur Population</2> and estimated mapping gaps in OpenStreetMap. Kontur’s customers have access to hundreds of other indicators through Advanced Analytics.",
-  l4: "4. Explore data on the map and make conclusions.",
-  p4: "The Layers panel gives you various options to display two indicators simultaneously on a bivariate map, e.g., population density and distance to the nearest fire station. Use the color legend to assess which areas require attention. <br/>Hint: in general, green indicates low risk / few gaps, red — high risk / many gaps.",
-  p5: "In addition, you can switch to Reports in the left panel to access data on potential errors and inconsistencies in OpenStreetMap and help fix them by mapping the respective area with the JOSM editor.",
-  goToMap: "Go to the map now",
-  p6: "We hope you find this tool valuable. Use the chatbox on Disaster Ninja for any questions about the functionality, and we will be happy to guide you. You can also contact us by email at <1>hello@kontur.io</1> if you have feedback or suggestions on improving the tool.<br/><br/>Disaster Ninja is an open-source project. Find the code in <8>Kontur’s GitHub account</8>."
-};
-const profile$6 = {
+const profile$8 = {
   interfaceTheme: "Theme",
   interfaceLanguage: "Language",
   units: "Units",
@@ -8798,6 +8783,8 @@ const profile$6 = {
     ko: "Korean",
     id: "Indonesian",
     de: "German",
+    be: "Belarusian",
+    ru: "Russian",
     uk: "Ukrainian"
   },
   reference_area: {
@@ -8813,30 +8800,30 @@ const profile$6 = {
     notification: "Your reference area {{name}} has been saved"
   }
 };
-const current_event$6 = {
+const current_event$3 = {
   not_found_request: "Sorry, the requested disaster was not found"
 };
-const locate_me$6 = {
+const locate_me$8 = {
   get_location_error: "Error while getting location",
   feature_title: "Locate me"
 };
-const episode$6 = "Timeline";
-const loading_episodes$6 = "Loading Episodes";
-const zoom_to_world = "Zoom to the whole world";
-const cookie_banner$6 = {
+const episode$3 = "Timeline";
+const loading_episodes$8 = "Loading Episodes";
+const zoom_to_world$2 = "Zoom to the whole world";
+const cookie_banner$8 = {
   header: "We value your privacy",
   body: "We use absolutely necessary cookies to provide you personalized services and optional cookies to improve {{appName}} and your experience. You can manage cookie settings or withdraw consent to optional cookies at any time.\nFor more information, please, check our [Privacy Policy](about/privacy)",
   decline_all: "Decline optional cookies",
   accept_all: "Accept optional cookies"
 };
-const live_sensor$6 = {
+const live_sensor$8 = {
   start: "Start sensor recording",
   finish: "Stop sensor recording",
   finishMessage: "Recording has been finished",
   startMessage: "Recording has been started",
   noSensorsError: "Your device does not have the required sensors"
 };
-const layer_features_panel = {
+const layer_features_panel$8 = {
   empty: "Layer features within selected area will be provided here",
   noFeatureSelected: "No layer feature selected",
   chooseFeature: "Choose layer feature",
@@ -8844,98 +8831,107 @@ const layer_features_panel = {
   error_loading: "Failed to load layer features data. Please try again.",
   no_features: "No features found in the selected area."
 };
-const reference_area = {
+const reference_area$8 = {
   save_as_reference_area: "Save as reference area",
   error_couldnt_save: "Unfortunately, we could not save your reference area. Please try again.",
   selected_area_saved_as_reference_area: "Selected area has been saved as reference area in your profile"
 };
 const en_common = {
-  km: km$6,
-  m: m$6,
-  to: to$6,
-  or,
-  logout: logout$6,
-  save: save$6,
-  cancel: cancel$6,
-  ok,
-  create: create$6,
-  disasters: disasters$6,
-  loading: loading$6,
-  loading_events: loading_events$6,
-  legend: legend$6,
-  maps: maps$6,
-  vertical_direction: vertical_direction$6,
-  horizontal_direction: horizontal_direction$6,
-  legend_presentation: legend_presentation$6,
-  layers: layers$6,
-  toolbar,
-  layer_actions,
-  feed: feed$6,
-  deselect: deselect$6,
-  spinner_text: spinner_text$6,
-  updated: updated$6,
-  started,
-  no_data_received: no_data_received$6,
-  wrong_data_received: wrong_data_received$6,
-  error: error$6,
-  sort_icon: sort_icon$6,
-  configs: configs$6,
-  errors: errors$6,
-  categories: categories$6,
-  groups: groups$6,
-  advanced_analytics_data_list: advanced_analytics_data_list$6,
-  mcda: mcda$6,
-  multivariate,
-  search,
-  event_list: event_list$6,
-  create_layer: create_layer$6,
-  analytics_panel: analytics_panel$6,
-  advanced_analytics_panel: advanced_analytics_panel$6,
-  advanced_analytics_empty: advanced_analytics_empty$6,
-  llm_analytics,
-  draw_tools: draw_tools$6,
-  boundary_selector: boundary_selector$6,
-  geometry_uploader: geometry_uploader$6,
-  focus_geometry: focus_geometry$6,
-  focus_geometry_layer: focus_geometry_layer$6,
-  reference_area_layer,
-  drawings: drawings$6,
-  bivariate: bivariate$6,
-  sidebar: sidebar$6,
-  login: login$6,
-  currency,
-  subscription,
-  reports: reports$6,
-  modes: modes$6,
-  about: about$6,
-  profile: profile$6,
-  current_event: current_event$6,
-  locate_me: locate_me$6,
-  episode: episode$6,
-  loading_episodes: loading_episodes$6,
-  zoom_to_world,
-  cookie_banner: cookie_banner$6,
-  live_sensor: live_sensor$6,
-  layer_features_panel,
-  reference_area
+  km: km$8,
+  m: m$8,
+  to: to$8,
+  or: or$2,
+  logout: logout$3,
+  save: save$8,
+  cancel: cancel$8,
+  ok: ok$3,
+  create: create$8,
+  disasters: disasters$8,
+  loading: loading$8,
+  loading_events: loading_events$2,
+  legend: legend$8,
+  maps: maps$8,
+  vertical_direction: vertical_direction$8,
+  horizontal_direction: horizontal_direction$8,
+  legend_presentation: legend_presentation$8,
+  layers: layers$8,
+  toolbar: toolbar$8,
+  layer_actions: layer_actions$8,
+  feed: feed$8,
+  deselect: deselect$8,
+  spinner_text: spinner_text$8,
+  updated: updated$8,
+  started: started$2,
+  no_data_received: no_data_received$8,
+  wrong_data_received: wrong_data_received$8,
+  error: error$8,
+  sort_icon: sort_icon$8,
+  configs: configs$8,
+  errors: errors$8,
+  categories: categories$8,
+  groups: groups$8,
+  advanced_analytics_data_list: advanced_analytics_data_list$8,
+  mcda: mcda$8,
+  multivariate: multivariate$8,
+  search: search$8,
+  event_list: event_list$8,
+  create_layer: create_layer$8,
+  analytics_panel: analytics_panel$8,
+  advanced_analytics_panel: advanced_analytics_panel$8,
+  advanced_analytics_empty: advanced_analytics_empty$8,
+  llm_analytics: llm_analytics$8,
+  draw_tools: draw_tools$8,
+  boundary_selector: boundary_selector$8,
+  geometry_uploader: geometry_uploader$8,
+  focus_geometry: focus_geometry$8,
+  focus_geometry_layer: focus_geometry_layer$3,
+  reference_area_layer: reference_area_layer$8,
+  drawings: drawings$3,
+  bivariate: bivariate$8,
+  sidebar: sidebar$8,
+  login: login$8,
+  currency: currency$8,
+  subscription: subscription$8,
+  reports: reports$8,
+  modes: modes$8,
+  profile: profile$8,
+  current_event: current_event$3,
+  locate_me: locate_me$8,
+  episode: episode$3,
+  loading_episodes: loading_episodes$8,
+  zoom_to_world: zoom_to_world$2,
+  cookie_banner: cookie_banner$8,
+  live_sensor: live_sensor$8,
+  layer_features_panel: layer_features_panel$8,
+  reference_area: reference_area$8
 };
-const km$5 = "km";
-const m$5 = "m";
-const to$5 = "a";
-const maps$5 = "mapas";
-const logout$5 = "Cierre de sesión";
-const save$5 = "Guardar";
-const cancel$5 = "Cancelar";
-const create$5 = "Crear";
-const disasters$5 = "Desastres";
-const loading$5 = "Cargando...";
-const loading_events$5 = "Cargando eventos";
-const legend$5 = "Leyenda";
-const vertical_direction$5 = "Dirección vertical";
-const horizontal_direction$5 = "Dirección horizontal";
-const legend_presentation$5 = "Presentación de la leyenda";
-const layers$5 = "Capas";
-const bivariate$5 = {
+const km$7 = "km";
+const m$7 = "m";
+const to$7 = "a";
+const maps$7 = "mapas";
+const save$7 = "Guardar";
+const cancel$7 = "Cancelar";
+const mcda$7 = {
+  btn_cancel: "Cancelar",
+  legend_title: "Leyenda",
+  layer_editor: {
+    outliers_options: {},
+    save_changes: "Guardar cambios",
+    range_buttons: {},
+    transformations: {},
+    errors: {},
+    tips: {}
+  }
+};
+const create$7 = "Crear";
+const disasters$7 = "Desastres";
+const loading$7 = "Cargando...";
+const legend$7 = "Leyenda";
+const vertical_direction$7 = "Dirección vertical";
+const horizontal_direction$7 = "Dirección horizontal";
+const legend_presentation$7 = "Presentación de la leyenda";
+const layers$7 = "Capas";
+const bivariate$7 = {
   color_manager: {
     layers_filter: "Capas",
     not_defined: "No definido",
@@ -8945,9 +8941,6 @@ const bivariate$5 = {
     sentiments_tab: "Sentimientos",
     color_legends_tab: "Leyendas de colores",
     layers_tab: "Capas (indicadores)"
-  },
-  panel: {
-    header: "Matriz bivariada"
   },
   matrix: {
     caption: {
@@ -8985,66 +8978,61 @@ const bivariate$5 = {
     medium: "Medio"
   }
 };
-const feed$5 = "Fuente";
-const deselect$5 = "Anular la selección";
-const spinner_text$5 = "Recopilación de datos";
-const updated$5 = "Actualizado";
-const no_data_received$5 = "No se han recibido datos";
-const wrong_data_received$5 = "Se han recibido datos erróneos";
-const error$5 = "Error";
-const sort_icon$5 = "Icono de ordenar";
-const configs$5 = {
+const toolbar$7 = {
+  locate_me: "Localizarme"
+};
+const locate_me$7 = {
+  feature_title: "Localizarme",
+  get_location_error: "Error al obtener la ubicación"
+};
+const layer_actions$7 = {
+  tooltips: {}
+};
+const feed$7 = "Fuente";
+const deselect$7 = "Anular la selección";
+const spinner_text$7 = "Recopilación de datos";
+const updated$7 = "Actualizado";
+const no_data_received$7 = "No se han recibido datos";
+const wrong_data_received$7 = "Se han recibido datos erróneos";
+const error$7 = "Error";
+const sort_icon$7 = "Icono de ordenar";
+const configs$7 = {
   Kontur_public_feed: "Kontur Public",
   Kontur_public_feed_description: "El feed contiene datos en tiempo real sobre Ciclones, Sequías, Terremotos, Inundaciones, Volcanes, Incendios forestales."
 };
-const errors$5 = {
-  "default": "Lo sentimos, estamos teniendo problemas, que pronto se solucionarán",
-  timeout: "Se agotó el tiempo de espera de la solicitud",
-  cannot_connect: "No se puede conectar al servidor",
+const errors$7 = {
   forbidden: "Prohibido",
   not_found: "No encontrado",
-  unknown: "Desconocido",
-  server_error: "Error del servidor"
+  unknown: "Desconocido"
 };
-const event_list$5 = {
+const event_list$7 = {
   severity_unknown: "Desconocido",
-  warning_title: "No se puede utilizar el mapa como filtro",
-  warning_description: "El mapa aún no está listo, inténtelo más tarde",
-  bbox_filter_button: "Usar la vista del mapa como filtro",
   analytics: {
     affected_people: {
-      tooltip: "Personas afectadas",
       value: "Sin impacto humanitario"
     },
-    settled_area_tooltip: "Área habitada",
     loss_tooltip: "Pérdida estimada"
   },
-  no_event_in_feed: "Evento no encontrado en el feed de eventos actual",
   no_selected_disaster: "No se ha seleccionado ningún desastre",
   chose_disaster: "Seleccione el desastre"
 };
-const categories$5 = {
+const categories$7 = {
   overlays: "Superposiciones",
   basemap: "Mapa base"
 };
-const groups$5 = {
+const groups$7 = {
   layers_in_selected_area: "Capas en el área seleccionada",
-  your_layers: "Sus capas",
-  kontur_analytics: "Análisis de Kontur",
-  qa: "Certificación de calidad",
-  osmbasedmap: "Basado en OpenStreetMap",
   other: "Otros",
   elevation: "Elevación",
-  photo: "Foto",
   map: "Mapa"
 };
-const modes$5 = {
+const modes$7 = {
   map: "Mapa",
   about: "Acerca de",
   reports: "Informes",
   profile: "Perfil"
 };
-const advanced_analytics_data_list$5 = {
+const advanced_analytics_data_list$7 = {
   load_world_data: "Cargar datos mundiales",
   numerator: "Numerador",
   normalized_by: "Normalizado por",
@@ -9056,8 +9044,39 @@ const advanced_analytics_data_list$5 = {
   median: "Mediana",
   filter_denominator: "Filtrar Denominador"
 };
-const mcda$5 = {};
-const create_layer$5 = {
+const profile$7 = {
+  saveButton: "Guardar cambios",
+  reference_area: {},
+  email: "Correo electrónico",
+  interfaceTheme: "Tema",
+  interfaceLanguage: "Idioma",
+  units: "Unidades",
+  metric: "métricas",
+  imperialBeta: "imperiales (beta)",
+  bio_placeholder: "Bio",
+  appSettingsHeader: "Ajustes",
+  konturTheme: "Kontur",
+  HOTTheme: "HOT",
+  defaultDisasterFeed: "Feed de desastres predeterminado",
+  defaultOSMeditor: "Editor predeterminado de OpenStreetMap (beta)",
+  successNotification: "Todos los cambios se han aplicado correctamente",
+  languageOption: {
+    en: "Inglés",
+    es: "Español",
+    ar: "Árabe",
+    ko: "Сoreano",
+    id: "Indonesio",
+    de: "Alemán",
+    uk: "Ucranio"
+  }
+};
+const multivariate$7 = {
+  popup: {}
+};
+const search$7 = {
+  search_location: "Buscar ubicación"
+};
+const create_layer$7 = {
   edit_layer: "Editar capa",
   edit_features: "Editar características",
   delete_layer: "Eliminar capa",
@@ -9077,23 +9096,18 @@ const create_layer$5 = {
   location: "Ubicación",
   edit_feature_placeholder: "Seleccione una característica para comenzar a editar las propiedades de la misma"
 };
-const analytics_panel$5 = {
-  header_title: "Análisis",
-  error_loading: "Error en la obtención de datos de análisis"
+const analytics_panel$7 = {
+  header_title: "Análisis"
 };
-const advanced_analytics_panel$5 = {
+const advanced_analytics_panel$7 = {
   header_title: "Análisis avanzado",
   error: "Error en la obtención de datos de análisis Avanzado"
 };
-const advanced_analytics_empty$5 = {
-  not_found: "Lo sentimos, el evento solicitado no se ha encontrado.",
-  error: "¡Se produjo un error!"
+const advanced_analytics_empty$7 = {};
+const llm_analytics$7 = {
+  placeholder: {}
 };
-const current_event$5 = {
-  not_found_request: "Lo sentimos, el evento solicitado no se ha encontrado."
-};
-const draw_tools$5 = {
-  area: "Área",
+const draw_tools$7 = {
   line: "Línea",
   point: "Punto",
   finish_drawing: "Terminar el dibujo",
@@ -9102,25 +9116,20 @@ const draw_tools$5 = {
   overlap_error: "El polígono no debe superponerse sobre sí mismo",
   save_features: "Guardar características"
 };
-const boundary_selector$5 = {
+const boundary_selector$7 = {
   title: "Enfocar en el límite administrativo"
 };
-const geometry_uploader$5 = {
+const geometry_uploader$7 = {
   title: "Enfocar en la geometría cargada",
   error: "Error al leer el archivo cargado"
 };
-const focus_geometry$5 = {
+const focus_geometry$7 = {
   title: "Enfocar en la geometría a mano"
 };
-const focus_geometry_layer$5 = {
-  settings: {
-    name: "Área seleccionada"
-  }
+const reference_area_layer$7 = {
+  settings: {}
 };
-const drawings$5 = {
-  self_directions_not_supported: "¡No se admiten las autointersecciones!"
-};
-const sidebar$5 = {
+const sidebar$7 = {
   biv_color_manager: "Administrador de color",
   edit_osm: "Editar en OpenStreetMap",
   ruler: "Regla",
@@ -9128,61 +9137,32 @@ const sidebar$5 = {
   expand: "Expandir",
   icon_alt: "Logotipo de la aplicación"
 };
-const login$5 = {
+const login$7 = {
   email: "Correo electrónico",
   password: "Contraseña",
   login_button: "Inicio de sesión",
   sign_up: "Registrarse",
   logging_in: "Iniciando sesión...",
   log_in: "Iniciar sesión",
-  description: "Acceda a su cuenta para cambiar los ajustes",
-  error: {
-    email_empty: "¡El correo electrónico no debe estar vacío!",
-    email_invalid: "¡El correo electrónico debe ser válido!",
-    password: "¡La contraseña no debe estar vacía!",
-    connect: "No se pudo conectar con el servicio de autenticación"
-  }
+  description: "Acceda a su cuenta para cambiar los ajustes"
 };
-const profile$5 = {
-  email: "Correo electrónico",
-  profileSettingsHeader: "Perfil",
-  interfaceTheme: "Tema",
-  interfaceLanguage: "Idioma",
-  units: "Unidades",
-  fullName: "Nombre completo",
-  metric: "métricas",
-  imperialBeta: "imperiales (beta)",
-  appSettingsHeader: "Ajustes",
-  saveButton: "Guardar cambios",
-  konturTheme: "Kontur",
-  HOTTheme: "HOT",
-  "userBio(about)": "Bio",
-  defaultDisasterFeed: "Feed de desastres predeterminado",
-  defaultOSMeditor: "Editor predeterminado de OpenStreetMap (beta)",
-  successNotification: "Todos los cambios se han aplicado correctamente",
-  languageOption: {
-    en: "Inglés",
-    es: "Español",
-    ar: "Árabe",
-    ko: "Сoreano",
-    id: "Indonesio",
-    de: "Alemán",
-    uk: "Ucranio"
-  }
+const currency$7 = {};
+const subscription$7 = {
+  errors: {},
+  success_modal: {}
 };
-const reports$5 = {
+const reports$7 = {
   title: "Informes de Disaster Ninja",
   no_data: "No hay datos para este informe",
   sorting: "Ordenando datos...",
   loading: "Cargando datos",
-  search_location: "Buscar ubicación",
   open_josm: "Abrir a través del control remoto JOSM",
   josm_logo_alt: "Logotipo de JOSM",
   see_all: "Ver todos los informes",
   wrong_id: "ID de informe incorrecto",
   description: "<0>Kontur </0> genera una serie de informes útiles para validar la calidad de OpenStreetMap. Contienen enlaces a zonas en <4>osm.org </4> y enlaces para abrirlas en el editor JOSM con control remoto habilitado para la edición."
 };
-const about$5 = {
+const about$7 = {
   title: "¡Bienvenido a Disaster Ninja!",
   intro: "¿Desea recibir notificaciones sobre desastres en curso? ¿Le interesan los datos de población instantáneos y otros datos analíticos de alguna región del mundo? Disaster Ninja muestra algunas de las capacidades de <2>Kontur</2> para ocuparse de estas necesidades.<br/><br/> Inicialmente la diseñamos como una herramienta de apoyo a los mapeadores de servicios humanitarios. Ahora ha ampliado sus funcionalidades y aplicaciones prácticas. Tanto si trabaja en la gestión de desastres como si construye una ciudad inteligente o realiza investigaciones sobre el cambio climático, Disaster Ninja puede ayudarle a:",
   l1: "1. Estar al día con los últimos eventos peligrosos a nivel mundial.",
@@ -9197,87 +9177,98 @@ const about$5 = {
   goToMap: "Ir al mapa ahora",
   p6: "Esperamos que esta herramienta le resulte valiosa. Utilice el chat de Disaster Ninja si tiene alguna pregunta sobre sus funcionalidades y estaremos encantados de ayudarle. También puede contactarnos por correo electrónico en <1>hello@kontur.io</1> si tiene algún comentario o sugerencia para mejorar la herramienta.<br/><br/> Disaster Ninja es un proyecto de código abierto. Encuentre el código en la <8>cuenta de GitHub de Kontur</8>."
 };
-const locate_me$5 = {
-  get_location_error: "Error al obtener la ubicación",
-  feature_title: "Localizarme"
-};
-const episode$5 = "Episodio";
-const loading_episodes$5 = "Cargando episodios";
-const cookie_banner$5 = {};
-const live_sensor$5 = {};
+const loading_episodes$7 = "Cargando episodios";
+const cookie_banner$7 = {};
+const live_sensor$7 = {};
+const layer_features_panel$7 = {};
+const reference_area$7 = {};
 const es_common = {
-  km: km$5,
-  m: m$5,
-  to: to$5,
-  maps: maps$5,
-  logout: logout$5,
-  save: save$5,
-  cancel: cancel$5,
-  create: create$5,
-  disasters: disasters$5,
-  loading: loading$5,
-  loading_events: loading_events$5,
-  legend: legend$5,
-  vertical_direction: vertical_direction$5,
-  horizontal_direction: horizontal_direction$5,
-  legend_presentation: legend_presentation$5,
-  layers: layers$5,
-  bivariate: bivariate$5,
-  feed: feed$5,
-  deselect: deselect$5,
-  spinner_text: spinner_text$5,
-  updated: updated$5,
-  no_data_received: no_data_received$5,
-  wrong_data_received: wrong_data_received$5,
-  error: error$5,
-  sort_icon: sort_icon$5,
-  configs: configs$5,
-  errors: errors$5,
-  event_list: event_list$5,
-  categories: categories$5,
-  groups: groups$5,
-  modes: modes$5,
-  advanced_analytics_data_list: advanced_analytics_data_list$5,
-  mcda: mcda$5,
-  create_layer: create_layer$5,
-  analytics_panel: analytics_panel$5,
-  advanced_analytics_panel: advanced_analytics_panel$5,
-  advanced_analytics_empty: advanced_analytics_empty$5,
-  current_event: current_event$5,
-  draw_tools: draw_tools$5,
-  boundary_selector: boundary_selector$5,
-  geometry_uploader: geometry_uploader$5,
-  focus_geometry: focus_geometry$5,
-  focus_geometry_layer: focus_geometry_layer$5,
-  drawings: drawings$5,
-  sidebar: sidebar$5,
-  login: login$5,
-  profile: profile$5,
-  reports: reports$5,
-  about: about$5,
-  locate_me: locate_me$5,
-  episode: episode$5,
-  loading_episodes: loading_episodes$5,
-  cookie_banner: cookie_banner$5,
-  live_sensor: live_sensor$5
+  km: km$7,
+  m: m$7,
+  to: to$7,
+  maps: maps$7,
+  save: save$7,
+  cancel: cancel$7,
+  mcda: mcda$7,
+  create: create$7,
+  disasters: disasters$7,
+  loading: loading$7,
+  legend: legend$7,
+  vertical_direction: vertical_direction$7,
+  horizontal_direction: horizontal_direction$7,
+  legend_presentation: legend_presentation$7,
+  layers: layers$7,
+  bivariate: bivariate$7,
+  toolbar: toolbar$7,
+  locate_me: locate_me$7,
+  layer_actions: layer_actions$7,
+  feed: feed$7,
+  deselect: deselect$7,
+  spinner_text: spinner_text$7,
+  updated: updated$7,
+  no_data_received: no_data_received$7,
+  wrong_data_received: wrong_data_received$7,
+  error: error$7,
+  sort_icon: sort_icon$7,
+  configs: configs$7,
+  errors: errors$7,
+  event_list: event_list$7,
+  categories: categories$7,
+  groups: groups$7,
+  modes: modes$7,
+  advanced_analytics_data_list: advanced_analytics_data_list$7,
+  profile: profile$7,
+  multivariate: multivariate$7,
+  search: search$7,
+  create_layer: create_layer$7,
+  analytics_panel: analytics_panel$7,
+  advanced_analytics_panel: advanced_analytics_panel$7,
+  advanced_analytics_empty: advanced_analytics_empty$7,
+  llm_analytics: llm_analytics$7,
+  draw_tools: draw_tools$7,
+  boundary_selector: boundary_selector$7,
+  geometry_uploader: geometry_uploader$7,
+  focus_geometry: focus_geometry$7,
+  reference_area_layer: reference_area_layer$7,
+  sidebar: sidebar$7,
+  login: login$7,
+  currency: currency$7,
+  subscription: subscription$7,
+  reports: reports$7,
+  about: about$7,
+  loading_episodes: loading_episodes$7,
+  cookie_banner: cookie_banner$7,
+  live_sensor: live_sensor$7,
+  layer_features_panel: layer_features_panel$7,
+  reference_area: reference_area$7
 };
-const km$4 = "كم";
-const m$4 = "م";
-const to$4 = "إلى";
-const maps$4 = "خرائط";
-const logout$4 = "تسجيل خروج";
-const save$4 = "حفظ";
-const cancel$4 = "إلغاء";
-const create$4 = "إنشاء";
-const disasters$4 = "كوارث";
-const loading$4 = "جارٍ التحميل...";
-const loading_events$4 = "جارٍ تحميل الأحداث";
-const legend$4 = "عنوان تفسيري";
-const vertical_direction$4 = "الاتجاه الرأسي";
-const horizontal_direction$4 = "الاتجاه الأفقي";
-const legend_presentation$4 = "عرض العنوان التفسيري";
-const layers$4 = "طبقات";
-const bivariate$4 = {
+const km$6 = "كم";
+const m$6 = "م";
+const to$6 = "إلى";
+const maps$6 = "خرائط";
+const save$6 = "حفظ";
+const cancel$6 = "إلغاء";
+const mcda$6 = {
+  btn_cancel: "إلغاء",
+  legend_title: "عنوان تفسيري",
+  layer_editor: {
+    outliers_options: {},
+    save_changes: "حفظ التغييرات",
+    range_buttons: {},
+    transformations: {},
+    errors: {},
+    tips: {}
+  }
+};
+const create$6 = "إنشاء";
+const disasters$6 = "كوارث";
+const loading$6 = "جارٍ التحميل...";
+const legend$6 = "عنوان تفسيري";
+const vertical_direction$6 = "الاتجاه الرأسي";
+const horizontal_direction$6 = "الاتجاه الأفقي";
+const legend_presentation$6 = "عرض العنوان التفسيري";
+const layers$6 = "طبقات";
+const bivariate$6 = {
   color_manager: {
     layers_filter: "طبقات",
     not_defined: "غير معرف",
@@ -9287,9 +9278,6 @@ const bivariate$4 = {
     sentiments_tab: "المشاعر",
     color_legends_tab: "مؤشرات اللون",
     layers_tab: "الطبقات (المؤشرات)"
-  },
-  panel: {
-    header: "مصفوفة ثنائية المتغير"
   },
   matrix: {
     caption: {
@@ -9327,66 +9315,61 @@ const bivariate$4 = {
     medium: "متوسط"
   }
 };
-const feed$4 = "تغذية";
-const deselect$4 = "إلغاء";
-const spinner_text$4 = "جمع البيانات";
-const updated$4 = "تحديث";
-const no_data_received$4 = "لم تُستقبل أي بيانات";
-const wrong_data_received$4 = "تم استلام بيانات خاطئة";
-const error$4 = "خطأ";
-const sort_icon$4 = "أيقونة الترتيب";
-const configs$4 = {
+const toolbar$6 = {
+  locate_me: "حدد موقعي"
+};
+const locate_me$6 = {
+  feature_title: "حدد موقعي",
+  get_location_error: "حدث خطأ أثناء الحصول على الموقع"
+};
+const layer_actions$6 = {
+  tooltips: {}
+};
+const feed$6 = "تغذية";
+const deselect$6 = "إلغاء";
+const spinner_text$6 = "جمع البيانات";
+const updated$6 = "تحديث";
+const no_data_received$6 = "لم تُستقبل أي بيانات";
+const wrong_data_received$6 = "تم استلام بيانات خاطئة";
+const error$6 = "خطأ";
+const sort_icon$6 = "أيقونة الترتيب";
+const configs$6 = {
   Kontur_public_feed: "Kontur Public",
   Kontur_public_feed_description: "يحتوي الموجز على بيانات فورية عن الأعاصير والجفاف والزلازل والفيضانات والبراكين وحرائق الغابات."
 };
-const errors$4 = {
-  "default": "عذرًا، حدثت مشكلات، سيتم إصلاحها قريبًا",
-  timeout: "انتهت مهلة الطلب",
-  cannot_connect: "لا يمكن الاتصال بالخادم",
+const errors$6 = {
   forbidden: "محظور",
   not_found: "لم يتم العثور على",
-  unknown: "غير معروف",
-  server_error: "خطأ في الخادم"
+  unknown: "غير معروف"
 };
-const event_list$4 = {
+const event_list$6 = {
   severity_unknown: "غير معروف",
-  warning_title: "لا يمكن استخدام الخريطة كعامل تصفية",
-  warning_description: "الخريطة ليست جاهزة بعد، حاول لاحقًا",
-  bbox_filter_button: "استخدم عرض الخريطة كعامل تصفية",
   analytics: {
     affected_people: {
-      tooltip: "الأشخاص المتأثرون",
       value: "لا أثر إنساني"
     },
-    settled_area_tooltip: "منطقة مستوطنة",
     loss_tooltip: "الخسارة المقدرة"
   },
-  no_event_in_feed: "لم يتم العثور على الحدث في موجز الأحداث الحالية",
   no_selected_disaster: "لم يتم اختيار كارثة",
   chose_disaster: "اختر كارثة"
 };
-const categories$4 = {
+const categories$6 = {
   overlays: "تراكميات",
   basemap: "الخريطة الأساسية"
 };
-const groups$4 = {
+const groups$6 = {
   layers_in_selected_area: "طبقات في المنطقة المختارة",
-  your_layers: "طبقاتك",
-  kontur_analytics: "تحليلات كونتور",
-  qa: "تأكيد الجودة",
-  osmbasedmap: "فتح خريطة الشارع على أساس",
   other: "آخر",
   elevation: "ارتفاع",
-  photo: "صورة",
   map: "الخريطة"
 };
-const modes$4 = {
+const modes$6 = {
   map: "الخريطة",
   about: "عن",
   reports: "التقارير",
   profile: "الملف الشخصي"
 };
-const advanced_analytics_data_list$4 = {
+const advanced_analytics_data_list$6 = {
   load_world_data: "تحميل بيانات العالم",
   numerator: "البسط",
   normalized_by: "تطبيع بواسطة",
@@ -9398,8 +9381,39 @@ const advanced_analytics_data_list$4 = {
   median: "الوسيط",
   filter_denominator: "مقام المرشح"
 };
-const mcda$4 = {};
-const create_layer$4 = {
+const profile$6 = {
+  saveButton: "حفظ التغييرات",
+  reference_area: {},
+  email: "البريد الإلكتروني",
+  interfaceTheme: "النسق",
+  interfaceLanguage: "اللغة",
+  units: "الوحدات",
+  metric: "المقياس",
+  imperialBeta: "إمبريالي (بيتا)",
+  bio_placeholder: "السيرة",
+  appSettingsHeader: "الإعدادات",
+  konturTheme: "Kontur",
+  HOTTheme: "حار",
+  defaultDisasterFeed: "موجز الكوارث الافتراضي",
+  defaultOSMeditor: "محرر OpenStreetMap الافتراضي (بيتا)",
+  successNotification: "تم تطبيق جميع التغييرات بنجاح",
+  languageOption: {
+    en: "الإنجليزية",
+    es: "الإسبانية",
+    ar: "العربية",
+    ko: "الكورية",
+    id: "الأندونيسية",
+    de: "ألمانية",
+    uk: "الأوكرانية"
+  }
+};
+const multivariate$6 = {
+  popup: {}
+};
+const search$6 = {
+  search_location: "البحث عن الموقع"
+};
+const create_layer$6 = {
   edit_layer: "تعديل الطبقة",
   edit_features: "تعديل الميزات",
   delete_layer: "حذف الطبقة",
@@ -9419,23 +9433,18 @@ const create_layer$4 = {
   location: "موقع",
   edit_feature_placeholder: "حدد بعض الميزات لبدء تحرير خصائص الميزة"
 };
-const analytics_panel$4 = {
-  header_title: "التحليلات",
-  error_loading: "خطأ أثناء جلب بيانات التحليلات"
+const analytics_panel$6 = {
+  header_title: "التحليلات"
 };
-const advanced_analytics_panel$4 = {
+const advanced_analytics_panel$6 = {
   header_title: "تحليلات متقدمة",
   error: "خطأ أثناء جلب بيانات التحليلات المتقدمة"
 };
-const advanced_analytics_empty$4 = {
-  not_found: "عذرًا، الحدث المطلوب غير موجود.",
-  error: "حدث خطأ!"
+const advanced_analytics_empty$6 = {};
+const llm_analytics$6 = {
+  placeholder: {}
 };
-const current_event$4 = {
-  not_found_request: "عذرًا، الحدث المطلوب غير موجود."
-};
-const draw_tools$4 = {
-  area: "منطقة",
+const draw_tools$6 = {
   line: "خط",
   point: "نقطة",
   finish_drawing: "إنهاء الرسم",
@@ -9444,25 +9453,20 @@ const draw_tools$4 = {
   overlap_error: "يجب ألا يتداخل المضلع مع نفسه",
   save_features: "حفظ الميزات"
 };
-const boundary_selector$4 = {
+const boundary_selector$6 = {
   title: "التركيز على الحدود الإدارية"
 };
-const geometry_uploader$4 = {
+const geometry_uploader$6 = {
   title: "التركيز على المجسم المحمل",
   error: "خطأ أثناء قراءة الملف الذي تم تحميله"
 };
-const focus_geometry$4 = {
+const focus_geometry$6 = {
   title: "ركز على المجسم الحر"
 };
-const focus_geometry_layer$4 = {
-  settings: {
-    name: "منطقة مختارة"
-  }
+const reference_area_layer$6 = {
+  settings: {}
 };
-const drawings$4 = {
-  self_directions_not_supported: "التقاطعات الذاتية غير مدعومة!"
-};
-const sidebar$4 = {
+const sidebar$6 = {
   biv_color_manager: "مدير الألوان",
   edit_osm: "التعديل في OpenStreetMap",
   ruler: "المسطرة",
@@ -9470,156 +9474,124 @@ const sidebar$4 = {
   expand: "فتح",
   icon_alt: "شعار التطبيق"
 };
-const login$4 = {
+const login$6 = {
   email: "البريد الإلكتروني",
   password: "كلمة السر",
   login_button: "تسجيل الدخول",
   sign_up: "إنشاء حساب",
   logging_in: "جارٍ تسجيل الدخول...",
   log_in: "تسجيل الدخول",
-  description: "يرجى تسجيل الدخول لتغيير إعداداتك",
-  error: {
-    email_empty: "يجب أن لا يكون البريد الإلكتروني فارغًا!",
-    email_invalid: "يجب أن يكون البريد الإلكتروني صالحًا!",
-    password: "يجب أن لا تكون كلمة السر فارغة!",
-    connect: "تعذّر الوصول إلى خادم المصادقة"
-  }
+  description: "يرجى تسجيل الدخول لتغيير إعداداتك"
 };
-const profile$4 = {
-  email: "البريد الإلكتروني",
-  profileSettingsHeader: "الملف الشخصي",
-  interfaceTheme: "النسق",
-  interfaceLanguage: "اللغة",
-  units: "الوحدات",
-  fullName: "الاسم الكامل",
-  metric: "المقياس",
-  imperialBeta: "إمبريالي (بيتا)",
-  appSettingsHeader: "الإعدادات",
-  saveButton: "حفظ التغييرات",
-  konturTheme: "Kontur",
-  HOTTheme: "حار",
-  "userBio(about)": "السيرة",
-  defaultDisasterFeed: "موجز الكوارث الافتراضي",
-  defaultOSMeditor: "محرر OpenStreetMap الافتراضي (بيتا)",
-  successNotification: "تم تطبيق جميع التغييرات بنجاح",
-  languageOption: {
-    en: "الإنجليزية",
-    es: "الإسبانية",
-    ar: "العربية",
-    ko: "الكورية",
-    id: "الأندونيسية",
-    de: "ألمانية",
-    uk: "الأوكرانية"
-  }
+const currency$6 = {};
+const subscription$6 = {
+  errors: {},
+  success_modal: {}
 };
-const reports$4 = {
+const reports$6 = {
   title: "تقارير Disaster Ninja",
   no_data: "لا توجد بيانات لهذا التقرير",
   sorting: "جارٍ ترتيب البيانات...",
   loading: "جارٍ تحميل البيانات",
-  search_location: "البحث عن الموقع",
   open_josm: "الفتح من خلال وحدة تحكم JOSM عن بعد",
   josm_logo_alt: "شعار JOSM",
   see_all: "عرض جميع التقارير",
   wrong_id: "معرف التقرير خاطئ",
   description: "ينشئ <0> Kontur</0> عدة تقارير تساعد في التحقق من جودة OpenStreetMap. تحتوي هذه التقارير على روابط لمناطق على <4> osm.org </4> وروابط يمكن فتحها في محرر JOSM مع تمكين التحكم عن بعد للتحرير."
 };
-const about$4 = {
-  title: "مرحبًا في Disaster Ninja!",
-  intro: "هل تريد أن يتم إخطارك بالكوارث الجارية؟ هل أنت مهتم بالبيانات السكانية الفورية والتحليلات الأخرى لأي منطقة في العالم؟ يعرض Disaster Ninja بعض قدرات <2>Kontur</2> في تلبية هذه الاحتياجات.<br/><br/>لقد صممناه في البداية ليكون أداة دعم قرار لمصممي الخرائط الإنسانية. الآن، ازدادت وظائفه وحالات استخدامه. سواء كنت تعمل في إدارة الكوارث، أو تبني مدينة ذكية، أو تجري بحثًا عن تغير المناخ، يمكن أن يساعدك Disaster Ninja على:",
-  l1: "1. البقاء على اطلاع بآخر التطورات للأحداث الخطرة على مستوى العالم.",
-  p1: "يتم تحديث لوحة الكوارث باستمرار لإبلاغك بالأحداث الجارية. إنها تستهلك البيانات من <2>Kontur Event Feed</2> والتي يمكنك أيضًا الوصول إليها عبر واجهة برمجة التطبيقات.",
-  l2: "2. التركيز على مجال اهتمامك.",
-  p2: "تتيح لك لوحة أدوات الرسم رسم أو تحميل الشكل الهندسي الخاص بك على الخريطة. يمكنك أيضًا التركيز على منطقة معرضة للكوارث أو وحدة إدارية - بلد أو مدينة أو منطقة.",
-  l3: "3. الحصول على تحليلات لمنطقة الاهتمام.",
-  p3: "تعرض لوحة التحليلات عدد الأشخاص الذين يعيشون في تلك المنطقة حسب <2>Kontur Population</2> وفجوات الخرائط المقدرة في OpenStreetMap. يمكن لعملاء Kontur الوصول إلى مئات المؤشرات الأخرى من خلال التحليلات المتقدمة.",
-  l4: "4. استكشاف البيانات على الخريطة والتوصل إلى استنتاجات.",
-  p4: "تمنحك لوحة Layers خيارات متنوعة لعرض مؤشرين في وقت واحد على خريطة ثنائية المتغير على سبيل المثال الكثافة السكانية والمسافة إلى أقرب محطة إطفاء. استخدم وسيلة إيضاح اللون لتقييم المناطق التي تتطلب الانتباه. <br/>بشكل عام، يشير اللون الأخضر إلى مخاطر منخفضة / فجوات قليلة، والأحمر - مخاطر عالية / العديد من الفجوات.",
-  p5: "بالإضافة إلى ذلك ، يمكنك التبديل إلى التقارير في اللوحة اليمنى للوصول إلى البيانات المتعلقة بالأخطاء والتناقضات المحتملة في OpenStreetMap والمساعدة في إصلاحها عن طريق رسم خريطة المنطقة المعنية باستخدام محرر JOSM.",
-  goToMap: "الانتقال إلى الخريطة الآن",
-  p6: "نأمل أن تجد هذه الأداة ذات قيمة. استخدم مربع الدردشة على Disaster Ninja لأية أسئلة حول وظائفه، وسنكون سعداء بإرشادك. يمكنك أيضًا التواصل معنا عبر البريد الإلكتروني<1>hello@kontur.io</1> إذا كان لديك ملاحظات أو اقتراحات بشأن تحسين الأداة.<br/><br/>يُعدّ Disaster Ninja مشروعًا مفتوح المصدر. تحقق من الكود في حساب <8>Kontur</8> على <8>GitHub</8>."
-};
-const locate_me$4 = {
-  get_location_error: "حدث خطأ أثناء الحصول على الموقع",
-  feature_title: "حدد موقعي"
-};
-const episode$4 = "الحلقة";
-const loading_episodes$4 = "جارٍ تجميل الحلقات";
-const cookie_banner$4 = {};
-const live_sensor$4 = {};
+const about$6 = {};
+const loading_episodes$6 = "جارٍ تجميل الحلقات";
+const cookie_banner$6 = {};
+const live_sensor$6 = {};
+const layer_features_panel$6 = {};
+const reference_area$6 = {};
 const ar_common = {
-  km: km$4,
-  m: m$4,
-  to: to$4,
-  maps: maps$4,
-  logout: logout$4,
-  save: save$4,
-  cancel: cancel$4,
-  create: create$4,
-  disasters: disasters$4,
-  loading: loading$4,
-  loading_events: loading_events$4,
-  legend: legend$4,
-  vertical_direction: vertical_direction$4,
-  horizontal_direction: horizontal_direction$4,
-  legend_presentation: legend_presentation$4,
-  layers: layers$4,
-  bivariate: bivariate$4,
-  feed: feed$4,
-  deselect: deselect$4,
-  spinner_text: spinner_text$4,
-  updated: updated$4,
-  no_data_received: no_data_received$4,
-  wrong_data_received: wrong_data_received$4,
-  error: error$4,
-  sort_icon: sort_icon$4,
-  configs: configs$4,
-  errors: errors$4,
-  event_list: event_list$4,
-  categories: categories$4,
-  groups: groups$4,
-  modes: modes$4,
-  advanced_analytics_data_list: advanced_analytics_data_list$4,
-  mcda: mcda$4,
-  create_layer: create_layer$4,
-  analytics_panel: analytics_panel$4,
-  advanced_analytics_panel: advanced_analytics_panel$4,
-  advanced_analytics_empty: advanced_analytics_empty$4,
-  current_event: current_event$4,
-  draw_tools: draw_tools$4,
-  boundary_selector: boundary_selector$4,
-  geometry_uploader: geometry_uploader$4,
-  focus_geometry: focus_geometry$4,
-  focus_geometry_layer: focus_geometry_layer$4,
-  drawings: drawings$4,
-  sidebar: sidebar$4,
-  login: login$4,
-  profile: profile$4,
-  reports: reports$4,
-  about: about$4,
-  locate_me: locate_me$4,
-  episode: episode$4,
-  loading_episodes: loading_episodes$4,
-  cookie_banner: cookie_banner$4,
-  live_sensor: live_sensor$4
+  km: km$6,
+  m: m$6,
+  to: to$6,
+  maps: maps$6,
+  save: save$6,
+  cancel: cancel$6,
+  mcda: mcda$6,
+  create: create$6,
+  disasters: disasters$6,
+  loading: loading$6,
+  legend: legend$6,
+  vertical_direction: vertical_direction$6,
+  horizontal_direction: horizontal_direction$6,
+  legend_presentation: legend_presentation$6,
+  layers: layers$6,
+  bivariate: bivariate$6,
+  toolbar: toolbar$6,
+  locate_me: locate_me$6,
+  layer_actions: layer_actions$6,
+  feed: feed$6,
+  deselect: deselect$6,
+  spinner_text: spinner_text$6,
+  updated: updated$6,
+  no_data_received: no_data_received$6,
+  wrong_data_received: wrong_data_received$6,
+  error: error$6,
+  sort_icon: sort_icon$6,
+  configs: configs$6,
+  errors: errors$6,
+  event_list: event_list$6,
+  categories: categories$6,
+  groups: groups$6,
+  modes: modes$6,
+  advanced_analytics_data_list: advanced_analytics_data_list$6,
+  profile: profile$6,
+  multivariate: multivariate$6,
+  search: search$6,
+  create_layer: create_layer$6,
+  analytics_panel: analytics_panel$6,
+  advanced_analytics_panel: advanced_analytics_panel$6,
+  advanced_analytics_empty: advanced_analytics_empty$6,
+  llm_analytics: llm_analytics$6,
+  draw_tools: draw_tools$6,
+  boundary_selector: boundary_selector$6,
+  geometry_uploader: geometry_uploader$6,
+  focus_geometry: focus_geometry$6,
+  reference_area_layer: reference_area_layer$6,
+  sidebar: sidebar$6,
+  login: login$6,
+  currency: currency$6,
+  subscription: subscription$6,
+  reports: reports$6,
+  about: about$6,
+  loading_episodes: loading_episodes$6,
+  cookie_banner: cookie_banner$6,
+  live_sensor: live_sensor$6,
+  layer_features_panel: layer_features_panel$6,
+  reference_area: reference_area$6
 };
-const km$3 = "킬로미터";
-const m$3 = "미터";
-const to$3 = "목적지";
-const maps$3 = "지도";
-const logout$3 = "로그아웃";
-const save$3 = "저장";
-const cancel$3 = "취소";
-const create$3 = "생성";
-const disasters$3 = "재난";
-const loading$3 = "로딩 중...";
-const loading_events$3 = "이벤트 로딩 중";
-const legend$3 = "범례";
-const vertical_direction$3 = "수직 방향";
-const horizontal_direction$3 = "수평 방향";
-const legend_presentation$3 = "범례 표시";
-const layers$3 = "레이어";
-const bivariate$3 = {
+const km$5 = "킬로미터";
+const m$5 = "미터";
+const to$5 = "목적지";
+const maps$5 = "지도";
+const save$5 = "저장";
+const cancel$5 = "취소";
+const mcda$5 = {
+  btn_cancel: "취소",
+  legend_title: "범례",
+  layer_editor: {
+    outliers_options: {},
+    save_changes: "변경 사항 저장",
+    range_buttons: {},
+    transformations: {},
+    errors: {},
+    tips: {}
+  }
+};
+const create$5 = "생성";
+const disasters$5 = "재난";
+const loading$5 = "로딩 중...";
+const legend$5 = "범례";
+const vertical_direction$5 = "수직 방향";
+const horizontal_direction$5 = "수평 방향";
+const legend_presentation$5 = "범례 표시";
+const layers$5 = "레이어";
+const bivariate$5 = {
   color_manager: {
     layers_filter: "레이어",
     not_defined: "정의되지 않음",
@@ -9629,9 +9601,6 @@ const bivariate$3 = {
     sentiments_tab: "감정",
     color_legends_tab: "색상 범례",
     layers_tab: "레이어(지표)"
-  },
-  panel: {
-    header: "이변수 매트릭스"
   },
   matrix: {
     caption: {
@@ -9669,66 +9638,61 @@ const bivariate$3 = {
     medium: "중간"
   }
 };
-const feed$3 = "피드";
-const deselect$3 = "선택 취소";
-const spinner_text$3 = "데이터 수집";
-const updated$3 = "업데이트됨";
-const no_data_received$3 = "수신한 데이터 없음";
-const wrong_data_received$3 = "잘못된 데이터 수신";
-const error$3 = "오류";
-const sort_icon$3 = "정렬 아이콘";
-const configs$3 = {
+const toolbar$5 = {
+  locate_me: "내 위치 확인"
+};
+const locate_me$5 = {
+  feature_title: "내 위치 확인",
+  get_location_error: "위치를 가져오는 중에 오류가 발생했습니다."
+};
+const layer_actions$5 = {
+  tooltips: {}
+};
+const feed$5 = "피드";
+const deselect$5 = "선택 취소";
+const spinner_text$5 = "데이터 수집";
+const updated$5 = "업데이트됨";
+const no_data_received$5 = "수신한 데이터 없음";
+const wrong_data_received$5 = "잘못된 데이터 수신";
+const error$5 = "오류";
+const sort_icon$5 = "정렬 아이콘";
+const configs$5 = {
   Kontur_public_feed: "Kontur Public",
   Kontur_public_feed_description: "피드에는 사이클론, 가뭄, 지진, 홍수, 화산 폭발, 산불에 대한 실시간 데이터가 포함됩니다."
 };
-const errors$3 = {
-  "default": "죄송합니다. 문제가 생겼습니다. 곧 해결될 예정입니다.",
-  timeout: "요청 시간 초과",
-  cannot_connect: "서버에 연결할 수 없습니다.",
+const errors$5 = {
   forbidden: "사용할 수 없음",
   not_found: "찾을 수 없음",
-  unknown: "알 수 없음",
-  server_error: "서버 오류"
+  unknown: "알 수 없음"
 };
-const event_list$3 = {
+const event_list$5 = {
   severity_unknown: "알 수 없음",
-  warning_title: "지도를 필터로 사용할 수 없습니다.",
-  warning_description: "아직 지도를 사용할 수 없습니다. 잠시 후 다시 시도해 주세요.",
-  bbox_filter_button: "지도 보기를 필터로 사용",
   analytics: {
     affected_people: {
-      tooltip: "영향을 받은 사람",
       value: "인도주의적 영향 없음"
     },
-    settled_area_tooltip: "고정된 영역",
     loss_tooltip: "예상 손해"
   },
-  no_event_in_feed: "현재 이벤트 피드에서 이벤트를 찾을 수 없음",
   no_selected_disaster: "선택된 재난 없음",
   chose_disaster: "재난 선택"
 };
-const categories$3 = {
+const categories$5 = {
   overlays: "오버레이",
   basemap: "백지도"
 };
-const groups$3 = {
+const groups$5 = {
   layers_in_selected_area: "선택 영역 내 레이어",
-  your_layers: "레이어",
-  kontur_analytics: "Kontur Analytics",
-  qa: "QA",
-  osmbasedmap: "OpenStreetMap 기반",
   other: "기타",
   elevation: "입면도",
-  photo: "사진",
   map: "지도"
 };
-const modes$3 = {
+const modes$5 = {
   map: "지도",
   about: "정보",
   reports: "보고서",
   profile: "프로필"
 };
-const advanced_analytics_data_list$3 = {
+const advanced_analytics_data_list$5 = {
   load_world_data: "전 세계 데이터 로드하기",
   numerator: "분자",
   normalized_by: "정규화 기준:",
@@ -9740,8 +9704,39 @@ const advanced_analytics_data_list$3 = {
   median: "중앙값",
   filter_denominator: "분모 필터"
 };
-const mcda$3 = {};
-const create_layer$3 = {
+const profile$5 = {
+  saveButton: "변경 사항 저장",
+  reference_area: {},
+  email: "이메일",
+  interfaceTheme: "주제",
+  interfaceLanguage: "언어",
+  units: "단위",
+  metric: "미터법",
+  imperialBeta: "영국식 단위(베타)",
+  bio_placeholder: "Bio",
+  appSettingsHeader: "설정",
+  konturTheme: "Kontur",
+  HOTTheme: "HOT",
+  defaultDisasterFeed: "기본 재난 피드",
+  defaultOSMeditor: "기본 OpenStreetMap 편집기(베타)",
+  successNotification: "모든 변경 사항이 성공적으로 적용되었습니다.",
+  languageOption: {
+    en: "영어",
+    es: "스페인어",
+    ar: "아랍어",
+    ko: "한국어",
+    id: "인도네시아 인",
+    de: "독일 말",
+    uk: "우크라이나 인"
+  }
+};
+const multivariate$5 = {
+  popup: {}
+};
+const search$5 = {
+  search_location: "위치 검색"
+};
+const create_layer$5 = {
   edit_layer: "레이어 편집",
   edit_features: "특성 편집",
   delete_layer: "레이어 삭제",
@@ -9761,23 +9756,18 @@ const create_layer$3 = {
   location: "위치",
   edit_feature_placeholder: "일부 특성을 선택하여 특성 속성 편집을 시작하세요."
 };
-const analytics_panel$3 = {
-  header_title: "분석",
-  error_loading: "분석 데이터를 가져오는 중에 오류가 발생했습니다."
+const analytics_panel$5 = {
+  header_title: "분석"
 };
-const advanced_analytics_panel$3 = {
+const advanced_analytics_panel$5 = {
   header_title: "고급 분석",
   error: "고급 분석 데이터를 가져오는 중에 오류가 발생했습니다."
 };
-const advanced_analytics_empty$3 = {
-  not_found: "죄송합니다. 요청하신 이벤트를 찾을 수 없습니다.",
-  error: "오류가 발생했습니다."
+const advanced_analytics_empty$5 = {};
+const llm_analytics$5 = {
+  placeholder: {}
 };
-const current_event$3 = {
-  not_found_request: "죄송합니다. 요청하신 이벤트를 찾을 수 없습니다."
-};
-const draw_tools$3 = {
-  area: "영역",
+const draw_tools$5 = {
   line: "라인",
   point: "점",
   finish_drawing: "그리기 완료",
@@ -9786,25 +9776,20 @@ const draw_tools$3 = {
   overlap_error: "다각형은 그 자체로 겹치지 않아야 합니다.",
   save_features: "특성 저장"
 };
-const boundary_selector$3 = {
+const boundary_selector$5 = {
   title: "행정 경계에 초점 맞추기"
 };
-const geometry_uploader$3 = {
+const geometry_uploader$5 = {
   title: "업로드된 기하 도형에 초점 맞추기",
   error: "업로드된 파일을 읽는 중 오류가 발생했습니다."
 };
-const focus_geometry$3 = {
+const focus_geometry$5 = {
   title: "손으로 직접 그린 기하 도형에 초점 맞추기"
 };
-const focus_geometry_layer$3 = {
-  settings: {
-    name: "선택된 영역"
-  }
+const reference_area_layer$5 = {
+  settings: {}
 };
-const drawings$3 = {
-  self_directions_not_supported: "자체 교차는 지원되지 않습니다."
-};
-const sidebar$3 = {
+const sidebar$5 = {
   biv_color_manager: "색상 관리자",
   edit_osm: "OpenStreetMap에서 편집",
   ruler: "눈금자",
@@ -9812,61 +9797,32 @@ const sidebar$3 = {
   expand: "펼치기",
   icon_alt: "애플리케이션 로고"
 };
-const login$3 = {
+const login$5 = {
   email: "이메일",
   password: "비밀번호",
   login_button: "로그인",
   sign_up: "가입",
   logging_in: "로그인 중...",
   log_in: "로그인",
-  description: "설정을 변경하려면 로그인하세요.",
-  error: {
-    email_empty: "이메일은 필수 입력 사항입니다.",
-    email_invalid: "유효한 이메일을 사용해야 합니다.",
-    password: "비밀번호는 필수 입력 사항입니다.",
-    connect: "인증 서비스에 연결할 수 없습니다."
-  }
+  description: "설정을 변경하려면 로그인하세요."
 };
-const profile$3 = {
-  email: "이메일",
-  profileSettingsHeader: "프로필",
-  interfaceTheme: "주제",
-  interfaceLanguage: "언어",
-  units: "단위",
-  fullName: "전체 이름",
-  metric: "미터법",
-  imperialBeta: "영국식 단위(베타)",
-  appSettingsHeader: "설정",
-  saveButton: "변경 사항 저장",
-  konturTheme: "Kontur",
-  HOTTheme: "HOT",
-  "userBio(about)": "Bio",
-  defaultDisasterFeed: "기본 재난 피드",
-  defaultOSMeditor: "기본 OpenStreetMap 편집기(베타)",
-  successNotification: "모든 변경 사항이 성공적으로 적용되었습니다.",
-  languageOption: {
-    en: "영어",
-    es: "스페인어",
-    ar: "아랍어",
-    ko: "한국어",
-    id: "인도네시아 인",
-    de: "독일 말",
-    uk: "우크라이나 인"
-  }
+const currency$5 = {};
+const subscription$5 = {
+  errors: {},
+  success_modal: {}
 };
-const reports$3 = {
+const reports$5 = {
   title: "Disaster Ninja 보고서",
   no_data: "이 보고서에 데이터가 없습니다.",
   sorting: "데이터 정렬 중...",
   loading: "데이터 로딩 중",
-  search_location: "위치 검색",
   open_josm: "JOSM 원격 제어를 통해 열기",
   josm_logo_alt: "JOSM 로고",
   see_all: "모든 보고서 보기",
   wrong_id: "잘못된 보고서 ID",
   description: "<0>Kontur</0>는 몇 가지 보고서를 생성하여 OpenStreetMap 품질을 평가하도록 지원합니다. 보고서에는 <4>osm.org </4>의 영역으로 연결되는 링크, 원격 제어가 활성화된 JOSM 편집기에서 해당 영역을 열어 편집할 수 있는 링크가 포함되어 있습니다."
 };
-const about$3 = {
+const about$5 = {
   title: "Disaster Ninja에 오신 것을 환영합니다!",
   intro: "현재 진행 중인 재난에 대해 알림을 받아보시겠습니까? 전 세계 모든 지역의 인구 데이터와 기타 분석 사항을 즉시 알아보고 싶으신가요? Disaster Ninja에서는 이러한 요구 사항을 해결하기 위해 몇 가지 <2>Kontur</2> 기능을 사용합니다.<br/><br/>처음에는 인도주의적인 문제를 다루기 위한 의사 결정 지원 도구로 고안되었지만, 이제는 기능과 용법이 여러 가지로 늘어났습니다. 재난 관리, 스마트 시티 구축, 기후 변화에 관한 연구 수행 등 어떤 업무를 하더라도 다음과 같은 도움을 드릴 수 있습니다.",
   l1: "1. 전 세계의 최신 위험 이벤트의 동향을 알려 드립니다.",
@@ -9881,87 +9837,98 @@ const about$3 = {
   goToMap: "지금 바로 지도로 이동하세요.",
   p6: "이 도구가 많은 도움이 되기를 바랍니다. 기능에 대해 궁금한 점은 Disaster Ninja의 챗박스를 통해 언제든지 문의해 주시면 도와 드리겠습니다. 도구 개선에 대한 피드백이나 제안 사항이 있을 경우, <1>hello@kontur.io</1> 로 이메일 주셔도 됩니다.<br/><br/>Disaster Ninja는 오픈 소스 프로젝트입니다. <8>Kontur의 GitHub 계정</8>에서 코드를 찾아보세요."
 };
-const locate_me$3 = {
-  get_location_error: "위치를 가져오는 중에 오류가 발생했습니다.",
-  feature_title: "내 위치 확인"
-};
-const episode$3 = "에피소드";
-const loading_episodes$3 = "에피소드 로딩 중";
-const cookie_banner$3 = {};
-const live_sensor$3 = {};
+const loading_episodes$5 = "에피소드 로딩 중";
+const cookie_banner$5 = {};
+const live_sensor$5 = {};
+const layer_features_panel$5 = {};
+const reference_area$5 = {};
 const ko_common = {
-  km: km$3,
-  m: m$3,
-  to: to$3,
-  maps: maps$3,
-  logout: logout$3,
-  save: save$3,
-  cancel: cancel$3,
-  create: create$3,
-  disasters: disasters$3,
-  loading: loading$3,
-  loading_events: loading_events$3,
-  legend: legend$3,
-  vertical_direction: vertical_direction$3,
-  horizontal_direction: horizontal_direction$3,
-  legend_presentation: legend_presentation$3,
-  layers: layers$3,
-  bivariate: bivariate$3,
-  feed: feed$3,
-  deselect: deselect$3,
-  spinner_text: spinner_text$3,
-  updated: updated$3,
-  no_data_received: no_data_received$3,
-  wrong_data_received: wrong_data_received$3,
-  error: error$3,
-  sort_icon: sort_icon$3,
-  configs: configs$3,
-  errors: errors$3,
-  event_list: event_list$3,
-  categories: categories$3,
-  groups: groups$3,
-  modes: modes$3,
-  advanced_analytics_data_list: advanced_analytics_data_list$3,
-  mcda: mcda$3,
-  create_layer: create_layer$3,
-  analytics_panel: analytics_panel$3,
-  advanced_analytics_panel: advanced_analytics_panel$3,
-  advanced_analytics_empty: advanced_analytics_empty$3,
-  current_event: current_event$3,
-  draw_tools: draw_tools$3,
-  boundary_selector: boundary_selector$3,
-  geometry_uploader: geometry_uploader$3,
-  focus_geometry: focus_geometry$3,
-  focus_geometry_layer: focus_geometry_layer$3,
-  drawings: drawings$3,
-  sidebar: sidebar$3,
-  login: login$3,
-  profile: profile$3,
-  reports: reports$3,
-  about: about$3,
-  locate_me: locate_me$3,
-  episode: episode$3,
-  loading_episodes: loading_episodes$3,
-  cookie_banner: cookie_banner$3,
-  live_sensor: live_sensor$3
+  km: km$5,
+  m: m$5,
+  to: to$5,
+  maps: maps$5,
+  save: save$5,
+  cancel: cancel$5,
+  mcda: mcda$5,
+  create: create$5,
+  disasters: disasters$5,
+  loading: loading$5,
+  legend: legend$5,
+  vertical_direction: vertical_direction$5,
+  horizontal_direction: horizontal_direction$5,
+  legend_presentation: legend_presentation$5,
+  layers: layers$5,
+  bivariate: bivariate$5,
+  toolbar: toolbar$5,
+  locate_me: locate_me$5,
+  layer_actions: layer_actions$5,
+  feed: feed$5,
+  deselect: deselect$5,
+  spinner_text: spinner_text$5,
+  updated: updated$5,
+  no_data_received: no_data_received$5,
+  wrong_data_received: wrong_data_received$5,
+  error: error$5,
+  sort_icon: sort_icon$5,
+  configs: configs$5,
+  errors: errors$5,
+  event_list: event_list$5,
+  categories: categories$5,
+  groups: groups$5,
+  modes: modes$5,
+  advanced_analytics_data_list: advanced_analytics_data_list$5,
+  profile: profile$5,
+  multivariate: multivariate$5,
+  search: search$5,
+  create_layer: create_layer$5,
+  analytics_panel: analytics_panel$5,
+  advanced_analytics_panel: advanced_analytics_panel$5,
+  advanced_analytics_empty: advanced_analytics_empty$5,
+  llm_analytics: llm_analytics$5,
+  draw_tools: draw_tools$5,
+  boundary_selector: boundary_selector$5,
+  geometry_uploader: geometry_uploader$5,
+  focus_geometry: focus_geometry$5,
+  reference_area_layer: reference_area_layer$5,
+  sidebar: sidebar$5,
+  login: login$5,
+  currency: currency$5,
+  subscription: subscription$5,
+  reports: reports$5,
+  about: about$5,
+  loading_episodes: loading_episodes$5,
+  cookie_banner: cookie_banner$5,
+  live_sensor: live_sensor$5,
+  layer_features_panel: layer_features_panel$5,
+  reference_area: reference_area$5
 };
-const km$2 = "km";
-const m$2 = "m";
-const to$2 = "ke";
-const maps$2 = "peta";
-const logout$2 = "Keluar";
-const save$2 = "Simpan";
-const cancel$2 = "Batalkan";
-const create$2 = "Buat";
-const disasters$2 = "Bencana";
-const loading$2 = "Memuat...";
-const loading_events$2 = "Memuat kejadian";
-const legend$2 = "Legenda";
-const vertical_direction$2 = "Arah vertikal";
-const horizontal_direction$2 = "Arah horizontal";
-const legend_presentation$2 = "Penyajian legenda";
-const layers$2 = "Lapisan";
-const bivariate$2 = {
+const km$4 = "km";
+const m$4 = "m";
+const to$4 = "ke";
+const maps$4 = "peta";
+const save$4 = "Simpan";
+const cancel$4 = "Batalkan";
+const mcda$4 = {
+  btn_cancel: "Batalkan",
+  legend_title: "Legenda",
+  layer_editor: {
+    outliers_options: {},
+    save_changes: "Simpan perubahan",
+    range_buttons: {},
+    transformations: {},
+    errors: {},
+    tips: {}
+  }
+};
+const create$4 = "Buat";
+const disasters$4 = "Bencana";
+const loading$4 = "Memuat...";
+const legend$4 = "Legenda";
+const vertical_direction$4 = "Arah vertikal";
+const horizontal_direction$4 = "Arah horizontal";
+const legend_presentation$4 = "Penyajian legenda";
+const layers$4 = "Lapisan";
+const bivariate$4 = {
   color_manager: {
     layers_filter: "Lapisan",
     not_defined: "Tidak terdefinisi",
@@ -9971,9 +9938,6 @@ const bivariate$2 = {
     sentiments_tab: "Sentimen",
     color_legends_tab: "Legenda Warna",
     layers_tab: "Lapisan (indikator)"
-  },
-  panel: {
-    header: "Matriks Bivariat"
   },
   matrix: {
     caption: {
@@ -10011,66 +9975,61 @@ const bivariate$2 = {
     medium: "Sedang"
   }
 };
-const feed$2 = "Feed";
-const deselect$2 = "Batalkan Pilihan";
-const spinner_text$2 = "Mengumpulkan data";
-const updated$2 = "Diperbarui";
-const no_data_received$2 = "Tidak ada data yang diterima";
-const wrong_data_received$2 = "Data yang diterima salah";
-const error$2 = "Kesalahan";
-const sort_icon$2 = "Sortir Ikon";
-const configs$2 = {
+const toolbar$4 = {
+  locate_me: "Temukan saya"
+};
+const locate_me$4 = {
+  feature_title: "Temukan saya",
+  get_location_error: "Kesalahan saat memperoleh lokasi"
+};
+const layer_actions$4 = {
+  tooltips: {}
+};
+const feed$4 = "Feed";
+const deselect$4 = "Batalkan Pilihan";
+const spinner_text$4 = "Mengumpulkan data";
+const updated$4 = "Diperbarui";
+const no_data_received$4 = "Tidak ada data yang diterima";
+const wrong_data_received$4 = "Data yang diterima salah";
+const error$4 = "Kesalahan";
+const sort_icon$4 = "Sortir Ikon";
+const configs$4 = {
   Kontur_public_feed: "Publik Kontur",
   Kontur_public_feed_description: "Feed berisi data waktu-nyata tentang Angin Topan, Kekeringan, Gempa, Banjir, Gunung Meletus, Kebakaran Hutan."
 };
-const errors$2 = {
-  "default": "Maaf, kami mengalami masalah yang akan segera diperbaiki",
-  timeout: "Waktu Permintaan Habis",
-  cannot_connect: "Tidak dapat terhubung ke server",
+const errors$4 = {
   forbidden: "Terlarang",
   not_found: "Tidak ditemukan",
-  unknown: "Tidak diketahui",
-  server_error: "Kesalahan Server"
+  unknown: "Tidak diketahui"
 };
-const event_list$2 = {
+const event_list$4 = {
   severity_unknown: "Tidak diketahui",
-  warning_title: "Tidak dapat menggunakan peta sebagai filter",
-  warning_description: "Peta belum siap, coba nanti",
-  bbox_filter_button: "Gunakan tampilan peta sebagai filter",
   analytics: {
     affected_people: {
-      tooltip: "Orang yang Terdampak",
       value: "Tidak berdampak kemanusiaan"
     },
-    settled_area_tooltip: "Area yang Ditempati",
     loss_tooltip: "Estimasi kerugian"
   },
-  no_event_in_feed: "Kejadian tidak ditemukan di feed kejadian terkini",
   no_selected_disaster: "Tidak ada bencana yang dipilih",
   chose_disaster: "Pilih bencana"
 };
-const categories$2 = {
+const categories$4 = {
   overlays: "Tumpang Susun",
   basemap: "Peta Dasar"
 };
-const groups$2 = {
+const groups$4 = {
   layers_in_selected_area: "Lapisan di area pilihan",
-  your_layers: "Lapisan Anda",
-  kontur_analytics: "Analitik Kontur",
-  qa: "QA",
-  osmbasedmap: "Berbasis OpenStreetMap",
   other: "Lainnya",
   elevation: "Elevasi",
-  photo: "Foto",
   map: "Peta"
 };
-const modes$2 = {
+const modes$4 = {
   map: "Peta",
   about: "Tentang",
   reports: "Laporan",
   profile: "Profil"
 };
-const advanced_analytics_data_list$2 = {
+const advanced_analytics_data_list$4 = {
   load_world_data: "Memuat Data Dunia",
   numerator: "Pembilang",
   normalized_by: "Dinormalkan Dengan",
@@ -10082,8 +10041,39 @@ const advanced_analytics_data_list$2 = {
   median: "Median",
   filter_denominator: "Filter Penyebut"
 };
-const mcda$2 = {};
-const create_layer$2 = {
+const profile$4 = {
+  saveButton: "Simpan perubahan",
+  reference_area: {},
+  email: "Email",
+  interfaceTheme: "Tema",
+  interfaceLanguage: "Bahasa",
+  units: "Satuan",
+  metric: "metrik",
+  imperialBeta: "imperial (beta)",
+  bio_placeholder: "Bio",
+  appSettingsHeader: "Pengaturan",
+  konturTheme: "Kontur",
+  HOTTheme: "HANGAT",
+  defaultDisasterFeed: "Feed bencana bawaan",
+  defaultOSMeditor: "Editor OpenStreetMap bawaan (beta)",
+  successNotification: "Semua perubahan telah berhasil diterapkan",
+  languageOption: {
+    en: "Inggris",
+    es: "Spanyol",
+    ar: "Arab",
+    ko: "Korea",
+    id: "Indonesia",
+    de: "Jerman",
+    uk: "Orang Ukraina"
+  }
+};
+const multivariate$4 = {
+  popup: {}
+};
+const search$4 = {
+  search_location: "Cari lokasi"
+};
+const create_layer$4 = {
   edit_layer: "Edit Lapisan",
   edit_features: "Edit Fitur",
   delete_layer: "Hapus Lapisan",
@@ -10103,23 +10093,18 @@ const create_layer$2 = {
   location: "Lokasi",
   edit_feature_placeholder: "Pilih beberapa fitur untuk mulai mengedit properti fitur"
 };
-const analytics_panel$2 = {
-  header_title: "Analitik",
-  error_loading: "Kesalahan saat mengambil data analitik"
+const analytics_panel$4 = {
+  header_title: "Analitik"
 };
-const advanced_analytics_panel$2 = {
+const advanced_analytics_panel$4 = {
   header_title: "Analitik tingkat lanjut",
   error: "Kesalahan saat mengambil data analitik tingkat lanjut"
 };
-const advanced_analytics_empty$2 = {
-  not_found: "Maaf, kejadian yang diminta tidak ditemukan.",
-  error: "Terjadi kesalahan!"
+const advanced_analytics_empty$4 = {};
+const llm_analytics$4 = {
+  placeholder: {}
 };
-const current_event$2 = {
-  not_found_request: "Maaf, kejadian yang diminta tidak ditemukan."
-};
-const draw_tools$2 = {
-  area: "Area",
+const draw_tools$4 = {
   line: "Garis",
   point: "Titik",
   finish_drawing: "Selesai Menggambar",
@@ -10128,25 +10113,20 @@ const draw_tools$2 = {
   overlap_error: "Poligon tidak boleh bertumpang-tindih sendiri",
   save_features: "Simpan fitur"
 };
-const boundary_selector$2 = {
+const boundary_selector$4 = {
   title: "Fokus ke batas administratif"
 };
-const geometry_uploader$2 = {
+const geometry_uploader$4 = {
   title: "Fokus ke geometri unggahan",
   error: "Kesalahan saat membaca file unggahan"
 };
-const focus_geometry$2 = {
+const focus_geometry$4 = {
   title: "Fokus ke geometri bebas"
 };
-const focus_geometry_layer$2 = {
-  settings: {
-    name: "Area Pilihan"
-  }
+const reference_area_layer$4 = {
+  settings: {}
 };
-const drawings$2 = {
-  self_directions_not_supported: "Tidak mendukung perpotongan dengan dirinya sendiri!"
-};
-const sidebar$2 = {
+const sidebar$4 = {
   biv_color_manager: "Pengelola warna",
   edit_osm: "Edit di OpenStreetMap",
   ruler: "Penggaris",
@@ -10154,61 +10134,32 @@ const sidebar$2 = {
   expand: "Bentangkan",
   icon_alt: "Logo aplikasi"
 };
-const login$2 = {
+const login$4 = {
   email: "Email",
   password: "Kata Sandi",
   login_button: "Masuk",
   sign_up: "Daftar",
   logging_in: "Masuk...",
   log_in: "Masuk",
-  description: "Masuk untuk mengubah pengaturan Anda",
-  error: {
-    email_empty: "Email tidak boleh kosong!",
-    email_invalid: "Email harus valid!",
-    password: "Kata sandi tidak boleh kosong!",
-    connect: "Tidak dapat terhubung ke layanan autentikasi"
-  }
+  description: "Masuk untuk mengubah pengaturan Anda"
 };
-const profile$2 = {
-  email: "Email",
-  profileSettingsHeader: "Profil",
-  interfaceTheme: "Tema",
-  interfaceLanguage: "Bahasa",
-  units: "Satuan",
-  fullName: "Nama Lengkap",
-  metric: "metrik",
-  imperialBeta: "imperial (beta)",
-  appSettingsHeader: "Pengaturan",
-  saveButton: "Simpan perubahan",
-  konturTheme: "Kontur",
-  HOTTheme: "HANGAT",
-  "userBio(about)": "Bio",
-  defaultDisasterFeed: "Feed bencana bawaan",
-  defaultOSMeditor: "Editor OpenStreetMap bawaan (beta)",
-  successNotification: "Semua perubahan telah berhasil diterapkan",
-  languageOption: {
-    en: "Inggris",
-    es: "Spanyol",
-    ar: "Arab",
-    ko: "Korea",
-    id: "Indonesia",
-    de: "Jerman",
-    uk: "Orang Ukraina"
-  }
+const currency$4 = {};
+const subscription$4 = {
+  errors: {},
+  success_modal: {}
 };
-const reports$2 = {
+const reports$4 = {
   title: "Laporan Disaster Ninja",
   no_data: "Tidak ada data untuk laporan ini",
   sorting: "Menyortir data...",
   loading: "Memuat data",
-  search_location: "Cari lokasi",
   open_josm: "Buka melalui kendali jarak jaruh JOSM",
   josm_logo_alt: "Logo JOSM",
   see_all: "Lihat semua laporan",
   wrong_id: "ID laporan salah",
   description: "<0>Kontur </0> menghasilkan beberapa laporan yang membantu memvalidasi kualitas OpenStreetMap. Laporan tersebut berisi tautan ke area di <4>osm.org </4> dan tautan untuk membukanya di editor JOSM dengan kendali jarak jauh untuk pengeditan yang diaktifkan."
 };
-const about$2 = {
+const about$4 = {
   title: "Selamat datang di Disaster Ninja!",
   intro: "Apakah Anda ingin menerima kabar tentang bencana yang sedang terjadi? Anda tertarik dengan data populasi dan analitik lainnya yang tersaji seketika untuk wilayah mana pun di dunia? Disaster Ninja menampilkan beberapa kemampuan dari <2>Kontur</2> dalam mengatasi berbagai kebutuhan ini.<br/><br/>Pada awalnya, kami merancang alat ini sebagai alat bantu untuk pemetaan kemanusiaan. Kini, fungsionalitas dan kasus penggunaannya telah bertambah. Apakah Anda bekerja pada pengelolaan bencana, membangun kota cerdas, ataupun meneliti perubahan iklim, Disaster Ninja dapat membantu Anda untuk:",
   l1: "1. Selalu mendapatkan kabar terbaru tentang kejadian berbahaya terkini di seluruh dunia.",
@@ -10223,87 +10174,98 @@ const about$2 = {
   goToMap: "Buka peta sekarang",
   p6: "Kami berharap agar alat ini bermanfaat bagi Anda. Gunakan kotak obrolan di Disaster Ninja untuk setiap pertanyaan tentang fungsionalitas, dan kami dengan senang hati akan memandu Anda. Anda juga dapat menghubungi kami melalui email di <1>hello@kontur.io</1> jika Anda memiliki tanggapan atau saran untuk meningkatkan alat ini.<br/><br/>Disaster Ninja adalah proyek sumber terbuka. Temukan kodenya di <8>akun GitHub Kontur</8>."
 };
-const locate_me$2 = {
-  get_location_error: "Kesalahan saat memperoleh lokasi",
-  feature_title: "Temukan saya"
-};
-const episode$2 = "Episode";
-const loading_episodes$2 = "Memuat Episode";
-const cookie_banner$2 = {};
-const live_sensor$2 = {};
+const loading_episodes$4 = "Memuat Episode";
+const cookie_banner$4 = {};
+const live_sensor$4 = {};
+const layer_features_panel$4 = {};
+const reference_area$4 = {};
 const id_common = {
-  km: km$2,
-  m: m$2,
-  to: to$2,
-  maps: maps$2,
-  logout: logout$2,
-  save: save$2,
-  cancel: cancel$2,
-  create: create$2,
-  disasters: disasters$2,
-  loading: loading$2,
-  loading_events: loading_events$2,
-  legend: legend$2,
-  vertical_direction: vertical_direction$2,
-  horizontal_direction: horizontal_direction$2,
-  legend_presentation: legend_presentation$2,
-  layers: layers$2,
-  bivariate: bivariate$2,
-  feed: feed$2,
-  deselect: deselect$2,
-  spinner_text: spinner_text$2,
-  updated: updated$2,
-  no_data_received: no_data_received$2,
-  wrong_data_received: wrong_data_received$2,
-  error: error$2,
-  sort_icon: sort_icon$2,
-  configs: configs$2,
-  errors: errors$2,
-  event_list: event_list$2,
-  categories: categories$2,
-  groups: groups$2,
-  modes: modes$2,
-  advanced_analytics_data_list: advanced_analytics_data_list$2,
-  mcda: mcda$2,
-  create_layer: create_layer$2,
-  analytics_panel: analytics_panel$2,
-  advanced_analytics_panel: advanced_analytics_panel$2,
-  advanced_analytics_empty: advanced_analytics_empty$2,
-  current_event: current_event$2,
-  draw_tools: draw_tools$2,
-  boundary_selector: boundary_selector$2,
-  geometry_uploader: geometry_uploader$2,
-  focus_geometry: focus_geometry$2,
-  focus_geometry_layer: focus_geometry_layer$2,
-  drawings: drawings$2,
-  sidebar: sidebar$2,
-  login: login$2,
-  profile: profile$2,
-  reports: reports$2,
-  about: about$2,
-  locate_me: locate_me$2,
-  episode: episode$2,
-  loading_episodes: loading_episodes$2,
-  cookie_banner: cookie_banner$2,
-  live_sensor: live_sensor$2
+  km: km$4,
+  m: m$4,
+  to: to$4,
+  maps: maps$4,
+  save: save$4,
+  cancel: cancel$4,
+  mcda: mcda$4,
+  create: create$4,
+  disasters: disasters$4,
+  loading: loading$4,
+  legend: legend$4,
+  vertical_direction: vertical_direction$4,
+  horizontal_direction: horizontal_direction$4,
+  legend_presentation: legend_presentation$4,
+  layers: layers$4,
+  bivariate: bivariate$4,
+  toolbar: toolbar$4,
+  locate_me: locate_me$4,
+  layer_actions: layer_actions$4,
+  feed: feed$4,
+  deselect: deselect$4,
+  spinner_text: spinner_text$4,
+  updated: updated$4,
+  no_data_received: no_data_received$4,
+  wrong_data_received: wrong_data_received$4,
+  error: error$4,
+  sort_icon: sort_icon$4,
+  configs: configs$4,
+  errors: errors$4,
+  event_list: event_list$4,
+  categories: categories$4,
+  groups: groups$4,
+  modes: modes$4,
+  advanced_analytics_data_list: advanced_analytics_data_list$4,
+  profile: profile$4,
+  multivariate: multivariate$4,
+  search: search$4,
+  create_layer: create_layer$4,
+  analytics_panel: analytics_panel$4,
+  advanced_analytics_panel: advanced_analytics_panel$4,
+  advanced_analytics_empty: advanced_analytics_empty$4,
+  llm_analytics: llm_analytics$4,
+  draw_tools: draw_tools$4,
+  boundary_selector: boundary_selector$4,
+  geometry_uploader: geometry_uploader$4,
+  focus_geometry: focus_geometry$4,
+  reference_area_layer: reference_area_layer$4,
+  sidebar: sidebar$4,
+  login: login$4,
+  currency: currency$4,
+  subscription: subscription$4,
+  reports: reports$4,
+  about: about$4,
+  loading_episodes: loading_episodes$4,
+  cookie_banner: cookie_banner$4,
+  live_sensor: live_sensor$4,
+  layer_features_panel: layer_features_panel$4,
+  reference_area: reference_area$4
 };
-const km$1 = "km";
-const m$1 = "m";
-const to$1 = "bis";
-const maps$1 = "Karten";
-const logout$1 = "Abmelden";
-const save$1 = "Speichern";
-const cancel$1 = "Abbrechen";
-const create$1 = "Erstellen";
-const disasters$1 = "Katastrophen";
-const loading$1 = "Wird geladen...";
-const loading_events$1 = "Ereignisse werden geladen";
-const legend$1 = "Legende";
-const vertical_direction$1 = "Vertikale Richtung";
-const horizontal_direction$1 = "Horizontale Richtung";
-const legend_presentation$1 = "Darstellung der Legende";
-const layers$1 = "Ebenen";
-const bivariate$1 = {
+const km$3 = "km";
+const m$3 = "m";
+const to$3 = "bis";
+const maps$3 = "Karten";
+const save$3 = "Speichern";
+const cancel$3 = "Abbrechen";
+const mcda$3 = {
+  btn_cancel: "Abbrechen",
+  legend_title: "Legende",
+  layer_editor: {
+    outliers_options: {},
+    save_changes: "Änderungen speichern",
+    range_buttons: {},
+    transformations: {},
+    errors: {},
+    tips: {}
+  }
+};
+const create$3 = "Erstellen";
+const disasters$3 = "Katastrophen";
+const loading$3 = "Wird geladen...";
+const legend$3 = "Legende";
+const vertical_direction$3 = "Vertikale Richtung";
+const horizontal_direction$3 = "Horizontale Richtung";
+const legend_presentation$3 = "Darstellung der Legende";
+const layers$3 = "Ebenen";
+const bivariate$3 = {
   color_manager: {
     layers_filter: "Ebenen",
     not_defined: "Nicht definiert",
@@ -10313,9 +10275,6 @@ const bivariate$1 = {
     sentiments_tab: "Stimmungen",
     color_legends_tab: "Farbe Legenden",
     layers_tab: "Ebenen (Indikatoren)"
-  },
-  panel: {
-    header: "Bivariate Matrix"
   },
   matrix: {
     caption: {
@@ -10353,66 +10312,61 @@ const bivariate$1 = {
     medium: "Mittel"
   }
 };
-const feed$1 = "Feed";
-const deselect$1 = "Auswahl aufheben";
-const spinner_text$1 = "Daten sammeln";
-const updated$1 = "Aktualisiert";
-const no_data_received$1 = "Keine Daten erhalten";
-const wrong_data_received$1 = "Falsche Daten empfangen";
-const error$1 = "Fehler";
-const sort_icon$1 = "Sortiersymbol";
-const configs$1 = {
+const toolbar$3 = {
+  locate_me: "Standort finden"
+};
+const locate_me$3 = {
+  feature_title: "Standort finden",
+  get_location_error: "Fehler beim Abrufen des Standorts"
+};
+const layer_actions$3 = {
+  tooltips: {}
+};
+const feed$3 = "Feed";
+const deselect$3 = "Auswahl aufheben";
+const spinner_text$3 = "Daten sammeln";
+const updated$3 = "Aktualisiert";
+const no_data_received$3 = "Keine Daten erhalten";
+const wrong_data_received$3 = "Falsche Daten empfangen";
+const error$3 = "Fehler";
+const sort_icon$3 = "Sortiersymbol";
+const configs$3 = {
   Kontur_public_feed: "Kontur Öffentlichkeit",
   Kontur_public_feed_description: "Der Feed enthält Echtzeitdaten über Wirbelstürme, Dürren, Erdbeben, Überschwemmungen, Vulkanausbrüche und Waldbrände."
 };
-const errors$1 = {
-  "default": "Leider gibt es derzeit ein paar Probleme, die wir in Kürze beheben werden",
-  timeout: "Zeitüberschreitung der Anfrage",
-  cannot_connect: "Die Verbindung zum Server kann nicht hergestellt werden",
+const errors$3 = {
   forbidden: "Verboten",
   not_found: "Nicht gefunden",
-  unknown: "Unbekannt",
-  server_error: "Serverfehler"
+  unknown: "Unbekannt"
 };
-const event_list$1 = {
+const event_list$3 = {
   severity_unknown: "Unbekannt",
-  warning_title: "Die Karte kann nicht als Filter verwendet werden",
-  warning_description: "Die Karte ist noch nicht bereit. Bitte versuchen Sie es später.",
-  bbox_filter_button: "Kartenansicht als Filter verwenden",
   analytics: {
     affected_people: {
-      tooltip: "Betroffene Menschen",
       value: "Keine humanitären Auswirkungen"
     },
-    settled_area_tooltip: "Besiedeltes Gebiet",
     loss_tooltip: "Geschätzter Verlust"
   },
-  no_event_in_feed: "Das Ereignis wurde nicht im aktuellen Ereignis-Feed gefunden",
   no_selected_disaster: "Keine Katastrophe ausgewählt",
   chose_disaster: "Katastrophe auswählen"
 };
-const categories$1 = {
+const categories$3 = {
   overlays: "Überlagerungen",
   basemap: "Basiskarte"
 };
-const groups$1 = {
+const groups$3 = {
   layers_in_selected_area: "Ebenen im ausgewählten Bereich",
-  your_layers: "Ihre Ebenen",
-  kontur_analytics: "Kontur Analytik",
-  qa: "QS",
-  osmbasedmap: "Basierend auf OpenStreetMap",
   other: "Andere",
   elevation: "Höhe",
-  photo: "Foto",
   map: "Karte"
 };
-const modes$1 = {
+const modes$3 = {
   map: "Karte",
   about: "Über uns",
   reports: "Berichte",
   profile: "Profil"
 };
-const advanced_analytics_data_list$1 = {
+const advanced_analytics_data_list$3 = {
   load_world_data: "Weltdaten laden",
   numerator: "Zähler",
   normalized_by: "Normalisiert auf",
@@ -10424,8 +10378,39 @@ const advanced_analytics_data_list$1 = {
   median: "Median",
   filter_denominator: "Filter Nenner"
 };
-const mcda$1 = {};
-const create_layer$1 = {
+const profile$3 = {
+  saveButton: "Änderungen speichern",
+  reference_area: {},
+  email: "E-Mail",
+  interfaceTheme: "Thema",
+  interfaceLanguage: "Sprache",
+  units: "Einheiten",
+  metric: "metrisch",
+  imperialBeta: "imperial (beta)",
+  bio_placeholder: "Bio",
+  appSettingsHeader: "Einstellungen",
+  konturTheme: "Kontur",
+  HOTTheme: "HOT",
+  defaultDisasterFeed: "Standardmäßige Katastrophenmeldung",
+  defaultOSMeditor: "Standardmäßiger OpenStreetMap-Editor (Beta)",
+  successNotification: "Alle Änderungen wurden erfolgreich übernommen",
+  languageOption: {
+    en: "Englisch",
+    es: "Spanisch",
+    ar: "Arabisch",
+    ko: "Koreanisch",
+    id: "Indonesisch",
+    de: "Deutsch",
+    uk: "Ukrainisch"
+  }
+};
+const multivariate$3 = {
+  popup: {}
+};
+const search$3 = {
+  search_location: "Standort suchen"
+};
+const create_layer$3 = {
   edit_layer: "Ebene bearbeiten",
   edit_features: "Merkmale bearbeiten",
   delete_layer: "Ebene löschen",
@@ -10445,23 +10430,18 @@ const create_layer$1 = {
   location: "Standort",
   edit_feature_placeholder: "Wählen Sie einige Merkmale aus, um Merkmalseigenschaften zu bearbeiten"
 };
-const analytics_panel$1 = {
-  header_title: "Analytik",
-  error_loading: "Fehler beim Abrufen von Analysedaten"
+const analytics_panel$3 = {
+  header_title: "Analytik"
 };
-const advanced_analytics_panel$1 = {
+const advanced_analytics_panel$3 = {
   header_title: "Erweiterte Analytik",
   error: "Fehler beim Abrufen von erweiterten Analysedaten"
 };
-const advanced_analytics_empty$1 = {
-  not_found: "Leider wurde das gewünschte Ereignis nicht gefunden.",
-  error: "Es ist ein Fehler aufgetreten!"
+const advanced_analytics_empty$3 = {};
+const llm_analytics$3 = {
+  placeholder: {}
 };
-const current_event$1 = {
-  not_found_request: "Leider wurde das gewünschte Ereignis nicht gefunden."
-};
-const draw_tools$1 = {
-  area: "Gebiet",
+const draw_tools$3 = {
   line: "Linie",
   point: "Punkt",
   finish_drawing: "Zeichnen beenden",
@@ -10470,25 +10450,20 @@ const draw_tools$1 = {
   overlap_error: "Das Polygon darf sich nicht überschneiden",
   save_features: "Merkmale speichern"
 };
-const boundary_selector$1 = {
+const boundary_selector$3 = {
   title: "Fokus auf die Verwaltungsgrenze"
 };
-const geometry_uploader$1 = {
+const geometry_uploader$3 = {
   title: "Fokus auf die hochgeladene geometrische Form",
   error: "Fehler beim Lesen der hochgeladenen Datei"
 };
-const focus_geometry$1 = {
+const focus_geometry$3 = {
   title: "Fokus auf freihändig gezeichnete Formen"
 };
-const focus_geometry_layer$1 = {
-  settings: {
-    name: "Ausgewähltes Gebiet"
-  }
+const reference_area_layer$3 = {
+  settings: {}
 };
-const drawings$1 = {
-  self_directions_not_supported: "Überschneidungen werden nicht unterstützt!"
-};
-const sidebar$1 = {
+const sidebar$3 = {
   biv_color_manager: "Farbmanager",
   edit_osm: "In OpenStreetMap bearbeiten",
   ruler: "Lineal",
@@ -10496,61 +10471,32 @@ const sidebar$1 = {
   expand: "Erweitern",
   icon_alt: "Logo der Anwendung"
 };
-const login$1 = {
+const login$3 = {
   email: "E-Mail",
   password: "Passwort",
   login_button: "Anmelden",
   sign_up: "Registrieren",
   logging_in: "Anmelden...",
   log_in: "Einloggen",
-  description: "Bitte melden Sie sich an, um Ihre Einstellungen zu ändern",
-  error: {
-    email_empty: "E-Mail darf nicht leer sein!",
-    email_invalid: "E-Mail muss gültig sein!",
-    password: "Passwort darf nicht leer sein!",
-    connect: "Die Verbindung zum Authentifizierungsdienst konnte nicht hergestellt werden"
-  }
+  description: "Bitte melden Sie sich an, um Ihre Einstellungen zu ändern"
 };
-const profile$1 = {
-  email: "E-Mail",
-  profileSettingsHeader: "Profil",
-  interfaceTheme: "Thema",
-  interfaceLanguage: "Sprache",
-  units: "Einheiten",
-  fullName: "Vollständiger Name",
-  metric: "metrisch",
-  imperialBeta: "imperial (beta)",
-  appSettingsHeader: "Einstellungen",
-  saveButton: "Änderungen speichern",
-  konturTheme: "Kontur",
-  HOTTheme: "HOT",
-  "userBio(about)": "Bio",
-  defaultDisasterFeed: "Standardmäßige Katastrophenmeldung",
-  defaultOSMeditor: "Standardmäßiger OpenStreetMap-Editor (Beta)",
-  successNotification: "Alle Änderungen wurden erfolgreich übernommen",
-  languageOption: {
-    en: "Englisch",
-    es: "Spanisch",
-    ar: "Arabisch",
-    ko: "Koreanisch",
-    id: "Indonesisch",
-    de: "Deutsch",
-    uk: "Ukrainisch"
-  }
+const currency$3 = {};
+const subscription$3 = {
+  errors: {},
+  success_modal: {}
 };
-const reports$1 = {
+const reports$3 = {
   title: "Disaster Ninja Berichte",
   no_data: "Keine Daten für diesen Bericht",
   sorting: "Daten werden sortiert...",
   loading: "Daten werden geladen",
-  search_location: "Standort suchen",
   open_josm: "Öffnen über die JOSM-Fernsteuerung",
   josm_logo_alt: "JOSM-Logo",
   see_all: "Alle Berichte anzeigen",
   wrong_id: "Falsche Berichts-ID",
   description: "<0>Kontur </0> generiert verschiedene Berichte, die bei der Überprüfung der Qualität von OpenStreetMap helfen. Sie enthalten Links zu Gebieten auf <4>osm.org </4> und Links, um sie im JOSM-Editor mit aktivierter Fernsteuerung zur Bearbeitung öffnen zu können."
 };
-const about$1 = {
+const about$3 = {
   title: "Willkommen bei Disaster Ninja!",
   intro: "Möchten Sie über aktuelle Katastrophen informiert werden? Sind Sie an sofortigen Bevölkerungsdaten und anderen Analysen für eine beliebige Region auf der Welt interessiert? Disaster Ninja zeigt Ihnen einige der Funktionen von <2>Kontur</2>, mit denen diese Anforderungen umgesetzt werden können.<br/><br/>Ursprünglich haben wir es als Entscheidungshilfe für Kartografen im humanitären Bereich entwickelt. Mittlerweile ist der Funktionsumfang und der Anwendungsbereich des Programms erweitert worden. Ganz gleich, ob Sie im Katastrophenmanagement tätig sind, eine intelligente Stadt bauen oder über den Klimawandel forschen, Disaster Ninja kann Ihnen dabei helfen:",
   l1: "1. Über die aktuellen Gefahrenereignisse weltweit auf dem Laufenden zu bleiben.",
@@ -10565,87 +10511,102 @@ const about$1 = {
   goToMap: "Jetzt die Karte aufrufen",
   p6: "Wir hoffen, dass dieses Tool Ihnen von Nutzen ist. Wenn Sie Fragen zur Funktionalität haben, können Sie die Chatbox auf Disaster Ninja nutzen, und wir helfen Ihnen gerne weiter. Sie können uns auch eine E-Mail an <1>hello@kontur.io</1> schreiben, wenn Sie Feedback oder Vorschläge zur Verbesserung des Tools haben.<br/><br/>Disaster Ninja ist ein Open-Source-Projekt. Sie finden den Code in <8>Konturs GitHub-Konto</8>."
 };
-const locate_me$1 = {
-  get_location_error: "Fehler beim Abrufen des Standorts",
-  feature_title: "Standort finden"
-};
-const episode$1 = "Episode";
-const loading_episodes$1 = "Episoden werden geladen";
-const cookie_banner$1 = {};
-const live_sensor$1 = {};
+const loading_episodes$3 = "Episoden werden geladen";
+const cookie_banner$3 = {};
+const live_sensor$3 = {};
+const layer_features_panel$3 = {};
+const reference_area$3 = {};
 const de_common = {
-  km: km$1,
-  m: m$1,
-  to: to$1,
-  maps: maps$1,
-  logout: logout$1,
-  save: save$1,
-  cancel: cancel$1,
-  create: create$1,
-  disasters: disasters$1,
-  loading: loading$1,
-  loading_events: loading_events$1,
-  legend: legend$1,
-  vertical_direction: vertical_direction$1,
-  horizontal_direction: horizontal_direction$1,
-  legend_presentation: legend_presentation$1,
-  layers: layers$1,
-  bivariate: bivariate$1,
-  feed: feed$1,
-  deselect: deselect$1,
-  spinner_text: spinner_text$1,
-  updated: updated$1,
-  no_data_received: no_data_received$1,
-  wrong_data_received: wrong_data_received$1,
-  error: error$1,
-  sort_icon: sort_icon$1,
-  configs: configs$1,
-  errors: errors$1,
-  event_list: event_list$1,
-  categories: categories$1,
-  groups: groups$1,
-  modes: modes$1,
-  advanced_analytics_data_list: advanced_analytics_data_list$1,
-  mcda: mcda$1,
-  create_layer: create_layer$1,
-  analytics_panel: analytics_panel$1,
-  advanced_analytics_panel: advanced_analytics_panel$1,
-  advanced_analytics_empty: advanced_analytics_empty$1,
-  current_event: current_event$1,
-  draw_tools: draw_tools$1,
-  boundary_selector: boundary_selector$1,
-  geometry_uploader: geometry_uploader$1,
-  focus_geometry: focus_geometry$1,
-  focus_geometry_layer: focus_geometry_layer$1,
-  drawings: drawings$1,
-  sidebar: sidebar$1,
-  login: login$1,
-  profile: profile$1,
-  reports: reports$1,
-  about: about$1,
-  locate_me: locate_me$1,
-  episode: episode$1,
-  loading_episodes: loading_episodes$1,
-  cookie_banner: cookie_banner$1,
-  live_sensor: live_sensor$1
+  km: km$3,
+  m: m$3,
+  to: to$3,
+  maps: maps$3,
+  save: save$3,
+  cancel: cancel$3,
+  mcda: mcda$3,
+  create: create$3,
+  disasters: disasters$3,
+  loading: loading$3,
+  legend: legend$3,
+  vertical_direction: vertical_direction$3,
+  horizontal_direction: horizontal_direction$3,
+  legend_presentation: legend_presentation$3,
+  layers: layers$3,
+  bivariate: bivariate$3,
+  toolbar: toolbar$3,
+  locate_me: locate_me$3,
+  layer_actions: layer_actions$3,
+  feed: feed$3,
+  deselect: deselect$3,
+  spinner_text: spinner_text$3,
+  updated: updated$3,
+  no_data_received: no_data_received$3,
+  wrong_data_received: wrong_data_received$3,
+  error: error$3,
+  sort_icon: sort_icon$3,
+  configs: configs$3,
+  errors: errors$3,
+  event_list: event_list$3,
+  categories: categories$3,
+  groups: groups$3,
+  modes: modes$3,
+  advanced_analytics_data_list: advanced_analytics_data_list$3,
+  profile: profile$3,
+  multivariate: multivariate$3,
+  search: search$3,
+  create_layer: create_layer$3,
+  analytics_panel: analytics_panel$3,
+  advanced_analytics_panel: advanced_analytics_panel$3,
+  advanced_analytics_empty: advanced_analytics_empty$3,
+  llm_analytics: llm_analytics$3,
+  draw_tools: draw_tools$3,
+  boundary_selector: boundary_selector$3,
+  geometry_uploader: geometry_uploader$3,
+  focus_geometry: focus_geometry$3,
+  reference_area_layer: reference_area_layer$3,
+  sidebar: sidebar$3,
+  login: login$3,
+  currency: currency$3,
+  subscription: subscription$3,
+  reports: reports$3,
+  about: about$3,
+  loading_episodes: loading_episodes$3,
+  cookie_banner: cookie_banner$3,
+  live_sensor: live_sensor$3,
+  layer_features_panel: layer_features_panel$3,
+  reference_area: reference_area$3
 };
-const km = "км";
-const m = "м";
-const to = "до";
-const maps = "мапи";
-const logout = "Вийти";
-const save = "Зберегти";
-const cancel = "Скасувати";
-const create = "Створити";
-const disasters = "Катастрофа";
-const loading = "Завантаження...";
-const loading_events = "Завантажуємо події";
-const legend = "Легенда";
-const vertical_direction = "По вертикалі";
-const horizontal_direction = "По горизонталі";
-const legend_presentation = "Презентація легенди";
-const layers = "Шари";
-const bivariate = {
+const km$2 = "км";
+const m$2 = "м";
+const to$2 = "до";
+const maps$2 = "мапи";
+const logout$2 = "Вийти";
+const save$2 = "Зберегти";
+const cancel$2 = "Скасувати";
+const mcda$2 = {
+  btn_cancel: "Скасувати",
+  legend_title: "Легенда",
+  layer_editor: {
+    outliers_options: {
+      hide: "Приховати"
+    },
+    save_changes: "Зберегти зміни",
+    range_buttons: {},
+    transformations: {},
+    errors: {},
+    tips: {}
+  }
+};
+const ok$2 = "OK";
+const create$2 = "Створити";
+const disasters$2 = "Катастрофа";
+const loading$2 = "Завантаження...";
+const legend$2 = "Легенда";
+const vertical_direction$2 = "По вертикалі";
+const horizontal_direction$2 = "По горизонталі";
+const legend_presentation$2 = "Презентація легенди";
+const layers$2 = "Шари";
+const bivariate$2 = {
   color_manager: {
     layers_filter: "Шари",
     not_defined: "Не задано",
@@ -10696,31 +10657,64 @@ const bivariate = {
     medium: "Середній"
   }
 };
-const feed = "Стрічка";
-const deselect = "Зняти вибір";
-const spinner_text = "Збираємо дані";
-const updated = "Оновлено";
-const no_data_received = "Немає даних";
-const wrong_data_received = "Отримано неправильні дані";
-const error = "Помилка";
-const sort_icon = "Значок сортування";
-const configs = {
+const toolbar$2 = {
+  map_ruler: "Виміряти відстань",
+  locate_me: "Знайти мене",
+  panel_title: "Панель інструментів",
+  download: "Завантажити",
+  "delete": "Видалити",
+  boundary_selector: "Вибрати адміністративний кордон",
+  create_layer: "Створити шар",
+  geometry_uploader: "Завантажити GeoJSON",
+  focused_geometry_editor: "Намалювати або редагувати геометрію",
+  edit_in_osm: "Редагувати мапу в OpenStreetMap",
+  record_sensors: "Записати дані сенсорів",
+  tools_label: "Інструменти",
+  selected_area_label: "Вибрана область",
+  upload_mcda: "Завантажити MCDA"
+};
+const locate_me$2 = {
+  feature_title: "Знайти мене",
+  get_location_error: "Помилка під час визначення місцеположення"
+};
+const layer_actions$2 = {
+  tooltips: {
+    download: "Завантажити",
+    erase: "Стерти",
+    edit: "Редагувати",
+    hide: "Приховати",
+    show: "Показати"
+  }
+};
+const focus_geometry_layer$2 = {
+  settings: {
+    name: "Вибрана область"
+  }
+};
+const feed$2 = "Стрічка";
+const deselect$2 = "Зняти вибір";
+const spinner_text$2 = "Збираємо дані";
+const updated$2 = "Оновлено";
+const no_data_received$2 = "Немає даних";
+const wrong_data_received$2 = "Отримано неправильні дані";
+const error$2 = "Помилка";
+const sort_icon$2 = "Значок сортування";
+const configs$2 = {
   Kontur_public_feed_description: "Стрічка містить дані в реальному часі про циклони, посухи, землетруси, повені, вулкани, лісові пожежі."
 };
-const errors = {
+const errors$2 = {
   "default": "Вибачте, у нас виникли проблеми, які незабаром будуть вирішені",
   timeout: "Час очікування запиту минув",
   cannot_connect: "Не вдається під'єднатися до сервера",
   forbidden: "Заборонено",
   not_found: "Не знайдено",
   unknown: "Невідомий",
-  server_error: "Помилка серверу"
+  server_error: "Помилка серверу",
+  error_try_again: "Щось пішло не так. Будь ласка, спробуйте знову"
 };
-const event_list = {
+const event_list$2 = {
   severity_unknown: "Невідомий",
-  warning_title: "Не можливо використовувати карту як фільтр",
   warning_description: "Карта ще не готова, спробуйте пізніше",
-  bbox_filter_button: "Використовуйте перегляд карти як фільтр",
   analytics: {
     affected_people: {
       tooltip: "Люди які постраждали",
@@ -10729,7 +10723,6 @@ const event_list = {
     settled_area_tooltip: "Заселений район",
     loss_tooltip: "Орієнтовні збитки"
   },
-  no_event_in_feed: "Подія не знайдена у вибраній стрічці подій",
   no_selected_disaster: "Катастрофа не вибрана",
   chose_disaster: "Виберіть катастрофу",
   no_historical_disasters: "Катастроф на цій території не знайдено",
@@ -10742,29 +10735,29 @@ const event_list = {
   severity_extreme: "Екстримальний",
   open_timeline_button: "Відкрити темпоральну шкалу"
 };
-const categories = {
+const categories$2 = {
   overlays: "Оверлеї",
   basemap: "Базова карта"
 };
-const groups = {
+const groups$2 = {
   layers_in_selected_area: "Шари у вибраній області",
   your_layers: "Ваші шари",
   kontur_analytics: "Аналітика Kontur",
-  qa: "Аналітика якості",
+  qa: "Інспектор OpenStreetMap",
   osmbasedmap: "На основі OpenStreetMap",
   other: "Інше",
   elevation: "Рел'єф",
-  photo: "Фото",
+  photo: "Зображення",
   map: "Мапа"
 };
-const modes = {
+const modes$2 = {
   map: "Мапа",
   about: "Про нас",
   reports: "Звіти",
   profile: "Профіль",
   privacy: "Конфіденційність"
 };
-const advanced_analytics_data_list = {
+const advanced_analytics_data_list$2 = {
   load_world_data: "Завантажити дані на всю планету",
   numerator: "Чисельник",
   normalized_by: "Нормалізовано за",
@@ -10777,8 +10770,42 @@ const advanced_analytics_data_list = {
   filter_numerator: "Фільтр чисельника",
   filter_denominator: "Фільтр знаменника"
 };
-const mcda = {};
-const create_layer = {
+const profile$2 = {
+  saveButton: "Зберегти зміни",
+  reference_area: {},
+  email: "Електронна пошта",
+  interfaceTheme: "Тема",
+  interfaceLanguage: "Мова",
+  units: "Одиниці вимірювання",
+  metric: "метрична система",
+  imperialBeta: "англійська система (бета)",
+  bio_placeholder: "Про себе",
+  appSettingsHeader: "Налаштування",
+  position: "Позиція",
+  defaultDisasterFeed: "Стрічка катастроф за замовчуванням",
+  defaultOSMeditor: "Редактор OpenStreetMap за замовчуванням (бета)",
+  successNotification: "Усі зміни успішно застосовано",
+  languageOption: {
+    en: "Англійська",
+    es: "Іспанська",
+    ar: "Арабська",
+    ko: "Корейська",
+    id: "Індонезійська",
+    de: "Німецька",
+    be: "Білоруська",
+    ru: "Російська",
+    uk: "Українська"
+  }
+};
+const multivariate$2 = {
+  popup: {}
+};
+const search$2 = {
+  search_location: "Знайти місцеположення",
+  mcda_create_analysis: "Створити аналіз"
+};
+const episode$2 = "Відкрити темпоральну шкалу";
+const create_layer$2 = {
   edit_layer: "Редагувати шар",
   edit_features: "Редагувати об'єкт",
   delete_layer: "Видалити шар",
@@ -10798,25 +10825,27 @@ const create_layer = {
   location: "Позиція",
   edit_feature_placeholder: "Виберіть об’єкт для редагування його значень"
 };
-const analytics_panel = {
+const analytics_panel$2 = {
   header_title: "Аналітика",
-  error_loading: "Помилка під час отримання даних аналітики"
+  info_short: "Аналітика для обраної території"
 };
-const advanced_analytics_panel = {
+const advanced_analytics_panel$2 = {
   header_title: "Розширена аналітика",
   error: "Помилка під час отримання даних розширеної аналітики"
 };
-const advanced_analytics_empty = {
-  not_found: "Вибачте, подію не знайдено.",
-  error: "Сталася помилка!",
+const advanced_analytics_empty$2 = {
+  not_found: "Вибачте, запитана катастрофа не знайдена",
+  error: "Сталася помилка",
   analytics_for_selected: "Аналітика для обраної території",
   will_be_provided: "буде надано тут"
 };
-const current_event = {
-  not_found_request: "Вибачте, подію не знайдено."
+const current_event$2 = {
+  not_found_request: "Вибачте, запитана катастрофа не знайдена"
 };
-const draw_tools = {
-  area: "Полігон",
+const llm_analytics$2 = {
+  placeholder: {}
+};
+const draw_tools$2 = {
   line: "Лінія",
   point: "Точка",
   finish_drawing: "Закінчити малювання",
@@ -10825,25 +10854,23 @@ const draw_tools = {
   overlap_error: "Полігон не має перетинати сам себе",
   save_features: "Зберегти об'єкти"
 };
-const boundary_selector = {
+const boundary_selector$2 = {
   title: "Фокусувати на адміністративну одиницю"
 };
-const geometry_uploader = {
+const geometry_uploader$2 = {
   title: "Фокусувати на завантажену геометрію",
   error: "Помилка під час завантаження файлу"
 };
-const focus_geometry = {
+const focus_geometry$2 = {
   title: "Фокусувати на намальовану геометрію"
 };
-const focus_geometry_layer = {
-  settings: {
-    name: "Вибраний полігон"
-  }
+const reference_area_layer$2 = {
+  settings: {}
 };
-const drawings = {
+const drawings$2 = {
   self_directions_not_supported: "Самоперетин не підтримується!"
 };
-const sidebar = {
+const sidebar$2 = {
   biv_color_manager: "Редактор кольорів",
   edit_osm: "Редагувати в OpenStreetMap",
   ruler: "Лінійка",
@@ -10851,59 +10878,39 @@ const sidebar = {
   expand: "Розгорнути",
   icon_alt: "Логотип аплікації"
 };
-const login = {
+const login$2 = {
   email: "Електронна пошта",
   password: "Пароль",
   login_button: "Логін",
   sign_up: "Зареєструватися",
   logging_in: "Входимо...",
   log_in: "Увійти",
+  forgot_password: "Забули пароль?",
   description: "Увійдіть, щоб змінити налаштування",
   error: {
-    email_empty: "Електронна пошта не може бути пустою!",
-    email_invalid: "Електронна пошта має бути коректною!",
-    password: "Пароль не може бути пустим!",
+    email_empty: "Електронна пошта не може бути пустою",
+    email_invalid: "Електронна пошта має бути коректною",
+    password: "Пароль не може бути пустим",
     connect: "Не вдалося під'єднатися до служби аутентифікації"
   }
 };
-const profile = {
-  email: "Електронна пошта",
-  profileSettingsHeader: "Профіль",
-  interfaceTheme: "Тема",
-  interfaceLanguage: "Мова",
-  units: "Одиниці вимірювання",
-  fullName: "Прізвище Ім'я",
-  metric: "метрична система",
-  imperialBeta: "англійська система (бета)",
-  appSettingsHeader: "Налаштування",
-  saveButton: "Зберегти зміни",
-  "userBio(about)": "Про себе",
-  defaultDisasterFeed: "Стрічка катастроф за замовчуванням",
-  defaultOSMeditor: "Редактор OpenStreetMap за замовчуванням (бета)",
-  successNotification: "Усі зміни успішно застосовано",
-  languageOption: {
-    en: "Англійська",
-    es: "Іспанська",
-    ar: "Арабська",
-    ko: "Корейська",
-    id: "Індонезійська",
-    de: "Німецька",
-    uk: "Українська"
-  }
+const currency$2 = {};
+const subscription$2 = {
+  errors: {},
+  success_modal: {}
 };
-const reports = {
+const reports$2 = {
   title: "Звіти Disaster Ninja",
   no_data: "Нема даних для звіту",
   sorting: "Сортуємо дані...",
   loading: "Завантажуємо дані",
-  search_location: "Знайти місцеположення",
   open_josm: "Відкрити в JOSM",
   josm_logo_alt: "Логотип JOSM",
   see_all: "Дивитися всі звіти",
   wrong_id: "Неправильний ID звіту",
   description: "<0>Kontur </0> генерує декілька звітів які допомагають перевіряти якість даних OpenStreetMap. Вони містять посилання на <4>osm.org</4> і посилання, щоб відкрити їх у редакторі JOSM для редагування."
 };
-const about = {
+const about$2 = {
   title: "Вітаємо на Disaster Ninja!",
   intro: "Ви хочете отримувати повідомлення про катастрофи? Вас цікавлять миттєві дані про населення та інша аналітика для будь-якого регіону світу? Disaster Ninja від <2>Kontur</2> може задовольнити ці потреби.<br/><br/> Ми розробили це як інструмент підтримки прийняття рішень для гуманітарних картографів. Тепер його функціональність зросла. Незалежно від того, чи працюєте ви в сфері боротьби зі стихійними лихами, будуєте розумне місто чи проводите дослідження щодо зміни клімату, Disaster Ninja може вам допомогти:",
   l1: "1. Будьте в курсі останніх катастроф у всьому світі.",
@@ -10918,33 +10925,1170 @@ const about = {
   goToMap: "Перейти до мапи",
   p6: "Ми сподіваємося, що цей інструмент буде корисний. Використовуйте вікно чату на Disaster Ninja, щоб задати будь-які запитання щодо функціональності, і ми з радістю допоможемо вам. Ви також можете зв’язатися з нами електронною поштою <1>hello@kontur.io</1> якщо у вас є відгуки чи пропозиції щодо вдосконалення інструменту.<br/><br/> Disaster Ninja є проєктом з відкритим кодом. Дивіться код в обліковому записі GitHub <8>Kontur</8>."
 };
-const locate_me = {
-  get_location_error: "Помилка під час визначення місцеположення",
-  feature_title: "Знайти мене"
-};
-const episode = "Епізод";
-const loading_episodes = "Завантаження епізодів";
-const cookie_banner = {
+const loading_episodes$2 = "Завантаження епізодів";
+const cookie_banner$2 = {
   header: "Ми цінуємо вашу приватність",
   body: "Ми використовуємо абсолютно необхідні файли cookies, щоб надавати вам персоналізовані послуги, і додаткові файли cookies, щоб покращити Disaster Ninja та ваш досвід. Ви можете будь-коли змінити налаштування файлів cookies або відкликати згоду на використання додаткових файлів cookies.\nЩоб дізнатися більше, перегляньте нашу [Політику конфіденційності](about/privacy)",
   decline_all: "Відхилити файли cookies",
   accept_all: "Прийняти файли cookies"
 };
-const live_sensor = {
+const live_sensor$2 = {
   start: "Почати запис даних з сенсорів",
   finish: "Зупинити запис даних з сенсорів",
   finishMessage: "Запис даних завершенно",
   startMessage: "Запис даних розпочато",
   noSensorsError: "Ваш пристрій не має необхідних сенсорів"
 };
+const layer_features_panel$2 = {};
+const reference_area$2 = {};
 const uk_common = {
+  km: km$2,
+  m: m$2,
+  to: to$2,
+  maps: maps$2,
+  logout: logout$2,
+  save: save$2,
+  cancel: cancel$2,
+  mcda: mcda$2,
+  ok: ok$2,
+  create: create$2,
+  disasters: disasters$2,
+  loading: loading$2,
+  legend: legend$2,
+  vertical_direction: vertical_direction$2,
+  horizontal_direction: horizontal_direction$2,
+  legend_presentation: legend_presentation$2,
+  layers: layers$2,
+  bivariate: bivariate$2,
+  toolbar: toolbar$2,
+  locate_me: locate_me$2,
+  layer_actions: layer_actions$2,
+  focus_geometry_layer: focus_geometry_layer$2,
+  feed: feed$2,
+  deselect: deselect$2,
+  spinner_text: spinner_text$2,
+  updated: updated$2,
+  no_data_received: no_data_received$2,
+  wrong_data_received: wrong_data_received$2,
+  error: error$2,
+  sort_icon: sort_icon$2,
+  configs: configs$2,
+  errors: errors$2,
+  event_list: event_list$2,
+  categories: categories$2,
+  groups: groups$2,
+  modes: modes$2,
+  advanced_analytics_data_list: advanced_analytics_data_list$2,
+  profile: profile$2,
+  multivariate: multivariate$2,
+  search: search$2,
+  episode: episode$2,
+  create_layer: create_layer$2,
+  analytics_panel: analytics_panel$2,
+  advanced_analytics_panel: advanced_analytics_panel$2,
+  advanced_analytics_empty: advanced_analytics_empty$2,
+  current_event: current_event$2,
+  llm_analytics: llm_analytics$2,
+  draw_tools: draw_tools$2,
+  boundary_selector: boundary_selector$2,
+  geometry_uploader: geometry_uploader$2,
+  focus_geometry: focus_geometry$2,
+  reference_area_layer: reference_area_layer$2,
+  drawings: drawings$2,
+  sidebar: sidebar$2,
+  login: login$2,
+  currency: currency$2,
+  subscription: subscription$2,
+  reports: reports$2,
+  about: about$2,
+  loading_episodes: loading_episodes$2,
+  cookie_banner: cookie_banner$2,
+  live_sensor: live_sensor$2,
+  layer_features_panel: layer_features_panel$2,
+  reference_area: reference_area$2
+};
+const km$1 = "км";
+const m$1 = "м";
+const to$1 = "да";
+const or$1 = "ці";
+const maps$1 = "Мапы";
+const logout$1 = "Выйсці";
+const save$1 = "Захаваць";
+const cancel$1 = "Адмяніць";
+const mcda$1 = {
+  btn_cancel: "Адмяніць",
+  legend_title: "Легенда",
+  layer_editor: {
+    outliers_options: {
+      hide: "Схаваць",
+      clamp: "Абмежаваць",
+      dont_modify: "Не змяняць"
+    },
+    save_changes: "Захаваць змены",
+    range: "Дыяпазон значэнняў",
+    outliers: "Выбітныя значэнні",
+    reverse_to_good_bad: "Перавярнуць на Добра → Дрэнна",
+    reverse_to_bad_good: "Перавярнуць на Дрэнна → Добра",
+    weight: "Вага",
+    transform: "Трансфармаваць",
+    transformation: "Трансфармацыя",
+    normalize: "Нармалізаваць",
+    normalization: "Нармалізацыя",
+    range_buttons: {
+      full_range: "Поўны дыяпазон",
+      "3_sigma": "3σ",
+      "2_sigma": "2σ",
+      "1_sigma": "1σ"
+    },
+    transformations: {
+      no_transformation: "Без трансфармацыі",
+      square_root: "Квадратны корань: sign(x)⋅√|x|",
+      cube_root: "Кубічны корань: ∛x",
+      log: "log₁₀(x - xmin + 1)",
+      log_epsilon: "log₁₀(x - xmin + ε)"
+    },
+    no: "Без нармалізацыі",
+    max_min: "Максімум-мінімум",
+    errors: {
+      weight_cannot_be_empty: "Вага не можа быць пустой",
+      weight_must_be_a_number: "Вага павінна быць лікам",
+      range_from_cannot_be_bigger: "Значэнне ‘ад’ не можа быць большым за значэнне ‘да’",
+      range_cannot_be_empty: "Дыяпазон не можа быць пустым",
+      range_must_be_a_number: "Дыяпазон павінен быць лікам"
+    },
+    tips: {
+      range: "Значэнні, якія будуць лічыцца найгоршымі і найлепшымі ў вашым аналізе.",
+      sentiment: "Вызначце кірунак уздзеяння для аналізу:\n* **Дрэнна → Добра**: Больш высокія значэнні паказваюць на станоўчы напрамак.\n* **Добра → Дрэнна**: Больш высокія значэнні паказваюць на адмоўны напрамак.",
+      weight: "Па змаўчанні ўсе слаі аднолькава ўплываюць на аналіз праз узважаную сярэднюю. Павелічэнне вагі слоя (напрыклад, 2, 3 і г.д.) дазваляе вам надаць яму большую важкасць у аналізе.",
+      transform: "Прымяняйце разлікі да значэнняў. Атрыманне больш лінейнага размеркавання забяспечыць карысную інфармацыю для аналізу.\n\n **Заўвага**: Разлікі выконваюцца перад нармалізацыяй.",
+      normalize: "Прыводзіць значэнні да стандартызаванай шкалы. Гэта дапамагае лёгка параўноўваць іх і прымаць рашэнні.\n* **Стандартная шкала адзнак**: Гэты варыянт прыводзіць значэнні да стандартызаванай шкалы, робячы іх супастаўнымі.\n* **Не (толькі для спецыялістаў)**: Пакідае значэнні без змен.",
+      outliers: "* **Абмежаваць**: Задаць значэнні вышэй за дыяпазон як 1, ніжэй — як 0.\n* **Не змяняць**: Захаваць 0 і 1 як мінімум і максімум, але дапускаць значэнні за межамі гэтага дыяпазону.\n* **Выключыць**: Выключыць з аналізу вобласці, дзе значэнні выходзяць за межы дыяпазону."
+    }
+  },
+  title: "Шматкрытэрыяльны аналіз",
+  modal_title: "Шматкрытэрыяльны аналіз",
+  name: "Стварыць аналіз",
+  modal_input_name: "Назва аналізу",
+  modal_input_name_placeholder: "Напрыклад, Кліматычныя змены",
+  modal_input_indicators: "Спіс слаёў",
+  modal_input_indicators_placeholder: "Абраць слаі",
+  modal_input_indicators_no_options: "Няма варыянтаў",
+  btn_save: "Захаваць аналіз",
+  error_analysis_name_cannot_be_empty: "Назва аналізу не можа быць пустой",
+  error_bad_layer_data: "Няправільныя даныя слоя шматкрытэрыяльнага аналізу",
+  error_invalid_file: "Няправільны фармат файла шматкрытэрыяльнага аналізу",
+  error_invalid_parameter: "Няправільны параметр '{{parameter}}'",
+  error_invalid_layer_parameter: "Няправільны параметр '{{parameter}}' у слоі '{{axisName}}'",
+  error_wrong_mcda_version: "Няправільная версія MCDA",
+  legend_subtitle: "Шасцікутнікі афарбаваны згодна з наладамі аналітычных слаёў. Націсніце на шасцікутнік, каб убачыць яго значэнні.",
+  bad: "Дрэнна",
+  good: "Добра"
+};
+const ok$1 = "ОК";
+const create$1 = "Стварыць";
+const disasters$1 = "Катастрофы";
+const loading$1 = "Загрузка...";
+const loading_events$1 = "Загрузка катастроф";
+const legend$1 = "Легенда";
+const vertical_direction$1 = "Вертыкальны напрамак";
+const horizontal_direction$1 = "Гарызантальны напрамак";
+const legend_presentation$1 = "Адлюстраванне легенды";
+const layers$1 = "Слаі";
+const bivariate$1 = {
+  color_manager: {
+    layers_filter: "Слаі",
+    not_defined: "Не вызначана",
+    sentiments_combinations_filter: "Спалучэнні напрамкаў",
+    no_legends: "Няма легенд, якія адпавядаюць умовам.",
+    no_data: "Няма даных",
+    sentiments_tab: "Напрамак",
+    color_legends_tab: "Каляровыя легенды",
+    layers_tab: "Слаі (індыкатары)"
+  },
+  panel: {
+    header: "Біварыятыўная матрыца"
+  },
+  matrix: {
+    caption: {
+      base_axis: "Базавая вось",
+      annex_axis: "Дапаможная вось",
+      tooltip: {
+        p1: "Графікі, якія выкарыстоўваюць базавую і дапаможную восі, дапамагаюць вызначыць сувязь паміж двума наборамі даных.",
+        li1: "Дапаможная вось - параметры, якія мы аналізуем",
+        li2: "Базавая вось - апорная кропка ў аналізе",
+        b: "Напрыклад: найлепшае месца для адкрыцця кавярні",
+        p2: "Мы можам даследаваць колькасць месцаў грамадскага харчавання (дапаможная вось) у параўнанні са шчыльнасцю насельніцтва (базавая вось).",
+        p3: "У гэтым выпадку нас найперш цікавіць невялікая колькасць месцаў грамадскага харчавання, а колькасць людзей у гэтым месцы дае дадатковую інфармацыю."
+      }
+    },
+    header: {
+      title: "Выберыце два слоя для даследавання карэляцый",
+      hint: "Слаі і карэляцыі адлюстроўваюцца для вылучанай вобласці"
+    },
+    icon: {
+      population: "Значэнне, падзеленае на насельніцтва",
+      area_km2: "Значэнне, падзеленае на плошчу",
+      total_building_count: "Значэнне, падзеленае на агульную колькасць будынкаў",
+      populated_area_km2: "Значэнне, падзеленае на заселеную тэрыторыю",
+      one: "Без дзялення",
+      roads: "Значэнне, падзеленае на агульную даўжыню дарог"
+    },
+    progress: {
+      rendering: "Адмалёўка",
+      applied: "Ужыта на карце"
+    },
+    loading_error: "На жаль, мы не можам адлюстраваць матрыцу. Паспрабуйце абнавіць старонку ці вярнуцца пазней."
+  },
+  legend: {
+    high: "Высокі",
+    low: "Нізкі",
+    medium: "Сярэдні"
+  }
+};
+const toolbar$1 = {
+  map_ruler: "Вымераць адлегласць",
+  locate_me: "Вызначыць маё месцазнаходжанне",
+  panel_title: "Панэль інструментаў",
+  download: "Спампаваць",
+  "delete": "Выдаліць",
+  boundary_selector: "Вылучыць адміністрацыйную мяжу",
+  create_layer: "Стварыць слой",
+  geometry_uploader: "Загрузіць GeoJSON",
+  focused_geometry_editor: "Маляваць або рэдагаваць геаметрыю",
+  edit_in_osm: "Рэдагаваць мапу ў OSM",
+  record_sensors: "Запісваць даныя датчыкаў",
+  tools_label: "Інструменты",
+  selected_area_label: "Вылучаная вобласць",
+  upload_mcda: "Загрузіць аналіз"
+};
+const locate_me$1 = {
+  feature_title: "Вызначыць маё месцазнаходжанне",
+  get_location_error: "Памылка пры атрыманні месцазнаходжання"
+};
+const layer_actions$1 = {
+  tooltips: {
+    download: "Спампаваць",
+    erase: "Сцерці",
+    edit: "Рэдагаваць",
+    hide: "Схаваць",
+    show: "Паказаць"
+  }
+};
+const focus_geometry_layer$1 = {
+  settings: {
+    name: "Вылучаная вобласць"
+  }
+};
+const feed$1 = "Стужка";
+const deselect$1 = "Зняць вылучэнне";
+const spinner_text$1 = "Збор даных";
+const updated$1 = "Абноўлена";
+const started$1 = "Пачалося";
+const no_data_received$1 = "Даныя не атрыманы";
+const wrong_data_received$1 = "Атрыманы памылковыя даныя";
+const error$1 = "Памылка";
+const sort_icon$1 = "Сартаванне";
+const configs$1 = {
+  Kontur_public_feed: "Kontur Public",
+  Kontur_public_feed_description: "Стужка змяшчае даныя ў рэжыме рэальнага часу аб цыклонах, засухах, землятрусах, паводках, вулканах і лясных пажарах."
+};
+const errors$1 = {
+  "default": "Прабачце, узніклі праблемы, якія хутка будуць выпраўлены",
+  timeout: "Час чакання запыту скончыўся",
+  cannot_connect: "Не атрымалася злучыцца з серверам",
+  forbidden: "Забаронена",
+  not_found: "Не знойдзена",
+  unknown: "Невядома",
+  server_error: "Памылка сервера",
+  error_try_again: "Нешта пайшло не так. Калі ласка, паспрабуйце зноў"
+};
+const event_list$1 = {
+  severity_unknown: "Невядома",
+  warning_title: "Немагчыма адфільтраваць па віду мапы",
+  warning_description: "Мапа яшчэ не гатовая, паспрабуйце пазней",
+  bbox_filter_button: "Адфільтраваць па віду мапы",
+  analytics: {
+    affected_people: {
+      tooltip: "Пацярпелыя людзі",
+      value: "Няма гуманітарных наступстваў"
+    },
+    settled_area_tooltip: "Заселеная тэрыторыя",
+    loss_tooltip: "Прыблізныя страты"
+  },
+  no_event_in_feed: "Катастрофа не была знойдзеная ў цякучай стужцы катастроф",
+  no_selected_disaster: "Катастрофа не выбрана",
+  chose_disaster: "Выбраць катастрофу",
+  no_historical_disasters: "Няма гістарычных катастроф у дадзеным раёне",
+  no_feed_disasters: "Няма катастроф у гэтай стужцы",
+  no_feed_disasters_matching_your_filters: "Няма катастроф, што адпавядаюць вашым фільтрам",
+  no_disasters: "Няма катастроф",
+  severity_termination: "Спыненне",
+  severity_minor: "Нязначная",
+  severity_moderate: "Умераная",
+  severity_severe: "Сур'ёзная",
+  severity_extreme: "Экстрэмальная",
+  open_timeline_button: "Часавая шкала"
+};
+const categories$1 = {
+  overlays: "Оверлэі",
+  basemap: "Базавая мапа"
+};
+const groups$1 = {
+  layers_in_selected_area: "Слаі ў вылучанай зоне",
+  your_layers: "Вашы слаі",
+  kontur_analytics: "Аналітыка Kontur",
+  qa: "Інспектар OpenStreetMap",
+  osmbasedmap: "На аснове OpenStreetMap",
+  other: "Іншае",
+  elevation: "Вышыня",
+  photo: "Здымкі",
+  map: "Мапа"
+};
+const modes$1 = {
+  map: "Мапа",
+  about: "Пра сервіс",
+  cookies: "Файлы cookie",
+  reports: "Справаздачы",
+  report: "Справаздача",
+  profile: "Профіль",
+  privacy: "Прыватнасць",
+  terms: "Умовы",
+  user_guide: "Дапаможнік"
+};
+const advanced_analytics_data_list$1 = {
+  load_world_data: "Загрузіць сусветныя даныя",
+  numerator: "Лічнік",
+  normalized_by: "Нармалізавана па",
+  sum: "Сума",
+  min: "Мінімум",
+  max: "Максімум",
+  mean: "Сярэдняе",
+  stddev: "Стандартнае адхіленне",
+  median: "Медыяна",
+  filter_numerator: "Фільтр па лічніку",
+  filter_denominator: "Фільтр па назоўніку"
+};
+const profile$1 = {
+  saveButton: "Захаваць змены",
+  reference_area: {
+    title: "Эталонная вобласць",
+    freehand_geometry: "Адвольная геаметрыя",
+    to_replace_reference_area: 'Вы можаце пераназначыць вашу эталонную вобласць на карце. Вылучыце вобласць і націсніце "Захаваць як эталонную вобласць" у панэлі інструментаў.\n',
+    description: "Захавайце знаёмую вам вобласць як эталонную. Мы будзем выкарыстоўваць яе як падставу для параўнання іншых абласцей і тлумачэння адрозненняў.",
+    set_the_reference_area: "Вылучыць вобласць на карце",
+    tooltip_text: "1. Вылучыце вобласць цікавасці на карце, выкарыстоўваючы інструменты 'Адміністрацыйныя межы' або 'Маляванне геаметрыі'. <br/> 2. Націсніце кнопку 'Захаваць як эталонную вобласць' у панэлі інструментаў.",
+    accessing_location: "Атрыманне вашага месцазнаходжання",
+    accessing_location_error: "Памылка. Паспрабуйце іншы спосаб.",
+    select_location: "Абраць маю цякучае месцазнаходжанне",
+    notification: "Ваша эталонная вобласць {{name}} была захаваная"
+  },
+  email: "Электронная пошта",
+  interfaceTheme: "Тэма",
+  interfaceLanguage: "Мова",
+  units: "Адзінкі вымярэння",
+  fullName: "Поўнае імя",
+  metric: "метрычная сістэма",
+  imperialBeta: "імперская сістэма (бэта)",
+  profileSettingsHeader: "Наладзьце свой вопыт выкарыстання",
+  your_current_job: "ваша цяперашняя праца",
+  area_of_expertise: "сфера дзейнасці",
+  challenges: "праблемы",
+  personalization_prompt: "Для лепшай персаналізацыі, калі ласка, пазначце наступнае:",
+  ai_tools_compatibility: "Гэтая інфармацыя сумяшчальная з інструментамі AI",
+  improves_analysis: "Паляпшае аналіз",
+  bio_placeholder: "Аб сабе",
+  bio_textarea_placeholder: "Напрыклад, спецыяліст у галіне ГІС з 5+ гадамі вопыту ў аналізе рызыкаў катастроф, арыентаваны на гарадскую ўстойлівасць.",
+  analysis_objectives: "Мэты аналізу",
+  objectives_textarea_placeholder: "Напрыклад, аналіз гарадскога планавання з акцэнтам на кліматычную ўстойлівасць. Мая цяперашняя задача — паляпшэнне картаграфавання рызыкаў паводак.",
+  appSettingsHeader: "Налады",
+  your_organization: "Ваша арганізацыя",
+  your_contacts: "Вашыя кантактныя даныя",
+  organization_name: "Назва арганізацыі",
+  position: "Пасада",
+  gis_specialists: "ГІС-спецыялісты ў вашай камандзе",
+  phone_number: "Нумар тэлефона з кодам краіны",
+  linkedin: "Профіль у LinkedIn",
+  konturTheme: "Kontur",
+  HOTTheme: "HOT",
+  defaultDisasterFeed: "Стужка катастроф па змаўчанні",
+  defaultOSMeditor: "Рэдактар OpenStreetMap па змаўчанні (бэта)",
+  successNotification: "Усе змены былі паспяхова захаваны",
+  dont_know: "Я не ведаю",
+  languageOption: {
+    en: "Англійская",
+    es: "Іспанская",
+    ar: "Арабская",
+    ko: "Карэйская",
+    id: "Інданезійская",
+    de: "Нямецкая",
+    be: "Беларуская",
+    ru: "Руская",
+    uk: "Украінская"
+  }
+};
+const multivariate$1 = {
+  upload_analysis_layer: "Загрузіць аналітычны слой",
+  popup: {
+    score_header: "Адзнака {{level}}",
+    base_header: "Аснова {{level}}"
+  }
+};
+const search$1 = {
+  search_location: "Пошук месца",
+  info_block: "Вы можаце шукаць 📍 месцы",
+  info_block_with_mcda: "Вы можаце шукаць 📍 месцы або задаць ✨ AI ваша пытанне, напрыклад: «Дзе знаходзіцца сухастой?»",
+  input_placeholder: "Пошук",
+  input_placeholder_mcda: "Шукаць або спытацца ў AI",
+  locations_no_result: "Няма знойдзеных месцаў",
+  mcda_loading_message: "AI стварае аналіз для вас",
+  mcda_no_result: "Няма прапаноў ад AI",
+  mcda_error_message: "AI не адказаў. Паспрабуйце пазней",
+  mcda_create_analysis: "Стварыць аналіз",
+  upload_analysis: "“{{name}}” шматкрытэрыяльны аналіз быў створаны"
+};
+const episode$1 = "Часавая шкала";
+const create_layer$1 = {
+  edit_layer: "Рэдагаваць слой",
+  edit_features: "Рэдагаваць аб'екты",
+  delete_layer: "Выдаліць слой",
+  create_layer: "Стварыць слой",
+  saving_layer: "Захаванне слоя...",
+  field_name: "Назва поля",
+  layer_name: "Назва слоя",
+  marker_icon: "Іконка маркера",
+  type: "Тып",
+  select: "Выбраць",
+  short_text: "Кароткі тэкст",
+  long_text: "Доўгі тэкст",
+  link: "Спасылка",
+  image: "Выява",
+  fields: "Палі",
+  add_field: "Дадаць поле",
+  location: "Месцазнаходжанне",
+  edit_feature_placeholder: "Выберыце аб'ект для пачатку рэдагавання яго ўласцівасцей"
+};
+const analytics_panel$1 = {
+  header_title: "Аналітыка",
+  error_loading: "Не атрымалася атрымаць даныя аб вылучанай вобласці. Магчыма, яна занадта вялікая.",
+  info_short: "Разлікі зробленыя для вылучанай вобласці"
+};
+const advanced_analytics_panel$1 = {
+  header_title: "Пашыраная аналітыка",
+  error: "Памылка падчас атрымання даных пашыранай аналітыкі"
+};
+const advanced_analytics_empty$1 = {
+  not_found: "Прабачце, запытаная катастрофа не знойдзена",
+  error: "Адбылася памылка",
+  analytics_for_selected: "Аналітыка для вылучанай вобласці",
+  will_be_provided: "будзе пададзена тут",
+  no_analytics: "Няма аналітыкі для вылучанай вобласці"
+};
+const current_event$1 = {
+  not_found_request: "Прабачце, запытаная катастрофа не знойдзена"
+};
+const llm_analytics$1 = {
+  header: "Аналітыка AI",
+  placeholder: {
+    select_area: "Вылучыце вобласць (<icon1 />,<icon2 />,<icon3 />), якую хочаце даследаваць для атрымання Аналітыкі AI.",
+    you_can_also: "Вы таксама можаце:",
+    fill_bio: "<icon /> <lnk>Запоўніце мэты аналізу</lnk>, каб персаналізаваць AI аналіз",
+    select_and_save_as_reference_area: "<icon /> Вылучыце вобласць і захавайце яе як эталонную для параўнання з іншай",
+    learn_more: "<lnk><icon/> Даведайцеся больш пра Аналітыку AI</lnk>"
+  }
+};
+const draw_tools$1 = {
+  area: "Шматкутнік",
+  line: "Лінія",
+  point: "Кропка",
+  finish_drawing: "Скончыць маляванне",
+  caption: "Націсніце на мапу, каб пачаць маляванне",
+  no_geometry_error: "Няма намаляванай геаметрыі для загрузкі",
+  overlap_error: "Шматкутнік не павінен перакрываць сам сябе",
+  save_features: "Захаваць аб'екты"
+};
+const boundary_selector$1 = {
+  title: "Фокус на адміністрацыйную мяжу"
+};
+const geometry_uploader$1 = {
+  title: "Фокус на загружаную геаметрыю",
+  error: "Памылка пры чытанні загружанага файла"
+};
+const focus_geometry$1 = {
+  title: "Фокус на адвольную геаметрыю"
+};
+const reference_area_layer$1 = {
+  settings: {
+    name: "Эталонная вобласць"
+  }
+};
+const drawings$1 = {
+  self_directions_not_supported: "Самаперакрыцці не падтрымліваюцца"
+};
+const sidebar$1 = {
+  edit_osm: "Рэдагаваць у OpenStreetMap",
+  ruler: "Лінейка",
+  collapse: "Згарнуць",
+  expand: "Разгарнуць",
+  icon_alt: "Лагатып дадатку"
+};
+const login$1 = {
+  email: "Электронная пошта",
+  password: "Пароль",
+  login_button: "Увайсці",
+  sign_up: "Зарэгістравацца",
+  logging_in: "Уваход...",
+  log_in: "Увайсці",
+  forgot_password: "Забыліся пароль?",
+  description: "Калі ласка, увайдзіце, каб змяніць налады",
+  error: {
+    email_empty: "Поле электроннай пошты не можа быць пустым",
+    email_invalid: "Увядзіце сапраўдны адрас электроннай пошты",
+    password: "Поле пароля не можа быць пустым",
+    connect: "Не ўдалося падключыцца да службы аўтэнтыфікацыі"
+  }
+};
+const currency$1 = {
+  usd: "USD"
+};
+const subscription$1 = {
+  title: "Тарыфы і цэны",
+  price_summary: "* Выстаўляецца рахунак ${{pricePerYear}} USD раз на год",
+  unauthorized_button: "Увайдзіце, каб аформіць падпіску",
+  current_plan_button: "Цяперашні план",
+  sales_button: "Звязацца з аддзелам продажаў",
+  book_demo_button: "Замовіць дэма",
+  request_trial_button: "Запытаць пробны перыяд",
+  errors: {
+    payment_initialization: "Адбылася памылка падчас ініцыялізацыі плацяжу. Калі ласка, паспрабуйце яшчэ раз ці звяжыцеся са службай падтрымкі"
+  },
+  success_modal: {
+    title: "Паспяхова",
+    thank_you_for_subscribing: "Дзякуй за падпіску на нашу платформу!",
+    after_the_page_refreshes: "Пасля абнаўлення старонкі вы можаце пачаць выкарыстоўваць Kontur Atlas"
+  }
+};
+const reports$1 = {
+  title: "Справаздачы Disaster Ninja",
+  no_data: "Няма даных для гэтай справаздачы",
+  sorting: "Сартыроўка даных...",
+  loading: "Загрузка даных",
+  open_josm: "Адкрыць праз дыстанцыйнае кіраванне JOSM",
+  josm_logo_alt: "Лагатып JOSM",
+  see_all: "Паглядзець усе справаздачы",
+  wrong_id: "Няправільны ідэнтыфікатар справаздачы",
+  description: "<0>Kontur </0> стварае некалькі справаздач, якія дапамагаюць ацаніць якасць OpenStreetMap. Яны ўтрымліваюць спасылкі на вобласці на <4>osm.org </4> і спасылкі для адкрыцця іх у рэдактары JOSM з уключаным дыстанцыйным кіраваннем."
+};
+const about$1 = {};
+const loading_episodes$1 = "Загрузка эпізодаў";
+const zoom_to_world$1 = "Аддаліцца да ўсяго свету";
+const cookie_banner$1 = {
+  header: "Мы цэнім вашу прыватнасць",
+  body: "Мы выкарыстоўваем неабходныя файлы cookie для прадастаўлення вам персаналізаваных паслуг, а таксама дадатковыя файлы cookie для паляпшэння {{appName}} і вашага вопыту выкарыстання. Вы можаце кіраваць наладамі cookie або адклікаць згоду на дадатковыя cookie ў любы момант.\nДля атрымання дадатковай інфармацыі азнаёмцеся з нашай [Палітыкай прыватнасці](about/privacy)",
+  decline_all: "Адмовіцца ад дадатковых cookie",
+  accept_all: "Прыняць дадатковыя cookie"
+};
+const live_sensor$1 = {
+  start: "Пачаць запіс з датчыкаў",
+  finish: "Спыніць запіс з датчыкаў",
+  finishMessage: "Запіс завершаны",
+  startMessage: "Запіс пачаты",
+  noSensorsError: "Вашае прылада не мае неабходных датчыкаў"
+};
+const layer_features_panel$1 = {
+  empty: "Аб'екты слоя ў вылучанай вобласці будуць паказаны тут",
+  noFeatureSelected: "Не абраны аб'ект слоя",
+  chooseFeature: "Абярыце аб'ект слоя",
+  listInfo: "Спіс адфільтраваны па вылучанай вобласці і адсартаваны па нумары праекта",
+  error_loading: "Не атрымалася загрузіць даныя аб'ектаў слоя. Калі ласка, паспрабуйце яшчэ раз.",
+  no_features: "У вылучанай вобласці не знойдзена аб'ектаў."
+};
+const reference_area$1 = {
+  save_as_reference_area: "Захаваць як эталонную вобласць",
+  error_couldnt_save: "На жаль, не атрымалася захаваць вашу эталонную вобласць. Калі ласка, паспрабуйце яшчэ раз.",
+  selected_area_saved_as_reference_area: "Вылучаная вобласць была захаваная як эталонная ў вашым профілі"
+};
+const be_common = {
+  km: km$1,
+  m: m$1,
+  to: to$1,
+  or: or$1,
+  maps: maps$1,
+  logout: logout$1,
+  save: save$1,
+  cancel: cancel$1,
+  mcda: mcda$1,
+  ok: ok$1,
+  create: create$1,
+  disasters: disasters$1,
+  loading: loading$1,
+  loading_events: loading_events$1,
+  legend: legend$1,
+  vertical_direction: vertical_direction$1,
+  horizontal_direction: horizontal_direction$1,
+  legend_presentation: legend_presentation$1,
+  layers: layers$1,
+  bivariate: bivariate$1,
+  toolbar: toolbar$1,
+  locate_me: locate_me$1,
+  layer_actions: layer_actions$1,
+  focus_geometry_layer: focus_geometry_layer$1,
+  feed: feed$1,
+  deselect: deselect$1,
+  spinner_text: spinner_text$1,
+  updated: updated$1,
+  started: started$1,
+  no_data_received: no_data_received$1,
+  wrong_data_received: wrong_data_received$1,
+  error: error$1,
+  sort_icon: sort_icon$1,
+  configs: configs$1,
+  errors: errors$1,
+  event_list: event_list$1,
+  categories: categories$1,
+  groups: groups$1,
+  modes: modes$1,
+  advanced_analytics_data_list: advanced_analytics_data_list$1,
+  profile: profile$1,
+  multivariate: multivariate$1,
+  search: search$1,
+  episode: episode$1,
+  create_layer: create_layer$1,
+  analytics_panel: analytics_panel$1,
+  advanced_analytics_panel: advanced_analytics_panel$1,
+  advanced_analytics_empty: advanced_analytics_empty$1,
+  current_event: current_event$1,
+  llm_analytics: llm_analytics$1,
+  draw_tools: draw_tools$1,
+  boundary_selector: boundary_selector$1,
+  geometry_uploader: geometry_uploader$1,
+  focus_geometry: focus_geometry$1,
+  reference_area_layer: reference_area_layer$1,
+  drawings: drawings$1,
+  sidebar: sidebar$1,
+  login: login$1,
+  currency: currency$1,
+  subscription: subscription$1,
+  reports: reports$1,
+  about: about$1,
+  loading_episodes: loading_episodes$1,
+  zoom_to_world: zoom_to_world$1,
+  cookie_banner: cookie_banner$1,
+  live_sensor: live_sensor$1,
+  layer_features_panel: layer_features_panel$1,
+  reference_area: reference_area$1
+};
+const km = "км";
+const m = "м";
+const to = "до";
+const or = "или";
+const maps = "Карты";
+const logout = "Выйти";
+const save = "Сохранить";
+const cancel = "Отменить";
+const mcda = {
+  btn_cancel: "Отменить",
+  legend_title: "Легенда",
+  layer_editor: {
+    outliers_options: {
+      hide: "Скрыть",
+      clamp: "Ограничить",
+      dont_modify: "Не изменять"
+    },
+    save_changes: "Сохранить изменения",
+    range: "Диапазон значений",
+    outliers: "Выпадающие значения",
+    reverse_to_good_bad: "Перевернуть: Хорошо → Плохо",
+    reverse_to_bad_good: "Перевернуть: Плохо → Хорошо",
+    weight: "Вес",
+    transform: "Трансформировать",
+    transformation: "Трансформация",
+    normalize: "Нормализовать",
+    normalization: "Нормализация",
+    range_buttons: {
+      full_range: "Полный диапазон",
+      "3_sigma": "3σ",
+      "2_sigma": "2σ",
+      "1_sigma": "1σ"
+    },
+    transformations: {
+      no_transformation: "Без трансформации",
+      square_root: "Квадратный корень: sign(x)⋅√|x|",
+      cube_root: "Кубический корень: ∛x",
+      log: "log₁₀(x - xmin + 1)",
+      log_epsilon: "log₁₀(x - xmin + ε)"
+    },
+    no: "Без нормализации",
+    max_min: "Макс-мин",
+    errors: {
+      weight_cannot_be_empty: "Вес не может быть пустым",
+      weight_must_be_a_number: "Вес должен быть числом",
+      range_from_cannot_be_bigger: "Значение «от» не может быть больше, чем значение «до»",
+      range_cannot_be_empty: "Диапазон не может быть пустым",
+      range_must_be_a_number: "Диапазон должен быть числом"
+    },
+    tips: {
+      range: "Значения, которые будут считаться наихудшими и наилучшими в вашем анализе.",
+      sentiment: "Определите направление коннотаций слоя на анализ:\n* **Плохо → Хорошо**: Более высокие значения указывают на положительное направление.\n* **Хорошо → Плохо**: Более высокие значения указывают на отрицательное направление.",
+      weight: "По умолчанию все слои вносят равный вклад в анализ через средневзвешенное значение. Увеличение веса слоя (2, 3 и т. д.) позволяет придать ему дополнительную значимость в анализе.",
+      transform: "Примените вычисления к значениям. Достижение более линейного распределения обеспечит более полезную информацию для анализа.\n\n **Примечание**: Вычисления выполняются перед нормализацией.",
+      normalize: "Приводит значения к стандартизированной шкале. Это упрощает их сравнение и принятие решений.\n* **Стандартная шкала оценки**: Этот вариант приводит значения к стандартизированной шкале, чтобы они были сопоставимы.\n* **Нет (только для специалистов)**: Оставляет значения без изменений.",
+      outliers: "* **Ограничить**: Установить значения выше диапазона как 1, а ниже диапазона – как 0.\n* **Не изменять**: Сохранить 0 и 1 для минимального и максимального значений, но допустить выбросы за пределами этого диапазона.\n* **Исключить**: Исключить области, где значения выходят за пределы диапазона."
+    }
+  },
+  title: "Многокритериальный анализ",
+  modal_title: "Многокритериальный анализ",
+  name: "Создать анализ",
+  modal_input_name: "Название анализа",
+  modal_input_name_placeholder: "Например, Изменение климата",
+  modal_input_indicators: "Список слоёв",
+  modal_input_indicators_placeholder: "Выберите слои",
+  modal_input_indicators_no_options: "Нет доступных вариантов",
+  btn_save: "Сохранить анализ",
+  error_analysis_name_cannot_be_empty: "Название анализа не может быть пустым",
+  error_bad_layer_data: "Некорректные данные слоя многокритериального анализа",
+  error_invalid_file: "Некорректный формат файла многокритериального анализа",
+  error_invalid_parameter: "Некорректный параметр '{{parameter}}'",
+  error_invalid_layer_parameter: "Некорректный параметр '{{parameter}}' в слое '{{axisName}}'",
+  error_wrong_mcda_version: "Неподдерживаемая версия многокритериального анализа",
+  legend_subtitle: "Шестиугольники окрашены в соответствии с настройками анализа слоя. Нажмите на шестиугольник, чтобы увидеть его значения.",
+  bad: "Плохо",
+  good: "Хорошо"
+};
+const ok = "ОК";
+const create = "Создать";
+const disasters = "Катастрофы";
+const loading = "Загрузка...";
+const loading_events = "Загрузка катастроф";
+const legend = "Легенда";
+const vertical_direction = "Вертикальное направление";
+const horizontal_direction = "Горизонтальное направление";
+const legend_presentation = "Отображение легенды";
+const layers = "Слои";
+const bivariate = {
+  color_manager: {
+    layers_filter: "Слои",
+    not_defined: "Не определено",
+    sentiments_combinations_filter: "Комбинации направлений",
+    no_legends: "Нет легенд, удовлетворяющих условиям.",
+    no_data: "Нет данных.",
+    sentiments_tab: "Направление",
+    color_legends_tab: "Цветовые легенды",
+    layers_tab: "Слои (индикаторы)"
+  },
+  panel: {
+    header: "Бивариативная матрица"
+  },
+  matrix: {
+    caption: {
+      base_axis: "Базовая ось",
+      annex_axis: "Дополнительная ось",
+      tooltip: {
+        p1: "Графики с базовой и дополнительной осями помогают установить взаимосвязь между двумя наборами данных.",
+        li1: "Дополнительная ось – параметры, которые мы анализируем",
+        li2: "Базовая ось – эталонная точка в анализе",
+        b: "Например: лучшее место для открытия кафе",
+        p2: "Мы можем изучить количество мест общественного питания (дополнительная ось) по отношению к плотности населения (базовая ось).",
+        p3: "В этом сценарии нас интересует небольшое количество мест общественного питания, а количество людей в этом месте даёт дополнительную информацию."
+      }
+    },
+    header: {
+      title: "Выберите два слоя для исследования корреляций",
+      hint: "Слои и корреляции отображаются для текущей выделенной области"
+    },
+    icon: {
+      population: "Значение, делённое на население",
+      area_km2: "Значение, делённое на площадь",
+      total_building_count: "Значение, делённое на общее количество зданий",
+      populated_area_km2: "Значение, делённое на заселённую площадь",
+      one: "Без делителя",
+      roads: "Значение, делённое на общую длину дорог"
+    },
+    progress: {
+      rendering: "Отрисовка",
+      applied: "Применено на карте"
+    },
+    loading_error: "К сожалению, мы не можем отобразить матрицу. Попробуйте обновить страницу или зайдите позже."
+  },
+  legend: {
+    high: "Высокий",
+    low: "Низкий",
+    medium: "Средний"
+  }
+};
+const toolbar = {
+  map_ruler: "Измерить расстояние",
+  locate_me: "Определить моё местоположение",
+  panel_title: "Панель инструментов",
+  download: "Скачать",
+  "delete": "Удалить",
+  boundary_selector: "Выделить административную границу",
+  create_layer: "Создать слой",
+  geometry_uploader: "Загрузить GeoJSON",
+  focused_geometry_editor: "Рисовать или редактировать геометрию",
+  edit_in_osm: "Редактировать карту в OSM",
+  record_sensors: "Записать данные с датчиков",
+  tools_label: "Инструменты",
+  selected_area_label: "Выделенная область",
+  upload_mcda: "Загрузить анализ"
+};
+const locate_me = {
+  feature_title: "Определить моё местоположение",
+  get_location_error: "Ошибка при определении местоположения"
+};
+const layer_actions = {
+  tooltips: {
+    download: "Скачать",
+    erase: "Стереть",
+    edit: "Редактировать",
+    hide: "Скрыть",
+    show: "Показать"
+  }
+};
+const focus_geometry_layer = {
+  settings: {
+    name: "Выделенная область"
+  }
+};
+const feed = "Лента";
+const deselect = "Снять выделение";
+const spinner_text = "Сбор данных";
+const updated = "Обновлено";
+const started = "Запущено";
+const no_data_received = "Данные не получены";
+const wrong_data_received = "Получены неверные данные";
+const error = "Ошибка";
+const sort_icon = "Сортировка";
+const configs = {
+  Kontur_public_feed: "Kontur Public",
+  Kontur_public_feed_description: "Лента содержит данные в реальном времени о циклонах, засухах, землетрясениях, наводнениях, вулканах, лесных пожарах."
+};
+const errors = {
+  "default": "Извините, у нас возникли проблемы, которые скоро будут исправлены",
+  timeout: "Время ожидания запроса истекло",
+  cannot_connect: "Не удается подключиться к серверу",
+  forbidden: "Доступ запрещен",
+  not_found: "Не найдено",
+  unknown: "Неизвестно",
+  server_error: "Ошибка сервера",
+  error_try_again: "Что-то пошло не так. Пожалуйста, попробуйте снова"
+};
+const event_list = {
+  severity_unknown: "Неизвестно",
+  warning_title: "Невозможно отфильтровать по виду карты",
+  warning_description: "Карта еще не готова, попробуйте позже",
+  bbox_filter_button: "Фильтровать по виду карты",
+  analytics: {
+    affected_people: {
+      tooltip: "Пострадавшие люди",
+      value: "Гуманитарного воздействия нет"
+    },
+    settled_area_tooltip: "Заселённая территория",
+    loss_tooltip: "Предполагаемый ущерб"
+  },
+  no_event_in_feed: "Катастрофа не найдена в текущей ленте катастроф",
+  no_selected_disaster: "Катастрофа не выбрана",
+  chose_disaster: "Выберите катастрофу",
+  no_historical_disasters: "В этой области нет исторических катастроф",
+  no_feed_disasters: "В этой ленте нет катастроф",
+  no_feed_disasters_matching_your_filters: "Нет катастроф, соответствующих вашим фильтрам",
+  no_disasters: "Нет катастроф",
+  severity_termination: "Прекращение",
+  severity_minor: "Незначительное",
+  severity_moderate: "Умеренное",
+  severity_severe: "Серьезное",
+  severity_extreme: "Экстремальное",
+  open_timeline_button: "Таймлайн"
+};
+const categories = {
+  overlays: "Оверлеи",
+  basemap: "Базовая карта"
+};
+const groups = {
+  layers_in_selected_area: "Слои в выделенной области",
+  your_layers: "Ваши слои",
+  kontur_analytics: "Аналитика Kontur",
+  qa: "Инспектор OpenStreetMap",
+  osmbasedmap: "На основе OpenStreetMap",
+  other: "Другое",
+  elevation: "Высота",
+  photo: "Изображения",
+  map: "Карта"
+};
+const modes = {
+  map: "Карта",
+  about: "О сервисе",
+  cookies: "Файлы cookie",
+  reports: "Отчёты",
+  report: "Отчёт",
+  profile: "Профиль",
+  privacy: "Конфиденциальность",
+  terms: "Условия",
+  user_guide: "Руководство"
+};
+const advanced_analytics_data_list = {
+  load_world_data: "Загрузить мировые данные",
+  numerator: "Числитель",
+  normalized_by: "Нормализовано по",
+  sum: "Сумма",
+  min: "Минимум",
+  max: "Максимум",
+  mean: "Среднее",
+  stddev: "Стандартное отклонение",
+  median: "Медиана",
+  filter_numerator: "Фильтр числителя",
+  filter_denominator: "Фильтр знаменателя"
+};
+const profile = {
+  saveButton: "Сохранить изменения",
+  reference_area: {
+    title: "Эталонная область",
+    freehand_geometry: "Свободная геометрия",
+    to_replace_reference_area: 'Вы можете переопределить свою эталонную область на карте. Выберите область и нажмите "Сохранить как эталонную область" на панели инструментов.\n',
+    description: "Сохраните знакомую вам область как эталонную. Мы будем использовать её в качестве основания для сравнения с другими областями и объяснения различий.",
+    set_the_reference_area: "Выделить область на карте",
+    tooltip_text: "1. Выделите интересующую область на карте, используя инструмент границ администраций или инструмент рисования геометрии. <br/> 2. Нажмите кнопку 'Сохранить как эталонную область' на панели инструментов.",
+    accessing_location: "Определение вашего местоположения",
+    accessing_location_error: "Ошибка. Попробуйте другой способ.",
+    select_location: "Выбрать моё текущее местоположение",
+    notification: "Ваша эталонная область {{name}} была сохранена"
+  },
+  email: "Электронная почта",
+  interfaceTheme: "Тема",
+  interfaceLanguage: "Язык",
+  units: "Единицы измерения",
+  fullName: "Полное имя",
+  metric: "метрическая",
+  imperialBeta: "имперская (бета)",
+  profileSettingsHeader: "Персонализируйте свой опыт",
+  your_current_job: "ваша текущая должность",
+  area_of_expertise: "область экспертизы",
+  challenges: "проблемы",
+  personalization_prompt: "Для лучшей персонализации укажите, например:",
+  ai_tools_compatibility: "Эта информация совместима с инструментами AI",
+  improves_analysis: "Улучшает аналитику",
+  bio_placeholder: "О себе",
+  bio_textarea_placeholder: "Например, ГИС-специалист с более чем 5-летним опытом анализа рисков катастроф, с фокусом на устойчивость городов.",
+  analysis_objectives: "Цели анализа",
+  objectives_textarea_placeholder: "Например, анализ городского планирования с акцентом на устойчивость к климатическим изменениям. Моя текущая задача — улучшение картографирования рисков наводнений.",
+  appSettingsHeader: "Настройки",
+  your_organization: "Ваша организация",
+  your_contacts: "Ваши контактные данные",
+  organization_name: "Название организации",
+  position: "Должность",
+  gis_specialists: "ГИС-специалисты в вашей команде",
+  phone_number: "Номер телефона с кодом страны",
+  linkedin: "Профиль в LinkedIn",
+  konturTheme: "Kontur",
+  HOTTheme: "HOT",
+  defaultDisasterFeed: "Лента катастроф по умолчанию",
+  defaultOSMeditor: "Редактор OpenStreetMap по умолчанию (бета)",
+  successNotification: "Все изменения успешно применены",
+  dont_know: "Не знаю",
+  languageOption: {
+    en: "Английский",
+    es: "Испанский",
+    ar: "Арабский",
+    ko: "Корейский",
+    id: "Индонезийский",
+    de: "Немецкий",
+    be: "Белорусский",
+    ru: "Русский",
+    uk: "Украинский"
+  }
+};
+const multivariate = {
+  upload_analysis_layer: "Загрузить слой анализа",
+  popup: {
+    score_header: "Оценка {{level}}",
+    base_header: "Основа {{level}}"
+  }
+};
+const search = {
+  search_location: "Поиск мест",
+  info_block: "Вы можете искать 📍 места",
+  info_block_with_mcda: "Вы можете искать 📍 места или задать ✨ AI вопрос, например: «Где находится сухостой?»",
+  input_placeholder: "Поиск",
+  input_placeholder_mcda: "Найти или спросить AI",
+  locations_no_result: "Места не найдены",
+  mcda_loading_message: "AI создаёт анализ для вас",
+  mcda_no_result: "Нет предложений от AI",
+  mcda_error_message: "AI не ответил. Пожалуйста, попробуйте позже",
+  mcda_create_analysis: "Создать анализ",
+  upload_analysis: "Многокритериальный анализ «{{name}}» создан"
+};
+const episode = "Таймлайн";
+const create_layer = {
+  edit_layer: "Редактировать слой",
+  edit_features: "Редактировать объекты",
+  delete_layer: "Удалить слой",
+  create_layer: "Создать слой",
+  saving_layer: "Сохранение слоя...",
+  field_name: "Название поля",
+  layer_name: "Название слоя",
+  marker_icon: "Иконка маркера",
+  type: "Тип",
+  select: "Выбрать",
+  short_text: "Короткий текст",
+  long_text: "Длинный текст",
+  link: "Ссылка",
+  image: "Изображение",
+  fields: "Поля",
+  add_field: "Добавить поле",
+  location: "Местоположение",
+  edit_feature_placeholder: "Выберите объект, чтобы начать редактирование его свойств"
+};
+const analytics_panel = {
+  header_title: "Аналитика",
+  error_loading: "Не удалось получить данные о выделенной области. Возможно, она слишком велика.",
+  info_short: "Расчеты выполняются для выделенной области"
+};
+const advanced_analytics_panel = {
+  header_title: "Расширенная аналитика",
+  error: "Ошибка при получении данных расширенной аналитики"
+};
+const advanced_analytics_empty = {
+  not_found: "Извините, запрашиваемая катастрофа не найдена",
+  error: "Произошла ошибка",
+  analytics_for_selected: "Аналитика для выделенной области",
+  will_be_provided: "будет представлена здесь",
+  no_analytics: "Нет аналитики для выделенной области"
+};
+const current_event = {
+  not_found_request: "Извините, запрашиваемая катастрофа не найдена"
+};
+const llm_analytics = {
+  header: "Аналитика AI",
+  placeholder: {
+    select_area: "Выберите область (<icon1 />,<icon2 />,<icon3 />), которую хотите исследовать, чтобы получить аналитику AI.",
+    you_can_also: "Вы также можете:",
+    fill_bio: "<icon /> <lnk>Заполните цели анализа</lnk>, чтобы персонализировать AI анализ",
+    select_and_save_as_reference_area: "<icon /> Выберите область и сохраните её как эталонную, чтобы сравнивать с другой",
+    learn_more: "<lnk><icon/> Узнать больше об аналитике AI</lnk>"
+  }
+};
+const draw_tools = {
+  area: "Многоугольник",
+  line: "Линия",
+  point: "Точка",
+  finish_drawing: "Завершить рисование",
+  caption: "Нажмите на карту, чтобы начать рисование",
+  no_geometry_error: "Нет нарисованной геометрии для загрузки",
+  overlap_error: "Полигон не должен пересекаться сам с собой",
+  save_features: "Сохранить объекты"
+};
+const boundary_selector = {
+  title: "Фокус на административной границе"
+};
+const geometry_uploader = {
+  title: "Фокус на загруженной геометрии",
+  error: "Ошибка при чтении загруженного файла"
+};
+const focus_geometry = {
+  title: "Фокус на свободно нарисованной геометрии"
+};
+const reference_area_layer = {
+  settings: {
+    name: "Эталонная область"
+  }
+};
+const drawings = {
+  self_directions_not_supported: "Самопересечения не поддерживаются"
+};
+const sidebar = {
+  biv_color_manager: "Менеджер цветов",
+  edit_osm: "Редактировать в OpenStreetMap",
+  ruler: "Линейка",
+  collapse: "Свернуть",
+  expand: "Развернуть",
+  icon_alt: "Логотип приложения"
+};
+const login = {
+  email: "Электронная почта",
+  password: "Пароль",
+  login_button: "Войти",
+  sign_up: "Регистрация",
+  logging_in: "Вход в систему...",
+  log_in: "Войти",
+  forgot_password: "Забыли пароль?",
+  description: "Пожалуйста, войдите в систему, чтобы изменить настройки",
+  error: {
+    email_empty: "Поле электронной почты не может быть пустым",
+    email_invalid: "Введите корректный адрес электронной почты",
+    password: "Пароль не может быть пустым",
+    connect: "Не удалось подключиться к службе аутентификации"
+  }
+};
+const currency = {
+  usd: "USD"
+};
+const subscription = {
+  title: "Тарифы и цены",
+  price_summary: "* Выставляется счёт на ${{pricePerYear}} USD раз в год",
+  unauthorized_button: "Войдите, чтобы подписаться",
+  current_plan_button: "Текущий план",
+  sales_button: "Связаться с отделом продаж",
+  book_demo_button: "Записаться на демонстрацию",
+  request_trial_button: "Запросить пробную версию",
+  errors: {
+    payment_initialization: "Произошла ошибка при инициализации платежа. Попробуйте снова или свяжитесь со службой поддержки"
+  },
+  success_modal: {
+    title: "Успех",
+    thank_you_for_subscribing: "Спасибо за подписку на нашу платформу!",
+    after_the_page_refreshes: "После обновления страницы вы сможете начать использовать Kontur Atlas"
+  }
+};
+const reports = {
+  title: "Отчёты Disaster Ninja",
+  no_data: "Нет данных для этого отчёта",
+  sorting: "Сортировка данных...",
+  loading: "Загрузка данных",
+  open_josm: "Открыть через удалённое управление JOSM",
+  josm_logo_alt: "Логотип JOSM",
+  see_all: "Посмотреть все отчёты",
+  wrong_id: "Неверный идентификатор отчёта",
+  description: "<0>Kontur </0> создаёт несколько отчётов, которые помогают проверять качество OpenStreetMap. Они содержат ссылки на области на <4>osm.org</4> и ссылки для открытия их в редакторе JOSM с включённым удалённым управлением."
+};
+const about = {};
+const loading_episodes = "Загрузка эпизодов";
+const zoom_to_world = "Отдалиться ко всему миру";
+const cookie_banner = {
+  header: "Мы ценим вашу конфиденциальность",
+  body: "Мы используем исключительно необходимые файлы cookie для предоставления персонализированных услуг, а также дополнительные файлы cookie для улучшения {{appName}} и вашего опыта. Вы можете управлять настройками cookie или отозвать согласие на их использование в любое время.\nДополнительную информацию можно найти в нашей [Политике конфиденциальности](about/privacy).",
+  decline_all: "Отклонить необязательные файлы cookie",
+  accept_all: "Принять необязательные файлы cookie"
+};
+const live_sensor = {
+  start: "Начать запись данных с сенсоров",
+  finish: "Остановить запись данных с сенсоров",
+  finishMessage: "Запись завершена",
+  startMessage: "Запись началась",
+  noSensorsError: "Ваше устройство не имеет необходимые сенсоры"
+};
+const layer_features_panel = {
+  empty: "Здесь будут отображены объекты слоёв в выделенной области",
+  noFeatureSelected: "Не выбрано ни одного объекта слоя",
+  chooseFeature: "Выберите объект слоя",
+  listInfo: "Список отфильтрован по выделенной области и отсортирован по номеру проекта",
+  error_loading: "Не удалось загрузить данные об объектах слоя. Попробуйте снова.",
+  no_features: "В выделенной области не найдено ни одного объекта."
+};
+const reference_area = {
+  save_as_reference_area: "Сохранить как эталонную область",
+  error_couldnt_save: "К сожалению, не удалось сохранить вашу эталонную область. Попробуйте снова.",
+  selected_area_saved_as_reference_area: "Выбранная область сохранена как эталонная область в вашем профиле"
+};
+const ru_common = {
   km,
   m,
   to,
+  or,
   maps,
   logout,
   save,
   cancel,
+  mcda,
+  ok,
   create,
   disasters,
   loading,
@@ -10955,10 +12099,15 @@ const uk_common = {
   legend_presentation,
   layers,
   bivariate,
+  toolbar,
+  locate_me,
+  layer_actions,
+  focus_geometry_layer,
   feed,
   deselect,
   spinner_text,
   updated,
+  started,
   no_data_received,
   wrong_data_received,
   error,
@@ -10970,28 +12119,34 @@ const uk_common = {
   groups,
   modes,
   advanced_analytics_data_list,
-  mcda,
+  profile,
+  multivariate,
+  search,
+  episode,
   create_layer,
   analytics_panel,
   advanced_analytics_panel,
   advanced_analytics_empty,
   current_event,
+  llm_analytics,
   draw_tools,
   boundary_selector,
   geometry_uploader,
   focus_geometry,
-  focus_geometry_layer,
+  reference_area_layer,
   drawings,
   sidebar,
   login,
-  profile,
+  currency,
+  subscription,
   reports,
   about,
-  locate_me,
-  episode,
   loading_episodes,
+  zoom_to_world,
   cookie_banner,
-  live_sensor
+  live_sensor,
+  layer_features_panel,
+  reference_area
 };
 const I18N_FALLBACK_LANGUAGE = "en";
 const languageResources = {
@@ -11001,7 +12156,9 @@ const languageResources = {
   ko: { common: ko_common },
   id: { common: id_common },
   de: { common: de_common },
-  uk: { common: uk_common }
+  uk: { common: uk_common },
+  be: { common: be_common },
+  ru: { common: ru_common }
 };
 instance.use(Browser).use(initReactI18next).init({
   fallbackLng: I18N_FALLBACK_LANGUAGE,
