@@ -250,7 +250,7 @@
     "placeholder": {
       "select_area": "Select area (<icon1 />,<icon2 />,<icon3 />) you want to explore to get AI Insights.",
       "you_can_also": "You can also:",
-      "fill_bio": "<icon /> <lnk>Fill out bio</lnk> to personalize AI analysis",
+      "fill_bio": "<icon /> <lnk>Fill out analysis objectives</lnk> to personalize AI analysis",
       "select_and_save_as_reference_area": "<icon /> Select an area and save it as a reference to compare with another one",
       "learn_more": "<lnk><icon/> Learn more about AI Insights</lnk>"
     }
@@ -405,21 +405,6 @@
     "terms": "Terms",
     "user_guide": "User guide"
   },
-  "about": {
-    "title": "Welcome to Disaster Ninja!",
-    "intro": "Do you want to be notified about ongoing disasters? Are you interested in instant population data and other analytics for any region in the world? Disaster Ninja showcases some of <2>Kontur</2>’s capabilities in addressing these needs.<br/><br/>We initially designed it as a decision support tool for humanitarian mappers. Now it has grown in functionality and use cases. Whether you work in disaster management, build a smart city, or perform research on climate change, Disaster Ninja can help you to:",
-    "l1": "1. Stay up to date with the latest hazard events globally.",
-    "p1": "The Disasters panel continually refreshes to inform you about ongoing events. It consumes data from the <2>Kontur Event Feed</2>, which you can also access via an API.",
-    "l2": "2. Focus on your area of interest.",
-    "p2": "The Drawing Tools panel allows you to draw or upload your own geometry on the map. You can also focus on a disaster-exposed area or an administrative unit — a country, city, or region.",
-    "l3": "3. Get analytics for the focused area.",
-    "p3": "The Analytics panel shows the number of people living in that area per <2>Kontur Population</2> and estimated mapping gaps in OpenStreetMap. Kontur’s customers have access to hundreds of other indicators through Advanced Analytics.",
-    "l4": "4. Explore data on the map and make conclusions.",
-    "p4": "The Layers panel gives you various options to display two indicators simultaneously on a bivariate map, e.g., population density and distance to the nearest fire station. Use the color legend to assess which areas require attention. <br/>Hint: in general, green indicates low risk / few gaps, red — high risk / many gaps.",
-    "p5": "In addition, you can switch to Reports in the left panel to access data on potential errors and inconsistencies in OpenStreetMap and help fix them by mapping the respective area with the JOSM editor.",
-    "goToMap": "Go to the map now",
-    "p6": "We hope you find this tool valuable. Use the chatbox on Disaster Ninja for any questions about the functionality, and we will be happy to guide you. You can also contact us by email at <1>hello@kontur.io</1> if you have feedback or suggestions on improving the tool.<br/><br/>Disaster Ninja is an open-source project. Find the code in <8>Kontur’s GitHub account</8>."
-  },
   "profile": {
     "interfaceTheme": "Theme",
     "interfaceLanguage": "Language",
@@ -461,6 +446,8 @@
       "ko": "Korean",
       "id": "Indonesian",
       "de": "German",
+      "be": "Belarusian",
+      "ru": "Russian",
       "uk": "Ukrainian"
     },
     "reference_area": {
