@@ -36,7 +36,7 @@ export function Search() {
         <div className={s.searchWrapper}>
           <SearchBar
             onItemSelect={isMobile ? closePanel : undefined}
-            searchBarClass={s.searchBar}
+            searchBarClass={clsx(s.searchBar, 'knt-search-bar')}
             ref={inputRef}
           />
           <Button onClick={closePanel} variant="invert" className={s.cancelButton}>
@@ -46,7 +46,7 @@ export function Search() {
       </Panel>
       <PanelIcon
         icon={<Search24 />}
-        className={s.panelIcon}
+        className={clsx(s.panelIcon, 'knt-panel-icon')}
         clickHandler={openFullState}
       />
     </>

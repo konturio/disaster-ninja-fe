@@ -54,7 +54,7 @@ export function EditFeaturesPanel() {
     <Panel
       header={String(i18n.t('create_layer.edit_features'))}
       onHeaderClick={onPanelClose}
-      className={clsx(s.sidePanel)}
+      className={clsx(s.sidePanel, 'knt-panel')}
       modal={{
         onModalClick: onPanelClose,
         showInModal: isMobile,

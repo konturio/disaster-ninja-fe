@@ -44,6 +44,7 @@ export function EditLayerPanel() {
         s.sidePanel,
         createLayerState && s.show,
         !createLayerState && s.hide,
+        'knt-panel',
       )}
       modal={{
         onModalClick: onPanelClose,

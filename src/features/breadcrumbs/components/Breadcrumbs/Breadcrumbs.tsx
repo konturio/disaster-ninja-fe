@@ -44,7 +44,10 @@ const Breadcrumbs = ({
 
   return (
     <nav aria-label="breadcrumb" className={styles.nav}>
-      <ol ref={containerRef} className={cn(styles.breadcrumbs, classes?.breadcrumbs)}>
+      <ol
+        ref={containerRef}
+        className={cn(styles.breadcrumbs, classes?.breadcrumbs, 'knt-breadcrumbs')}
+      >
         {/* Render all items if no overflow */}
         {leftHiddenItemIndex === null || rightHiddenItemIndex === null ? (
           renderItems(0, items.length - 1)

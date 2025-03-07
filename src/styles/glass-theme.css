@@ -1,0 +1,27 @@
+.knt-breadcrumbs:not(.add-spec),
+.knt-panel-icon:not(.add-spec) {
+  background-color: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px);
+}
+
+@media screen and (min-width: 961px) {
+  .knt-panel:not(.add-spec),
+  .knt-search-bar:not(.add-spec) {
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(16px);
+    box-shadow: var(--shadow-small);
+    border-radius: 8px;
+
+    --faint-weak: none;
+    --accent-weak: #0516260f;
+    --base-weak-up: #0516260f;
+
+    & * {
+      scrollbar-color: var(--scrollbar-thumb) rgba(255, 255, 255, 0.7);
+    }
+  }
+
+  .knt-toolbar-button:not(.add-spec) {
+    border: none;
+  }
+}
