@@ -50,7 +50,7 @@ export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(
         <Button
           variant="invert"
           onClick={onSearch}
-          className={classes?.searchButton}
+          className={cn(classes?.searchButton, 'knt-search-button')}
           aria-label="search"
           iconAfter={<Search16 />}
         />

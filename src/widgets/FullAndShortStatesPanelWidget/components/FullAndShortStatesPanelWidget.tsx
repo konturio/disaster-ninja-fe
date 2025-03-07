@@ -96,7 +96,7 @@ export function FullAndShortStatesPanelWidget({
       header={resultHeader}
       onHeaderClick={togglePanel}
       headerIcon={resultPanelIcon || undefined}
-      className={clsx(s.panel, isOpen ? '' : s.collapse)}
+      className={clsx(s.panel, isOpen ? '' : s.collapse, 'knt-panel')}
       classes={getPanelClasses({ isOpen, isShort })}
       isOpen={isOpen}
       resize={resize}
@@ -133,7 +133,7 @@ export function FullAndShortStatesPanelWidget({
 
       <PanelIcon
         clickHandler={openFullState}
-        className={clsx(s.panelIcon, isMobile ? '' : s.desktop)}
+        className={clsx(s.panelIcon, isMobile ? '' : s.desktop, 'knt-panel-icon')}
         icon={resultPanelIcon || <></>}
         data-testid={id}
       />

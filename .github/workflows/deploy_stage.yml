@@ -1,7 +1,16 @@
-name: Deploy to Dev
+name: Deploy to Stage
 
 on:
   workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy to'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - test
 
 jobs:
   build-and-publish:
@@ -33,13 +42,13 @@ jobs:
           IMAGE_TAG="${DOCKER_TAGS##*:}"
           echo "image_tag=${IMAGE_TAG}" >> $GITHUB_OUTPUT
 
-      - name: Update image tag in values-dev.yaml
+      - name: Update image tag in values file
         working-directory: cd/helm/disaster-ninja-fe/values
         run: |
           echo "Updating image tag to ${{ steps.set_image_tag.outputs.image_tag }}"
-          yq -i ".image.fe.tag = \"${{ steps.set_image_tag.outputs.image_tag }}\"" values-dev.yaml
-          echo "New contents of values-dev.yaml:"
-          cat values-dev.yaml
+          yq -i ".image.fe.tag = \"${{ steps.set_image_tag.outputs.image_tag }}\"" values-${{ github.event.inputs.environment }}.yaml
+          echo "New contents of values-${{ github.event.inputs.environment }}.yaml:"
+          cat values-${{ github.event.inputs.environment }}.yaml
 
       - name: Bump version in Chart.yaml
         working-directory: cd/helm/disaster-ninja-fe
@@ -58,12 +67,12 @@ jobs:
       - name: Create and push changes branch
         working-directory: cd
         run: |
-          BRANCH_NAME="deploy-dn-fe-dev-${{ github.run_id }}"
+          BRANCH_NAME="deploy-dn-fe-${{ github.event.inputs.environment }}-${{ github.run_id }}"
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git checkout -b $BRANCH_NAME
           git add .
-          git commit -m "Deploy FE: update image tag to ${{ steps.set_image_tag.outputs.image_tag }} and bump Chart version"
+          git commit -m "Deploy FE to ${{ github.event.inputs.environment }}: update image tag to ${{ steps.set_image_tag.outputs.image_tag }} and bump Chart version"
           git push origin $BRANCH_NAME
         env:
           GITHUB_TOKEN: ${{ secrets.CD_GITHUB_TOKEN }}
@@ -71,31 +80,28 @@ jobs:
       - name: Create Pull Request using gh
         working-directory: cd
         run: |
-          BRANCH_NAME="deploy-dn-fe-dev-${{ github.run_id }}"
+          BRANCH_NAME="deploy-dn-fe-${{ github.event.inputs.environment }}-${{ github.run_id }}"
           gh pr create \
-            --title "Deploy FE: update image tag to ${{ steps.set_image_tag.outputs.image_tag }} and bump Chart version" \
+            --title "Deploy FE to ${{ github.event.inputs.environment }}: update image tag to ${{ steps.set_image_tag.outputs.image_tag }} and bump Chart version" \
             --body "Automatically created PR to update helm manifests with the new image tag." \
             --base main --head $BRANCH_NAME
         env:
           GITHUB_TOKEN: ${{ secrets.CD_GITHUB_TOKEN }}
 
-      - name: Merge Pull Request using gh
-        working-directory: cd
-        run: |
-          PR_NUMBER=$(gh pr list --head "deploy-dn-fe-dev-${{ github.run_id }}" --json number --jq '.[0].number')
-          if [ -z "$PR_NUMBER" ]; then
-            echo "No PR found for branch deploy-dn-fe-dev-${{ github.run_id }}. Exiting."
-            exit 1
-          fi
-          echo "Merging PR #$PR_NUMBER"
-          gh pr merge $PR_NUMBER --squash --delete-branch
-        env:
-          GITHUB_TOKEN: ${{ secrets.CD_GITHUB_TOKEN }}
-
-      - name: Send Slack notification
+      - name: Send Slack notification for dev
+        if: ${{ github.event.inputs.environment == 'dev' }}
         uses: slackapi/slack-github-action@v2.0.0
         with:
           webhook: ${{ secrets.SLACK_DEPLOY_DEV_WEBHOOK_URL }}
           webhook-type: incoming-webhook
           payload: |
             text: "*Deployment Notification*\nDeploy DN FE to DEV.\nBranch: `deploy-dn-fe-dev-${{ github.run_id }}`\nImage Tag: `${{ steps.set_image_tag.outputs.image_tag }}`"
+
+      - name: Send Slack notification for test
+        if: ${{ github.event.inputs.environment == 'test' }}
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          webhook: ${{ secrets.SLACK_DEPLOY_DEV_WEBHOOK_URL }}
+          webhook-type: incoming-webhook
+          payload: |
+            text: "*Deployment Notification*\nDeploy DN FE to TEST.\nBranch: `deploy-dn-fe-test-${{ github.run_id }}`\nImage Tag: `${{ steps.set_image_tag.outputs.image_tag }}`"

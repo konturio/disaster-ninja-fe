@@ -158,7 +158,7 @@ export function EventsPanel({
         </div>
       }
       onHeaderClick={togglePanel}
-      className={clsx(s.eventsPanel, isOpen ? s.show : s.collapse)}
+      className={clsx(s.eventsPanel, isOpen ? s.show : s.collapse, 'knt-panel')}
       classes={panelClasses}
       isOpen={isOpen}
       resize={isMobile || isShort ? 'none' : 'vertical'}
@@ -196,7 +196,7 @@ export function EventsPanel({
 
       <PanelIcon
         clickHandler={openFullState}
-        className={clsx(s.panelIcon, isMobile ? s.mobile : s.desktop)}
+        className={clsx(s.panelIcon, isMobile ? s.mobile : s.desktop, 'knt-panel-icon')}
         icon={<Disasters24 />}
       />
     </>

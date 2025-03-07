@@ -1,4 +1,5 @@
 .searchPanel {
+  background-color: unset;
   &.collapse {
     display: none;
   }
