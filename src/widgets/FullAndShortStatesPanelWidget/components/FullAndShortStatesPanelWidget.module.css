@@ -23,4 +23,8 @@
   .scrollable {
     width: 100%;
   }
+
+  .panel {
+    border-radius: calc(var(--border-radius-unit) * 2);
+  }
 }

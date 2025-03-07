@@ -46,6 +46,8 @@ export function EventsPanel({
   currentEventId?: string | null;
   onCurrentChange: (id: string) => void;
 }) {
+  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
+
   const {
     panelState,
     panelControls,
@@ -54,10 +56,9 @@ export function EventsPanel({
     togglePanel,
     isOpen,
     isShort,
-  } = useShortPanelState();
+  } = useShortPanelState({ isMobile });
 
   const [focusedGeometry] = useAtom(focusedGeometryAtom);
-  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const [{ data: eventsList, error, loading }] = useAtomV3(sortedEventListAtom);
   const sheetRef = useRef<SheetRef>(null);
 

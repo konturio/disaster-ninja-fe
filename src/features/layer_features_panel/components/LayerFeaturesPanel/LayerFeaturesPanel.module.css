@@ -52,23 +52,31 @@
 
 /* mobile */
 @media screen and (max-width: 960px) {
-  .featuresPanel.collapse {
-    display: none;
-  }
-}
+  .featuresPanel {
+    border-radius: calc(var(--border-radius-unit) * 2);
 
-.header {
-  &:before {
-    position: absolute;
-    content: '';
-    display: block;
-    width: 36px;
-    height: 4px;
-    top: calc(8px + env(safe-area-inset-top));
-    left: 50%;
-    transform: translateX(-50%);
-    border-radius: 2px;
-    background-color: #cccccc;
+    &.collapse {
+      display: none;
+    }
+  }
+
+  .header {
+    &:before {
+      position: absolute;
+      content: '';
+      display: block;
+      width: 36px;
+      height: 4px;
+      top: calc(8px + env(safe-area-inset-top));
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 2px;
+      background-color: #cccccc;
+    }
+  }
+
+  .headerTitle {
+    height: 31px;
   }
 }
 

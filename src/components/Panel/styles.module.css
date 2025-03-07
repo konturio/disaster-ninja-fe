@@ -1,5 +1,4 @@
 .header {
-  min-height: 40px;
   user-select: none;
 }
 
@@ -34,6 +33,11 @@
 
   .headerTitle {
     max-width: unset;
+    height: 31px;
+  }
+
+  .header {
+    padding: 0 var(--unit);
   }
 
   .header:before {

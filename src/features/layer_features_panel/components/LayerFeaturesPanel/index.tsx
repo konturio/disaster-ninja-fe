@@ -31,6 +31,8 @@ import type { FeatureCardCfg } from '../CardElements';
 import type { SheetRef } from 'react-modal-sheet';
 
 export function LayerFeaturesPanel() {
+  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
+
   const [currentFeatureId, setCurrentFeatureIdAtom] = useAtom(currentFeatureIdAtom);
   const setMapBbox = useAction(setCurrentMapBbox);
   const sheetRef = useRef<SheetRef>(null);
@@ -45,11 +47,10 @@ export function LayerFeaturesPanel() {
 
   const [featuresList] = useAtom(layerFeaturesCollectionAtom);
 
-  const { panelState, panelControls, setPanelState } = useShortPanelState();
+  const { panelState, panelControls, setPanelState } = useShortPanelState({ isMobile });
 
   const isOpen = panelState !== 'closed';
   const isShort = panelState === 'short';
-  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
 
   const handleRefChange = useHeightResizer(
     (isOpen) => !isOpen && setPanelState('closed'),

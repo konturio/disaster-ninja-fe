@@ -35,7 +35,6 @@
 
 .eventsPanel {
   position: relative;
-  border-radius: var(--border-radius-unit);
   overflow: hidden;
   flex: 1;
 
@@ -55,8 +54,12 @@
 
 /* mobile */
 @media screen and (max-width: 960px) {
-  .eventsPanel.collapse {
-    display: none;
+  .eventsPanel {
+    border-radius: calc(var(--border-radius-unit) * 2);
+
+    &.collapse {
+      display: none;
+    }
   }
 
   .panelIcon.mobile {

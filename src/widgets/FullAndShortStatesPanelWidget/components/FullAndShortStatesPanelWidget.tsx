@@ -37,6 +37,8 @@ export function FullAndShortStatesPanelWidget({
   panelIcon,
   getPanelClasses = () => defaultPanelClasses,
 }: PanelProps) {
+  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
+
   const {
     panelState,
     panelControls,
@@ -49,9 +51,9 @@ export function FullAndShortStatesPanelWidget({
   } = useShortPanelState({
     initialState,
     skipShortState: Boolean(!fullState || !shortState),
+    isMobile: isMobile,
   });
 
-  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const getProperty = useCallback(
     function <K extends keyof PanelFeatureInterface>(property: K) {
       return isShort ? shortState?.[property] : fullState?.[property];
@@ -94,7 +96,7 @@ export function FullAndShortStatesPanelWidget({
       header={resultHeader}
       onHeaderClick={togglePanel}
       headerIcon={resultPanelIcon || undefined}
-      className={clsx(s.panel, isOpen ? s.show : s.collapse)}
+      className={clsx(s.panel, isOpen ? '' : s.collapse)}
       classes={getPanelClasses({ isOpen, isShort })}
       isOpen={isOpen}
       resize={resize}
@@ -131,7 +133,7 @@ export function FullAndShortStatesPanelWidget({
 
       <PanelIcon
         clickHandler={openFullState}
-        className={clsx(s.panelIcon, isMobile ? s.mobile : s.desktop)}
+        className={clsx(s.panelIcon, isMobile ? '' : s.desktop)}
         icon={resultPanelIcon || <></>}
         data-testid={id}
       />
