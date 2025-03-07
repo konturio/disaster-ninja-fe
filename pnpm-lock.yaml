@@ -46,8 +46,8 @@ importers:
         specifier: 1.1.0-alpha.5
         version: 1.1.0-alpha.5(ndumqhjtyb4lifotp7dxv7ls64)
       '@paypal/react-paypal-js':
-        specifier: ^8.7.0
-        version: 8.7.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: ^8.8.1
+        version: 8.8.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@reatom/core':
         specifier: ^3.9.1
         version: 3.9.1
@@ -312,7 +312,7 @@ importers:
         version: 10.4.20(postcss@8.4.49)
       bundle-size-diff:
         specifier: github:konturio/bundle-size-diff#v1.0.7
-        version: https://codeload.github.com/konturio/bundle-size-diff/tar.gz/ebf38b6154eedbab942eb1f234ac918840e9938b(encoding@0.1.13)
+        version: git+https://git@github.com:konturio/bundle-size-diff.git#ebf38b6154eedbab942eb1f234ac918840e9938b(encoding@0.1.13)
       chalk:
         specifier: ^5.4.1
         version: 5.4.1
@@ -474,6 +474,10 @@ packages:
 
   '@babel/runtime@7.26.0':
     resolution: {integrity: sha512-FDSOghenHTiToteC/QRlv2q3DhPZ/oOXTBoirfWNx1Cx3TMVcGWQtMMmQcSvb/JjpNeGzx8Pq/b4fKEJuWm1sw==}
+    engines: {node: '>=6.9.0'}
+
+  '@babel/runtime@7.26.7':
+    resolution: {integrity: sha512-AOPI3D+a8dXnja+iwsUqGRjr1BbZIe771sXdapOtYI531gSqpi92vXivKcq2asu/DFpdl1ceFAKZyRzK2PCVcQ==}
     engines: {node: '>=6.9.0'}
 
   '@babel/types@7.26.3':
@@ -1509,17 +1513,17 @@ packages:
     resolution: {integrity: sha512-i0GV1yJnm2n3Yq1qw6QrUrd/LI9bE8WEBOTtOkpCXHHdyN3TAGgqAK/DAT05z4fq2x04cARXt2pDmjWjL92iTQ==}
     engines: {node: '>= 10.0.0'}
 
-  '@paypal/paypal-js@8.1.2':
-    resolution: {integrity: sha512-EKshGSWRxLWU1NyPB9P1TiOkPajVmpTo5I9HuZKoSv8y2uk0XIskXqMkAJ/Y9qAg9iJyP102Jb/atX63tTy24w==}
+  '@paypal/paypal-js@8.2.0':
+    resolution: {integrity: sha512-hLg5wNORW3WiyMiRNJOm6cN2IqjPlClpxd971bEdm0LNpbbejQZYtesb0/0arTnySSbGcxg7MxjkZ/N5Z5qBNQ==}
 
-  '@paypal/react-paypal-js@8.7.0':
-    resolution: {integrity: sha512-KW4EdL8hlLWBY6f9l1csxQ8Szh5bhMFLxl+DV29jHNwdlM6z3s+w4LZQ7GtgHktSrlNBHgblNNvwLNpcDtsZgg==}
+  '@paypal/react-paypal-js@8.8.1':
+    resolution: {integrity: sha512-Nz/1XkW71NbcV1RTp++9rICTV2xhnyue9iHPtO5ZGVjkwYaBkGeDO2WWumpt7TAFy1Eyh2reFGJ4NNEeYi/akw==}
     peerDependencies:
-      react: ^16.8.0 || ^17.0.0 || ^18.0.0
-      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react: ^16.8.0 || ^17 || ^18 || ^19
+      react-dom: ^16.8.0 || ^17 || ^18 || ^19
 
-  '@paypal/sdk-constants@1.0.150':
-    resolution: {integrity: sha512-ETm/mtiTBw4gHPdKo3GXzSQyXfZKevSg+ujfEvZbLT9gCc/YFmTBnWDroqmzOeuSXnf2Ll4bBSp3xbr47NQbUQ==}
+  '@paypal/sdk-constants@1.0.152':
+    resolution: {integrity: sha512-B8Xhq79kbOsh1UmUFmPboDBuXqVm/JE+E3eCmrl+Z9i6QbjjjXDLw1MAIZQk62H3jj99c0VmvAH3QmZSYk0Lpw==}
 
   '@pkgjs/parseargs@0.11.0':
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
@@ -1536,20 +1540,20 @@ packages:
   '@probe.gl/env@3.6.0':
     resolution: {integrity: sha512-4tTZYUg/8BICC3Yyb9rOeoKeijKbZHRXBEKObrfPmX4sQmYB15ZOUpoVBhAyJkOYVAM8EkPci6Uw5dLCwx2BEQ==}
 
-  '@probe.gl/env@4.0.9':
-    resolution: {integrity: sha512-AOmVMD0/j78mX+k4+qX7ZhE0sY9H+EaJgIO6trik0BwV6VcrwxTGCGFAeuRsIGhETDnye06tkLXccYatYxAYwQ==}
+  '@probe.gl/env@4.1.0':
+    resolution: {integrity: sha512-5ac2Jm2K72VCs4eSMsM7ykVRrV47w32xOGMvcgqn8vQdEMF9PRXyBGYEV9YbqRKWNKpNKmQJVi4AHM/fkCxs9w==}
 
   '@probe.gl/log@3.6.0':
     resolution: {integrity: sha512-hjpyenpEvOdowgZ1qMeCJxfRD4JkKdlXz0RC14m42Un62NtOT+GpWyKA4LssT0+xyLULCByRAtG2fzZorpIAcA==}
 
-  '@probe.gl/log@4.0.9':
-    resolution: {integrity: sha512-ebuZaodSRE9aC+3bVC7cKRHT8garXeT1jTbj1R5tQRqQYc9iGeT3iemVOHx5bN9Q6gAs/0j54iPI+1DvWMAW4A==}
+  '@probe.gl/log@4.1.0':
+    resolution: {integrity: sha512-r4gRReNY6f+OZEMgfWEXrAE2qJEt8rX0HsDJQXUBMoc+5H47bdB7f/5HBHAmapK8UydwPKL9wCDoS22rJ0yq7Q==}
 
   '@probe.gl/stats@3.6.0':
     resolution: {integrity: sha512-JdALQXB44OP4kUBN/UrQgzbJe4qokbVF4Y8lkIA8iVCFnjVowWIgkD/z/0QO65yELT54tTrtepw1jScjKB+rhQ==}
 
-  '@probe.gl/stats@4.0.9':
-    resolution: {integrity: sha512-Q9Xt/sJUQaMsbjRKjOscv2t7wXIymTrOEJ4a3da4FTCn7bkKvcdxdyFAQySCrtPxE+YZ5I5lXpWPgv9BwmpE1g==}
+  '@probe.gl/stats@4.1.0':
+    resolution: {integrity: sha512-EI413MkWKBDVNIfLdqbeNSJTs7ToBz/KVGkwi3D+dQrSIkRI2IYbWGAU3xX+D6+CI4ls8ehxMhNpUVMaZggDvQ==}
 
   '@react-dnd/asap@5.0.2':
     resolution: {integrity: sha512-WLyfoHvxhs0V9U+GTsGilGgf2QsPl6ZZ44fnv0/b8T3nQyvzxidxsg/ZltbWssbsRDlYW8UKSQMTGotuTotZ6A==}
@@ -2054,6 +2058,9 @@ packages:
   '@types/geojson@7946.0.15':
     resolution: {integrity: sha512-9oSxFzDCT2Rj6DfcHF8G++jxBKS7mBqXl5xrRW+Kbvjry6Uduya2iiwqHPhVXpasAVMBYKkEPGgKhd3+/HZ6xA==}
 
+  '@types/geojson@7946.0.16':
+    resolution: {integrity: sha512-6C8nqWur3j98U6+lXDfTUWIfgvZU+EumvpHKcYjujKH7woYyLj2sUmff0tRhrqM7BohUw7Pz3ZB1jj2gW9Fvmg==}
+
   '@types/geojson@7946.0.8':
     resolution: {integrity: sha512-1rkryxURpr6aWP7R786/UQOkJ3PcpQiWkAXBmdWc7ryFWqN6a4xfK7BtjXvFBKO9LjQ+MWQSWxYeZX1OApnArA==}
 
@@ -2506,8 +2513,8 @@ packages:
     resolution: {integrity: sha512-tjwM5exMg6BGRI+kNmTntNsvdZS1X8BFYS6tnJ2hdH0kVxM6/eVZ2xy+FqStSWvYmtfFMDLIxurorHwDKfDz5Q==}
     engines: {node: '>=18'}
 
-  bundle-size-diff@https://codeload.github.com/konturio/bundle-size-diff/tar.gz/ebf38b6154eedbab942eb1f234ac918840e9938b:
-    resolution: {tarball: https://codeload.github.com/konturio/bundle-size-diff/tar.gz/ebf38b6154eedbab942eb1f234ac918840e9938b}
+  bundle-size-diff@git+https://git@github.com:konturio/bundle-size-diff.git#ebf38b6154eedbab942eb1f234ac918840e9938b:
+    resolution: {commit: ebf38b6154eedbab942eb1f234ac918840e9938b, repo: git@github.com:konturio/bundle-size-diff.git, type: git}
     version: 1.0.0
 
   bytes@3.1.2:
@@ -4233,6 +4240,7 @@ packages:
 
   lodash.get@4.4.2:
     resolution: {integrity: sha512-z+Uw/vLuy6gQe8cfaFWD7p0wVv8fJl3mbzXh33RS+0oW2wvUqiRXiQ69gLWSLpgB5/6sU+r6BlQR0MBILadqTQ==}
+    deprecated: This package is deprecated. Use the optional chaining (?.) operator instead.
 
   lodash.merge@4.6.2:
     resolution: {integrity: sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==}
@@ -4258,8 +4266,8 @@ packages:
     resolution: {integrity: sha512-ZYvPPOMqUwPoDsbJaR10iQJYnMuZhRTvHYl62ErLIEX7RgFlziSBUUvrt3OVfc47QlHHpzPZYP17g3Fv7oeJkg==}
     engines: {node: '>=0.6'}
 
-  long@5.2.3:
-    resolution: {integrity: sha512-lcHwpNoggQTObv5apGNCTdJrO69eHOZMi4BNC+rTLER8iHAqGrUVeLh/irVIM7zTw2bOXA8T6uNPeujwOLg/2Q==}
+  long@5.2.4:
+    resolution: {integrity: sha512-qtzLbJE8hq7VabR3mISmVGtoXP8KGc2Z/AT8OuqlYD7JTR3oqrgwdjnk07wpj1twXxYmgDXgoKVWUG/fReSzHg==}
 
   loose-envify@1.4.0:
     resolution: {integrity: sha512-lyuxPGr/Wfhrlem2CL/UcnUc1zcqKAImBDzukY7Y5F/yQiNdko6+fRLevlw1HgMySw7f611UIY408EtxRSoK3Q==}
@@ -5170,6 +5178,7 @@ packages:
   rollup-plugin-visualizer@5.13.1:
     resolution: {integrity: sha512-vMg8i6BprL8aFm9DKvL2c8AwS8324EgymYQo9o6E26wgVvwMhsJxS37aNL6ZsU7X9iAcMYwdME7gItLfG5fwJg==}
     engines: {node: '>=18'}
+    deprecated: Contains unintended breaking changes
     hasBin: true
     peerDependencies:
       rolldown: 1.x
@@ -6170,6 +6179,10 @@ snapshots:
     dependencies:
       regenerator-runtime: 0.14.1
 
+  '@babel/runtime@7.26.7':
+    dependencies:
+      regenerator-runtime: 0.14.1
+
   '@babel/types@7.26.3':
     dependencies:
       '@babel/helper-string-parser': 7.25.9
@@ -6215,7 +6228,7 @@ snapshots:
 
   '@deck.gl/core@8.9.33':
     dependencies:
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.26.7
       '@loaders.gl/core': 3.4.14
       '@loaders.gl/images': 3.4.15
       '@luma.gl/constants': 8.5.21
@@ -6233,7 +6246,7 @@ snapshots:
 
   '@deck.gl/extensions@8.9.33(@deck.gl/core@8.9.33)(@luma.gl/constants@8.5.21)(@luma.gl/core@8.5.21)(@math.gl/core@3.6.3)(@math.gl/web-mercator@3.6.3)(gl-matrix@3.4.3)':
     dependencies:
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.26.7
       '@deck.gl/core': 8.9.33
       '@luma.gl/constants': 8.5.21
       '@luma.gl/core': 8.5.21
@@ -6244,7 +6257,7 @@ snapshots:
 
   '@deck.gl/geo-layers@8.9.33(@deck.gl/core@8.9.33)(@deck.gl/extensions@8.9.33(@deck.gl/core@8.9.33)(@luma.gl/constants@8.5.21)(@luma.gl/core@8.5.21)(@math.gl/core@3.6.3)(@math.gl/web-mercator@3.6.3)(gl-matrix@3.4.3))(@deck.gl/layers@8.9.36(@deck.gl/core@8.9.33)(@loaders.gl/core@3.4.14)(@luma.gl/core@8.5.21))(@deck.gl/mesh-layers@8.9.33(@deck.gl/core@8.9.33)(@loaders.gl/images@3.4.15)(@luma.gl/core@8.5.21)(@luma.gl/engine@8.5.21)(@luma.gl/gltools@8.5.21)(@luma.gl/webgl@8.5.21))(@loaders.gl/core@3.4.14)(@loaders.gl/gltf@3.4.15)(@loaders.gl/images@3.4.15)(@luma.gl/core@8.5.21)(@luma.gl/engine@8.5.21)(@luma.gl/gltools@8.5.21)(@luma.gl/shadertools@8.5.21)(@luma.gl/webgl@8.5.21)':
     dependencies:
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.26.7
       '@deck.gl/core': 8.9.33
       '@deck.gl/extensions': 8.9.33(@deck.gl/core@8.9.33)(@luma.gl/constants@8.5.21)(@luma.gl/core@8.5.21)(@math.gl/core@3.6.3)(@math.gl/web-mercator@3.6.3)(gl-matrix@3.4.3)
       '@deck.gl/layers': 8.9.36(@deck.gl/core@8.9.33)(@loaders.gl/core@3.4.14)(@luma.gl/core@8.5.21)
@@ -6264,7 +6277,7 @@ snapshots:
       '@math.gl/core': 3.6.3
       '@math.gl/culling': 3.6.3
       '@math.gl/web-mercator': 3.6.3
-      '@types/geojson': 7946.0.15
+      '@types/geojson': 7946.0.16
       h3-js: 3.7.2
       long: 3.2.0
     transitivePeerDependencies:
@@ -6298,7 +6311,7 @@ snapshots:
 
   '@deck.gl/mesh-layers@8.9.33(@deck.gl/core@8.9.33)(@loaders.gl/images@3.4.15)(@luma.gl/core@8.5.21)(@luma.gl/engine@8.5.21)(@luma.gl/gltools@8.5.21)(@luma.gl/webgl@8.5.21)':
     dependencies:
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.26.7
       '@deck.gl/core': 8.9.33
       '@loaders.gl/gltf': 3.4.15
       '@luma.gl/constants': 8.5.21
@@ -6735,18 +6748,18 @@ snapshots:
       '@loaders.gl/tiles': 3.4.15(@loaders.gl/core@3.4.14)
       '@math.gl/core': 3.6.3
       '@math.gl/geospatial': 3.6.3
-      long: 5.2.3
+      long: 5.2.4
 
   '@loaders.gl/core@3.4.14':
     dependencies:
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.26.7
       '@loaders.gl/loader-utils': 3.4.14
       '@loaders.gl/worker-utils': 3.4.15
-      '@probe.gl/log': 4.0.9
+      '@probe.gl/log': 4.1.0
 
   '@loaders.gl/draco@3.4.15':
     dependencies:
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.26.7
       '@loaders.gl/loader-utils': 3.4.15
       '@loaders.gl/schema': 3.4.15
       '@loaders.gl/worker-utils': 3.4.15
@@ -6774,9 +6787,9 @@ snapshots:
 
   '@loaders.gl/loader-utils@3.4.14':
     dependencies:
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.26.7
       '@loaders.gl/worker-utils': 3.4.15
-      '@probe.gl/stats': 4.0.9
+      '@probe.gl/stats': 4.1.0
 
   '@loaders.gl/loader-utils@3.4.15':
     dependencies:
@@ -6804,7 +6817,7 @@ snapshots:
 
   '@loaders.gl/terrain@3.4.15':
     dependencies:
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.26.7
       '@loaders.gl/images': 3.4.15
       '@loaders.gl/loader-utils': 3.4.15
       '@loaders.gl/schema': 3.4.15
@@ -6832,7 +6845,7 @@ snapshots:
 
   '@loaders.gl/wms@3.4.15':
     dependencies:
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.26.7
       '@loaders.gl/images': 3.4.15
       '@loaders.gl/loader-utils': 3.4.15
       '@loaders.gl/schema': 3.4.15
@@ -6847,7 +6860,7 @@ snapshots:
 
   '@loaders.gl/xml@3.4.15':
     dependencies:
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.26.7
       '@loaders.gl/loader-utils': 3.4.15
       '@loaders.gl/schema': 3.4.15
       fast-xml-parser: 4.5.1
@@ -6856,7 +6869,7 @@ snapshots:
 
   '@luma.gl/core@8.5.21':
     dependencies:
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.26.7
       '@luma.gl/constants': 8.5.21
       '@luma.gl/engine': 8.5.21
       '@luma.gl/gltools': 8.5.21
@@ -6865,7 +6878,7 @@ snapshots:
 
   '@luma.gl/engine@8.5.21':
     dependencies:
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.26.7
       '@luma.gl/constants': 8.5.21
       '@luma.gl/gltools': 8.5.21
       '@luma.gl/shadertools': 8.5.21
@@ -6889,7 +6902,7 @@ snapshots:
 
   '@luma.gl/gltools@8.5.21':
     dependencies:
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.26.7
       '@luma.gl/constants': 8.5.21
       '@probe.gl/env': 3.6.0
       '@probe.gl/log': 3.6.0
@@ -6897,12 +6910,12 @@ snapshots:
 
   '@luma.gl/shadertools@8.5.21':
     dependencies:
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.26.7
       '@math.gl/core': 3.6.3
 
   '@luma.gl/webgl@8.5.21':
     dependencies:
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.26.7
       '@luma.gl/constants': 8.5.21
       '@luma.gl/gltools': 8.5.21
       '@probe.gl/env': 3.6.0
@@ -6946,13 +6959,13 @@ snapshots:
 
   '@math.gl/culling@3.6.3':
     dependencies:
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.26.7
       '@math.gl/core': 3.6.3
       gl-matrix: 3.4.3
 
   '@math.gl/geospatial@3.6.3':
     dependencies:
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.26.7
       '@math.gl/core': 3.6.3
       gl-matrix: 3.4.3
 
@@ -6962,7 +6975,7 @@ snapshots:
 
   '@math.gl/sun@3.6.3':
     dependencies:
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.26.7
 
   '@math.gl/types@3.6.3': {}
 
@@ -7259,18 +7272,18 @@ snapshots:
       '@parcel/watcher-win32-x64': 2.5.0
     optional: true
 
-  '@paypal/paypal-js@8.1.2':
+  '@paypal/paypal-js@8.2.0':
     dependencies:
       promise-polyfill: 8.3.0
 
-  '@paypal/react-paypal-js@8.7.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
+  '@paypal/react-paypal-js@8.8.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@paypal/paypal-js': 8.1.2
-      '@paypal/sdk-constants': 1.0.150
+      '@paypal/paypal-js': 8.2.0
+      '@paypal/sdk-constants': 1.0.152
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
 
-  '@paypal/sdk-constants@1.0.150':
+  '@paypal/sdk-constants@1.0.152':
     dependencies:
       hi-base32: 0.5.1
 
@@ -7287,24 +7300,24 @@ snapshots:
 
   '@probe.gl/env@3.6.0':
     dependencies:
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.26.7
 
-  '@probe.gl/env@4.0.9': {}
+  '@probe.gl/env@4.1.0': {}
 
   '@probe.gl/log@3.6.0':
     dependencies:
-      '@babel/runtime': 7.26.0
+      '@babel/runtime': 7.26.7
       '@probe.gl/env': 3.6.0
 
-  '@probe.gl/log@4.0.9':
+  '@probe.gl/log@4.1.0':
     dependencies:
-      '@probe.gl/env': 4.0.9
+      '@probe.gl/env': 4.1.0
 
   '@probe.gl/stats@3.6.0':
     dependencies:
       '@babel/runtime': 7.26.0
 
-  '@probe.gl/stats@4.0.9': {}
+  '@probe.gl/stats@4.1.0': {}
 
   '@react-dnd/asap@5.0.2': {}
 
@@ -7919,6 +7932,8 @@ snapshots:
 
   '@types/geojson@7946.0.15': {}
 
+  '@types/geojson@7946.0.16': {}
+
   '@types/geojson@7946.0.8': {}
 
   '@types/gettext-parser@4.0.4':
@@ -8457,7 +8472,7 @@ snapshots:
     dependencies:
       run-applescript: 7.0.0
 
-  bundle-size-diff@https://codeload.github.com/konturio/bundle-size-diff/tar.gz/ebf38b6154eedbab942eb1f234ac918840e9938b(encoding@0.1.13):
+  bundle-size-diff@git+https://git@github.com:konturio/bundle-size-diff.git#ebf38b6154eedbab942eb1f234ac918840e9938b(encoding@0.1.13):
     dependencies:
       '@actions/core': 1.11.1
       '@actions/github': 5.1.1(encoding@0.1.13)
@@ -10469,7 +10484,7 @@ snapshots:
 
   long@3.2.0: {}
 
-  long@5.2.3: {}
+  long@5.2.4: {}
 
   loose-envify@1.4.0:
     dependencies:
