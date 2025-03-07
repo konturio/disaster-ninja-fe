@@ -33,9 +33,13 @@
   display: flex;
 }
 
+/* Overrides hardcoded color in the lib */
+.backdrop {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+}
+
 .eventsPanel {
   position: relative;
-  border-radius: var(--border-radius-unit);
   overflow: hidden;
   flex: 1;
 
@@ -55,24 +59,15 @@
 
 /* mobile */
 @media screen and (max-width: 960px) {
-  .eventsPanel.show {
-    max-height: calc(100vh - 60px);
-  }
-  .eventsPanel.collapse {
-    display: none;
+  .eventsPanel {
+    border-radius: calc(var(--border-radius-unit) * 2);
+
+    &.collapse {
+      display: none;
+    }
   }
 
   .panelIcon.mobile {
     display: flex;
-    &.show {
-      transition: opacity 0.33s linear 0s;
-      visibility: visible;
-      opacity: 1;
-    }
-
-    &.hide {
-      visibility: hidden;
-      opacity: 0;
-    }
   }
 }

@@ -1,8 +1,9 @@
 import { Panel, PanelIcon } from '@konturio/ui-kit';
-import { useCallback } from 'react';
+import { useRef } from 'react';
 import { clsx } from 'clsx';
 import { Legend24 } from '@konturio/default-icons';
 import { useAction, useAtom } from '@reatom/npm-react';
+import { Sheet } from 'react-modal-sheet';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import { panelClasses } from '~components/Panel';
@@ -27,10 +28,14 @@ import { ShortState } from './ShortState';
 import s from './LayerFeaturesPanel.module.css';
 import { EmptyState } from './EmptyState';
 import type { FeatureCardCfg } from '../CardElements';
+import type { SheetRef } from 'react-modal-sheet';
 
 export function LayerFeaturesPanel() {
+  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
+
   const [currentFeatureId, setCurrentFeatureIdAtom] = useAtom(currentFeatureIdAtom);
   const setMapBbox = useAction(setCurrentMapBbox);
+  const sheetRef = useRef<SheetRef>(null);
 
   const onCurrentChange = (id: number, feature: FeatureCardCfg) => {
     setCurrentFeatureIdAtom(id);
@@ -42,11 +47,17 @@ export function LayerFeaturesPanel() {
 
   const [featuresList] = useAtom(layerFeaturesCollectionAtom);
 
-  const { panelState, panelControls, setPanelState } = useShortPanelState();
+  const {
+    panelState,
+    panelControls,
+    openFullState,
+    togglePanel,
+    closePanel,
+    setPanelState,
+  } = useShortPanelState({ isMobile });
 
   const isOpen = panelState !== 'closed';
   const isShort = panelState === 'short';
-  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
 
   const handleRefChange = useHeightResizer(
     (isOpen) => !isOpen && setPanelState('closed'),
@@ -55,19 +66,7 @@ export function LayerFeaturesPanel() {
     'lf_list',
   );
 
-  const openFullState = useCallback(() => {
-    setPanelState('full');
-  }, [setPanelState]);
-
-  const onPanelClose = useCallback(() => {
-    setPanelState('closed');
-  }, [setPanelState]);
-
-  const togglePanelState = useCallback(() => {
-    setPanelState(isOpen ? 'closed' : 'full');
-  }, [isOpen, setPanelState]);
-
-  useAutoCollapsePanel(isOpen, onPanelClose);
+  useAutoCollapsePanel(isOpen, closePanel);
 
   const panelContent =
     featuresList === null || featuresList.length === 0 ? (
@@ -98,33 +97,53 @@ export function LayerFeaturesPanel() {
       }[panelState]
     );
 
+  const panel = (
+    <Panel
+      header={
+        featuresPanelLayerId === HOT_PROJECTS_LAYER_ID
+          ? HOT_PROJECTS_HEADER
+          : ACAPS_DATA_HEADER
+      }
+      headerIcon={
+        <div className={s.iconWrap}>
+          <Legend24 />
+        </div>
+      }
+      onHeaderClick={togglePanel}
+      className={clsx(s.featuresPanel, isOpen ? s.show : s.collapse, 'knt-panel')}
+      classes={{ ...panelClasses, headerTitle: s.headerTitle, header: s.header }}
+      isOpen={isOpen}
+      resize={isMobile || isShort ? 'none' : 'vertical'}
+      contentClassName={s.panelBody}
+      contentContainerRef={handleRefChange}
+      customControls={panelControls}
+      contentHeight={isShort ? 'min-content' : 'unset'}
+      minContentHeight={isShort ? 'min-content' : FEATURESPANEL_MIN_HEIGHT}
+    >
+      {panelContent}
+    </Panel>
+  );
+
   return (
     <>
-      <Panel
-        header={
-          featuresPanelLayerId === HOT_PROJECTS_LAYER_ID
-            ? HOT_PROJECTS_HEADER
-            : ACAPS_DATA_HEADER
-        }
-        headerIcon={
-          <div className={s.iconWrap}>
-            <Legend24 />
-          </div>
-        }
-        onHeaderClick={togglePanelState}
-        className={clsx(s.featuresPanel, isOpen ? s.show : s.collapse, 'knt-panel')}
-        classes={{ ...panelClasses, headerTitle: s.headerTitle }}
-        isOpen={isOpen}
-        modal={{ onModalClick: onPanelClose, showInModal: isMobile }}
-        resize={isMobile || isShort ? 'none' : 'vertical'}
-        contentClassName={s.panelBody}
-        contentContainerRef={handleRefChange}
-        customControls={panelControls}
-        contentHeight={isShort ? 'min-content' : '30vh'}
-        minContentHeight={isShort ? 'min-content' : FEATURESPANEL_MIN_HEIGHT}
-      >
-        {panelContent}
-      </Panel>
+      {isMobile ? (
+        <Sheet
+          ref={sheetRef}
+          isOpen={isOpen}
+          onClose={closePanel}
+          initialSnap={1}
+          snapPoints={[1, 0.5]}
+        >
+          <Sheet.Backdrop onTap={closePanel} className={s.backdrop} />
+          <Sheet.Container>
+            <Sheet.Content style={{ paddingBottom: sheetRef.current?.y }}>
+              {panel}
+            </Sheet.Content>
+          </Sheet.Container>
+        </Sheet>
+      ) : (
+        panel
+      )}
 
       <PanelIcon
         clickHandler={openFullState}

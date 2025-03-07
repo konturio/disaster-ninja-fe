@@ -1,5 +1,4 @@
 .header {
-  min-height: 40px;
   user-select: none;
 }
 
@@ -7,6 +6,7 @@
   max-width: 260px;
   min-width: 200px;
 }
+
 .closeBtn {
   & svg {
     color: var(--icon-base-strong);
@@ -30,7 +30,26 @@
     top: calc(50% + var(--app-header-height)); /* header offset */
     height: 100vh;
   }
+
   .headerTitle {
     max-width: unset;
+    height: 31px;
+  }
+
+  .header {
+    padding: 0 var(--unit);
+  }
+
+  .header:before {
+    position: absolute;
+    content: '';
+    display: block;
+    width: 36px;
+    height: 4px;
+    top: calc(8px + env(safe-area-inset-top));
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 2px;
+    background-color: #cccccc;
   }
 }

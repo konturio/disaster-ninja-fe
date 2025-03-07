@@ -9,6 +9,11 @@
   }
 }
 
+/* Overrides hardcoded color in the lib */
+.backdrop {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+}
+
 .scrollable {
   overflow-y: auto;
   height: 100%;
@@ -20,14 +25,11 @@
 
 /* mobile */
 @media screen and (max-width: 960px) {
-  .panel.show {
-    max-height: calc(100vh - 60px);
-  }
-  .panel.collapse {
-    display: none;
-  }
-
   .scrollable {
     width: 100%;
+  }
+
+  .panel {
+    border-radius: calc(var(--border-radius-unit) * 2);
   }
 }
