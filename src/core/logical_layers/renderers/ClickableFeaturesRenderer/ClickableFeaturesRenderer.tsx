@@ -8,11 +8,7 @@ import { registerMapListener } from '~core/shared_state/mapListeners';
 import { bivariateHexagonPopupContentRoot } from '~components/MapHexTooltip/MapHexTooltip';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 import { setTileScheme } from '../setTileScheme';
-import {
-  FALLBACK_BIVARIATE_MAX_ZOOM,
-  FALLBACK_BIVARIATE_MIN_ZOOM,
-  SOURCE_LAYER_BIVARIATE,
-} from '../BivariateRenderer/constants';
+import { SOURCE_LAYER_BIVARIATE } from '../BivariateRenderer/constants';
 import { createFeatureStateHandlers } from '../helpers/activeAndHoverFeatureStates';
 import { H3_HOVER_LAYER } from '../BivariateRenderer/constants';
 import { isFeatureVisible } from '../helpers/featureVisibilityCheck';
@@ -56,6 +52,8 @@ export abstract class ClickableFeaturesRenderer extends LogicalLayerDefaultRende
 
   protected abstract getSourcePrefix(): string;
   protected abstract getClickableLayerId(): string;
+  protected abstract getMinZoomLevel(layer: LayerTileSource): number;
+  protected abstract getMaxZoomLevel(layer: LayerTileSource): number;
 
   protected abstract mountLayers(
     map: ApplicationMap,
@@ -68,7 +66,7 @@ export abstract class ClickableFeaturesRenderer extends LogicalLayerDefaultRende
     layerStyle: LayerStyle,
   ): JSX.Element | null;
 
-  protected createTileSource(
+  createTileSource(
     map: ApplicationMap,
     layer: LayerTileSource,
   ): VectorSourceSpecification {
@@ -76,8 +74,8 @@ export abstract class ClickableFeaturesRenderer extends LogicalLayerDefaultRende
     const mapSource: VectorSourceSpecification = {
       type: 'vector',
       tiles: layer.source.urls.map((url) => adaptTileUrl(url)),
-      minzoom: layer.minZoom || FALLBACK_BIVARIATE_MIN_ZOOM,
-      maxzoom: layer.maxZoom || FALLBACK_BIVARIATE_MAX_ZOOM,
+      minzoom: layer.minZoom || this.getMinZoomLevel(layer),
+      maxzoom: layer.maxZoom || this.getMaxZoomLevel(layer),
     };
     // I expect that all servers provide url with same scheme
     setTileScheme(layer.source.urls[0], mapSource);
