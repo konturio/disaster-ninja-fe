@@ -91,9 +91,9 @@ jobs:
       - name: Merge Pull Request using gh
         working-directory: cd
         run: |
-          PR_NUMBER=$(gh pr list --head "deploy-dn-fe-dev-${{ github.run_id }}" --json number --jq '.[0].number')
+          PR_NUMBER=$(gh pr list --head "deploy-dn-fe-${{ github.event.inputs.environment }}-${{ github.run_id }}" --json number --jq '.[0].number')
           if [ -z "$PR_NUMBER" ]; then
-            echo "No PR found for branch deploy-dn-fe-dev-${{ github.run_id }}. Exiting."
+            echo "No PR found for branch deploy-dn-fe-${{ github.event.inputs.environment }}-${{ github.run_id }}. Exiting."
             exit 1
           fi
           echo "Merging PR #$PR_NUMBER"
