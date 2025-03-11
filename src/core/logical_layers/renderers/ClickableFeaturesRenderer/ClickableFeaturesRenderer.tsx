@@ -66,7 +66,7 @@ export abstract class ClickableFeaturesRenderer extends LogicalLayerDefaultRende
     layerStyle: LayerStyle,
   ): JSX.Element | null;
 
-  createTileSource(
+  private createTileSource(
     map: ApplicationMap,
     layer: LayerTileSource,
   ): VectorSourceSpecification {
