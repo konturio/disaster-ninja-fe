@@ -1,12 +1,14 @@
 import { Panel, PanelIcon } from '@konturio/ui-kit';
 import clsx from 'clsx';
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
+import { Sheet } from 'react-modal-sheet';
 import { panelClasses as defaultPanelClasses } from '~components/Panel';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import s from './FullAndShortStatesPanelWidget.module.css';
+import type { SheetRef } from 'react-modal-sheet';
 import type { PanelState } from '~utils/hooks/useShortPanelState';
 import type { PanelFeatureInterface } from '~core/types/featuresTypes';
 
@@ -35,14 +37,23 @@ export function FullAndShortStatesPanelWidget({
   panelIcon,
   getPanelClasses = () => defaultPanelClasses,
 }: PanelProps) {
-  const { panelState, panelControls, setPanelState } = useShortPanelState({
+  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
+
+  const {
+    panelState,
+    panelControls,
+    openFullState,
+    closePanel,
+    togglePanel,
+    setPanelState,
+    isOpen,
+    isShort,
+  } = useShortPanelState({
     initialState,
     skipShortState: Boolean(!fullState || !shortState),
+    isMobile: isMobile,
   });
 
-  const isOpen = panelState !== 'closed';
-  const isShort = panelState === 'short';
-  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const getProperty = useCallback(
     function <K extends keyof PanelFeatureInterface>(property: K) {
       return isShort ? shortState?.[property] : fullState?.[property];
@@ -54,6 +65,7 @@ export function FullAndShortStatesPanelWidget({
   const maxHeight = getProperty('maxHeight');
   const contentHeight = getProperty('contentheight');
   const resize = isMobile ? 'none' : getProperty('resize');
+  const sheetRef = useRef<SheetRef>(null);
 
   const handleRefChange = useHeightResizer(
     (isOpen) => !isOpen && setPanelState('closed'),
@@ -63,19 +75,7 @@ export function FullAndShortStatesPanelWidget({
     isShort ? shortState?.skipAutoResize : fullState?.skipAutoResize,
   );
 
-  const onPanelIconClick = useCallback(() => {
-    setPanelState('full');
-  }, [setPanelState]);
-
-  const onPanelClose = useCallback(() => {
-    setPanelState('closed');
-  }, [setPanelState]);
-
-  const togglePanelState = useCallback(() => {
-    setPanelState(isOpen ? 'closed' : 'full');
-  }, [isOpen, setPanelState]);
-
-  useAutoCollapsePanel(isOpen, onPanelClose);
+  useAutoCollapsePanel(isOpen, closePanel);
 
   if (!fullState && !shortState) return null;
 
@@ -89,37 +89,51 @@ export function FullAndShortStatesPanelWidget({
     closed: <></>,
   };
 
+  const panel = (
+    <Panel
+      id={id}
+      data-testid={id}
+      header={resultHeader}
+      onHeaderClick={togglePanel}
+      headerIcon={resultPanelIcon || undefined}
+      className={clsx(s.panel, isOpen ? '' : s.collapse, 'knt-panel')}
+      classes={getPanelClasses({ isOpen, isShort })}
+      isOpen={isOpen}
+      resize={resize}
+      contentContainerRef={handleRefChange}
+      customControls={panelControls}
+      contentHeight={contentHeight}
+      minContentHeight={minHeight}
+      maxContentHeight={maxHeight}
+    >
+      {panelContent[panelState]}
+    </Panel>
+  );
+
   return (
     <>
-      <Panel
-        id={id}
-        data-testid={id}
-        header={resultHeader}
-        onHeaderClick={togglePanelState}
-        headerIcon={resultPanelIcon || undefined}
-        className={clsx(s.panel, isOpen ? s.show : s.collapse, 'knt-panel')}
-        classes={getPanelClasses({ isOpen, isShort })}
-        isOpen={isOpen}
-        modal={{ onModalClick: onPanelClose, showInModal: isMobile }}
-        resize={resize}
-        contentContainerRef={handleRefChange}
-        customControls={panelControls}
-        contentHeight={contentHeight}
-        minContentHeight={minHeight}
-        maxContentHeight={maxHeight}
-      >
-        {panelContent[panelState]}
-      </Panel>
+      {isMobile ? (
+        <Sheet
+          ref={sheetRef}
+          isOpen={isOpen}
+          onClose={closePanel}
+          initialSnap={1}
+          snapPoints={[1, 0.55]}
+        >
+          <Sheet.Backdrop onTap={closePanel} className={s.backdrop} />
+          <Sheet.Container>
+            <Sheet.Content style={{ paddingBottom: sheetRef.current?.y }}>
+              {panel}
+            </Sheet.Content>
+          </Sheet.Container>
+        </Sheet>
+      ) : (
+        panel
+      )}
 
       <PanelIcon
-        clickHandler={onPanelIconClick}
-        className={clsx(
-          s.panelIcon,
-          isOpen && s.hide,
-          !isOpen && s.show,
-          isMobile ? s.mobile : s.desktop,
-          'knt-panel-icon',
-        )}
+        clickHandler={openFullState}
+        className={clsx(s.panelIcon, isMobile ? '' : s.desktop, 'knt-panel-icon')}
         icon={resultPanelIcon || <></>}
         data-testid={id}
       />

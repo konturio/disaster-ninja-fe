@@ -177,7 +177,7 @@ export function MapPage() {
 }
 
 const Toolbar = () => {
-  const getPanelClasses = () => ({ ...panelClasses, headerTitle: s.toolbarHeaderTitle });
+  const getPanelClasses = () => ({ ...panelClasses });
   return (
     <div style={{ display: 'flex' }}>
       <FullAndShortStatesPanelWidget
