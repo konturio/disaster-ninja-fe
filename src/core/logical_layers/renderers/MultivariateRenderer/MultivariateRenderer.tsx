@@ -1,6 +1,11 @@
 import { layerByOrder } from '~core/logical_layers/utils/layersOrder/layerByOrder';
+import { getMaxMultivariateZoomLevel } from '~utils/bivariate/getMaxZoomLevel';
 import { styleConfigs } from '../stylesConfigs';
 import { ClickableFeaturesRenderer } from '../ClickableFeaturesRenderer';
+import {
+  FALLBACK_BIVARIATE_MAX_ZOOM,
+  FALLBACK_BIVARIATE_MIN_ZOOM,
+} from '../BivariateRenderer/constants';
 import { generateMultivariatePopupContent } from './popup';
 import type { LayerSpecification } from 'maplibre-gl';
 import type { LayerTileSource } from '~core/logical_layers/types/source';
@@ -43,6 +48,17 @@ export class MultivariateRenderer extends ClickableFeaturesRenderer {
         style.type,
       );
     }
+  }
+
+  protected getMinZoomLevel(): number {
+    return FALLBACK_BIVARIATE_MIN_ZOOM;
+  }
+
+  protected getMaxZoomLevel(layer: LayerTileSource): number {
+    if (layer.style?.type !== 'multivariate') {
+      return FALLBACK_BIVARIATE_MAX_ZOOM;
+    }
+    return getMaxMultivariateZoomLevel(layer.style.config, FALLBACK_BIVARIATE_MAX_ZOOM);
   }
 
   protected createPopupContent(
