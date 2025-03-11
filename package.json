@@ -123,7 +123,7 @@
     "hsluv": "^1.0.1",
     "i18next": "^23.16.8",
     "i18next-browser-languagedetector": "^8.0.2",
-    "i18next-conv": "^15.1.1",
+    "i18next-conv": "^15.1.0",
     "jwt-decode": "^4.0.0",
     "keepalive-for-react": "^3.0.8",
     "maplibre-gl": "^3.6.2",
