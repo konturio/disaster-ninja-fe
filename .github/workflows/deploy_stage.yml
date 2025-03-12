@@ -108,7 +108,7 @@ jobs:
           webhook: ${{ secrets.SLACK_DEPLOY_DEV_WEBHOOK_URL }}
           webhook-type: incoming-webhook
           payload: |
-            text: "*Deployment Notification*\nDeploy DN FE to DEV.\nBranch: `deploy-dn-fe-dev-${{ github.run_id }}`\nImage Tag: `${{ steps.set_image_tag.outputs.image_tag }}`"
+            text: "*Deployment Notification*\nDeploy DN FE to DEV.\nTriggered by: <https://github.com/${{ github.actor }}|${{ github.actor }}>\nBranch: `deploy-dn-fe-dev-${{ github.run_id }}`\nImage Tag: `${{ steps.set_image_tag.outputs.image_tag }}`"
 
       - name: Send Slack notification for test
         if: ${{ github.event.inputs.environment == 'test' }}
@@ -117,4 +117,4 @@ jobs:
           webhook: ${{ secrets.SLACK_DEPLOY_DEV_WEBHOOK_URL }}
           webhook-type: incoming-webhook
           payload: |
-            text: "*Deployment Notification*\nDeploy DN FE to TEST.\nBranch: `deploy-dn-fe-test-${{ github.run_id }}`\nImage Tag: `${{ steps.set_image_tag.outputs.image_tag }}`"
+            text: "*Deployment Notification*\nDeploy DN FE to TEST.\nTriggered by: <https://github.com/${{ github.actor }}|${{ github.actor }}>\nBranch: `deploy-dn-fe-test-${{ github.run_id }}`\nImage Tag: `${{ steps.set_image_tag.outputs.image_tag }}`"
