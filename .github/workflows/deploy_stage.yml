@@ -24,6 +24,7 @@ jobs:
         uses: slackapi/slack-github-action@v2.0.0
         with:
           token: ${{ secrets.SLACK_BOT_TOKEN }}
+          method: chat.postMessage
           payload: |
             {
               "text": "*Deployment In Progress*\nStarting deployment of DN FE to ${{ github.event.inputs.environment == 'dev' && 'DEV' || 'TEST' }}.\nTriggered by: <https://github.com/${{ github.actor }}|${{ github.actor }}>\nInitializing build process...",
@@ -62,6 +63,7 @@ jobs:
         uses: slackapi/slack-github-action@v2.0.0
         with:
           token: ${{ secrets.SLACK_BOT_TOKEN }}
+          method: chat.update
           payload: |
             {
               "text": "*Deployment In Progress*\nStarting deployment of DN FE to ${{ github.event.inputs.environment == 'dev' && 'DEV' || 'TEST' }}.\nTriggered by: <https://github.com/${{ github.actor }}|${{ github.actor }}>\nImage Tag: `${{ needs.build-and-publish.outputs.image_tag }}`\nUpdating Helm manifests...",
