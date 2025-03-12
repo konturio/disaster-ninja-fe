@@ -13,14 +13,11 @@ on:
           - test
 
 jobs:
-  build-and-publish:
-    uses: ./.github/workflows/build.yml
-    secrets:
-      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-
-  update-helm-manifests:
-    needs: build-and-publish
+  notify-start:
     runs-on: ubuntu-24.04
+    outputs:
+      slack_channel: ${{ steps.slack-info.outputs.slack_channel }}
+      slack_ts: ${{ steps.slack-info.outputs.slack_ts }}
     steps:
       - name: Send initial Slack notification
         id: slack-init
@@ -28,7 +25,7 @@ jobs:
         with:
           payload: |
             {
-              "text": "*Deployment In Progress*\nStarting deployment of DN FE to ${{ github.event.inputs.environment == 'dev' && 'DEV' || 'TEST' }}.\nTriggered by: <https://github.com/${{ github.actor }}|${{ github.actor }}>\nImage Tag: `${{ needs.build-and-publish.outputs.image_tag }}`",
+              "text": "*Deployment In Progress*\nStarting deployment of DN FE to ${{ github.event.inputs.environment == 'dev' && 'DEV' || 'TEST' }}.\nTriggered by: <https://github.com/${{ github.actor }}|${{ github.actor }}>\nInitializing build process...",
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
               "unfurl_links": false
             }
@@ -49,6 +46,29 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.SLACK_BOT_TOKEN }}" \
             -H "Content-Type: application/json" \
             --data "{\"channel\":\"${{ steps.slack-info.outputs.slack_channel }}\",\"timestamp\":\"${{ steps.slack-info.outputs.slack_ts }}\",\"name\":\"hourglass_flowing_sand\"}"
+
+  build-and-publish:
+    needs: notify-start
+    uses: ./.github/workflows/build.yml
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+  update-helm-manifests:
+    needs: [notify-start, build-and-publish]
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Update Slack notification with image tag
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          payload: |
+            {
+              "text": "*Deployment In Progress*\nStarting deployment of DN FE to ${{ github.event.inputs.environment == 'dev' && 'DEV' || 'TEST' }}.\nTriggered by: <https://github.com/${{ github.actor }}|${{ github.actor }}>\nImage Tag: `${{ needs.build-and-publish.outputs.image_tag }}`\nUpdating Helm manifests...",
+              "channel": "${{ needs.notify-start.outputs.slack_channel }}",
+              "thread_ts": "${{ needs.notify-start.outputs.slack_ts }}",
+              "unfurl_links": false
+            }
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
       - name: Checkout CD repository
         uses: actions/checkout@v4
@@ -129,32 +149,49 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.CD_GITHUB_TOKEN }}
 
+  notify-result:
+    needs: [notify-start, update-helm-manifests]
+    runs-on: ubuntu-24.04
+    if: always()
+    steps:
       - name: Add success emoji reaction to message
-        if: success()
+        if: needs.update-helm-manifests.result == 'success'
         run: |
           # Remove progress emoji first
           curl -X POST https://slack.com/api/reactions.remove \
             -H "Authorization: Bearer ${{ secrets.SLACK_BOT_TOKEN }}" \
             -H "Content-Type: application/json" \
-            --data "{\"channel\":\"${{ steps.slack-info.outputs.slack_channel }}\",\"timestamp\":\"${{ steps.slack-info.outputs.slack_ts }}\",\"name\":\"hourglass_flowing_sand\"}"
+            --data "{\"channel\":\"${{ needs.notify-start.outputs.slack_channel }}\",\"timestamp\":\"${{ needs.notify-start.outputs.slack_ts }}\",\"name\":\"hourglass_flowing_sand\"}"
 
           # Add success emoji
           curl -X POST https://slack.com/api/reactions.add \
             -H "Authorization: Bearer ${{ secrets.SLACK_BOT_TOKEN }}" \
             -H "Content-Type: application/json" \
-            --data "{\"channel\":\"${{ steps.slack-info.outputs.slack_channel }}\",\"timestamp\":\"${{ steps.slack-info.outputs.slack_ts }}\",\"name\":\"white_check_mark\"}"
+            --data "{\"channel\":\"${{ needs.notify-start.outputs.slack_channel }}\",\"timestamp\":\"${{ needs.notify-start.outputs.slack_ts }}\",\"name\":\"white_check_mark\"}"
+
+          # Send success message in thread
+          curl -X POST https://slack.com/api/chat.postMessage \
+            -H "Authorization: Bearer ${{ secrets.SLACK_BOT_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            --data "{\"channel\":\"${{ needs.notify-start.outputs.slack_channel }}\",\"thread_ts\":\"${{ needs.notify-start.outputs.slack_ts }}\",\"text\":\"✅ Deployment completed successfully\"}"
 
       - name: Add failure emoji reaction to message
-        if: failure()
+        if: needs.update-helm-manifests.result != 'success' || needs.build-and-publish.result != 'success'
         run: |
           # Remove progress emoji first
           curl -X POST https://slack.com/api/reactions.remove \
             -H "Authorization: Bearer ${{ secrets.SLACK_BOT_TOKEN }}" \
             -H "Content-Type: application/json" \
-            --data "{\"channel\":\"${{ steps.slack-info.outputs.slack_channel }}\",\"timestamp\":\"${{ steps.slack-info.outputs.slack_ts }}\",\"name\":\"hourglass_flowing_sand\"}"
+            --data "{\"channel\":\"${{ needs.notify-start.outputs.slack_channel }}\",\"timestamp\":\"${{ needs.notify-start.outputs.slack_ts }}\",\"name\":\"hourglass_flowing_sand\"}"
 
           # Add failure emoji
           curl -X POST https://slack.com/api/reactions.add \
             -H "Authorization: Bearer ${{ secrets.SLACK_BOT_TOKEN }}" \
             -H "Content-Type: application/json" \
-            --data "{\"channel\":\"${{ steps.slack-info.outputs.slack_channel }}\",\"timestamp\":\"${{ steps.slack-info.outputs.slack_ts }}\",\"name\":\"x\"}"
+            --data "{\"channel\":\"${{ needs.notify-start.outputs.slack_channel }}\",\"timestamp\":\"${{ needs.notify-start.outputs.slack_ts }}\",\"name\":\"x\"}"
+
+          # Send failure message in thread
+          curl -X POST https://slack.com/api/chat.postMessage \
+            -H "Authorization: Bearer ${{ secrets.SLACK_BOT_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            --data "{\"channel\":\"${{ needs.notify-start.outputs.slack_channel }}\",\"thread_ts\":\"${{ needs.notify-start.outputs.slack_ts }}\",\"text\":\"❌ Deployment failed. Check GitHub Actions for details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}"
