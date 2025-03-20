@@ -31,14 +31,18 @@ jobs:
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
               "unfurl_links": false
             }
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
       - name: Extract Slack message info
         id: slack-info
         run: |
-          SLACK_CHANNEL=$(echo '${{ steps.slack-init.outputs.response }}' | jq -r '.channel')
-          SLACK_TS=$(echo '${{ steps.slack-init.outputs.response }}' | jq -r '.ts')
+          RESPONSE='${{ steps.slack-init.outputs.response }}'
+          OK=$(echo "$RESPONSE" | jq -r '.ok')
+          if [ "$OK" != "true" ]; then
+            echo "Error: Slack API call failed with response: $RESPONSE"
+            exit 1
+          fi
+          SLACK_CHANNEL=$(echo "$RESPONSE" | jq -r '.channel')
+          SLACK_TS=$(echo "$RESPONSE" | jq -r '.ts')
           echo "slack_channel=${SLACK_CHANNEL}" >> $GITHUB_OUTPUT
           echo "slack_ts=${SLACK_TS}" >> $GITHUB_OUTPUT
 
@@ -71,8 +75,6 @@ jobs:
               "thread_ts": "${{ needs.notify-start.outputs.slack_ts }}",
               "unfurl_links": false
             }
-        env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
 
       - name: Checkout CD repository
         uses: actions/checkout@v4
@@ -159,7 +161,7 @@ jobs:
     if: always()
     steps:
       - name: Add success emoji reaction to message
-        if: needs.update-helm-manifests.result == 'success'
+        if: needs.update-helm-manifests.result == 'success' && needs.build-and-publish.result == 'success'
         run: |
           # Remove progress emoji first
           curl -X POST https://slack.com/api/reactions.remove \
