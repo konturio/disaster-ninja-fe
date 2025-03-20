@@ -44,6 +44,12 @@ jobs:
           fi
           SLACK_CHANNEL=$(echo "$RESPONSE" | jq -r '.channel')
           SLACK_TS=$(echo "$RESPONSE" | jq -r '.ts')
+
+          if [ -z "$SLACK_CHANNEL" ] || [ -z "$SLACK_TS" ]; then
+            echo "Error: Missing Slack channel or timestamp"
+            exit 1
+          fi
+
           echo "slack_channel=${SLACK_CHANNEL}" >> $GITHUB_OUTPUT
           echo "slack_ts=${SLACK_TS}" >> $GITHUB_OUTPUT
 
@@ -87,7 +93,6 @@ jobs:
 
       - name: Install yq utility
         run: |
-          exit 1
           wget -qO /tmp/yq https://github.com/mikefarah/yq/releases/download/v4.34.2/yq_linux_amd64
           chmod +x /tmp/yq
           sudo mv /tmp/yq /usr/local/bin/yq
@@ -178,12 +183,6 @@ jobs:
             -H "Content-Type: application/json" \
             --data "{\"channel\":\"${{ needs.notify-start.outputs.slack_channel }}\",\"timestamp\":\"${{ needs.notify-start.outputs.slack_ts }}\",\"name\":\"white_check_mark\"}"
 
-          # # Send success message in thread
-          # curl -X POST https://slack.com/api/chat.postMessage \
-          #   -H "Authorization: Bearer ${{ secrets.SLACK_BOT_TOKEN }}" \
-          #   -H "Content-Type: application/json" \
-          #   --data "{\"channel\":\"${{ needs.notify-start.outputs.slack_channel }}\",\"thread_ts\":\"${{ needs.notify-start.outputs.slack_ts }}\",\"text\":\"✅ Deployment completed successfully\"}"
-
       - name: Add failure emoji reaction to message
         if: needs.notify-start.result == 'success' && (needs.update-helm-manifests.result != 'success' || needs.build-and-publish.result != 'success')
         run: |
@@ -198,9 +197,3 @@ jobs:
             -H "Authorization: Bearer ${{ secrets.SLACK_BOT_TOKEN }}" \
             -H "Content-Type: application/json" \
             --data "{\"channel\":\"${{ needs.notify-start.outputs.slack_channel }}\",\"timestamp\":\"${{ needs.notify-start.outputs.slack_ts }}\",\"name\":\"x\"}"
-
-          # # Send failure message in thread
-          # curl -X POST https://slack.com/api/chat.postMessage \
-          #   -H "Authorization: Bearer ${{ secrets.SLACK_BOT_TOKEN }}" \
-          #   -H "Content-Type: application/json" \
-          #   --data "{\"channel\":\"${{ needs.notify-start.outputs.slack_channel }}\",\"thread_ts\":\"${{ needs.notify-start.outputs.slack_ts }}\",\"text\":\"❌ Deployment failed. Check GitHub Actions for details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}"
