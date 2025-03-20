@@ -156,9 +156,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.CD_GITHUB_TOKEN }}
 
   notify-result:
-    needs: [notify-start, update-helm-manifests]
+    needs: [notify-start, build-and-publish, update-helm-manifests]
     runs-on: ubuntu-24.04
-    if: always()
+    if: needs.notify-start.result == 'success'
     steps:
       - name: Add success emoji reaction to message
         if: needs.update-helm-manifests.result == 'success' && needs.build-and-publish.result == 'success'
