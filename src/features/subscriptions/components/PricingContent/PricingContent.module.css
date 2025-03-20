@@ -7,6 +7,8 @@
 .pricingPlans {
   padding: 20px;
   margin: auto;
+  max-width: 1400px; /* Prevents the container from stretching too wide on large screens */
+  width: 100%;
 }
 
 .togglerSwitch {
