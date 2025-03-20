@@ -87,6 +87,7 @@ jobs:
 
       - name: Install yq utility
         run: |
+          exit 1
           wget -qO /tmp/yq https://github.com/mikefarah/yq/releases/download/v4.34.2/yq_linux_amd64
           chmod +x /tmp/yq
           sudo mv /tmp/yq /usr/local/bin/yq
@@ -160,7 +161,7 @@ jobs:
   notify-result:
     needs: [notify-start, build-and-publish, update-helm-manifests]
     runs-on: ubuntu-24.04
-    if: needs.notify-start.result == 'success'
+    if: always()
     steps:
       - name: Add success emoji reaction to message
         if: needs.update-helm-manifests.result == 'success' && needs.build-and-publish.result == 'success'
@@ -177,14 +178,14 @@ jobs:
             -H "Content-Type: application/json" \
             --data "{\"channel\":\"${{ needs.notify-start.outputs.slack_channel }}\",\"timestamp\":\"${{ needs.notify-start.outputs.slack_ts }}\",\"name\":\"white_check_mark\"}"
 
-          # Send success message in thread
-          curl -X POST https://slack.com/api/chat.postMessage \
-            -H "Authorization: Bearer ${{ secrets.SLACK_BOT_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            --data "{\"channel\":\"${{ needs.notify-start.outputs.slack_channel }}\",\"thread_ts\":\"${{ needs.notify-start.outputs.slack_ts }}\",\"text\":\"✅ Deployment completed successfully\"}"
+          # # Send success message in thread
+          # curl -X POST https://slack.com/api/chat.postMessage \
+          #   -H "Authorization: Bearer ${{ secrets.SLACK_BOT_TOKEN }}" \
+          #   -H "Content-Type: application/json" \
+          #   --data "{\"channel\":\"${{ needs.notify-start.outputs.slack_channel }}\",\"thread_ts\":\"${{ needs.notify-start.outputs.slack_ts }}\",\"text\":\"✅ Deployment completed successfully\"}"
 
       - name: Add failure emoji reaction to message
-        if: needs.update-helm-manifests.result != 'success' || needs.build-and-publish.result != 'success'
+        if: needs.notify-start.result == 'success' && (needs.update-helm-manifests.result != 'success' || needs.build-and-publish.result != 'success')
         run: |
           # Remove progress emoji first
           curl -X POST https://slack.com/api/reactions.remove \
@@ -198,8 +199,8 @@ jobs:
             -H "Content-Type: application/json" \
             --data "{\"channel\":\"${{ needs.notify-start.outputs.slack_channel }}\",\"timestamp\":\"${{ needs.notify-start.outputs.slack_ts }}\",\"name\":\"x\"}"
 
-          # Send failure message in thread
-          curl -X POST https://slack.com/api/chat.postMessage \
-            -H "Authorization: Bearer ${{ secrets.SLACK_BOT_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            --data "{\"channel\":\"${{ needs.notify-start.outputs.slack_channel }}\",\"thread_ts\":\"${{ needs.notify-start.outputs.slack_ts }}\",\"text\":\"❌ Deployment failed. Check GitHub Actions for details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}"
+          # # Send failure message in thread
+          # curl -X POST https://slack.com/api/chat.postMessage \
+          #   -H "Authorization: Bearer ${{ secrets.SLACK_BOT_TOKEN }}" \
+          #   -H "Content-Type: application/json" \
+          #   --data "{\"channel\":\"${{ needs.notify-start.outputs.slack_channel }}\",\"thread_ts\":\"${{ needs.notify-start.outputs.slack_ts }}\",\"text\":\"❌ Deployment failed. Check GitHub Actions for details: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}"
