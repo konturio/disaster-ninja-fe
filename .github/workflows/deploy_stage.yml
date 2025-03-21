@@ -28,6 +28,8 @@ jobs:
           payload: |
             {
               "blocks": [
+                {"type": "header", "text": { "type": "plain_text", "text": "DN FE Deployment", "emoji": true}},
+                {"type": "divider"},
                 {
                   "type": "section",
                   "fields": [
@@ -45,7 +47,7 @@ jobs:
                     "text": "*Branch:*\n<https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>"
                   }
                 },
-                {"type": "divider"}
+                {"type": "section", "text": {"type": "mrkdwn", "text": "*Image Tag:*\nWaiting for image tag"}}
               ],
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
               "unfurl_links": false,
@@ -77,6 +79,8 @@ jobs:
   update-helm-manifests:
     needs: [notify-start, build-and-publish]
     runs-on: ubuntu-24.04
+    outputs:
+      image_tag: ${{ steps.set_image_tag.outputs.image_tag }}
     steps:
       - name: Set IMAGE_TAG output
         id: set_image_tag
@@ -94,6 +98,8 @@ jobs:
           payload: |
             {
               "blocks": [
+                {"type": "header", "text": { "type": "plain_text", "text": "DN FE Deployment", "emoji": true}},
+                {"type": "divider"},
                 {"type": "section", "fields": [
                     {"type": "mrkdwn","text": "*Status:*\n📝Updating manifests"},
                     {
@@ -109,7 +115,6 @@ jobs:
                     "text": "*Branch:*\n<https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>"
                   }
                 },
-                {"type": "divider"},
                 {"type": "section", "text": {"type": "mrkdwn", "text": "*Image Tag:*\n`${{ steps.set_image_tag.outputs.image_tag }}`"}}
               ],
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
@@ -205,6 +210,8 @@ jobs:
           payload: |
             {
               "blocks": [
+                {"type": "header", "text": { "type": "plain_text", "text": "DN FE Deployment", "emoji": true}},
+                {"type": "divider"},
                 {
                   "type": "section",
                   "fields": [
@@ -225,8 +232,7 @@ jobs:
                     "text": "*Branch:*\n<https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>"
                   }
                 },
-                {"type": "divider"},
-                {"type": "section", "text": {"type": "mrkdwn", "text": "*Image Tag:*\n`${{ steps.set_image_tag.outputs.image_tag }}`"}}
+                {"type": "section", "text": {"type": "mrkdwn", "text": "*Image Tag:*\n`${{ needs.update-helm-manifests.outputs.image_tag }}`"}}
               ],
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
               "ts": "${{ needs.notify-start.outputs.slack_ts }}",
@@ -265,8 +271,7 @@ jobs:
                     "text": "*Branch:*\n<https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>"
                   }
                 },
-                {"type": "divider"},
-                {"type": "section", "text": {"type": "mrkdwn", "text": "*Image Tag:*\n`${{ steps.set_image_tag.outputs.image_tag }}`"}}
+                {"type": "section", "text": {"type": "mrkdwn", "text": "*Image Tag:*\n`${{ needs.update-helm-manifests.outputs.image_tag }}`"}}
               ],
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
               "ts": "${{ needs.notify-start.outputs.slack_ts }}",
@@ -277,7 +282,7 @@ jobs:
   notify-cancel:
     needs: [notify-start, build-and-publish, update-helm-manifests]
     runs-on: ubuntu-24.04
-    if: ${{ (needs.notify-start.result == 'cancelled') || (needs.build-and-publish.result == 'cancelled') || (needs.update-helm-manifests.result == 'cancelled') }}
+    if: ${{ cancelled() }}
     steps:
       - name: Update Slack notification on Cancelled
         uses: slackapi/slack-github-action@v2.0.0
@@ -310,8 +315,7 @@ jobs:
                     "text": "*Branch:*\n<https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>"
                   }
                 },
-                {"type": "divider"},
-                {"type": "section", "text": {"type": "mrkdwn", "text": "*Image Tag:*\n`${{ steps.set_image_tag.outputs.image_tag }}`"}}
+                {"type": "section", "text": {"type": "mrkdwn", "text": "*Image Tag:*\n`${{ needs.update-helm-manifests.outputs.image_tag }}`"}}
               ],
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
               "ts": "${{ needs.notify-start.outputs.slack_ts }}",
