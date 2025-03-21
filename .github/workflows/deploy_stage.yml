@@ -28,7 +28,7 @@ jobs:
             {
               "text": "*Deployment In Progress*\nStarting deployment of DN FE to ${{ github.event.inputs.environment == 'dev' && 'DEV' || 'TEST' }}.\n
               Triggered by: <https://github.com/${{ github.actor }}|${{ github.actor }}>\n
-              \nBranch: <https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>\n
+              Branch: <https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>\n
               Initializing build process...\n",
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
               "unfurl_links": false,
