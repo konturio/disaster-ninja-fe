@@ -47,7 +47,6 @@ jobs:
                     "text": "*Branch:*\n<https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>"
                   }
                 },
-                {"type": "section", "text": {"type": "mrkdwn", "text": "*Image Tag:*\nWaiting for image tag"}}
               ],
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
               "unfurl_links": false,
@@ -132,6 +131,7 @@ jobs:
 
       - name: Install yq utility
         run: |
+          exit 1
           wget -qO /tmp/yq https://github.com/mikefarah/yq/releases/download/v4.34.2/yq_linux_amd64
           chmod +x /tmp/yq
           sudo mv /tmp/yq /usr/local/bin/yq
@@ -315,7 +315,6 @@ jobs:
                     "text": "*Branch:*\n<https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>"
                   }
                 },
-                {"type": "section", "text": {"type": "mrkdwn", "text": "*Image Tag:*\n`${{ needs.update-helm-manifests.outputs.image_tag }}`"}}
               ],
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
               "ts": "${{ needs.notify-start.outputs.slack_ts }}",
