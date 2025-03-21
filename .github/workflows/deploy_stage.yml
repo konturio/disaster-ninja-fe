@@ -74,7 +74,7 @@ jobs:
           method: chat.update
           payload: |
             {
-              "text": "*Deployment In Progress*\nStarting deployment of DN FE to ${{ github.event.inputs.environment == 'dev' && 'DEV' || 'TEST' }}.\nTriggered by: <https://github.com/${{ github.actor }}|${{ github.actor }}>\nImage Tag: `${{ needs.build-and-publish.outputs.image_tag }}`\nUpdating Helm manifests...",
+              "text": "*Deployment In Progress*\nStarting deployment of DN FE to ${{ github.event.inputs.environment == 'dev' && 'DEV' || 'TEST' }}.\nTriggered by: <https://github.com/${{ github.actor }}|${{ github.actor }}>\nImage Tag: `${{ steps.set_image_tag.outputs.image_tag }}`\nUpdating Helm manifests...",
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
               "ts": "${{ needs.notify-start.outputs.slack_ts }}",
               "unfurl_links": false,
