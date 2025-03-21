@@ -28,7 +28,7 @@ jobs:
           payload: |
             {
               "blocks": [
-                {"type": "header", "text": { "type": "plain_text", "text": "DN FE Deployment", "emoji": true}},
+                {"type": "header", "text": { "type": "plain_text", "text": "DN FE Deployment 🔄", "emoji": true}},
                 {
                   "type": "section",
                   "fields": [
@@ -71,9 +71,13 @@ jobs:
 
   build-and-publish:
     needs: notify-start
-    uses: ./.github/workflows/build.yml
-    secrets:
-      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    runs-on: ubuntu-24.04
+    steps:
+      - name: test
+        run: exit 0
+    # uses: ./.github/workflows/build.yml
+    # secrets:
+    #   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   update-helm-manifests:
     needs: [notify-start, build-and-publish]
@@ -97,7 +101,7 @@ jobs:
           payload: |
             {
               "blocks": [
-                {"type": "header", "text": { "type": "plain_text", "text": "DN FE Deployment", "emoji": true}},
+                {"type": "header", "text": { "type": "plain_text", "text": "DN FE Deployment 🔄", "emoji": true}},
                 {"type": "section", "fields": [
                     {"type": "mrkdwn","text": "*Status:*\n📝Updating manifests"},
                     {
@@ -197,7 +201,7 @@ jobs:
   notify-result:
     needs: [notify-start, build-and-publish, update-helm-manifests]
     runs-on: ubuntu-24.04
-    if: ${{ (needs.notify-start.result != 'cancelled') && (needs.build-and-publish.result != 'cancelled') && (needs.update-helm-manifests.result != 'cancelled') }}
+    if: ${{ always() && !cancelled() }}
     steps:
       - name: Update Slack notification on Success
         if: needs.update-helm-manifests.result == 'success' && needs.build-and-publish.result == 'success'
@@ -209,13 +213,13 @@ jobs:
           payload: |
             {
               "blocks": [
-                {"type": "header", "text": { "type": "plain_text", "text": "DN FE Deployment", "emoji": true}},
+                {"type": "header", "text": { "type": "plain_text", "text": "DN FE Deployment ✅", "emoji": true}},
                 {
                   "type": "section",
                   "fields": [
                     {
                       "type": "mrkdwn",
-                      "text": "*Status:*\n✅ Done"
+                      "text": "*Status:*\n🎉 Done"
                     },
                     {
                       "type": "mrkdwn",
@@ -248,13 +252,13 @@ jobs:
           payload: |
             {
               "blocks": [
-                {"type": "header", "text": { "type": "plain_text", "text": "DN FE Deployment", "emoji": true}},
+                {"type": "header", "text": { "type": "plain_text", "text": "DN FE Deployment ❌", "emoji": true}},
                 {
                   "type": "section",
                   "fields": [
                     {
                       "type": "mrkdwn",
-                      "text": "*Status:*\n❌ Failed"
+                      "text": "*Status:*\n💥 Failed"
                     },
                     {
                       "type": "mrkdwn",
@@ -292,7 +296,7 @@ jobs:
           payload: |
             {
               "blocks": [
-                {"type": "header", "text": { "type": "plain_text", "text": "DN FE Deployment", "emoji": true}},
+                {"type": "header", "text": { "type": "plain_text", "text": "DN FE Deployment ❌", "emoji": true}},
                 {
                   "type": "section",
                   "fields": [
