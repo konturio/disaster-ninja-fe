@@ -28,15 +28,10 @@ jobs:
           payload: |
             {
               "blocks": [
-                {"type": "header", "text": { "type": "plain_text", "text": "DN FE Deployment", "emoji": true}},
-                {"type": "divider"},
                 {
                   "type": "section",
                   "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Status:*\n🔄 Initializing"
-                    },
+                    {"type": "mrkdwn", "text": "*Status:*\n🏗️ Build image"},
                     {
                       "type": "mrkdwn",
                       "text": "*Created by:*\n<https://github.com/${{ github.actor }}|${{ github.actor }}>"
@@ -45,13 +40,12 @@ jobs:
                 },
                 {
                   "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Branch:*\n<https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>"
-                    }
-                  ]
-                }
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Branch:*\n<https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>"
+                  }
+                },
+                {"type": "divider"}
               ],
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
               "unfurl_links": false,
@@ -100,15 +94,8 @@ jobs:
           payload: |
             {
               "blocks": [
-                {"type": "header", "text": { "type": "plain_text", "text": "DN FE Deployment", "emoji": true}},
-                {"type": "divider"},
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Status:*\n🏗️ Build image"
-                    },
+                {"type": "section", "fields": [
+                    {"type": "mrkdwn","text": "*Status:*\n📝Updating manifests"},
                     {
                       "type": "mrkdwn",
                       "text": "*Created by:*\n<https://github.com/${{ github.actor }}|${{ github.actor }}>"
@@ -117,22 +104,13 @@ jobs:
                 },
                 {
                   "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Branch:*\n<https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>"
-                    }
-                  ]
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Branch:*\n<https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>"
+                  }
                 },
-                {
-                  "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Image Tag:*\n`${{ steps.set_image_tag.outputs.image_tag }}`"
-                    }
-                  ]
-                }
+                {"type": "divider"},
+                {"type": "section", "text": {"type": "mrkdwn", "text": "*Image Tag:*\n`${{ steps.set_image_tag.outputs.image_tag }}`"}}
               ],
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
               "ts": "${{ needs.notify-start.outputs.slack_ts }}",
@@ -227,8 +205,6 @@ jobs:
           payload: |
             {
               "blocks": [
-                {"type": "header", "text": { "type": "plain_text", "text": "DN FE Deployment", "emoji": true}},
-                {"type": "divider"},
                 {
                   "type": "section",
                   "fields": [
@@ -244,13 +220,13 @@ jobs:
                 },
                 {
                   "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Branch:*\n<https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>"
-                    }
-                  ]
-                }
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Branch:*\n<https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>"
+                  }
+                },
+                {"type": "divider"},
+                {"type": "section", "text": {"type": "mrkdwn", "text": "*Image Tag:*\n`${{ steps.set_image_tag.outputs.image_tag }}`"}}
               ],
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
               "ts": "${{ needs.notify-start.outputs.slack_ts }}",
@@ -284,13 +260,13 @@ jobs:
                 },
                 {
                   "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Branch:*\n<https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>"
-                    }
-                  ]
-                }
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Branch:*\n<https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>"
+                  }
+                },
+                {"type": "divider"},
+                {"type": "section", "text": {"type": "mrkdwn", "text": "*Image Tag:*\n`${{ steps.set_image_tag.outputs.image_tag }}`"}}
               ],
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
               "ts": "${{ needs.notify-start.outputs.slack_ts }}",
@@ -329,13 +305,13 @@ jobs:
                 },
                 {
                   "type": "section",
-                  "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Branch:*\n<https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>"
-                    }
-                  ]
-                }
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Branch:*\n<https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>"
+                  }
+                },
+                {"type": "divider"},
+                {"type": "section", "text": {"type": "mrkdwn", "text": "*Image Tag:*\n`${{ steps.set_image_tag.outputs.image_tag }}`"}}
               ],
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
               "ts": "${{ needs.notify-start.outputs.slack_ts }}",
