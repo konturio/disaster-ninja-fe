@@ -165,32 +165,52 @@ jobs:
     runs-on: ubuntu-24.04
     if: always()
     steps:
-      - name: Add success emoji reaction to message
+      - name: Update Slack emoji on Success
         if: needs.update-helm-manifests.result == 'success' && needs.build-and-publish.result == 'success'
         run: |
-          # Remove progress emoji first
-          curl -X POST https://slack.com/api/reactions.remove \
+          # Remove progress emoji
+          REMOVE_RESPONSE=$(curl -s -X POST https://slack.com/api/reactions.remove \
             -H "Authorization: Bearer ${{ secrets.SLACK_BOT_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            --data "{\"channel\":\"${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}\",\"timestamp\":\"${{ needs.notify-start.outputs.slack_ts }}\",\"name\":\"hourglass_flowing_sand\"}"
+            -H "Content-Type: application/json; charset=utf-8" \
+            --data "{\"channel\":\"${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}\",\"timestamp\":\"${{ needs.notify-start.outputs.slack_ts }}\",\"name\":\"hourglass_flowing_sand\"}")
+          echo "Remove response: $REMOVE_RESPONSE"
+          if [[ "$(echo "$REMOVE_RESPONSE" | jq -r '.ok')" != "true" ]]; then
+            echo "Failed to remove progress emoji."
+            exit 1
+          fi
 
           # Add success emoji
-          curl -X POST https://slack.com/api/reactions.add \
+          ADD_RESPONSE=$(curl -s -X POST https://slack.com/api/reactions.add \
             -H "Authorization: Bearer ${{ secrets.SLACK_BOT_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            --data "{\"channel\":\"${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}\",\"timestamp\":\"${{ needs.notify-start.outputs.slack_ts }}\",\"name\":\"white_check_mark\"}"
+            -H "Content-Type: application/json; charset=utf-8" \
+            --data "{\"channel\":\"${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}\",\"timestamp\":\"${{ needs.notify-start.outputs.slack_ts }}\",\"name\":\"white_check_mark\"}")
+          echo "Add response: $ADD_RESPONSE"
+          if [[ "$(echo "$ADD_RESPONSE" | jq -r '.ok')" != "true" ]]; then
+            echo "Failed to add success emoji."
+            exit 1
+          fi
 
-      - name: Add failure emoji reaction to message
+      - name: Update Slack emoji on Failure
         if: needs.notify-start.result == 'success' && (needs.update-helm-manifests.result != 'success' || needs.build-and-publish.result != 'success')
         run: |
-          # Remove progress emoji first
-          curl -X POST https://slack.com/api/reactions.remove \
+          # Remove progress emoji
+          REMOVE_RESPONSE=$(curl -s -X POST https://slack.com/api/reactions.remove \
             -H "Authorization: Bearer ${{ secrets.SLACK_BOT_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            --data "{\"channel\":\"${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}\",\"timestamp\":\"${{ needs.notify-start.outputs.slack_ts }}\",\"name\":\"hourglass_flowing_sand\"}"
+            -H "Content-Type: application/json; charset=utf-8" \
+            --data "{\"channel\":\"${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}\",\"timestamp\":\"${{ needs.notify-start.outputs.slack_ts }}\",\"name\":\"hourglass_flowing_sand\"}")
+          echo "Remove response: $REMOVE_RESPONSE"
+          if [[ "$(echo "$REMOVE_RESPONSE" | jq -r '.ok')" != "true" ]]; then
+            echo "Failed to remove progress emoji."
+            exit 1
+          fi
 
           # Add failure emoji
-          curl -X POST https://slack.com/api/reactions.add \
+          ADD_RESPONSE=$(curl -s -X POST https://slack.com/api/reactions.add \
             -H "Authorization: Bearer ${{ secrets.SLACK_BOT_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            --data "{\"channel\":\"${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}\",\"timestamp\":\"${{ needs.notify-start.outputs.slack_ts }}\",\"name\":\"x\"}"
+            -H "Content-Type: application/json; charset=utf-8" \
+            --data "{\"channel\":\"${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}\",\"timestamp\":\"${{ needs.notify-start.outputs.slack_ts }}\",\"name\":\"x\"}")
+          echo "Add response: $ADD_RESPONSE"
+          if [[ "$(echo "$ADD_RESPONSE" | jq -r '.ok')" != "true" ]]; then
+            echo "Failed to add failure emoji."
+            exit 1
+          fi
