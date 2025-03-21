@@ -26,7 +26,7 @@ jobs:
           method: chat.postMessage
           payload: |
             {
-              "text": "*Deployment In Progress*\nStarting deployment of DN FE to ${{ github.event.inputs.environment == 'dev' && 'DEV' || 'TEST' }}.\nTriggered by: <https://github.com/${{ github.actor }}|${{ github.actor }}>\nBranch: <https://github.com/${{ github.repository }}/commit/${{ github.sha }}|${{ github.ref_name }}>\nInitializing build process...",
+              "text": "*Deployment In Progress*\nStarting deployment of DN FE to ${{ github.event.inputs.environment == 'dev' && 'DEV' || 'TEST' }}.\nTriggered by: <https://github.com/${{ github.actor }}|${{ github.actor }}>\nBranch: <https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>\nInitializing build process...",
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
               "unfurl_links": false,
               "unfurl_media": false
