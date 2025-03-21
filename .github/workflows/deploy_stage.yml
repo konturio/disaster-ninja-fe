@@ -24,12 +24,35 @@ jobs:
         with:
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           method: chat.postMessage
+          errors: true
           payload: |
             {
-              "text": "*Deployment In Progress*\nStarting deployment of DN FE to ${{ github.event.inputs.environment == 'dev' && 'DEV' || 'TEST' }}.\n
-              Triggered by: <https://github.com/${{ github.actor }}|${{ github.actor }}>\n
-              Branch: <https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>\n
-              Initializing build process...\n",
+              "blocks": [
+                {"type": "header", "text": { "type": "plain_text", "text": "DN FE Deployment", "emoji": true}},
+                {"type": "divider"},
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Status:*\n🔄 Initializing"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Created by:*\n<https://github.com/${{ github.actor }}|${{ github.actor }}>"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Branch:*\n<https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>"
+                    }
+                  ]
+                }
+              ],
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
               "unfurl_links": false,
               "unfurl_media": false
@@ -45,20 +68,11 @@ jobs:
             exit 1
           fi
           SLACK_TS=$(echo "$RESPONSE" | jq -r '.ts')
-
-          if [ -z [ -z "$SLACK_TS" ]; then
-            echo "Error: Missing Slack channel or timestamp"
+          if [ -z "$SLACK_TS" ]; then
+            echo "Error: Missing Slack timestamp"
             exit 1
           fi
-
           echo "slack_ts=${SLACK_TS}" >> $GITHUB_OUTPUT
-
-      - name: Add progress emoji to message
-        run: |
-          curl -X POST https://slack.com/api/reactions.add \
-            -H "Authorization: Bearer ${{ secrets.SLACK_BOT_TOKEN }}" \
-            -H "Content-Type: application/json" \
-            --data "{\"channel\":\"${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}\",\"timestamp\":\"${{ steps.slack-info.outputs.slack_ts }}\",\"name\":\"hourglass_flowing_sand\"}"
 
   build-and-publish:
     needs: notify-start
@@ -82,9 +96,44 @@ jobs:
         with:
           token: ${{ secrets.SLACK_BOT_TOKEN }}
           method: chat.update
+          errors: true
           payload: |
             {
-              "text": "*Deployment In Progress*\nStarting deployment of DN FE to ${{ github.event.inputs.environment == 'dev' && 'DEV' || 'TEST' }}.\nTriggered by: <https://github.com/${{ github.actor }}|${{ github.actor }}>\nImage Tag: `${{ steps.set_image_tag.outputs.image_tag }}`\nUpdating Helm manifests...",
+              "blocks": [
+                {"type": "header", "text": { "type": "plain_text", "text": "DN FE Deployment", "emoji": true}},
+                {"type": "divider"},
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Status:*\n🏗️ Build image"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Created by:*\n<https://github.com/${{ github.actor }}|${{ github.actor }}>"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Branch:*\n<https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Image Tag:*\n`${{ steps.set_image_tag.outputs.image_tag }}`"
+                    }
+                  ]
+                }
+              ],
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
               "ts": "${{ needs.notify-start.outputs.slack_ts }}",
               "unfurl_links": false,
@@ -166,54 +215,130 @@ jobs:
   notify-result:
     needs: [notify-start, build-and-publish, update-helm-manifests]
     runs-on: ubuntu-24.04
-    if: always()
+    if: ${{ (needs.notify-start.result != 'cancelled') && (needs.build-and-publish.result != 'cancelled') && (needs.update-helm-manifests.result != 'cancelled') }}
     steps:
-      - name: Update Slack emoji on Success
+      - name: Update Slack notification on Success
         if: needs.update-helm-manifests.result == 'success' && needs.build-and-publish.result == 'success'
-        run: |
-          # Remove progress emoji
-          REMOVE_RESPONSE=$(curl -s -X POST https://slack.com/api/reactions.remove \
-            -H "Authorization: Bearer ${{ secrets.SLACK_BOT_TOKEN }}" \
-            -H "Content-Type: application/json; charset=utf-8" \
-            --data "{\"channel\":\"${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}\",\"timestamp\":\"${{ needs.notify-start.outputs.slack_ts }}\",\"name\":\"hourglass_flowing_sand\"}")
-          echo "Remove response: $REMOVE_RESPONSE"
-          if [[ "$(echo "$REMOVE_RESPONSE" | jq -r '.ok')" != "true" ]]; then
-            echo "Failed to remove progress emoji."
-            exit 1
-          fi
-
-          # Add success emoji
-          ADD_RESPONSE=$(curl -s -X POST https://slack.com/api/reactions.add \
-            -H "Authorization: Bearer ${{ secrets.SLACK_BOT_TOKEN }}" \
-            -H "Content-Type: application/json; charset=utf-8" \
-            --data "{\"channel\":\"${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}\",\"timestamp\":\"${{ needs.notify-start.outputs.slack_ts }}\",\"name\":\"white_check_mark\"}")
-          echo "Add response: $ADD_RESPONSE"
-          if [[ "$(echo "$ADD_RESPONSE" | jq -r '.ok')" != "true" ]]; then
-            echo "Failed to add success emoji."
-            exit 1
-          fi
-
-      - name: Update Slack emoji on Failure
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          method: chat.update
+          errors: true
+          payload: |
+            {
+              "blocks": [
+                {"type": "header", "text": { "type": "plain_text", "text": "DN FE Deployment", "emoji": true}},
+                {"type": "divider"},
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Status:*\n✅ Done"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Created by:*\n<https://github.com/${{ github.actor }}|${{ github.actor }}>"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Branch:*\n<https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>"
+                    }
+                  ]
+                }
+              ],
+              "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
+              "ts": "${{ needs.notify-start.outputs.slack_ts }}",
+              "unfurl_links": false,
+              "unfurl_media": false
+            }
+      - name: Update Slack notification on Failure
         if: needs.notify-start.result == 'success' && (needs.update-helm-manifests.result != 'success' || needs.build-and-publish.result != 'success')
-        run: |
-          # Remove progress emoji
-          REMOVE_RESPONSE=$(curl -s -X POST https://slack.com/api/reactions.remove \
-            -H "Authorization: Bearer ${{ secrets.SLACK_BOT_TOKEN }}" \
-            -H "Content-Type: application/json; charset=utf-8" \
-            --data "{\"channel\":\"${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}\",\"timestamp\":\"${{ needs.notify-start.outputs.slack_ts }}\",\"name\":\"hourglass_flowing_sand\"}")
-          echo "Remove response: $REMOVE_RESPONSE"
-          if [[ "$(echo "$REMOVE_RESPONSE" | jq -r '.ok')" != "true" ]]; then
-            echo "Failed to remove progress emoji."
-            exit 1
-          fi
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          method: chat.update
+          errors: true
+          payload: |
+            {
+              "blocks": [
+                {"type": "header", "text": { "type": "plain_text", "text": "DN FE Deployment", "emoji": true}},
+                {"type": "divider"},
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Status:*\n❌ Failed"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Created by:*\n<https://github.com/${{ github.actor }}|${{ github.actor }}>"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Branch:*\n<https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>"
+                    }
+                  ]
+                }
+              ],
+              "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
+              "ts": "${{ needs.notify-start.outputs.slack_ts }}",
+              "unfurl_links": false,
+              "unfurl_media": false
+            }
 
-          # Add failure emoji
-          ADD_RESPONSE=$(curl -s -X POST https://slack.com/api/reactions.add \
-            -H "Authorization: Bearer ${{ secrets.SLACK_BOT_TOKEN }}" \
-            -H "Content-Type: application/json; charset=utf-8" \
-            --data "{\"channel\":\"${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}\",\"timestamp\":\"${{ needs.notify-start.outputs.slack_ts }}\",\"name\":\"x\"}")
-          echo "Add response: $ADD_RESPONSE"
-          if [[ "$(echo "$ADD_RESPONSE" | jq -r '.ok')" != "true" ]]; then
-            echo "Failed to add failure emoji."
-            exit 1
-          fi
+  notify-cancel:
+    needs: [notify-start, build-and-publish, update-helm-manifests]
+    runs-on: ubuntu-24.04
+    if: ${{ (needs.notify-start.result == 'cancelled') || (needs.build-and-publish.result == 'cancelled') || (needs.update-helm-manifests.result == 'cancelled') }}
+    steps:
+      - name: Update Slack notification on Cancelled
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          method: chat.update
+          errors: true
+          payload: |
+            {
+              "blocks": [
+                {"type": "header", "text": { "type": "plain_text", "text": "DN FE Deployment", "emoji": true}},
+                {"type": "divider"},
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Status:*\n🚫 Cancelled"
+                    },
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Created by:*\n<https://github.com/${{ github.actor }}|${{ github.actor }}>"
+                    }
+                  ]
+                },
+                {
+                  "type": "section",
+                  "fields": [
+                    {
+                      "type": "mrkdwn",
+                      "text": "*Branch:*\n<https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>"
+                    }
+                  ]
+                }
+              ],
+              "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
+              "ts": "${{ needs.notify-start.outputs.slack_ts }}",
+              "unfurl_links": false,
+              "unfurl_media": false
+            }
