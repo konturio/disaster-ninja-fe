@@ -26,7 +26,10 @@ jobs:
           method: chat.postMessage
           payload: |
             {
-              "text": "*Deployment In Progress*\nStarting deployment of DN FE to ${{ github.event.inputs.environment == 'dev' && 'DEV' || 'TEST' }}.\nTriggered by: <https://github.com/${{ github.actor }}|${{ github.actor }}>\nBranch: <https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>\nInitializing build process...",
+              "text": "*Deployment In Progress*\nStarting deployment of DN FE to ${{ github.event.inputs.environment == 'dev' && 'DEV' || 'TEST' }}.
+              Triggered by: <https://github.com/${{ github.actor }}|${{ github.actor }}>
+              Branch: <https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>
+              Initializing build process...",
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
               "unfurl_links": false,
               "unfurl_media": false
@@ -67,6 +70,13 @@ jobs:
     needs: [notify-start, build-and-publish]
     runs-on: ubuntu-24.04
     steps:
+      - name: Set IMAGE_TAG output
+        id: set_image_tag
+        run: |
+          DOCKER_TAGS="${{ needs.build-and-publish.outputs.image_tag }}"
+          IMAGE_TAG="${DOCKER_TAGS##*:}"
+          echo "image_tag=${IMAGE_TAG}" >> $GITHUB_OUTPUT
+
       - name: Update Slack notification with image tag
         uses: slackapi/slack-github-action@v2.0.0
         with:
@@ -93,13 +103,6 @@ jobs:
           wget -qO /tmp/yq https://github.com/mikefarah/yq/releases/download/v4.34.2/yq_linux_amd64
           chmod +x /tmp/yq
           sudo mv /tmp/yq /usr/local/bin/yq
-
-      - name: Set IMAGE_TAG output
-        id: set_image_tag
-        run: |
-          DOCKER_TAGS="${{ needs.build-and-publish.outputs.image_tag }}"
-          IMAGE_TAG="${DOCKER_TAGS##*:}"
-          echo "image_tag=${IMAGE_TAG}" >> $GITHUB_OUTPUT
 
       - name: Update image tag in values file
         working-directory: cd/helm/disaster-ninja-fe/values
