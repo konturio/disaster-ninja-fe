@@ -28,15 +28,12 @@ jobs:
           payload: |
             {
               "blocks": [
-                {"type": "header", "text": { "type": "plain_text", "text": "DN FE Deployment 🔄", "emoji": true}},
+                {"type": "header", "text": { "type": "plain_text", "text": "🔄 DN FE Deployment ${{github.run_id}}", "emoji": true}},
                 {
                   "type": "section",
                   "fields": [
-                    {"type": "mrkdwn", "text": "*Status:*\n🏗️ Build image"},
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Created by:*\n<https://github.com/${{ github.actor }}|${{ github.actor }}>"
-                    }
+                    {"type": "mrkdwn", "text": "*Status:*\nBuild image 🏗️"},
+                    {"type": "mrkdwn","text": "*Created by:*\n<https://github.com/${{ github.actor }}|${{ github.actor }}>"}
                   ]
                 },
                 {
@@ -97,13 +94,10 @@ jobs:
           payload: |
             {
               "blocks": [
-                {"type": "header", "text": { "type": "plain_text", "text": "DN FE Deployment 🔄", "emoji": true}},
+                {"type": "header", "text": { "type": "plain_text", "text": "🔄 DN FE Deployment ${{github.run_id}}", "emoji": true}},
                 {"type": "section", "fields": [
-                    {"type": "mrkdwn","text": "*Status:*\n📝Updating manifests"},
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Created by:*\n<https://github.com/${{ github.actor }}|${{ github.actor }}>"
-                    }
+                    {"type": "mrkdwn","text": "*Status:*\nUpdating manifests 📝"},
+                    {"type": "mrkdwn","text": "*Created by:*\n<https://github.com/${{ github.actor }}|${{ github.actor }}>"}
                   ]
                 },
                 {
@@ -209,18 +203,12 @@ jobs:
           payload: |
             {
               "blocks": [
-                {"type": "header", "text": { "type": "plain_text", "text": "DN FE Deployment ✅", "emoji": true}},
+                {"type": "header", "text": { "type": "plain_text", "text": "✅ DN FE Deployment ${{github.run_id}}", "emoji": true}},
                 {
                   "type": "section",
                   "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Status:*\n🎉 Done"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Created by:*\n<https://github.com/${{ github.actor }}|${{ github.actor }}>"
-                    }
+                    {"type": "mrkdwn","text": "*Status:*\nDone 🎉"},
+                    {"type": "mrkdwn","text": "*Created by:*\n<https://github.com/${{ github.actor }}|${{ github.actor }}>"}
                   ]
                 },
                 {
@@ -248,18 +236,12 @@ jobs:
           payload: |
             {
               "blocks": [
-                {"type": "header", "text": { "type": "plain_text", "text": "DN FE Deployment ❌", "emoji": true}},
+                {"type": "header", "text": { "type": "plain_text", "text": "❌ DN FE Deployment ${{github.run_id}}", "emoji": true}},
                 {
                   "type": "section",
                   "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Status:*\n💥 Failed"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Created by:*\n<https://github.com/${{ github.actor }}|${{ github.actor }}>"
-                    }
+                    {"type": "mrkdwn","text": "*Status:*\nFailed 💥"},
+                    {"type": "mrkdwn","text": "*Created by:*\n<https://github.com/${{ github.actor }}|${{ github.actor }}>"}
                   ]
                 },
                 {
@@ -292,18 +274,12 @@ jobs:
           payload: |
             {
               "blocks": [
-                {"type": "header", "text": { "type": "plain_text", "text": "DN FE Deployment ❌", "emoji": true}},
+                {"type": "header", "text": { "type": "plain_text", "text": "❌ DN FE Deployment ${{github.run_id}}", "emoji": true}},
                 {
                   "type": "section",
                   "fields": [
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Status:*\n🚫 Cancelled"
-                    },
-                    {
-                      "type": "mrkdwn",
-                      "text": "*Created by:*\n<https://github.com/${{ github.actor }}|${{ github.actor }}>"
-                    }
+                    {"type": "mrkdwn","text": "*Status:*\nCancelled 🚫"},
+                    {"type": "mrkdwn","text": "*Created by:*\n<https://github.com/${{ github.actor }}|${{ github.actor }}>"}
                   ]
                 },
                 {
