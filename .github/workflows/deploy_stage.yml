@@ -71,13 +71,9 @@ jobs:
 
   build-and-publish:
     needs: notify-start
-    runs-on: ubuntu-24.04
-    steps:
-      - name: test
-        run: exit 1
-    # uses: ./.github/workflows/build.yml
-    # secrets:
-    #   CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+    uses: ./.github/workflows/build.yml
+    secrets:
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   update-helm-manifests:
     needs: [notify-start, build-and-publish]
@@ -273,7 +269,7 @@ jobs:
                     "text": "*Branch:*\n<https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>"
                   }
                 },
-                {"type": "section", "text": {"type": "mrkdwn", "text": "*Image Tag:*\n`${{ needs.update-helm-manifests.outputs.image_tag }}`"}},
+                ${{ needs.update-helm-manifests.outputs.image_tag != '' && format('{"type": "section", "text": {"type": "mrkdwn", "text": "*Image Tag:*\n`%s`"\}\},', needs.update-helm-manifests.outputs.image_tag) || '' }}
                 {"type": "divider"},
               ],
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
@@ -317,6 +313,7 @@ jobs:
                     "text": "*Branch:*\n<https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>"
                   }
                 },
+                ${{ needs.update-helm-manifests.outputs.image_tag != '' && format('{"type": "section", "text": {"type": "mrkdwn", "text": "*Image Tag:*\n`%s`"\}\},', needs.update-helm-manifests.outputs.image_tag) || '' }}
                 {"type": "divider"},
               ],
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
