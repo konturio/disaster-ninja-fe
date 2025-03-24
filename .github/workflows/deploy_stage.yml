@@ -81,7 +81,7 @@ jobs:
               "text": "*🔄 DN FE Deployment to ${{ github.event.inputs.environment == 'dev' && 'DEV' || 'TEST' }}*\n
               *Status:* Updating manifests *Created by:* <https://github.com/${{ github.actor }}|${{ github.actor }}>\n
               *Branch:* <https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>\n
-              *Image Tag:* `${{ steps.set_image_tag.outputs.image_tag }}",
+              *Image Tag:* `${{ steps.set_image_tag.outputs.image_tag }}`",
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
               "ts": "${{ needs.notify-start.outputs.slack_ts }}",
               "unfurl_links": false,
@@ -195,7 +195,7 @@ jobs:
               "text": "*❌ DN FE Deployment to ${{ github.event.inputs.environment == 'dev' && 'DEV' || 'TEST' }}*\n
               *Status:* Failed *Created by:* <https://github.com/${{ github.actor }}|${{ github.actor }}>\n
               *Branch:* <https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>
-              ${{ needs.update-helm-manifests.outputs.image_tag != '' && format('\n*Image Tag:* `%s`"\}\},', needs.update-helm-manifests.outputs.image_tag) || '' }}",
+              ${{ needs.update-helm-manifests.outputs.image_tag != '' && format('\n*Image Tag:* `%s`', needs.update-helm-manifests.outputs.image_tag) || '' }}",
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
               "ts": "${{ needs.notify-start.outputs.slack_ts }}",
               "unfurl_links": false,
@@ -218,7 +218,7 @@ jobs:
               "text": "*❌ DN FE Deployment to ${{ github.event.inputs.environment == 'dev' && 'DEV' || 'TEST' }}*\n
               *Status:* Cancelled *Created by:* <https://github.com/${{ github.actor }}|${{ github.actor }}>\n
               *Branch:* <https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>
-              ${{ needs.update-helm-manifests.outputs.image_tag != '' && format('\n*Image Tag:* `%s`"\}\},', needs.update-helm-manifests.outputs.image_tag) || '' }}",
+              ${{ needs.update-helm-manifests.outputs.image_tag != '' && format('\n*Image Tag:* `%s`', needs.update-helm-manifests.outputs.image_tag) || '' }}",
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
               "ts": "${{ needs.notify-start.outputs.slack_ts }}",
               "unfurl_links": false,
