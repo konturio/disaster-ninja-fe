@@ -175,7 +175,7 @@ jobs:
           payload: |
             {
               "text": "*🏁 DN FE Deployment to ${{ github.event.inputs.environment == 'dev' && 'DEV' || 'TEST' }}*\n
-              *Status:* Done 🎉 *Created by:* <https://github.com/${{ github.actor }}|${{ github.actor }}>\n
+              *Status:* Done *Created by:* <https://github.com/${{ github.actor }}|${{ github.actor }}>\n
               *Branch:* <https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>\n
               *Image Tag:* `${{ needs.update-helm-manifests.outputs.image_tag }}`",
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
