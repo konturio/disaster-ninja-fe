@@ -28,7 +28,7 @@ jobs:
           payload: |
             {
               "text": "*🔄 DN FE Deployment to ${{ github.event.inputs.environment == 'dev' && 'DEV' || 'TEST' }}*\n
-              *Status:* Build image 🏗️ *Created by:* <https://github.com/${{ github.actor }}|${{ github.actor }}>\n
+              *Status:* Building image 🏗️ *Created by:* <https://github.com/${{ github.actor }}|${{ github.actor }}>\n
               *Branch:* <https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>\n",
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
               "unfurl_links": false,
@@ -78,23 +78,10 @@ jobs:
           errors: true
           payload: |
             {
-              "blocks": [
-                {"type": "header", "text": { "type": "plain_text", "text": "🔄 DN FE Deployment ${{github.run_id}}", "emoji": true}},
-                {"type": "section", "fields": [
-                    {"type": "mrkdwn","text": "*Status:*\nUpdating manifests 📝"},
-                    {"type": "mrkdwn","text": "*Created by:*\n<https://github.com/${{ github.actor }}|${{ github.actor }}>"}
-                  ]
-                },
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*Branch:*\n<https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>"
-                  }
-                },
-                {"type": "section", "text": {"type": "mrkdwn", "text": "*Image Tag:*\n`${{ steps.set_image_tag.outputs.image_tag }}`"}},
-                {"type": "divider"},
-              ],
+              "text": "*🔄 DN FE Deployment to ${{ github.event.inputs.environment == 'dev' && 'DEV' || 'TEST' }}*\n
+              *Status:* Updating manifests 📝 *Created by:* <https://github.com/${{ github.actor }}|${{ github.actor }}>\n
+              *Branch:* <https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>\n
+              *Image Tag:* `${{ steps.set_image_tag.outputs.image_tag }}",
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
               "ts": "${{ needs.notify-start.outputs.slack_ts }}",
               "unfurl_links": false,
@@ -187,25 +174,10 @@ jobs:
           errors: true
           payload: |
             {
-              "blocks": [
-                {"type": "header", "text": { "type": "plain_text", "text": "🏁 DN FE Deployment ${{github.run_id}}", "emoji": true}},
-                {
-                  "type": "section",
-                  "fields": [
-                    {"type": "mrkdwn","text": "*Status:*\nDone 🎉"},
-                    {"type": "mrkdwn","text": "*Created by:*\n<https://github.com/${{ github.actor }}|${{ github.actor }}>"}
-                  ]
-                },
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*Branch:*\n<https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>"
-                  }
-                },
-                {"type": "section", "text": {"type": "mrkdwn", "text": "*Image Tag:*\n`${{ needs.update-helm-manifests.outputs.image_tag }}`"}},
-                {"type": "divider"},
-              ],
+              "text": "*🏁 DN FE Deployment to ${{ github.event.inputs.environment == 'dev' && 'DEV' || 'TEST' }}*\n
+              *Status:* Done 🎉 *Created by:* <https://github.com/${{ github.actor }}|${{ github.actor }}>\n
+              *Branch:* <https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>\n
+              *Image Tag:* `${{ steps.set_image_tag.outputs.image_tag }}",
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
               "ts": "${{ needs.notify-start.outputs.slack_ts }}",
               "unfurl_links": false,
@@ -220,25 +192,10 @@ jobs:
           errors: true
           payload: |
             {
-              "blocks": [
-                {"type": "header", "text": { "type": "plain_text", "text": "❌ DN FE Deployment ${{github.run_id}}", "emoji": true}},
-                {
-                  "type": "section",
-                  "fields": [
-                    {"type": "mrkdwn","text": "*Status:*\nFailed 💥"},
-                    {"type": "mrkdwn","text": "*Created by:*\n<https://github.com/${{ github.actor }}|${{ github.actor }}>"}
-                  ]
-                },
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*Branch:*\n<https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>"
-                  }
-                },
-                ${{ needs.update-helm-manifests.outputs.image_tag != '' && format('{"type": "section", "text": {"type": "mrkdwn", "text": "*Image Tag:*\n`%s`"\}\},', needs.update-helm-manifests.outputs.image_tag) || '' }}
-                {"type": "divider"},
-              ],
+              "text": "*❌ DN FE Deployment to ${{ github.event.inputs.environment == 'dev' && 'DEV' || 'TEST' }}*\n
+              *Status:* Failed 💥 *Created by:* <https://github.com/${{ github.actor }}|${{ github.actor }}>\n
+              *Branch:* <https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>
+              ${{ needs.update-helm-manifests.outputs.image_tag != '' && format('\n*Image Tag:* `%s`"\}\},', needs.update-helm-manifests.outputs.image_tag) || '' }}",
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
               "ts": "${{ needs.notify-start.outputs.slack_ts }}",
               "unfurl_links": false,
@@ -258,25 +215,10 @@ jobs:
           errors: true
           payload: |
             {
-              "blocks": [
-                {"type": "header", "text": { "type": "plain_text", "text": "❌ DN FE Deployment ${{github.run_id}}", "emoji": true}},
-                {
-                  "type": "section",
-                  "fields": [
-                    {"type": "mrkdwn","text": "*Status:*\nCancelled 🚫"},
-                    {"type": "mrkdwn","text": "*Created by:*\n<https://github.com/${{ github.actor }}|${{ github.actor }}>"}
-                  ]
-                },
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*Branch:*\n<https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>"
-                  }
-                },
-                ${{ needs.update-helm-manifests.outputs.image_tag != '' && format('{"type": "section", "text": {"type": "mrkdwn", "text": "*Image Tag:*\n`%s`"\}\},', needs.update-helm-manifests.outputs.image_tag) || '' }}
-                {"type": "divider"},
-              ],
+              "text": "*❌ DN FE Deployment to ${{ github.event.inputs.environment == 'dev' && 'DEV' || 'TEST' }}*\n
+              *Status:* Cancelled 🚫 *Created by:* <https://github.com/${{ github.actor }}|${{ github.actor }}>\n
+              *Branch:* <https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>
+              ${{ needs.update-helm-manifests.outputs.image_tag != '' && format('\n*Image Tag:* `%s`"\}\},', needs.update-helm-manifests.outputs.image_tag) || '' }}",
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
               "ts": "${{ needs.notify-start.outputs.slack_ts }}",
               "unfurl_links": false,
