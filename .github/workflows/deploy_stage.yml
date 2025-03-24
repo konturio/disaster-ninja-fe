@@ -27,24 +27,9 @@ jobs:
           errors: true
           payload: |
             {
-              "blocks": [
-                {"type": "header", "text": { "type": "plain_text", "text": "🔄 DN FE Deployment ${{github.run_id}}", "emoji": true}},
-                {
-                  "type": "section",
-                  "fields": [
-                    {"type": "mrkdwn", "text": "*Status:*\nBuild image 🏗️"},
-                    {"type": "mrkdwn","text": "*Created by:*\n<https://github.com/${{ github.actor }}|${{ github.actor }}>"}
-                  ]
-                },
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*Branch:*\n<https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>"
-                  }
-                },
-                {"type": "divider"},
-              ],
+              "text": "*🔄 DN FE Deployment to ${{ github.event.inputs.environment == 'dev' && 'DEV' || 'TEST' }}*\n
+              *Status:* Build image 🏗️ *Created by:* <https://github.com/${{ github.actor }}|${{ github.actor }}>\n
+              *Branch:* <https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>\n",
               "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
               "unfurl_links": false,
               "unfurl_media": false
@@ -203,7 +188,7 @@ jobs:
           payload: |
             {
               "blocks": [
-                {"type": "header", "text": { "type": "plain_text", "text": "✅ DN FE Deployment ${{github.run_id}}", "emoji": true}},
+                {"type": "header", "text": { "type": "plain_text", "text": "🏁 DN FE Deployment ${{github.run_id}}", "emoji": true}},
                 {
                   "type": "section",
                   "fields": [
