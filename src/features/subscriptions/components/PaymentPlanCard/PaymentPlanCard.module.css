@@ -20,12 +20,15 @@
   position: relative;
   flex-direction: column;
   background-color: var(--plan-bg-color);
+  overflow-wrap: break-word;
+  text-wrap: balance;
 
   &:hover {
     box-shadow: var(--shadow-medium);
   }
 
   /* Specific custom styles */
+
   &.custom {
     --primary-color: var(--base-strong-down);
     --secondary-color: var(--faint-weak);
@@ -33,6 +36,7 @@
   }
 
   /* Specific premium styles */
+
   &.premium {
     --primary-color: var(--accent-strong);
     --secondary-color: #d8effc;
@@ -42,6 +46,7 @@
   }
 
   /* Highlights section */
+
   & ul {
     list-style: none;
     padding: 0;
@@ -118,8 +123,9 @@
 
 .buttonWrapper {
   margin-bottom: 24px;
-  column-gap: 16px;
+  gap: 16px;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
 }
 
@@ -131,6 +137,7 @@
   row-gap: 11px;
 
   /* Paypal buttons specific styles */
+
   & > div {
     width: 100%;
   }
@@ -182,5 +189,11 @@
 
   &:hover {
     background-color: var(--cta-hover-color);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .planCard {
+    height: auto;
   }
 }
