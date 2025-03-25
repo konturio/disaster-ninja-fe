@@ -16,6 +16,21 @@ export const useShortPanelState = (props?: UseShortPanelStateProps) => {
   const [panelState, setPanelState] = useState<PanelState>(initialState);
 
   const panelControls = useMemo(() => {
+    if (isMobile) {
+      if (!skipShortState && initialState !== 'closed') {
+        return [
+          {
+            icon: panelState === 'full' ? <ChevronDown24 /> : <ChevronUp24 />,
+            onWrapperClick: (e) => {
+              e.stopPropagation();
+              setPanelState((prevState) => (prevState === 'full' ? 'short' : 'full'));
+            },
+          },
+        ];
+      }
+      return [];
+    }
+
     if (skipShortState) {
       return [
         {
@@ -23,18 +38,6 @@ export const useShortPanelState = (props?: UseShortPanelStateProps) => {
           onWrapperClick: () => {
             const nextState = initialState === 'closed' ? 'full' : initialState;
             setPanelState((prevState) => (prevState === 'closed' ? nextState : 'closed'));
-          },
-        },
-      ];
-    }
-
-    if (isMobile) {
-      return [
-        {
-          icon: panelState === 'full' ? <ChevronDown24 /> : <ChevronUp24 />,
-          onWrapperClick: (e) => {
-            e.stopPropagation();
-            setPanelState((prevState) => (prevState === 'full' ? 'short' : 'full'));
           },
         },
       ];

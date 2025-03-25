@@ -103,8 +103,8 @@ export function FullAndShortStatesPanelWidget({
       contentContainerRef={handleRefChange}
       customControls={panelControls}
       contentHeight={contentHeight}
-      minContentHeight={minHeight}
-      maxContentHeight={maxHeight}
+      minContentHeight={!isMobile ? minHeight : undefined}
+      maxContentHeight={!isMobile ? maxHeight : undefined}
     >
       {panelContent[panelState]}
     </Panel>

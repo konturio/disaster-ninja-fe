@@ -147,13 +147,7 @@ export function LayerFeaturesPanel() {
 
       <PanelIcon
         clickHandler={openFullState}
-        className={clsx(
-          s.panelIcon,
-          isOpen && s.hide,
-          !isOpen && s.show,
-          isMobile ? s.mobile : s.desktop,
-          'knt-panel-icon',
-        )}
+        className={clsx(s.panelIcon, isMobile ? '' : s.desktop, 'knt-panel-icon')}
         icon={<Legend24 />}
       />
     </>

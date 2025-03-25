@@ -83,6 +83,10 @@
   .headerTitle {
     height: 31px;
   }
+
+  .scrollable {
+    width: 100vw;
+  }
 }
 
 .scrollable {
@@ -94,13 +98,6 @@
 
 .height100vh {
   height: 100vh;
-}
-
-/* mobile */
-@media screen and (max-width: 960px) {
-  .scrollable {
-    width: 100vw;
-  }
 }
 
 .shortPanel {
