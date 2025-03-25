@@ -1087,7 +1087,7 @@ a {
   margin-left: var(--unit);
   color: var(--text-faint-strong);
 }
-._planCard_hh4u9_1 {
+._planCard_7jr6o_1 {
   /* Color for plan type, highlights, link */
   --primary-color: var(--success-strong);
   /* Color for plan type background */
@@ -1109,20 +1109,24 @@ a {
   position: relative;
   flex-direction: column;
   background-color: var(--plan-bg-color);
+  overflow-wrap: break-word;
+  text-wrap: balance;
 
   &:hover {
     box-shadow: var(--shadow-medium);
   }
 
   /* Specific custom styles */
-  &._custom_hh4u9_29 {
+
+  &._custom_7jr6o_32 {
     --primary-color: var(--base-strong-down);
     --secondary-color: var(--faint-weak);
     --cta-hover-color: var(--base-strong);
   }
 
   /* Specific premium styles */
-  &._premium_hh4u9_36 {
+
+  &._premium_7jr6o_40 {
     --primary-color: var(--accent-strong);
     --secondary-color: #d8effc;
     --plan-bg-color: var(--accent-weak);
@@ -1131,6 +1135,7 @@ a {
   }
 
   /* Highlights section */
+
   & ul {
     list-style: none;
     padding: 0;
@@ -1149,7 +1154,7 @@ a {
   }
 }
 
-._planType_hh4u9_63 {
+._planType_7jr6o_68 {
   position: absolute;
   padding: var(--unit) var(--double-unit);
   border-radius: 18px;
@@ -1161,7 +1166,7 @@ a {
   align-items: center;
 }
 
-._planCard_hh4u9_1._custom_hh4u9_29 ._planType_hh4u9_63::before {
+._planCard_7jr6o_1._custom_7jr6o_32 ._planType_7jr6o_68::before {
   content: '★';
   font-size: 22px;
   padding-right: 4px;
@@ -1169,34 +1174,34 @@ a {
   top: -2px;
 }
 
-._initialPrice_hh4u9_83 {
+._initialPrice_7jr6o_88 {
   color: var(--faint-strong, #9ea5ab);
   text-decoration: line-through;
   margin-bottom: var(--double-unit);
 }
 
-._price_hh4u9_89 {
+._price_7jr6o_94 {
   margin-bottom: var(--double-unit);
 }
 
-._hidden_hh4u9_93 {
+._hidden_7jr6o_98 {
   visibility: hidden;
 }
 
-._perMonth_hh4u9_97 {
+._perMonth_7jr6o_102 {
   font-size: 14px;
   color: #888;
   margin-left: 5px;
 }
 
-._customPlanName_hh4u9_103 {
+._customPlanName_7jr6o_108 {
   font-weight: 500;
   line-height: 40px;
   font-size: 52px;
   margin: 36px 0 21px;
 }
 
-._planDescription_hh4u9_110 {
+._planDescription_7jr6o_115 {
   color: var(--faint-strong);
   margin: 0 0 var(--double-unit);
 
@@ -1205,14 +1210,15 @@ a {
   }
 }
 
-._buttonWrapper_hh4u9_119 {
+._buttonWrapper_7jr6o_124 {
   margin-bottom: 24px;
-  column-gap: 16px;
+  gap: 16px;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
 }
 
-._subscribeButtonsWrapper_hh4u9_126 {
+._subscribeButtonsWrapper_7jr6o_132 {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1220,17 +1226,18 @@ a {
   row-gap: 11px;
 
   /* Paypal buttons specific styles */
+
   & > div {
     width: 100%;
   }
 }
 
-._cancelButton_hh4u9_139 {
+._cancelButton_7jr6o_146 {
   position: relative;
   bottom: -11px;
 }
 
-._footerWrapper_hh4u9_144 {
+._footerWrapper_7jr6o_151 {
   display: flex;
   justify-content: flex-end;
   margin-top: auto;
@@ -1241,7 +1248,7 @@ a {
   }
 }
 
-._linkAsButton_hh4u9_155 {
+._linkAsButton_7jr6o_162 {
   font: var(--font-xs);
   font-weight: 400;
   line-height: 16px;
@@ -1266,47 +1273,55 @@ a {
   }
 }
 
-._paymentPlanButton_hh4u9_180 {
+._paymentPlanButton_7jr6o_187 {
   background-color: var(--primary-color);
 
   &:hover {
     background-color: var(--cta-hover-color);
   }
 }
-._pricingWrap_13ps2_1 {
+
+@media screen and (max-width: 600px) {
+  ._planCard_7jr6o_1 {
+    height: auto;
+  }
+}
+._pricingWrap_wgpmi_1 {
   width: 100%;
   display: flex;
   overflow-y: auto;
 }
 
-._pricingPlans_13ps2_7 {
+._pricingPlans_wgpmi_7 {
   padding: 20px;
   margin: auto;
+  max-width: 1400px; /* Prevents the container from stretching too wide on large screens */
+  width: 100%;
 }
 
-._togglerSwitch_13ps2_12 {
+._togglerSwitch_wgpmi_14 {
   display: flex;
   align-items: center;
   margin-bottom: 32px;
   margin-left: calc(var(--unit) * -1);
 
-  &._withOffLabel_13ps2_18 {
+  &._withOffLabel_wgpmi_20 {
     margin-left: 0;
   }
 }
 
-._togglerLabel_13ps2_23 {
+._togglerLabel_wgpmi_25 {
   font-weight: 600;
   font-size: 16px;
   line-height: 20px;
   color: var(--faint-strong-up);
 
-  &._active_13ps2_29 {
+  &._active_wgpmi_31 {
     color: var(--base-strong);
   }
 }
 
-._note_13ps2_34 {
+._note_wgpmi_36 {
   background-color: var(--faint-weak);
   color: var(--text-faint-strong);
   padding: 2px 4px 4px 4px;
@@ -1316,7 +1331,7 @@ a {
   font-weight: 500;
 }
 
-._plans_13ps2_44 {
+._plans_wgpmi_46 {
   display: flex;
   flex-wrap: wrap;
   gap: 40px;
