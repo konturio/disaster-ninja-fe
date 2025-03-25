@@ -21,6 +21,7 @@
   flex-direction: column;
   background-color: var(--plan-bg-color);
   overflow-wrap: break-word;
+  text-wrap: balance;
 
   &:hover {
     box-shadow: var(--shadow-medium);
