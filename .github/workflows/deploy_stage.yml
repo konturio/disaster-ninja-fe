@@ -13,15 +13,81 @@ on:
           - test
 
 jobs:
+  notify-start:
+    runs-on: ubuntu-24.04
+    outputs:
+      slack_ts: ${{ steps.slack-info.outputs.slack_ts }}
+    steps:
+      - name: Send initial Slack notification
+        id: slack-init
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          method: chat.postMessage
+          errors: true
+          payload: |
+            {
+              "text": "*🔄 DN FE Deployment to ${{ github.event.inputs.environment == 'dev' && 'DEV' || 'TEST' }}*\n
+              *Status:* Building image *Created by:* <https://github.com/${{ github.actor }}|${{ github.actor }}>\n
+              *Branch:* <https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>\n",
+              "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
+              "unfurl_links": false,
+              "unfurl_media": false
+            }
+
+      - name: Extract Slack message info
+        id: slack-info
+        run: |
+          RESPONSE='${{ steps.slack-init.outputs.response }}'
+          OK=$(echo "$RESPONSE" | jq -r '.ok')
+          if [ "$OK" != "true" ]; then
+            echo "Error: Slack API call failed with response: $RESPONSE"
+            exit 1
+          fi
+          SLACK_TS=$(echo "$RESPONSE" | jq -r '.ts')
+          if [ -z "$SLACK_TS" ]; then
+            echo "Error: Missing Slack timestamp"
+            exit 1
+          fi
+          echo "slack_ts=${SLACK_TS}" >> $GITHUB_OUTPUT
+
   build-and-publish:
+    needs: notify-start
     uses: ./.github/workflows/build.yml
     secrets:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   update-helm-manifests:
-    needs: build-and-publish
+    needs: [notify-start, build-and-publish]
     runs-on: ubuntu-24.04
+    outputs:
+      image_tag: ${{ steps.set_image_tag.outputs.image_tag }}
     steps:
+      - name: Set IMAGE_TAG output
+        id: set_image_tag
+        run: |
+          DOCKER_TAGS="${{ needs.build-and-publish.outputs.image_tag }}"
+          IMAGE_TAG="${DOCKER_TAGS##*:}"
+          echo "image_tag=${IMAGE_TAG}" >> $GITHUB_OUTPUT
+
+      - name: Update Slack notification with image tag
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          method: chat.update
+          errors: true
+          payload: |
+            {
+              "text": "*🔄 DN FE Deployment to ${{ github.event.inputs.environment == 'dev' && 'DEV' || 'TEST' }}*\n
+              *Status:* Updating manifests *Created by:* <https://github.com/${{ github.actor }}|${{ github.actor }}>\n
+              *Branch:* <https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>\n
+              *Image Tag:* `${{ steps.set_image_tag.outputs.image_tag }}`",
+              "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
+              "ts": "${{ needs.notify-start.outputs.slack_ts }}",
+              "unfurl_links": false,
+              "unfurl_media": false
+            }
+
       - name: Checkout CD repository
         uses: actions/checkout@v4
         with:
@@ -34,13 +100,6 @@ jobs:
           wget -qO /tmp/yq https://github.com/mikefarah/yq/releases/download/v4.34.2/yq_linux_amd64
           chmod +x /tmp/yq
           sudo mv /tmp/yq /usr/local/bin/yq
-
-      - name: Set IMAGE_TAG output
-        id: set_image_tag
-        run: |
-          DOCKER_TAGS="${{ needs.build-and-publish.outputs.image_tag }}"
-          IMAGE_TAG="${DOCKER_TAGS##*:}"
-          echo "image_tag=${IMAGE_TAG}" >> $GITHUB_OUTPUT
 
       - name: Update image tag in values file
         working-directory: cd/helm/disaster-ninja-fe/values
@@ -101,20 +160,65 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.CD_GITHUB_TOKEN }}
 
-      - name: Send Slack notification for dev
-        if: ${{ github.event.inputs.environment == 'dev' }}
+  notify-result:
+    needs: [notify-start, build-and-publish, update-helm-manifests]
+    runs-on: ubuntu-24.04
+    if: ${{ always() && !cancelled() }}
+    steps:
+      - name: Update Slack notification on Success
+        if: needs.update-helm-manifests.result == 'success' && needs.build-and-publish.result == 'success'
         uses: slackapi/slack-github-action@v2.0.0
         with:
-          webhook: ${{ secrets.SLACK_DEPLOY_DEV_WEBHOOK_URL }}
-          webhook-type: incoming-webhook
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          method: chat.update
+          errors: true
           payload: |
-            text: "*Deployment Notification*\nDeploy DN FE to DEV.\nBranch: `deploy-dn-fe-dev-${{ github.run_id }}`\nImage Tag: `${{ steps.set_image_tag.outputs.image_tag }}`"
+            {
+              "text": "*🏁 DN FE Deployment to ${{ github.event.inputs.environment == 'dev' && 'DEV' || 'TEST' }}*\n
+              *Status:* Done *Created by:* <https://github.com/${{ github.actor }}|${{ github.actor }}>\n
+              *Branch:* <https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>\n
+              *Image Tag:* `${{ needs.update-helm-manifests.outputs.image_tag }}`",
+              "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
+              "ts": "${{ needs.notify-start.outputs.slack_ts }}",
+              "unfurl_links": false,
+              "unfurl_media": false
+            }
+      - name: Update Slack notification on Failure
+        if: needs.notify-start.result == 'success' && (needs.update-helm-manifests.result != 'success' || needs.build-and-publish.result != 'success')
+        uses: slackapi/slack-github-action@v2.0.0
+        with:
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          method: chat.update
+          errors: true
+          payload: |
+            {
+              "text": "*❌ DN FE Deployment to ${{ github.event.inputs.environment == 'dev' && 'DEV' || 'TEST' }}*\n
+              *Status:* Failed *Created by:* <https://github.com/${{ github.actor }}|${{ github.actor }}>\n
+              *Branch:* <https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>",
+              "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
+              "ts": "${{ needs.notify-start.outputs.slack_ts }}",
+              "unfurl_links": false,
+              "unfurl_media": false
+            }
 
-      - name: Send Slack notification for test
-        if: ${{ github.event.inputs.environment == 'test' }}
+  notify-cancel:
+    needs: [notify-start, build-and-publish, update-helm-manifests]
+    runs-on: ubuntu-24.04
+    if: ${{ cancelled() }}
+    steps:
+      - name: Update Slack notification on Cancelled
         uses: slackapi/slack-github-action@v2.0.0
         with:
-          webhook: ${{ secrets.SLACK_DEPLOY_DEV_WEBHOOK_URL }}
-          webhook-type: incoming-webhook
+          token: ${{ secrets.SLACK_BOT_TOKEN }}
+          method: chat.update
+          errors: true
           payload: |
-            text: "*Deployment Notification*\nDeploy DN FE to TEST.\nBranch: `deploy-dn-fe-test-${{ github.run_id }}`\nImage Tag: `${{ steps.set_image_tag.outputs.image_tag }}`"
+            {
+              "text": "*❌ DN FE Deployment to ${{ github.event.inputs.environment == 'dev' && 'DEV' || 'TEST' }}*\n
+              *Status:* Cancelled *Created by:* <https://github.com/${{ github.actor }}|${{ github.actor }}>\n
+              *Branch:* <https://github.com/${{ github.repository }}/tree/${{ github.ref_name }}|${{ github.ref_name }}>",
+              "channel": "${{ secrets.SLACK_DEPLOY_STAGE_CHANNEL }}",
+              "ts": "${{ needs.notify-start.outputs.slack_ts }}",
+              "unfurl_links": false,
+              "unfurl_media": false
+            }
