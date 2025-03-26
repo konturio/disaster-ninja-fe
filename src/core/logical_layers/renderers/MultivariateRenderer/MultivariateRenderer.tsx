@@ -1,5 +1,6 @@
 import { layerByOrder } from '~core/logical_layers/utils/layersOrder/layerByOrder';
 import { getMaxMultivariateZoomLevel } from '~utils/bivariate/getMaxZoomLevel';
+import { isNumber } from '~utils/common';
 import { styleConfigs } from '../stylesConfigs';
 import { ClickableFeaturesRenderer } from '../ClickableFeaturesRenderer';
 import {
@@ -50,15 +51,17 @@ export class MultivariateRenderer extends ClickableFeaturesRenderer {
     }
   }
 
-  protected getMinZoomLevel(): number {
-    return FALLBACK_BIVARIATE_MIN_ZOOM;
+  protected getMinZoomLevel(layer: LayerTileSource): number {
+    return isNumber(layer.minZoom) ? layer.minZoom : FALLBACK_BIVARIATE_MIN_ZOOM;
   }
 
   protected getMaxZoomLevel(layer: LayerTileSource): number {
     if (layer.style?.type !== 'multivariate') {
       return FALLBACK_BIVARIATE_MAX_ZOOM;
     }
-    return getMaxMultivariateZoomLevel(layer.style.config, FALLBACK_BIVARIATE_MAX_ZOOM);
+    return isNumber(layer.maxZoom)
+      ? layer.maxZoom
+      : getMaxMultivariateZoomLevel(layer.style.config, FALLBACK_BIVARIATE_MAX_ZOOM);
   }
 
   protected createPopupContent(
