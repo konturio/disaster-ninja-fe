@@ -21,7 +21,11 @@
     }
   }
 
-  .knt-toolbar-button:not(.add-spec) {
-    border: none;
+  .knt-panel-button:not(.add-spec) {
+    border: 1px solid var(--faint-weak-up);
+
+    &:hover {
+      border-color: var(--accent-weak);
+    }
   }
 }
