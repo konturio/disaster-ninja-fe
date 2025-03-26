@@ -17,6 +17,7 @@ export function BBoxFilterToggle() {
     <div className={s.bBoxFilterToggle}>
       <Button
         variant="invert-outline"
+        className="knt-panel-button"
         size="small"
         active={isActive}
         onClick={isActive ? resetBboxFilter : setBBoxFilterFromCurrentMapView}
