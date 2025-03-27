@@ -14,7 +14,12 @@ const NoDisasterMessage = ({
       <Text type="short-l">{i18n.t('event_list.no_selected_disaster')}</Text>
     </div>
     <div className={s.callToAction}>
-      <Button variant="invert" size="small" onClick={onOpenFullState}>
+      <Button
+        variant="invert"
+        size="small"
+        onClick={onOpenFullState}
+        className="knt-panel-button"
+      >
         <Text type="short-m">{i18n.t('event_list.chose_disaster')}</Text>
       </Button>
     </div>
