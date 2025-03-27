@@ -9,7 +9,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, g as getDefaultExportFromCjs, c as commonjsGlobal, d as ReactDOM } from "./index-DDTJZhyE.js";
+import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, g as getDefaultExportFromCjs, c as commonjsGlobal, d as ReactDOM } from "./index-DB0ajt_p.js";
 function getDefaultSelectValue({ options, defaultValue }) {
   if (typeof defaultValue === "string") {
     return defaultValue;
@@ -3320,98 +3320,6 @@ const useInteractions = function(propsList) {
     getItemProps
   }), [getReferenceProps, getFloatingProps, getItemProps]);
 };
-function createContext(rootName, defaultContext) {
-  const Ctx = React$1.createContext(defaultContext);
-  function Provider(props) {
-    const { children, ...context } = props;
-    const value = React$1.useMemo(() => context, Object.values(context));
-    return jsxRuntimeExports.jsx(Ctx.Provider, { value, children });
-  }
-  function useContext(childName) {
-    const context = React$1.useContext(Ctx);
-    if (context) {
-      return context;
-    }
-    throw Error(`${childName} must be rendered inside of a ${rootName} component.`);
-  }
-  Ctx.displayName = `${rootName}Context`;
-  Provider.displayName = `${rootName}Provider`;
-  return [Provider, useContext];
-}
-const [TooltipProvider, useTooltipContext] = createContext("Tooltip");
-const TooltipTrigger = reactExports.forwardRef(function TooltipTrigger2({ children, asChild = false, ...props }, propRef) {
-  const { context } = useTooltipContext("Tooltip");
-  const childrenRef = (children == null ? void 0 : children.ref) ?? null;
-  const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef]);
-  reactExports.useLayoutEffect(() => {
-    if (propRef) {
-      context.refs.setReference(propRef == null ? void 0 : propRef.current);
-    }
-  }, []);
-  if (propRef)
-    return null;
-  if (asChild && reactExports.isValidElement(children)) {
-    return reactExports.cloneElement(children, context.getReferenceProps({
-      ref,
-      ...props,
-      ...children.props
-    }));
-  }
-  return jsxRuntimeExports.jsx("div", { ref, ...context.getReferenceProps(props), children });
-});
-const tooltipContent = "_tooltipContent_17m80_3";
-const bigger = "_bigger_17m80_14";
-const arrow = "_arrow_17m80_26";
-const s$b = {
-  tooltipContent,
-  bigger,
-  "default": "_default_17m80_20",
-  arrow
-};
-const TooltipContent = reactExports.forwardRef(function TooltipContent2(props, propRef) {
-  const { context, arrowRef, size } = useTooltipContext("Tooltip");
-  const ref = useMergeRefs([context.refs.setFloating, propRef]);
-  const { children, ...rest } = props;
-  return jsxRuntimeExports.jsx(FloatingPortal, { children: context.open && jsxRuntimeExports.jsxs("div", { className: clsx(s$b.tooltipContent, s$b[size ?? "default"]), ref, style: {
-    position: context.strategy,
-    top: context.y ?? 0,
-    left: context.x ?? 0,
-    visibility: context.x == null ? "hidden" : "visible"
-  }, ...context.getFloatingProps(rest), children: [children, jsxRuntimeExports.jsx(FloatingArrow, { ref: arrowRef, context: context.context, className: s$b.arrow, stroke: "transparent", strokeWidth: 2, height: 8, width: 16 })] }) });
-});
-const ARROW_HEIGHT = 8;
-function useTooltip({ initialOpen = false, placement = "bottom", offset: offsetValue = 0, open: controlledOpen, onOpenChange: setControlledOpen } = {}, arrowRef) {
-  const [uncontrolledOpen, setUncontrolledOpen] = reactExports.useState(initialOpen);
-  const open = controlledOpen ?? uncontrolledOpen;
-  const setOpen = setControlledOpen ?? setUncontrolledOpen;
-  const data = useFloating({
-    placement,
-    open,
-    onOpenChange: setOpen,
-    whileElementsMounted: autoUpdate,
-    middleware: [
-      offset(offsetValue + ARROW_HEIGHT),
-      flip({ fallbackAxisSideDirection: "start" }),
-      shift({ padding: 5 }),
-      arrow$2({ element: arrowRef })
-    ]
-  });
-  const context = data.context;
-  const hover = useHover(context);
-  const role = useRole(context, { role: "tooltip" });
-  const interactions = useInteractions([hover, role]);
-  return reactExports.useMemo(() => ({
-    open,
-    setOpen,
-    ...interactions,
-    ...data
-  }), [open, setOpen, interactions, data]);
-}
-function Tooltip({ children, ...options }) {
-  const arrowRef = reactExports.useRef(null);
-  const context = useTooltip(options, arrowRef);
-  return jsxRuntimeExports.jsx(TooltipProvider, { context, arrowRef, size: options.size, children });
-}
 const legendTitle = "_legendTitle_sgaz8_1";
 const grid = "_grid_sgaz8_6";
 const cell = "_cell_sgaz8_11";
@@ -3512,32 +3420,6 @@ function Legend({ cells: cells2, size, axis: axis2, title, showAxisLabels = fals
     gridTemplateColumns: `repeat(${size + 2}, auto)`,
     gridTemplateRows: `repeat(${size + 2}, auto)`
   }, children: [showAxisLabels && axis2.x.label ? xAxisLabel() : null, showAxisLabels && axis2.y.label ? yAxisLabel() : null, jsxRuntimeExports.jsx("div", { className: styles.arrowX, children: showArrowHeads && jsxRuntimeExports.jsx(ArrowHead, { type: "horizontal", className: styles.arrowHeadX }) }), jsxRuntimeExports.jsx("div", { className: styles.arrowY, children: showArrowHeads && jsxRuntimeExports.jsx(ArrowHead, { type: "vertical", className: clsx({ [styles.arrowHeadY]: true, [styles.arrowHeadY_angle0]: !showAxisLabels }) }) }), gridCells.map((cell2) => jsxRuntimeExports.jsx("div", { style: Object.assign(getCellPositionStyle(cell2._position.x, cell2._position.y), cell2.style), className: clsx(cell2.className, styles.cell), onPointerOver: cell2.onPointerOver, onPointerLeave: cell2.onPointerLeave, children: cell2.label }, `${cell2._position.x}|${cell2._position.y}`))] })] });
-}
-function _objectWithoutPropertiesLoose(r2, e) {
-  if (null == r2) return {};
-  var t2 = {};
-  for (var n2 in r2) if ({}.hasOwnProperty.call(r2, n2)) {
-    if (e.includes(n2)) continue;
-    t2[n2] = r2[n2];
-  }
-  return t2;
-}
-function _extends$2() {
-  return _extends$2 = Object.assign ? Object.assign.bind() : function(n2) {
-    for (var e = 1; e < arguments.length; e++) {
-      var t2 = arguments[e];
-      for (var r2 in t2) ({}).hasOwnProperty.call(t2, r2) && (n2[r2] = t2[r2]);
-    }
-    return n2;
-  }, _extends$2.apply(null, arguments);
-}
-function _setPrototypeOf(t2, e) {
-  return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function(t3, e2) {
-    return t3.__proto__ = e2, t3;
-  }, _setPrototypeOf(t2, e);
-}
-function _inheritsLoose(t2, o2) {
-  t2.prototype = Object.create(o2.prototype), t2.prototype.constructor = t2, _setPrototypeOf(t2, o2);
 }
 const NAVIGATE_EVENT = "KNT_NAVIGATE_TO";
 const goTo = (slug) => {
@@ -5543,7 +5425,7 @@ var usePromise = function(promise, inputs, lifespan) {
 var build = usePromise;
 const usePromise$1 = /* @__PURE__ */ getDefaultExportFromCjs(build);
 const article = "_article_b9f5o_1";
-const s$a = {
+const s$b = {
   article
 };
 function Article({
@@ -5551,7 +5433,7 @@ function Article({
   className = "",
   id = ""
 }) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("article", { className: `${s$a.article} ${className}`, id, children });
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("article", { className: `${s$b.article} ${className}`, id, children });
 }
 const isString = (obj) => typeof obj === "string";
 const defer = () => {
@@ -12261,17 +12143,17 @@ const priceWrap = "_priceWrap_11z70_1";
 const dollarSign = "_dollarSign_11z70_7";
 const amount = "_amount_11z70_15";
 const perMonth$1 = "_perMonth_11z70_21";
-const s$9 = {
+const s$a = {
   priceWrap,
   dollarSign,
   amount,
   perMonth: perMonth$1
 };
 function Price({ amount: amount2, className }) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$9.priceWrap, className), children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$9.dollarSign, children: "$" }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$9.amount, children: amount2.toLocaleString("en-US") }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: s$9.perMonth, children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$a.priceWrap, className), children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$a.dollarSign, children: "$" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$a.amount, children: amount2.toLocaleString("en-US") }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: s$a.perMonth, children: [
       TranslationService.t("currency.usd"),
       " / mo*"
     ] })
@@ -12293,7 +12175,7 @@ const cancelButton = "_cancelButton_7jr6o_146";
 const footerWrapper = "_footerWrapper_7jr6o_151";
 const linkAsButton = "_linkAsButton_7jr6o_162";
 const paymentPlanButton = "_paymentPlanButton_7jr6o_187";
-const s$8 = {
+const s$9 = {
   planCard,
   custom,
   premium,
@@ -12422,13 +12304,13 @@ const config$1 = {
 };
 const _plans = "# Educational\n\nFor students, hobbyists, and anyone testing the entry-level option before upgrading\n\n###### **edu**\n\n- Multi-criteria decision analyses\n- AI analytics\n- Favorite area of interest\n- Download analyses\n\n---\n\n# Professional\n\nFor GIS data analysts and managers who work with GIS on a daily basis\n\n###### **pro**\n\n- Multi-criteria decision analyses\n- AI analytics\n- Favorite area of interest\n- Download analyses\n- Customer support\n- Custom requests\n- Upload custom indicators for analytics\n\n---\n\n# Custom\n\n# Enterprise\n\nFor GIS data analysts and managers who work with GIS on a daily basis\nContact sales, book a demo or write to us at <info@kontur.io> for custom pricing and features\n\n###### **ent**\n\n- Multiple seats\n- Custom workflows\n- Custom features\n- Custom design\n- Training and onboarding\n- Support\n";
 const css = `
-.premium > .${s$8.planName}::before {
+.premium > .${s$9.planName}::before {
   content: '★';
   font-size: larger;
   padding-right: 4px;
 }
 
-.${s$8.planName} {
+.${s$9.planName} {
   font-family: var(--font-family);
   font-style: normal;
   font-weight: 600;
@@ -12483,23 +12365,23 @@ function Plans({ styling = "", markdown: markdown2 = _plans, isUserAuthorized = 
       const billingOption = (_b = plan.billingCycles) == null ? void 0 : _b.find(
         (option) => option.id === currentBillingCycleId
       );
-      const actionsBlock = /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: s$8.buttonWrapper, children: [
-        !isUserAuthorized && /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { className: clsx(s$8.paymentPlanButton, styleClass), children: "Sign in to subscribe" }),
+      const actionsBlock = /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: s$9.buttonWrapper, children: [
+        !isUserAuthorized && /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { className: clsx(s$9.paymentPlanButton, styleClass), children: "Sign in to subscribe" }),
         isUserAuthorized && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "[PAYPAL BUTTONS INJECTED HERE]" })
       ] });
       const priceBlock = !isCustom && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
         billingOption && /* @__PURE__ */ jsxRuntimeExports.jsx(
           "div",
           {
-            className: clsx(s$8.initialPrice, {
-              [s$8.hidden]: billingOption.id === "month"
+            className: clsx(s$9.initialPrice, {
+              [s$9.hidden]: billingOption.id === "month"
             }),
             children: `$${(_c = billingOption == null ? void 0 : billingOption.initialPricePerMonth) == null ? void 0 : _c.toLocaleString("en-US")} USD`
           }
         ),
-        billingOption && /* @__PURE__ */ jsxRuntimeExports.jsx(Price, { className: s$8.price, amount: billingOption.pricePerMonth })
+        billingOption && /* @__PURE__ */ jsxRuntimeExports.jsx(Price, { className: s$9.price, amount: billingOption.pricePerMonth })
       ] });
-      const footerBlock = !isCustom && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$8.footerWrapper, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      const footerBlock = !isCustom && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$9.footerWrapper, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
         PaymentPlanCardFooter,
         {
           planConfig: plan,
@@ -12508,8 +12390,8 @@ function Plans({ styling = "", markdown: markdown2 = _plans, isUserAuthorized = 
           billingOption
         }
       ) });
-      return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$8.planCard, styleClass), children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$8.planName, children: planName }),
+      return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$9.planCard, styleClass), children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$9.planName, children: planName }),
         priceBlock,
         planContent,
         actionsBlock,
@@ -13014,7 +12896,7 @@ const linkWidthWrap = "_linkWidthWrap_qkwt3_1";
 const truncate = "_truncate_qkwt3_3";
 const tail = "_tail_qkwt3_4";
 const link = "_link_qkwt3_1";
-const s$7 = {
+const s$8 = {
   linkWidthWrap,
   truncate,
   tail,
@@ -13036,17 +12918,17 @@ function ShortLinkRenderer({
 }) {
   const passedLink = (linksArr == null ? void 0 : linksArr[0]) ?? href;
   const [leftPart, rightPart] = splitTail(passedLink, truncateAmount);
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$7.linkWidthWrap, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$7.linkOverflowWrap, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$8.linkWidthWrap, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$8.linkOverflowWrap, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
     "a",
     {
-      className: s$7.link,
+      className: s$8.link,
       target: "_blank",
       rel: "noreferrer",
       "data-truncate": rightPart,
       href,
       children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: s$7.truncate, style: { maxWidth: maxWidth || "unset" }, children: leftPart }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: s$7.tail, children: rightPart })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: s$8.truncate, style: { maxWidth: maxWidth || "unset" }, children: leftPart }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: s$8.tail, children: rightPart })
       ]
     }
   ) }) });
@@ -13086,8 +12968,8 @@ const fixture2 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProp
  *
  * @license MIT
  */
-function _extends$1() {
-  _extends$1 = Object.assign ? Object.assign.bind() : function(target) {
+function _extends$2() {
+  _extends$2 = Object.assign ? Object.assign.bind() : function(target) {
     for (var i2 = 1; i2 < arguments.length; i2++) {
       var source = arguments[i2];
       for (var key in source) {
@@ -13098,7 +12980,7 @@ function _extends$1() {
     }
     return target;
   };
-  return _extends$1.apply(this, arguments);
+  return _extends$2.apply(this, arguments);
 }
 var Action;
 (function(Action2) {
@@ -13153,7 +13035,7 @@ function createLocation(current, to2, state, key) {
   if (state === void 0) {
     state = null;
   }
-  let location = _extends$1({
+  let location = _extends$2({
     pathname: typeof current === "string" ? current : current.pathname,
     search: "",
     hash: ""
@@ -13210,7 +13092,7 @@ function getUrlBasedHistory(getLocation, createHref, validateLocation, options) 
   let index2 = getIndex();
   if (index2 == null) {
     index2 = 0;
-    globalHistory.replaceState(_extends$1({}, globalHistory.state, {
+    globalHistory.replaceState(_extends$2({}, globalHistory.state, {
       idx: index2
     }), "");
   }
@@ -13348,8 +13230,8 @@ new Set(validRequestMethodsArr);
  *
  * @license MIT
  */
-function _extends() {
-  _extends = Object.assign ? Object.assign.bind() : function(target) {
+function _extends$1() {
+  _extends$1 = Object.assign ? Object.assign.bind() : function(target) {
     for (var i2 = 1; i2 < arguments.length; i2++) {
       var source = arguments[i2];
       for (var key in source) {
@@ -13360,7 +13242,7 @@ function _extends() {
     }
     return target;
   };
-  return _extends.apply(this, arguments);
+  return _extends$1.apply(this, arguments);
 }
 const NavigationContext = /* @__PURE__ */ reactExports.createContext(null);
 const LocationContext = /* @__PURE__ */ reactExports.createContext(null);
@@ -13399,7 +13281,7 @@ function Router(_ref5) {
     basename,
     navigator: navigator2,
     static: staticProp,
-    future: _extends({
+    future: _extends$1({
       v7_relativeSplatPath: false
     }, future)
   }), [basename, future, navigator2, staticProp]);
@@ -13524,7 +13406,7 @@ function f(n2, t2) {
   var r2 = React$1.useContext(c);
   return React$1.useCallback(a(r2, n2), t2.concat(r2));
 }
-function s$6(n2, o2, i2) {
+function s$7(n2, o2, i2) {
   var f2 = n2;
   i2 = [];
   var s2 = React$1.useContext(c);
@@ -13561,6 +13443,32 @@ const currentTooltipAtom = createAtom(
   },
   "[Shared state] currentTooltipAtom"
 );
+function _extends() {
+  return _extends = Object.assign ? Object.assign.bind() : function(n2) {
+    for (var e = 1; e < arguments.length; e++) {
+      var t2 = arguments[e];
+      for (var r2 in t2) ({}).hasOwnProperty.call(t2, r2) && (n2[r2] = t2[r2]);
+    }
+    return n2;
+  }, _extends.apply(null, arguments);
+}
+function _objectWithoutPropertiesLoose(r2, e) {
+  if (null == r2) return {};
+  var t2 = {};
+  for (var n2 in r2) if ({}.hasOwnProperty.call(r2, n2)) {
+    if (e.includes(n2)) continue;
+    t2[n2] = r2[n2];
+  }
+  return t2;
+}
+function _setPrototypeOf(t2, e) {
+  return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function(t3, e2) {
+    return t3.__proto__ = e2, t3;
+  }, _setPrototypeOf(t2, e);
+}
+function _inheritsLoose(t2, o2) {
+  t2.prototype = Object.create(o2.prototype), t2.prototype.constructor = t2, _setPrototypeOf(t2, o2);
+}
 function hasClass(element, className) {
   if (element.classList) return !!className && element.classList.contains(className);
   return (" " + (element.className.baseVal || element.className) + " ").indexOf(" " + className + " ") !== -1;
@@ -13964,7 +13872,7 @@ var CSSTransition = /* @__PURE__ */ function(_React$Component) {
     var _this$props = this.props;
     _this$props.classNames;
     var props = _objectWithoutPropertiesLoose(_this$props, ["classNames"]);
-    return /* @__PURE__ */ React$1.createElement(Transition, _extends$2({}, props, {
+    return /* @__PURE__ */ React$1.createElement(Transition, _extends({}, props, {
       onEnter: this.onEnter,
       onEntered: this.onEntered,
       onEntering: this.onEntering,
@@ -13983,17 +13891,17 @@ const fadeEnter = "_fadeEnter_1fjeq_1";
 const fadeEnterActive = "_fadeEnterActive_1fjeq_5";
 const fadeExit = "_fadeExit_1fjeq_10";
 const fadeExitActive = "_fadeExitActive_1fjeq_14";
-const s$5 = {
+const s$6 = {
   fadeEnter,
   fadeEnterActive,
   fadeExit,
   fadeExitActive
 };
 const fadeClassNames = {
-  enter: s$5.fadeEnter,
-  enterActive: s$5.fadeEnterActive,
-  exit: s$5.fadeExit,
-  exitActive: s$5.fadeExitActive
+  enter: s$6.fadeEnter,
+  enterActive: s$6.fadeEnterActive,
+  exit: s$6.fadeExit,
+  exitActive: s$6.fadeExitActive
 };
 const CSSTransitionWrapper = ({
   children,
@@ -14064,12 +13972,12 @@ const closeOnLocationChangeAtom = createAtom(
   "closeOnLocationChangeAtom"
 );
 const markdown$1 = "_markdown_4vdv7_1";
-const s$4 = {
+const s$5 = {
   markdown: markdown$1
 };
 function PopupTooltip() {
-  const [tooltip, { resetCurrentTooltip }] = s$6(currentTooltipAtom);
-  s$6(closeOnLocationChangeAtom);
+  const [tooltip, { resetCurrentTooltip }] = s$7(currentTooltipAtom);
+  s$7(closeOnLocationChangeAtom);
   const closeHandler = reactExports.useCallback(
     (e) => {
       var _a;
@@ -14099,7 +14007,7 @@ function PopupTooltip() {
         Markdown,
         {
           options: { overrides: { a: LinkRenderer } },
-          className: s$4.markdown,
+          className: s$5.markdown,
           children: parseLinksAsTags(tooltip.popup)
         }
       ) : tooltip.popup
@@ -14177,7 +14085,7 @@ const sentimentDirection = "_sentimentDirection_zjmcz_17";
 const sentimentLabel = "_sentimentLabel_zjmcz_21";
 const sentimentInfo = "_sentimentInfo_zjmcz_25";
 const indicator$1 = "_indicator_zjmcz_29";
-const s$3 = {
+const s$4 = {
   tooltipRoot,
   tooltipRow,
   sentimentDirection,
@@ -14219,14 +14127,14 @@ const BivariateLegendCornerTooltip = ({
       indicator: isLeftSide(cellIndex) ? LOW : HIGH
     }
   ];
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: clsx(s$3.tooltipRoot), children: rows.map(({ label, direction, indicator: indicator2 }, i2) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$3.tooltipRow), children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: clsx(s$3.indicator), children: indicator2 }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: clsx(s$3.sentimentInfo), children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: clsx(s$3.sentimentLabel), children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: clsx(s$4.tooltipRoot), children: rows.map(({ label, direction, indicator: indicator2 }, i2) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$4.tooltipRow), children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: clsx(s$4.indicator), children: indicator2 }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: clsx(s$4.sentimentInfo), children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: clsx(s$4.sentimentLabel), children: [
         label,
         " "
       ] }),
-      direction && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: clsx(s$3.sentimentDirection), children: formatSentimentDirection(direction) })
+      direction && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: clsx(s$4.sentimentDirection), children: formatSentimentDirection(direction) })
     ] })
   ] }, i2)) });
 };
@@ -14346,6 +14254,98 @@ const fixture3 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProp
   __proto__: null,
   default: BivariateLegendFixture
 }, Symbol.toStringTag, { value: "Module" }));
+function createContext(rootName, defaultContext) {
+  const Ctx = React$1.createContext(defaultContext);
+  function Provider(props) {
+    const { children, ...context } = props;
+    const value = React$1.useMemo(() => context, Object.values(context));
+    return jsxRuntimeExports.jsx(Ctx.Provider, { value, children });
+  }
+  function useContext(childName) {
+    const context = React$1.useContext(Ctx);
+    if (context) {
+      return context;
+    }
+    throw Error(`${childName} must be rendered inside of a ${rootName} component.`);
+  }
+  Ctx.displayName = `${rootName}Context`;
+  Provider.displayName = `${rootName}Provider`;
+  return [Provider, useContext];
+}
+const [TooltipProvider, useTooltipContext] = createContext("Tooltip");
+const TooltipTrigger = reactExports.forwardRef(function TooltipTrigger2({ children, asChild = false, ...props }, propRef) {
+  const { context } = useTooltipContext("Tooltip");
+  const childrenRef = (children == null ? void 0 : children.ref) ?? null;
+  const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef]);
+  reactExports.useLayoutEffect(() => {
+    if (propRef) {
+      context.refs.setReference(propRef == null ? void 0 : propRef.current);
+    }
+  }, []);
+  if (propRef)
+    return null;
+  if (asChild && reactExports.isValidElement(children)) {
+    return reactExports.cloneElement(children, context.getReferenceProps({
+      ref,
+      ...props,
+      ...children.props
+    }));
+  }
+  return jsxRuntimeExports.jsx("div", { ref, ...context.getReferenceProps(props), children });
+});
+const tooltipContent = "_tooltipContent_17m80_3";
+const bigger = "_bigger_17m80_14";
+const arrow = "_arrow_17m80_26";
+const s$3 = {
+  tooltipContent,
+  bigger,
+  "default": "_default_17m80_20",
+  arrow
+};
+const TooltipContent = reactExports.forwardRef(function TooltipContent2(props, propRef) {
+  const { context, arrowRef, size } = useTooltipContext("Tooltip");
+  const ref = useMergeRefs([context.refs.setFloating, propRef]);
+  const { children, ...rest } = props;
+  return jsxRuntimeExports.jsx(FloatingPortal, { children: context.open && jsxRuntimeExports.jsxs("div", { className: clsx(s$3.tooltipContent, s$3[size ?? "default"]), ref, style: {
+    position: context.strategy,
+    top: context.y ?? 0,
+    left: context.x ?? 0,
+    visibility: context.x == null ? "hidden" : "visible"
+  }, ...context.getFloatingProps(rest), children: [children, jsxRuntimeExports.jsx(FloatingArrow, { ref: arrowRef, context: context.context, className: s$3.arrow, stroke: "transparent", strokeWidth: 2, height: 8, width: 16 })] }) });
+});
+const ARROW_HEIGHT = 8;
+function useTooltip({ initialOpen = false, placement = "bottom", offset: offsetValue = 0, open: controlledOpen, onOpenChange: setControlledOpen } = {}, arrowRef) {
+  const [uncontrolledOpen, setUncontrolledOpen] = reactExports.useState(initialOpen);
+  const open = controlledOpen ?? uncontrolledOpen;
+  const setOpen = setControlledOpen ?? setUncontrolledOpen;
+  const data = useFloating({
+    placement,
+    open,
+    onOpenChange: setOpen,
+    whileElementsMounted: autoUpdate,
+    middleware: [
+      offset(offsetValue + ARROW_HEIGHT),
+      flip({ fallbackAxisSideDirection: "start" }),
+      shift({ padding: 5 }),
+      arrow$2({ element: arrowRef })
+    ]
+  });
+  const context = data.context;
+  const hover = useHover(context);
+  const role = useRole(context, { role: "tooltip" });
+  const interactions = useInteractions([hover, role]);
+  return reactExports.useMemo(() => ({
+    open,
+    setOpen,
+    ...interactions,
+    ...data
+  }), [open, setOpen, interactions, data]);
+}
+function Tooltip({ children, ...options }) {
+  const arrowRef = reactExports.useRef(null);
+  const context = useTooltip(options, arrowRef);
+  return jsxRuntimeExports.jsx(TooltipProvider, { context, arrowRef, size: options.size, children });
+}
 const indicator = "_indicator_16fpk_1";
 const indicatorCell = "_indicatorCell_16fpk_9";
 const s$2 = {
