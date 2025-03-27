@@ -17,7 +17,12 @@ export function ShortState({
     <div className={s.noFeatures}>
       <Text type="short-l">{i18n.t('layer_features_panel.noFeatureSelected')}</Text>
       <div className={s.callToAction}>
-        <Button variant="invert-outline" size="small" onClick={openFullState}>
+        <Button
+          variant="invert-outline"
+          size="small"
+          onClick={openFullState}
+          className="knt-panel-button"
+        >
           {i18n.t('layer_features_panel.chooseFeature')}
         </Button>
       </div>
