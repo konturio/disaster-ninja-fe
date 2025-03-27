@@ -16,7 +16,11 @@ import {
 import { invertClusters } from '~utils/bivariate';
 import { getCellLabelByValue } from '~utils/bivariate/bivariateLegendUtils';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
-import { getMaxNumeratorZoomLevel } from '~utils/bivariate/getMaxZoomLevel';
+import {
+  getMaxMCDAZoomLevel,
+  getMaxNumeratorZoomLevel,
+} from '~utils/bivariate/getMaxZoomLevel';
+import { isNumber } from '~utils/common';
 import { styleConfigs } from '../stylesConfigs';
 import { generateMCDAPopupContent } from '../MCDARenderer/popup';
 import { setTileScheme } from '../setTileScheme';
@@ -267,12 +271,18 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     layer: LayerTileSource,
     style: MCDALayerStyle,
   ) {
+    const minZoomLevel = isNumber(layer.minZoom)
+      ? layer.minZoom
+      : FALLBACK_BIVARIATE_MIN_ZOOM;
+    const maxZoomLevel = isNumber(layer.maxZoom)
+      ? layer.maxZoom
+      : getMaxMCDAZoomLevel(style.config, FALLBACK_BIVARIATE_MAX_ZOOM);
     /* Create source */
     const mapSource: VectorSourceSpecification = {
       type: 'vector',
       tiles: layer.source.urls.map((url) => adaptTileUrl(url)),
-      minzoom: layer.minZoom || FALLBACK_BIVARIATE_MIN_ZOOM,
-      maxzoom: layer.maxZoom || FALLBACK_BIVARIATE_MAX_ZOOM,
+      minzoom: minZoomLevel,
+      maxzoom: maxZoomLevel,
     };
     // I expect that all servers provide url with same scheme
     setTileScheme(layer.source.urls[0], mapSource);

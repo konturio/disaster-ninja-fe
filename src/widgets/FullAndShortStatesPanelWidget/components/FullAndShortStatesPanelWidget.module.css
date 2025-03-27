@@ -14,21 +14,12 @@
   background-color: rgba(0, 0, 0, 0.3) !important;
 }
 
-.scrollable {
-  overflow-y: auto;
-  height: 100%;
-}
-
 .panelIcon.desktop {
   display: none;
 }
 
 /* mobile */
 @media screen and (max-width: 960px) {
-  .scrollable {
-    width: 100%;
-  }
-
   .panel {
     border-radius: calc(var(--border-radius-unit) * 2);
   }

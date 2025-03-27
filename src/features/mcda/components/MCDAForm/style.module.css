@@ -16,3 +16,10 @@
 .multiselectContainer {
   width: 450px;
 }
+
+@media screen and (max-width: 960px) {
+  .modalDialog {
+    height: 100vh;
+    height: 100dvh;
+  }
+}

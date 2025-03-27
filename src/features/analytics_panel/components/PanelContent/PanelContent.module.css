@@ -4,18 +4,9 @@
   padding-bottom: var(--half-unit);
 }
 
-/* laptop */
-@media screen and (max-width: 1530px) {
-  .panelBody {
-    padding: var(--double-unit);
-    padding-bottom: var(--half-unit);
-    overflow-y: auto;
-  }
-}
 /* mobile */
 @media screen and (max-width: 960px) {
   .panelBody {
-    height: 100%;
     margin: 0 auto;
     width: 100%;
   }

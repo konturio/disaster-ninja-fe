@@ -9,11 +9,6 @@ import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
 import { layersEditorsAtom } from '~core/logical_layers/atoms/layersEditors';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import { i18n } from '~core/localization';
-import {
-  FALLBACK_BIVARIATE_MAX_ZOOM,
-  FALLBACK_BIVARIATE_MIN_ZOOM,
-} from '~core/logical_layers/renderers/BivariateRenderer/constants';
-import { getMaxMCDAZoomLevel } from '~utils/bivariate/getMaxZoomLevel';
 import { generateMCDALegendColors } from '~utils/mcda/mcdaLegendsUtils';
 import { MCDALayerEditor } from '../components/MCDALayerEditor';
 import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
@@ -25,7 +20,7 @@ export const mcdaLayerAtom = createAtom(
     enableMCDALayer: (layerId: string) => layerId,
     disableMCDALayer: () => null,
   },
-  ({ onAction, schedule, getUnlistedState, create }) => {
+  ({ onAction, schedule, getUnlistedState }) => {
     onAction('createMCDALayer', (json) => {
       const id = json.id;
       const name = json.name;
@@ -33,7 +28,6 @@ export const mcdaLayerAtom = createAtom(
       if (json.colors.type === 'sentiments') {
         legendColors = generateMCDALegendColors(json.colors);
       }
-      const maxZoomLevel = getMaxMCDAZoomLevel(json, FALLBACK_BIVARIATE_MAX_ZOOM);
 
       const actions: Array<Action> = [
         // Set layer settings once
@@ -53,8 +47,6 @@ export const mcdaLayerAtom = createAtom(
           id,
           createAsyncWrapper({
             id,
-            maxZoom: maxZoomLevel,
-            minZoom: FALLBACK_BIVARIATE_MIN_ZOOM,
             source: {
               type: 'vector' as const,
               urls: [

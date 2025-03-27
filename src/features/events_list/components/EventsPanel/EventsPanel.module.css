@@ -61,13 +61,5 @@
 @media screen and (max-width: 960px) {
   .eventsPanel {
     border-radius: calc(var(--border-radius-unit) * 2);
-
-    &.collapse {
-      display: none;
-    }
-  }
-
-  .panelIcon.mobile {
-    display: flex;
   }
 }
