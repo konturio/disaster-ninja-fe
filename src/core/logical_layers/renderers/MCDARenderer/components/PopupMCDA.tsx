@@ -3,6 +3,14 @@ import { capitalize } from '~utils/common';
 import s from './PopupMCDA.module.css';
 import type { PopupMCDAProps } from '../types';
 
+function formatValue(value: number): string {
+  if (Math.abs(value) < 0.01 && Math.abs(value) > 0) {
+    return value.toExponential(2);
+  } else {
+    return value.toFixed(2);
+  }
+}
+
 export function OneLayerPopup({
   layer,
   normalized,
@@ -33,17 +41,17 @@ export function OneLayerPopup({
     <ul className={s.list}>
       <li>
         <span className={s.entryName}>{num}:</span>{' '}
-        {parseFloat(normalized[key]?.numValue.toFixed(2))}
+        {formatValue(normalized[key].numValue)}
       </li>
       <li>
         <span className={s.entryName}>{den}:</span>{' '}
-        {parseFloat(normalized[key]?.denValue.toFixed(2))}
+        {formatValue(normalized[key].denValue)}
       </li>
       <li>
         <span className={s.entryName}>
           {num} / {den}:
         </span>{' '}
-        {resultMCDA.toFixed(2)}
+        {formatValue(resultMCDA)}
       </li>
     </ul>
   );
