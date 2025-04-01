@@ -8,10 +8,7 @@ import { MCDA_CONTROL_ID, UPLOAD_MCDA_CONTROL_ID } from './constants';
 import { askMcdaJSONFile } from './utils/openMcdaFile';
 import { applyNewMCDAConfig } from './utils/applyNewMCDAConfig';
 import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
-import type {
-  LogicalLayerActions,
-  LogicalLayerState,
-} from '~core/logical_layers/types/logicalLayer';
+import type { LogicalLayerActions } from '~core/logical_layers/types/logicalLayer';
 
 export const mcdaControl = toolbar.setupControl({
   id: MCDA_CONTROL_ID,
@@ -39,7 +36,7 @@ mcdaControl.onStateChange(async (ctx, state) => {
   }
 });
 
-const uploadClickListener = (e) => {
+const uploadClickListener = () => {
   uploadOnClick();
 };
 

@@ -11,31 +11,31 @@ import {
 import { i18n } from '~core/localization';
 import { createStateMap } from '~utils/atoms';
 import { sortByAlphabet, sortByWordOccurence } from '~utils/common/sorting';
-import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 import { availableBivariateAxesAtom } from '~core/bivariate/atoms/availableBivariateAxesAtom';
 import { padEmojiStringToLength } from '~utils/mcda/padEmojiStringToLength';
 import s from './style.module.css';
+import type { MultivariateLayerConfig } from '~core/logical_layers/renderers/MultivariateRenderer/types';
 import type { Axis } from '~utils/bivariate';
 
 type FormInitialState = {
-  name: string;
-  axes: { id: string; label: string }[];
+  analysisConfig?: MultivariateLayerConfig;
 };
 
 type FormResult = {
-  name: string;
-  axes: Axis[];
+  analysisConfig: MultivariateLayerConfig;
 };
 
-export function MCDAForm({
+export function MultivariateAnalysisForm({
   initialState,
   onConfirm,
 }: {
   initialState: FormInitialState;
   onConfirm: (value: FormResult | null) => void;
 }) {
+  // const [analysisConfig, setAnalysisConfig] = useState(initialState.analysisConfig ?? );
+
   // Layer name input
-  const [name, setName] = useState(initialState.name);
+  const [name, setName] = useState(initialState.analysisConfig?.name ?? '');
   const [nameError, setNameError] = useState<string>('');
   const onNameChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -52,7 +52,6 @@ export function MCDAForm({
 
   const onSelectedIndicatorsChange = useCallback(
     (e: { selectedItems: SelectableItem[] }) => {
-      dispatchMetricsEvent('mcda_add_layer');
       selectIndicators(e.selectedItems);
     },
     [],
@@ -69,33 +68,24 @@ export function MCDAForm({
     }));
   }, [axesResource]);
 
-  useEffect(() => {
-    // Setup indicators input initial state after we get available indicators
-    const preselected = new Set(initialState.axes.map((a) => a.id));
-    if (axesResource.data && !selectionInitialized && preselected.size > 0) {
-      selectIndicators(
-        axesResource.data
-          .filter((a) => preselected.has(a.id))
-          .map((ind) => ({ value: ind.id, title: ind.label })),
-      );
-      setSelectionInitialized(true);
-    }
-  }, [initialState.axes, axesResource, selectionInitialized]);
-
   // Possible exits
   const cancelAction = useCallback(() => onConfirm(null), [onConfirm]);
   const saveAction = useCallback(() => {
-    if (axesResource.data) {
-      dispatchMetricsEvent('mcda_create');
-      const selection = new Set(selectedIndicators.map((ind) => ind.value));
-      const onlySelectedIndicators = axesResource.data.filter((ind) =>
-        selection.has(ind.id),
-      );
-      onConfirm({
-        name,
-        axes: onlySelectedIndicators,
-      });
-    }
+    // TODO: pass updated config as result
+    // if (axesResource.data) {
+    //   const selection = new Set(selectedIndicators.map((ind) => ind.value));
+    //   const onlySelectedIndicators = axesResource.data.filter((ind) =>
+    //     selection.has(ind.id),
+    //   );
+    //   onConfirm({
+    //     name,
+    //     axes: onlySelectedIndicators,
+    //   });
+    // }
+  }, [axesResource, selectedIndicators, onConfirm, name]);
+
+  const addLayersAction = useCallback(() => {
+    // TODO: add new layers to the config, re-create it and update state
   }, [axesResource, selectedIndicators, onConfirm, name]);
 
   const sortDropdownItems = useCallback(
@@ -125,13 +115,22 @@ export function MCDAForm({
           noOptionsText={i18n.t('mcda.modal_input_indicators_no_options')}
           transformSearchResults={sortDropdownItems}
         />
+        <Button
+          disabled={
+            !axesResource.data || selectedIndicators.length === 0 || !name?.length
+          }
+          type="submit"
+          onClick={addLayersAction}
+        >
+          {'Add layers'}
+        </Button>
       </div>
     ),
   });
 
   return (
     <ModalDialog
-      title={i18n.t('mcda.modal_title')}
+      title={i18n.t('multivariate.multivariate_analysis')}
       onClose={cancelAction}
       footer={
         <div className={s.buttonsRow}>
@@ -161,6 +160,10 @@ export function MCDAForm({
           placeholder={i18n.t('mcda.modal_input_name_placeholder')}
         />
         {indicatorsSelector}
+      </div>
+      <div>
+        <div>Score</div>
+        <div></div>
       </div>
     </ModalDialog>
   );

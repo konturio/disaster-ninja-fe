@@ -8,7 +8,7 @@ import { LAYERS_PANEL_FEATURE_ID } from '~features/layers_panel/constants';
 import { isNumber } from '~utils/common';
 import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
 import { LayerInfo } from '~components/LayerInfo/LayerInfo';
-import { availableBivariateAxesAtom } from '~features/mcda/atoms/availableBivariateAxesAtom';
+import { availableBivariateAxesAtom } from '~core/bivariate/atoms/availableBivariateAxesAtom';
 import { getAxisTransformations } from '~core/api/mcda';
 import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
 import { PopupTooltipTrigger } from '~components/PopupTooltipTrigger';

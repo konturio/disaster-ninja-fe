@@ -10,6 +10,7 @@
   "create": "Create",
   "disasters": "Disasters",
   "loading": "Loading...",
+  "preparing_data": "Preparing data",
   "loading_events": "Loading disasters",
   "legend": "Legend",
   "maps": "maps",
@@ -102,7 +103,6 @@
     "modal_input_indicators": "Layer list",
     "modal_input_indicators_placeholder": "Select layers",
     "modal_input_indicators_no_options": "No options",
-    "btn_cancel": "Cancel",
     "btn_save": "Save analysis",
     "error_analysis_name_cannot_be_empty": "Analysis name cannot be empty",
     "error_bad_layer_data": "Invalid MCDA layer data",
@@ -163,6 +163,8 @@
     "good": "Good"
   },
   "multivariate": {
+    "multivariate_analysis": "Multivariate Analysis",
+    "create_analysis_layer": "Create analysis layer",
     "upload_analysis_layer": "Upload analysis layer",
     "popup": {
       "score_header": "Score {{level}}",

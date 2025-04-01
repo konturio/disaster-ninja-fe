@@ -1,0 +1,18 @@
+.MCDAForm {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: var(--double-unit);
+  width: 650px;
+  align-items: flex-start;
+}
+
+.buttonsRow {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: var(--unit);
+  justify-content: flex-end;
+}
+
+.multiselectContainer {
+  width: 450px;
+}

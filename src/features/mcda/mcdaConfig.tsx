@@ -66,7 +66,7 @@ export async function createMCDAConfig() {
   return config;
 }
 
-function createDefaultMCDAConfig(overrides?: Partial<MCDAConfig>): MCDAConfig {
+export function createDefaultMCDAConfig(overrides?: Partial<MCDAConfig>): MCDAConfig {
   const name = overrides?.name ?? DEFAULT_MCDA_NAME;
 
   return {
