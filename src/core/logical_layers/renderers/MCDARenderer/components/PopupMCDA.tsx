@@ -41,11 +41,11 @@ export function OneLayerPopup({
     <ul className={s.list}>
       <li>
         <span className={s.entryName}>{num}:</span>{' '}
-        {formatValue(normalized[key].numValue)}
+        {normalized[key].denValue ? formatValue(normalized[key].numValue) : '--'}
       </li>
       <li>
         <span className={s.entryName}>{den}:</span>{' '}
-        {formatValue(normalized[key].denValue)}
+        {normalized[key] ? formatValue(normalized[key].denValue) : '--'}
       </li>
       <li>
         <span className={s.entryName}>
