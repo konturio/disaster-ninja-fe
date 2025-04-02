@@ -4,10 +4,10 @@ import s from './PopupMCDA.module.css';
 import type { PopupMCDAProps } from '../types';
 
 function formatValue(value: number): string {
-  if (Math.abs(value) < 0.01 && Math.abs(value) > 0) {
-    return value.toExponential(2);
+  if (Math.abs(value) < 0.00001 && Math.abs(value) > 0) {
+    return value.toExponential(3);
   } else {
-    return value.toFixed(2);
+    return parseFloat(value.toFixed(3)).toString();
   }
 }
 
