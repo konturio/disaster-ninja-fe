@@ -74,5 +74,3 @@ export const editableLayersLegendsAndSources = createAtom(
   },
   'editableLayersLegendsAndSources',
 );
-
-createLayerController.onInit(() => forceRun(editableLayersLegendsAndSources));

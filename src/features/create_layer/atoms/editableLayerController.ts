@@ -205,15 +205,3 @@ export const editableLayerControllerAtom = createAtom(
   },
   'editableLayerControllerAtom',
 );
-
-createLayerController.onStateChange((ctx, state) => {
-  if (state === 'active') {
-    editableLayerControllerAtom.createNewLayer.dispatch();
-  } else {
-    editableLayerControllerAtom.reset.dispatch();
-  }
-});
-
-createLayerController.onRemove(() => {
-  editableLayerControllerAtom.reset.dispatch();
-});

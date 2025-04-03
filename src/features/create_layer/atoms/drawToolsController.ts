@@ -6,27 +6,26 @@ import { drawModes } from '~core/draw_tools/constants';
 import { toolboxAtom } from '~core/draw_tools/atoms/toolboxAtom';
 import { drawModeLogicalLayerAtom } from '~core/draw_tools/atoms/logicalLayerAtom';
 import { createAtom } from '~utils/atoms/createPrimitives';
-import { forceRun } from '~utils/atoms/forceRun';
 import { EditTargets } from '../constants';
-import { createLayerController } from '../control';
+// import { createLayerController } from '../control';
 import { currentEditedLayerFeatures } from './currentEditedLayerFeatures';
 import { editTargetAtom } from './editTarget';
 
 /* When saving success - close darwtools panel and edit feature form */
-function onFinishDrawing() {
-  return new Promise<boolean>((res, rej) => {
-    currentEditedLayerFeatures.save.dispatch({
-      onSuccess: () => {
-        store.dispatch([
-          createLayerController.setState('regular'),
-          editTargetAtom.set({ type: EditTargets.none }),
-        ]);
-        res(true);
-      },
-      onError: rej,
-    });
-  });
-}
+// function onFinishDrawing() {
+//   return new Promise<boolean>((res, rej) => {
+//     currentEditedLayerFeatures.save.dispatch({
+//       onSuccess: () => {
+//         store.dispatch([
+//           createLayerController.setState('regular'),
+//           editTargetAtom.set({ type: EditTargets.none }),
+//         ]);
+//         res(true);
+//       },
+//       onError: rej,
+//     });
+//   });
+// }
 
 /* Enable / Disable draw tools panel */
 export const openDrawToolsInFeatureEditMode = createAtom(
@@ -44,6 +43,7 @@ export const openDrawToolsInFeatureEditMode = createAtom(
             ctx.unsubscribe = currentEditedLayerFeatures.subscribe(() => null);
             // TODO fix that logic in layer.setMode() in #9782
             dispatch([
+              // focusedGeometryControl.setState('active'),
               drawModeLogicalLayerAtom.enable(),
               toolboxAtom.setSettings({
                 availableModes: ['DrawPointMode', 'ModifyMode'],
@@ -75,5 +75,3 @@ export const openDrawToolsInFeatureEditMode = createAtom(
     });
   },
 );
-
-createLayerController.onInit(() => forceRun(openDrawToolsInFeatureEditMode));
