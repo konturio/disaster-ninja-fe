@@ -48,7 +48,7 @@ export const openDrawToolsInFeatureEditMode = createAtom(
               toolboxAtom.setSettings({
                 availableModes: ['DrawPointMode', 'ModifyMode'],
                 finishButtonText: i18n.t('draw_tools.save_features'),
-                finishButtonCallback: onFinishDrawing,
+                // finishButtonCallback: onFinishDrawing,
               }),
               activeDrawModeAtom.setDrawMode(drawModes.ModifyMode),
               currentEditedLayerFeatures.readFeaturesFromLayer(layerId),
