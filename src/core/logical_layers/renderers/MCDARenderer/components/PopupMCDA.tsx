@@ -7,7 +7,7 @@ function formatValue(value: number): string {
   if (Math.abs(value) < 0.00001 && Math.abs(value) > 0) {
     return value.toExponential(3);
   } else {
-    return parseFloat(value.toFixed(3)).toString();
+    return Number.parseFloat(value.toFixed(3)).toString();
   }
 }
 
