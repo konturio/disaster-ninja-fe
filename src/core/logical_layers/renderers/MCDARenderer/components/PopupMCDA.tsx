@@ -1,15 +1,8 @@
 import { useMemo } from 'react';
 import { capitalize } from '~utils/common';
+import { roundNumberToPrecision } from '~utils/common/roundNumberToPrecision';
 import s from './PopupMCDA.module.css';
 import type { PopupMCDAProps } from '../types';
-
-function formatValue(value: number): string {
-  if (Math.abs(value) < 0.00001 && Math.abs(value) > 0) {
-    return value.toExponential(3);
-  } else {
-    return Number.parseFloat(value.toFixed(3)).toString();
-  }
-}
 
 export function OneLayerPopup({
   layer,
@@ -41,17 +34,19 @@ export function OneLayerPopup({
     <ul className={s.list}>
       <li>
         <span className={s.entryName}>{num}:</span>{' '}
-        {normalized[key].denValue ? formatValue(normalized[key].numValue) : '--'}
+        {normalized[key].denValue
+          ? roundNumberToPrecision(normalized[key].numValue, 5, 3)
+          : '--'}
       </li>
       <li>
         <span className={s.entryName}>{den}:</span>{' '}
-        {normalized[key] ? formatValue(normalized[key].denValue) : '--'}
+        {normalized[key] ? roundNumberToPrecision(normalized[key].denValue, 5, 3) : '--'}
       </li>
       <li>
         <span className={s.entryName}>
           {num} / {den}:
         </span>{' '}
-        {formatValue(resultMCDA)}
+        {roundNumberToPrecision(resultMCDA, 3)}
       </li>
     </ul>
   );
