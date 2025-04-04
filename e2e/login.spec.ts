@@ -1,10 +1,12 @@
 import { test } from './fixtures/test-options.ts';
-import { getProjects } from './page-objects/helperBase.ts';
+import { getProjects, stepCounter } from './page-objects/helperBase.ts';
 
 const projects = getProjects();
+test.beforeEach(() => {
+  stepCounter.counter = 0;
+});
 
-const linkToSurveyProd =
-  'https://docs.google.com/forms/d/e/1FAIpQLSe86tGwmJcIvs8aTc1-zyw6ihmXqIeObpeJZmd6y_fMGL70iA/viewform';
+const linkToSurveyProd = 'https://www.kontur.io/book-a-demo/';
 
 // Create a loop to loop over all the projects and create a test for everyone
 for (const project of projects) {
@@ -27,12 +29,12 @@ for (const project of projects) {
       await pageManager.atPricingPage.clickBtnAndAssertUrl({
         context,
         buttonName: 'Request trial',
-        expectedUrlPart: project.env === 'test' ? 'demo-call' : linkToSurveyProd,
+        expectedUrlPart: linkToSurveyProd,
       });
       await pageManager.atPricingPage.clickBtnAndAssertUrl({
         context,
         buttonName: 'Book a demo',
-        expectedUrlPart: project.env === 'test' ? 'atlas-demo' : linkToSurveyProd,
+        expectedUrlPart: linkToSurveyProd,
       });
       await pageManager.atNavigationMenu.clickButtonToOpenPage('Profile');
     }

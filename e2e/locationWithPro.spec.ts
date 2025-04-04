@@ -1,9 +1,12 @@
 import { test } from './fixtures/test-options.ts';
-import { getProjects } from './page-objects/helperBase.ts';
+import { getProjects, stepCounter } from './page-objects/helperBase.ts';
 import type { Project } from './page-objects/helperBase.ts';
 import type { PageManager } from './page-objects/pageManager.ts';
 
 let projects = getProjects();
+test.beforeEach(() => {
+  stepCounter.counter = 0;
+});
 
 // Temporally switched off disaster-ninja untill 15482 issue is fixed
 // Temporally switched off oam untill 18508 issue is fixed

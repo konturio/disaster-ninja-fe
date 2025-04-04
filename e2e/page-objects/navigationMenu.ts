@@ -1,5 +1,5 @@
 import { expect } from '@playwright/test';
-import { HelperBase } from './helperBase';
+import { HelperBase, step } from './helperBase';
 import type { Page } from '@playwright/test';
 
 export class NavigationMenu extends HelperBase {
@@ -9,6 +9,10 @@ export class NavigationMenu extends HelperBase {
    * @param operablePage - playwright page to use
    */
 
+  @step(
+    (args) =>
+      `Click the '${args[0]}' button in the navigation menu to open the corresponding page. Ensure the button is hovered before clicking, and a delay is added to emulate user behavior.`,
+  )
   async clickButtonToOpenPage(buttonName: string, operablePage: Page = this.page) {
     const button = operablePage
       .getByTestId('side-bar')
@@ -21,7 +25,10 @@ export class NavigationMenu extends HelperBase {
   /**
    * This method checks that there is no map at navigation menu
    */
-
+  @step(
+    () =>
+      `Verify that there is no "Map" in the navigation menu. Ensure that the sidebar is visible, and the "Map" element is not displayed.`,
+  )
   async checkThereIsNoMap() {
     const sidebar = this.page.getByTestId('side-bar');
     await expect(sidebar).toBeVisible();

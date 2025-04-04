@@ -1,10 +1,13 @@
 import { expect } from '@playwright/test';
 import { faker } from '@faker-js/faker';
 import { test } from './fixtures/test-options.ts';
-import { getProjects } from './page-objects/helperBase.ts';
+import { getProjects, stepCounter } from './page-objects/helperBase.ts';
 import type { Project } from './page-objects/helperBase.ts';
 
 const projects = getProjects();
+test.beforeEach(() => {
+  stepCounter.counter = 0;
+});
 let limitedProjects = Object.create(projects);
 // TO DO: remove logics with limitation for DN once 19469 issue is done
 limitedProjects = limitedProjects.filter(
@@ -65,9 +68,13 @@ test.describe(`As PRO User, I can use different OSM editors to open the map and 
         } else {
           await pageManager.atProfilePage.saveChanges();
         }
-        const newProfileData = await pageManager.atProfilePage.getProfileData(project, {
-          shouldOsmEditorBeSeenOnAtlas: true,
-        });
+        const newProfileData = await pageManager.atProfilePage.getAndAssertProfileData(
+          project,
+          {
+            shouldOsmEditorBeSeenOnAtlas: true,
+            isUsrPro: false,
+          },
+        );
         expect(newProfileData.bioValue, 'Bio should be updated').toStrictEqual(newBio);
         expect(newProfileData.fullNameValue, 'Full name should be updated').toStrictEqual(
           newFullName,

@@ -1,5 +1,5 @@
 import { expect } from '@playwright/test';
-import { HelperBase } from './helperBase';
+import { HelperBase, step } from './helperBase';
 
 type MCDAInput = {
   analysisName: string;
@@ -12,7 +12,10 @@ export class MCDAPopup extends HelperBase {
   /**
    * This method checks that popup with MCDA form is visible and has correct texts
    */
-
+  @step(
+    () =>
+      `Check that the MCDA popup is visible and contains all required static elements: the main title, section labels ('Analysis name', 'Layer list'), 'Cancel' button, and 'Save analysis' button (initially disabled).`,
+  )
   async assertMCDAPopupIsOK() {
     const mcdaPopup = this.page.locator('section', {
       has: this.page.getByTestId('mcda-form'),
@@ -51,7 +54,10 @@ export class MCDAPopup extends HelperBase {
    * This method creates MCDA with provided inputs, checks that popup is visible and has correct layers, then clicks save button and checks that popup is closed
    * @param MCDAInput - object with analysis name, layers, inputs and expected suggestions
    */
-
+  @step(
+    (args) =>
+      `Create an MCDA with name '${args[0].analysisName}'. For each input (${args[0].inputs.join(', ')}), type it in, verify suggestions (${args[0].expectedSuggestions.join(', ')}), select the matching layer (${args[0].layers.join(', ')}), and ensure selected layers appear correctly in the input. Finally, confirm that the 'Save analysis' button becomes enabled and the popup is closed.`,
+  )
   async createMCDA({ analysisName, layers, inputs, expectedSuggestions }: MCDAInput) {
     // Method should support any number of layers and inputs, so better check it during runtime and not by ts compiler
     expect(

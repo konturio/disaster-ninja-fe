@@ -1,13 +1,16 @@
 import { expect } from '@playwright/test';
 import { faker } from '@faker-js/faker';
 import { test } from './fixtures/test-options.ts';
-import { getProjects, getTestData } from './page-objects/helperBase.ts';
+import { getProjects, getTestData, stepCounter } from './page-objects/helperBase.ts';
 import type { Project } from './page-objects/helperBase.ts';
 import type { APIRequestContext } from '@playwright/test';
 
 const countriesToTest = ['us', 'ca', 'pl'];
 
 const projects = getProjects().filter((project: Project) => project.env !== 'prod');
+test.beforeEach(() => {
+  stepCounter.counter = 0;
+});
 const phoneByCountry: [string, string][] = Object.entries(
   getTestData('phone-by-country'),
 );

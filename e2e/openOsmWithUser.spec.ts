@@ -1,8 +1,11 @@
 import { expect } from '@playwright/test';
 import { test } from './fixtures/test-options.ts';
-import { getProjects } from './page-objects/helperBase.ts';
+import { getProjects, stepCounter } from './page-objects/helperBase.ts';
 
 let projects = getProjects();
+test.beforeEach(() => {
+  stepCounter.counter = 0;
+});
 
 // Atlas has no 'Edit map in OSM' feature for user with no rights
 projects = projects.filter((arg) => arg.name !== 'atlas');

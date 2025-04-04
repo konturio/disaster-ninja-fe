@@ -1,5 +1,5 @@
 import { expect } from '@playwright/test';
-import { HelperBase, getTestData } from './helperBase';
+import { HelperBase, getTestData, step } from './helperBase';
 import type { Locator, Page } from '@playwright/test';
 
 type ToolbarButton = {
@@ -32,15 +32,28 @@ export class ToolBar extends HelperBase {
    * @param collapse - make toolbar short or make it big. true for short
    */
 
+  @step(
+    (args) =>
+      `Resize the toolbar. Set it to ${args[0].collapse ? 'short' : 'big'} state and verify the state.`,
+  )
   async resizeToolbar({ collapse = true }: { collapse: boolean }) {
     const toolbarPanel = this.page.getByTestId('toolbar');
     const svgNumberToClick = collapse ? 2 : 1;
     await toolbarPanel.locator('svg').nth(svgNumberToClick).click();
-    await expect(toolbarPanel.getByText('Toolbar')).toBeVisible();
+    await expect(
+      toolbarPanel.getByText('Toolbar'),
+      `Expect toolbar text to be visible and to be ${collapse ? 'short' : 'big'}`,
+    ).toBeVisible();
     if (collapse) {
-      await expect(toolbarPanel.getByText('Select admin boundary')).not.toBeVisible();
+      await expect(
+        toolbarPanel.getByText('Select admin boundary'),
+        `Expect select admin boundary text not to be visible`,
+      ).not.toBeVisible();
     } else {
-      await expect(toolbarPanel.getByText('Locate me')).toBeVisible();
+      await expect(
+        toolbarPanel.getByText('Locate me'),
+        `Expect locate me text to be visible`,
+      ).toBeVisible();
     }
   }
 
@@ -50,17 +63,27 @@ export class ToolBar extends HelperBase {
    * @param hiddenTexts - array of hidden texts
    */
 
+  @step(
+    (args) =>
+      `Check that the following texts in toolbar are visible: ${args[0].join(', ')} and the following texts are hidden: ${args[1].join(', ')}. Check tooltips for visible texts.`,
+  )
   async checkTextsAndTooltipsInToolbar(visibleTexts: string[], hiddenTexts: string[]) {
     for (const text of visibleTexts) {
       const element = await this.getButtonByText(text);
-      await expect(element).toBeVisible();
+      await expect(
+        element,
+        `Expect element with text '${text}' to be visible on the map side of app`,
+      ).toBeVisible();
       if (text !== 'Save as reference area')
         await this.hoverElAndCheckTooltip(element, text);
     }
     await Promise.all(
       hiddenTexts.map(async (text) => {
         const element = await this.getButtonByText(text);
-        await expect(element).not.toBeVisible();
+        await expect(
+          element,
+          `Expect element with text '${text}' to be hidden on the map side of app`,
+        ).not.toBeVisible();
       }),
     );
   }
@@ -70,7 +93,10 @@ export class ToolBar extends HelperBase {
    * @param element - playwright locator for the element
    * @param tooltipText - text of the tooltip
    */
-
+  @step(
+    (args) =>
+      `Hover over the element to check the tooltip with text '${args[1]}'. Ensure tooltip becomes visible and then hide it by hovering over toolbar again.`,
+  )
   async hoverElAndCheckTooltip(element: Locator, tooltipText: string) {
     await element.hover();
     const tooltip = this.page.getByRole('tooltip', { name: tooltipText });
@@ -85,19 +111,36 @@ export class ToolBar extends HelperBase {
    * @param hiddenElementsIds - array of ids of hidden elements
    */
 
+  @step(
+    (args) =>
+      `Check that the following elements are visible in short toolbar with correct tooltips: ${args[0]
+        .map((el) => el.tooltipText)
+        .join(
+          ', ',
+        )}. Also, verify the following elements are hidden (check by ids): ${args[1]
+        .map((el) => el.id)
+        .join(', ')}.`,
+  )
   async checkTooltipsInShortToolbar(
     visibleElements: { id: string; tooltipText: string }[],
     hiddenElements: { id: string; tooltipText: string }[],
   ) {
     for (const { id, tooltipText } of visibleElements) {
       const element = this.page.getByTestId(id);
-      await expect(element).toBeVisible();
+      await expect(
+        element,
+        `Expect element with test id '${id}' to be visible`,
+      ).toBeVisible();
       if (tooltipText !== 'Save as reference area')
         await this.hoverElAndCheckTooltip(element, tooltipText);
     }
     await Promise.all(
       hiddenElements.map(
-        async (el) => await expect(this.page.getByTestId(el.id)).not.toBeVisible(),
+        async (el) =>
+          await expect(
+            this.page.getByTestId(el.id),
+            `Check that element with test id '${el.id}' is hidden`,
+          ).not.toBeVisible(),
       ),
     );
   }

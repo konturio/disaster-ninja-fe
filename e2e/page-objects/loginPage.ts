@@ -1,5 +1,5 @@
 import { expect } from '@playwright/test';
-import { HelperBase } from './helperBase';
+import { HelperBase, step } from './helperBase';
 import type { Project } from './helperBase';
 import type { BrowserContext, Page } from '@playwright/test';
 
@@ -19,6 +19,10 @@ export class LoginPage extends HelperBase {
    * @param operablePage - playwright page to use
    */
 
+  @step(
+    (args) =>
+      `Fill email and password, click 'Log in' and wait for ${args[2]?.project.authUrl || 'keycloak'} to answer. ${args[2]?.project.shouldSuccess ? 'Expect keycloak to answer 200 ok.' : ''}`,
+  )
   async typeLoginPasswordAndLogin(
     email: string,
     password: string,
@@ -40,16 +44,25 @@ export class LoginPage extends HelperBase {
     ]);
 
     // Expect keycloak answer 200 ok if required
-    if (shouldSuccess) expect(loginResponse.status()).toEqual(200);
+    if (shouldSuccess)
+      expect(loginResponse.status(), 'Expected response status to be 200').toEqual(200);
   }
 
   /**
    * This method checks that there are login and sign up elements
    */
+
+  @step(() => `Expect log in and sign up buttons to be visible`)
   async checkLoginAndSignupPresence(operablePage: Page = this.page) {
     await Promise.all([
-      expect(operablePage.getByRole('button', { name: 'Log in' })).toBeVisible(),
-      expect(operablePage.getByText('Sign up')).toBeVisible(),
+      expect(
+        operablePage.getByRole('button', { name: 'Log in' }),
+        'Log in button should be visible',
+      ).toBeVisible(),
+      expect(
+        operablePage.getByText('Sign up'),
+        'Sign up button should be visible',
+      ).toBeVisible(),
     ]);
   }
 
@@ -58,7 +71,10 @@ export class LoginPage extends HelperBase {
    * @param context - playwright context to use for page waiting
    * @returns a keycloak playwright page to use
    */
-
+  @step(
+    () =>
+      `Click sign up button, wait for new page with keycloak page being opened, check that keycloak page title has 'Sign in' text`,
+  )
   async clickSignUpAndNavigateToKeycloak(context: BrowserContext) {
     // Start waiting for new page being opened and click sign up
     const [keycloakPage] = await Promise.all([
@@ -66,7 +82,9 @@ export class LoginPage extends HelperBase {
       this.page.getByText('Sign up').click({ delay: 330 }),
     ]);
     await keycloakPage.waitForLoadState();
-    await expect(keycloakPage).toHaveTitle(/Sign in/);
+    await expect(keycloakPage, 'Keycloak page should have title "Sign in"').toHaveTitle(
+      /Sign in/,
+    );
     return keycloakPage;
   }
 }

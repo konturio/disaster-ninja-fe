@@ -1,5 +1,5 @@
 import { test } from './fixtures/test-options.ts';
-import { getProjects } from './page-objects/helperBase.ts';
+import { getProjects, stepCounter } from './page-objects/helperBase.ts';
 import type { Page } from '@playwright/test';
 import type { Project } from './page-objects/helperBase.ts';
 import type { PageManager } from './page-objects/pageManager.ts';
@@ -16,6 +16,9 @@ type InputData = {
 };
 
 let projects = getProjects();
+test.beforeEach(() => {
+  stepCounter.counter = 0;
+});
 // Oam has no layers, smart-city has no population density layer
 // Disaster-ninja temporally switched off untill 15482 issue is fixed
 

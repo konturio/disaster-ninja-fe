@@ -1,5 +1,5 @@
 import { expect } from '@playwright/test';
-import { HelperBase } from './helperBase';
+import { HelperBase, step } from './helperBase';
 import type { Project } from './helperBase';
 import type { Page, APIRequestContext } from '@playwright/test';
 
@@ -75,6 +75,10 @@ export class KeycloakPage extends HelperBase {
    * @param param1 - object with fullName, email and password fields to use it as input data
    */
 
+  @step(
+    (args) =>
+      `Register user with name "${args[2]?.fullName}", countryCode "${args[2]?.countryCode}", phoneCode "${args[2]?.phoneCode}" on project "${args[0]?.name}".`,
+  )
   async registerAndSeeVerificationEmailInfo(
     project: Project,
     page: Page,
@@ -105,13 +109,20 @@ export class KeycloakPage extends HelperBase {
     ]);
     const requestJSON = requestResponse.postDataJSON();
 
-    expect(requestJSON.fullPhone).toBe(phoneCode + phone);
-    expect(requestJSON.country).toBe(countryCode);
+    expect(
+      requestJSON.fullPhone,
+      `Expected phone number (${phoneCode + phone}) to be in the request JSON`,
+    ).toBe(phoneCode + phone);
+    expect(
+      requestJSON.country,
+      `Expected country code (${countryCode}) to be in the request JSON`,
+    ).toBe(countryCode);
 
     await page.locator(':text("Email verification")').waitFor({ state: 'visible' });
 
     await expect(
       page.getByText('You need to verify your email address to activate your account.'),
+      'Expected text "You need to verify your email address to activate your account." to be visible on the page',
     ).toBeInViewport({ ratio: 1 });
   }
 
@@ -121,6 +132,10 @@ export class KeycloakPage extends HelperBase {
    * @returns access token in string format
    */
 
+  @step(
+    (args) =>
+      `Get Keycloak admin token for project "${args[0]?.project.name}" and expect 200 status.`,
+  )
   async getAdminToken({ project, apiContext, adminName, adminPassword }: GetTokenData) {
     const url =
       project.env === 'test'
@@ -137,7 +152,7 @@ export class KeycloakPage extends HelperBase {
       },
     });
 
-    expect(response.status()).toEqual(200);
+    expect(response.status(), 'Expected response status to be 200').toEqual(200);
     const responseBody = await response.json();
     return responseBody.access_token;
   }
@@ -147,7 +162,10 @@ export class KeycloakPage extends HelperBase {
    * @param object object with tested Kontur project, playwright api context, Keycloak admin token and text to use to search with it
    * @returns array of objects with users
    */
-
+  @step(
+    (args) =>
+      `Search for users containing text "${args[0]?.text}" in realm "${args[0]?.project.env}" at "${args[0]?.domain}".`,
+  )
   async getUsers({ domain, project, text, adminToken, apiContext }: GetUserArrayData) {
     const endpointToSearchForUser = `${domain}/admin/realms/${project.env === 'test' ? 'test' : 'dev'}/users?search=${text}`;
 
@@ -156,7 +174,7 @@ export class KeycloakPage extends HelperBase {
         Authorization: `Bearer ${adminToken}`,
       },
     });
-    expect(userResponse.status()).toEqual(200);
+    expect(userResponse.status(), 'Expected response status to be 200').toEqual(200);
 
     const userObjArray = await userResponse.json();
     return userObjArray;
@@ -167,6 +185,10 @@ export class KeycloakPage extends HelperBase {
    * @param object object with Kontur project, playwright api context, email, admin token, Keycloak admin name and password, part of email before '@'
    */
 
+  @step(
+    (args) =>
+      `Verify email "${args[0]?.email}" for user "${args[0]?.username}" in realm "${args[0]?.project.env}" using project "${args[0]?.project.name}".`,
+  )
   async verifyEmail({
     project,
     apiContext,
@@ -217,7 +239,9 @@ export class KeycloakPage extends HelperBase {
         Authorization: `Bearer ${newAdminToken}`,
       },
     });
-    expect(updatedUserResponse.status()).toEqual(204);
+    expect(updatedUserResponse.status(), 'Expected response status to be 204').toEqual(
+      204,
+    );
     return id;
   }
 
@@ -225,7 +249,10 @@ export class KeycloakPage extends HelperBase {
    * This method deletes user by id.
    * @param deleteObj - object with Kontur project, playwright api context, admin token, user id
    */
-
+  @step(
+    (args) =>
+      `Delete user with ID "${args[0]?.userId}" from realm "${args[0]?.project.env}".`,
+  )
   async deleteUserById({ adminToken, project, apiContext, userId }: DeleteUsersInfo) {
     // Get registered user info
     const domain = this.getDomainFromUrl(project.authUrl);
@@ -238,6 +265,8 @@ export class KeycloakPage extends HelperBase {
       },
     });
 
-    expect(userDeletionResponse.status()).toEqual(204);
+    expect(userDeletionResponse.status(), 'Expected response status to be 204').toEqual(
+      204,
+    );
   }
 }

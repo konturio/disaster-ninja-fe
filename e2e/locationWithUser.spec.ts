@@ -1,8 +1,11 @@
 import { test } from './fixtures/test-options.ts';
-import { getProjects } from './page-objects/helperBase.ts';
+import { getProjects, stepCounter } from './page-objects/helperBase.ts';
 import type { Project } from './page-objects/helperBase.ts';
 
 let projects = getProjects();
+test.beforeEach(() => {
+  stepCounter.counter = 0;
+});
 
 // Atlas has no 'Locate me' feature for user with no rights
 projects = projects.filter((arg: Project) => arg.name !== 'atlas');
