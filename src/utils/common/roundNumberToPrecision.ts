@@ -5,6 +5,7 @@ import { isNumber } from './isNumber';
  * If the value is smaller than specified precision (e.g. value = 0.009, decimals = 2), exponential notation is used.
  * @param value
  * @param decimals Number of digits after decimal comma. Must be 0..100.
+ * @param removeTrailingZeros (Optional) If set to true, trailing zeros will be removed from the decimal part. Default: false.
  * @param exponentialDecimals (Optional) Number of digits after decimal point in exponential notation. Must be 0..100. If absent, decimals parameter is used instead.
  * @returns String representation of the number, either in fixed-point or in exponential notation.
  */
