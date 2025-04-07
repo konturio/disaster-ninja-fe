@@ -34,13 +34,11 @@ export function OneLayerPopup({
     <ul className={s.list}>
       <li>
         <span className={s.entryName}>{num}:</span>{' '}
-        {normalized[key].denValue
-          ? roundNumberToPrecision(normalized[key].numValue, 5, 3)
-          : '--'}
+        {roundNumberToPrecision(normalized[key].numValue, 5, 3)}
       </li>
       <li>
         <span className={s.entryName}>{den}:</span>{' '}
-        {normalized[key] ? roundNumberToPrecision(normalized[key].denValue, 5, 3) : '--'}
+        {roundNumberToPrecision(normalized[key].denValue, 5, 3)}
       </li>
       <li>
         <span className={s.entryName}>
