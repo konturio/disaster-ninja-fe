@@ -11,6 +11,7 @@ import { isNumber } from './isNumber';
 export function roundNumberToPrecision(
   value: number,
   decimals: number,
+  removeTrailingZeros: boolean = false,
   exponentialDecimals?: number,
 ): string {
   if (decimals < 0) {
@@ -22,6 +23,8 @@ export function roundNumberToPrecision(
       isNumber(exponentialDecimals) ? exponentialDecimals : decimals,
     );
   } else {
-    return Number.parseFloat(value.toFixed(decimals)).toString();
+    return removeTrailingZeros
+      ? Number.parseFloat(value.toFixed(decimals)).toString()
+      : value.toFixed(decimals);
   }
 }

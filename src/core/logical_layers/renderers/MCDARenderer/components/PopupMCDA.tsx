@@ -34,17 +34,17 @@ export function OneLayerPopup({
     <ul className={s.list}>
       <li>
         <span className={s.entryName}>{num}:</span>{' '}
-        {roundNumberToPrecision(normalized[key].numValue, 3, 2)}
+        {roundNumberToPrecision(normalized[key].numValue, 3, false, 2)}
       </li>
       <li>
         <span className={s.entryName}>{den}:</span>{' '}
-        {roundNumberToPrecision(normalized[key].denValue, 3, 2)}
+        {roundNumberToPrecision(normalized[key].denValue, 3, false, 2)}
       </li>
       <li>
         <span className={s.entryName}>
           {num} / {den}:
         </span>{' '}
-        {roundNumberToPrecision(resultMCDA, 3)}
+        {roundNumberToPrecision(resultMCDA, 2, true)}
       </li>
     </ul>
   );
@@ -74,7 +74,8 @@ export function MultiLayerPopup({ layers, normalized, resultMCDA }: MultiLayerPo
                 {num} / {den}
               </td>
               <td>
-                {roundNumberToPrecision(min, 2)} - {roundNumberToPrecision(max, 2)}
+                {roundNumberToPrecision(min, 2, true)} -{' '}
+                {roundNumberToPrecision(max, 2, true)}
               </td>
               <td>{coefficient}</td>
               <td>{roundNumberToPrecision(normalized[`${num}-${den}`].val, 3)}</td>
@@ -84,7 +85,9 @@ export function MultiLayerPopup({ layers, normalized, resultMCDA }: MultiLayerPo
         })}
         <tr>
           <td colSpan={5}>
-            <b className={s.result}>Result: {roundNumberToPrecision(resultMCDA, 3)}</b>
+            <b className={s.result}>
+              Result: {roundNumberToPrecision(resultMCDA, 2, true)}
+            </b>
           </td>
         </tr>
       </tbody>
