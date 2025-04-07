@@ -1,14 +1,15 @@
 import { expect } from '@playwright/test';
 import { test } from './fixtures/test-options.ts';
 import { getProjects, stepCounter } from './page-objects/helperBase.ts';
+import type { Project } from './page-objects/helperBase.ts';
 
 let projects = getProjects();
 test.beforeEach(() => {
   stepCounter.counter = 0;
 });
 
-// Atlas has no 'Edit map in OSM' feature for user with no rights
-projects = projects.filter((arg) => arg.name !== 'atlas');
+// Atlas has no map for user with no rights
+projects = projects.filter((arg: Project) => arg.name !== 'atlas');
 
 for (const project of projects) {
   test(`As User with no rights, I can go to ${project.title}, open map and open Rapid OSM editor at map coordinates`, async ({
@@ -28,18 +29,14 @@ for (const project of projects) {
 
     const coordinates = await pageManager.atMap.getViewportFromUrl();
 
-    const editMapBtn = pageManager.atToolBar.getButtonByText('Edit map in OSM', page);
-    await editMapBtn.hover();
-
-    const [newPage] = await Promise.all([
-      context.waitForEvent('page', { timeout: 25000 }),
-      editMapBtn.click({
-        delay: 330,
-      }),
-    ]);
+    const newPage =
+      await pageManager.atToolBar.clickEditMapInOSMBtnAndWaitForOSMOpen(context);
 
     await pageManager.atMap.waitForUrlToMatchPattern(/rapideditor/, newPage);
     const osmCoordinates = await pageManager.atMap.getViewportFromUrl(newPage);
-    expect(osmCoordinates).toStrictEqual(coordinates);
+    expect(
+      osmCoordinates,
+      `Expect osm coordinates at Rapid OSM editor to be equal to ${JSON.stringify(coordinates)}`,
+    ).toStrictEqual(coordinates);
   });
 }

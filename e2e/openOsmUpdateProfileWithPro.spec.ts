@@ -2,17 +2,11 @@ import { expect } from '@playwright/test';
 import { faker } from '@faker-js/faker';
 import { test } from './fixtures/test-options.ts';
 import { getProjects, stepCounter } from './page-objects/helperBase.ts';
-import type { Project } from './page-objects/helperBase.ts';
 
 const projects = getProjects();
 test.beforeEach(() => {
   stepCounter.counter = 0;
 });
-let limitedProjects = Object.create(projects);
-// TO DO: remove logics with limitation for DN once 19469 issue is done
-limitedProjects = limitedProjects.filter(
-  (project: Project) => project.name !== 'disaster-ninja',
-);
 
 const editors: [string, RegExp][] = [
   ['OpenStreetMap.org default editor', /openstreetmap/],
@@ -39,13 +33,16 @@ for (const project of projects) {
     await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
     await pageManager.atNavigationMenu.clickButtonToOpenPage('Profile');
     const osmEditorValue = await pageManager.atProfilePage.getOsmEditorValue();
-    expect(osmEditorValue).toBe('OpenStreetMap.org default editor');
+    expect(
+      osmEditorValue,
+      `Expect osm editor value to be 'OpenStreetMap.org default editor'`,
+    ).toBe('OpenStreetMap.org default editor');
   });
 }
 
 test.describe(`As PRO User, I can use different OSM editors to open the map and I can update details of my profile`, () => {
   test.describe.configure({ mode: 'serial' });
-  for (const project of limitedProjects) {
+  for (const project of projects) {
     for (const [editor, pattern] of editors) {
       test(`As PRO User, I can go to ${project.title}, update profile details, open map and open ${editor} at map coordinates`, async ({
         context,
@@ -64,7 +61,10 @@ test.describe(`As PRO User, I can use different OSM editors to open the map and 
           await pageManager.atProfilePage.saveChanges();
           const editedOsmEditorValue =
             await pageManager.atProfilePage.getOsmEditorValue();
-          expect(editedOsmEditorValue).toEqual(editor);
+          expect(
+            editedOsmEditorValue,
+            `Expect osm editor value to be '${editor}'`,
+          ).toEqual(editor);
         } else {
           await pageManager.atProfilePage.saveChanges();
         }
@@ -72,7 +72,7 @@ test.describe(`As PRO User, I can use different OSM editors to open the map and 
           project,
           {
             shouldOsmEditorBeSeenOnAtlas: true,
-            isUsrPro: false,
+            isUsrPro: true,
           },
         );
         expect(newProfileData.bioValue, 'Bio should be updated').toStrictEqual(newBio);
@@ -82,28 +82,24 @@ test.describe(`As PRO User, I can use different OSM editors to open the map and 
 
         await Promise.all([
           pageManager.atNavigationMenu.clickButtonToOpenPage('Map'),
-          pageManager.atMap.waitForUrlToMatchPattern(/\?map=/i, page, 'domcontentloaded'),
+          pageManager.atMap.waitForUrlToMatchPattern(/\?map=/i),
         ]);
-        await pageManager.atMap.waitForTextBeingVisible('Tools', page);
+        await pageManager.atMap.waitForTextBeingVisible('Tools');
 
         // TO DO: async behaviour of app being loaded is not stable and waiting for events like router-layout-ready is not possible for already loaded app, so waiting for timeout is needed + to emulate real user behaviour
         await page.waitForTimeout(process.env.CI ? 7000 : 5000);
 
         const coordinates = await pageManager.atMap.getViewportFromUrl();
 
-        const editMapBtn = pageManager.atToolBar.getButtonByText('Edit map in OSM', page);
-        await editMapBtn.hover();
-
-        const [newPage] = await Promise.all([
-          context.waitForEvent('page', { timeout: 25000 }),
-          editMapBtn.click({
-            delay: 330,
-          }),
-        ]);
+        const newPage =
+          await pageManager.atToolBar.clickEditMapInOSMBtnAndWaitForOSMOpen(context);
 
         await pageManager.atMap.waitForUrlToMatchPattern(pattern, newPage);
         const osmCoordinates = await pageManager.atMap.getViewportFromUrl(newPage);
-        expect(osmCoordinates).toStrictEqual(coordinates);
+        expect(
+          osmCoordinates,
+          `Expect osm coordinates at ${editor} to be equal to ${JSON.stringify(coordinates)}`,
+        ).toStrictEqual(coordinates);
       });
     }
   }

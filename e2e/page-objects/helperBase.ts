@@ -62,7 +62,7 @@ export class HelperBase {
 
   @step(
     (args) =>
-      `Wait for a ${args[1].eventType} browser event with ${args[2].eventName} to be emitted`,
+      `Wait for a '${args[1]}' browser event with '${args[2]}' name to be emitted`,
   )
   async waitForEventWithFilter(
     operablePage: Page = this.page,
@@ -118,7 +118,10 @@ export class HelperBase {
     shouldExpect?: boolean,
   ) {
     if (shouldExpect) {
-      await expect(page.getByText(text, { exact: true })).toBeVisible();
+      await expect(
+        page.getByText(text, { exact: true }),
+        `Expect text '${text}' to be visible`,
+      ).toBeVisible();
       return;
     }
     await page
@@ -175,6 +178,23 @@ export class HelperBase {
     await expect(this.page, `Page should have '${project.title}' title`).toHaveTitle(
       new RegExp(project.title),
     );
+  }
+
+  /**
+   * This method checks that page has no specified by developer visible texts
+   * @param texts array of texts to check
+   */
+
+  @step((args) => `Check that page has no visible texts: ${args.join(', ')}`)
+  async checkPageHasNoTexts(texts: string[]) {
+    await Promise.all([
+      texts.forEach(async (text) => {
+        expect(
+          this.page.getByText(text, { exact: true }).first(),
+          `Check that text '${text}' is not visible`,
+        ).not.toBeVisible();
+      }),
+    ]);
   }
 
   /**
@@ -347,7 +367,7 @@ export function step(stepNameTemplate: (...args: any[]) => string) {
   // return decorator function to change the test function
   return function decorator(target: (...args: any[]) => any) {
     // return changed function
-    return function (...args: any[]) {
+    return async function (...args: any[]) {
       stepCounter.counter += 1;
       const stepName = stepNameTemplate(args);
       test.info().annotations.push({
@@ -356,7 +376,7 @@ export function step(stepNameTemplate: (...args: any[]) => string) {
       });
 
       // wrapping the target function with special test.step function
-      return test.step(stepName, async () => {
+      return await test.step(stepName, async () => {
         // calling the target function with correct 'this'
         return await target.call(this, ...args);
       });

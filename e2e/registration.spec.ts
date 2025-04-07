@@ -7,6 +7,7 @@ import type { APIRequestContext } from '@playwright/test';
 
 const countriesToTest = ['us', 'ca', 'pl'];
 
+// Registration is not allowed for testing on prod not to spam the server
 const projects = getProjects().filter((project: Project) => project.env !== 'prod');
 test.beforeEach(() => {
   stepCounter.counter = 0;

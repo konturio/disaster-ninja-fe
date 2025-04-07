@@ -7,8 +7,9 @@ const projects: Project[] = getProjects();
 test.beforeEach(() => {
   stepCounter.counter = 0;
 });
-
+// Only Atlas has MCDA
 const projectsWithMCDA = projects.filter((project) => project.name === 'atlas');
+
 const pixelsDifference = 0.03;
 const areaToSearch = 'Homewood, USA';
 const desiredLocation = 'Homewood, Jefferson County, Alabama, United States';

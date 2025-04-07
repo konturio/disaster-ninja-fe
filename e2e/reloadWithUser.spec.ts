@@ -14,10 +14,6 @@ for (const project of projects) {
     });
     if (project.name !== 'atlas') {
       test(`Url of map is still the same`, async ({ pageManager }) => {
-        // test.fixme(
-        //   project.name === 'oam',
-        //   'Fix https://kontur.fibery.io/Tasks/Task/routing-oam-url-param-map-2.122--0.000-0.000-is-opened-first-instead-of-map-2.122-0.000-0.000-19889 to unblock oam test',
-        // );
         await pageManager.atNavigationMenu.clickButtonToOpenPage('Map');
         if (project.name !== 'disaster-ninja')
           await pageManager.atBrowser.waitForUrlToMatchPattern(/map=/);
@@ -34,10 +30,6 @@ for (const project of projects) {
       });
     }
     test('My profile has the same data', async ({ pageManager }) => {
-      // test.fixme(
-      //   project.name === 'oam',
-      //   'Fix https://kontur.fibery.io/Tasks/Task/routing-oam-url-param-map-2.122--0.000-0.000-is-opened-first-instead-of-map-2.122-0.000-0.000-19889 to unblock oam test',
-      // );
       test.fixme(
         project.name === 'atlas',
         'Fix https://kontur.fibery.io/Tasks/Task/routing-Reloading-the-profile-page-opens-pricing-tab-for-user-with-no-subscription-19964 to unblock atlas test',
@@ -59,7 +51,10 @@ for (const project of projects) {
           shouldOsmEditorBeSeenOnAtlas: true,
           isUsrPro: false,
         });
-      expect(settingsValuesAfterReload).toStrictEqual(settingsValues);
+      expect(
+        settingsValuesAfterReload,
+        `Expect new profile data to match old one after reload`,
+      ).toStrictEqual(settingsValues);
     });
   });
 }

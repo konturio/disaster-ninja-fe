@@ -38,7 +38,7 @@ export class MapCanvas extends HelperBase {
    */
   @step(
     (args) =>
-      `Get a map view image and compare it with the expected screenshot of it with ${args[0] || 0} pixels allowed difference`,
+      `Get a map view image and compare it with the expected screenshot of it with ${args[0] * 100 || 0}% pixels allowed difference`,
   )
   async compareScreenshotsOfMap(allowedPixelsDifference: number = 0) {
     const map = this.page.locator('#map-view');
@@ -148,7 +148,7 @@ export class MapCanvas extends HelperBase {
 
   @step(
     (args) =>
-      `Get viewport from application url ${args[0]?.url || ''} and check that map data is defined and that zoom, latitude and longitude are not NaN`,
+      `Get viewport from application url ${args[0]?.url() || ''} and check that map data is defined and that zoom, latitude and longitude are not NaN`,
   )
   async getViewportFromUrl(page: Page = this.page) {
     const mapData = page.url().split('map=')[1].split('&')[0];
@@ -208,5 +208,35 @@ export class MapCanvas extends HelperBase {
         `Check that a breadcrumb contains ${expectedLocations[i]}`,
       ).toHaveText(expectedLocations[i]);
     }
+  }
+
+  /**
+   * This method checks that KONTUR_MAP object in the page has correct coordinates
+   * @param param0 - object with expected latitude and longitude
+   */
+
+  @step(
+    (args) =>
+      `Assert that KONTUR_MAP object in the page has correct coordinates (${JSON.stringify(args[0])})`,
+  )
+  async assertLocationInMapObject({
+    expectedLatitude,
+    expectedLongitude,
+  }: {
+    expectedLatitude: number;
+    expectedLongitude: number;
+  }) {
+    const center = await this.page.evaluate(() => {
+      //@ts-expect-error KONTUR_MAP is defined in the page at window object
+      const { lat, lng } = window.KONTUR_MAP.getCenter();
+      return { lat, lng };
+    });
+    expect(center.lat, `Expect latitude to be close to ${expectedLatitude}`).toBeCloseTo(
+      expectedLatitude,
+    );
+    expect(
+      center.lng,
+      `Expect longitude to be close to ${expectedLongitude}`,
+    ).toBeCloseTo(expectedLongitude);
   }
 }

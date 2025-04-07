@@ -3,17 +3,10 @@ import { getProjects, stepCounter } from './page-objects/helperBase.ts';
 import type { Project } from './page-objects/helperBase.ts';
 import type { PageManager } from './page-objects/pageManager.ts';
 
-let projects = getProjects();
+const projects = getProjects();
 test.beforeEach(() => {
   stepCounter.counter = 0;
 });
-
-// Temporally switched off disaster-ninja untill 15482 issue is fixed
-// Temporally switched off oam untill 18508 issue is fixed
-
-projects = projects.filter(
-  ({ name }: Project) => name !== 'disaster-ninja' && name !== 'oam',
-);
 
 // Setting 3 retries for CI as it is very flacky with screenshots
 const retriesNumber = process.env.CI ? 3 : 1;
@@ -30,11 +23,15 @@ const testLocation = async function (pageManager: PageManager, project: Project)
 
   // Wait for zoom to happen after url is changed
   await pageManager.atMap.waitForZoom();
+  await pageManager.atMap.assertLocationInMapObject({
+    expectedLatitude: 40.714,
+    expectedLongitude: -74.0324,
+  });
 
-  // OAM has no colors so it needs more accuracy
-
-  const pixelsDifference = project.name === 'oam' ? 0.01 : 0.03;
-  await pageManager.atMap.compareScreenshotsOfMap(pixelsDifference);
+  // OAM is tested at api level
+  // only prod needs to compare screenshots
+  if (project.name === 'atlas' && project.env === 'prod')
+    await pageManager.atMap.compareScreenshotsOfMap(0.03);
 };
 
 for (const project of projects) {
@@ -50,12 +47,20 @@ for (const project of projects) {
     test(`As PRO User, I can click Locate me button at ${project.title} and get zoomed to my location`, async ({
       pageManager,
     }) => {
+      test.skip(
+        project === 'disaster-ninja',
+        'Fix https://kontur.fibery.io/Tasks/Task/Locate-me-is-not-working-if-it-has-been-pressed-before-the-event-is-zoomed-in-15482 issue to unblock this test for disaster-ninja',
+      );
       await testLocation(pageManager, project);
     });
   } else {
     test(`As PRO User, I can click Locate me button at ${project.title} and get zoomed to my location (prod)`, async ({
       pageManager,
     }) => {
+      test.skip(
+        project === 'disaster-ninja',
+        'Fix https://kontur.fibery.io/Tasks/Task/Locate-me-is-not-working-if-it-has-been-pressed-before-the-event-is-zoomed-in-15482 issue to unblock this test for disaster-ninja',
+      );
       await testLocation(pageManager, project);
     });
   }

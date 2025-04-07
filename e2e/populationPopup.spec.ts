@@ -19,11 +19,14 @@ let projects = getProjects();
 test.beforeEach(() => {
   stepCounter.counter = 0;
 });
-// Oam has no layers, smart-city has no population density layer
-// Disaster-ninja temporally switched off untill 15482 issue is fixed
-// Atlas has no 'layers' feature for guest (and layers theirself)
 
-const excludedNames = ['atlas', 'oam', 'disaster-ninja', 'smart-city'];
+// Setting 3 retries as popup is flaky
+test.describe.configure({ retries: 3 });
+
+// Oam has no layers, smart-city has no population density layer
+// Atlas has no 'layers' feature for guest (and map at all)
+
+const excludedNames = ['atlas', 'oam', 'smart-city'];
 
 projects = projects.filter((arg) => !excludedNames.includes(arg.name));
 

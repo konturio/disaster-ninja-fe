@@ -11,7 +11,7 @@ export class NavigationMenu extends HelperBase {
 
   @step(
     (args) =>
-      `Click the '${args[0]}' button in the navigation menu to open the corresponding page. Ensure the button is hovered before clicking, and a delay is added to emulate user behavior.`,
+      `Click the '${args[0]}' button in the navigation menu to open the corresponding page. The button is hovered before clicking, and a delay is added to emulate user behavior.`,
   )
   async clickButtonToOpenPage(buttonName: string, operablePage: Page = this.page) {
     const button = operablePage

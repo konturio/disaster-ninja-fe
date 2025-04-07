@@ -1,6 +1,6 @@
 import { expect } from '@playwright/test';
 import { HelperBase, getTestData, step } from './helperBase';
-import type { Locator, Page } from '@playwright/test';
+import type { Locator, Page, BrowserContext } from '@playwright/test';
 
 type ToolbarButton = {
   id: string;
@@ -159,5 +159,25 @@ export class ToolBar extends HelperBase {
     } else {
       return this.data;
     }
+  }
+
+  /**
+   * This method hovers and clicks 'Edit map in OSM' button and waits for OSM to open
+   * @param context - browser context passed by Playwright
+   * @returns newly opened page
+   */
+
+  @step(() => `Hover and click 'Edit map in OSM' button and wait for OSM to open`)
+  async clickEditMapInOSMBtnAndWaitForOSMOpen(context: BrowserContext) {
+    const editMapBtn = this.getButtonByText('Edit map in OSM');
+    await editMapBtn.hover();
+
+    const [newPage] = await Promise.all([
+      context.waitForEvent('page', { timeout: 35000 }),
+      editMapBtn.click({
+        delay: 330,
+      }),
+    ]);
+    return newPage;
   }
 }

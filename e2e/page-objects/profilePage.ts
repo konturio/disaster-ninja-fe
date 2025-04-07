@@ -1,10 +1,14 @@
-import { expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import { HelperBase, step } from './helperBase';
 import type { Project } from './helperBase';
 
 type ProfileOptions = {
   shouldOsmEditorBeSeenOnAtlas: boolean;
   isUsrPro: boolean;
+};
+
+type ProfileData = {
+  [k: string]: string | boolean | null;
 };
 
 export class ProfilePage extends HelperBase {
@@ -157,115 +161,177 @@ export class ProfilePage extends HelperBase {
    * @returns object with strings for values and booleans for statuses of radio buttons
    */
 
-  // надо в зависимости от проекта ожидать разные поля и значения (открыты вкладки по каждому проекту + открой за про юзера чтоб посмотреть что он видит тоже на каждом проекте)
-  // надо учеть логику с про юзером.
   // нужно обновить скриншоты в других тестах
-  // ожидать определенные текста на странице (все текста) - waitForTextBeingVisible в helperBase и через ожидаемые текста в самих тестах (можно брать из фикстур если длинные строки и массив)
   // обновить openOSM тоже на каждый проект и роль
 
   async getAndAssertProfileData(
     project: Project,
     { shouldOsmEditorBeSeenOnAtlas, isUsrPro }: ProfileOptions,
-  ): Promise<{
-    [k: string]: string | boolean | null;
-  }> {
+  ): Promise<ProfileData> {
+    const testResultObj: ProfileData = {};
     // Wait for a profile element to be ready for actions
     await this.page
       .getByText('Your contact info')
       .first()
       .waitFor({ state: 'visible', timeout: 25000 });
 
-    const emailValue = await this.getEmailValueAndCheckThisFieldIsDisabled();
-    const fullNameValue = await this.getFullNameValue();
-    const bioValue = await this.page
-      .getByText('Bio')
-      .locator('..')
-      .locator('textarea')
-      .textContent();
-    const languageValue = await this.page
-      .getByText('Language')
-      .locator('..')
-      .locator('span')
-      .textContent();
-    const isMetricUnitChecked = await this.page
-      .getByRole('radio', { name: 'metric' })
-      .isChecked();
-    const isImperialUnitChecked = await this.page
-      .getByRole('radio', { name: 'imperial (beta)' })
-      .isChecked();
-    const disasterFeedValue =
-      project.name === 'disaster-ninja'
-        ? await this.page
-            .getByText('Default disaster feed')
-            .locator('..')
-            .locator('span')
-            .textContent()
-        : 'No data';
-    const osmEditorValue =
-      shouldOsmEditorBeSeenOnAtlas || project.name !== 'atlas'
-        ? await this.page
-            .getByText('Default OpenStreetMap editor (beta)')
-            .locator('..')
-            .locator('span')
-            .textContent()
-        : 'No data';
+    await test.step(`Getting all generally available profile data`, async () => {
+      testResultObj.emailValue = await this.getEmailValueAndCheckThisFieldIsDisabled();
+      testResultObj.fullNameValue = await this.getFullNameValue();
+      testResultObj.bioValue = await this.page
+        .getByText('Bio')
+        .locator('..')
+        .locator('textarea')
+        .textContent();
+      testResultObj.languageValue = await this.page
+        .getByText('Language')
+        .locator('..')
+        .locator('span')
+        .textContent();
+      testResultObj.isMetricUnitChecked = await this.page.locator('#metric').isChecked();
+      await expect(
+        this.page.locator('#metric').locator('..').locator('span'),
+        `Check that metric unit has a correct text near radio button`,
+      ).toHaveText('metric');
+      testResultObj.isImperialUnitChecked = await this.page
+        .locator('#imperial')
+        .isChecked();
+      await expect(
+        this.page.locator('#imperial').locator('..').locator('span'),
+        `Check that imperial unit has a correct text near radio button`,
+      ).toHaveText('imperial (beta)');
+    });
 
-    if (project.name !== 'disaster-ninja')
-      await expect(this.page.getByText('Default disaster feed')).not.toBeVisible();
-    if (!shouldOsmEditorBeSeenOnAtlas && project.name === 'atlas')
+    if (project.name === 'disaster-ninja') {
+      await test.step(`Getting only ${project.name} available 'Default disaster feed' profile data`, async () => {
+        testResultObj.disasterFeedValue = await this.page
+          .getByText('Default disaster feed')
+          .locator('..')
+          .locator('span')
+          .textContent();
+      });
+    }
+    if (shouldOsmEditorBeSeenOnAtlas || project.name !== 'atlas') {
+      await test.step(`Getting available for ${project.name} osm editor data. ${project.name === 'atlas' ? `OSM editor data on ${project.name} should ${shouldOsmEditorBeSeenOnAtlas ? '' : 'not '}be visible` : ''}`, async () => {
+        testResultObj.osmEditorValue = await this.page
+          .getByText('Default OpenStreetMap editor (beta)')
+          .locator('..')
+          .locator('span')
+          .textContent();
+      });
+    }
+    if (!shouldOsmEditorBeSeenOnAtlas && project.name === 'atlas') {
       await expect(
         this.page.getByText('Default OpenStreetMap editor (beta)'),
+        `Expect no 'Default OpenStreetMap editor (beta)' text to be visible on the page of ${project.name}`,
       ).not.toBeVisible();
-
-    if ((project.name === 'atlas' || project.name === 'smart-city') && isUsrPro) {
-      // проверяем про фичи
-
-      const phoneValue = await this.page
-        .getByText('Phone number with country code')
-        .locator('..')
-        .locator('input')
-        .inputValue();
-      const linkedinValue = await this.page
-        .getByText('LinkedIn profile')
-        .locator('..')
-        .locator('input')
-        .inputValue();
-      const organisationValue = await this.page
-        .getByText('Organization name')
-        .locator('..')
-        .locator('input')
-        .inputValue();
-      const positionValue = await this.page
-        .getByText('Position')
-        .locator('..')
-        .locator('input')
-        .inputValue();
-      const analysisObjectivesValue =
-        project.name === 'atlas'
-          ? await this.page
-              .getByText('Analysis objectives')
-              .locator('..')
-              .locator('textarea')
-              .textContent()
-          : 'No data';
-    } else {
-      // проверяем что про фичей нету
     }
 
-    return {
-      fullNameValue,
-      emailValue,
-      bioValue,
-      languageValue,
-      isMetricUnitChecked,
-      isImperialUnitChecked,
-      disasterFeedValue,
-      osmEditorValue,
-      // phoneValue,
-      // linkedinValue,
-      // organisationValue,
-      // positionValue,
-      // analysisObjectivesValue,
-    };
+    if (project.name !== 'disaster-ninja') {
+      await expect(
+        this.page.getByText('Default disaster feed'),
+        `Check that disaster feed for ${project.name} is not visible`,
+      ).not.toBeVisible();
+    }
+
+    if (project.name === 'atlas' || project.name === 'smart-city') {
+      await test.step(`Getting only ${project.name} available user data`, async () => {
+        testResultObj.phoneValue = await this.page
+          .getByText('Phone number with country code')
+          .locator('..')
+          .locator('input')
+          .inputValue();
+        testResultObj.linkedinValue = await this.page
+          .getByText('LinkedIn profile')
+          .locator('..')
+          .locator('input')
+          .inputValue();
+        testResultObj.organisationValue = await this.page
+          .getByText('Organization name')
+          .locator('..')
+          .locator('input')
+          .inputValue();
+        testResultObj.positionValue = await this.page
+          .getByText('Position')
+          .locator('..')
+          .locator('input')
+          .inputValue();
+        testResultObj.gisSpecialistsNumber = await this.page
+          .getByText('GIS specialists in your team')
+          .locator('..')
+          .locator('span')
+          .textContent();
+      });
+    } else {
+      await this.checkPageHasNoTexts([
+        'Phone number with country code',
+        'LinkedIn profile',
+        'Organization name',
+        'Position',
+        'GIS specialists in your team',
+      ]);
+    }
+
+    const analysisObjectivesTexts = [
+      'Improves analysis',
+      `For better personalization, please include details such as:`,
+      'your current job',
+      'area of expertise',
+      'challenges',
+      `This information is compatible with AI tools`,
+    ];
+
+    const referenceAreaTexts = [
+      'Reference area',
+      'Improves analysis',
+      'Save an area you are familiar with as a reference. We will use it as a baseline to compare other areas and explain the differences.',
+      'You can redefine your reference area on map. Select an area and click "Save as reference area" on toolbar.',
+    ];
+
+    if (project.name === 'atlas' && isUsrPro) {
+      await test.step(`Getting ${project.name} available pro user data and asserting it`, async () => {
+        const analysisObjectivesSection = this.page.locator('#analysis-objectives');
+        const referenceAreaSection = this.page.locator('#reference-area');
+        testResultObj.analysisObjectivesValue = await analysisObjectivesSection
+          .locator('textarea')
+          .textContent();
+        testResultObj.referenceAreaValue = await referenceAreaSection
+          .locator('h4')
+          .textContent();
+        await Promise.all([
+          ...analysisObjectivesTexts.map((text) =>
+            expect(
+              analysisObjectivesSection.getByText(text),
+              `Check that '${text}' is visible in analysis objectives section`,
+            ).toBeVisible(),
+          ),
+          ...referenceAreaTexts.map((text) =>
+            expect(
+              referenceAreaSection.getByText(text, { exact: true }),
+              `Check that '${text}' is visible in reference area section`,
+            ).toBeVisible(),
+          ),
+        ]);
+        expect(
+          await analysisObjectivesSection.locator('h3').textContent(),
+          `Expect 'Analysis objectives' to be the title of analysis objectives section`,
+        ).toEqual('Analysis objectives');
+        expect(
+          await analysisObjectivesSection
+            .locator('textarea')
+            .locator('..')
+            .locator('div')
+            .textContent(),
+          `Expect 'Analysis objectives' text to be the name of textarea in analysis objectives section`,
+        ).toEqual('Analysis objectives');
+      });
+    } else {
+      await this.checkPageHasNoTexts([
+        ...analysisObjectivesTexts,
+        ...referenceAreaTexts,
+        'Analysis objectives',
+      ]);
+    }
+    return testResultObj;
   }
 }

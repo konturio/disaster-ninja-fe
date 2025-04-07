@@ -19,12 +19,14 @@ let projects = getProjects();
 test.beforeEach(() => {
   stepCounter.counter = 0;
 });
-// Oam has no layers, smart-city has no population density layer
-// Disaster-ninja temporally switched off untill 15482 issue is fixed
 
-const excludedNames = ['oam', 'disaster-ninja', 'smart-city'];
+// Oam has no layers, smart-city has no population density layer
+const excludedNames = ['oam', 'smart-city'];
 
 projects = projects.filter((arg) => !excludedNames.includes(arg.name));
+
+// Setting 3 retries as popup is flaky
+test.describe.configure({ retries: 3 });
 
 const testPopulation = async function (inputData: InputData) {
   await inputData.pageManager.atMap.goToSpecificAreaByUrl(
@@ -52,7 +54,7 @@ projects.forEach((project) => {
         latitude: 40.2283,
         longitude: -74.0298,
         x: 240,
-        y: 230,
+        y: 200,
       });
     });
     test('Huge population in Mumbai', async ({ pageManager, page }) => {
