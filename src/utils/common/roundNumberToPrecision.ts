@@ -12,7 +12,7 @@ import { isNumber } from './isNumber';
 export function roundNumberToPrecision(
   value: number,
   decimals: number,
-  removeTrailingZeros: boolean = false,
+  removeTrailingZeros = false,
   exponentialDecimals?: number,
 ): string {
   const precisionThreshold = Math.pow(10, -decimals);
