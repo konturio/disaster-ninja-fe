@@ -355,14 +355,15 @@ export function getTestData(fileName: string) {
   return JSON.parse(data);
 }
 
+export const stepCounter = {
+  counter: 0,
+};
+
 /**
  * This function is a decorator for methods in Page Object Models (POM) classes to add a step name
  * @param stepNameTemplate - function that returns a step name, accepts method arguments
  * @returns wrapped with test.step test activities
  */
-export const stepCounter = {
-  counter: 0,
-};
 export function step(stepNameTemplate: (...args: any[]) => string) {
   // return decorator function to change the test function
   return function decorator(target: (...args: any[]) => any) {
