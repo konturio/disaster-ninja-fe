@@ -14,9 +14,6 @@ export function roundNumberToPrecision(
   removeTrailingZeros: boolean = false,
   exponentialDecimals?: number,
 ): string {
-  if (decimals < 0) {
-    console.error('decimals and exponentialDecimals argument must be between 0 and 100');
-  }
   const precisionThreshold = Math.pow(10, -decimals);
   if (Math.abs(value) < precisionThreshold && Math.abs(value) > 0) {
     return value.toExponential(
