@@ -26,4 +26,10 @@ describe('roundNumberToPrecision', () => {
     expect(roundNumberToPrecision(-0.0025, 2, false, 2)).toEqual('-2.50e-3');
     expect(roundNumberToPrecision(0.0025, 2, false, 4)).toEqual('2.5000e-3');
   });
+
+  it('should return "NaN", "Infinity" acoordingly to the original value', () => {
+    expect(roundNumberToPrecision(NaN, 2)).toEqual('NaN');
+    expect(roundNumberToPrecision(Infinity, 2)).toEqual('Infinity');
+    expect(roundNumberToPrecision(-Infinity, 2)).toEqual('-Infinity');
+  });
 });
