@@ -185,7 +185,7 @@ export function MultivariateAnalysisForm({
         {!!dimensionsLayers.score.length && (
           <div className={s.dimension}>
             <div className={s.dimensionName}>Score</div>
-            {dimensionsLayers.score.map((mcdaLayer, index) => (
+            {dimensionsLayers.score.map((mcdaLayer, index, array) => (
               <div key={`score-${index}-${mcdaLayer.name}`} className={s.layerRow}>
                 <Select
                   className={s.dimensionTypeSelect}
@@ -203,14 +203,26 @@ export function MultivariateAnalysisForm({
                   <MCDALayerParameters
                     layer={mcdaLayer}
                     onLayerEdited={(editedLayer) => {
-                      // console.log('edited layer', editedLayer);
+                      setDimensionsLayers((oldLayers) => ({
+                        score: [
+                          ...oldLayers.score.map((oldLayer) =>
+                            oldLayer.id === mcdaLayer.id ? editedLayer : oldLayer,
+                          ),
+                        ],
+                        base: oldLayers.base,
+                      }));
                     }}
                   />
                 </div>
                 <div className={s.deleteButton}>
                   <LayerActionIcon
                     onClick={() => {
-                      /* DELETE */
+                      setDimensionsLayers((oldLayers) => ({
+                        score: [
+                          ...oldLayers.score.filter((layer) => layer.id !== mcdaLayer.id),
+                        ],
+                        base: oldLayers.base,
+                      }));
                     }}
                     hint={i18n.t('layer_actions.tooltips.erase')}
                   >
