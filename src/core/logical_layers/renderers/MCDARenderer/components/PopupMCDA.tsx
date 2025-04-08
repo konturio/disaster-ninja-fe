@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { capitalize } from '~utils/common';
+import { roundNumberToPrecision } from '~utils/common/roundNumberToPrecision';
 import s from './PopupMCDA.module.css';
 import type { PopupMCDAProps } from '../types';
 
@@ -33,17 +34,17 @@ export function OneLayerPopup({
     <ul className={s.list}>
       <li>
         <span className={s.entryName}>{num}:</span>{' '}
-        {parseFloat(normalized[key]?.numValue.toFixed(2))}
+        {roundNumberToPrecision(normalized[key].numValue, 3, false, 2)}
       </li>
       <li>
         <span className={s.entryName}>{den}:</span>{' '}
-        {parseFloat(normalized[key]?.denValue.toFixed(2))}
+        {roundNumberToPrecision(normalized[key].denValue, 3, false, 2)}
       </li>
       <li>
         <span className={s.entryName}>
           {num} / {den}:
         </span>{' '}
-        {resultMCDA.toFixed(2)}
+        {roundNumberToPrecision(resultMCDA, 2, true)}
       </li>
     </ul>
   );
@@ -73,17 +74,20 @@ export function MultiLayerPopup({ layers, normalized, resultMCDA }: MultiLayerPo
                 {num} / {den}
               </td>
               <td>
-                {min} - {max}
+                {roundNumberToPrecision(min, 2, true)} -{' '}
+                {roundNumberToPrecision(max, 2, true)}
               </td>
               <td>{coefficient}</td>
-              <td>{normalized[`${num}-${den}`].val.toFixed(2)}</td>
-              <td>{normalized[`${num}-${den}`].norm.toFixed(2)}</td>
+              <td>{roundNumberToPrecision(normalized[`${num}-${den}`].val, 3)}</td>
+              <td>{roundNumberToPrecision(normalized[`${num}-${den}`].norm, 3)}</td>
             </tr>
           );
         })}
         <tr>
           <td colSpan={5}>
-            <b className={s.result}>Result: {resultMCDA.toFixed(2)}</b>
+            <b className={s.result}>
+              Result: {roundNumberToPrecision(resultMCDA, 2, true)}
+            </b>
           </td>
         </tr>
       </tbody>
