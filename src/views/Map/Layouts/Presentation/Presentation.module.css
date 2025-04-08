@@ -1,0 +1,43 @@
+.contentWrap {
+  display: grid;
+  height: 100%;
+  gap: var(--unit);
+  padding: var(--double-unit);
+
+  /* analytics+layers column, map column, layers&legends column */
+  grid-template-columns:
+    fit-content(400px) minmax(440px, 10fr)
+    fit-content(400px);
+  grid-template-rows: calc(100% - 40px - var(--unit)) 40px var(--unit);
+}
+
+.analytics {
+  grid-column: 1;
+  grid-row: 1/3;
+}
+
+.mapWrap {
+  display: flex;
+  flex-flow: column nowrap;
+  grid-column: 2;
+  grid-row: 1/2;
+}
+
+.mapSpaceBlank {
+  flex: 1;
+}
+
+.mapSpaceBottom,
+.mapSpaceTop {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--unit);
+}
+
+.footerWrap {
+  width: 100%;
+  height: calc(100% - var(--unit));
+  grid-row: 2;
+  grid-column: 1/-1;
+}

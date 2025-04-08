@@ -3,6 +3,8 @@ import {
   IS_MOBILE_QUERY,
   useMediaQuery,
 } from '~utils/hooks/useMediaQuery';
+import { PresentationLayout } from '~views/Map/Layouts/Presentation/Presentation';
+import { MapTitle } from '~widgets/Presentation/MapTitle/MapTitle';
 import { DesktopLayout } from './Desktop/Desktop';
 import { LaptopLayout } from './Laptop/Laptop';
 import { MobileLayout } from './Mobile/Mobile';
@@ -35,6 +37,40 @@ export function Layout({
 }) {
   const isLaptop = useMediaQuery(IS_LAPTOP_QUERY);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
+
+  return (
+    <PresentationLayout
+      analyticsColumn={
+        <>
+          {breadcrumbs}
+          {
+            <MapTitle
+              title="Hexagons"
+              description="Sustainable Habitat for Santa Claus"
+            />
+          }{' '}
+          {/* TODO remove */}
+        </>
+      }
+      mapColumnTop={
+        <>
+          {breadcrumbs}
+          {toolbar}
+        </>
+      }
+      mapColumnBottom={timeline}
+      layersColumn={
+        <>
+          {disasters}
+          {layersAndLegends}
+          {analytics}
+          {layerFeaturesPanel}
+        </>
+      }
+      footer={footer}
+    />
+  );
+
   if (isMobile)
     return (
       <MobileLayout
