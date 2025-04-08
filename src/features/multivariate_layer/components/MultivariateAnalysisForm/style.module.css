@@ -22,31 +22,6 @@
   margin-top: var(--unit);
 }
 
-.dimension {
-  padding: var(--double--unit) var(--unit);
-  max-height: 50vh;
-  overflow-y: auto;
-}
-
-.dimensionName {
-  font-weight: 600;
-}
-
-.layerRow {
-  display: flex;
-  margin-top: var(--unit);
-}
-
-.dimensionTypeSelect {
-  width: 90px;
-  margin-top: var(--unit);
-}
-
-.deleteButton {
-  align-items: flex-start;
-  padding: calc(var(--unit) / 2);
-}
-
 @media screen and (max-width: 960px) {
   .analysisForm {
     display: flex;
@@ -57,10 +32,5 @@
 
   .multiselectContainer {
     width: 100%;
-  }
-
-  .dimension {
-    height: auto;
-    overflow-y: visible;
   }
 }
