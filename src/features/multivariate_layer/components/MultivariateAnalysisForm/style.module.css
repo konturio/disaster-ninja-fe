@@ -26,6 +26,7 @@
   .analysisForm {
     display: flex;
     width: 100%;
+    min-height: 50svh;
     max-height: 70svh;
     overflow-y: scroll;
   }

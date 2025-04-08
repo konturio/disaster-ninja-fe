@@ -2,6 +2,7 @@
   padding: var(--double--unit) var(--unit);
   max-height: 50vh;
   overflow-y: auto;
+  width: 100%;
 }
 
 .dimensionName {
@@ -11,6 +12,10 @@
 .layerRow {
   display: flex;
   margin-top: var(--unit);
+}
+
+.layerEditor {
+  flex: 1;
 }
 
 .dimensionTypeSelect {

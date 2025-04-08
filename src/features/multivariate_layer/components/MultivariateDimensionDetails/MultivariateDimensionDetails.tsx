@@ -52,7 +52,7 @@ export function MultivariateDimensionDetails({
           >
             {dimensionTitle}
           </Select>
-          <div>
+          <div className={s.layerEditor}>
             <MCDALayerParameters
               layer={mcdaLayer}
               onLayerEdited={(editedLayer) => {
