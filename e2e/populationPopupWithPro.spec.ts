@@ -25,8 +25,8 @@ const excludedNames = ['oam', 'smart-city'];
 
 projects = projects.filter((arg) => !excludedNames.includes(arg.name));
 
-// Setting 3 retries as popup is flaky
-test.describe.configure({ retries: 3 });
+// Setting 2 retries as popup is flaky
+test.describe.configure({ retries: 2 });
 
 const testPopulation = async function (inputData: InputData) {
   await inputData.pageManager.atMap.goToSpecificAreaByUrl(

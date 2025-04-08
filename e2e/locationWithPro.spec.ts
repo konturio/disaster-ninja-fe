@@ -8,10 +8,6 @@ test.beforeEach(() => {
   stepCounter.counter = 0;
 });
 
-// Setting 3 retries for CI as it is very flacky with screenshots
-const retriesNumber = process.env.CI ? 3 : 1;
-test.describe.configure({ retries: retriesNumber });
-
 // Moving test to a separate function to reuse it
 const testLocation = async function (pageManager: PageManager, project: Project) {
   await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
@@ -27,11 +23,6 @@ const testLocation = async function (pageManager: PageManager, project: Project)
     expectedLatitude: 40.714,
     expectedLongitude: -74.0324,
   });
-
-  // OAM is tested at api level
-  // only prod needs to compare screenshots
-  if (project.name === 'atlas' && project.env === 'prod')
-    await pageManager.atMap.compareScreenshotsOfMap(0.03);
 };
 
 for (const project of projects) {

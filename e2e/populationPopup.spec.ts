@@ -20,8 +20,8 @@ test.beforeEach(() => {
   stepCounter.counter = 0;
 });
 
-// Setting 3 retries as popup is flaky
-test.describe.configure({ retries: 3 });
+// Setting 2 retries as popup is flaky
+test.describe.configure({ retries: 2 });
 
 // Oam has no layers, smart-city has no population density layer
 // Atlas has no 'layers' feature for guest (and map at all)
