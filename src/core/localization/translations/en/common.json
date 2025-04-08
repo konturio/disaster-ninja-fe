@@ -168,8 +168,10 @@
     "upload_analysis_layer": "Upload analysis layer",
     "popup": {
       "score_header": "Score {{level}}",
-      "base_header": "Base {{level}}"
-    }
+      "compare_header": "Compare {{level}}"
+    },
+    "score": "Score",
+    "compare": "Compare"
   },
   "search": {
     "search_location": "Search location",

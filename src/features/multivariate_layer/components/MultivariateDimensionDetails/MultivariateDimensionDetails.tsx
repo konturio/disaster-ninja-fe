@@ -37,17 +37,21 @@ export function MultivariateDimensionDetails({
             type="inline"
             value={{ value: dimensionId, title: dimensionTitle }}
             onChange={(e) => {
-              onLayerDimensionChanged(
-                mcdaLayer,
-                dimensionId,
-                (e.selectedItem?.value as string) ?? '',
-              );
+              if (e.selectedItem?.value !== dimensionId) {
+                onLayerDimensionChanged(
+                  mcdaLayer,
+                  dimensionId,
+                  (e.selectedItem?.value as string) ?? '',
+                );
+              }
             }}
             items={[
-              { value: 'score', title: 'Score' },
-              { value: 'base', title: 'Base' },
+              { value: 'score', title: i18n.t('multivariate.score') },
+              { value: 'compare', title: i18n.t('multivariate.compare') },
             ]}
-          />
+          >
+            {dimensionTitle}
+          </Select>
           <div>
             <MCDALayerParameters
               layer={mcdaLayer}

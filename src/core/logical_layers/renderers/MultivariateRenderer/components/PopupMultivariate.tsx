@@ -39,7 +39,7 @@ export function PopupMultivariate(
     baseTable = (
       <>
         <div>
-          {i18n.t('multivariate.popup.base_header', {
+          {i18n.t('multivariate.popup.compare_header', {
             level: baseBivariateLevel ? `(${baseBivariateLevel})` : '',
           })}
         </div>

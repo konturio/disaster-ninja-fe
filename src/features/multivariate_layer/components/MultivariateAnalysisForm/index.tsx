@@ -27,13 +27,15 @@ type FormResult = {
 
 export type MultivariateDimensionsLayers = {
   score: MCDALayer[];
-  base: MCDALayer[];
+  compare: MCDALayer[];
 };
 
-function cloneDimensions(dimensions: MultivariateDimensionsLayers) {
+function cloneDimensions(
+  dimensions: MultivariateDimensionsLayers,
+): MultivariateDimensionsLayers {
   return {
     score: [...dimensions.score],
-    base: [...dimensions.base],
+    compare: [...dimensions.compare],
   };
 }
 
@@ -60,7 +62,7 @@ export function MultivariateAnalysisForm({
   const [selectedIndicators, setSelectedIndicators] = useState<SelectableItem[]>([]);
   const [dimensionsLayers, setDimensionsLayers] = useState<MultivariateDimensionsLayers>({
     score: [],
-    base: [],
+    compare: [],
   });
 
   const onSelectedIndicatorsChange = useCallback(
@@ -88,10 +90,10 @@ export function MultivariateAnalysisForm({
     const config = createEmptyMultivariateConfig({
       name,
       score: dimensionsLayers.score,
-      base: dimensionsLayers.base,
+      base: dimensionsLayers.compare,
     });
     onConfirm({ config });
-  }, [name, dimensionsLayers.score, dimensionsLayers.base, onConfirm]);
+  }, [name, dimensionsLayers.score, dimensionsLayers.compare, onConfirm]);
 
   const addLayersAction = useCallback(() => {
     if (axesResource.data) {
@@ -100,7 +102,7 @@ export function MultivariateAnalysisForm({
       const newLayers = createMCDALayersFromBivariateAxes(selectedAxes);
       setDimensionsLayers((oldLayers) => ({
         score: [...(oldLayers?.score ?? []), ...newLayers],
-        base: oldLayers.base,
+        compare: oldLayers.compare,
       }));
       setSelectedIndicators([]);
     }
@@ -188,8 +190,8 @@ export function MultivariateAnalysisForm({
   );
 
   const dimensionParams = [
-    { dimensionId: 'score', dimensionTitle: 'Score' },
-    { dimensionId: 'base', dimensionTitle: 'Base' },
+    { dimensionId: 'score', dimensionTitle: i18n.t('multivariate.score') },
+    { dimensionId: 'compare', dimensionTitle: i18n.t('multivariate.compare') },
   ];
 
   return (
@@ -205,7 +207,7 @@ export function MultivariateAnalysisForm({
             disabled={
               !axesResource.data ||
               (dimensionsLayers.score.length === 0 &&
-                dimensionsLayers.base.length === 0) ||
+                dimensionsLayers.compare.length === 0) ||
               !name?.length
             }
             type="submit"
