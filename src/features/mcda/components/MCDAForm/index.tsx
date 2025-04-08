@@ -131,6 +131,7 @@ export function MCDAForm({
 
   return (
     <ModalDialog
+      className={s.modalDialog}
       title={i18n.t('mcda.modal_title')}
       onClose={cancelAction}
       footer={

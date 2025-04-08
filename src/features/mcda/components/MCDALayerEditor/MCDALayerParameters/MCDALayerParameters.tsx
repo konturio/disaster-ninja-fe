@@ -287,7 +287,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
           />
           <div className={s.topControlsContainer}>
             <Button
-              className={s.reverseButton}
+              className={clsx(s.reverseButton, 'knt-panel-button')}
               variant="invert-outline"
               size="tiny"
               onClick={onReverseSentiment}
