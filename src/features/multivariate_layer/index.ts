@@ -7,7 +7,7 @@ import {
 } from './constants';
 import { pickMultivariateFile } from './helpers/pickMultivariateFile';
 import { createMultivariateLayer } from './helpers/multivariateLayerActions';
-import { createMultivariateConfig } from './helpers/createMultivariateConfig';
+import { openMultivariateModal } from './helpers/openMultivariateModal';
 import type { MultivariateLayerStyle } from '~core/logical_layers/renderers/stylesConfigs/multivariate/multivariateStyle';
 
 const uploadClickListener = () => {
@@ -31,13 +31,9 @@ export const createMultivariateLayerControl = toolbar.setupControl({
 
 createMultivariateLayerControl.onStateChange(async (ctx, state) => {
   if (state === 'active') {
-    const result = await createMultivariateConfig();
-    //const mcdaConfig = await createMCDAConfig();
+    const result = await openMultivariateModal();
     if (result?.config) {
-      store.dispatch([
-        //mcdaLayerAtom.createMCDALayer(mcdaConfig),
-        createMultivariateLayerControl.setState('regular'),
-      ]);
+      store.dispatch([createMultivariateLayerControl.setState('regular')]);
       createMultivariateLayer(store.v3ctx, {
         type: 'multivariate',
         config: result.config,

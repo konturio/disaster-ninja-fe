@@ -1,4 +1,3 @@
-import { showModal } from '~core/modal';
 import { createDefaultMCDAConfig } from '~features/mcda/mcdaConfig';
 import {
   DEFAULT_MULTIBIVARIATE_COLORS,
@@ -10,29 +9,12 @@ import {
   DEFAULT_YELLOW,
 } from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations/constants';
 import { i18n } from '~core/localization';
-import { MultivariateAnalysisForm } from '../components/MultivariateAnalysisForm';
 import { generateMultivariateId } from './generateMultivariateId';
 import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type {
   MultivariateColorConfig,
   MultivariateLayerConfig,
 } from '~core/logical_layers/renderers/MultivariateRenderer/types';
-
-export async function createMultivariateConfig() {
-  const input = await showModal(MultivariateAnalysisForm, {
-    initialState: {
-      analysisConfig: createEmptyMultivariateConfig(),
-    },
-  });
-
-  if (input === null) return null;
-
-  // const config = createDefaultMCDAConfig({
-  //   name: input.name,
-  //   layers: createMCDALayersFromBivariateAxes(input.axes),
-  // });
-  return input;
-}
 
 export type MultivariateAnalysisOverrides = {
   name?: string;

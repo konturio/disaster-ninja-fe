@@ -24,10 +24,6 @@ import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcd
 import type { MultivariateLayerConfig } from '~core/logical_layers/renderers/MultivariateRenderer/types';
 import type { Axis } from '~utils/bivariate';
 
-type FormInitialState = {
-  analysisConfig?: MultivariateLayerConfig;
-};
-
 type FormResult = {
   config: MultivariateLayerConfig;
 };
@@ -38,14 +34,14 @@ type MultivariateDimensionsLayers = {
 };
 
 export function MultivariateAnalysisForm({
-  initialState,
+  initialConfig,
   onConfirm,
 }: {
-  initialState: FormInitialState;
+  initialConfig?: MultivariateLayerConfig;
   onConfirm: (value: FormResult | null) => void;
 }) {
   // Layer name input
-  const [name, setName] = useState(initialState.analysisConfig?.name ?? '');
+  const [name, setName] = useState(initialConfig?.name ?? '');
   const [nameError, setNameError] = useState<string>('');
   const onNameChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
