@@ -50,8 +50,9 @@ export function MultivariateLayerEditor({ layerId }: LayerEditorProps) {
 
   return (
     <div className={s.editor}>
-      {printMCDAAxes('Score', layerConfig.score.config.layers)}
-      {layerConfig.base?.config.layers.length &&
+      {!!layerConfig.score?.config.layers.length &&
+        printMCDAAxes('Score', layerConfig.score.config.layers)}
+      {!!layerConfig.base?.config.layers.length &&
         printMCDAAxes('Base', layerConfig.base.config.layers)}
     </div>
   );

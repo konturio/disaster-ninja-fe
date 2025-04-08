@@ -12,7 +12,11 @@ import {
 import { i18n } from '~core/localization';
 import { MultivariateAnalysisForm } from '../components/MultivariateAnalysisForm';
 import { generateMultivariateId } from './generateMultivariateId';
-import type { MultivariateLayerConfig } from '~core/logical_layers/renderers/MultivariateRenderer/types';
+import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type {
+  MultivariateColorConfig,
+  MultivariateLayerConfig,
+} from '~core/logical_layers/renderers/MultivariateRenderer/types';
 
 export async function createMultivariateConfig() {
   const input = await showModal(MultivariateAnalysisForm, {
@@ -30,12 +34,20 @@ export async function createMultivariateConfig() {
   return input;
 }
 
+export type MultivariateAnalysisOverrides = {
+  name?: string;
+  score?: MCDALayer[];
+  base?: MCDALayer[];
+  colors?: MultivariateColorConfig;
+  stepOverrides?: MultivariateLayerConfig['stepOverrides'];
+};
+
 export function createEmptyMultivariateConfig(
-  overrides?: Partial<MultivariateLayerConfig>,
+  overrides?: MultivariateAnalysisOverrides,
 ): MultivariateLayerConfig {
   const name = overrides?.name ?? i18n.t('multivariate.multivariate_analysis');
-  const hasScore = overrides?.score?.config.layers.length;
-  const hasBase = overrides?.base?.config.layers.length;
+  const hasScore = overrides?.score?.length;
+  const hasBase = overrides?.base?.length;
   const isBivariateStyleLegend = hasScore && hasBase;
 
   return {
@@ -45,14 +57,12 @@ export function createEmptyMultivariateConfig(
     score: {
       type: 'mcda',
       config: createDefaultMCDAConfig(
-        hasScore ? { layers: overrides?.score?.config.layers } : undefined,
+        hasScore ? { layers: overrides?.score } : undefined,
       ),
     },
     base: {
       type: 'mcda',
-      config: createDefaultMCDAConfig(
-        hasBase ? { layers: overrides?.base?.config.layers } : undefined,
-      ),
+      config: createDefaultMCDAConfig(hasBase ? { layers: overrides?.base } : undefined),
     },
     stepOverrides: isBivariateStyleLegend
       ? overrides.stepOverrides || {
@@ -71,8 +81,6 @@ export function createEmptyMultivariateConfig(
               parameters: {
                 bad: DEFAULT_RED,
                 good: DEFAULT_GREEN,
-                /* TODO: using midpoints for gradient customization is a temporary solution.
-        It will probably be removed in the future in favor of working with Color Manager */
                 midpoints: [{ value: 0.5, color: DEFAULT_YELLOW }],
               },
             },

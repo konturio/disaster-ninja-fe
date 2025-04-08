@@ -33,11 +33,15 @@ createMultivariateLayerControl.onStateChange(async (ctx, state) => {
   if (state === 'active') {
     const result = await createMultivariateConfig();
     //const mcdaConfig = await createMCDAConfig();
-    if (result) {
+    if (result?.config) {
       store.dispatch([
         //mcdaLayerAtom.createMCDALayer(mcdaConfig),
         createMultivariateLayerControl.setState('regular'),
       ]);
+      createMultivariateLayer(store.v3ctx, {
+        type: 'multivariate',
+        config: result.config,
+      });
     } else {
       store.dispatch(createMultivariateLayerControl.setState('regular'));
     }

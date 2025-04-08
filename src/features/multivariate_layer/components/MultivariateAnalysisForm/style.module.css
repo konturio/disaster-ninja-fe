@@ -1,9 +1,11 @@
-.MCDAForm {
+.analysisForm {
   display: flex;
   flex-flow: column nowrap;
   gap: var(--double-unit);
   width: 650px;
   align-items: flex-start;
+  padding: 2px;
+  overflow: auto;
 }
 
 .buttonsRow {
@@ -15,4 +17,45 @@
 
 .multiselectContainer {
   width: 450px;
+}
+
+.addLayersButton {
+  margin-top: var(--unit);
+}
+
+.dimension {
+  padding: var(--double--unit) var(--unit);
+}
+
+.dimensionName {
+  font-weight: 600;
+}
+
+.layerRow {
+  display: flex;
+  margin-top: var(--unit);
+}
+
+.dimensionTypeSelect {
+  width: 90px;
+  margin-top: var(--unit);
+}
+
+.deleteButton {
+  align-items: flex-start;
+  padding: calc(var(--unit) / 2);
+}
+
+@media screen and (max-width: 960px) {
+  .analysisForm {
+    display: flex;
+    width: 100%;
+    min-height: 40svh;
+    max-height: 70svh;
+    overflow-y: scroll;
+  }
+
+  .multiselectContainer {
+    width: 100%;
+  }
 }

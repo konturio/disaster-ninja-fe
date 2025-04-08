@@ -1,5 +1,5 @@
 import { useAtom } from '@reatom/npm-react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import {
   Button,
   Input,
@@ -7,13 +7,20 @@ import {
   Text,
   ModalDialog,
   type SelectableItem,
+  Select,
 } from '@konturio/ui-kit';
+import { Rubber16 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
 import { createStateMap } from '~utils/atoms';
 import { sortByAlphabet, sortByWordOccurence } from '~utils/common/sorting';
 import { availableBivariateAxesAtom } from '~core/bivariate/atoms/availableBivariateAxesAtom';
 import { padEmojiStringToLength } from '~utils/mcda/padEmojiStringToLength';
+import { createMCDALayersFromBivariateAxes } from '~utils/mcda/createMCDALayersFromBivariateAxes';
+import { createEmptyMultivariateConfig } from '~features/multivariate_layer/helpers/createMultivariateConfig';
+import { MCDALayerParameters } from '~features/mcda/components/MCDALayerEditor/MCDALayerParameters/MCDALayerParameters';
+import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
 import s from './style.module.css';
+import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { MultivariateLayerConfig } from '~core/logical_layers/renderers/MultivariateRenderer/types';
 import type { Axis } from '~utils/bivariate';
 
@@ -22,7 +29,12 @@ type FormInitialState = {
 };
 
 type FormResult = {
-  analysisConfig: MultivariateLayerConfig;
+  config: MultivariateLayerConfig;
+};
+
+type MultivariateDimensionsLayers = {
+  score: MCDALayer[];
+  base: MCDALayer[];
 };
 
 export function MultivariateAnalysisForm({
@@ -32,8 +44,6 @@ export function MultivariateAnalysisForm({
   initialState: FormInitialState;
   onConfirm: (value: FormResult | null) => void;
 }) {
-  // const [analysisConfig, setAnalysisConfig] = useState(initialState.analysisConfig ?? );
-
   // Layer name input
   const [name, setName] = useState(initialState.analysisConfig?.name ?? '');
   const [nameError, setNameError] = useState<string>('');
@@ -47,12 +57,15 @@ export function MultivariateAnalysisForm({
   }, []);
 
   // Indicators input
-  const [selectedIndicators, selectIndicators] = useState<SelectableItem[]>([]);
-  const [selectionInitialized, setSelectionInitialized] = useState(false);
+  const [selectedIndicators, setSelectedIndicators] = useState<SelectableItem[]>([]);
+  const [dimensionsLayers, setDimensionsLayers] = useState<MultivariateDimensionsLayers>({
+    score: [],
+    base: [],
+  });
 
   const onSelectedIndicatorsChange = useCallback(
     (e: { selectedItems: SelectableItem[] }) => {
-      selectIndicators(e.selectedItems);
+      setSelectedIndicators(e.selectedItems);
     },
     [],
   );
@@ -71,22 +84,27 @@ export function MultivariateAnalysisForm({
   // Possible exits
   const cancelAction = useCallback(() => onConfirm(null), [onConfirm]);
   const saveAction = useCallback(() => {
-    // TODO: pass updated config as result
-    // if (axesResource.data) {
-    //   const selection = new Set(selectedIndicators.map((ind) => ind.value));
-    //   const onlySelectedIndicators = axesResource.data.filter((ind) =>
-    //     selection.has(ind.id),
-    //   );
-    //   onConfirm({
-    //     name,
-    //     axes: onlySelectedIndicators,
-    //   });
-    // }
-  }, [axesResource, selectedIndicators, onConfirm, name]);
+    const config = createEmptyMultivariateConfig({
+      name,
+      score: dimensionsLayers.score,
+      base: dimensionsLayers.base,
+    });
+    onConfirm({ config });
+  }, [name, dimensionsLayers.score, dimensionsLayers.base, onConfirm]);
 
   const addLayersAction = useCallback(() => {
-    // TODO: add new layers to the config, re-create it and update state
-  }, [axesResource, selectedIndicators, onConfirm, name]);
+    if (axesResource.data) {
+      const selection = new Set(selectedIndicators.map((ind) => ind.value));
+      const selectedAxes = axesResource.data.filter((ind) => selection.has(ind.id));
+      const newLayers = createMCDALayersFromBivariateAxes(selectedAxes);
+      // console.log({ selectedAxes, newLayers });
+      setDimensionsLayers((oldLayers) => ({
+        score: [...(oldLayers?.score ?? []), ...newLayers],
+        base: oldLayers.base,
+      }));
+      setSelectedIndicators([]);
+    }
+  }, [axesResource, selectedIndicators]);
 
   const sortDropdownItems = useCallback(
     (items: SelectableItem[], search: string): SelectableItem[] => {
@@ -116,6 +134,7 @@ export function MultivariateAnalysisForm({
           transformSearchResults={sortDropdownItems}
         />
         <Button
+          className={s.addLayersButton}
           disabled={
             !axesResource.data || selectedIndicators.length === 0 || !name?.length
           }
@@ -139,7 +158,10 @@ export function MultivariateAnalysisForm({
           </Button>
           <Button
             disabled={
-              !axesResource.data || selectedIndicators.length === 0 || !name?.length
+              !axesResource.data ||
+              (dimensionsLayers.score.length === 0 &&
+                dimensionsLayers.base.length === 0) ||
+              !name?.length
             }
             type="submit"
             onClick={saveAction}
@@ -149,7 +171,7 @@ export function MultivariateAnalysisForm({
         </div>
       }
     >
-      <div className={s.MCDAForm} data-testid="mcda-form">
+      <div className={s.analysisForm} data-testid="mcda-form">
         <Input
           data-testid="mcda-input-layer-name"
           type="text"
@@ -160,10 +182,53 @@ export function MultivariateAnalysisForm({
           placeholder={i18n.t('mcda.modal_input_name_placeholder')}
         />
         {indicatorsSelector}
-      </div>
-      <div>
-        <div>Score</div>
-        <div></div>
+        {!!dimensionsLayers.score.length && (
+          <div className={s.dimension}>
+            <div className={s.dimensionName}>Score</div>
+            {dimensionsLayers.score.map((mcdaLayer, index) => (
+              <div key={`score-${index}-${mcdaLayer.name}`} className={s.layerRow}>
+                <Select
+                  className={s.dimensionTypeSelect}
+                  type="inline"
+                  value={0}
+                  onChange={(e) => {
+                    // console.log('type changed to:', e.selectedItem);
+                  }}
+                  items={[
+                    { value: 0, title: 'Score' },
+                    { value: 1, title: 'Base' },
+                  ]}
+                />
+                <div>
+                  <MCDALayerParameters
+                    layer={mcdaLayer}
+                    onLayerEdited={(editedLayer) => {
+                      // console.log('edited layer', editedLayer);
+                    }}
+                  />
+                </div>
+                <div className={s.deleteButton}>
+                  <LayerActionIcon
+                    onClick={() => {
+                      /* DELETE */
+                    }}
+                    hint={i18n.t('layer_actions.tooltips.erase')}
+                  >
+                    <Rubber16 />
+                  </LayerActionIcon>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+        {!!dimensionsLayers.base.length && (
+          <div className={s.dimension}>
+            <div className={s.dimensionName}>Base</div>
+            {dimensionsLayers.score.map((mcdaLayer, index) => (
+              <div key={`base-${index}-${mcdaLayer.name}`}>{mcdaLayer.name}</div>
+            ))}
+          </div>
+        )}
       </div>
     </ModalDialog>
   );
