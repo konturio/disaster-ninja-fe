@@ -231,12 +231,12 @@ export function MultivariateAnalysisForm({
         {indicatorsSelector}
         {dimensionParams
           .filter((dimension) => dimensionsLayers[dimension.dimensionId]?.length)
-          .map((dimension) => (
+          .map(({ dimensionId, dimensionTitle }) => (
             <MultivariateDimensionDetails
-              key={`dimension-${dimension.dimensionId}`}
+              key={`dimension-${dimensionId}`}
               dimensionsLayers={dimensionsLayers}
-              dimensionId={dimension.dimensionId}
-              dimensionTitle={dimension.dimensionTitle}
+              dimensionId={dimensionId}
+              dimensionTitle={dimensionTitle}
               onLayerEdited={editLayerInDimension}
               onLayerDeleted={deleteLayerFromDimension}
               onLayerDimensionChanged={moveLayerToDimension}
