@@ -61,8 +61,8 @@ export function MultivariateAnalysisForm({
   // Indicators input
   const [selectedIndicators, setSelectedIndicators] = useState<SelectableItem[]>([]);
   const [dimensionsLayers, setDimensionsLayers] = useState<MultivariateDimensionsLayers>({
-    score: [],
-    compare: [],
+    score: initialConfig?.score?.config.layers ?? [],
+    compare: initialConfig?.base?.config.layers ?? [],
   });
 
   const onSelectedIndicatorsChange = useCallback(

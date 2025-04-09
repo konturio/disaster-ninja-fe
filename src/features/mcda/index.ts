@@ -2,11 +2,11 @@ import { i18n } from '~core/localization';
 import { toolbar } from '~core/toolbar';
 import { store } from '~core/store/store';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
+import { applyNewLayerStyle } from '~core/logical_layers/utils/applyNewLayerStyle';
 import { mcdaLayerAtom } from './atoms/mcdaLayer';
 import { createMCDAConfig, editMCDAConfig } from './mcdaConfig';
 import { MCDA_CONTROL_ID, UPLOAD_MCDA_CONTROL_ID } from './constants';
 import { askMcdaJSONFile } from './utils/openMcdaFile';
-import { applyNewMCDAConfig } from './utils/applyNewMCDAConfig';
 import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { LogicalLayerActions } from '~core/logical_layers/types/logicalLayer';
 
@@ -78,7 +78,7 @@ export async function editMCDA(oldConfig: MCDAConfig, layerActions: LogicalLayer
   if (config?.id) {
     if (config.id === oldConfig.id) {
       // update existing MCDA
-      applyNewMCDAConfig(config);
+      applyNewLayerStyle({ type: 'mcda', config });
     } else {
       // recreate MCDA with a new id
       layerActions.destroy();

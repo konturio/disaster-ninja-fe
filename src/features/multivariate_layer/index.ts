@@ -1,6 +1,7 @@
 import { i18n } from '~core/localization';
 import { toolbar } from '~core/toolbar';
 import { store } from '~core/store/store';
+import { applyNewLayerStyle } from '../../core/logical_layers/utils/applyNewLayerStyle';
 import {
   CREATE_MULTIVARIATE_CONTROL_ID,
   UPLOAD_MULTIVARIATE_CONTROL_ID,
@@ -8,7 +9,9 @@ import {
 import { pickMultivariateFile } from './helpers/pickMultivariateFile';
 import { createMultivariateLayer } from './helpers/multivariateLayerActions';
 import { openMultivariateModal } from './helpers/openMultivariateModal';
+import type { LogicalLayerActions } from '~core/logical_layers/types/logicalLayer';
 import type { MultivariateLayerStyle } from '~core/logical_layers/renderers/stylesConfigs/multivariate/multivariateStyle';
+import type { MultivariateLayerConfig } from '~core/logical_layers/renderers/MultivariateRenderer/types';
 
 const uploadClickListener = () => {
   pickMultivariateFile((multivariateConfig) => {
@@ -71,4 +74,26 @@ uploadMultivariateLayerControl.onStateChange((ctx, state) => {
 export function initMultivariateControl() {
   createMultivariateLayerControl.init();
   uploadMultivariateLayerControl.init();
+}
+
+export async function editMultivariateLayer(
+  oldConfig: MultivariateLayerConfig,
+  layerActions: LogicalLayerActions,
+) {
+  const result = await openMultivariateModal(oldConfig);
+  const config = result?.config;
+  if (config?.id) {
+    const style: MultivariateLayerStyle = {
+      type: 'multivariate',
+      config,
+    };
+    if (config.id === oldConfig.id) {
+      // update existing MVA
+      applyNewLayerStyle(style);
+    } else {
+      // recreate MVA with a new id
+      layerActions.destroy();
+      createMultivariateLayer(store.v3ctx, style);
+    }
+  }
 }
