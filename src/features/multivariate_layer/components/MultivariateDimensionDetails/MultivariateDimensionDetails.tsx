@@ -1,23 +1,30 @@
-import React from 'react';
 import { Select } from '@konturio/ui-kit';
 import { Rubber16 } from '@konturio/default-icons';
 import { MCDALayerParameters } from '~features/mcda/components/MCDALayerEditor/MCDALayerParameters/MCDALayerParameters';
 import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
 import { i18n } from '~core/localization';
 import s from './MultivariateDimensionDetails.module.css';
-import type { MultivariateDimensionsLayers } from '../MultivariateAnalysisForm/MultivariateAnalysisForm';
+import type {
+  MVAFormDimensionKey,
+  MVAFormDimensions,
+} from '../MultivariateAnalysisForm/MultivariateAnalysisForm';
 import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+
+const dimensionSelectItems: { value: MVAFormDimensionKey; title: string }[] = [
+  { value: 'score', title: i18n.t('multivariate.score') },
+  { value: 'compare', title: i18n.t('multivariate.compare') },
+];
 
 export function MultivariateDimensionDetails({
   dimensionsLayers,
-  dimensionId,
+  dimensionKey,
   dimensionTitle,
   onLayerEdited,
   onLayerDeleted,
   onLayerDimensionChanged,
 }: {
-  dimensionsLayers: MultivariateDimensionsLayers;
-  dimensionId: string;
+  dimensionsLayers: MVAFormDimensions;
+  dimensionKey: MVAFormDimensionKey;
   dimensionTitle: string;
   onLayerEdited: (editedLayer: MCDALayer, dimension: string) => void;
   onLayerDeleted: (deletedLayer: MCDALayer, dimension: string) => void;
@@ -30,25 +37,22 @@ export function MultivariateDimensionDetails({
   return (
     <div className={s.dimension}>
       <div className={s.dimensionName}>{dimensionTitle}</div>
-      {dimensionsLayers[dimensionId].map((mcdaLayer, index) => (
-        <div key={`${dimensionId}-${index}-${mcdaLayer.name}`} className={s.layerRow}>
+      {dimensionsLayers[dimensionKey].map((mcdaLayer, index) => (
+        <div key={`${dimensionKey}-${index}-${mcdaLayer.name}`} className={s.layerRow}>
           <Select
             className={s.dimensionTypeSelect}
             type="inline"
-            value={{ value: dimensionId, title: dimensionTitle }}
+            value={{ value: dimensionKey, title: dimensionTitle }}
             onChange={(e) => {
-              if (e.selectedItem?.value !== dimensionId) {
+              if (e.selectedItem?.value !== dimensionKey) {
                 onLayerDimensionChanged(
                   mcdaLayer,
-                  dimensionId,
+                  dimensionKey,
                   (e.selectedItem?.value as string) ?? '',
                 );
               }
             }}
-            items={[
-              { value: 'score', title: i18n.t('multivariate.score') },
-              { value: 'compare', title: i18n.t('multivariate.compare') },
-            ]}
+            items={dimensionSelectItems}
           >
             {dimensionTitle}
           </Select>
@@ -56,14 +60,14 @@ export function MultivariateDimensionDetails({
             <MCDALayerParameters
               layer={mcdaLayer}
               onLayerEdited={(editedLayer) => {
-                onLayerEdited(editedLayer, dimensionId);
+                onLayerEdited(editedLayer, dimensionKey);
               }}
             />
           </div>
           <div className={s.deleteButton}>
             <LayerActionIcon
               onClick={() => {
-                onLayerDeleted(mcdaLayer, dimensionId);
+                onLayerDeleted(mcdaLayer, dimensionKey);
               }}
               hint={i18n.t('layer_actions.tooltips.erase')}
             >

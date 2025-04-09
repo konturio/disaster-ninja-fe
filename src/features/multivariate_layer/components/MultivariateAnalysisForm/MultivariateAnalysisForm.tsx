@@ -25,14 +25,14 @@ type FormResult = {
   config: MultivariateLayerConfig;
 };
 
-export type MultivariateDimensionsLayers = {
+export type MVAFormDimensions = {
   score: MCDALayer[];
   compare: MCDALayer[];
 };
 
-function cloneDimensions(
-  dimensions: MultivariateDimensionsLayers,
-): MultivariateDimensionsLayers {
+export type MVAFormDimensionKey = keyof MVAFormDimensions;
+
+function copyDimensions(dimensions: MVAFormDimensions): MVAFormDimensions {
   return {
     score: [...dimensions.score],
     compare: [...dimensions.compare],
@@ -60,7 +60,7 @@ export function MultivariateAnalysisForm({
 
   // Indicators input
   const [selectedIndicators, setSelectedIndicators] = useState<SelectableItem[]>([]);
-  const [dimensionsLayers, setDimensionsLayers] = useState<MultivariateDimensionsLayers>({
+  const [dimensionsLayers, setDimensionsLayers] = useState<MVAFormDimensions>({
     score: initialConfig?.score?.config.layers ?? [],
     compare: initialConfig?.base?.config.layers ?? [],
   });
@@ -150,7 +150,7 @@ export function MultivariateAnalysisForm({
   const moveLayerToDimension = useCallback(
     (updatedLayer: MCDALayer, oldDimension: string, newDimension: string) => {
       setDimensionsLayers((oldLayers) => {
-        const newLayers = cloneDimensions(oldLayers);
+        const newLayers = copyDimensions(oldLayers);
         newLayers[oldDimension] = [
           ...oldLayers[oldDimension].filter((layer) => layer.id !== updatedLayer.id),
         ];
@@ -164,7 +164,7 @@ export function MultivariateAnalysisForm({
   const deleteLayerFromDimension = useCallback(
     (deletedLayer: MCDALayer, dimension: string) => {
       setDimensionsLayers((oldLayers) => {
-        const newLayers = cloneDimensions(oldLayers);
+        const newLayers = copyDimensions(oldLayers);
         newLayers[dimension] = [
           ...oldLayers[dimension].filter((layer) => layer.id !== deletedLayer.id),
         ];
@@ -177,7 +177,7 @@ export function MultivariateAnalysisForm({
   const editLayerInDimension = useCallback(
     (editedLayer: MCDALayer, dimension: string) => {
       setDimensionsLayers((oldLayers) => {
-        const newLayers = cloneDimensions(oldLayers);
+        const newLayers = copyDimensions(oldLayers);
         newLayers[dimension] = [
           ...oldLayers[dimension].map((oldLayer) =>
             oldLayer.id === editedLayer.id ? editedLayer : oldLayer,
@@ -189,9 +189,12 @@ export function MultivariateAnalysisForm({
     [],
   );
 
-  const dimensionParams = [
-    { dimensionId: 'score', dimensionTitle: i18n.t('multivariate.score') },
-    { dimensionId: 'compare', dimensionTitle: i18n.t('multivariate.compare') },
+  const dimensionParams: {
+    dimensionKey: MVAFormDimensionKey;
+    dimensionTitle: string;
+  }[] = [
+    { dimensionKey: 'score', dimensionTitle: i18n.t('multivariate.score') },
+    { dimensionKey: 'compare', dimensionTitle: i18n.t('multivariate.compare') },
   ];
 
   return (
@@ -230,12 +233,12 @@ export function MultivariateAnalysisForm({
         />
         {indicatorsSelector}
         {dimensionParams
-          .filter((dimension) => dimensionsLayers[dimension.dimensionId]?.length)
-          .map(({ dimensionId, dimensionTitle }) => (
+          .filter(({ dimensionKey }) => dimensionsLayers[dimensionKey]?.length)
+          .map(({ dimensionKey, dimensionTitle }) => (
             <MultivariateDimensionDetails
-              key={`dimension-${dimensionId}`}
+              key={`dimension-${dimensionKey}`}
               dimensionsLayers={dimensionsLayers}
-              dimensionId={dimensionId}
+              dimensionKey={dimensionKey}
               dimensionTitle={dimensionTitle}
               onLayerEdited={editLayerInDimension}
               onLayerDeleted={deleteLayerFromDimension}
