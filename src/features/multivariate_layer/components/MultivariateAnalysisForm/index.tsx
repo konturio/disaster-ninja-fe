@@ -229,8 +229,9 @@ export function MultivariateAnalysisForm({
           placeholder={i18n.t('mcda.modal_input_name_placeholder')}
         />
         {indicatorsSelector}
-        {dimensionParams.map((dimension) =>
-          !!dimensionsLayers[dimension.dimensionId].length ? (
+        {dimensionParams
+          .filter((dimension) => dimensionsLayers[dimension.dimensionId]?.length)
+          .map((dimension) => (
             <MultivariateDimensionDetails
               key={`dimension-${dimension.dimensionId}`}
               dimensionsLayers={dimensionsLayers}
@@ -240,10 +241,7 @@ export function MultivariateAnalysisForm({
               onLayerDeleted={deleteLayerFromDimension}
               onLayerDimensionChanged={moveLayerToDimension}
             />
-          ) : (
-            <></>
-          ),
-        )}
+          ))}
       </div>
     </ModalDialog>
   );
