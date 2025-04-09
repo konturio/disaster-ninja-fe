@@ -20,7 +20,7 @@
 
 .dimensionTypeSelect {
   width: 90px;
-  margin-top: var(--unit);
+  margin: var(--unit) 2px;
 }
 
 .deleteButton {
