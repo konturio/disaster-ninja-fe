@@ -5,7 +5,7 @@ import { MCDALayerParameters } from '~features/mcda/components/MCDALayerEditor/M
 import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
 import { i18n } from '~core/localization';
 import s from './MultivariateDimensionDetails.module.css';
-import type { MultivariateDimensionsLayers } from '../MultivariateAnalysisForm';
+import type { MultivariateDimensionsLayers } from '../MultivariateAnalysisForm/MultivariateAnalysisForm';
 import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 
 export function MultivariateDimensionDetails({

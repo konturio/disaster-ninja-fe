@@ -16,7 +16,7 @@ import { padEmojiStringToLength } from '~utils/mcda/padEmojiStringToLength';
 import { createMCDALayersFromBivariateAxes } from '~utils/mcda/createMCDALayersFromBivariateAxes';
 import { createMultivariateConfig } from '~features/multivariate_layer/helpers/createMultivariateConfig';
 import { MultivariateDimensionDetails } from '../MultivariateDimensionDetails/MultivariateDimensionDetails';
-import s from './style.module.css';
+import s from './MultivariateAnalysisForm.module.css';
 import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { MultivariateLayerConfig } from '~core/logical_layers/renderers/MultivariateRenderer/types';
 import type { Axis } from '~utils/bivariate';
