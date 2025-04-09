@@ -1,0 +1,21 @@
+.container {
+  color: var(--base-strong-down);
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.strokeText {
+  position: relative;
+  z-index: 2;
+}
+
+.strokeText::before {
+  position: absolute;
+  width: 100%;
+
+  content: attr(data-text);
+  z-index: -1;
+  -webkit-text-stroke-width: 6px;
+  -webkit-text-stroke-color: #fff;
+}

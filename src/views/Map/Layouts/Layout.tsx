@@ -5,6 +5,7 @@ import {
 } from '~utils/hooks/useMediaQuery';
 import { PresentationLayout } from '~views/Map/Layouts/Presentation/Presentation';
 import { MapTitle } from '~widgets/Presentation/MapTitle/MapTitle';
+import { Copyrights } from '~widgets/Presentation/Coopyrights/Copyrights';
 import { DesktopLayout } from './Desktop/Desktop';
 import { LaptopLayout } from './Laptop/Laptop';
 import { MobileLayout } from './Mobile/Mobile';
@@ -48,7 +49,8 @@ export function Layout({
               title="Hexagons"
               description="Sustainable Habitat for Santa Claus"
             />
-          }{' '}
+          }
+          {<Copyrights />}
           {/* TODO remove */}
         </>
       }
