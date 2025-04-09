@@ -16,7 +16,7 @@ import type {
   MultivariateLayerConfig,
 } from '~core/logical_layers/renderers/MultivariateRenderer/types';
 
-export type MultivariateAnalysisOverrides = {
+type MultivariateLayerConfigOverrides = {
   name?: string;
   score?: MCDALayer[];
   base?: MCDALayer[];
@@ -25,7 +25,7 @@ export type MultivariateAnalysisOverrides = {
 };
 
 export function createMultivariateConfig(
-  overrides?: MultivariateAnalysisOverrides,
+  overrides?: MultivariateLayerConfigOverrides,
 ): MultivariateLayerConfig {
   const name = overrides?.name ?? i18n.t('multivariate.multivariate_analysis');
   const hasScore = overrides?.score?.length;
