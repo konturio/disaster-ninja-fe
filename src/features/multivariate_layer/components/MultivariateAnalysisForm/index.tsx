@@ -14,7 +14,7 @@ import { sortByAlphabet, sortByWordOccurence } from '~utils/common/sorting';
 import { availableBivariateAxesAtom } from '~core/bivariate/atoms/availableBivariateAxesAtom';
 import { padEmojiStringToLength } from '~utils/mcda/padEmojiStringToLength';
 import { createMCDALayersFromBivariateAxes } from '~utils/mcda/createMCDALayersFromBivariateAxes';
-import { createEmptyMultivariateConfig } from '~features/multivariate_layer/helpers/createMultivariateConfig';
+import { createMultivariateConfig } from '~features/multivariate_layer/helpers/createMultivariateConfig';
 import { MultivariateDimensionDetails } from '../MultivariateDimensionDetails/MultivariateDimensionDetails';
 import s from './style.module.css';
 import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
@@ -87,7 +87,7 @@ export function MultivariateAnalysisForm({
   // Possible exits
   const cancelAction = useCallback(() => onConfirm(null), [onConfirm]);
   const saveAction = useCallback(() => {
-    const config = createEmptyMultivariateConfig({
+    const config = createMultivariateConfig({
       name,
       score: dimensionsLayers.score,
       base: dimensionsLayers.compare,

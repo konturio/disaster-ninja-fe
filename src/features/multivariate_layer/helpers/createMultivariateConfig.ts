@@ -24,7 +24,7 @@ export type MultivariateAnalysisOverrides = {
   stepOverrides?: MultivariateLayerConfig['stepOverrides'];
 };
 
-export function createEmptyMultivariateConfig(
+export function createMultivariateConfig(
   overrides?: MultivariateAnalysisOverrides,
 ): MultivariateLayerConfig {
   const name = overrides?.name ?? i18n.t('multivariate.multivariate_analysis');
@@ -42,10 +42,12 @@ export function createEmptyMultivariateConfig(
         hasScore ? { layers: overrides?.score } : undefined,
       ),
     },
-    base: {
-      type: 'mcda',
-      config: createDefaultMCDAConfig(hasBase ? { layers: overrides?.base } : undefined),
-    },
+    base: hasBase
+      ? {
+          type: 'mcda',
+          config: createDefaultMCDAConfig({ layers: overrides?.base }),
+        }
+      : undefined,
     stepOverrides: isBivariateStyleLegend
       ? overrides.stepOverrides || {
           baseSteps: DEFAULT_MULTIBIVARIATE_STEPS,
