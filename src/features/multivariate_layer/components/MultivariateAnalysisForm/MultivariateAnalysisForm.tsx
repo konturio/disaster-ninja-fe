@@ -7,6 +7,7 @@ import {
   Text,
   ModalDialog,
   type SelectableItem,
+  Checkbox,
 } from '@konturio/ui-kit';
 import { i18n } from '~core/localization';
 import { createStateMap } from '~utils/atoms';
@@ -67,10 +68,15 @@ export function MultivariateAnalysisForm({
     score: initialConfig?.score?.config.layers ?? [],
     compare: initialConfig?.base?.config.layers ?? [],
   });
-  const newColorType: MultivariateColorConfig['type'] = useMemo(() => {
-    const isBivariate = dimensionsLayers.score.length && dimensionsLayers.compare.length;
-    return isBivariate ? 'bivariate' : 'mcda';
-  }, [dimensionsLayers]);
+  const [isKeepColorsChecked, setKeepColorsChecked] = useState(false);
+
+  const showKeepColorsCheckbox = useMemo(() => {
+    const colorType =
+      dimensionsLayers.score.length && dimensionsLayers.compare.length
+        ? 'bivariate'
+        : 'mcda';
+    return initialConfig?.colors && initialConfig?.colors?.type === colorType;
+  }, [dimensionsLayers, initialConfig?.colors]);
 
   const onSelectedIndicatorsChange = useCallback(
     (e: { selectedItems: SelectableItem[] }) => {
@@ -99,8 +105,8 @@ export function MultivariateAnalysisForm({
       score: dimensionsLayers.score,
       base: dimensionsLayers.compare,
       colors:
-        initialConfig?.colors && initialConfig?.colors?.type === newColorType
-          ? initialConfig.colors
+        showKeepColorsCheckbox && !isKeepColorsChecked
+          ? initialConfig?.colors
           : undefined,
     });
     onConfirm({ config });
@@ -108,8 +114,9 @@ export function MultivariateAnalysisForm({
     name,
     dimensionsLayers.score,
     dimensionsLayers.compare,
-    initialConfig,
-    newColorType,
+    showKeepColorsCheckbox,
+    isKeepColorsChecked,
+    initialConfig?.colors,
     onConfirm,
   ]);
 
@@ -223,6 +230,14 @@ export function MultivariateAnalysisForm({
       onClose={cancelAction}
       footer={
         <div className={s.buttonsRow}>
+          {showKeepColorsCheckbox && (
+            <Checkbox
+              id="keepColorsCheckbox"
+              checked={isKeepColorsChecked}
+              onChange={(checked) => setKeepColorsChecked(checked)}
+              label="Keep colors"
+            ></Checkbox>
+          )}
           <Button type="reset" onClick={cancelAction} variant="invert-outline">
             {i18n.t('cancel')}
           </Button>
