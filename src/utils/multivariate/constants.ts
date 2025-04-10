@@ -30,7 +30,7 @@ export const DEFAULT_MULTIBIVARIATE_COLORS = [
   },
   {
     id: 'B1',
-    color: 'rgba(215, 242, 224, 0.5)',
+    color: 'rgba(203, 240, 211, 0.5)',
   },
   {
     id: 'B2',
@@ -42,14 +42,14 @@ export const DEFAULT_MULTIBIVARIATE_COLORS = [
   },
   {
     id: 'C1',
-    color: 'rgba(177, 228, 194, 0.5)',
+    color: 'rgba(135, 198, 144, 0.5)',
   },
   {
     id: 'C2',
-    color: 'rgba(172, 216, 170, 0.5)',
+    color: 'rgba(109, 179, 92, 0.5)',
   },
   {
     id: 'C3',
-    color: 'rgba(174, 205, 184, 0.5)',
+    color: 'rgba(102, 154, 112, 0.5)',
   },
 ];
