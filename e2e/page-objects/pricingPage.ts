@@ -12,7 +12,9 @@ export class PricingPage extends HelperBase {
   )
   async checkPageAndTextsAvailability() {
     await this.page.getByText('Enterprise').waitFor({ state: 'visible' });
-    const plansAndPricingTexts = await this.page.getByText('Plans & Pricing').all();
+    const plansAndPricingTextElements = await this.page
+      .getByText('Plans & Pricing')
+      .all();
     await Promise.all([
       expect(this.page, 'Expect title to be plans and pricing').toHaveTitle(
         /Plans & Pricing/,
@@ -33,7 +35,7 @@ export class PricingPage extends HelperBase {
         this.page.getByText('Contact sales', { exact: true }),
         'Expect contact sales text to be visible',
       ).toBeVisible(),
-      plansAndPricingTexts.forEach((textEl) =>
+      ...plansAndPricingTextElements.map((textEl) =>
         expect(
           textEl,
           `Assert plans and pricing texts: expect '${textEl.textContent}' to be visible`,
