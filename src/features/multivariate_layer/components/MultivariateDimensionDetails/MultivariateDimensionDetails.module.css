@@ -1,7 +1,5 @@
 .dimension {
   padding: var(--double--unit) var(--unit);
-  max-height: 50vh;
-  overflow-y: auto;
   width: 100%;
 }
 
@@ -26,11 +24,4 @@
 .deleteButton {
   align-items: flex-start;
   padding: calc(var(--unit) / 2);
-}
-
-@media screen and (max-width: 960px) {
-  .dimension {
-    height: auto;
-    overflow-y: visible;
-  }
 }

@@ -199,6 +199,8 @@ export function MultivariateAnalysisForm({
 
   return (
     <ModalDialog
+      contentClassName={s.modalContent}
+      className={s.modalDialog}
       title={i18n.t('multivariate.multivariate_analysis')}
       onClose={cancelAction}
       footer={

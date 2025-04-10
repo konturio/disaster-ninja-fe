@@ -1,10 +1,20 @@
+.modalDialog {
+  max-height: 80vh;
+  max-height: 85dvh;
+  display: flex;
+}
+
+.modalContent {
+  overflow: auto;
+}
+
 .analysisForm {
   display: flex;
   flex-flow: column nowrap;
   gap: var(--double-unit);
   width: 650px;
   align-items: flex-start;
-  padding: 2px;
+  padding: 0 4px 20px;
 }
 
 .buttonsRow {
@@ -23,12 +33,14 @@
 }
 
 @media screen and (max-width: 960px) {
+  .modalDialog {
+    height: 85vh;
+    height: 100dvh;
+  }
+
   .analysisForm {
     display: flex;
     width: 100%;
-    min-height: 50svh;
-    max-height: 70svh;
-    overflow-y: scroll;
   }
 
   .multiselectContainer {
