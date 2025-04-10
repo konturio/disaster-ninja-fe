@@ -18,7 +18,10 @@ import { createMultivariateConfig } from '~features/multivariate_layer/helpers/c
 import { MultivariateDimensionDetails } from '../MultivariateDimensionDetails/MultivariateDimensionDetails';
 import s from './MultivariateAnalysisForm.module.css';
 import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
-import type { MultivariateLayerConfig } from '~core/logical_layers/renderers/MultivariateRenderer/types';
+import type {
+  MultivariateColorConfig,
+  MultivariateLayerConfig,
+} from '~core/logical_layers/renderers/MultivariateRenderer/types';
 import type { Axis } from '~utils/bivariate';
 
 type FormResult = {
@@ -64,6 +67,10 @@ export function MultivariateAnalysisForm({
     score: initialConfig?.score?.config.layers ?? [],
     compare: initialConfig?.base?.config.layers ?? [],
   });
+  const newColorType: MultivariateColorConfig['type'] = useMemo(() => {
+    const isBivariate = dimensionsLayers.score.length && dimensionsLayers.compare.length;
+    return isBivariate ? 'bivariate' : 'mcda';
+  }, [dimensionsLayers]);
 
   const onSelectedIndicatorsChange = useCallback(
     (e: { selectedItems: SelectableItem[] }) => {
@@ -91,9 +98,20 @@ export function MultivariateAnalysisForm({
       name,
       score: dimensionsLayers.score,
       base: dimensionsLayers.compare,
+      colors:
+        initialConfig?.colors && initialConfig?.colors?.type === newColorType
+          ? initialConfig.colors
+          : undefined,
     });
     onConfirm({ config });
-  }, [name, dimensionsLayers.score, dimensionsLayers.compare, onConfirm]);
+  }, [
+    name,
+    dimensionsLayers.score,
+    dimensionsLayers.compare,
+    initialConfig,
+    newColorType,
+    onConfirm,
+  ]);
 
   const addLayersAction = useCallback(() => {
     if (axesResource.data) {
