@@ -187,14 +187,14 @@ export class HelperBase {
 
   @step((args) => `Check that page has no visible texts: ${args.join(', ')}`)
   async checkPageHasNoTexts(texts: string[]) {
-    await Promise.all([
-      texts.forEach(async (text) => {
+    await Promise.all(
+      texts.map(async (text) => {
         expect(
           this.page.getByText(text, { exact: true }).first(),
           `Check that text '${text}' is not visible`,
         ).not.toBeVisible();
       }),
-    ]);
+    );
   }
 
   /**

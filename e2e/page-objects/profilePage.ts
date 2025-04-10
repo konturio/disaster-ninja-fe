@@ -161,9 +161,6 @@ export class ProfilePage extends HelperBase {
    * @returns object with strings for values and booleans for statuses of radio buttons
    */
 
-  // нужно обновить скриншоты в других тестах
-  // обновить openOSM тоже на каждый проект и роль
-
   async getAndAssertProfileData(
     project: Project,
     { shouldOsmEditorBeSeenOnAtlas, isUsrPro }: ProfileOptions,

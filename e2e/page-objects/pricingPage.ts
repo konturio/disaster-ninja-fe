@@ -36,7 +36,7 @@ export class PricingPage extends HelperBase {
       plansAndPricingTexts.forEach((textEl) =>
         expect(
           textEl,
-          `Assert plans and pricint texts: expect '${textEl.textContent}' to be visible`,
+          `Assert plans and pricing texts: expect '${textEl.textContent}' to be visible`,
         ).toBeVisible(),
       ),
       expect(
