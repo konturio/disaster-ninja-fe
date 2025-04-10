@@ -94,18 +94,14 @@ for (const [countryCode, fullPhone] of testedPhoneByCountry) {
         shouldSuccess: true,
       });
 
-      // Atlas redirects to pricing page after login
+      // Atlas redirects to Profile page after login due to trial period started
       if (project.name === 'atlas') {
+        await pageManager.atNavigationMenu.clickButtonToOpenPage('Plans & Pricing');
         await pageManager.atPricingPage.checkPageAndTextsAvailability();
         await pageManager.atPricingPage.clickBtnAndAssertUrl({
           context,
           buttonName: 'Request trial',
-          expectedUrlPart: 'demo-call',
-        });
-        await pageManager.atPricingPage.clickBtnAndAssertUrl({
-          context,
-          buttonName: 'Book a demo',
-          expectedUrlPart: 'atlas-demo',
+          expectedUrlPart: 'book-a-demo',
         });
         await pageManager.atNavigationMenu.clickButtonToOpenPage('Profile');
       }

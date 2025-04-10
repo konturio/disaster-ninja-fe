@@ -253,7 +253,7 @@ export class HelperBase {
    */
   @step(
     (args) =>
-      `Click '${args[1]}' btn, wait for new page to open and expect url of this new page to contain '${args[2]}' part. Close this new page`,
+      `Click '${args[0].buttonName}' btn, wait for new page to open and expect url of this new page to contain '${args[0].expectedUrlPart}' part. Close this new page`,
   )
   async clickBtnAndAssertUrl({
     context,
@@ -364,10 +364,14 @@ export const stepCounter = {
  * @param stepNameTemplate - function that returns a step name, accepts method arguments
  * @returns wrapped with test.step test activities
  */
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- we need to use any here because of the way we use template functions with any arguments
 export function step(stepNameTemplate: (...args: any[]) => string) {
   // return decorator function to change the test function
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- we need to use any here because of the way we use the decorator
   return function decorator(target: (...args: any[]) => any) {
     // return changed function
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return async function (...args: any[]) {
       stepCounter.counter += 1;
       const stepName = stepNameTemplate(args);

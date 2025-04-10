@@ -78,21 +78,26 @@ export class MapCanvas extends HelperBase {
    * This method gets current map view and clicks by X and Y on the map element. Coordinates start in the top left corner of the map element
    * @param pixelsForX number of pixels for X scale
    * @param pixelsForY number of pixels for Y scale
+   * @param project project to be used
    */
 
   @step(
     (args) =>
-      `Click with left click on the map view at ${args[0]} pixels for X and ${args[1]} pixels for Y`,
+      `Uncheck the checkbox "Active contributors" if needed and click with left click on the map view at ${args[0]} pixels for X and ${args[1]} pixels for Y`,
   )
-  async clickPlaceOnMapView(pixelsForX: number, pixelsForY: number) {
+  async clickPlaceOnMapView(pixelsForX: number, pixelsForY: number, project: Project) {
+    if (project.name === 'disaster-ninja') {
+      await this.page.getByText('Active contributors').click();
+    }
     const map = this.page.locator('#map-view');
     const box = await map.boundingBox();
     expect(
       box,
       'Expect map view element to be displayed and be parseable to Playwright bounding box',
     ).not.toBeNull();
-    await this.page.mouse.click(box!.x + pixelsForX, box!.y + pixelsForY, { delay: 330 });
+    await this.page.mouse.click(box!.x + pixelsForX, box!.y + pixelsForY, { delay: 120 });
   }
+
   /**
    * This method checks population popup that appears for Population Density layer. Checks data for being complete and not nullish.
    */

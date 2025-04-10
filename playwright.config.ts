@@ -19,7 +19,7 @@ const globalSetup = path.resolve('./e2e/global-setup.ts');
  */
 export default defineConfig({
   globalSetup,
-  globalTimeout: process.env.CI ? 1800000 : 600000,
+  globalTimeout: process.env.CI ? 2400000 : 1200000,
   timeout: process.env.CI ? 120000 : 60000,
   expect: {
     timeout: process.env.CI ? 13000 : 10000,

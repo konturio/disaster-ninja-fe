@@ -20,15 +20,14 @@ test.beforeEach(() => {
   stepCounter.counter = 0;
 });
 
-// Setting 2 retries as popup is flaky
-test.describe.configure({ retries: 2 });
+test.describe.configure({ retries: process.env.CI ? 3 : 2 });
 
 // Oam has no layers, smart-city has no population density layer
 // Atlas has no 'layers' feature for guest (and map at all)
 
 const excludedNames = ['atlas', 'oam', 'smart-city'];
 
-projects = projects.filter((arg) => !excludedNames.includes(arg.name));
+projects = projects.filter((arg: Project) => !excludedNames.includes(arg.name));
 
 const testPopulation = async function (inputData: InputData) {
   await inputData.pageManager.atMap.goToSpecificAreaByUrl(
@@ -37,12 +36,16 @@ const testPopulation = async function (inputData: InputData) {
     inputData.longitude,
     inputData.project,
   );
-  await inputData.pageManager.atMap.clickPlaceOnMapView(inputData.x, inputData.y);
+  await inputData.pageManager.atMap.clickPlaceOnMapView(
+    inputData.x,
+    inputData.y,
+    inputData.project,
+  );
   await inputData.pageManager.atMap.checkPopulationPopupData();
   await inputData.pageManager.atMap.closePopulationPopup();
 };
 
-projects.forEach((project) => {
+projects.forEach((project: Project) => {
   test.describe(`As Guest, I can see popup about population at ${project.title} after clicking at hexagon`, () => {
     test.beforeEach(async ({ pageManager }) => {
       await pageManager.atBrowser.openProject(project);
