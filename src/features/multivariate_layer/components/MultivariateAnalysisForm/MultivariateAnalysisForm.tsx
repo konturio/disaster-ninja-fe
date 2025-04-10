@@ -19,10 +19,7 @@ import { createMultivariateConfig } from '~features/multivariate_layer/helpers/c
 import { MultivariateDimensionDetails } from '../MultivariateDimensionDetails/MultivariateDimensionDetails';
 import s from './MultivariateAnalysisForm.module.css';
 import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
-import type {
-  MultivariateColorConfig,
-  MultivariateLayerConfig,
-} from '~core/logical_layers/renderers/MultivariateRenderer/types';
+import type { MultivariateLayerConfig } from '~core/logical_layers/renderers/MultivariateRenderer/types';
 import type { Axis } from '~utils/bivariate';
 
 type FormResult = {
@@ -68,7 +65,7 @@ export function MultivariateAnalysisForm({
     score: initialConfig?.score?.config.layers ?? [],
     compare: initialConfig?.base?.config.layers ?? [],
   });
-  const [isKeepColorsChecked, setKeepColorsChecked] = useState(false);
+  const [isKeepColorsChecked, setKeepColorsChecked] = useState(true);
 
   const showKeepColorsCheckbox = useMemo(() => {
     const colorType =
@@ -105,9 +102,7 @@ export function MultivariateAnalysisForm({
       score: dimensionsLayers.score,
       base: dimensionsLayers.compare,
       colors:
-        showKeepColorsCheckbox && !isKeepColorsChecked
-          ? initialConfig?.colors
-          : undefined,
+        showKeepColorsCheckbox && isKeepColorsChecked ? initialConfig?.colors : undefined,
     });
     onConfirm({ config });
   }, [
