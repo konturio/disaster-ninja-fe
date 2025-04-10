@@ -4,13 +4,13 @@ import s from './Presentation.module.css';
 import type { ReactNode } from 'react';
 
 export function PresentationLayout({
-  analyticsColumn,
+  firstColumn,
   layersColumn,
   mapColumnTop,
   mapColumnBottom,
   footer,
 }: {
-  analyticsColumn: ReactNode;
+  firstColumn: ReactNode;
   layersColumn: ReactNode;
   mapColumnTop: ReactNode;
   mapColumnBottom: ReactNode;
@@ -18,7 +18,7 @@ export function PresentationLayout({
 }) {
   return (
     <div className={s.contentWrap}>
-      <SmartColumn className={s.analytics}>{analyticsColumn}</SmartColumn>
+      <SmartColumn className={s.analytics}>{firstColumn}</SmartColumn>
 
       <div className={s.mapWrap}>
         <div className={s.mapSpaceTop}>{mapColumnTop}</div>

@@ -6,6 +6,7 @@ import {
 import { PresentationLayout } from '~views/Map/Layouts/Presentation/Presentation';
 import { MapTitle } from '~widgets/Presentation/MapTitle/MapTitle';
 import { Copyrights } from '~widgets/Presentation/Coopyrights/Copyrights';
+import { CurrentEvent } from '~widgets/Presentation/CurrentEvent/CurrentEvent';
 import { DesktopLayout } from './Desktop/Desktop';
 import { LaptopLayout } from './Laptop/Laptop';
 import { MobileLayout } from './Mobile/Mobile';
@@ -41,7 +42,7 @@ export function Layout({
 
   return (
     <PresentationLayout
-      analyticsColumn={
+      firstColumn={
         <>
           {breadcrumbs}
           {
@@ -50,7 +51,7 @@ export function Layout({
               description="Sustainable Habitat for Santa Claus"
             />
           }
-          {<Copyrights />}
+          {/*{<Copyrights />}*/}
           {/* TODO remove */}
         </>
       }
@@ -63,7 +64,7 @@ export function Layout({
       mapColumnBottom={timeline}
       layersColumn={
         <>
-          {disasters}
+          <CurrentEvent />
           {layersAndLegends}
           {analytics}
           {layerFeaturesPanel}
