@@ -231,7 +231,7 @@ export function MultivariateAnalysisForm({
               checked={isKeepColorsChecked}
               onChange={(checked) => setKeepColorsChecked(checked)}
               label="Keep colors"
-            ></Checkbox>
+            />
           )}
           <Button type="reset" onClick={cancelAction} variant="invert-outline">
             {i18n.t('cancel')}
