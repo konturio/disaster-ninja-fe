@@ -4,7 +4,6 @@ import { BIVARIATE_LEGEND_SIZE } from '~components/BivariateLegend/const';
 import { DEFAULT_MULTIBIVARIATE_STEPS } from '~utils/multivariate/constants';
 import { invertClusters, type Step } from '~utils/bivariate';
 import { CornerTooltipWrapper } from '~components/BivariateLegend/CornerTooltipWrapper';
-import { i18n } from '~core/localization';
 import { DEFAULT_BASE_DIRECTION, DEFAULT_SCORE_DIRECTION } from './constants';
 import type { Direction } from '~utils/bivariate';
 import type { LayerMeta } from '~core/logical_layers/types/meta';
@@ -59,12 +58,12 @@ function createBivariateLegend(
   colors: ColorTheme,
 ) {
   const xAxis: MultiBivariateLegendAxisProp = {
-    label: i18n.t('multivariate.compare'),
+    label: base.name,
     steps: baseSteps,
     quotient: ['', ''],
   };
   const yAxis: MultiBivariateLegendAxisProp = {
-    label: i18n.t('multivariate.score'),
+    label: score.name,
     steps: scoreSteps,
     quotient: ['', ''],
   };
