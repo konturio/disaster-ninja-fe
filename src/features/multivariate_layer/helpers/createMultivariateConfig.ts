@@ -39,13 +39,21 @@ export function createMultivariateConfig(
     score: {
       type: 'mcda',
       config: createDefaultMCDAConfig(
-        hasScore ? { layers: overrides?.score } : undefined,
+        hasScore
+          ? {
+              layers: overrides?.score,
+              name: createMCDANameOverride(overrides.score, i18n.t('multivariate.score')),
+            }
+          : undefined,
       ),
     },
     base: hasBase
       ? {
           type: 'mcda',
-          config: createDefaultMCDAConfig({ layers: overrides?.base }),
+          config: createDefaultMCDAConfig({
+            layers: overrides?.base,
+            name: createMCDANameOverride(overrides.base, i18n.t('multivariate.compare')),
+          }),
         }
       : undefined,
     stepOverrides: isBivariateStyleLegend
@@ -70,4 +78,15 @@ export function createMultivariateConfig(
             },
           }),
   };
+}
+
+function createMCDANameOverride(
+  layers: MCDALayer[] | undefined,
+  fallbackNameOverride?: string,
+): string | undefined {
+  if (layers?.length === 1) {
+    return layers[0].name;
+  } else {
+    return fallbackNameOverride;
+  }
 }
