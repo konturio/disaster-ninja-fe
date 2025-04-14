@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { expect } from '@playwright/test';
+import { expect, test } from '@playwright/test';
 import type { Locator, Page, BrowserContext } from '@playwright/test';
 
 type OpenProjectOptions = {
@@ -29,6 +29,10 @@ export class HelperBase {
    * @param operablePage playwright page to work with
    */
 
+  @step(
+    (args) =>
+      `Open ${args[0].title}, wait for layout being ready, expect app title to be correct ${args[1]?.skipCookieBanner ? 'and accept cookies' : ''}`,
+  )
   async openProject(
     project: Project,
     { skipCookieBanner = false, operablePage = this.page }: OpenProjectOptions = {},
@@ -56,6 +60,10 @@ export class HelperBase {
    * @throws error if event is not emitted in time
    */
 
+  @step(
+    (args) =>
+      `Wait for a '${args[1]}' browser event with '${args[2]}' name to be emitted`,
+  )
   async waitForEventWithFilter(
     operablePage: Page = this.page,
     eventType: string,
@@ -100,7 +108,22 @@ export class HelperBase {
    * This method waits for a specific page to have a specific text
    */
 
-  async waitForTextBeingVisible(text: string, page: Page = this.page) {
+  @step(
+    (args) =>
+      `${args[2] ? 'Expect' : 'Wait for'} '${args[0]}' text to be visible on the page`,
+  )
+  async waitForTextBeingVisible(
+    text: string,
+    page: Page = this.page,
+    shouldExpect?: boolean,
+  ) {
+    if (shouldExpect) {
+      await expect(
+        page.getByText(text, { exact: true }),
+        `Expect text '${text}' to be visible`,
+      ).toBeVisible();
+      return;
+    }
     await page
       .getByText(text, { exact: true })
       .waitFor({ state: 'visible', timeout: 20000 });
@@ -123,11 +146,13 @@ export class HelperBase {
    * @param locators array of playwright locators from DOM returned by all() method
    * @returns array of texts where all texts are defined.
    */
+
+  @step(() => `Get texts from DOM elements`)
   async getTextsFromLocators(locators: Locator[]) {
     const textsArray: string[] = [];
     for (const locator of locators) {
       const text = await locator.textContent();
-      expect(text).not.toBeNull();
+      expect(text, 'Text should not be null').not.toBeNull();
       textsArray.push(text!);
     }
     return textsArray;
@@ -138,6 +163,10 @@ export class HelperBase {
    * @param project - object with details about project to open like name, url, title, etc.
    */
 
+  @step(
+    (args) =>
+      `Get current url, reload the page, compare urls and expect page to have '${args[0].title}' title`,
+  )
   async compareUrlsAfterReload(project: Project) {
     const currentUrl = this.page.url();
     await this.page.reload({ waitUntil: 'commit', timeout: 25000 });
@@ -145,14 +174,33 @@ export class HelperBase {
       this.waitForEventWithFilter(this.page, 'METRICS', 'router-layout-ready'),
       this.page.waitForLoadState(),
     ]);
-    expect(this.page.url()).toEqual(currentUrl);
-    await expect(this.page).toHaveTitle(new RegExp(project.title));
+    expect(this.page.url(), 'New url should be equal to previous').toEqual(currentUrl);
+    await expect(this.page, `Page should have '${project.title}' title`).toHaveTitle(
+      new RegExp(project.title),
+    );
+  }
+
+  /**
+   * This method checks that page has no specified by developer visible texts
+   * @param texts array of texts to check
+   */
+
+  @step((args) => `Check that page has no visible texts: ${args.join(', ')}`)
+  async checkPageHasNoTexts(texts: string[]) {
+    await Promise.all(
+      texts.map(async (text) => {
+        expect(
+          this.page.getByText(text, { exact: true }).first(),
+          `Check that text '${text}' is not visible`,
+        ).not.toBeVisible();
+      }),
+    );
   }
 
   /**
    * This method waits 12 secs, designed for waiting for zoom on map.
    */
-
+  @step(() => `Waiting 12 seconds for zoom to happen`)
   async waitForZoom() {
     const zoomTimeout = 12000;
     await this.page.waitForTimeout(zoomTimeout);
@@ -175,6 +223,10 @@ export class HelperBase {
    * @param page playwright page to wait for
    */
 
+  @step(
+    (args) =>
+      `Wait for url to match '${args[0]}' pattern and '${args[2] || 'load'}' browser event to happen`,
+  )
   async waitForUrlToMatchPattern(
     pattern: RegExp,
     page: Page = this.page,
@@ -199,7 +251,10 @@ export class HelperBase {
    * @buttonName - name of the button to click
    * @expectedUrlPart - part of the expected url
    */
-
+  @step(
+    (args) =>
+      `Click '${args[0].buttonName}' btn, wait for new page to open and expect url of this new page to contain '${args[0].expectedUrlPart}' part. Close this new page`,
+  )
   async clickBtnAndAssertUrl({
     context,
     buttonName,
@@ -214,7 +269,9 @@ export class HelperBase {
       this.page.getByText(buttonName, { exact: true }).first().click({ delay: 330 }),
     ]);
     await page.waitForLoadState('domcontentloaded');
-    expect(page.url()).toContain(expectedUrlPart);
+    expect(page.url(), `Url should contain '${expectedUrlPart}'`).toContain(
+      expectedUrlPart,
+    );
     await Promise.all([page.close(), this.page.waitForLoadState('domcontentloaded')]);
   }
 }
@@ -296,4 +353,38 @@ export function getTestData(fileName: string) {
     .toString();
 
   return JSON.parse(data);
+}
+
+export const stepCounter = {
+  counter: 0,
+};
+
+/**
+ * This function is a decorator for methods in Page Object Models (POM) classes to add a step name
+ * @param stepNameTemplate - function that returns a step name, accepts method arguments
+ * @returns wrapped with test.step test activities
+ */
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- we need to use any here because of the way we use template functions with any arguments
+export function step(stepNameTemplate: (...args: any[]) => string) {
+  // return decorator function to change the test function
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- we need to use any here because of the way we use the decorator
+  return function decorator(target: (...args: any[]) => any) {
+    // return changed function
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return async function (...args: any[]) {
+      stepCounter.counter += 1;
+      const stepName = stepNameTemplate(args);
+      test.info().annotations.push({
+        type: `step #${stepCounter.counter}`,
+        description: stepName,
+      });
+
+      // wrapping the target function with special test.step function
+      return await test.step(stepName, async () => {
+        // calling the target function with correct 'this'
+        return await target.call(this, ...args);
+      });
+    };
+  };
 }

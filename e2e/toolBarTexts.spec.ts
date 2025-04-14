@@ -1,8 +1,11 @@
 import { expect } from '@playwright/test';
 import { test } from './fixtures/test-options.ts';
-import { getProjects } from './page-objects/helperBase.ts';
+import { getProjects, stepCounter } from './page-objects/helperBase.ts';
 
 const projects = getProjects();
+test.beforeEach(() => {
+  stepCounter.counter = 0;
+});
 const availableToolbarFeaturesGuest = [
   'Locate me',
   'Measure distance',

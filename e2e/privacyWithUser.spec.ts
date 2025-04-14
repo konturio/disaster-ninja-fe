@@ -1,7 +1,10 @@
-import { getProjects } from './page-objects/helperBase.ts';
+import { getProjects, stepCounter } from './page-objects/helperBase.ts';
 import { test } from './fixtures/test-options.ts';
 
 const projects = getProjects();
+test.beforeEach(() => {
+  stepCounter.counter = 0;
+});
 
 for (const project of projects) {
   test(`As User with no rights, I can go to ${project.title}, open Privacy tab, analyze this page, verify cookies page`, async ({
