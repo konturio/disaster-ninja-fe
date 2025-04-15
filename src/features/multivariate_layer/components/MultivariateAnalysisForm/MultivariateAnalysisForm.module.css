@@ -32,6 +32,10 @@
   margin-top: var(--unit);
 }
 
+.legend {
+  width: 250px;
+}
+
 @media screen and (max-width: 960px) {
   .modalDialog {
     height: 85vh;

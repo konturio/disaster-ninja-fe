@@ -16,6 +16,7 @@ import { availableBivariateAxesAtom } from '~core/bivariate/atoms/availableBivar
 import { padEmojiStringToLength } from '~utils/mcda/padEmojiStringToLength';
 import { createMCDALayersFromBivariateAxes } from '~utils/mcda/createMCDALayersFromBivariateAxes';
 import { createMultivariateConfig } from '~features/multivariate_layer/helpers/createMultivariateConfig';
+import { MultivariateLegend } from '~components/MultivariateLegend/MultivariateLegend';
 import { MultivariateDimensionDetails } from '../MultivariateDimensionDetails/MultivariateDimensionDetails';
 import s from './MultivariateAnalysisForm.module.css';
 import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
@@ -94,32 +95,53 @@ export function MultivariateAnalysisForm({
     }));
   }, [axesResource]);
 
+  const [showLegendPreview, setShowLegendPreview] = useState(true);
+
+  const isConfigValid = useMemo(
+    () =>
+      axesResource.data &&
+      (dimensionsLayers.score.length > 0 || dimensionsLayers.compare.length > 0) &&
+      name?.length > 0,
+    [
+      axesResource.data,
+      dimensionsLayers.compare.length,
+      dimensionsLayers.score.length,
+      name?.length,
+    ],
+  );
+
+  const previewConfig = useMemo(() => {
+    return isConfigValid
+      ? createMultivariateConfig(
+          {
+            name,
+            score: dimensionsLayers.score,
+            base: dimensionsLayers.compare,
+            colors:
+              showKeepColorsCheckbox && isKeepColorsChecked
+                ? initialConfig?.colors
+                : undefined,
+          },
+          axesResource.data ?? [],
+        )
+      : undefined;
+  }, [
+    axesResource.data,
+    dimensionsLayers.compare,
+    dimensionsLayers.score,
+    initialConfig?.colors,
+    isConfigValid,
+    isKeepColorsChecked,
+    name,
+    showKeepColorsCheckbox,
+  ]);
+
   // Possible exits
   const cancelAction = useCallback(() => onConfirm(null), [onConfirm]);
+
   const saveAction = useCallback(() => {
-    const config = createMultivariateConfig(
-      {
-        name,
-        score: dimensionsLayers.score,
-        base: dimensionsLayers.compare,
-        colors:
-          showKeepColorsCheckbox && isKeepColorsChecked
-            ? initialConfig?.colors
-            : undefined,
-      },
-      axesResource.data ?? [],
-    );
-    onConfirm({ config });
-  }, [
-    name,
-    dimensionsLayers.score,
-    dimensionsLayers.compare,
-    showKeepColorsCheckbox,
-    isKeepColorsChecked,
-    initialConfig?.colors,
-    axesResource.data,
-    onConfirm,
-  ]);
+    if (previewConfig) onConfirm({ config: previewConfig });
+  }, [previewConfig, onConfirm]);
 
   const addLayersAction = useCallback(() => {
     if (axesResource.data) {
@@ -231,27 +253,26 @@ export function MultivariateAnalysisForm({
       onClose={cancelAction}
       footer={
         <div className={s.buttonsRow}>
-          {showKeepColorsCheckbox && (
+          <>
             <Checkbox
-              id="keepColorsCheckbox"
-              checked={isKeepColorsChecked}
-              onChange={(checked) => setKeepColorsChecked(checked)}
-              label="Keep colors"
+              id="showLegendCheckbox"
+              checked={showLegendPreview}
+              onChange={(checked) => setShowLegendPreview(checked)}
+              label="Legend preview"
             />
-          )}
+            {showKeepColorsCheckbox && (
+              <Checkbox
+                id="keepColorsCheckbox"
+                checked={isKeepColorsChecked}
+                onChange={(checked) => setKeepColorsChecked(checked)}
+                label="Keep colors"
+              />
+            )}
+          </>
           <Button type="reset" onClick={cancelAction} variant="invert-outline">
             {i18n.t('cancel')}
           </Button>
-          <Button
-            disabled={
-              !axesResource.data ||
-              (dimensionsLayers.score.length === 0 &&
-                dimensionsLayers.compare.length === 0) ||
-              !name?.length
-            }
-            type="submit"
-            onClick={saveAction}
-          >
+          <Button disabled={!previewConfig} type="submit" onClick={saveAction}>
             {i18n.t('mcda.btn_save')}
           </Button>
         </div>
@@ -268,6 +289,11 @@ export function MultivariateAnalysisForm({
           placeholder={i18n.t('mcda.modal_input_name_placeholder')}
         />
         {indicatorsSelector}
+        {showLegendPreview && previewConfig && (
+          <div className={s.legend}>
+            <MultivariateLegend config={previewConfig} />
+          </div>
+        )}
         {dimensionParams
           .filter(({ dimensionKey }) => dimensionsLayers[dimensionKey]?.length)
           .map(({ dimensionKey, dimensionTitle }) => (
