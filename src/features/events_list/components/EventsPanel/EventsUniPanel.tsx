@@ -3,9 +3,15 @@ import { Panel, PanelIcon, Text } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/react-v2';
 import { useAtom as useAtomV3 } from '@reatom/npm-react';
 import clsx from 'clsx';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
+import { Sheet } from 'react-modal-sheet';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { panelClasses } from '~components/Panel';
+import {
+  UniLayoutContext,
+  useLayoutContextValue,
+} from '~components/Uni/Layout/LayoutContext';
+import { LayoutRenderer } from '~components/Uni/Layout/LayoutRenderer';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { getEventName, isEventGeometry } from '~core/focused_geometry/utils';
 import { i18n } from '~core/localization';
@@ -14,27 +20,42 @@ import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { sortedEventListAtom } from '~features/events_list/atoms/sortedEventList';
-import { eventToFeatureCard } from '~features/events_list/eventToUniCard';
-import { UniCard } from '~components/Uni/UniCard';
+import { configRepo } from '~core/config';
 import { MIN_HEIGHT } from '../../constants';
 import { FullState } from '../FullState/FullState';
 import { ShortState } from '../ShortState/ShortState';
 import { EventsPanelErrorMessage } from '../EventsPanelErrorMessage/EventsPanelErrorMessage';
+import { eventCardLayoutTemplate } from './eventLayouts';
 import s from './EventsPanel.module.css';
 import type { Event } from '~core/types';
+import type { SheetRef } from 'react-modal-sheet';
+
+const hasTimeline = !!configRepo.get().features['episodes_timeline'];
 
 function findEventById(eventsList: Event[] | null, eventId?: string | null) {
   if (!eventId || !eventsList?.length) return null;
   return eventsList.find((event) => event.eventId === eventId);
 }
 
+const renderEventCard = (event: Event, isActive: boolean) => {
+  const data = {
+    ...event,
+    active: isActive,
+    // only on active card
+    showEpisodesButton: isActive && hasTimeline && event.episodeCount > 1,
+  };
+  return <LayoutRenderer node={eventCardLayoutTemplate} data={data} />;
+};
+
 export function EventsUniPanel({
   currentEventId,
-  onCurrentChange,
+  actionHandler,
 }: {
   currentEventId?: string | null;
-  onCurrentChange: (id: string) => void;
+  actionHandler: (action: string, data?: { eventId: string }) => void;
 }) {
+  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
+
   const {
     panelState,
     panelControls,
@@ -43,11 +64,11 @@ export function EventsUniPanel({
     togglePanel,
     isOpen,
     isShort,
-  } = useShortPanelState();
+  } = useShortPanelState({ isMobile });
 
   const [focusedGeometry] = useAtom(focusedGeometryAtom);
-  const isMobile = useMediaQuery(IS_MOBILE_QUERY);
   const [{ data: eventsList, error, loading }] = useAtomV3(sortedEventListAtom);
+  const sheetRef = useRef<SheetRef>(null);
 
   const handleRefChange = useHeightResizer(
     (isOpen) => !isOpen && closePanel(),
@@ -63,26 +84,14 @@ export function EventsUniPanel({
     [eventsList, currentEventId],
   );
 
-  const handleEventClick = useCallback(
-    (id: string) => {
-      if (id !== currentEventId) {
-        onCurrentChange(id);
-      }
-    },
-    [currentEventId, onCurrentChange],
-  );
+  // Create a shared layout context for all event cards
+  const layoutContextValue = useLayoutContextValue({
+    layout: null,
+    actionHandler,
+  });
 
-  const renderEventCard = useCallback(
-    (event: Event, isActive: boolean) => (
-      <UniCard
-        key={event.eventId}
-        feature={eventToFeatureCard(event, isActive)}
-        isActive={isActive}
-        onClick={() => handleEventClick(event.eventId)}
-      />
-    ),
-    [handleEventClick],
-  );
+  // This is the compatible renderEventCard function that both FullState and ShortState expect
+  const renderCard = useCallback(renderEventCard, []);
 
   const panelContent = useCallback(
     (state: typeof panelState) => {
@@ -91,26 +100,32 @@ export function EventsUniPanel({
         return <LoadingSpinner message={i18n.t('loading_events')} marginTop="none" />;
       if (error) return <EventsPanelErrorMessage state={state} message={error} />;
 
-      return state === 'full' ? (
-        <FullState
-          eventsList={eventsList}
-          currentEventId={currentEventId ?? null}
-          renderEventCard={renderEventCard}
-        />
-      ) : (
-        <ShortState
-          openFullState={openFullState}
-          currentEvent={currentEvent ?? null}
-          renderEventCard={renderEventCard}
-        />
+      // Wrap the entire panel content with a shared layout context
+      return (
+        <UniLayoutContext.Provider value={layoutContextValue}>
+          {state === 'full' ? (
+            <FullState
+              eventsList={eventsList}
+              currentEventId={currentEventId ?? null}
+              renderEventCard={renderCard}
+            />
+          ) : (
+            <ShortState
+              openFullState={openFullState}
+              currentEvent={currentEvent ?? null}
+              renderEventCard={renderCard}
+            />
+          )}
+        </UniLayoutContext.Provider>
       );
     },
     [
+      layoutContextValue,
       loading,
       error,
       eventsList,
       currentEventId,
-      renderEventCard,
+      renderCard,
       openFullState,
       currentEvent,
     ],
@@ -129,38 +144,54 @@ export function EventsUniPanel({
     </div>
   );
 
+  const panel = (
+    <Panel
+      header={header}
+      headerIcon={
+        <div className={s.iconWrap}>
+          <Disasters24 />
+        </div>
+      }
+      onHeaderClick={togglePanel}
+      className={clsx(s.eventsPanel, isOpen ? s.show : s.collapse, 'knt-panel')}
+      classes={panelClasses}
+      isOpen={isOpen}
+      resize={isMobile || isShort ? 'none' : 'vertical'}
+      contentClassName={s.contentWrap}
+      contentContainerRef={handleRefChange}
+      customControls={panelControls}
+      contentHeight={isShort ? 'min-content' : undefined}
+      minContentHeight={isShort ? 'min-content' : MIN_HEIGHT}
+    >
+      {panelContent(panelState)}
+    </Panel>
+  );
+
   return (
     <>
-      <Panel
-        header={header}
-        headerIcon={
-          <div className={s.iconWrap}>
-            <Disasters24 />
-          </div>
-        }
-        onHeaderClick={togglePanel}
-        className={clsx(s.eventsPanel, isOpen ? s.show : s.collapse)}
-        classes={panelClasses}
-        isOpen={isOpen}
-        modal={{ onModalClick: closePanel, showInModal: isMobile }}
-        resize={isMobile || isShort ? 'none' : 'vertical'}
-        contentClassName={s.contentWrap}
-        contentContainerRef={handleRefChange}
-        customControls={panelControls}
-        contentHeight={isShort ? 'min-content' : undefined}
-        minContentHeight={isShort ? 'min-content' : MIN_HEIGHT}
-      >
-        {panelContent(panelState)}
-      </Panel>
+      {isMobile ? (
+        <Sheet
+          ref={sheetRef}
+          isOpen={isOpen}
+          onClose={closePanel}
+          initialSnap={1}
+          snapPoints={[1, 0.5]}
+          detent="full-height"
+        >
+          <Sheet.Backdrop onTap={closePanel} className={s.backdrop} />
+          <Sheet.Container>
+            <Sheet.Content style={{ paddingBottom: sheetRef.current?.y }}>
+              {panel}
+            </Sheet.Content>
+          </Sheet.Container>
+        </Sheet>
+      ) : (
+        panel
+      )}
 
       <PanelIcon
         clickHandler={openFullState}
-        className={clsx(
-          s.panelIcon,
-          isOpen && s.hide,
-          !isOpen && s.show,
-          isMobile ? s.mobile : s.desktop,
-        )}
+        className={clsx(s.panelIcon, isMobile ? s.mobile : s.desktop, 'knt-panel-icon')}
         icon={<Disasters24 />}
       />
     </>
