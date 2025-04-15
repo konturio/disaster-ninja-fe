@@ -5,7 +5,7 @@ import { currentEventAtom } from '~core/shared_state/currentEvent';
 import { episodesPanelState } from '~core/shared_state/episodesPanelState';
 import { currentEventBbox } from './atoms/currentEventBbox';
 import { autoSelectEvent } from './atoms/autoSelectEvent';
-import { EventsUniPanel } from './components/EventsPanel/EventsUniPanel';
+import { EventsPanel } from './components/EventsPanel/EventsPanel';
 
 export function EventList() {
   const [currentEvent, currentEventActions] = useAtom(currentEventAtom);
@@ -33,7 +33,5 @@ export function EventList() {
   );
 
   useAtomV3(autoSelectEvent);
-  return (
-    <EventsUniPanel currentEventId={currentEvent?.id} actionHandler={actionHandler} />
-  );
+  return <EventsPanel currentEventId={currentEvent?.id} actionHandler={actionHandler} />;
 }

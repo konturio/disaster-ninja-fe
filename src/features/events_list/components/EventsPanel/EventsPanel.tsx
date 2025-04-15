@@ -47,7 +47,7 @@ const renderEventCard = (event: Event, isActive: boolean) => {
   return <LayoutRenderer node={eventCardLayoutTemplate} data={data} />;
 };
 
-export function EventsUniPanel({
+export function EventsPanel({
   currentEventId,
   actionHandler,
 }: {
