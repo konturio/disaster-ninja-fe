@@ -142,9 +142,10 @@ export function createTemplateRenderer(
  * @returns {string} The extracted value as a string, or empty string if not found
  */
 export function resolvePropertyPath(obj: Record<string, any>, path: string[]): string {
+  // Fast path for null/undefined object
+  if (obj == null) return '';
   // Fast path for empty path
   if (!path.length) return '';
-
   // Fast path for single segment
   if (path.length === 1) {
     const value = obj[path[0]];
