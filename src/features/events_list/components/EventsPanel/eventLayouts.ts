@@ -40,9 +40,8 @@ export const eventCardLayoutTemplate = {
       $if: 'active',
       children: [
         {
-          type: 'DataRepeater',
           $value: 'externalUrls',
-          template: {
+          $template: {
             type: 'Url',
           },
         },

@@ -9,16 +9,16 @@ export interface UniLayoutComponentNode {
   $context?: string;
   $props?: Record<string, string>;
   $if?: string;
+  $template?: any;
+  value?: any[];
   overrides?: Record<string, Partial<FieldMeta>>;
 }
 
 export interface UniLayoutContextType {
-  componentsRegistry: Record<string, React.ComponentType<any>>;
   fieldsRegistry: Record<string, FieldMeta>;
   formatsRegistry: Record<string, (value: any) => string>;
   precompiledAccessors: Record<string, AccessorFunction>;
   actionHandler: (action: string, payload?: any) => void;
-  RendererComponent?: React.ComponentType<{ node: any; data: any }>;
   getFormattedValue: (fieldMeta: FieldMeta | undefined | null, value: any) => string;
 }
 

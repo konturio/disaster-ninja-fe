@@ -2,7 +2,6 @@ import { Row } from './Components/Row';
 import { Card } from './Components/Card';
 import { SeverityIndicator } from './Components/Severity';
 import { Url } from './Components/Url';
-import { DataRepeater } from './Components/DataRepeater';
 import { Text, Title } from './Components/Base';
 import { Badge } from './Components/Badge';
 import { MappingProgress } from './Components/MappingProgress';
@@ -24,7 +23,4 @@ export const componentsRegistry = {
 
   MappingProgress,
   Severity: SeverityIndicator,
-
-  // Collection processing
-  DataRepeater,
 };

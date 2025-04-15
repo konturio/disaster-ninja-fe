@@ -1,5 +1,6 @@
 import React, { memo, isValidElement } from 'react';
 import { isNonNullish } from '~utils/common';
+import { componentsRegistry } from '../componentsRegistry';
 import { ErrorComponent } from './ErrorComponent';
 import { useLayoutContext } from './LayoutContext';
 import type { FieldMeta } from '../fieldsRegistry';
@@ -11,7 +12,9 @@ import type {
 } from './types';
 
 function isComponentNode(node: any): node is UniLayoutComponentNode {
-  return node && typeof node === 'object' && typeof node.type === 'string';
+  return (
+    node && typeof node === 'object' && (typeof node.type === 'string' || node.$template)
+  );
 }
 
 function resolveBinding(
@@ -58,9 +61,9 @@ function createBindingError(error: string): BindingResult {
 
 function resolveComponent(
   type: string,
-  context: UniLayoutContextType,
+  customComponents = {},
 ): [React.ComponentType<any> | null, boolean] {
-  const Component = context.componentsRegistry?.[type];
+  const Component = customComponents[type] || componentsRegistry[type];
   return [Component, !!Component];
 }
 
@@ -244,19 +247,12 @@ const LayoutRendererInternal = ({
     );
   }
 
-  if (!isComponentNode(node)) {
+  // Check if the node is a valid object for processing
+  if (!node || typeof node !== 'object') {
     return null;
   }
 
-  // Use customComponents to override the default components from context
-  const [DefaultComponent, defaultComponentExists] = resolveComponent(node.type, context);
-  const Component = customComponents[node.type] || DefaultComponent;
-  const componentExists = !!Component;
-
-  if (!componentExists) {
-    return <ErrorComponent type={node.type} severity="warning" />;
-  }
-
+  // Process props and resolve data bindings first
   const { resolvedProps, boundData } = processNodeProps(node, data, context);
 
   // Updated to use $if
@@ -265,6 +261,39 @@ const LayoutRendererInternal = ({
     if (!ifBindingResult.value) {
       return null;
     }
+  }
+
+  // array to template rendering
+  if (node.$template && Array.isArray(resolvedProps.value)) {
+    return (
+      <>
+        {resolvedProps.value.map((item, index) => (
+          <LayoutRendererInternal
+            key={index}
+            node={node.$template}
+            data={item}
+            customComponents={customComponents}
+          />
+        ))}
+      </>
+    );
+  }
+
+  // If it's not a component node with a type, we can't render it as a component
+  if (!isComponentNode(node) || !node.type) {
+    return null;
+  }
+
+  // Use customComponents to override the default components from context
+  const [DefaultComponent, defaultComponentExists] = resolveComponent(
+    node.type,
+    customComponents,
+  );
+  const Component = customComponents[node.type] || DefaultComponent;
+  const componentExists = !!Component;
+
+  if (!componentExists) {
+    return <ErrorComponent type={node.type} severity="warning" />;
   }
 
   const childrenDataContext = boundData !== undefined ? boundData : data;

@@ -144,9 +144,8 @@ export const complexDataLayout = {
       ],
     },
     {
-      type: 'DataRepeater',
       $value: 'countries',
-      template: {
+      $template: {
         type: 'Badge',
         $value: 'name',
         variant: 'primary',
@@ -157,9 +156,8 @@ export const complexDataLayout = {
       value: 'Country Profiles',
     },
     {
-      type: 'DataRepeater',
       $value: 'countryProfiles',
-      template: {
+      $template: {
         type: 'Card',
         props: {
           title: 'Country Profile',
@@ -175,9 +173,8 @@ export const complexDataLayout = {
             },
           },
           {
-            type: 'DataRepeater',
             $value: 'indicators',
-            template: {
+            $template: {
               type: 'Row',
               children: [
                 {
@@ -214,9 +211,8 @@ export const complexDataLayout = {
       },
       children: [
         {
-          type: 'DataRepeater',
           $value: 'geometry',
-          template: {
+          $template: {
             type: 'Row',
             children: [
               {
@@ -245,10 +241,9 @@ export const complexDataLayout = {
       $context: 'analytics',
     },
     {
-      type: 'DataRepeater',
       $value: 'countries',
       $context: 'analytics',
-      template: {
+      $template: {
         type: 'Card',
         props: {
           title: 'Country Analysis',
@@ -264,9 +259,8 @@ export const complexDataLayout = {
             },
           },
           {
-            type: 'DataRepeater',
             $value: 'indicators',
-            template: {
+            $template: {
               type: 'Row',
               children: [
                 {
@@ -296,10 +290,9 @@ export const complexDataLayout = {
       $context: 'analytics',
     },
     {
-      type: 'DataRepeater',
       $value: 'geometryCountryIntersections',
       $context: 'analytics',
-      template: {
+      $template: {
         type: 'Card',
         props: {
           title: 'Intersection',
@@ -315,9 +308,8 @@ export const complexDataLayout = {
             },
           },
           {
-            type: 'DataRepeater',
             $value: 'indicators',
-            template: {
+            $template: {
               type: 'Row',
               children: [
                 {

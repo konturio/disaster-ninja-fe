@@ -6,7 +6,7 @@ import { eventSampleData } from './_eventsSampleData';
 import { hotData } from './_hotSampleData';
 import { hotProjectLayoutTemplate } from './_hotLayout';
 import { complexDataLayout, complexDataSamples } from './_complexLayout';
-import style from './Uni.fixture.module.css';
+import style from './fixture.module.css';
 
 const useJsonState = (initialValue: any): [string, (value: string) => void] => {
   const [json, setJson] = useState(JSON.stringify(initialValue, null, 4));

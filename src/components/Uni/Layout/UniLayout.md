@@ -68,6 +68,8 @@ The system offers multiple binding approaches:
 - `$value`: Binds data to component's value prop
 - `$props`: Maps data fields to specific component properties
 - `$context`: Establishes data scope for component and children
+- `$if`: Conditional rendering based on a data value
+- `$template`: Defines template for rendering array data (directly in LayoutRenderer)
 - Direct `props`: Static values that take precedence over bindings
 - `overrides`: Customizes field metadata properties
 
@@ -402,3 +404,70 @@ This allows component interactions to bubble up while maintaining data context:
   {/* Children components */}
 </LayoutProvider>
 ```
+
+## 15. Template Rendering
+
+Array data can be iterated and rendered using the built-in template rendering functionality in LayoutRenderer.
+
+### Basic Usage
+
+```json
+{
+  "$value": "items",
+  "$template": {
+    "type": "Badge",
+    "$value": "name"
+  }
+}
+```
+
+When LayoutRenderer encounters a node with `$template` and an array `value` property, it automatically maps through the array and renders each item using the template, with the individual array item as the data context.
+
+### Nested Templates
+
+Templates can be nested for complex data structures:
+
+```json
+{
+  "$value": "countries",
+  "$template": {
+    "type": "Card",
+    "props": {
+      "title": "Country Profile"
+    },
+    "children": [
+      {
+        "type": "Text",
+        "$value": "name"
+      },
+      {
+        "$value": "indicators",
+        "$template": {
+          "type": "Row",
+          "children": [
+            { "type": "Field", "$value": "name" },
+            { "type": "Field", "$value": "value" }
+          ]
+        }
+      }
+    ]
+  }
+}
+```
+
+### Integration with Context
+
+Templates work seamlessly with the `$context` binding:
+
+```json
+{
+  "$context": "analytics",
+  "$value": "regions",
+  "$template": {
+    "type": "Card"
+    // Each region becomes the data context for its template instance
+  }
+}
+```
+
+Template rendering is handled directly by the LayoutRenderer, eliminating the need for a separate component and avoiding circular dependencies in the architecture.

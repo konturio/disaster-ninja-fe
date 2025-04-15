@@ -17,6 +17,7 @@ The Uni Layout system implements a declarative, predictable approach to data bin
 - `$context`: Sets the data context for a component and its children
 - `$value`: Binds a specific value to the component's `value` property
 - `$props`: Maps data fields to specific component properties
+- `$template`: Defines the template to use for rendering an array of data
 - `props` & direct props: Static values that take precedence over auto-binding
 
 ### Metadata Handling
@@ -45,17 +46,40 @@ Implementation details:
 - Uses same data context as other bindings
 - Falsy values: undefined, null, false, 0, "", NaN
 
+### Template Rendering
+
+- `$template`: Defines the template to use for rendering an array of data
+
+```json
+{
+  "$value": "items",
+  "$template": {
+    "type": "Badge",
+    "$value": "name",
+    "variant": "primary"
+  }
+}
+```
+
+Implementation details:
+
+- The `$value` property must reference an array
+- Each array item becomes the data context for one template rendering
+- Template rendering is performed directly by the LayoutRenderer
+- Templates can be nested for complex data structures
+
 ## Binding Resolution Process
 
 The layout engine processes bindings in this order:
 
 1. **Context Resolution**: `$context` establishes the data scope for a component tree
-2. **Property Resolution**:
+2. **Template Check**: If a node has `$template` and an array `value`, the template rendering process is used
+3. **Property Resolution**:
    - Static props from `props` object or direct component properties
    - Dynamic bindings from `$value` and `$props`
    - Automatic binding of context data (only if no static values exist)
-3. **Metadata Association**: Each bound property receives associated metadata
-4. **Override Application**: Property-specific overrides are applied with shallow merging
+4. **Metadata Association**: Each bound property receives associated metadata
+5. **Override Application**: Property-specific overrides are applied with shallow merging
 
 ## Examples
 
@@ -189,6 +213,40 @@ The `overrides` mechanism allows customizing field metadata:
 ```
 
 This preserves the base metadata for `projectId` while overriding specific properties.
+
+### Template Rendering Example
+
+For rendering collections of data:
+
+```javascript
+{
+  "type": "Card",
+  "children": [
+    {
+      "type": "Title",
+      "value": "Country List"
+    },
+    {
+      "$value": "countries",
+      "$template": {
+        "type": "Row",
+        "children": [
+          {
+            "type": "Text",
+            "$value": "name"
+          },
+          {
+            "type": "Badge",
+            "$value": "status"
+          }
+        ]
+      }
+    }
+  ]
+}
+```
+
+With this structure, each item in the `countries` array will be rendered as a Row with Text and Badge components.
 
 ## Implementation Details
 

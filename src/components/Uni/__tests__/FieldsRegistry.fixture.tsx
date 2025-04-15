@@ -3,7 +3,7 @@ import { Icon } from '~components/Icon';
 import { fieldsRegistry } from '../fieldsRegistry';
 import { Field } from '../Components/Field';
 import { LayoutProvider } from '../Layout/LayoutProvider';
-import styles from './Uni.fixture.module.css';
+import styles from './fixture.module.css';
 
 // Helper context component to allow FieldText to work outside full layout
 function FieldWrapper({ children }) {

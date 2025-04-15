@@ -1,9 +1,7 @@
 import React, { useMemo, useCallback } from 'react';
-import { componentsRegistry } from '../componentsRegistry';
 import { fieldsRegistry } from '../fieldsRegistry';
 import { formatsRegistry } from '../formatsRegistry';
 import { useCompiledAccessors } from './accessorCompiler';
-import { LayoutRenderer } from './LayoutRenderer';
 import type { FieldMeta } from '../fieldsRegistry';
 import type { UniLayoutContextType } from './types';
 
@@ -26,13 +24,11 @@ const defaultFormatter = (v: any): string =>
 export function useLayoutContextValue({
   layout,
   actionHandler = () => {},
-  customComponentMap = {},
   customFieldsRegistry = {},
   customFormatsRegistry = {},
 }: {
   layout: any;
   actionHandler?: (action: string, payload?: any) => void;
-  customComponentMap?: Record<string, React.ComponentType<any>>;
   customFieldsRegistry?: Record<string, FieldMeta>;
   customFormatsRegistry?: Record<string, (value: any) => string>;
 }): UniLayoutContextType {
@@ -72,22 +68,15 @@ export function useLayoutContextValue({
 
   return useMemo(
     () => ({
-      componentsRegistry: {
-        ...componentsRegistry,
-        ...customComponentMap,
-      },
       fieldsRegistry: mergedFieldsRegistry,
       formatsRegistry: mergedFormatsRegistry,
       precompiledAccessors,
       actionHandler,
       getFormattedValue,
-      // Provide the renderer itself for recursive use
-      RendererComponent: LayoutRenderer,
     }),
     [
       precompiledAccessors,
       actionHandler,
-      customComponentMap,
       mergedFieldsRegistry,
       mergedFormatsRegistry,
       getFormattedValue,

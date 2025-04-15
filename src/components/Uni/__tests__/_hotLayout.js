@@ -61,6 +61,10 @@ export const hotProjectLayoutTemplate = {
       $value: 'lastUpdated',
     },
     {
+      type: 'Text',
+      $value: 'mappingEditors',
+    },
+    {
       type: 'Url',
       $props: {
         value: 'projectId',

@@ -1,8 +1,4 @@
 import React from 'react';
-import { componentsRegistry } from '../componentsRegistry';
-import { fieldsRegistry } from '../fieldsRegistry';
-import { formatsRegistry } from '../formatsRegistry';
-import { useCompiledAccessors } from './accessorCompiler';
 import { LayoutRenderer } from './LayoutRenderer';
 import { UniLayoutContext, useLayoutContextValue } from './LayoutContext';
 import type { FieldMeta } from '../fieldsRegistry';
@@ -57,14 +53,13 @@ export function LayoutProvider({
   const contextValue = useLayoutContextValue({
     layout,
     actionHandler,
-    customComponentMap,
     customFieldsRegistry,
     customFormatsRegistry,
   });
 
   return (
     <UniLayoutContext.Provider value={contextValue}>
-      <LayoutRenderer node={layout} data={data} />
+      <LayoutRenderer node={layout} data={data} customComponents={customComponentMap} />
       {children}
     </UniLayoutContext.Provider>
   );
