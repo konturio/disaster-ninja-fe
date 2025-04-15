@@ -10,7 +10,11 @@ import {
 } from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations/constants';
 import { i18n } from '~core/localization';
 import { generateMultivariateId } from './generateMultivariateId';
-import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { Axis, Step } from '~utils/bivariate';
+import type {
+  MCDALayer,
+  MCDALayerStyle,
+} from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type {
   MultivariateColorConfig,
   MultivariateLayerConfig,
@@ -25,41 +29,47 @@ type MultivariateLayerConfigOverrides = {
 };
 
 export function createMultivariateConfig(
-  overrides?: MultivariateLayerConfigOverrides,
+  overrides: MultivariateLayerConfigOverrides,
+  availableBivariateAxes: Axis[],
 ): MultivariateLayerConfig {
   const name = overrides?.name ?? i18n.t('multivariate.multivariate_analysis');
   const hasScore = overrides?.score?.length;
   const hasBase = overrides?.base?.length;
   const isBivariateStyleLegend = hasScore && hasBase;
+  const scoreMCDAStyle: MCDALayerStyle = {
+    type: 'mcda',
+    config: createDefaultMCDAConfig(
+      hasScore
+        ? {
+            layers: overrides?.score,
+            name: createMCDANameOverride(overrides.score, i18n.t('multivariate.score')),
+          }
+        : undefined,
+    ),
+  };
+  const baseMCDAStyle: MCDALayerStyle | undefined = hasBase
+    ? {
+        type: 'mcda',
+        config: createDefaultMCDAConfig({
+          layers: overrides?.base,
+          name: createMCDANameOverride(overrides.base, i18n.t('multivariate.compare')),
+        }),
+      }
+    : undefined;
 
   return {
     version: 0,
     id: generateMultivariateId(name),
     name,
-    score: {
-      type: 'mcda',
-      config: createDefaultMCDAConfig(
-        hasScore
-          ? {
-              layers: overrides?.score,
-              name: createMCDANameOverride(overrides.score, i18n.t('multivariate.score')),
-            }
-          : undefined,
-      ),
-    },
-    base: hasBase
-      ? {
-          type: 'mcda',
-          config: createDefaultMCDAConfig({
-            layers: overrides?.base,
-            name: createMCDANameOverride(overrides.base, i18n.t('multivariate.compare')),
-          }),
-        }
-      : undefined,
+    score: scoreMCDAStyle,
+    base: baseMCDAStyle,
     stepOverrides: isBivariateStyleLegend
       ? overrides.stepOverrides || {
-          baseSteps: DEFAULT_MULTIBIVARIATE_STEPS,
-          scoreSteps: DEFAULT_MULTIBIVARIATE_STEPS,
+          baseSteps: createStepsForMCDADimension(overrides.base, availableBivariateAxes),
+          scoreSteps: createStepsForMCDADimension(
+            overrides.score,
+            availableBivariateAxes,
+          ),
         }
       : undefined,
     colors:
@@ -88,5 +98,19 @@ function createMCDANameOverride(
     return layers[0].name;
   } else {
     return fallbackNameOverride;
+  }
+}
+
+function createStepsForMCDADimension(
+  layers: MCDALayer[] | undefined,
+  availableAxes: Axis[],
+): Step[] {
+  if (layers?.length === 1 && layers[0].normalization === 'no') {
+    // just one layer with no normalization - use axis data for steps
+    const axis = availableAxes.find((axis) => layers[0].id === axis.id);
+    return axis?.steps || DEFAULT_MULTIBIVARIATE_STEPS;
+  } else {
+    // multiple layers or normalized layer - use default steps from 0 to 1
+    return DEFAULT_MULTIBIVARIATE_STEPS;
   }
 }

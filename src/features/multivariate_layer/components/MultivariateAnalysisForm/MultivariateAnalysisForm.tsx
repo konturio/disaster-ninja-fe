@@ -97,13 +97,18 @@ export function MultivariateAnalysisForm({
   // Possible exits
   const cancelAction = useCallback(() => onConfirm(null), [onConfirm]);
   const saveAction = useCallback(() => {
-    const config = createMultivariateConfig({
-      name,
-      score: dimensionsLayers.score,
-      base: dimensionsLayers.compare,
-      colors:
-        showKeepColorsCheckbox && isKeepColorsChecked ? initialConfig?.colors : undefined,
-    });
+    const config = createMultivariateConfig(
+      {
+        name,
+        score: dimensionsLayers.score,
+        base: dimensionsLayers.compare,
+        colors:
+          showKeepColorsCheckbox && isKeepColorsChecked
+            ? initialConfig?.colors
+            : undefined,
+      },
+      axesResource.data ?? [],
+    );
     onConfirm({ config });
   }, [
     name,
@@ -112,6 +117,7 @@ export function MultivariateAnalysisForm({
     showKeepColorsCheckbox,
     isKeepColorsChecked,
     initialConfig?.colors,
+    axesResource.data,
     onConfirm,
   ]);
 
