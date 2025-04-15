@@ -1,0 +1,48 @@
+.badgesList {
+  display: flex;
+  gap: var(--half-unit);
+}
+
+.badgesList > div {
+  background-color: var(--faint-weak);
+  color: var(--base-strong);
+  padding: var(--half-unit) var(--unit);
+  border-radius: var(--double-unit);
+  font: 500 var(--font-xs);
+}
+
+.badge {
+  background-color: var(--faint-weak);
+  color: var(--base-strong);
+  padding: var(--half-unit) var(--unit);
+  border-radius: var(--double-unit);
+  font: 500 var(--font-xs);
+  display: inline-block;
+  align-self: start;
+}
+
+/* Color schemes */
+.error {
+  color: var(--error-strong);
+  background-color: #f8dde0;
+}
+
+.success {
+  color: var(--success-strong);
+  background-color: #eaf6e6;
+}
+
+.warning {
+  color: var(--warning-strong);
+  background-color: #ffe8d4;
+}
+
+.info {
+  color: var(--accent-strong);
+  background-color: #e7f1fa;
+}
+
+.neutral {
+  color: var(--base-strong-down);
+  background-color: #eceeef;
+}

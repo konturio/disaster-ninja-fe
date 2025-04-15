@@ -1,0 +1,32 @@
+.progress {
+  color: var(--base-strong);
+  font: 500 var(--font-xs);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.caption {
+  text-align: right;
+}
+
+.desc {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.stack {
+  background-color: #eceeef;
+  position: relative;
+  height: 6px;
+  border-radius: 3px;
+}
+
+.stack > div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 6px;
+  border-radius: 3px;
+}

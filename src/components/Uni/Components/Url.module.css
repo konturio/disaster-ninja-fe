@@ -1,0 +1,17 @@
+.url {
+  color: var(--accent-strong);
+  /* font-weight: 500; */
+  font: var(--font-xs);
+  text-decoration: none;
+  /* display: block; */
+}
+
+.url:hover {
+  outline: 1px solid var(--accent-strong);
+  outline-offset: var(--half-unit);
+}
+
+.icon {
+  vertical-align: middle;
+  margin-left: 4px;
+}

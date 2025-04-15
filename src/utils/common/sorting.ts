@@ -1,5 +1,3 @@
-import type { SelectableItem } from '@konturio/ui-kit';
-
 export const sortByKey =
   <T extends Record<string, unknown>>(key: string, direction: 'asc' | 'desc') =>
   (a: T, b: T) => {
