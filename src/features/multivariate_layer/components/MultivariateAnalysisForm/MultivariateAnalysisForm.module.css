@@ -25,11 +25,18 @@
 }
 
 .multiselectContainer {
-  width: 450px;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+}
+
+.layersDropdown {
+  flex: 1;
 }
 
 .addLayersButton {
-  margin-top: var(--unit);
+  margin-block-start: 28px;
+  margin-inline-start: var(--unit);
 }
 
 .legendContainer {
@@ -72,5 +79,10 @@
 
   .multiselectContainer {
     width: 100%;
+    display: block;
+  }
+
+  .addLayersButton {
+    margin: var(--unit) 0;
   }
 }

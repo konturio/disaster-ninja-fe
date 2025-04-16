@@ -193,6 +193,7 @@ export function MultivariateAnalysisForm({
     ready: () => (
       <div className={s.multiselectContainer}>
         <MultiselectChipWithSearch
+          className={s.layersDropdown}
           label={i18n.t('mcda.modal_input_indicators')}
           selectedItems={selectedIndicators}
           items={inputItems}
