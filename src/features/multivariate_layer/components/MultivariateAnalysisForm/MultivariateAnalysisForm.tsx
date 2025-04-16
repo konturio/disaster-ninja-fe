@@ -83,13 +83,15 @@ export function MultivariateAnalysisForm({
   const [isCustomStepsChecked, setCustomStepsChecked] = useState(false);
   const [customSteps, setCustomSteps] = useState<CustomSteps>(DEFAULT_CUSTOM_STEPS);
 
+  const isBivariate = useMemo(
+    () => !!dimensionsLayers.score.length && !!dimensionsLayers.compare.length,
+    [dimensionsLayers],
+  );
+
   const showKeepColorsCheckbox = useMemo(() => {
-    const colorType =
-      dimensionsLayers.score.length && dimensionsLayers.compare.length
-        ? 'bivariate'
-        : 'mcda';
+    const colorType = isBivariate ? 'bivariate' : 'mcda';
     return initialConfig?.colors && initialConfig?.colors?.type === colorType;
-  }, [dimensionsLayers, initialConfig?.colors]);
+  }, [initialConfig?.colors, isBivariate]);
 
   const onSelectedIndicatorsChange = useCallback(
     (e: { selectedItems: SelectableItem[] }) => {
@@ -312,7 +314,7 @@ export function MultivariateAnalysisForm({
                 label="Keep colors"
               />
             )}
-            {dimensionsLayers.score.length && dimensionsLayers.compare.length && (
+            {isBivariate && (
               <Checkbox
                 id="customStepsCheckbox"
                 checked={isCustomStepsChecked}
