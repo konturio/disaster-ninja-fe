@@ -1,9 +1,9 @@
 import { useFixtureInput } from 'react-cosmos/client';
 import { Icon } from '~components/Icon';
-import { fieldsRegistry } from '../fieldsRegistry';
-import { Field } from '../Components/Field';
-import { LayoutProvider } from '../Layout/LayoutProvider';
-import styles from './fixture.module.css';
+import { fieldsRegistry } from './fieldsRegistry';
+import { Field } from './Components/Field';
+import { LayoutProvider } from './Layout/LayoutProvider';
+import styles from './__mocks__/fixture.module.css';
 
 // Helper context component to allow FieldText to work outside full layout
 function FieldWrapper({ children }) {

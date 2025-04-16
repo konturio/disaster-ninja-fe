@@ -21,6 +21,7 @@ export const eventCardLayoutTemplate = {
         { type: 'Field', $value: 'affectedPopulation' },
         { type: 'Field', $value: 'settledArea' },
         { type: 'Field', $value: 'osmGaps' },
+        { type: 'Field', $value: 'loss' },
       ],
     },
     {

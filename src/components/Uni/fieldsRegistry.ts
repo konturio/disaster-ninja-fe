@@ -27,7 +27,7 @@ const fieldsRegistry: Record<string, FieldMeta> = {
   },
   osmGaps: {
     type: 'number',
-    tooltip: i18n.t('estimated_osm_gaps'),
+    tooltip: i18n.t('osm_gaps'),
     icon: 'OsmGaps16',
     format: 'percentage_rounded',
   },
@@ -35,7 +35,7 @@ const fieldsRegistry: Record<string, FieldMeta> = {
     type: 'number',
     tooltip: i18n.t('event_list.analytics.loss_tooltip'),
     icon: 'DollarCircle16',
-    format: 'currency',
+    format: 'compact_currency',
   },
   // date
   startedAt: {
@@ -57,12 +57,10 @@ const fieldsRegistry: Record<string, FieldMeta> = {
   mappingTypes: {
     type: 'text',
     label: i18n.t('mapping_types'),
-    // format: 'textCapitalize',
   },
   projectId: {
     type: 'number',
     text: (v) => `#${v}`,
-    // format: 'textCapitalize',
   },
 };
 

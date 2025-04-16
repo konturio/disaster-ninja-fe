@@ -29,6 +29,9 @@ export function Field({
   format,
 }: FieldProps) {
   const context = useLayoutContext();
+
+  if (value === undefined) return null;
+
   const fieldMeta = $meta?.value;
 
   const formattedValue =

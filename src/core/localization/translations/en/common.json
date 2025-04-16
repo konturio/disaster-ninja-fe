@@ -49,7 +49,7 @@
   "started": "Started",
   "created": "Created",
   "mapping_types": "Mapping types",
-  "estimated_osm_gaps": "Estimated mapping gaps in OpenStreetMap",
+  "osm_gaps": "OSM gaps",
   "no_data_received": "No data received",
   "wrong_data_received": "Wrong data received",
   "error": "Error",

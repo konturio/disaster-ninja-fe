@@ -1,12 +1,13 @@
 import { useFixtureInput } from 'react-cosmos/client';
 import { useState, useEffect } from 'react';
+import clsx from 'clsx';
 import { eventCardLayoutTemplate } from '~features/events_list/components/EventsPanel/eventLayouts';
-import { LayoutProvider } from '../Layout/LayoutProvider';
-import { eventSampleData } from './_eventsSampleData';
-import { hotData } from './_hotSampleData';
-import { hotProjectLayoutTemplate } from './_hotLayout';
-import { complexDataLayout, complexDataSamples } from './_complexLayout';
-import style from './fixture.module.css';
+import { LayoutProvider } from './Layout/LayoutProvider';
+import { eventSampleData } from '../../core/api/__mocks__/_eventsSampleData';
+import { hotData } from '../../core/api/__mocks__/_hotSampleData';
+import { hotProjectLayoutTemplate } from './__mocks__/_hotLayout.js';
+import { complexDataLayout, complexDataSamples } from './__mocks__/_complexLayout';
+import style from './__mocks__/fixture.module.css';
 
 const useJsonState = (initialValue: any): [string, (value: string) => void] => {
   const [json, setJson] = useState(JSON.stringify(initialValue, null, 4));
@@ -26,7 +27,7 @@ const JsonEditor = ({
   value,
   onChange,
   placeholder,
-  className,
+  className = '',
   title,
   visible = true,
 }: JsonEditorProps) => {
@@ -50,7 +51,7 @@ const JsonEditor = ({
 
   return (
     <div
-      className={style.tcard + ' ' + (hasError ? style.error : '')}
+      className={clsx(style.tcard, { [style.error]: hasError }, className)}
       style={{ display: visible ? 'flex' : 'none' }}
     >
       {title && <legend>{title}</legend>}
@@ -65,7 +66,7 @@ const JsonEditor = ({
 
 const createLayoutDebugger = (initialLayout, initialData) => {
   return function LayoutDebuggerInstance() {
-    const [maxCards] = useFixtureInput('Limit Data Samples', 2);
+    const [maxCards] = useFixtureInput('Limit Data Samples', 4);
     const [showLayoutEditor] = useFixtureInput('Show Layout Editor', true);
     const [showDataEditor] = useFixtureInput('Show Data Editor', true);
     const [layoutJson, setLayoutJson] = useJsonState(initialLayout);

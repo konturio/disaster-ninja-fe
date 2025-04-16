@@ -1,4 +1,4 @@
-import { componentsRegistry } from '../componentsRegistry';
+import { componentsRegistry } from './componentsRegistry';
 
 export default function ComponentsRegistry() {
   return (

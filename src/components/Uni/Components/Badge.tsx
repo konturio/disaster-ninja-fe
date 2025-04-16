@@ -27,9 +27,12 @@ export function Badge({
   className = '',
   style = {},
 }: BadgeProps) {
+  if (value === undefined) return null;
+
   if (mapping?.[('' + value).toLowerCase()]) {
     variant = mapping[('' + value).toLowerCase()];
   }
+
   const variantClass = variant ? Variants[('' + variant).toLowerCase()] : '';
   return (
     <div className={`${s.badge} ${variantClass} ${className}`} style={style}>

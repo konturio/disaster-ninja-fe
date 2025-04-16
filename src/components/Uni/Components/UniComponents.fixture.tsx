@@ -3,13 +3,13 @@ import { StackedProgressBar } from './Bar';
 import { SeverityIndicator } from './Severity';
 
 export default (
-  <blockquote>
+  <blockquote style={{ width: 390 }}>
     {[
       <StackedProgressBar
         key="p1"
         value={[
-          { title: ' F-ty', value: 57, color: 'green' },
-          { title: '% sx', value: 75, color: 'orange' },
+          { title: '% processed', value: 57, color: 'green' },
+          { title: '% received', value: 75, color: 'orange' },
         ]}
         caption="Progress"
       />,
@@ -39,7 +39,10 @@ export default (
         ]}
         caption="5 step Progress"
       />,
+      <hr />,
       <SeverityIndicator key="s1" value="MODERATE" />,
+      <hr />,
+      <SeverityIndicator key="s2" value="UNKNOWN" />,
     ]}
   </blockquote>
 );

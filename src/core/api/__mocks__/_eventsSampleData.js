@@ -45,6 +45,24 @@ export const eventSampleData = [
     episodeCount: 1,
   },
   {
+    eventId: 'b725a2e4-613b-4a10-9916-be7575658bf6',
+    eventName: 'PRIV Cyclone OPHELIA',
+    eventType: 'CYCLONE',
+    description:
+      'NOTICE... LAND-BASED TROPICAL CYCLONE WATCHES AND WARNINGS ARE NO LONGER INCLUDED IN THE TROPICAL CYCLONE FORECAST/ADVISORY...(TCM). CURRENT LAND-BASED COASTAL WATCHES AND WARNINGS CAN BE FOUND IN THE MOST RECENTLY ISSUED TROPICAL CYCLONE PUBLIC ADVISORY...(TCP). POST-',
+    severity: 'MODERATE',
+    affectedPopulation: 51764949,
+    settledArea: 372775.86719946715,
+    osmGaps: 6,
+    loss: 1067531784,
+    startedAt: '2023-09-21T15:00:00Z',
+    updatedAt: '2023-09-24T03:02:08.627Z',
+    externalUrls: ['https://www.nhc.noaa.gov/text/refresh/MIATCMAT1+shtml/240240.shtml'],
+    bbox: [-82.8981311673097, 25.988304006373998, -70.88844047428728, 41.301760744151665],
+    centroid: [-77.19293581123283, 35.92034184848231],
+    episodeCount: 14,
+  },
+  {
     eventId: 'b78cb252-ca5b-4142-81c4-2580cb7185c5',
     eventName: 'Flood',
     description:

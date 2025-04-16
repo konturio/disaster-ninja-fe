@@ -26,6 +26,13 @@ export const currencyFormatter = new Intl.NumberFormat(language, {
   style: 'currency',
   currency: 'USD',
 });
+
+export const compactCurrencyFormatter = new Intl.NumberFormat(language, {
+  style: 'currency',
+  currency: 'USD',
+  maximumFractionDigits: 0,
+});
+
 export const formatsRegistry = {
   date(date?: string) {
     return date ? dateFormatter(new Date(date)) : '';
@@ -38,6 +45,9 @@ export const formatsRegistry = {
   },
   currency(value: number) {
     return currencyFormatter.format(value);
+  },
+  compact_currency(value: number) {
+    return compactCurrencyFormatter.format(value);
   },
   number(value: number) {
     return numberFormatter.format(value);

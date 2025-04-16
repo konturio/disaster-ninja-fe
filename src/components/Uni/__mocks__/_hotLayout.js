@@ -7,12 +7,6 @@ export const hotProjectLayoutTemplate = {
         {
           type: 'Badge',
           $value: 'projectId',
-          overrides: {
-            value: {
-              format: 'text',
-              icon: 'Project16',
-            },
-          },
         },
         // Project priority with proper binding and overrides
         {
@@ -66,10 +60,8 @@ export const hotProjectLayoutTemplate = {
     },
     {
       type: 'Url',
-      $props: {
-        value: 'projectId',
-      },
-      template: 'https://tasks.hotosm.org/projects/{value}',
+      $value: 'projectId',
+      // pre-transform: 'https://tasks.hotosm.org/projects/{value}' -> projectUrl,
       label: 'Open in Tasking Manager',
     },
   ],
