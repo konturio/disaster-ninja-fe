@@ -63,14 +63,8 @@ export function MultivariateAnalysisForm({
 }) {
   // Layer name input
   const [name, setName] = useState(initialConfig?.name ?? '');
-  const [nameError, setNameError] = useState<string>('');
   const onNameChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
-    if (!e.target.value) {
-      setNameError(i18n.t('mcda.error_analysis_name_cannot_be_empty'));
-    } else {
-      setNameError('');
-    }
   }, []);
 
   // Indicators input
@@ -117,14 +111,8 @@ export function MultivariateAnalysisForm({
   const isConfigValid = useMemo(
     () =>
       axesResource.data &&
-      (dimensionsLayers.score.length > 0 || dimensionsLayers.compare.length > 0) &&
-      name?.length > 0,
-    [
-      axesResource.data,
-      dimensionsLayers.compare.length,
-      dimensionsLayers.score.length,
-      name?.length,
-    ],
+      (dimensionsLayers.score.length > 0 || dimensionsLayers.compare.length > 0),
+    [axesResource.data, dimensionsLayers.compare.length, dimensionsLayers.score.length],
   );
 
   const previewConfig = useMemo(() => {
@@ -337,7 +325,6 @@ export function MultivariateAnalysisForm({
           data-testid="mcda-input-layer-name"
           type="text"
           value={name}
-          error={nameError}
           onChange={onNameChange}
           renderLabel={<Text type="label">{i18n.t('mcda.modal_input_name')}</Text>}
           placeholder={i18n.t('mcda.modal_input_name_placeholder')}

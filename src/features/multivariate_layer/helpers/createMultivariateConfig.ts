@@ -1,5 +1,8 @@
 import { createDefaultMCDAConfig } from '~features/mcda/mcdaConfig';
-import { DEFAULT_MULTIBIVARIATE_COLORS } from '~utils/multivariate/constants';
+import {
+  DEFAULT_MULTIBIVARIATE_COLORS,
+  DEFAULT_MULTIVARIATE_ANALYSIS_NAME,
+} from '~utils/multivariate/constants';
 import {
   DEFAULT_GREEN,
   DEFAULT_RED,
@@ -30,7 +33,7 @@ export function createMultivariateConfig(
   overrides: MultivariateLayerConfigOverrides,
   availableBivariateAxes: Axis[],
 ): MultivariateLayerConfig {
-  const name = overrides?.name ?? i18n.t('multivariate.multivariate_analysis');
+  const name = overrides?.name || DEFAULT_MULTIVARIATE_ANALYSIS_NAME;
   const hasScore = overrides?.score?.length;
   const hasBase = overrides?.base?.length;
   const isBivariateStyleLegend = hasScore && hasBase;

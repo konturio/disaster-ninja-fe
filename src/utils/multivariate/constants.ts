@@ -1,4 +1,9 @@
+import { i18n } from '~core/localization';
 import type { Step } from '~utils/bivariate';
+
+export const DEFAULT_MULTIVARIATE_ANALYSIS_NAME = i18n.t(
+  'multivariate.multivariate_analysis',
+);
 
 export const DEFAULT_MULTIBIVARIATE_STEPS: Step[] = [
   {
