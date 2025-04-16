@@ -18,9 +18,9 @@ import { createMCDALayersFromBivariateAxes } from '~utils/mcda/createMCDALayersF
 import { createMultivariateConfig } from '~features/multivariate_layer/helpers/createMultivariateConfig';
 import { MultivariateLegend } from '~components/MultivariateLegend/MultivariateLegend';
 import { DEFAULT_MULTIBIVARIATE_STEPS } from '~utils/multivariate/constants';
-import { NUMBER_FILTER } from '~features/mcda/components/MCDALayerEditor/MCDALayerParameters/constants';
 import { createStepsForMCDADimension } from '~features/multivariate_layer/helpers/createStepsForMCDADimension';
 import { MultivariateDimensionDetails } from '../MultivariateDimensionDetails/MultivariateDimensionDetails';
+import { CustomStepsInput, type CustomSteps } from '../CustomStepsInput/CustomStepsInput';
 import s from './MultivariateAnalysisForm.module.css';
 import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type {
@@ -46,8 +46,6 @@ function copyDimensions(dimensions: MVAFormDimensions): MVAFormDimensions {
     compare: [...dimensions.compare],
   };
 }
-
-type CustomSteps = { scoreSteps: string[]; baseSteps: string[] };
 
 const DEFAULT_CUSTOM_STEPS: CustomSteps = {
   baseSteps: DEFAULT_MULTIBIVARIATE_STEPS.map((v) => v.value.toString()),
@@ -365,55 +363,10 @@ export function MultivariateAnalysisForm({
         )}
         {isCustomStepsChecked && (
           <>
-            <Text type="label">Custom steps</Text>
-            <div className={s.customStepsRow}>
-              <Text type="short-m" className={s.customStepsRowName}>
-                Score:
-              </Text>
-              {customSteps?.scoreSteps?.map((step, index) => (
-                <Input
-                  key={`customSteps-score-${index}`}
-                  classes={{
-                    inputBox: s.customStepInput,
-                    error: s.hiddenError,
-                  }}
-                  value={step}
-                  type="text"
-                  onChange={(event) => {
-                    setCustomSteps((oldCustomSteps) => {
-                      const newValue = event.target.value.replace(NUMBER_FILTER, '');
-                      const newScoreSteps = [...oldCustomSteps.scoreSteps];
-                      newScoreSteps[index] = newValue;
-                      return { ...oldCustomSteps, scoreSteps: newScoreSteps };
-                    });
-                  }}
-                />
-              ))}
-            </div>
-            <div className={s.customStepsRow}>
-              <Text type="short-m" className={s.customStepsRowName}>
-                Base:
-              </Text>
-              {customSteps?.baseSteps?.map((step, index) => (
-                <Input
-                  key={`customSteps-score-${index}`}
-                  classes={{
-                    inputBox: s.customStepInput,
-                    error: s.hiddenError,
-                  }}
-                  value={step}
-                  type="text"
-                  onChange={(event) => {
-                    setCustomSteps((oldCustomSteps) => {
-                      const newValue = event.target.value.replace(NUMBER_FILTER, '');
-                      const newSteps = [...oldCustomSteps.baseSteps];
-                      newSteps[index] = newValue;
-                      return { ...oldCustomSteps, baseSteps: newSteps };
-                    });
-                  }}
-                />
-              ))}
-            </div>
+            <CustomStepsInput
+              customSteps={customSteps}
+              onCustomStepsChanged={setCustomSteps}
+            />
           </>
         )}
       </div>

@@ -1,0 +1,15 @@
+.customStepsRow {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  gap: var(--unit);
+  align-items: center;
+}
+
+.customStepsRowName {
+  width: 45px;
+}
+
+.customStepInput {
+  width: 100px;
+}
