@@ -1,5 +1,5 @@
 import { useAtom } from '@reatom/npm-react';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 import {
   Button,
   Input,
@@ -76,6 +76,7 @@ export function MultivariateAnalysisForm({
   const [isKeepColorsChecked, setKeepColorsChecked] = useState(true);
   const [isCustomStepsChecked, setCustomStepsChecked] = useState(false);
   const [customSteps, setCustomSteps] = useState<CustomSteps>(DEFAULT_CUSTOM_STEPS);
+  const buttonsRowRef = useRef<HTMLDivElement>(null);
 
   const isBivariate = useMemo(
     () => !!dimensionsLayers.score.length && !!dimensionsLayers.compare.length,
@@ -265,6 +266,15 @@ export function MultivariateAnalysisForm({
   function onCustomStepsCheckboxChanged(checked: boolean): void {
     setCustomStepsChecked(checked);
 
+    if (checked) {
+      // scroll back to buttons row, because adding custom step inputs makes the page jump
+      setTimeout(() => {
+        if (buttonsRowRef?.current) {
+          (buttonsRowRef.current as HTMLElement).scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    }
+
     const scoreSteps = initialConfig?.stepOverrides?.scoreSteps
       ? initialConfig.stepOverrides.scoreSteps.map((step) => step.value.toString())
       : createStepsForMCDADimension(dimensionsLayers.score, axesResource.data ?? []).map(
@@ -286,7 +296,7 @@ export function MultivariateAnalysisForm({
       title={i18n.t('multivariate.multivariate_analysis')}
       onClose={cancelAction}
       footer={
-        <div className={s.buttonsRow}>
+        <div className={s.buttonsRow} ref={buttonsRowRef}>
           <>
             <Checkbox
               id="showLegendCheckbox"
