@@ -62,17 +62,10 @@ export function MultivariateDimensionDetails({
               onLayerEdited={(editedLayer) => {
                 onLayerEdited(editedLayer, dimensionKey);
               }}
-            />
-          </div>
-          <div className={s.deleteButton}>
-            <LayerActionIcon
-              onClick={() => {
+              onDeletePressed={() => {
                 onLayerDeleted(mcdaLayer, dimensionKey);
               }}
-              hint={i18n.t('layer_actions.tooltips.erase')}
-            >
-              <Trash16 />
-            </LayerActionIcon>
+            />
           </div>
         </div>
       ))}

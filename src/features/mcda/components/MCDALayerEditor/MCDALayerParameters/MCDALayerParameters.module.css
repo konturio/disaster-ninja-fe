@@ -30,6 +30,7 @@
 .layerButtons {
   display: flex;
   flex-flow: row nowrap;
+  gap: var(--unit);
 }
 
 .infoButton {
@@ -90,8 +91,7 @@
   font-size: 11px;
 }
 
-.editButton {
-  margin-inline-end: var(--unit);
+.actionButton {
   cursor: pointer;
   align-items: flex-start;
 }

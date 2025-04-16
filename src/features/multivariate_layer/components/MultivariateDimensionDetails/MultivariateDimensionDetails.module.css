@@ -20,8 +20,3 @@
   width: 90px;
   margin: var(--unit) 2px;
 }
-
-.deleteButton {
-  align-items: flex-start;
-  padding: calc(var(--unit) / 2);
-}
