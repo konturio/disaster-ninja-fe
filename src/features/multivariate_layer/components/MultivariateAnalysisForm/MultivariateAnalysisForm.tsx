@@ -354,10 +354,12 @@ export function MultivariateAnalysisForm({
             />
           ))}
         {showLegendPreview && previewConfig && (
-          <div className={s.legendContainer}>
+          <div className={s.legendSection}>
             <Text type="label">Legend</Text>
-            <div className={s.legend}>
-              <MultivariateLegend config={previewConfig} />
+            <div className={s.legendContainer}>
+              <div className={s.legendPreview}>
+                <MultivariateLegend config={previewConfig} />
+              </div>
             </div>
           </div>
         )}
