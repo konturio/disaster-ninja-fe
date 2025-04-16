@@ -19,6 +19,10 @@ export type MCDAColorConfig = {
 };
 
 export type MultivariateColorConfig = BivariateColorConfig | MCDAColorConfig;
+export type MultivariateStepOverrides = {
+  baseSteps?: Step[];
+  scoreSteps?: Step[];
+};
 
 export interface MultivariateLayerConfig {
   version: 0;
@@ -26,9 +30,6 @@ export interface MultivariateLayerConfig {
   name: string;
   score: MultivariateAxis;
   base?: MultivariateAxis;
-  stepOverrides?: {
-    baseSteps?: Step[];
-    scoreSteps?: Step[];
-  };
+  stepOverrides?: MultivariateStepOverrides;
   colors?: MultivariateColorConfig;
 }

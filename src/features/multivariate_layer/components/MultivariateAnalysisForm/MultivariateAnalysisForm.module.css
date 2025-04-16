@@ -19,7 +19,7 @@
 
 .buttonsRow {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: row wrap;
   gap: var(--unit);
   justify-content: flex-end;
 }
@@ -32,8 +32,31 @@
   margin-top: var(--unit);
 }
 
+.legendContainer {
+  width: 100%;
+}
+
 .legend {
-  width: 250px;
+  width: 100%;
+  margin-inline-start: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.customStepsRow {
+  width: 100%;
+  display: flex;
+  flex-flow: row wrap;
+  gap: var(--unit);
+  align-items: center;
+}
+
+.customStepsRowName {
+  width: 45px;
+}
+
+.customStepInput {
+  width: 100px;
 }
 
 @media screen and (max-width: 960px) {

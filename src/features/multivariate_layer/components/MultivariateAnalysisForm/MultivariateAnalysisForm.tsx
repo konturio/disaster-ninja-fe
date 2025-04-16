@@ -17,10 +17,16 @@ import { padEmojiStringToLength } from '~utils/mcda/padEmojiStringToLength';
 import { createMCDALayersFromBivariateAxes } from '~utils/mcda/createMCDALayersFromBivariateAxes';
 import { createMultivariateConfig } from '~features/multivariate_layer/helpers/createMultivariateConfig';
 import { MultivariateLegend } from '~components/MultivariateLegend/MultivariateLegend';
+import { DEFAULT_MULTIBIVARIATE_STEPS } from '~utils/multivariate/constants';
+import { NUMBER_FILTER } from '~features/mcda/components/MCDALayerEditor/MCDALayerParameters/constants';
+import { createStepsForMCDADimension } from '~features/multivariate_layer/helpers/createStepsForMCDADimension';
 import { MultivariateDimensionDetails } from '../MultivariateDimensionDetails/MultivariateDimensionDetails';
 import s from './MultivariateAnalysisForm.module.css';
 import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
-import type { MultivariateLayerConfig } from '~core/logical_layers/renderers/MultivariateRenderer/types';
+import type {
+  MultivariateLayerConfig,
+  MultivariateStepOverrides,
+} from '~core/logical_layers/renderers/MultivariateRenderer/types';
 import type { Axis } from '~utils/bivariate';
 
 type FormResult = {
@@ -40,6 +46,13 @@ function copyDimensions(dimensions: MVAFormDimensions): MVAFormDimensions {
     compare: [...dimensions.compare],
   };
 }
+
+type CustomSteps = { scoreSteps: string[]; baseSteps: string[] };
+
+const DEFAULT_CUSTOM_STEPS: CustomSteps = {
+  baseSteps: DEFAULT_MULTIBIVARIATE_STEPS.map((v) => v.value.toString()),
+  scoreSteps: DEFAULT_MULTIBIVARIATE_STEPS.map((v) => v.value.toString()),
+};
 
 export function MultivariateAnalysisForm({
   initialConfig,
@@ -67,6 +80,8 @@ export function MultivariateAnalysisForm({
     compare: initialConfig?.base?.config.layers ?? [],
   });
   const [isKeepColorsChecked, setKeepColorsChecked] = useState(true);
+  const [isCustomStepsChecked, setCustomStepsChecked] = useState(false);
+  const [customSteps, setCustomSteps] = useState<CustomSteps>(DEFAULT_CUSTOM_STEPS);
 
   const showKeepColorsCheckbox = useMemo(() => {
     const colorType =
@@ -111,6 +126,10 @@ export function MultivariateAnalysisForm({
   );
 
   const previewConfig = useMemo(() => {
+    const customStepOverrides: MultivariateStepOverrides = {
+      scoreSteps: customSteps.scoreSteps.map((v) => ({ value: Number.parseFloat(v) })),
+      baseSteps: customSteps.baseSteps.map((v) => ({ value: Number.parseFloat(v) })),
+    };
     return isConfigValid
       ? createMultivariateConfig(
           {
@@ -121,16 +140,24 @@ export function MultivariateAnalysisForm({
               showKeepColorsCheckbox && isKeepColorsChecked
                 ? initialConfig?.colors
                 : undefined,
+            stepOverrides:
+              isCustomStepsChecked && customStepOverrides
+                ? customStepOverrides
+                : initialConfig?.stepOverrides,
           },
           axesResource.data ?? [],
         )
       : undefined;
   }, [
     axesResource.data,
+    customSteps.baseSteps,
+    customSteps.scoreSteps,
     dimensionsLayers.compare,
     dimensionsLayers.score,
     initialConfig?.colors,
+    initialConfig?.stepOverrides,
     isConfigValid,
+    isCustomStepsChecked,
     isKeepColorsChecked,
     name,
     showKeepColorsCheckbox,
@@ -245,6 +272,23 @@ export function MultivariateAnalysisForm({
     { dimensionKey: 'compare', dimensionTitle: i18n.t('multivariate.compare') },
   ];
 
+  function onCustomStepsCheckboxChanged(checked: boolean): void {
+    setCustomStepsChecked(checked);
+
+    const scoreSteps = initialConfig?.stepOverrides?.scoreSteps
+      ? initialConfig.stepOverrides.scoreSteps.map((step) => step.value.toString())
+      : createStepsForMCDADimension(dimensionsLayers.score, axesResource.data ?? []).map(
+          (v) => v.value.toString(),
+        );
+    const baseSteps = initialConfig?.stepOverrides?.baseSteps
+      ? initialConfig.stepOverrides.baseSteps.map((step) => step.value.toString())
+      : createStepsForMCDADimension(
+          dimensionsLayers.compare,
+          axesResource.data ?? [],
+        ).map((v) => v.value.toString());
+    setCustomSteps({ scoreSteps, baseSteps });
+  }
+
   return (
     <ModalDialog
       contentClassName={s.modalContent}
@@ -268,6 +312,14 @@ export function MultivariateAnalysisForm({
                 label="Keep colors"
               />
             )}
+            {dimensionsLayers.score.length && dimensionsLayers.compare.length && (
+              <Checkbox
+                id="customStepsCheckbox"
+                checked={isCustomStepsChecked}
+                onChange={(checked) => onCustomStepsCheckboxChanged(checked)}
+                label="Custom steps"
+              />
+            )}
           </>
           <Button type="reset" onClick={cancelAction} variant="invert-outline">
             {i18n.t('cancel')}
@@ -289,11 +341,7 @@ export function MultivariateAnalysisForm({
           placeholder={i18n.t('mcda.modal_input_name_placeholder')}
         />
         {indicatorsSelector}
-        {showLegendPreview && previewConfig && (
-          <div className={s.legend}>
-            <MultivariateLegend config={previewConfig} />
-          </div>
-        )}
+
         {dimensionParams
           .filter(({ dimensionKey }) => dimensionsLayers[dimensionKey]?.length)
           .map(({ dimensionKey, dimensionTitle }) => (
@@ -307,6 +355,67 @@ export function MultivariateAnalysisForm({
               onLayerDimensionChanged={moveLayerToDimension}
             />
           ))}
+        {showLegendPreview && previewConfig && (
+          <div className={s.legendContainer}>
+            <Text type="label">Legend</Text>
+            <div className={s.legend}>
+              <MultivariateLegend config={previewConfig} />
+            </div>
+          </div>
+        )}
+        {isCustomStepsChecked && (
+          <>
+            <Text type="label">Custom steps</Text>
+            <div className={s.customStepsRow}>
+              <Text type="short-m" className={s.customStepsRowName}>
+                Score:
+              </Text>
+              {customSteps?.scoreSteps?.map((step, index) => (
+                <Input
+                  key={`customSteps-score-${index}`}
+                  classes={{
+                    inputBox: s.customStepInput,
+                    error: s.hiddenError,
+                  }}
+                  value={step}
+                  type="text"
+                  onChange={(event) => {
+                    setCustomSteps((oldCustomSteps) => {
+                      const newValue = event.target.value.replace(NUMBER_FILTER, '');
+                      const newScoreSteps = [...oldCustomSteps.scoreSteps];
+                      newScoreSteps[index] = newValue;
+                      return { ...oldCustomSteps, scoreSteps: newScoreSteps };
+                    });
+                  }}
+                />
+              ))}
+            </div>
+            <div className={s.customStepsRow}>
+              <Text type="short-m" className={s.customStepsRowName}>
+                Base:
+              </Text>
+              {customSteps?.baseSteps?.map((step, index) => (
+                <Input
+                  key={`customSteps-score-${index}`}
+                  classes={{
+                    inputBox: s.customStepInput,
+                    error: s.hiddenError,
+                  }}
+                  value={step}
+                  type="text"
+                  onChange={(event) => {
+                    setCustomSteps((oldCustomSteps) => {
+                      const newValue = event.target.value.replace(NUMBER_FILTER, '');
+                      const newSteps = [...oldCustomSteps.baseSteps];
+                      newSteps[index] = newValue;
+                      return { ...oldCustomSteps, baseSteps: newSteps };
+                    });
+                  }}
+                />
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </ModalDialog>
   );

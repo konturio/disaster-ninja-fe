@@ -1,8 +1,5 @@
 import { createDefaultMCDAConfig } from '~features/mcda/mcdaConfig';
-import {
-  DEFAULT_MULTIBIVARIATE_COLORS,
-  DEFAULT_MULTIBIVARIATE_STEPS,
-} from '~utils/multivariate/constants';
+import { DEFAULT_MULTIBIVARIATE_COLORS } from '~utils/multivariate/constants';
 import {
   DEFAULT_GREEN,
   DEFAULT_RED,
@@ -10,7 +7,8 @@ import {
 } from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations/constants';
 import { i18n } from '~core/localization';
 import { generateMultivariateId } from './generateMultivariateId';
-import type { Axis, Step } from '~utils/bivariate';
+import { createStepsForMCDADimension } from './createStepsForMCDADimension';
+import type { Axis } from '~utils/bivariate';
 import type {
   MCDALayer,
   MCDALayerStyle,
@@ -98,19 +96,5 @@ function createMCDANameOverride(
     return layers[0].name;
   } else {
     return fallbackNameOverride;
-  }
-}
-
-function createStepsForMCDADimension(
-  layers: MCDALayer[] | undefined,
-  availableAxes: Axis[],
-): Step[] {
-  if (layers?.length === 1 && layers[0].normalization === 'no') {
-    // just one layer with no normalization - use axis data for steps
-    const axis = availableAxes.find((axis) => layers[0].id === axis.id);
-    return axis?.steps || DEFAULT_MULTIBIVARIATE_STEPS;
-  } else {
-    // multiple layers or normalized layer - use default steps from 0 to 1
-    return DEFAULT_MULTIBIVARIATE_STEPS;
   }
 }
