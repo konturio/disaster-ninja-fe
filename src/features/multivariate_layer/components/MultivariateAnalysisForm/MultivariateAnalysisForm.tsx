@@ -363,7 +363,7 @@ export function MultivariateAnalysisForm({
             </div>
           </div>
         )}
-        {isCustomStepsChecked && (
+        {isBivariate && isCustomStepsChecked && (
           <>
             <CustomStepsInput
               customSteps={customSteps}
