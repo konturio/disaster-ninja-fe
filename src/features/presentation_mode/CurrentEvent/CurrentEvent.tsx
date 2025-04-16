@@ -1,6 +1,7 @@
 import { useAtom } from '@reatom/npm-react';
 import { EventCard } from '~features/events_list/components/EventCard/EventCard';
 import { currentEventResourceAtom } from '~core/shared_state/currentEventResource';
+import s from './CurrentEvent.module.css';
 
 export const CurrentEvent = () => {
   const [{ data: currentEvent }] = useAtom(currentEventResourceAtom.v3atom);
@@ -12,8 +13,9 @@ export const CurrentEvent = () => {
         key={currentEvent.eventId}
         event={currentEvent}
         isActive={false}
-        externalUrls={currentEvent?.externalUrls}
         showDescription={true}
+        alternativeActionControl={null}
+        className={s.presentationMode}
       />
     </div>
   );

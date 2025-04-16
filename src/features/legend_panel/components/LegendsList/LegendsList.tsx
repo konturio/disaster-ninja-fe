@@ -4,6 +4,8 @@ import { useControlElements } from '~components/Layer/useControlElements';
 import { Layer as LayerComponent } from '~components/Layer';
 import type { LayerAtom } from '~core/logical_layers/types/logicalLayer';
 
+const isPresentationMode = !!globalThis.presentationMode;
+
 export function LegendsList({ layer: layerAtom }: { layer: LayerAtom }) {
   const [layerState, layerActions] = useAtom(layerAtom);
 
@@ -18,7 +20,7 @@ export function LegendsList({ layer: layerAtom }: { layer: LayerAtom }) {
   return (
     <LayerComponent
       canFold={false}
-      controlElements={controlElements}
+      controlElements={!isPresentationMode ? controlElements : null}
       layerState={layerState}
     />
   );

@@ -1,7 +1,9 @@
 .container {
-  padding: 20px;
+  display: inline-block;
+  padding: 24px;
   font-family: Inter, sans-serif;
   color: var(--base-strong);
+  word-break: break-all;
 }
 
 .title {

@@ -21,6 +21,7 @@ const dateFormatter = new Intl.DateTimeFormat(language, {
   day: 'numeric',
   timeZoneName: 'short',
 }).format;
+
 function formatTime(date?: string) {
   return date ? dateFormatter(new Date(date)) : '';
 }
@@ -32,6 +33,7 @@ export function EventCard({
   alternativeActionControl,
   externalUrls,
   showDescription,
+  className,
 }: {
   event: Event;
   isActive: boolean;
@@ -39,6 +41,7 @@ export function EventCard({
   alternativeActionControl: JSX.Element | null;
   externalUrls?: string[];
   showDescription?: boolean;
+  className?: string;
 }) {
   const formattedUpdatedAt = useMemo(
     () => formatTime(event.updatedAt),
@@ -52,7 +55,13 @@ export function EventCard({
 
   return (
     <button
-      className={cn(s.eventCard, { [s.active]: isActive })}
+      className={cn(
+        s.eventCard,
+        {
+          [s.active]: isActive,
+        },
+        className,
+      )}
       onClick={() => onClick?.(event.eventId)}
     >
       <div className={s.head}>

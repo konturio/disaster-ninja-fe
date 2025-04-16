@@ -2,7 +2,7 @@ import { atom } from '@reatom/framework';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { layersMetaAtom } from '~core/logical_layers/atoms/layersMeta';
 
-export const copyrightsAtom = atom((ctx) => {
+export const layersCopyrightsAtom = atom((ctx) => {
   const enabled = ctx.spy(enabledLayersAtom.v3atom);
   const meta = ctx.spy(layersMetaAtom.v3atom);
 
@@ -17,4 +17,4 @@ export const copyrightsAtom = atom((ctx) => {
   }
 
   return result.join(' ');
-}, 'copyrightsAtom');
+}, 'layersCopyrightsAtom');

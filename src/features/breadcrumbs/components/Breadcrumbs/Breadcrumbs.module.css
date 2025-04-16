@@ -14,3 +14,8 @@
   /* negative margin used to compensate for breadcrumbs' margin */
   margin: calc(-1 * var(--half-unit));
 }
+
+.presentationMode {
+  zoom: 1.4;
+  padding: calc(1.4 * var(--half-unit)) calc(1.4 * var(--unit));
+}

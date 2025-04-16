@@ -1,34 +1,28 @@
-import { configRepo } from '~core/config';
-import { SmartColumn } from '../../SmartColumn/SmartColumn';
 import s from './Presentation.module.css';
 import type { ReactNode } from 'react';
 
 export function PresentationLayout({
-  firstColumn,
-  layersColumn,
-  mapColumnTop,
-  mapColumnBottom,
-  footer,
+  title,
+  breadcrumbs,
+  sidePanel,
+  copyrights,
+  scaleAndLogo,
 }: {
-  firstColumn: ReactNode;
-  layersColumn: ReactNode;
-  mapColumnTop: ReactNode;
-  mapColumnBottom: ReactNode;
-  footer: ReactNode;
+  title?: ReactNode;
+  breadcrumbs?: ReactNode;
+  sidePanel?: ReactNode;
+  copyrights?: ReactNode;
+  scaleAndLogo?: ReactNode;
 }) {
   return (
-    <div className={s.contentWrap}>
-      <SmartColumn className={s.analytics}>{firstColumn}</SmartColumn>
-
-      <div className={s.mapWrap}>
-        <div className={s.mapSpaceTop}>{mapColumnTop}</div>
-        <div className={s.mapSpaceBlank} id={configRepo.get().mapBlankSpaceId}></div>
-        <div className={s.mapSpaceBottom}>{mapColumnBottom}</div>
+    <div className={s.container}>
+      <div className={s.headerRow}>
+        <div className={s.breadcrumbs}>{breadcrumbs}</div>
+        <div className={s.title}>{title}</div>
       </div>
-
-      <SmartColumn>{layersColumn}</SmartColumn>
-
-      <div className={s.footerWrap}>{footer}</div>
+      <div className={s.sidePanel}>{sidePanel}</div>
+      <div className={s.copyrights}>{copyrights}</div>
+      <div className={s.scaleAndLogo}>{scaleAndLogo}</div>
     </div>
   );
 }

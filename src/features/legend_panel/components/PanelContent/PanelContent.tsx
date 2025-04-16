@@ -1,5 +1,6 @@
 import { useAtom } from '@reatom/npm-react';
 import { useMemo } from 'react';
+import clsx from 'clsx';
 import { mountedLayersAtom } from '~core/logical_layers/atoms/mountedLayers';
 import { FOCUSED_GEOMETRY_LOGICAL_LAYER_ID } from '~core/focused_geometry/constants';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
@@ -7,6 +8,8 @@ import { referenceAreaAtom } from '~core/shared_state/referenceArea';
 import { REFERENCE_AREA_LOGICAL_LAYER_ID } from '~features/reference_area/constants';
 import { LegendsList } from '../LegendsList/LegendsList';
 import s from './PanelContent.module.css';
+
+const isPresentationMode = !!globalThis.presentationMode;
 
 export function PanelContent() {
   const [layers] = useAtom(mountedLayersAtom.v3atom);
@@ -22,7 +25,7 @@ export function PanelContent() {
   }, [focusedGeometry, layers, referenceAreaGeometry]);
 
   return (
-    <div className={s.scrollable}>
+    <div className={clsx(s.scrollable, isPresentationMode && s.presentationMode)}>
       {layersAtoms.map((layer) => (
         <LegendsList layer={layer} key={layer.id} />
       ))}

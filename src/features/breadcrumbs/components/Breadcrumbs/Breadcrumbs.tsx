@@ -15,6 +15,8 @@ interface BreadcrumbsProps {
   };
 }
 
+const isPresentationMode = !!globalThis.presentationMode;
+
 const Breadcrumbs = ({
   items,
   separator = <ChevronRight16 />,
@@ -46,7 +48,12 @@ const Breadcrumbs = ({
     <nav aria-label="breadcrumb" className={styles.nav}>
       <ol
         ref={containerRef}
-        className={cn(styles.breadcrumbs, classes?.breadcrumbs, 'knt-breadcrumbs')}
+        className={cn(
+          styles.breadcrumbs,
+          classes?.breadcrumbs,
+          isPresentationMode && styles.presentationMode,
+          'knt-breadcrumbs',
+        )}
       >
         {/* Render all items if no overflow */}
         {leftHiddenItemIndex === null || rightHiddenItemIndex === null ? (

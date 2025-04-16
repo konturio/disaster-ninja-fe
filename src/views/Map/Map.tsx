@@ -16,10 +16,13 @@ import { panelClasses } from '~components/Panel';
 import { configRepo } from '~core/config';
 import { Search } from '~features/search';
 import { AppFeature } from '~core/app/types';
-import { Layout } from './Layouts/Layout';
+import { PresentationLayout } from '~views/Map/Layouts/Presentation/Presentation';
+import { MapTitle } from '~features/presentation_mode/MapTitle/MapTitle';
 import s from './Map.module.css';
+import { Layout } from './Layouts/Layout';
 
 const featureFlags = configRepo.get().features;
+const isPresentationMode = !!globalThis.presentationMode;
 
 const EditPanel = () => {
   const { EditFeaturesOrLayerPanel } = lazily(
@@ -36,6 +39,18 @@ const { Logo } = lazily(() => import('@konturio/ui-kit'));
 const { ConnectedMap } = lazily(() => import('~components/ConnectedMap/ConnectedMap'));
 
 const { EventList: EventListPanel } = lazily(() => import('~features/events_list'));
+
+const { LegendsPanel } = lazily(
+  () => import('~features/presentation_mode/LegendsPanel/LegendsPanel'),
+);
+
+const { CurrentEvent } = lazily(
+  () => import('~features/presentation_mode/CurrentEvent/CurrentEvent'),
+);
+
+const { LayersCopyrights } = lazily(
+  () => import('~features/presentation_mode/LayersCoopyrights/LayersCopyrights'),
+);
 
 const { EventEpisodes } = lazily(() => import('~features/event_episodes'));
 
@@ -136,7 +151,30 @@ export function MapPage() {
           )}
         </Suspense>
       </div>
-      {Object.keys(featureFlags).length > 0 && (
+      {isPresentationMode ? (
+        <PresentationLayout
+          // title={<MapTitle />}  // TODO: uncomment when there will be way to get original app name
+          breadcrumbs={
+            featureFlags[AppFeature.ADMIN_BOUNDARY_BREADCRUMBS] && <BreadcrumbsPanel />
+          }
+          sidePanel={
+            <>
+              {featureFlags[AppFeature.CURRENT_EVENT] && <CurrentEvent />}
+              {featureFlags[AppFeature.LEGEND_PANEL] && <LegendsPanel />}
+            </>
+          }
+          copyrights={<LayersCopyrights />}
+          scaleAndLogo={
+            <div className={clsx(s.footer, s.clickThrough)}>
+              <div className={s.footerBackground}>
+                <ScaleControl />
+                <Logo height={24} palette="contrast" />
+              </div>
+              <IntercomBTN />
+            </div>
+          }
+        />
+      ) : (
         <Layout
           searchBar={
             featureFlags[AppFeature.SEARCH_BAR] &&

@@ -3,7 +3,7 @@ import { AppLogo } from '~features/side_bar/components/AppLogo/AppLogo';
 import s from './MapTitle.module.css';
 
 type MapTitleProps = {
-  title: string;
+  title?: string;
   description?: string;
 };
 
@@ -15,7 +15,7 @@ export const MapTitle = ({ title, description }: MapTitleProps) => {
         logoContainerClassName={s.logoContainer}
         labelClassName={s.appLabel}
       />
-      <div className={s.title}>{title}</div>
+      {title && <div className={s.title}>{title}</div>}
       {description && (
         <div className={s.description}>Sustainable Habitat for Santa Claus</div>
       )}
