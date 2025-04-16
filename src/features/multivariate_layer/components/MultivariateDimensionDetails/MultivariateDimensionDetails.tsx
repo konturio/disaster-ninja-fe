@@ -1,5 +1,5 @@
 import { Select } from '@konturio/ui-kit';
-import { Rubber16 } from '@konturio/default-icons';
+import { Trash16 } from '@konturio/default-icons';
 import { MCDALayerParameters } from '~features/mcda/components/MCDALayerEditor/MCDALayerParameters/MCDALayerParameters';
 import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
 import { i18n } from '~core/localization';
@@ -71,7 +71,7 @@ export function MultivariateDimensionDetails({
               }}
               hint={i18n.t('layer_actions.tooltips.erase')}
             >
-              <Rubber16 />
+              <Trash16 />
             </LayerActionIcon>
           </div>
         </div>
