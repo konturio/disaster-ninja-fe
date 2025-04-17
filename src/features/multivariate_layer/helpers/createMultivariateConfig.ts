@@ -30,8 +30,8 @@ export function createMultivariateConfig(
   availableBivariateAxes: Axis[],
 ): MultivariateLayerConfig {
   const name = overrides?.name || DEFAULT_MULTIVARIATE_ANALYSIS_NAME;
-  const hasScore = overrides?.score?.length;
-  const hasBase = overrides?.base?.length;
+  const hasScore = !!overrides?.score?.length;
+  const hasBase = !!overrides?.base?.length;
   const isBivariateStyleLegend = hasScore && hasBase;
   const scoreMCDAStyle: MCDALayerStyle = {
     type: 'mcda',

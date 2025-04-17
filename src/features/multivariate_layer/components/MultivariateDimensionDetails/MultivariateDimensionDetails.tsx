@@ -1,7 +1,5 @@
 import { Select } from '@konturio/ui-kit';
-import { Trash16 } from '@konturio/default-icons';
 import { MCDALayerParameters } from '~features/mcda/components/MCDALayerEditor/MCDALayerParameters/MCDALayerParameters';
-import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
 import { i18n } from '~core/localization';
 import s from './MultivariateDimensionDetails.module.css';
 import type {
@@ -44,11 +42,11 @@ export function MultivariateDimensionDetails({
             type="inline"
             value={{ value: dimensionKey, title: dimensionTitle }}
             onChange={(e) => {
-              if (e.selectedItem?.value !== dimensionKey) {
+              if (e.selectedItem?.value && e.selectedItem?.value !== dimensionKey) {
                 onLayerDimensionChanged(
                   mcdaLayer,
                   dimensionKey,
-                  (e.selectedItem?.value as string) ?? '',
+                  e.selectedItem.value as string,
                 );
               }
             }}

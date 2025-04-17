@@ -17,6 +17,7 @@
 }
 
 .dimensionTypeSelect {
-  width: 90px;
-  margin: var(--unit) 2px;
+  width: 100px;
+  margin: var(--unit);
+  margin-inline-start: calc(-1 * var(--unit));
 }

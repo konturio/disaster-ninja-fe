@@ -402,13 +402,11 @@ export function MultivariateAnalysisForm({
           </div>
         )}
         {isBivariate && isCustomStepsChecked && (
-          <>
-            <CustomStepsInput
-              customSteps={customSteps}
-              onCustomStepsChanged={onCustomStepsChanged}
-              errors={customStepsErrors}
-            />
-          </>
+          <CustomStepsInput
+            customSteps={customSteps}
+            onCustomStepsChanged={onCustomStepsChanged}
+            errors={customStepsErrors}
+          />
         )}
       </div>
     </ModalDialog>
