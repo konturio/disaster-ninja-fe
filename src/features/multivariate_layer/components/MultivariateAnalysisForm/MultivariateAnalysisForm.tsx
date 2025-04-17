@@ -377,37 +377,38 @@ export function MultivariateAnalysisForm({
           placeholder={i18n.t('mcda.modal_input_name_placeholder')}
         />
         {indicatorsSelector}
-
-        {dimensionParams
-          .filter(({ dimensionKey }) => dimensionsLayers[dimensionKey]?.length)
-          .map(({ dimensionKey, dimensionTitle }) => (
-            <MultivariateDimensionDetails
-              key={`dimension-${dimensionKey}`}
-              dimensionsLayers={dimensionsLayers}
-              dimensionKey={dimensionKey}
-              dimensionTitle={dimensionTitle}
-              onLayerEdited={editLayerInDimension}
-              onLayerDeleted={deleteLayerFromDimension}
-              onLayerDimensionChanged={moveLayerToDimension}
-            />
-          ))}
-        {showLegendPreview && previewConfig && (
-          <div className={s.legendSection}>
-            <Text type="label">Legend</Text>
-            <div className={s.legendContainer}>
-              <div className={s.legendPreview}>
-                <MultivariateLegend config={previewConfig} />
+        <div className={s.detailsContainer}>
+          {dimensionParams
+            .filter(({ dimensionKey }) => dimensionsLayers[dimensionKey]?.length)
+            .map(({ dimensionKey, dimensionTitle }) => (
+              <MultivariateDimensionDetails
+                key={`dimension-${dimensionKey}`}
+                dimensionsLayers={dimensionsLayers}
+                dimensionKey={dimensionKey}
+                dimensionTitle={dimensionTitle}
+                onLayerEdited={editLayerInDimension}
+                onLayerDeleted={deleteLayerFromDimension}
+                onLayerDimensionChanged={moveLayerToDimension}
+              />
+            ))}
+          {showLegendPreview && previewConfig && (
+            <div className={s.legendSection}>
+              <Text type="label">Legend</Text>
+              <div className={s.legendContainer}>
+                <div className={s.legendPreview}>
+                  <MultivariateLegend config={previewConfig} />
+                </div>
               </div>
             </div>
-          </div>
-        )}
-        {isBivariate && isCustomStepsChecked && (
-          <CustomStepsInput
-            customSteps={customSteps}
-            onCustomStepsChanged={onCustomStepsChanged}
-            errors={customStepsErrors}
-          />
-        )}
+          )}
+          {isBivariate && isCustomStepsChecked && (
+            <CustomStepsInput
+              customSteps={customSteps}
+              onCustomStepsChanged={onCustomStepsChanged}
+              errors={customStepsErrors}
+            />
+          )}
+        </div>
       </div>
     </ModalDialog>
   );

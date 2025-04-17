@@ -17,6 +17,12 @@
   padding: 0 4px 20px;
 }
 
+.detailsContainer {
+  min-height: 260px;
+  width: 100%;
+  flex: 1;
+}
+
 .buttonsRow {
   display: flex;
   flex-flow: row wrap;
