@@ -3,14 +3,17 @@ import { NUMBER_FILTER } from '~features/mcda/components/MCDALayerEditor/MCDALay
 import s from './CustomStepsInput.module.css';
 
 export type CustomSteps = { scoreSteps: string[]; baseSteps: string[] };
+export type CustomStepsErrors = { scoreSteps: boolean[]; baseSteps: boolean[] };
 
 type CustomStepsInputProps = {
   customSteps: CustomSteps;
+  errors: CustomStepsErrors | null;
   onCustomStepsChanged(newCustomSteps: CustomSteps);
 };
 
 export function CustomStepsInput({
   customSteps,
+  errors,
   onCustomStepsChanged,
 }: CustomStepsInputProps) {
   return (
@@ -37,12 +40,13 @@ export function CustomStepsInput({
                 scoreSteps: newScoreSteps,
               });
             }}
+            error={errors?.scoreSteps[index]}
           />
         ))}
       </div>
       <div className={s.customStepsRow}>
         <Text type="short-m" className={s.customStepsRowName}>
-          Base:
+          Compare:
         </Text>
         {customSteps?.baseSteps?.map((step, index) => (
           <Input
@@ -61,9 +65,16 @@ export function CustomStepsInput({
                 baseSteps: newBaseSteps,
               });
             }}
+            error={errors?.baseSteps[index]}
           />
         ))}
       </div>
+      {errors && (
+        <Text type="long-m" className={s.error}>
+          There are some incorrect values in custom steps. Please fix them before
+          proceeding
+        </Text>
+      )}
     </>
   );
 }

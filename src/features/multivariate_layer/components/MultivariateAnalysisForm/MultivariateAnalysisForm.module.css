@@ -54,6 +54,10 @@
   margin-top: var(--double-unit);
 }
 
+.error {
+  color: var(--error-strong);
+}
+
 @media screen and (max-width: 960px) {
   .modalDialog {
     height: 85vh;

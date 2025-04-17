@@ -19,14 +19,13 @@ import { createMultivariateConfig } from '~features/multivariate_layer/helpers/c
 import { MultivariateLegend } from '~components/MultivariateLegend/MultivariateLegend';
 import { DEFAULT_MULTIBIVARIATE_STEPS } from '~utils/multivariate/constants';
 import { createStepsForMCDADimension } from '~features/multivariate_layer/helpers/createStepsForMCDADimension';
+import { isNumber } from '~utils/common';
 import { MultivariateDimensionDetails } from '../MultivariateDimensionDetails/MultivariateDimensionDetails';
 import { CustomStepsInput, type CustomSteps } from '../CustomStepsInput/CustomStepsInput';
 import s from './MultivariateAnalysisForm.module.css';
+import type { CustomStepsErrors } from '../CustomStepsInput/CustomStepsInput';
 import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
-import type {
-  MultivariateLayerConfig,
-  MultivariateStepOverrides,
-} from '~core/logical_layers/renderers/MultivariateRenderer/types';
+import type { MultivariateLayerConfig } from '~core/logical_layers/renderers/MultivariateRenderer/types';
 import type { Axis } from '~utils/bivariate';
 
 type FormResult = {
@@ -74,6 +73,9 @@ export function MultivariateAnalysisForm({
   const [isKeepColorsChecked, setKeepColorsChecked] = useState(true);
   const [isCustomStepsChecked, setCustomStepsChecked] = useState(false);
   const [customSteps, setCustomSteps] = useState<CustomSteps>(DEFAULT_CUSTOM_STEPS);
+  const [customStepsErrors, setCustomStepsErrors] = useState<CustomStepsErrors | null>(
+    null,
+  );
   const buttonsRowRef = useRef<HTMLDivElement>(null);
 
   const isBivariate = useMemo(
@@ -110,15 +112,30 @@ export function MultivariateAnalysisForm({
   const isConfigValid = useMemo(
     () =>
       axesResource.data &&
-      (dimensionsLayers.score.length > 0 || dimensionsLayers.compare.length > 0),
-    [axesResource.data, dimensionsLayers.compare.length, dimensionsLayers.score.length],
+      (dimensionsLayers.score.length > 0 || dimensionsLayers.compare.length > 0) &&
+      isCustomStepsChecked &&
+      !customStepsErrors,
+    [
+      axesResource.data,
+      customStepsErrors,
+      dimensionsLayers.compare.length,
+      dimensionsLayers.score.length,
+      isCustomStepsChecked,
+    ],
   );
 
   const previewConfig = useMemo(() => {
-    const customStepOverrides: MultivariateStepOverrides = {
-      scoreSteps: customSteps.scoreSteps.map((v) => ({ value: Number.parseFloat(v) })),
-      baseSteps: customSteps.baseSteps.map((v) => ({ value: Number.parseFloat(v) })),
-    };
+    const customStepOverrides =
+      isCustomStepsChecked && !customStepsErrors
+        ? {
+            scoreSteps: customSteps.scoreSteps.map((v) => ({
+              value: Number.parseFloat(v),
+            })),
+            baseSteps: customSteps.baseSteps.map((v) => ({
+              value: Number.parseFloat(v),
+            })),
+          }
+        : null;
     return isConfigValid
       ? createMultivariateConfig(
           {
@@ -141,6 +158,7 @@ export function MultivariateAnalysisForm({
     axesResource.data,
     customSteps.baseSteps,
     customSteps.scoreSteps,
+    customStepsErrors,
     dimensionsLayers.compare,
     dimensionsLayers.score,
     initialConfig?.colors,
@@ -187,7 +205,7 @@ export function MultivariateAnalysisForm({
   const indicatorsSelector = statesToComponents({
     init: <div>{i18n.t('preparing_data')}</div>,
     loading: <div>{i18n.t('preparing_data')}</div>,
-    error: (errorMessage) => <div style={{ color: 'red' }}>{errorMessage}</div>,
+    error: (errorMessage) => <div className={s.error}>{errorMessage}</div>,
     ready: () => (
       <div className={s.multiselectContainer}>
         <MultiselectChipWithSearch
@@ -286,7 +304,27 @@ export function MultivariateAnalysisForm({
           axesResource.data ?? [],
         ).map((v) => v.value.toString());
     setCustomSteps({ scoreSteps, baseSteps });
+    setCustomStepsErrors(null);
   }
+
+  const onCustomStepsChanged = useCallback((newCustomSteps: CustomSteps) => {
+    let hasErrors = false;
+    const validateDimensionStepsInput = (dimensionStepsInput: string[]) => {
+      return dimensionStepsInput.map((step) => {
+        if (!isNumber(Number.parseFloat(step))) {
+          hasErrors = true;
+          return true;
+        }
+        return false;
+      });
+    };
+    const errors: CustomStepsErrors = {
+      scoreSteps: validateDimensionStepsInput(newCustomSteps.scoreSteps),
+      baseSteps: validateDimensionStepsInput(newCustomSteps.baseSteps),
+    };
+    setCustomSteps(newCustomSteps);
+    setCustomStepsErrors(hasErrors ? errors : null);
+  }, []);
 
   return (
     <ModalDialog
@@ -367,7 +405,8 @@ export function MultivariateAnalysisForm({
           <>
             <CustomStepsInput
               customSteps={customSteps}
-              onCustomStepsChanged={setCustomSteps}
+              onCustomStepsChanged={onCustomStepsChanged}
+              errors={customStepsErrors}
             />
           </>
         )}

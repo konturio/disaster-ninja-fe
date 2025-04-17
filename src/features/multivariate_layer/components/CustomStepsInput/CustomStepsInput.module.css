@@ -7,9 +7,13 @@
 }
 
 .customStepsRowName {
-  width: 45px;
+  width: 65px;
 }
 
 .customStepInput {
   width: 100px;
+}
+
+.error {
+  color: var(--error-strong);
 }
