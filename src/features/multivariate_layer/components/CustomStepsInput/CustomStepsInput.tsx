@@ -50,7 +50,7 @@ export function CustomStepsInput({
         </Text>
         {customSteps?.baseSteps?.map((step, index) => (
           <Input
-            key={`customSteps-score-${index}`}
+            key={`customSteps-base-${index}`}
             classes={{
               inputBox: s.customStepInput,
             }}
