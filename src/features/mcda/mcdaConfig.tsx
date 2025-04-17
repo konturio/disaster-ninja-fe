@@ -1,9 +1,5 @@
 import { showModal } from '~core/modal';
-import {
-  DEFAULT_GREEN,
-  DEFAULT_RED,
-  DEFAULT_YELLOW,
-} from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations/constants';
+import { DEFAULT_MCDA_COLORS_BY_SENTIMENT } from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations/constants';
 import { createMCDALayersFromBivariateAxes } from '~utils/mcda/createMCDALayersFromBivariateAxes';
 import { generateMCDAId } from '../../utils/mcda/generateMCDAId';
 import { MCDAForm } from './components/MCDAForm';
@@ -69,15 +65,6 @@ export function createDefaultMCDAConfig(overrides?: Partial<MCDAConfig>): MCDACo
     id: generateMCDAId(name),
     name,
     layers: overrides?.layers ?? [],
-    colors: {
-      type: 'sentiments',
-      parameters: {
-        bad: DEFAULT_RED,
-        good: DEFAULT_GREEN,
-        /* TODO: using midpoints for gradient customization is a temporary solution.
-        It will probably be removed in the future in favor of working with Color Manager */
-        midpoints: [{ value: 0.5, color: DEFAULT_YELLOW }],
-      },
-    },
+    colors: DEFAULT_MCDA_COLORS_BY_SENTIMENT,
   };
 }
