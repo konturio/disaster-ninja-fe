@@ -293,7 +293,7 @@ export function MCDALayerParameters({
             {showDeleteButton && (
               <LayerActionIcon
                 onClick={deleteLayer}
-                hint={i18n.t('layer_actions.tooltips.edit')}
+                hint={i18n.t('layer_actions.tooltips.delete')}
                 className={s.actionButton}
               >
                 <Trash16 />

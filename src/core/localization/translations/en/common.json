@@ -40,7 +40,8 @@
       "download": "Download",
       "edit": "Edit",
       "hide": "Hide",
-      "show": "Show"
+      "show": "Show",
+      "delete": "Delete"
     }
   },
   "feed": "Feed",
