@@ -138,7 +138,8 @@ export function createLogicalLayerAtom(
           asyncLayerSource.data?.style?.type === 'mcda' ||
           asyncLayerSource.data?.style?.type === 'multivariate',
         isEditable:
-          asyncLayerSource.data?.style?.type === 'mcda' &&
+          (asyncLayerSource.data?.style?.type === 'mcda' ||
+            asyncLayerSource.data?.style?.type === 'multivariate') &&
           !!asyncLayerSettings.data?.ownedByUser,
         settings: deepFreeze(asyncLayerSettings.data),
         meta: deepFreeze(asyncLayerMeta.data),

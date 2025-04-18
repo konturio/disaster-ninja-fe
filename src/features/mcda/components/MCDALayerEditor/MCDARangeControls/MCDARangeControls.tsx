@@ -2,7 +2,7 @@ import { Input, Text } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import { useCallback, useEffect, type Dispatch, type SetStateAction } from 'react';
 import { i18n } from '~core/localization';
-import { generateSigmaRange } from '~features/mcda/utils/generateSigmaRange';
+import { generateSigmaRange } from '~utils/mcda/generateSigmaRange';
 import { isNumber } from '~utils/common';
 import { NUMBER_FILTER } from '../MCDALayerParameters/constants';
 import s from './MCDARangeControls.module.css';
