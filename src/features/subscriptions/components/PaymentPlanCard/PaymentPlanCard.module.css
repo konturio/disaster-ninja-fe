@@ -127,6 +127,10 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+
+  &:empty {
+    margin: 0;
+  }
 }
 
 .subscribeButtonsWrapper {

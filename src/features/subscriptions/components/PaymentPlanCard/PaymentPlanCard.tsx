@@ -78,18 +78,8 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
 
   const renderSubscribeButtons = (paypalPlanId: string) => {
     return currentSubscription?.billingPlanId !== paypalPlanId ? (
-      <div className={s.subscribeButtonsWrapper}>
-        <a
-          className={s.linkAsButton}
-          href={salesLink}
-          onClick={() => dispatchMetricsEvent('request_trial')}
-          target="_blank"
-          rel="noreferrer"
-          aria-label={i18n.t('subscription.request_trial_button')}
-        >
-          {i18n.t('subscription.request_trial_button')}
-        </a>
-        {!currentSubscription && (
+      !currentSubscription && (
+        <div className={s.subscribeButtonsWrapper}>
           <PayPalButtonsGroup
             billingPlanId={paypalPlanId}
             onSubscriptionApproved={(planId, subscriptionId) => {
@@ -102,8 +92,8 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
               }
             }}
           />
-        )}
-      </div>
+        </div>
+      )
     ) : (
       <Button disabled>{i18n.t('subscription.current_plan_button')}</Button>
     );
