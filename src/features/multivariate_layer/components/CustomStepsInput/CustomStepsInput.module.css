@@ -4,6 +4,7 @@
   flex-flow: row wrap;
   gap: var(--unit);
   align-items: center;
+  margin-top: var(--unit);
 }
 
 .customStepsRowName {
