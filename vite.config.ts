@@ -138,12 +138,21 @@ export default ({ mode }) => {
         provider: 'v8',
         include: ['src/**/*.[jt]s?(x)'],
         exclude: [
-          '**/*.{test,spec,fixture}.?(c|m)[jt]s?(x)',
+          // tests
+          '**/*.{test,spec}.[cm]?[jt]s?(x)',
+          '**/{test,tests}/**',
           '**/__test__/**',
-          '**/{tests,mocks}/**',
+          '**/__tests__/**',
+          // mocks
+          '**/{mock,mocks}/**',
+          '**/__mock__/**',
+          '**/__mocks__/**',
+          // fixtures
+          '**/*.fixture.[cm]?[jt]s?(x)',
+          '**/__fixtures__/**',
         ],
       },
-      include: ['src/**/*.{test,spec}.?(c|m)[jt]s?(x)'], // '**\/*.{test,spec}.?(c|m)[jt]s?(x)'
+      include: ['src/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
       exclude: [...configDefaults.exclude, 'e2e\/**', 'e2e', 'coverage/**', 'scripts/**'],
     },
   });

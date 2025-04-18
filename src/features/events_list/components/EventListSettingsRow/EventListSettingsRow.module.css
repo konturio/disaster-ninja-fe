@@ -1,8 +1,9 @@
 .eventListSettingsRow:not(:empty) {
-  padding: var(--double-unit);
+  padding: var(--half-unit) var(--double-unit) var(--unit);
   border-bottom: 1px solid var(--faint-weak);
   gap: var(--unit);
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
+  flex-wrap: wrap;
 }
