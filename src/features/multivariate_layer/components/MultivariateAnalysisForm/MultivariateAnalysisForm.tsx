@@ -113,8 +113,7 @@ export function MultivariateAnalysisForm({
     () =>
       axesResource.data &&
       (dimensionsLayers.score.length > 0 || dimensionsLayers.compare.length > 0) &&
-      isCustomStepsChecked &&
-      !customStepsErrors,
+      ((isCustomStepsChecked && !customStepsErrors) || !isCustomStepsChecked),
     [
       axesResource.data,
       customStepsErrors,
