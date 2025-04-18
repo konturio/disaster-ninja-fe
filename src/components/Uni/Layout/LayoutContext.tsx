@@ -14,7 +14,6 @@ export const useLayoutContext = (): UniLayoutContextType => {
   return context;
 };
 
-// Default formatter if none found
 const defaultFormatter = (v: any): string =>
   v !== null && v !== undefined ? String(v) : '';
 
@@ -53,7 +52,6 @@ export function useLayoutContextValue({
 
   const getFormattedValue = useCallback(
     (fieldMeta: FieldMeta | undefined | null, rawValue: any): string => {
-      // Handle null/undefined rawValue early
       if (rawValue === null || rawValue === undefined) return '';
 
       const formatKey = fieldMeta?.format || 'text';

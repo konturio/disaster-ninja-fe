@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import s from './Badge.module.css';
 
 type VariantType = 'error' | 'success' | 'warning' | 'info' | 'neutral';
@@ -34,7 +35,7 @@ export function Badge({
 
   const variantClass = variant ? Variants[('' + variant).toLowerCase()] : '';
   return (
-    <div className={`${s.badge} ${variantClass} ${className}`} style={style}>
+    <div className={clsx(s.badge, variantClass, className)} style={style}>
       {value}
     </div>
   );

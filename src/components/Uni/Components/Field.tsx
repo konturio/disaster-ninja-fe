@@ -1,4 +1,5 @@
 import { SimpleTooltip } from '@konturio/floating';
+import clsx from 'clsx';
 import { Icon } from '~components/Icon';
 import { useLayoutContext } from '../Layout/LayoutContext';
 import s from './Field.module.css';
@@ -39,7 +40,7 @@ export function Field({
   const tooltip = fieldMeta?.tooltip;
 
   const content = (
-    <div className={`${s.container} ${className}`}>
+    <div className={clsx(s.container, className)}>
       {fieldMeta?.icon && <Icon icon={fieldMeta.icon as any} className={s.icon} />}
       {shouldShowLabel && <div className={s.label}>{fieldMeta.label}</div>}
       <div className={s.value}>{formattedValue}</div>

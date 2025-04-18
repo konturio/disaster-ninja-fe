@@ -246,15 +246,12 @@ const LayoutRendererInternal = ({
     );
   }
 
-  // Check if the node is a valid object for processing
   if (!node || typeof node !== 'object') {
     return null;
   }
 
-  // Process props and resolve data bindings first
   const { resolvedProps, boundData } = processNodeProps(node, data, context);
 
-  // Updated to use $if
   if (node.$if) {
     const ifBindingResult = resolveBinding(node.$if, boundData, context);
     if (!ifBindingResult.value) {
@@ -262,7 +259,6 @@ const LayoutRendererInternal = ({
     }
   }
 
-  // array to template rendering
   if (node.$template && Array.isArray(resolvedProps.value)) {
     return (
       <>
@@ -278,7 +274,6 @@ const LayoutRendererInternal = ({
     );
   }
 
-  // If it's not a component node with a type, we can't render it as a component
   if (!isComponentNode(node) || !node.type) {
     return null;
   }

@@ -1,5 +1,6 @@
 import { memo } from 'react';
 import { SimpleTooltip } from '@konturio/floating';
+import clsx from 'clsx';
 import { i18n } from '~core/localization';
 import s from './Severity.module.css';
 import type { Severity } from '~core/types';
@@ -43,9 +44,10 @@ const COLORS = SEVERITY_LEVELS.map(({ color }) => color);
 
 interface SeverityIndicatorProps {
   value: Severity;
+  className?: string;
 }
 
-function SeverityIndicatorImpl({ value }: SeverityIndicatorProps) {
+function SeverityIndicatorImpl({ value, className }: SeverityIndicatorProps) {
   if (!SEVERITY_CONFIG[value]) {
     return null; // Fallback to prevent rendering errors
   }
@@ -53,7 +55,7 @@ function SeverityIndicatorImpl({ value }: SeverityIndicatorProps) {
   const tooltip = SEVERITY_CONFIG[value].text;
   return (
     <SimpleTooltip content={tooltip} placement="top">
-      <div className={s.indicator}>
+      <div className={clsx(s.indicator, className)}>
         {COLORS.map((color, i) => (
           <div
             key={i}

@@ -1,4 +1,4 @@
-import { type StackedProgressBarItem, StackedProgressBar } from './Bar';
+import { StackedProgressBar } from './Bar';
 
 type MappingProgressProps = {
   percentValidated: number;
@@ -11,7 +11,7 @@ export function MappingProgress({
   percentMapped,
   caption,
 }: MappingProgressProps) {
-  const items: StackedProgressBarItem[] = [
+  const items = [
     {
       title: '% Validated',
       value: +percentValidated,

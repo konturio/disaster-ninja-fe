@@ -25,7 +25,6 @@ export function LayoutProvider({
   customFormatsRegistry = {},
   children,
 }: LayoutProviderProps) {
-  // Use the new hook to create context value
   const contextValue = useLayoutContextValue({
     layout,
     actionHandler,

@@ -1,4 +1,5 @@
 import { ExternalLink16 } from '@konturio/default-icons';
+import clsx from 'clsx';
 import { formatsRegistry } from '../formatsRegistry';
 import s from './Url.module.css';
 
@@ -20,7 +21,7 @@ export function Url(props: UrlProps) {
   return (
     <a
       href={value}
-      className={`${s.url} ${className || ''}`}
+      className={clsx(s.url, className)}
       target={newTab ? '_blank' : undefined}
       rel={newTab ? 'noopener noreferrer' : undefined}
     >

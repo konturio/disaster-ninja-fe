@@ -24,10 +24,8 @@ export function FeedSelector() {
       value: fd.feed,
     })) || [];
 
-  // Simplified handler with type narrowing instead of casting
   const handleSelect = useCallback(
     (selection: SelectableItem | SelectableItem[] | null | undefined) => {
-      // Early return pattern improves readability
       if (!selection || Array.isArray(selection)) return;
 
       setCurrentFeed(selection.value as string);

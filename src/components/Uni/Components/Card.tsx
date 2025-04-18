@@ -1,4 +1,5 @@
 import React from 'react';
+import clsx from 'clsx';
 import s from './Card.module.css';
 
 export interface CardProps {
@@ -30,7 +31,7 @@ export function Card({
 
   return (
     <div
-      className={`${s.card} ${active ? s.selected : ''} ${action ? s.clickable : ''} ${className || ''}`}
+      className={clsx(s.card, active && s.selected, action && s.clickable, className)}
       style={style}
       onClick={action ? handleClick : undefined}
     >
