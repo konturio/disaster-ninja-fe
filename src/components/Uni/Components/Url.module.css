@@ -1,9 +1,7 @@
 .url {
   color: var(--accent-strong);
-  /* font-weight: 500; */
   font: var(--font-xs);
   text-decoration: none;
-  /* display: block; */
 }
 
 .url:hover {

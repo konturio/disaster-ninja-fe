@@ -21,15 +21,6 @@
   font-weight: normal;
 }
 
-.container > a {
-  text-decoration: none;
-}
-
-.container > a:hover {
-  outline: 1px solid var(--accent-strong);
-  outline-offset: 4px;
-}
-
 .label {
   font-weight: 400;
 }

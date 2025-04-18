@@ -6,15 +6,11 @@ import type { FieldMeta } from '../fieldsRegistry';
 
 export interface FieldProps {
   value?: any;
-
   $meta?: {
     value?: FieldMeta | null;
   };
-
   className?: string;
-
   showLabel?: boolean;
-
   format?: string;
 }
 

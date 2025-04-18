@@ -1,5 +1,4 @@
 .card {
-  /* border-bottom: 1px solid var(--faint-weak); */
   padding: var(--double-unit);
   display: flex;
   gap: var(--unit);
@@ -11,13 +10,6 @@
 
 .card:hover {
   background-color: var(--base-weak-up);
-}
-
-.card:focus,
-.focused {
-  background-color: var(--base-weak-up);
-  outline: 2px solid var(--complimentary-strong);
-  outline-offset: -2px;
 }
 
 .card:active,

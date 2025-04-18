@@ -68,7 +68,7 @@ function resolveComponent(
 }
 
 /**
- * Applies overrides to fieldMeta
+ * Applies overrides to fieldMeta via shallow merge
  */
 function applyOverrides(
   fieldMeta: FieldMeta,
@@ -76,7 +76,6 @@ function applyOverrides(
 ): FieldMeta {
   if (!overrides) return fieldMeta;
 
-  // Return a new object with shallow merged properties
   return { ...fieldMeta, ...overrides };
 }
 
@@ -168,7 +167,7 @@ function processNodeProps(
   return { resolvedProps, boundData };
 }
 
-function shouldProcessChildren(type: string, node: UniLayoutComponentNode): boolean {
+function shouldProcessChildren(node: UniLayoutComponentNode): boolean {
   // Let all components receive their children if defined
   return node.children !== undefined;
 }
@@ -285,11 +284,7 @@ const LayoutRendererInternal = ({
   }
 
   // Use customComponents to override the default components from context
-  const [DefaultComponent, defaultComponentExists] = resolveComponent(
-    node.type,
-    customComponents,
-  );
-  const Component = customComponents[node.type] || DefaultComponent;
+  const [Component] = resolveComponent(node.type, customComponents);
   const componentExists = !!Component;
 
   if (!componentExists) {
@@ -297,7 +292,7 @@ const LayoutRendererInternal = ({
   }
 
   const childrenDataContext = boundData !== undefined ? boundData : data;
-  const renderedChildren = shouldProcessChildren(node.type, node)
+  const renderedChildren = shouldProcessChildren(node)
     ? renderChildren(node.children, childrenDataContext, customComponents)
     : null;
 

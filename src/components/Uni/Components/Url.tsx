@@ -4,11 +4,8 @@ import s from './Url.module.css';
 
 export interface UrlProps {
   value?: string;
-
   label?: string;
-
   newTab?: boolean;
-
   className?: string;
 }
 
@@ -18,12 +15,11 @@ export interface UrlProps {
 export function Url(props: UrlProps) {
   const { value = '#', label, newTab = true, className } = props;
 
-  const url = value;
-  const displayText = label || (url ? formatsRegistry.url_domain(url) : '');
+  const displayText = label || (value ? formatsRegistry.url_domain(value) : '');
 
   return (
     <a
-      href={url}
+      href={value}
       className={`${s.url} ${className || ''}`}
       target={newTab ? '_blank' : undefined}
       rel={newTab ? 'noopener noreferrer' : undefined}

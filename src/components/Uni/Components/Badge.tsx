@@ -1,5 +1,4 @@
 import s from './Badge.module.css';
-import type { FieldMeta } from '../fieldsRegistry';
 
 type VariantType = 'error' | 'success' | 'warning' | 'info' | 'neutral';
 

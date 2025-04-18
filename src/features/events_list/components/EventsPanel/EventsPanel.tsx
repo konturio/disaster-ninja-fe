@@ -90,9 +90,6 @@ export function EventsPanel({
     actionHandler,
   });
 
-  // This is the compatible renderEventCard function that both FullState and ShortState expect
-  const renderCard = useCallback(renderEventCard, []);
-
   const panelContent = useCallback(
     (state: typeof panelState) => {
       if (state === 'closed') return null;
@@ -107,13 +104,13 @@ export function EventsPanel({
             <FullState
               eventsList={eventsList}
               currentEventId={currentEventId ?? null}
-              renderEventCard={renderCard}
+              renderEventCard={renderEventCard}
             />
           ) : (
             <ShortState
               openFullState={openFullState}
               currentEvent={currentEvent ?? null}
-              renderEventCard={renderCard}
+              renderEventCard={renderEventCard}
             />
           )}
         </UniLayoutContext.Provider>
@@ -125,7 +122,6 @@ export function EventsPanel({
       error,
       eventsList,
       currentEventId,
-      renderCard,
       openFullState,
       currentEvent,
     ],
