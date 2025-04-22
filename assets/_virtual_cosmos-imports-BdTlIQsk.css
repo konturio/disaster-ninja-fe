@@ -1033,7 +1033,7 @@ a {
   margin-left: var(--unit);
   color: var(--text-faint-strong);
 }
-._planCard_7jr6o_1 {
+._planCard_q8sg6_1 {
   /* Color for plan type, highlights, link */
   --primary-color: var(--success-strong);
   /* Color for plan type background */
@@ -1064,7 +1064,7 @@ a {
 
   /* Specific custom styles */
 
-  &._custom_7jr6o_32 {
+  &._custom_q8sg6_32 {
     --primary-color: var(--base-strong-down);
     --secondary-color: var(--faint-weak);
     --cta-hover-color: var(--base-strong);
@@ -1072,7 +1072,7 @@ a {
 
   /* Specific premium styles */
 
-  &._premium_7jr6o_40 {
+  &._premium_q8sg6_40 {
     --primary-color: var(--accent-strong);
     --secondary-color: #d8effc;
     --plan-bg-color: var(--accent-weak);
@@ -1100,7 +1100,7 @@ a {
   }
 }
 
-._planType_7jr6o_68 {
+._planType_q8sg6_68 {
   position: absolute;
   padding: var(--unit) var(--double-unit);
   border-radius: 18px;
@@ -1112,7 +1112,7 @@ a {
   align-items: center;
 }
 
-._planCard_7jr6o_1._custom_7jr6o_32 ._planType_7jr6o_68::before {
+._planCard_q8sg6_1._custom_q8sg6_32 ._planType_q8sg6_68::before {
   content: '★';
   font-size: 22px;
   padding-right: 4px;
@@ -1120,34 +1120,34 @@ a {
   top: -2px;
 }
 
-._initialPrice_7jr6o_88 {
+._initialPrice_q8sg6_88 {
   color: var(--faint-strong, #9ea5ab);
   text-decoration: line-through;
   margin-bottom: var(--double-unit);
 }
 
-._price_7jr6o_94 {
+._price_q8sg6_94 {
   margin-bottom: var(--double-unit);
 }
 
-._hidden_7jr6o_98 {
+._hidden_q8sg6_98 {
   visibility: hidden;
 }
 
-._perMonth_7jr6o_102 {
+._perMonth_q8sg6_102 {
   font-size: 14px;
   color: #888;
   margin-left: 5px;
 }
 
-._customPlanName_7jr6o_108 {
+._customPlanName_q8sg6_108 {
   font-weight: 500;
   line-height: 40px;
   font-size: 52px;
   margin: 36px 0 21px;
 }
 
-._planDescription_7jr6o_115 {
+._planDescription_q8sg6_115 {
   color: var(--faint-strong);
   margin: 0 0 var(--double-unit);
 
@@ -1156,15 +1156,19 @@ a {
   }
 }
 
-._buttonWrapper_7jr6o_124 {
+._buttonWrapper_q8sg6_124 {
   margin-bottom: 24px;
   gap: 16px;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+
+  &:empty {
+    margin: 0;
+  }
 }
 
-._subscribeButtonsWrapper_7jr6o_132 {
+._subscribeButtonsWrapper_q8sg6_136 {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1178,12 +1182,12 @@ a {
   }
 }
 
-._cancelButton_7jr6o_146 {
+._cancelButton_q8sg6_150 {
   position: relative;
   bottom: -11px;
 }
 
-._footerWrapper_7jr6o_151 {
+._footerWrapper_q8sg6_155 {
   display: flex;
   justify-content: flex-end;
   margin-top: auto;
@@ -1194,7 +1198,7 @@ a {
   }
 }
 
-._linkAsButton_7jr6o_162 {
+._linkAsButton_q8sg6_166 {
   font: var(--font-xs);
   font-weight: 400;
   line-height: 16px;
@@ -1219,7 +1223,7 @@ a {
   }
 }
 
-._paymentPlanButton_7jr6o_187 {
+._paymentPlanButton_q8sg6_191 {
   background-color: var(--primary-color);
 
   &:hover {
@@ -1228,7 +1232,7 @@ a {
 }
 
 @media screen and (max-width: 600px) {
-  ._planCard_7jr6o_1 {
+  ._planCard_q8sg6_1 {
     height: auto;
   }
 }
