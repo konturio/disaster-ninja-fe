@@ -5,10 +5,6 @@ import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
-import {
-  FALLBACK_BIVARIATE_MAX_ZOOM,
-  FALLBACK_BIVARIATE_MIN_ZOOM,
-} from '~core/logical_layers/renderers/BivariateRenderer/constants';
 import { store } from '~core/store/store';
 import { createAsyncWrapper } from '~utils/atoms/createAsyncWrapper';
 import { v3ActionToV2 } from '~utils/atoms/v3tov2';
@@ -49,8 +45,6 @@ export const createMultivariateLayer = action((ctx, style: MultivariateLayerStyl
       id,
       createAsyncWrapper({
         id,
-        maxZoom: FALLBACK_BIVARIATE_MAX_ZOOM,
-        minZoom: FALLBACK_BIVARIATE_MIN_ZOOM,
         source: {
           type: 'vector' as const,
           urls: [
