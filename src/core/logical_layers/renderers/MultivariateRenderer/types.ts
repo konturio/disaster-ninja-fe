@@ -31,5 +31,6 @@ export interface MultivariateLayerConfig {
   score: MultivariateAxis;
   base?: MultivariateAxis;
   stepOverrides?: MultivariateStepOverrides;
+  strength?: MultivariateAxis | number;
   colors?: MultivariateColorConfig;
 }

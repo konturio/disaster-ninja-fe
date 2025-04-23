@@ -1,6 +1,9 @@
 import { Hexagon } from '~components/Hexagon/Hexagon';
 import { i18n } from '~core/localization';
-import { generateMCDALayersTableAndScore } from '../../MCDARenderer/popup';
+import {
+  generateMCDALayersTableAndScore,
+  generateMCDAPopupTable,
+} from '../../MCDARenderer/popup';
 import { PopupMCDA } from '../../MCDARenderer/components/PopupMCDA';
 import { getDimensionLevelsAndHexagonParams } from '../helpers/multivariatePopupHelpers';
 import s from './PopupMultivariate.module.css';
@@ -70,6 +73,22 @@ export function PopupMultivariate(
     </div>
   );
 
+  // strength
+  let strengthTable;
+  if (config.strength) {
+    if (typeof config.strength === 'number') {
+      strengthTable = <div>Strength: {config.strength}</div>;
+    } else {
+      const strengthMCDAAxes = config.strength.config.layers;
+      strengthTable = (
+        <>
+          <div>Strength:</div>
+          {generateMCDAPopupTable(feature, strengthMCDAAxes)}
+        </>
+      );
+    }
+  }
+
   return (
     <>
       {hexagonLabel && hexagonColor ? (
@@ -79,6 +98,7 @@ export function PopupMultivariate(
       )}
       {scoreTable}
       {baseTable}
+      {strengthTable}
     </>
   );
 }
