@@ -20,7 +20,7 @@ export function LegendsList({ layer: layerAtom }: { layer: LayerAtom }) {
   return (
     <LayerComponent
       canFold={false}
-      controlElements={!isPresentationMode ? controlElements : null}
+      controlElements={!isPresentationMode ? controlElements : undefined}
       layerState={layerState}
     />
   );
