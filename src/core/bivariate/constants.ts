@@ -1,7 +1,3 @@
-import { configRepo } from '~core/config';
-import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
-import type { TileSource } from '~core/logical_layers/types/source';
-
 // hard coded to HOT layers for now (task 7801)
 export const IMPORTANT_BIVARIATE_LAYERS = [
   ['count', 'area_km2'],
