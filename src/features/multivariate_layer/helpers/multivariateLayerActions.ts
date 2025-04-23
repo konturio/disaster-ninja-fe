@@ -1,5 +1,4 @@
 import { action } from '@reatom/framework';
-import { configRepo } from '~core/config';
 import { layersEditorsAtom } from '~core/logical_layers/atoms/layersEditors';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
@@ -8,8 +7,8 @@ import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import { store } from '~core/store/store';
 import { createAsyncWrapper } from '~utils/atoms/createAsyncWrapper';
 import { v3ActionToV2 } from '~utils/atoms/v3tov2';
-import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
 import { MultivariateRenderer } from '~core/logical_layers/renderers/MultivariateRenderer/MultivariateRenderer';
+import { DEFAULT_BIVARIATE_TILE_SOURCE } from '~core/bivariate';
 import { MultivariateLayerEditor } from '../components/MultivariateLayerEditor/MultivariateLayerEditor';
 import type { MultivariateLayerStyle } from '~core/logical_layers/renderers/stylesConfigs/multivariate/multivariateStyle';
 import type { Action } from '@reatom/core-v2';
@@ -45,18 +44,7 @@ export const createMultivariateLayer = action((ctx, style: MultivariateLayerStyl
       id,
       createAsyncWrapper({
         id,
-        source: {
-          type: 'vector' as const,
-          urls: [
-            `${adaptTileUrl(
-              configRepo.get().bivariateTilesRelativeUrl,
-            )}{z}/{x}/{y}.mvt?indicatorsClass=${
-              configRepo.get().bivariateTilesIndicatorsClass
-            }`,
-          ],
-          tileSize: 512,
-          apiKey: '',
-        },
+        source: DEFAULT_BIVARIATE_TILE_SOURCE,
         style: {
           type: 'multivariate',
           config: config,

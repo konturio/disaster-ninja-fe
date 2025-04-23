@@ -4,12 +4,11 @@ import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import { BivariateRenderer } from '~core/logical_layers/renderers/BivariateRenderer/BivariateRenderer';
 import { createAsyncWrapper } from '~utils/atoms/createAsyncWrapper';
-import { configRepo } from '~core/config';
-import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
 import { layersEditorsAtom } from '~core/logical_layers/atoms/layersEditors';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import { i18n } from '~core/localization';
 import { generateMCDALegendColors } from '~utils/mcda/mcdaLegendsUtils';
+import { DEFAULT_BIVARIATE_TILE_SOURCE } from '~core/bivariate';
 import { MCDALayerEditor } from '../components/MCDALayerEditor';
 import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { Action } from '@reatom/core-v2';
@@ -47,18 +46,7 @@ export const mcdaLayerAtom = createAtom(
           id,
           createAsyncWrapper({
             id,
-            source: {
-              type: 'vector' as const,
-              urls: [
-                `${adaptTileUrl(
-                  configRepo.get().bivariateTilesRelativeUrl,
-                )}{z}/{x}/{y}.mvt?indicatorsClass=${
-                  configRepo.get().bivariateTilesIndicatorsClass
-                }`,
-              ],
-              tileSize: 512,
-              apiKey: '',
-            },
+            source: DEFAULT_BIVARIATE_TILE_SOURCE,
             style: {
               type: 'mcda',
               config: json,
