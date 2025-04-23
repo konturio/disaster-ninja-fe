@@ -2,7 +2,7 @@ import { Hsluv } from 'hsluv';
 import { generateBivariateStyleForAxis } from '~utils/bivariate';
 import { getMaxNumeratorZoomLevel } from '~utils/bivariate/getMaxZoomLevel';
 import { FALLBACK_BIVARIATE_MAX_ZOOM } from '~core/logical_layers/renderers/BivariateRenderer/constants';
-import { DEFAULT_BIVARIATE_TILES_URL } from '~core/bivariate';
+import { getDefaultBivariateTilesUrl } from '~core/bivariate/getDefaultBivariateTilesUrl';
 import type { FilterSpecification } from 'maplibre-gl';
 import type { CornerRange, Stat } from '~utils/bivariate';
 import type { BivariateLegend } from '~core/logical_layers/types/legends';
@@ -157,7 +157,7 @@ export const generateBivariateStyle = (
     sourceLayer,
     source: {
       type: 'vector',
-      tiles: [DEFAULT_BIVARIATE_TILES_URL],
+      tiles: [getDefaultBivariateTilesUrl()],
       maxzoom: maxZoomLevel,
       minzoom: 0,
     },

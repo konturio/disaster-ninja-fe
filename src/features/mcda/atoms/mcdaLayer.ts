@@ -8,7 +8,7 @@ import { layersEditorsAtom } from '~core/logical_layers/atoms/layersEditors';
 import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
 import { i18n } from '~core/localization';
 import { generateMCDALegendColors } from '~utils/mcda/mcdaLegendsUtils';
-import { DEFAULT_BIVARIATE_TILE_SOURCE } from '~core/bivariate';
+import { getDefaultBivariateTileSource } from '~core/bivariate/getDefaultBivariateTileSource';
 import { MCDALayerEditor } from '../components/MCDALayerEditor';
 import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { Action } from '@reatom/core-v2';
@@ -46,7 +46,7 @@ export const mcdaLayerAtom = createAtom(
           id,
           createAsyncWrapper({
             id,
-            source: DEFAULT_BIVARIATE_TILE_SOURCE,
+            source: getDefaultBivariateTileSource(),
             style: {
               type: 'mcda',
               config: json,

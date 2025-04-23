@@ -8,7 +8,7 @@ import { store } from '~core/store/store';
 import { createAsyncWrapper } from '~utils/atoms/createAsyncWrapper';
 import { v3ActionToV2 } from '~utils/atoms/v3tov2';
 import { MultivariateRenderer } from '~core/logical_layers/renderers/MultivariateRenderer/MultivariateRenderer';
-import { DEFAULT_BIVARIATE_TILE_SOURCE } from '~core/bivariate';
+import { getDefaultBivariateTileSource } from '~core/bivariate/getDefaultBivariateTileSource';
 import { MultivariateLayerEditor } from '../components/MultivariateLayerEditor/MultivariateLayerEditor';
 import type { MultivariateLayerStyle } from '~core/logical_layers/renderers/stylesConfigs/multivariate/multivariateStyle';
 import type { Action } from '@reatom/core-v2';
@@ -44,7 +44,7 @@ export const createMultivariateLayer = action((ctx, style: MultivariateLayerStyl
       id,
       createAsyncWrapper({
         id,
-        source: DEFAULT_BIVARIATE_TILE_SOURCE,
+        source: getDefaultBivariateTileSource(),
         style: {
           type: 'multivariate',
           config: config,
