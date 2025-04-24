@@ -12,6 +12,9 @@ The tool’s functionality is much broader nowadays: it can be used whenever ins
 
 [More info ==>](https://www.kontur.io/portfolio/disaster-ninja/)
 
+📖 [AI-generated tutorial](docs/toc.md)
+
+
 Run `npx husky-init` after you first time clone project
 
 ## How to use
