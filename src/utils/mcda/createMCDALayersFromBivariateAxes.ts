@@ -20,29 +20,21 @@ export function createMCDALayersFromBivariateAxes(axes: Axis[]): MCDALayer[] {
     const range = axis.datasetStats
       ? generateSigmaRange(axis.datasetStats, 3)
       : getRangeFromAxisSteps(axis);
-    try {
-      acc.push({
-        id: axis.id,
-        name: axis.label,
-        axis: axis.quotient,
-        indicators: axis.quotients ?? [],
-        unit: formatBivariateAxisUnit(axis.quotients),
-        range,
-        datasetStats: axis.datasetStats,
-        sentiment: sentimentDirection,
-        outliers: 'clamp',
-        coefficient: 1,
-        transformationFunction: axis.transformation?.transformation ?? 'no',
-        transformation: axis.transformation,
-        normalization: 'max-min',
-      });
-    } catch (e) {
-      console.error(e);
-      notificationServiceInstance.error({
-        title: 'Error',
-        description: i18n.t('mcda.error_bad_layer_data'),
-      });
-    }
+    acc.push({
+      id: axis.id,
+      name: axis.label,
+      axis: axis.quotient,
+      indicators: axis.quotients ?? [],
+      unit: formatBivariateAxisUnit(axis.quotients),
+      range,
+      datasetStats: axis.datasetStats,
+      sentiment: sentimentDirection,
+      outliers: 'clamp',
+      coefficient: 1,
+      transformationFunction: axis.transformation?.transformation ?? 'no',
+      transformation: axis.transformation,
+      normalization: 'max-min',
+    });
     return acc;
   }, []);
 }
