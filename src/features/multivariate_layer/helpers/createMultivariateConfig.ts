@@ -23,6 +23,7 @@ type MultivariateLayerConfigOverrides = {
   base?: MCDALayer[];
   colors?: MultivariateColorConfig;
   stepOverrides?: MultivariateLayerConfig['stepOverrides'];
+  opacity?: MultivariateLayerConfig['opacity'];
 };
 
 export function createMultivariateConfig(
@@ -60,6 +61,7 @@ export function createMultivariateConfig(
     name,
     score: scoreMCDAStyle,
     base: baseMCDAStyle,
+    opacity: overrides.opacity ?? 1,
     stepOverrides: isBivariateStyleLegend
       ? overrides.stepOverrides || {
           baseSteps: createStepsForMCDADimension(overrides.base, availableBivariateAxes),

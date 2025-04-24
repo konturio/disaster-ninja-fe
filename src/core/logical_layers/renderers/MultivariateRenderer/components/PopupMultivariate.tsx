@@ -73,17 +73,19 @@ export function PopupMultivariate(
     </div>
   );
 
-  // strength
-  let strengthTable;
-  if (config.strength) {
-    if (typeof config.strength === 'number') {
-      strengthTable = <div>Strength: {config.strength}</div>;
+  // opacity
+  let opacityTable;
+  if (config.opacity) {
+    if (typeof config.opacity === 'number') {
+      opacityTable = (
+        <div>{`${i18n.t('multivariate.hide_area')}: ${config.opacity}`}</div>
+      );
     } else {
-      const strengthMCDAAxes = config.strength.config.layers;
-      strengthTable = (
+      const opacityMCDAAxes = config.opacity.config.layers;
+      opacityTable = (
         <>
-          <div>Strength:</div>
-          {generateMCDAPopupTable(feature, strengthMCDAAxes)}
+          <div>{`${i18n.t('multivariate.hide_area')}`}</div>
+          {generateMCDAPopupTable(feature, opacityMCDAAxes)}
         </>
       );
     }
@@ -98,7 +100,7 @@ export function PopupMultivariate(
       )}
       {scoreTable}
       {baseTable}
-      {strengthTable}
+      {opacityTable}
     </>
   );
 }

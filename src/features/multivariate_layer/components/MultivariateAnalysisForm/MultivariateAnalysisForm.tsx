@@ -78,6 +78,8 @@ export function MultivariateAnalysisForm({
   );
   const buttonsRowRef = useRef<HTMLDivElement>(null);
 
+  const [opacity, setOpacity] = useState(initialConfig?.opacity?.toString() || '1');
+
   const isBivariate = useMemo(
     () => !!dimensionsLayers.score.length && !!dimensionsLayers.compare.length,
     [dimensionsLayers],
@@ -149,6 +151,7 @@ export function MultivariateAnalysisForm({
               isCustomStepsChecked && customStepOverrides
                 ? customStepOverrides
                 : initialConfig?.stepOverrides,
+            opacity: isNumber(parseFloat(opacity)) ? parseFloat(opacity) : 1,
           },
           axesResource.data ?? [],
         )
@@ -166,6 +169,7 @@ export function MultivariateAnalysisForm({
     isCustomStepsChecked,
     isKeepColorsChecked,
     name,
+    opacity,
     showKeepColorsCheckbox,
   ]);
 
@@ -407,6 +411,15 @@ export function MultivariateAnalysisForm({
               errors={customStepsErrors}
             />
           )}
+          <Input
+            type="text"
+            value={opacity}
+            onChange={(e) => {
+              setOpacity(e.target.value);
+            }}
+            renderLabel={<Text type="label">Opacity</Text>}
+            placeholder={'Opacity'}
+          />
         </div>
       </div>
     </ModalDialog>

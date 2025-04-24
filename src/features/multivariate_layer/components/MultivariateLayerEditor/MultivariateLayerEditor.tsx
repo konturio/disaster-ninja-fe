@@ -49,10 +49,10 @@ export function MultivariateLayerEditor({ layerId }: LayerEditorProps) {
         printMCDAAxes(i18n.t('multivariate.score'), layerConfig.score.config.layers)}
       {!!layerConfig.base?.config.layers.length &&
         printMCDAAxes(i18n.t('multivariate.compare'), layerConfig.base.config.layers)}
-      {typeof layerConfig.strength === 'number'
-        ? printValue('Strength', layerConfig.strength.toString())
-        : layerConfig.strength?.type === 'mcda' &&
-          printMCDAAxes('Strength', layerConfig.strength.config.layers)}
+      {typeof layerConfig.opacity === 'number'
+        ? printValue('Opacity', layerConfig.opacity.toString())
+        : layerConfig.opacity?.type === 'mcda' &&
+          printMCDAAxes('Opacity', layerConfig.opacity.config.layers)}
     </div>
   );
 }

@@ -37,9 +37,9 @@ export const styleConfigs: Record<
     } else {
       multivariateStyle = createMCDAStyle(config.score.config);
     }
-    if (config.strength) {
+    if (config.opacity) {
       const opacity = new MapMath().clamp(
-        multivariateAxisToScore(config.strength) as unknown as MapExpression,
+        multivariateAxisToScore(config.opacity) as unknown as MapExpression,
         0.2 as unknown as MapExpression,
         1 as unknown as MapExpression,
       );
