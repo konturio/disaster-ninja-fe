@@ -2,9 +2,10 @@ import { useFixtureInput } from 'react-cosmos/client';
 import { useState, useEffect } from 'react';
 import clsx from 'clsx';
 import { eventCardLayoutTemplate } from '~features/events_list/components/EventsPanel/eventLayouts';
-import { LayoutProvider } from './Layout/LayoutProvider';
-import { eventSampleData } from '../../core/api/__mocks__/_eventsSampleData';
-import { hotData } from '../../core/api/__mocks__/_hotSampleData';
+import { UniLayoutContext, useLayoutContextValue } from './Layout/LayoutContext';
+import { LayoutRenderer } from './Layout/LayoutRenderer';
+import { eventSampleData } from '~core/api/__mocks__/_eventsSampleData';
+import { hotData } from '~core/api/__mocks__/_hotSampleData';
 import { hotProjectLayoutTemplate } from './__mocks__/_hotLayout.js';
 import { complexDataLayout, complexDataSamples } from './__mocks__/_complexLayout';
 import style from './__mocks__/fixture.module.css';
@@ -82,15 +83,19 @@ const createLayoutDebugger = (initialLayout, initialData) => {
       alert(`Action triggered: ${action}\nPayload: ${JSON.stringify(payload)}`);
     };
 
+    const contextValue = useLayoutContextValue({ layout, actionHandler: handleAction });
+
     return (
       <div>
-        <div className={style.grid}>
-          {limitedData.map((item, index) => (
-            <div key={index} className={style.card}>
-              <LayoutProvider layout={layout} data={item} actionHandler={handleAction} />
-            </div>
-          ))}
-        </div>
+        <UniLayoutContext.Provider value={contextValue}>
+          <div className={style.grid}>
+            {limitedData.map((item, index) => (
+              <div key={index} className={style.card}>
+                <LayoutRenderer node={layout} data={item} customComponents={{}} />
+              </div>
+            ))}
+          </div>
+        </UniLayoutContext.Provider>
         <hr />
         <div style={{ display: 'flex', gap: '1rem' }}>
           <JsonEditor

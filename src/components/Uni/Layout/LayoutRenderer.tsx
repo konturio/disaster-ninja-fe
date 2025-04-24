@@ -62,9 +62,8 @@ function createBindingError(error: string): BindingResult {
 function resolveComponent(
   type: string,
   customComponents = {},
-): [React.ComponentType<any> | null, boolean] {
-  const Component = customComponents[type] || componentsRegistry[type];
-  return [Component, !!Component];
+): React.ComponentType<any> | null {
+  return customComponents[type] || componentsRegistry[type] || null;
 }
 
 /**
@@ -279,10 +278,8 @@ const LayoutRendererInternal = ({
   }
 
   // Use customComponents to override the default components from context
-  const [Component] = resolveComponent(node.type, customComponents);
-  const componentExists = !!Component;
-
-  if (!componentExists) {
+  const Component = resolveComponent(node.type, customComponents);
+  if (!Component) {
     return <ErrorComponent type={node.type} severity="warning" />;
   }
 

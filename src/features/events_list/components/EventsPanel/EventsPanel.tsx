@@ -21,6 +21,7 @@ import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { sortedEventListAtom } from '~features/events_list/atoms/sortedEventList';
 import { configRepo } from '~core/config';
+import { AppFeature } from '~core/app/types';
 import { MIN_HEIGHT } from '../../constants';
 import { FullState } from '../FullState/FullState';
 import { ShortState } from '../ShortState/ShortState';
@@ -30,7 +31,7 @@ import s from './EventsPanel.module.css';
 import type { Event } from '~core/types';
 import type { SheetRef } from 'react-modal-sheet';
 
-const hasTimeline = !!configRepo.get().features['episodes_timeline'];
+const hasTimeline = !!configRepo.get().features[AppFeature.EPISODES_TIMELINE];
 
 function findEventById(eventsList: Event[] | null, eventId?: string | null) {
   if (!eventId || !eventsList?.length) return null;
@@ -86,7 +87,7 @@ export function EventsPanel({
 
   // Create a shared layout context for all event cards
   const layoutContextValue = useLayoutContextValue({
-    layout: null,
+    layout: eventCardLayoutTemplate,
     actionHandler,
   });
 
