@@ -1,18 +1,9 @@
 import { showModal } from '~core/modal';
-import { notificationServiceInstance } from '~core/notificationServiceInstance';
-import { i18n } from '~core/localization';
-import { formatBivariateAxisUnit, type Axis } from '~utils/bivariate';
-import {
-  DEFAULT_GREEN,
-  DEFAULT_RED,
-  DEFAULT_YELLOW,
-  sentimentDefault,
-  sentimentReversed,
-} from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations/constants';
+import { DEFAULT_MCDA_COLORS_BY_SENTIMENT } from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations/constants';
+import { createMCDALayersFromBivariateAxes } from '~utils/mcda/createMCDALayersFromBivariateAxes';
+import { generateMCDAId } from '../../utils/mcda/generateMCDAId';
 import { MCDAForm } from './components/MCDAForm';
-import { generateMCDAId } from './utils/generateMCDAId';
 import { DEFAULT_MCDA_NAME } from './constants';
-import { generateSigmaRange } from './utils/generateSigmaRange';
 import type {
   MCDAConfig,
   MCDALayer,
@@ -66,7 +57,7 @@ export async function createMCDAConfig() {
   return config;
 }
 
-function createDefaultMCDAConfig(overrides?: Partial<MCDAConfig>): MCDAConfig {
+export function createDefaultMCDAConfig(overrides?: Partial<MCDAConfig>): MCDAConfig {
   const name = overrides?.name ?? DEFAULT_MCDA_NAME;
 
   return {
@@ -74,64 +65,6 @@ function createDefaultMCDAConfig(overrides?: Partial<MCDAConfig>): MCDAConfig {
     id: generateMCDAId(name),
     name,
     layers: overrides?.layers ?? [],
-    colors: {
-      type: 'sentiments',
-      parameters: {
-        bad: DEFAULT_RED,
-        good: DEFAULT_GREEN,
-        /* TODO: using midpoints for gradient customization is a temporary solution.
-        It will probably be removed in the future in favor of working with Color Manager */
-        midpoints: [{ value: 0.5, color: DEFAULT_YELLOW }],
-      },
-    },
+    colors: DEFAULT_MCDA_COLORS_BY_SENTIMENT,
   };
-}
-
-// TODO: remove once all presets contain datasetStats
-function getRangeFromAxisSteps(axis: Axis): [number, number] {
-  const minStep = axis.steps.at(0)?.value;
-  const maxStep = axis.steps.at(-1)?.value;
-  if (typeof minStep === 'number' && typeof maxStep === 'number') {
-    return [minStep, maxStep];
-  } else {
-    throw Error('incorrect_axis_step_format');
-  }
-}
-
-function createMCDALayersFromBivariateAxes(axes: Axis[]): MCDALayer[] {
-  return axes.reduce<MCDALayer[]>((acc, axis) => {
-    const numeratorFirstSentiment = axis.quotients?.at(0)?.direction?.at(0);
-    const sentimentDirection = numeratorFirstSentiment?.some(
-      (sentiment) => sentiment === 'bad',
-    )
-      ? sentimentDefault
-      : sentimentReversed;
-    const range = axis.datasetStats
-      ? generateSigmaRange(axis.datasetStats, 3)
-      : getRangeFromAxisSteps(axis);
-    try {
-      acc.push({
-        id: axis.id,
-        name: axis.label,
-        axis: axis.quotient,
-        indicators: axis.quotients ?? [],
-        unit: formatBivariateAxisUnit(axis.quotients),
-        range,
-        datasetStats: axis.datasetStats,
-        sentiment: sentimentDirection,
-        outliers: 'clamp',
-        coefficient: 1,
-        transformationFunction: axis.transformation?.transformation ?? 'no',
-        transformation: axis.transformation,
-        normalization: 'max-min',
-      });
-    } catch (e) {
-      console.error(e);
-      notificationServiceInstance.error({
-        title: 'Error',
-        description: i18n.t('mcda.error_bad_layer_data'),
-      });
-    }
-    return acc;
-  }, []);
 }

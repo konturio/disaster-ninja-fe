@@ -1,7 +1,7 @@
 import { useAtom } from '@reatom/npm-react';
 import { useCallback, useMemo } from 'react';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
-import { applyNewMCDAConfig } from '~features/mcda/utils/applyNewMCDAConfig';
+import { applyNewLayerStyle } from '~core/logical_layers/utils/applyNewLayerStyle';
 import s from './style.module.css';
 import { MCDALayerParameters } from './MCDALayerParameters/MCDALayerParameters';
 import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
@@ -28,7 +28,7 @@ export function MCDALayerEditor({ layerId }: LayerEditorProps) {
           oldLayer.id === editedMCDALayer.id ? editedMCDALayer : oldLayer,
         );
         const editedConfig = { ...mcdaConfig, layers: newLayers };
-        applyNewMCDAConfig(editedConfig);
+        applyNewLayerStyle({ type: 'mcda', config: editedConfig });
       }
     },
     [mcdaConfig],

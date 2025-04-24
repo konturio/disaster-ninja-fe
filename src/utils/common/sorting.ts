@@ -22,9 +22,9 @@ export function sortByAlphabet<T>(items: T[], getValue: (item: T) => string): T[
 
 /**
  * Sorts an array in place. Item moves higher if the substring occurs at the start
- * of a word boundary. The earlier the occurence - the higher the item moves.
+ * of a word boundary. The earlier the occurrence - the higher the item moves.
  */
-export function sortByWordOccurence<T>(
+export function sortByWordOccurrence<T>(
   items: T[],
   getItemValue: (item: T) => string,
   word: string,

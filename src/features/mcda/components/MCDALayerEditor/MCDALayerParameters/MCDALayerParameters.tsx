@@ -1,4 +1,4 @@
-import { Prefs16 } from '@konturio/default-icons';
+import { Prefs16, Trash16 } from '@konturio/default-icons';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Button, Input, Select, Text } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/npm-react';
@@ -8,7 +8,7 @@ import { LAYERS_PANEL_FEATURE_ID } from '~features/layers_panel/constants';
 import { isNumber } from '~utils/common';
 import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
 import { LayerInfo } from '~components/LayerInfo/LayerInfo';
-import { availableBivariateAxesAtom } from '~features/mcda/atoms/availableBivariateAxesAtom';
+import { availableBivariateAxesAtom } from '~core/bivariate/atoms/availableBivariateAxesAtom';
 import { getAxisTransformations } from '~core/api/mcda';
 import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
 import { PopupTooltipTrigger } from '~components/PopupTooltipTrigger';
@@ -39,9 +39,14 @@ import type { AxisTransformationWithPoints } from '~utils/bivariate';
 export type MCDALayerLegendProps = {
   layer: MCDALayer;
   onLayerEdited: (editedMCDALayer: MCDALayer) => void;
+  onDeletePressed?: () => void;
 };
 
-export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendProps) {
+export function MCDALayerParameters({
+  layer,
+  onLayerEdited,
+  onDeletePressed,
+}: MCDALayerLegendProps) {
   const [editMode, setEditMode] = useState(false);
   const [sentiment, setSentiment] = useState(DEFAULTS.sentiment as string);
   const [rangeFrom, setRangeFrom] = useState(DEFAULTS.range[0]);
@@ -259,6 +264,12 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
     }
   }, [editMode, layer.indicators, onCancel]);
 
+  const deleteLayer = useCallback(() => {
+    if (onDeletePressed) {
+      onDeletePressed();
+    }
+  }, [onDeletePressed]);
+
   return (
     <div>
       <div key={layer.id} className={s.layer}>
@@ -268,7 +279,7 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
             <LayerActionIcon
               onClick={editLayer}
               hint={i18n.t('layer_actions.tooltips.edit')}
-              className={s.editButton}
+              className={s.actionButton}
             >
               <Prefs16 />
             </LayerActionIcon>
@@ -277,6 +288,15 @@ export function MCDALayerParameters({ layer, onLayerEdited }: MCDALayerLegendPro
               layersInfo={mcdaLayerHint}
               tooltipId={LAYERS_PANEL_FEATURE_ID}
             />
+            {!!onDeletePressed && (
+              <LayerActionIcon
+                onClick={deleteLayer}
+                hint={i18n.t('layer_actions.tooltips.delete')}
+                className={s.actionButton}
+              >
+                <Trash16 />
+              </LayerActionIcon>
+            )}
           </div>
         </div>
         <div>

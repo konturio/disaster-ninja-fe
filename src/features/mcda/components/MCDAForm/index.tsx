@@ -10,10 +10,10 @@ import {
 } from '@konturio/ui-kit';
 import { i18n } from '~core/localization';
 import { createStateMap } from '~utils/atoms';
-import { sortByAlphabet, sortByWordOccurence } from '~utils/common/sorting';
+import { sortByAlphabet, sortByWordOccurrence } from '~utils/common/sorting';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
-import { availableBivariateAxesAtom } from '../../atoms/availableBivariateAxesAtom';
-import { generateEmojiPrefix } from '../../utils/generateEmojiPrefix';
+import { availableBivariateAxesAtom } from '~core/bivariate/atoms/availableBivariateAxesAtom';
+import { padEmojiStringToLength } from '~utils/mcda/padEmojiStringToLength';
 import s from './style.module.css';
 import type { Axis } from '~utils/bivariate';
 
@@ -64,7 +64,7 @@ export function MCDAForm({
       (axis) => axis.label,
     );
     return sortedItems.map((d) => ({
-      title: `${generateEmojiPrefix(d.quotients?.[0]?.emoji)} ${d.label}`,
+      title: `${padEmojiStringToLength(d.quotients?.[0]?.emoji)} ${d.label}`,
       value: d.id,
     }));
   }, [axesResource]);
@@ -101,7 +101,7 @@ export function MCDAForm({
   const sortDropdownItems = useCallback(
     (items: SelectableItem[], search: string): SelectableItem[] => {
       if (search) {
-        sortByWordOccurence(items, (item) => item.title, search);
+        sortByWordOccurrence(items, (item) => item.title, search);
       }
       return items;
     },
@@ -111,8 +111,8 @@ export function MCDAForm({
   const statesToComponents = createStateMap(axesResource);
 
   const indicatorsSelector = statesToComponents({
-    init: <div>{'Preparing data'}</div>,
-    loading: <div>{'Preparing data'}</div>,
+    init: <div>{i18n.t('preparing_data')}</div>,
+    loading: <div>{i18n.t('preparing_data')}</div>,
     error: (errorMessage) => <div style={{ color: 'red' }}>{errorMessage}</div>,
     ready: () => (
       <div className={s.multiselectContainer}>
@@ -137,7 +137,7 @@ export function MCDAForm({
       footer={
         <div className={s.buttonsRow}>
           <Button type="reset" onClick={cancelAction} variant="invert-outline">
-            {i18n.t('mcda.btn_cancel')}
+            {i18n.t('cancel')}
           </Button>
           <Button
             disabled={

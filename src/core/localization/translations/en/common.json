@@ -10,6 +10,7 @@
   "create": "Create",
   "disasters": "Disasters",
   "loading": "Loading...",
+  "preparing_data": "Preparing data",
   "loading_events": "Loading disasters",
   "legend": "Legend",
   "maps": "maps",
@@ -39,7 +40,8 @@
       "download": "Download",
       "edit": "Edit",
       "hide": "Hide",
-      "show": "Show"
+      "show": "Show",
+      "delete": "Delete"
     }
   },
   "feed": "Feed",
@@ -102,10 +104,8 @@
     "modal_input_indicators": "Layer list",
     "modal_input_indicators_placeholder": "Select layers",
     "modal_input_indicators_no_options": "No options",
-    "btn_cancel": "Cancel",
     "btn_save": "Save analysis",
     "error_analysis_name_cannot_be_empty": "Analysis name cannot be empty",
-    "error_bad_layer_data": "Invalid MCDA layer data",
     "error_invalid_file": "Invalid MCDA file format",
     "error_invalid_parameter": "Invalid '{{parameter}}' parameter",
     "error_invalid_layer_parameter": "Invalid '{{parameter}}' parameter in '{{axisName}}' layer",
@@ -163,11 +163,15 @@
     "good": "Good"
   },
   "multivariate": {
+    "multivariate_analysis": "Multivariate Analysis",
+    "create_analysis_layer": "Create analysis layer",
     "upload_analysis_layer": "Upload analysis layer",
     "popup": {
       "score_header": "Score {{level}}",
-      "base_header": "Base {{level}}"
-    }
+      "compare_header": "Compare {{level}}"
+    },
+    "score": "Score",
+    "compare": "Compare"
   },
   "search": {
     "search_location": "Search location",
