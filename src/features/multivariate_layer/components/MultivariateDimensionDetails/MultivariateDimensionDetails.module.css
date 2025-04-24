@@ -21,3 +21,9 @@
   margin: var(--unit);
   margin-inline-start: calc(-1 * var(--unit));
 }
+
+@media screen and (max-width: 960px) {
+  .layerRow {
+    flex-direction: column;
+  }
+}
