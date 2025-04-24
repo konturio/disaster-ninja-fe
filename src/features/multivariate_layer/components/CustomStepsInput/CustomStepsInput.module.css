@@ -3,12 +3,12 @@
   display: flex;
   flex-flow: row wrap;
   gap: var(--unit);
-  align-items: center;
   margin-top: var(--unit);
 }
 
 .customStepsRowName {
   width: 100px;
+  margin-top: 10px;
 }
 
 .customStepInput {
