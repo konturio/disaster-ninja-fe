@@ -1,7 +1,7 @@
 import { i18n } from '~core/localization';
 import { currentNotificationAtom } from '~core/shared_state';
+import { generateMCDAId } from '~utils/mcda/generateMCDAId';
 import { DEFAULT_MCDA_NAME } from '../constants';
-import { generateMCDAId } from '../../../utils/mcda/generateMCDAId';
 import { validateMCDAConfig } from './validateMCDAConfig';
 import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 
