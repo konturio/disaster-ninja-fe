@@ -11,7 +11,7 @@ import {
 } from '@konturio/ui-kit';
 import { i18n } from '~core/localization';
 import { createStateMap } from '~utils/atoms';
-import { sortByAlphabet, sortByWordOccurence } from '~utils/common/sorting';
+import { sortByAlphabet, sortByWordOccurrence } from '~utils/common/sorting';
 import { availableBivariateAxesAtom } from '~core/bivariate/atoms/availableBivariateAxesAtom';
 import { padEmojiStringToLength } from '~utils/mcda/padEmojiStringToLength';
 import { createMCDALayersFromBivariateAxes } from '~utils/mcda/createMCDALayersFromBivariateAxes';
@@ -192,7 +192,7 @@ export function MultivariateAnalysisForm({
   const sortDropdownItems = useCallback(
     (items: SelectableItem[], search: string): SelectableItem[] => {
       if (search) {
-        sortByWordOccurence(items, (item) => item.title, search);
+        sortByWordOccurrence(items, (item) => item.title, search);
       }
       return items;
     },

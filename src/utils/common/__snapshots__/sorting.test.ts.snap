@@ -25,7 +25,32 @@ exports[`sortByAlphabet > should sort items alphabetically, ignoring case 1`] = 
 ]
 `;
 
-exports[`sortByWordOccurence > should sort items based on earlier occurence of the substring at a starting word boundary 1`] = `
+exports[`sortByWordOccurrence > should sort items based on earlier occurrence of the substring at a starting word boundary 1`] = `
+[
+  {
+    "title": "Word at the start of the line",
+    "value": "5",
+  },
+  {
+    "title": "A. Word",
+    "value": "3",
+  },
+  {
+    "title": "BB. Words can be plural",
+    "value": "2",
+  },
+  {
+    "title": "CCC. Lower case word",
+    "value": "1",
+  },
+  {
+    "title": "Nonword. Not at the start boundary, does not count",
+    "value": "4",
+  },
+]
+`;
+
+exports[`sortByWordOccurrence > should sort items based on earlier occurrence of the substring at a starting word boundary 1`] = `
 [
   {
     "title": "Word at the start of the line",
