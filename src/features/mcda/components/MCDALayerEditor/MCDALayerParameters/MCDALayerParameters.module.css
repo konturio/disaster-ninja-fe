@@ -31,6 +31,7 @@
   display: flex;
   flex-flow: row nowrap;
   gap: var(--unit);
+  padding-inline-start: var(--unit);
 }
 
 .infoButton {

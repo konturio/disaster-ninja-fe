@@ -1,5 +1,5 @@
 .dimension {
-  padding: var(--double--unit) var(--unit);
+  padding: var(--double-unit) var(--unit);
   width: 100%;
 }
 
@@ -25,5 +25,9 @@
 @media screen and (max-width: 960px) {
   .layerRow {
     flex-direction: column;
+  }
+
+  .dimensionTypeSelect {
+    margin-bottom: var(--half-unit);
   }
 }
