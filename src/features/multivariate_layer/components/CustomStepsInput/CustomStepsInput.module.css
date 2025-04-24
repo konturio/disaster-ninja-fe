@@ -3,7 +3,7 @@
   display: flex;
   flex-flow: row wrap;
   gap: var(--unit);
-  margin-top: var(--unit);
+  margin: var(--unit) 0;
 }
 
 .customStepsRowName {
