@@ -9,7 +9,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, g as getDefaultExportFromCjs, c as commonjsGlobal, d as ReactDOM } from "./index-CH7LBekY.js";
+import { u as useFixtureState, r as reactExports, a as reactDomExports, R as React, b as React$1, g as getDefaultExportFromCjs, c as commonjsGlobal, d as ReactDOM } from "./index-BTCD5rpJ.js";
 function getDefaultSelectValue({ options, defaultValue }) {
   if (typeof defaultValue === "string") {
     return defaultValue;
@@ -8229,6 +8229,7 @@ const ok$3 = "OK";
 const create$8 = "Create";
 const disasters$8 = "Disasters";
 const loading$8 = "Loading...";
+const preparing_data = "Preparing data";
 const loading_events$2 = "Loading disasters";
 const legend$8 = "Legend";
 const maps$8 = "maps";
@@ -8258,7 +8259,8 @@ const layer_actions$8 = {
     download: "Download",
     edit: "Edit",
     hide: "Hide",
-    show: "Show"
+    show: "Show",
+    "delete": "Delete"
   }
 };
 const feed$8 = "Feed";
@@ -8321,10 +8323,8 @@ const mcda$8 = {
   modal_input_indicators: "Layer list",
   modal_input_indicators_placeholder: "Select layers",
   modal_input_indicators_no_options: "No options",
-  btn_cancel: "Cancel",
   btn_save: "Save analysis",
   error_analysis_name_cannot_be_empty: "Analysis name cannot be empty",
-  error_bad_layer_data: "Invalid MCDA layer data",
   error_invalid_file: "Invalid MCDA file format",
   error_invalid_parameter: "Invalid '{{parameter}}' parameter",
   error_invalid_layer_parameter: "Invalid '{{parameter}}' parameter in '{{axisName}}' layer",
@@ -8382,11 +8382,15 @@ const mcda$8 = {
   good: "Good"
 };
 const multivariate$8 = {
+  multivariate_analysis: "Multivariate Analysis",
+  create_analysis_layer: "Create analysis layer",
   upload_analysis_layer: "Upload analysis layer",
   popup: {
     score_header: "Score {{level}}",
-    base_header: "Base {{level}}"
-  }
+    compare_header: "Compare {{level}}"
+  },
+  score: "Score",
+  compare: "Compare"
 };
 const search$8 = {
   search_location: "Search location",
@@ -8730,6 +8734,7 @@ const en_common = {
   create: create$8,
   disasters: disasters$8,
   loading: loading$8,
+  preparing_data,
   loading_events: loading_events$2,
   legend: legend$8,
   maps: maps$8,
