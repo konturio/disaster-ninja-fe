@@ -39,7 +39,6 @@ import type { AxisTransformationWithPoints } from '~utils/bivariate';
 export type MCDALayerLegendProps = {
   layer: MCDALayer;
   onLayerEdited: (editedMCDALayer: MCDALayer) => void;
-  showDeleteButton?: boolean;
   onDeletePressed?: () => void;
 };
 
@@ -47,7 +46,6 @@ export function MCDALayerParameters({
   layer,
   onLayerEdited,
   onDeletePressed,
-  showDeleteButton,
 }: MCDALayerLegendProps) {
   const [editMode, setEditMode] = useState(false);
   const [sentiment, setSentiment] = useState(DEFAULTS.sentiment as string);
@@ -290,7 +288,7 @@ export function MCDALayerParameters({
               layersInfo={mcdaLayerHint}
               tooltipId={LAYERS_PANEL_FEATURE_ID}
             />
-            {showDeleteButton && (
+            {!!onDeletePressed && (
               <LayerActionIcon
                 onClick={deleteLayer}
                 hint={i18n.t('layer_actions.tooltips.delete')}

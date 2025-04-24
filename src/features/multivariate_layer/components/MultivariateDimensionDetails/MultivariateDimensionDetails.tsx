@@ -60,7 +60,6 @@ export function MultivariateDimensionDetails({
               onLayerEdited={(editedLayer) => {
                 onLayerEdited(editedLayer, dimensionKey);
               }}
-              showDeleteButton={true}
               onDeletePressed={() => {
                 onLayerDeleted(mcdaLayer, dimensionKey);
               }}
