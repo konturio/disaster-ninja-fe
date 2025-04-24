@@ -28,11 +28,6 @@ for (const project of projects) {
       await pageManager.atPricingPage.checkPageAndTextsAvailability();
       await pageManager.atPricingPage.clickBtnAndAssertUrl({
         context,
-        buttonName: 'Request trial',
-        expectedUrlPart: linkToSurveyProd,
-      });
-      await pageManager.atPricingPage.clickBtnAndAssertUrl({
-        context,
         buttonName: 'Book a demo',
         expectedUrlPart: linkToSurveyProd,
       });

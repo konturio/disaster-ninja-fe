@@ -100,7 +100,7 @@ for (const [countryCode, fullPhone] of testedPhoneByCountry) {
         await pageManager.atPricingPage.checkPageAndTextsAvailability();
         await pageManager.atPricingPage.clickBtnAndAssertUrl({
           context,
-          buttonName: 'Request trial',
+          buttonName: 'Book a demo',
           expectedUrlPart: 'book-a-demo',
         });
         await pageManager.atNavigationMenu.clickButtonToOpenPage('Profile');
