@@ -1,4 +1,4 @@
-import { multivariateAxisToScore } from '..';
+import { multivariateAxisToScore } from './multivariateAxisToScore';
 import type { MCDALayerStyle } from '../mcda/types';
 import type { MapExpression } from '../mcda/calculations/operations';
 

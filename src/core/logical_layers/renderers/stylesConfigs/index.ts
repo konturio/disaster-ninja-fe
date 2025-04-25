@@ -1,20 +1,11 @@
 import { generateBivariateColorsAndStyleForMultivariateLayer } from '~utils/multivariate/multivariateStyle';
 import { SOURCE_LAYER_BIVARIATE } from '../BivariateRenderer/constants';
-import { createMCDAStyle, linearNormalization } from './mcda/mcdaStyle';
+import { createMCDAStyle } from './mcda/mcdaStyle';
 import { getOpacityExpression } from './multivariate/getOpacityExpression';
 import type { MultivariateLayerStyle } from './multivariate/multivariateStyle';
-import type { MultivariateAxis } from '../MultivariateRenderer/types';
 import type { MCDALayerStyle } from './mcda/types';
 import type { FillLayerSpecification, LayerSpecification } from 'maplibre-gl';
 import type { LayerStyle } from '~core/logical_layers/types/style';
-
-export function multivariateAxisToScore(axis: MultivariateAxis | number) {
-  if (typeof axis === 'number') {
-    return axis;
-  } else {
-    return linearNormalization(axis.config.layers);
-  }
-}
 
 export const styleConfigs: Record<
   LayerStyle['type'],
