@@ -16,9 +16,7 @@ export const MapTitle = ({ title, description }: MapTitleProps) => {
         labelClassName={s.appLabel}
       />
       {title && <div className={s.title}>{title}</div>}
-      {description && (
-        <div className={s.description}>Sustainable Habitat for Santa Claus</div>
-      )}
+      {description && <div className={s.description}>{description}</div>}
     </div>
   );
 };

@@ -16,5 +16,6 @@ export const layersCopyrightsAtom = atom((ctx) => {
     }
   }
 
-  return result.join(' ');
+  const uniqueItems = [...new Set(result)];
+  return uniqueItems.join(' ');
 }, 'layersCopyrightsAtom');
