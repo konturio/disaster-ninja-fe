@@ -1,9 +1,8 @@
 import { generateBivariateColorsAndStyleForMultivariateLayer } from '~utils/multivariate/multivariateStyle';
 import { SOURCE_LAYER_BIVARIATE } from '../BivariateRenderer/constants';
 import { createMCDAStyle, linearNormalization } from './mcda/mcdaStyle';
-import { MapMath } from './mcda/calculations/operations';
+import { getOpacityExpression } from './multivariate/getOpacityExpression';
 import type { MultivariateLayerStyle } from './multivariate/multivariateStyle';
-import type { MapExpression } from './mcda/calculations/operations';
 import type { MultivariateAxis } from '../MultivariateRenderer/types';
 import type { MCDALayerStyle } from './mcda/types';
 import type { FillLayerSpecification, LayerSpecification } from 'maplibre-gl';
@@ -37,12 +36,8 @@ export const styleConfigs: Record<
     } else {
       multivariateStyle = createMCDAStyle(config.score.config);
     }
-    if (config.opacity) {
-      const opacity = new MapMath().clamp(
-        multivariateAxisToScore(config.opacity) as unknown as MapExpression,
-        0.2 as unknown as MapExpression,
-        1 as unknown as MapExpression,
-      );
+    if (config.opacity !== undefined) {
+      const opacity = getOpacityExpression(config.opacity);
       multivariateStyle = {
         ...multivariateStyle,
         paint: { ...multivariateStyle.paint, 'fill-opacity': opacity },

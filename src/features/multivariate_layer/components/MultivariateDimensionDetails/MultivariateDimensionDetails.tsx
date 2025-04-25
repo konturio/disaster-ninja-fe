@@ -11,6 +11,7 @@ import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcd
 const dimensionSelectItems: { value: MVAFormDimensionKey; title: string }[] = [
   { value: 'score', title: i18n.t('multivariate.score') },
   { value: 'compare', title: i18n.t('multivariate.compare') },
+  { value: 'opacity', title: i18n.t('multivariate.hide_area') },
 ];
 
 export function MultivariateDimensionDetails({

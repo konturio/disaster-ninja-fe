@@ -50,9 +50,12 @@ export function MultivariateLayerEditor({ layerId }: LayerEditorProps) {
       {!!layerConfig.base?.config.layers.length &&
         printMCDAAxes(i18n.t('multivariate.compare'), layerConfig.base.config.layers)}
       {typeof layerConfig.opacity === 'number'
-        ? printValue('Opacity', layerConfig.opacity.toString())
+        ? printValue(i18n.t('multivariate.hide_area'), layerConfig.opacity.toString())
         : layerConfig.opacity?.type === 'mcda' &&
-          printMCDAAxes('Opacity', layerConfig.opacity.config.layers)}
+          printMCDAAxes(
+            i18n.t('multivariate.hide_area'),
+            layerConfig.opacity.config.layers,
+          )}
     </div>
   );
 }

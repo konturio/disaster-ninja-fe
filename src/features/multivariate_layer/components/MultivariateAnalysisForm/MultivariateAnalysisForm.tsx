@@ -35,6 +35,7 @@ type FormResult = {
 export type MVAFormDimensions = {
   score: MCDALayer[];
   compare: MCDALayer[];
+  opacity: MCDALayer[];
 };
 
 export type MVAFormDimensionKey = keyof MVAFormDimensions;
@@ -43,6 +44,7 @@ function copyDimensions(dimensions: MVAFormDimensions): MVAFormDimensions {
   return {
     score: [...dimensions.score],
     compare: [...dimensions.compare],
+    opacity: Array.isArray(dimensions.opacity) ? [...dimensions.opacity] : [],
   };
 }
 
@@ -69,6 +71,10 @@ export function MultivariateAnalysisForm({
   const [dimensionsLayers, setDimensionsLayers] = useState<MVAFormDimensions>({
     score: initialConfig?.score?.config.layers ?? [],
     compare: initialConfig?.base?.config.layers ?? [],
+    opacity:
+      initialConfig?.opacity && !isNumber(initialConfig?.opacity)
+        ? initialConfig?.opacity?.config.layers
+        : [],
   });
   const [isKeepColorsChecked, setKeepColorsChecked] = useState(true);
   const [isCustomStepsChecked, setCustomStepsChecked] = useState(false);
@@ -78,7 +84,9 @@ export function MultivariateAnalysisForm({
   );
   const buttonsRowRef = useRef<HTMLDivElement>(null);
 
-  const [opacity, setOpacity] = useState(initialConfig?.opacity?.toString() || '1');
+  const [opacityStatic, setOpacityStatic] = useState(
+    isNumber(initialConfig?.opacity) ? initialConfig?.opacity?.toString() : undefined,
+  );
 
   const isBivariate = useMemo(
     () => !!dimensionsLayers.score.length && !!dimensionsLayers.compare.length,
@@ -137,6 +145,13 @@ export function MultivariateAnalysisForm({
             })),
           }
         : null;
+    // mcda opacity takes precedence
+    let opacity: number | MCDALayer[] | undefined = dimensionsLayers.opacity;
+    if (!opacity.length && !!opacityStatic) {
+      opacity = isNumber(parseFloat(opacityStatic))
+        ? parseFloat(opacityStatic)
+        : undefined;
+    }
     return isConfigValid
       ? createMultivariateConfig(
           {
@@ -151,7 +166,7 @@ export function MultivariateAnalysisForm({
               isCustomStepsChecked && customStepOverrides
                 ? customStepOverrides
                 : initialConfig?.stepOverrides,
-            opacity: isNumber(parseFloat(opacity)) ? parseFloat(opacity) : 1,
+            opacity: opacity,
           },
           axesResource.data ?? [],
         )
@@ -162,6 +177,7 @@ export function MultivariateAnalysisForm({
     customSteps.scoreSteps,
     customStepsErrors,
     dimensionsLayers.compare,
+    dimensionsLayers.opacity,
     dimensionsLayers.score,
     initialConfig?.colors,
     initialConfig?.stepOverrides,
@@ -169,7 +185,7 @@ export function MultivariateAnalysisForm({
     isCustomStepsChecked,
     isKeepColorsChecked,
     name,
-    opacity,
+    opacityStatic,
     showKeepColorsCheckbox,
   ]);
 
@@ -188,6 +204,7 @@ export function MultivariateAnalysisForm({
       setDimensionsLayers((oldLayers) => ({
         score: [...(oldLayers?.score ?? []), ...newLayers],
         compare: oldLayers.compare,
+        opacity: oldLayers.opacity,
       }));
       setSelectedIndicators([]);
     }
@@ -281,6 +298,7 @@ export function MultivariateAnalysisForm({
   }[] = [
     { dimensionKey: 'score', dimensionTitle: i18n.t('multivariate.score') },
     { dimensionKey: 'compare', dimensionTitle: i18n.t('multivariate.compare') },
+    { dimensionKey: 'opacity', dimensionTitle: i18n.t('multivariate.hide_area') },
   ];
 
   function onCustomStepsCheckboxChanged(checked: boolean): void {
@@ -394,6 +412,19 @@ export function MultivariateAnalysisForm({
                 onLayerDimensionChanged={moveLayerToDimension}
               />
             ))}
+          {previewConfig && !dimensionsLayers['opacity'].length && (
+            <div className={s.staticOpacity}>
+              <Input
+                type="text"
+                value={opacityStatic ?? ''}
+                onChange={(e) => {
+                  setOpacityStatic(e.target.value);
+                }}
+                renderLabel={<Text type="label">Static opacity</Text>}
+                placeholder="Opacity"
+              />
+            </div>
+          )}
           {showLegendPreview && previewConfig && (
             <div className={s.legendSection}>
               <Text type="label">Legend</Text>
@@ -411,15 +442,6 @@ export function MultivariateAnalysisForm({
               errors={customStepsErrors}
             />
           )}
-          <Input
-            type="text"
-            value={opacity}
-            onChange={(e) => {
-              setOpacity(e.target.value);
-            }}
-            renderLabel={<Text type="label">Opacity</Text>}
-            placeholder={'Opacity'}
-          />
         </div>
       </div>
     </ModalDialog>
