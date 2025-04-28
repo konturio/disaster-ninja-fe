@@ -66,9 +66,7 @@
     grid-column: 3;
     grid-row: 3;
     align-self: end;
-    justify-self: end;
     pointer-events: auto;
-    font-size: 12px;
   }
 
   & .rightColumn {
