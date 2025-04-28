@@ -1,0 +1,12 @@
+.presentation-mode {
+  & .knt-breadcrumbs {
+    zoom: 1.4;
+    padding: calc(1.4 * var(--half-unit)) calc(1.4 * var(--unit));
+  }
+
+  & .knt-current-event button,
+  & .knt-legends-panel {
+    padding: 12px;
+    zoom: 1.4;
+  }
+}

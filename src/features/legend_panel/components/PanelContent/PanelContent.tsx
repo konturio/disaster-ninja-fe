@@ -9,8 +9,6 @@ import { REFERENCE_AREA_LOGICAL_LAYER_ID } from '~features/reference_area/consta
 import { LegendsList } from '../LegendsList/LegendsList';
 import s from './PanelContent.module.css';
 
-const isPresentationMode = !!globalThis.presentationMode;
-
 export function PanelContent() {
   const [layers] = useAtom(mountedLayersAtom.v3atom);
   const [focusedGeometry] = useAtom(focusedGeometryAtom.v3atom);
@@ -25,7 +23,7 @@ export function PanelContent() {
   }, [focusedGeometry, layers, referenceAreaGeometry]);
 
   return (
-    <div className={clsx(s.scrollable, isPresentationMode && s.presentationMode)}>
+    <div className={clsx(s.scrollable, 'knt-legends-panel')}>
       {layersAtoms.map((layer) => (
         <LegendsList layer={layer} key={layer.id} />
       ))}

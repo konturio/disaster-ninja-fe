@@ -52,6 +52,8 @@ export const AppFeature = {
   ADMIN_BOUNDARY_BREADCRUMBS: 'admin_boundary_breadcrumbs',
   LLM_MCDA: 'llm_mcda',
   MULTIVARIATE_ANALYSIS: 'multivariate_analysis',
+  LAYERS_COPYRIGHTS: 'layers_copyrights',
+  MAP_TITLE: 'map_title',
 } as const;
 
 export type AppFeatureType = (typeof AppFeature)[keyof typeof AppFeature];
