@@ -28,6 +28,8 @@ const { BivariateManagerPage } = lazily(
 export const isAuthenticated = !!configRepo.get().user;
 export const isMapFeatureEnabled = configRepo.get().features[AppFeature.MAP];
 
+const ROUTE_ID_COOKIES = 'cookies';
+
 const ABOUT_SUBTABS: Record<string, Omit<AppRoute, 'view' | 'parentRouteId'>> = {
   terms: {
     id: 'terms',
@@ -75,6 +77,14 @@ function getAboutSubTabs() {
       }));
   }
   return [];
+}
+
+function showCookiesPageInSidebar() {
+  return !!(
+    configRepo?.get().features[AppFeature.ABOUT_PAGE]?.['subTabs'] as
+      | AboutFeatureConfig['subTabs']
+      | undefined
+  )?.find((subTab) => subTab.tabId === ROUTE_ID_COOKIES);
 }
 
 export const routerConfig: AppRouterConfig = {
@@ -155,7 +165,7 @@ export const routerConfig: AppRouterConfig = {
     },
     ...getAboutSubTabs(),
     {
-      id: 'cookies',
+      id: ROUTE_ID_COOKIES,
       slug: 'cookies',
       title: i18n.t('modes.cookies'),
       icon: <Reports16 />,
@@ -167,7 +177,7 @@ export const routerConfig: AppRouterConfig = {
         />
       ),
       parentRouteId: 'about',
-      visibilityInNavigation: 'never',
+      visibilityInNavigation: showCookiesPageInSidebar() ? 'always' : 'never',
       requiredFeature: AppFeature.ABOUT_PAGE,
     },
   ],
