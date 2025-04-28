@@ -1,5 +1,6 @@
 export const AppFeature = {
   ABOUT_PAGE: 'about_page',
+  EXTERNAL_PAGES: 'external_pages',
   APP_LOGIN: 'app_login',
   ANALYTICS_PANEL: 'analytics_panel',
   ADVANCED_ANALYTICS_PANEL: 'advanced_analytics_panel',

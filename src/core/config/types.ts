@@ -107,3 +107,12 @@ export type LoginFeatureConfig = {
     linkedin: boolean;
   };
 };
+
+type ExternalRoute = {
+  id: string;
+  url: string;
+};
+
+export type ExternalRoutesConfig = {
+  routes: ExternalRoute[];
+};

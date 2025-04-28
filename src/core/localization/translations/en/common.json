@@ -407,7 +407,11 @@
     "profile": "Profile",
     "privacy": "Privacy",
     "terms": "Terms",
-    "user_guide": "User guide"
+    "user_guide": "User guide",
+    "external": {
+      "upload_imagery": "Upload imagery",
+      "imagery_catalog": "Imagery catalog"
+    }
   },
   "profile": {
     "interfaceTheme": "Theme",

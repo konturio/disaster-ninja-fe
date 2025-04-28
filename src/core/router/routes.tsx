@@ -8,13 +8,16 @@ import {
   Reports16,
   Diamond24,
   BookOpen24,
+  Image24,
+  Upload24,
 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
 import { AppFeature } from '~core/app/types';
 import { configRepo } from '~core/config';
 import { PagesDocument } from '~core/pages';
+import { ExternalPage } from '~views/ExternalPage/ExternalPage';
 import { goTo } from './goTo';
-import type { AboutFeatureConfig } from '~core/config/types';
+import type { AboutFeatureConfig, ExternalRoutesConfig } from '~core/config/types';
 import type { AppRoute, AppRouterConfig } from './types';
 const { PricingPage } = lazily(() => import('~views/Pricing/Pricing'));
 const { MapPage } = lazily(() => import('~views/Map/Map'));
@@ -57,6 +60,30 @@ const ABOUT_SUBTABS: Record<string, Omit<AppRoute, 'view' | 'parentRouteId'>> = 
   },
 };
 
+const EXTERNAL_PAGE_ROUTES: Record<string, Omit<AppRoute, 'view'>> = {
+  profile: {
+    id: 'profile-ext',
+    slug: 'profile-ext',
+    title: i18n.t('modes.profile'),
+    icon: <User24 />,
+    visibilityInNavigation: 'always',
+  },
+  'upload-imagery': {
+    id: 'upload-imagery',
+    slug: 'upload',
+    title: i18n.t('modes.external.upload_imagery'),
+    icon: <Upload24 />,
+    visibilityInNavigation: 'always',
+  },
+  'imagery-catalog': {
+    id: 'imagery-catalog',
+    slug: 'imagery',
+    title: i18n.t('modes.external.imagery_catalog'),
+    icon: <Image24 />,
+    visibilityInNavigation: 'always',
+  },
+};
+
 function getAboutSubTabs() {
   const subTabsConfig = configRepo?.get().features[AppFeature.ABOUT_PAGE]?.['subTabs'] as
     | AboutFeatureConfig['subTabs']
@@ -74,6 +101,21 @@ function getAboutSubTabs() {
             id={subTabConfig.tabId}
           />
         ),
+      }));
+  }
+  return [];
+}
+
+function getExternalRoutes(): AppRoute[] {
+  const externalRoutesConfig = configRepo?.get().features[AppFeature.EXTERNAL_PAGES]?.[
+    'routes'
+  ] as ExternalRoutesConfig['routes'] | undefined;
+  if (Array.isArray(externalRoutesConfig)) {
+    return externalRoutesConfig
+      .filter((routeConfig) => EXTERNAL_PAGE_ROUTES[routeConfig.id] && routeConfig.url)
+      .map((extRouteConfig) => ({
+        ...EXTERNAL_PAGE_ROUTES[extRouteConfig.id],
+        view: <ExternalPage url={extRouteConfig.url} />,
       }));
   }
   return [];
@@ -141,6 +183,7 @@ export const routerConfig: AppRouterConfig = {
       view: <PricingPage />,
       requiredFeature: AppFeature.SUBSCRIPTION,
     },
+    ...getExternalRoutes(),
     {
       id: 'about',
       slug: 'about',
