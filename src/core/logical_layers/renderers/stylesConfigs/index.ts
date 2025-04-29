@@ -2,7 +2,7 @@ import { generateBivariateColorsAndStyleForMultivariateLayer } from '~utils/mult
 import { isNumber } from '~utils/common';
 import { SOURCE_LAYER_BIVARIATE } from '../BivariateRenderer/constants';
 import { createMCDAStyle } from './mcda/mcdaStyle';
-import { getOpacityExpression } from './multivariate/getOpacityExpression';
+import { createOpacityStepsExpression } from './multivariate/createOpacityStepsExpression';
 import type { MultivariateLayerStyle } from './multivariate/multivariateStyle';
 import type { MCDALayerStyle } from './mcda/types';
 import type { FillLayerSpecification, LayerSpecification } from 'maplibre-gl';
@@ -30,7 +30,7 @@ export const styleConfigs: Record<
     }
     if (config.opacity !== undefined) {
       const opacity = !isNumber(config.opacity)
-        ? getOpacityExpression(config.opacity)
+        ? createOpacityStepsExpression(config.opacity)
         : config.opacity;
       multivariateStyle = {
         ...multivariateStyle,
