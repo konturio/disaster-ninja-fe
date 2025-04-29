@@ -29,11 +29,11 @@ export function Badge({
 }: BadgeProps) {
   if (value === undefined) return null;
 
-  if (mapping?.[('' + value).toLowerCase()]) {
-    variant = mapping[('' + value).toLowerCase()];
-  }
+  const key = ('' + value).toLowerCase();
+  const computedVariant: VariantType = mapping?.[key] ?? variant;
 
-  const variantClass = variant ? Variants[('' + variant).toLowerCase()] : '';
+  const variantClass = Variants[computedVariant.toLowerCase() as VariantType] ?? '';
+
   return (
     <div className={clsx(s.badge, variantClass, className)} style={style}>
       {value}
