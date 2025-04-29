@@ -91,7 +91,7 @@ const createLayoutDebugger = (initialLayout, initialData) => {
           <div className={style.grid}>
             {limitedData.map((item, index) => (
               <div key={index} className={style.card}>
-                <LayoutRenderer node={layout} data={item} customComponents={{}} />
+                <LayoutRenderer node={layout} data={item} />
               </div>
             ))}
           </div>

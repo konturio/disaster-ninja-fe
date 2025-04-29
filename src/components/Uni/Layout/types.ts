@@ -31,7 +31,6 @@ export interface BindingResult {
 export interface LayoutRendererProps {
   node: any;
   data: any;
-  customComponents?: Record<string, React.ComponentType<any>>;
 }
 
 export type AccessorFunction = (data: any) => any;

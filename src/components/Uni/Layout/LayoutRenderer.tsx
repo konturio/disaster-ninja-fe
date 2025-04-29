@@ -59,11 +59,8 @@ function createBindingError(error: string): BindingResult {
   return { value: undefined, fieldMeta: { type: 'text' }, error };
 }
 
-function resolveComponent(
-  type: string,
-  customComponents = {},
-): React.ComponentType<any> | null {
-  return customComponents[type] || componentsRegistry[type] || null;
+function resolveComponent(type: string): React.ComponentType<any> | null {
+  return componentsRegistry[type] || null;
 }
 
 /**
@@ -171,19 +168,10 @@ function shouldProcessChildren(node: UniLayoutComponentNode): boolean {
   return node.children !== undefined;
 }
 
-function renderChildren(
-  children: any,
-  data: any,
-  customComponents = {},
-): React.ReactNode {
+function renderChildren(children: any, data: any): React.ReactNode {
   if (Array.isArray(children)) {
     return children.map((child, index) => (
-      <LayoutRendererInternal
-        key={child?.key ?? index}
-        node={child}
-        data={data}
-        customComponents={customComponents}
-      />
+      <LayoutRendererInternal key={child?.key ?? index} node={child} data={data} />
     ));
   }
 
@@ -197,11 +185,7 @@ function renderChildren(
     return isValidElement(children) ? (
       children
     ) : (
-      <LayoutRendererInternal
-        node={children}
-        data={data}
-        customComponents={customComponents}
-      />
+      <LayoutRendererInternal node={children} data={data} />
     );
   }
 
@@ -211,11 +195,7 @@ function renderChildren(
 /**
  * Recursively renders UI from a JSON layout node, resolving data bindings.
  */
-const LayoutRendererInternal = ({
-  node,
-  data,
-  customComponents = {},
-}: LayoutRendererProps) => {
+const LayoutRendererInternal = ({ node, data }: LayoutRendererProps) => {
   const context = useLayoutContext();
 
   if (node === null || node === undefined || typeof node === 'boolean') {
@@ -238,7 +218,6 @@ const LayoutRendererInternal = ({
             key={childNode?.key ?? index}
             node={childNode}
             data={data}
-            customComponents={customComponents}
           />
         ))}
       </React.Fragment>
@@ -262,12 +241,7 @@ const LayoutRendererInternal = ({
     return (
       <>
         {resolvedProps.value.map((item, index) => (
-          <LayoutRendererInternal
-            key={index}
-            node={node.$template}
-            data={item}
-            customComponents={customComponents}
-          />
+          <LayoutRendererInternal key={index} node={node.$template} data={item} />
         ))}
       </>
     );
@@ -277,15 +251,14 @@ const LayoutRendererInternal = ({
     return null;
   }
 
-  // Use customComponents to override the default components from context
-  const Component = resolveComponent(node.type, customComponents);
+  const Component = resolveComponent(node.type);
   if (!Component) {
     return <ErrorComponent type={node.type} severity="warning" />;
   }
 
   const childrenDataContext = boundData !== undefined ? boundData : data;
   const renderedChildren = shouldProcessChildren(node)
-    ? renderChildren(node.children, childrenDataContext, customComponents)
+    ? renderChildren(node.children, childrenDataContext)
     : null;
 
   try {

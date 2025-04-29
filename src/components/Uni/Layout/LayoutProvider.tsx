@@ -7,7 +7,6 @@ interface LayoutProviderProps {
   layout: any;
   data: any;
   actionHandler?: (action: string, payload?: any) => void;
-  customComponentMap?: Record<string, React.ComponentType<any>>;
   customFieldsRegistry?: Record<string, FieldMeta>;
   customFormatsRegistry?: Record<string, (value: any) => string>;
   children?: React.ReactNode;
@@ -20,7 +19,6 @@ export function LayoutProvider({
   layout,
   data,
   actionHandler = () => {},
-  customComponentMap = {},
   customFieldsRegistry = {},
   customFormatsRegistry = {},
   children,
@@ -34,7 +32,7 @@ export function LayoutProvider({
 
   return (
     <UniLayoutContext.Provider value={contextValue}>
-      <LayoutRenderer node={layout} data={data} customComponents={customComponentMap} />
+      <LayoutRenderer node={layout} data={data} />
       {children}
     </UniLayoutContext.Provider>
   );
