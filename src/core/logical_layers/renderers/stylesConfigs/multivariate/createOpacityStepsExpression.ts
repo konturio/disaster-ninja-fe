@@ -1,4 +1,4 @@
-import { multivariateAxisToScore } from './multivariateAxisToScore';
+import { multivariateDimensionToScore } from './multivariateDimensionToScore';
 import type { ExpressionSpecification } from 'maplibre-gl';
 import type { MCDALayerStyle } from '../mcda/types';
 
@@ -17,7 +17,7 @@ export function createOpacityStepsExpression(
   opacityMCDA: MCDALayerStyle,
   opacitySteps: OpacityStep[] = DEFAULT_OPACITY_STEPS,
 ): ExpressionSpecification {
-  const opacityScore = multivariateAxisToScore(
+  const opacityScore = multivariateDimensionToScore(
     opacityMCDA,
   ) as unknown as ExpressionSpecification;
 

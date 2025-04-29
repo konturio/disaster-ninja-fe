@@ -6,7 +6,7 @@ import type {
   MCDALayerStyle,
 } from '../stylesConfigs/mcda/types';
 
-export type MultivariateAxis = MCDALayerStyle;
+export type MultivariateDimension = MCDALayerStyle;
 
 export type BivariateColorConfig = {
   type: 'bivariate';
@@ -28,9 +28,9 @@ export interface MultivariateLayerConfig {
   version: 0;
   id: string;
   name: string;
-  score: MultivariateAxis;
-  base?: MultivariateAxis;
+  score: MultivariateDimension;
+  base?: MultivariateDimension;
   stepOverrides?: MultivariateStepOverrides;
-  opacity?: MultivariateAxis | number;
+  opacity?: MultivariateDimension | number;
   colors?: MultivariateColorConfig;
 }
