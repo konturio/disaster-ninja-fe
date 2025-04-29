@@ -17,12 +17,10 @@ export function createOpacityStepsExpression(
   opacityMCDA: MCDALayerStyle,
   opacitySteps: OpacityStep[] = DEFAULT_OPACITY_STEPS,
 ): ExpressionSpecification {
-  const opacityScore = multivariateDimensionToScore(
-    opacityMCDA,
-  ) as unknown as ExpressionSpecification;
+  const opacityScore = multivariateDimensionToScore(opacityMCDA);
 
   const conditions: (ExpressionSpecification | number)[] = [];
-  for (let i = 0; i < opacitySteps?.length - 1; i += 1) {
+  for (let i = 0; i < opacitySteps.length - 1; i += 1) {
     // all conditions except the default value
     conditions.push(
       ['>=', opacityScore, opacitySteps[i].minScore],
