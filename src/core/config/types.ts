@@ -108,11 +108,14 @@ export type LoginFeatureConfig = {
   };
 };
 
-type ExternalRoute = {
+export type EmbeddedPageConfig = {
+  type: 'embedded';
   id: string;
   url: string;
 };
 
-export type ExternalRoutesConfig = {
-  routes: ExternalRoute[];
+export type CustomRouteConfig = EmbeddedPageConfig;
+
+export type CustomRoutesConfig = {
+  routes: CustomRouteConfig[];
 };

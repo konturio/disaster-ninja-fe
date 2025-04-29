@@ -15,9 +15,9 @@ import { i18n } from '~core/localization';
 import { AppFeature } from '~core/app/types';
 import { configRepo } from '~core/config';
 import { PagesDocument } from '~core/pages';
-import { ExternalPage } from '~views/ExternalPage/ExternalPage';
+import { EmbeddedPage } from '~views/EmbeddedPage/EmbeddedPage';
 import { goTo } from './goTo';
-import type { AboutFeatureConfig, ExternalRoutesConfig } from '~core/config/types';
+import type { AboutFeatureConfig, CustomRoutesConfig } from '~core/config/types';
 import type { AppRoute, AppRouterConfig } from './types';
 const { PricingPage } = lazily(() => import('~views/Pricing/Pricing'));
 const { MapPage } = lazily(() => import('~views/Map/Map'));
@@ -60,10 +60,10 @@ const ABOUT_SUBTABS: Record<string, Omit<AppRoute, 'view' | 'parentRouteId'>> = 
   },
 };
 
-const EXTERNAL_PAGE_ROUTES: Record<string, Omit<AppRoute, 'view'>> = {
-  profile: {
-    id: 'profile-ext',
-    slug: 'profile-ext',
+const EMBEDDED_PAGE_ROUTES: Record<string, Omit<AppRoute, 'view'>> = {
+  'profile-external': {
+    id: 'profile-external',
+    slug: 'profile-external',
     title: i18n.t('modes.profile'),
     icon: <User24 />,
     visibilityInNavigation: 'always',
@@ -106,17 +106,31 @@ function getAboutSubTabs() {
   return [];
 }
 
-function getExternalRoutes(): AppRoute[] {
-  const externalRoutesConfig = configRepo?.get().features[AppFeature.EXTERNAL_PAGES]?.[
+function getCustomRoutes(): AppRoute[] {
+  const customRoutesConfig = configRepo?.get().features[AppFeature.CUSTOM_ROUTES]?.[
     'routes'
-  ] as ExternalRoutesConfig['routes'] | undefined;
-  if (Array.isArray(externalRoutesConfig)) {
-    return externalRoutesConfig
-      .filter((routeConfig) => EXTERNAL_PAGE_ROUTES[routeConfig.id] && routeConfig.url)
-      .map((extRouteConfig) => ({
-        ...EXTERNAL_PAGE_ROUTES[extRouteConfig.id],
-        view: <ExternalPage url={extRouteConfig.url} />,
-      }));
+  ] as CustomRoutesConfig['routes'] | undefined;
+  if (Array.isArray(customRoutesConfig)) {
+    return customRoutesConfig
+      .map((customRoute) => {
+        if (
+          customRoute.type === 'embedded' &&
+          EMBEDDED_PAGE_ROUTES[customRoute.id] &&
+          customRoute.url
+        ) {
+          return {
+            ...EMBEDDED_PAGE_ROUTES[customRoute.id],
+            view: (
+              <EmbeddedPage
+                url={customRoute.url}
+                title={EMBEDDED_PAGE_ROUTES[customRoute.id].title}
+              />
+            ),
+          };
+        }
+        return null;
+      })
+      .filter((route) => !!route);
   }
   return [];
 }
@@ -183,7 +197,7 @@ export const routerConfig: AppRouterConfig = {
       view: <PricingPage />,
       requiredFeature: AppFeature.SUBSCRIPTION,
     },
-    ...getExternalRoutes(),
+    ...getCustomRoutes(),
     {
       id: 'about',
       slug: 'about',
