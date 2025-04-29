@@ -1,4 +1,5 @@
 import { generateBivariateColorsAndStyleForMultivariateLayer } from '~utils/multivariate/multivariateStyle';
+import { isNumber } from '~utils/common';
 import { SOURCE_LAYER_BIVARIATE } from '../BivariateRenderer/constants';
 import { createMCDAStyle } from './mcda/mcdaStyle';
 import { getOpacityExpression } from './multivariate/getOpacityExpression';
@@ -28,7 +29,9 @@ export const styleConfigs: Record<
       multivariateStyle = createMCDAStyle(config.score.config);
     }
     if (config.opacity !== undefined) {
-      const opacity = getOpacityExpression(config.opacity);
+      const opacity = !isNumber(config.opacity)
+        ? getOpacityExpression(config.opacity)
+        : config.opacity;
       multivariateStyle = {
         ...multivariateStyle,
         paint: { ...multivariateStyle.paint, 'fill-opacity': opacity },
