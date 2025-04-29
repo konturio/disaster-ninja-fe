@@ -14,11 +14,17 @@ export function compilePathAccessor(path: string): AccessorFunction {
     return function(data) {
       return data${segments
         .map((segment) => {
-          // Check if the segment is a number (array index)
-          if (/^\d+$/.test(segment)) {
+          // Array index segments
+          if (/^\\d+$/.test(segment)) {
             return `?.[${segment}]`;
           }
-          return `?.${segment}`;
+          // Valid JS identifiers: dot notation
+          if (/^[A-Za-z_$][A-Za-z0-9_$]*$/.test(segment)) {
+            return `?.${segment}`;
+          }
+          // Fallback to bracket notation for keys with spaces or special chars
+          const safe = segment.replace(/"/g, `\\"`);
+          return `?.["${safe}"]`;
         })
         .join('')};
     }
@@ -41,8 +47,9 @@ export function compileAccessors(paths: string[]): Record<string, AccessorFuncti
 /**
  * Extracts all unique data binding paths from a layout node
  */
-export function extractDataBindingPaths(node: any): string[] {
-  if (!node || typeof node !== 'object') return [];
+export function extractDataBindingPaths(node: any, seen = new Set<any>()): string[] {
+  if (!node || typeof node !== 'object' || seen.has(node)) return [];
+  seen.add(node);
 
   const paths: string[] = [];
 
@@ -65,20 +72,25 @@ export function extractDataBindingPaths(node: any): string[] {
     }
   }
 
+  // Check for conditional rendering binding
+  if (node.$if && typeof node.$if === 'string') {
+    paths.push(node.$if);
+  }
+
+  // Process inline templates for list rendering
+  if (node.$template && typeof node.$template === 'object') {
+    paths.push(...extractDataBindingPaths(node.$template, seen));
+  }
+
   // No need to extract paths from overrides since they are metadata customizations
   // and don't represent new data bindings themselves
 
   if (Array.isArray(node.children)) {
     for (const child of node.children) {
-      paths.push(...extractDataBindingPaths(child));
+      paths.push(...extractDataBindingPaths(child, seen));
     }
   } else if (node.children && typeof node.children === 'object') {
-    paths.push(...extractDataBindingPaths(node.children));
-  }
-
-  // Process item templates for list components
-  if (node.itemTemplate) {
-    paths.push(...extractDataBindingPaths(node.itemTemplate));
+    paths.push(...extractDataBindingPaths(node.children, seen));
   }
 
   return [...new Set(paths)];

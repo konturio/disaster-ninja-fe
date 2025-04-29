@@ -22,40 +22,21 @@ function resolveBinding(
   contextData: any,
   context: UniLayoutContextType,
 ): BindingResult {
-  if (isDirectPropertyAccess(dataPath, contextData)) {
-    return createBindingResult(
-      contextData[dataPath],
-      context.fieldsRegistry?.[dataPath] || context.fieldsRegistry.default,
-    );
-  }
-
-  const accessor = context.precompiledAccessors?.[dataPath];
+  const accessor = context.precompiledAccessors[dataPath];
   if (!accessor) {
-    return createBindingError(`No precompiled accessor for "${dataPath}"`);
+    return createBindingError(`No accessor for "${dataPath}"`);
   }
-
   try {
     const value = accessor(contextData);
-    return createBindingResult(
-      value,
-      context.fieldsRegistry?.[dataPath] || context.fieldsRegistry.default,
-    );
+    const fieldMeta = context.fieldsRegistry[dataPath] ?? context.fieldsRegistry.default;
+    return { value, fieldMeta };
   } catch (error) {
     return createBindingError(`Execution failed for "${dataPath}": ${String(error)}`);
   }
 }
 
-function isDirectPropertyAccess(dataPath: string, contextData: any): boolean {
-  return (
-    dataPath && contextData && typeof contextData === 'object' && dataPath in contextData
-  );
-}
-
-function createBindingResult(value: any, fieldMeta: FieldMeta): BindingResult {
-  return { value, fieldMeta };
-}
-
 function createBindingError(error: string): BindingResult {
+  console.error(error);
   return { value: undefined, fieldMeta: { type: 'text' }, error };
 }
 

@@ -37,7 +37,7 @@ export function StackedProgressBar({
             const style = {};
             if (color) style['backgroundColor'] = color;
             const clampedValue = Math.max(0, Math.min(100, value));
-            style['width'] = clampedValue + '%;';
+            style['width'] = clampedValue + '%';
             return <div key={i} style={style} />;
           })
           .reverse()}
