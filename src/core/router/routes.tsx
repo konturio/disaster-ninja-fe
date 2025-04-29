@@ -121,7 +121,7 @@ function getExternalRoutes(): AppRoute[] {
   return [];
 }
 
-function showCookiesPageInSidebar() {
+function shouldShowCookiesInSidebar() {
   return !!(
     configRepo?.get().features[AppFeature.ABOUT_PAGE]?.['subTabs'] as
       | AboutFeatureConfig['subTabs']
@@ -220,7 +220,7 @@ export const routerConfig: AppRouterConfig = {
         />
       ),
       parentRouteId: 'about',
-      visibilityInNavigation: showCookiesPageInSidebar() ? 'always' : 'never',
+      visibilityInNavigation: shouldShowCookiesInSidebar() ? 'always' : 'never',
       requiredFeature: AppFeature.ABOUT_PAGE,
     },
   ],
