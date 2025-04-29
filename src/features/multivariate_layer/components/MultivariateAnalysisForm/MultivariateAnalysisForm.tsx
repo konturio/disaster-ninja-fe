@@ -147,7 +147,7 @@ export function MultivariateAnalysisForm({
         : null;
     // mcda opacity takes precedence
     let opacity: number | MCDALayer[] | undefined = dimensionsLayers.opacity;
-    if (!opacity.length && !!opacityStatic) {
+    if (!opacity.length && opacityStatic !== undefined) {
       opacity = isNumber(parseFloat(opacityStatic))
         ? parseFloat(opacityStatic)
         : undefined;
