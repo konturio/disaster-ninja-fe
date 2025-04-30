@@ -33,6 +33,12 @@ export const isMapFeatureEnabled = configRepo.get().features[AppFeature.MAP];
 
 const ROUTE_ID_COOKIES = 'cookies';
 
+const shouldShowCookiesPageInSidebar = !!(
+  configRepo?.get().features[AppFeature.ABOUT_PAGE]?.['subTabs'] as
+    | AboutFeatureConfig['subTabs']
+    | undefined
+)?.find((subTab) => subTab.tabId === ROUTE_ID_COOKIES);
+
 const ABOUT_SUBTABS: Record<string, Omit<AppRoute, 'view' | 'parentRouteId'>> = {
   terms: {
     id: 'terms',
@@ -135,14 +141,6 @@ function getCustomRoutes(): AppRoute[] {
   return [];
 }
 
-function shouldShowCookiesInSidebar() {
-  return !!(
-    configRepo?.get().features[AppFeature.ABOUT_PAGE]?.['subTabs'] as
-      | AboutFeatureConfig['subTabs']
-      | undefined
-  )?.find((subTab) => subTab.tabId === ROUTE_ID_COOKIES);
-}
-
 export const routerConfig: AppRouterConfig = {
   defaultRoute: isAuthenticated && !isMapFeatureEnabled ? 'pricing' : 'map',
   routes: [
@@ -234,7 +232,7 @@ export const routerConfig: AppRouterConfig = {
         />
       ),
       parentRouteId: 'about',
-      visibilityInNavigation: shouldShowCookiesInSidebar() ? 'always' : 'never',
+      visibilityInNavigation: shouldShowCookiesPageInSidebar ? 'always' : 'never',
       requiredFeature: AppFeature.ABOUT_PAGE,
     },
   ],
