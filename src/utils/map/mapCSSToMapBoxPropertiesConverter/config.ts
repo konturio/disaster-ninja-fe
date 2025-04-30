@@ -154,7 +154,30 @@ export const MAP_CSS_MAPBOX = {
     name: 'symbol-placement',
     valueConverter: null,
   },
-
+  'icon-rotate': {
+    type: 'symbol',
+    category: 'layout',
+    name: 'icon-rotate',
+    valueConverter: null,
+  },
+  'symbol-z-order': {
+    type: 'symbol',
+    category: 'layout',
+    name: 'symbol-z-order',
+    valueConverter: null,
+  },
+  'icon-allow-overlap': {
+    type: 'symbol',
+    category: 'layout',
+    name: 'icon-allow-overlap',
+    valueConverter: null,
+  },
+  'icon-rotation-alignment': {
+    type: 'symbol',
+    category: 'layout',
+    name: 'icon-rotation-alignment',
+    valueConverter: null,
+  },
   // font
   'font-family': {
     type: 'symbol',
