@@ -107,3 +107,15 @@ export type LoginFeatureConfig = {
     linkedin: boolean;
   };
 };
+
+export type EmbeddedPageConfig = {
+  type: 'embedded';
+  id: string;
+  url: string;
+};
+
+export type CustomRouteConfig = EmbeddedPageConfig;
+
+export type CustomRoutesConfig = {
+  routes: CustomRouteConfig[];
+};
