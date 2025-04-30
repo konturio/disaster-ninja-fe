@@ -4,6 +4,7 @@ import { Table } from './Table';
 import { Label } from './Label';
 import { Progress } from './Progress';
 import { CardText } from './CardText';
+import { CardImage } from './CardImage';
 import type { LngLatBoundsLike } from 'maplibre-gl';
 
 // add new card elements here
@@ -14,6 +15,7 @@ export const CardElementsMap = {
   actions: ActionButtons,
   progress: Progress,
   text: CardText,
+  image: CardImage,
 };
 
 export type CardElementId = keyof typeof CardElementsMap;

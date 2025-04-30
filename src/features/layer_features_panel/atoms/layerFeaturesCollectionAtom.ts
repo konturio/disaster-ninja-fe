@@ -10,9 +10,11 @@ import {
   ACAPS_LAYER_ID,
   ACAPS_SIMPLE_LAYER_ID,
   HOT_PROJECTS_LAYER_ID,
+  OAM_LAYER_ID,
 } from '../constants';
 import { getHotProjectsPanelData } from './helpers/hotProjects_outlines';
 import { getAcapsPanelData } from './helpers/acaps';
+import { getOAMPanelData } from './helpers/openaerialmap';
 import type { LayerFeaturesPanelConfig } from '../types/layerFeaturesPanel';
 import type { FeatureCardCfg } from '../components/CardElements';
 import type { Feature } from 'geojson';
@@ -43,6 +45,8 @@ function transformFeaturesToPanelData(featuresList: object): FeatureCardCfg[] {
     case ACAPS_LAYER_ID:
     case ACAPS_SIMPLE_LAYER_ID:
       return getAcapsPanelData(featuresList);
+    case OAM_LAYER_ID:
+      return getOAMPanelData(featuresList);
     default:
       console.error(`Layer Features panel: unsupported layerId: ${featuresPanelLayerId}`);
       return [];
