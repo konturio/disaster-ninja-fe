@@ -1,15 +1,15 @@
 import React, { useMemo, useCallback } from 'react';
 import { fieldsRegistry } from '../fieldsRegistry';
 import { formatsRegistry } from '../formatsRegistry';
-import { useCompiledAccessors } from './accessorCompiler';
+import { useUniLayoutCompiledAccessors } from './useUniLayoutCompiledAccessors';
 import type { FieldMeta } from '../fieldsRegistry';
 import type { UniLayoutContextType } from './types';
 
 export const UniLayoutContext = React.createContext<UniLayoutContextType | null>(null);
-export const useLayoutContext = (): UniLayoutContextType => {
+export const useUniLayoutContext = (): UniLayoutContextType => {
   const context = React.useContext(UniLayoutContext);
   if (!context) {
-    throw new Error('useLayoutContext must be used within a LayoutContextProvider');
+    throw new Error('useUniLayoutContext must be used within a UniLayout');
   }
   return context;
 };
@@ -18,9 +18,9 @@ const defaultFormatter = (v: any): string =>
   v !== null && v !== undefined ? String(v) : '';
 
 /**
- * Creates a layout context configuration hook that can be used with LayoutContext.Provider
+ * Creates a layout context configuration hook that can be used with UniLayoutContext.Provider
  */
-export function useLayoutContextValue({
+export function useUniLayoutContextValue({
   layout,
   actionHandler = () => {},
   customFieldsRegistry = {},
@@ -48,7 +48,7 @@ export function useLayoutContextValue({
   );
 
   // Compile accessors for all data bindings in the layout
-  const precompiledAccessors = useCompiledAccessors(layout);
+  const precompiledAccessors = useUniLayoutCompiledAccessors(layout);
 
   const getFormattedValue = useCallback(
     (fieldMeta: FieldMeta | undefined | null, rawValue: any): string => {

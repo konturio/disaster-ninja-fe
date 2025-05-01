@@ -12,12 +12,14 @@ UniLayout is a declarative layout system for building UIs based on JSON configur
 
 ## 2. Core Components
 
-The system consists of four primary components:
+The UniLayout system is composed of the following core modules and components:
 
-- `LayoutProvider`: Sets up context and configuration
-- `LayoutRenderer`: Transforms layout definitions into React components
-- `accessorCompiler`: Optimizes data access paths
-- Component, field, and format registries
+- `UniLayout` – main entry point: sets up the layout context (registries, actionHandler, formatters, accessors) and renders the JSON-defined UI.
+- `UniLayoutContext` / `useUniLayoutContext` – React context and hook for accessing layout utilities (`fieldsRegistry`, `formatsRegistry`, `precompiledAccessors`, `actionHandler`, `getFormattedValue`).
+- `useUniLayoutContextValue` – internal hook that merges custom registries and initializes context values for the provider.
+- `useUniLayoutCompiledAccessors` – hook that parses the layout definition and precompiles optimized data accessor functions.
+- `UniLayoutRenderer` – recursive renderer that traverses layout nodes and maps them to React components based on type.
+- `fieldsRegistry` / `formatsRegistry` – default metadata and formatting registries (extendable via props).
 
 ## 3. Layout Definition Format
 
@@ -69,7 +71,7 @@ The system offers multiple binding approaches:
 - `$props`: Maps data fields to specific component properties
 - `$context`: Establishes data scope for component and children
 - `$if`: Conditional rendering based on a data value
-- `$template`: Defines template for rendering array data (directly in LayoutRenderer)
+- `$template`: Defines template for rendering array data (directly in UniLayoutRenderer)
 - Direct `props`: Static values that take precedence over bindings
 - `overrides`: Customizes field metadata properties
 
@@ -92,7 +94,7 @@ function CustomBadge({ value, variant = 'neutral', $meta, handleAction, ...props
   // Access metadata through $meta.value or $meta.variant
 
   // Use formatting utility from context if needed
-  const { getFormattedValue } = useLayoutContext();
+  const { getFormattedValue } = useUniLayoutContext();
   const formattedValue = getFormattedValue($meta.value, value);
 
   // Use handleAction for component interactions
@@ -284,12 +286,12 @@ Formatting process:
 3. Apply formatter to raw value
 4. Apply text transformation if specified
 
-## 10. Using the Layout Provider
+## 10. Using UniLayout
 
 Integration in React applications:
 
 ```jsx
-<LayoutProvider
+<UniLayout
   layout={layoutDefinition}
   data={dataObject}
   actionHandler={handleAction}
@@ -298,12 +300,12 @@ Integration in React applications:
   customFormatsRegistry={myFormatters}
 >
   {/* Optional additional content */}
-</LayoutProvider>
+</UniLayout>
 ```
 
 ## 11. Layout Context Utilities
 
-The `useLayoutContext` hook provides access to these utilities:
+The `useUniLayoutContext` hook provides access to these utilities:
 
 ```jsx
 const {
@@ -327,14 +329,14 @@ const {
 
   // Utility to format values according to field metadata
   getFormattedValue,
-} = useLayoutContext();
+} = useUniLayoutContext();
 ```
 
 Usage example:
 
 ```jsx
 function MyComponent({ value, $meta }) {
-  const { getFormattedValue, actionHandler } = useLayoutContext();
+  const { getFormattedValue, actionHandler } = useUniLayoutContext();
 
   // Format value using field metadata
   const formattedValue = getFormattedValue($meta.value, value);
@@ -374,7 +376,7 @@ Common error scenarios handled:
 
 ## 14. Action Handling
 
-Each component rendered by the LayoutRenderer automatically receives a `handleAction` prop:
+Each component rendered by the UniLayoutRenderer automatically receives a `handleAction` prop:
 
 ```jsx
 function MyComponent({ value, handleAction }) {
@@ -392,7 +394,7 @@ This allows component interactions to bubble up while maintaining data context:
 
 ```jsx
 // Parent component setting up the action handler
-<LayoutProvider
+<UniLayout
   layout={layoutDefinition}
   data={dataObject}
   actionHandler={(action, data) => {
@@ -402,12 +404,12 @@ This allows component interactions to bubble up while maintaining data context:
   }}
 >
   {/* Children components */}
-</LayoutProvider>
+</UniLayout>
 ```
 
 ## 15. Template Rendering
 
-Array data can be iterated and rendered using the built-in template rendering functionality in LayoutRenderer.
+Array data can be iterated and rendered using the built-in template rendering functionality in UniLayoutRenderer.
 
 ### Basic Usage
 
@@ -421,7 +423,7 @@ Array data can be iterated and rendered using the built-in template rendering fu
 }
 ```
 
-When LayoutRenderer encounters a node with `$template` and an array `value` property, it automatically maps through the array and renders each item using the template, with the individual array item as the data context.
+When UniLayoutRenderer encounters a node with `$template` and an array `value` property, it automatically maps through the array and renders each item using the template, with the individual array item as the data context.
 
 ### Nested Templates
 
@@ -470,4 +472,4 @@ Templates work seamlessly with the `$context` binding:
 }
 ```
 
-Template rendering is handled directly by the LayoutRenderer, eliminating the need for a separate component and avoiding circular dependencies in the architecture.
+Template rendering is handled directly by the UniLayoutRenderer, eliminating the need for a separate component and avoiding circular dependencies in the architecture.

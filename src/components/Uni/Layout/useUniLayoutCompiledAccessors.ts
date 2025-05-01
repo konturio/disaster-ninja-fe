@@ -4,7 +4,7 @@ import type { AccessorFunction } from './types';
 /**
  * Compiles a simple path (e.g. "user.profile.name") into an optimized accessor function
  */
-export function compilePathAccessor(path: string): AccessorFunction {
+function compilePathAccessor(path: string): AccessorFunction {
   // Split the path into segments
   const segments = path.split('.');
 
@@ -34,7 +34,7 @@ export function compilePathAccessor(path: string): AccessorFunction {
   return new Function(code)() as AccessorFunction;
 }
 
-export function compileAccessors(paths: string[]): Record<string, AccessorFunction> {
+function compileAccessors(paths: string[]): Record<string, AccessorFunction> {
   const accessors: Record<string, AccessorFunction> = {};
 
   for (const path of paths) {
@@ -47,7 +47,7 @@ export function compileAccessors(paths: string[]): Record<string, AccessorFuncti
 /**
  * Extracts all unique data binding paths from a layout node
  */
-export function extractDataBindingPaths(node: any, seen = new Set<any>()): string[] {
+function extractDataBindingPaths(node: any, seen = new Set<any>()): string[] {
   if (!node || typeof node !== 'object' || seen.has(node)) return [];
   seen.add(node);
 
@@ -99,7 +99,7 @@ export function extractDataBindingPaths(node: any, seen = new Set<any>()): strin
 /**
  * React hook that analyzes a layout definition and compiles all data accessors
  */
-export function useCompiledAccessors(
+export function useUniLayoutCompiledAccessors(
   layoutDefinition: any,
 ): Record<string, AccessorFunction> {
   // Memoize accessor compilation based on layout definition

@@ -6,7 +6,6 @@
 
   & .feedsSelect {
     border: none;
-    /* padding-right: var(--unit); */
     background-color: transparent;
   }
 }

@@ -1,7 +1,7 @@
 import { SimpleTooltip } from '@konturio/floating';
 import clsx from 'clsx';
 import { Icon } from '~components/Icon';
-import { useLayoutContext } from '../Layout/LayoutContext';
+import { useUniLayoutContext } from '../Layout/UniLayoutContext';
 import s from './Field.module.css';
 import type { FieldMeta } from '../fieldsRegistry';
 
@@ -25,7 +25,7 @@ export function Field({
   showLabel = true,
   format,
 }: FieldProps) {
-  const context = useLayoutContext();
+  const context = useUniLayoutContext();
 
   if (value === undefined) return null;
 

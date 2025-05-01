@@ -1,9 +1,9 @@
 import React from 'react';
-import { LayoutRenderer } from './LayoutRenderer';
-import { UniLayoutContext, useLayoutContextValue } from './LayoutContext';
+import { UniLayoutRenderer } from './UniLayoutRenderer';
+import { UniLayoutContext, useUniLayoutContextValue } from './UniLayoutContext';
 import type { FieldMeta } from '../fieldsRegistry';
 
-interface LayoutProviderProps {
+interface UniLayoutProps {
   layout: any;
   data: any;
   actionHandler?: (action: string, payload?: any) => void;
@@ -13,17 +13,17 @@ interface LayoutProviderProps {
 }
 
 /**
- * LayoutProvider wraps the LayoutRenderer with the necessary context
+ * UniLayout is the top-level component that sets up context and renders the layout.
  */
-export function LayoutProvider({
+export function UniLayout({
   layout,
   data,
   actionHandler = () => {},
   customFieldsRegistry = {},
   customFormatsRegistry = {},
   children,
-}: LayoutProviderProps) {
-  const contextValue = useLayoutContextValue({
+}: UniLayoutProps) {
+  const contextValue = useUniLayoutContextValue({
     layout,
     actionHandler,
     customFieldsRegistry,
@@ -32,7 +32,7 @@ export function LayoutProvider({
 
   return (
     <UniLayoutContext.Provider value={contextValue}>
-      <LayoutRenderer node={layout} data={data} />
+      <UniLayoutRenderer node={layout} data={data} />
       {children}
     </UniLayoutContext.Provider>
   );

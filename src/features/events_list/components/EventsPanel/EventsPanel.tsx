@@ -9,9 +9,9 @@ import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { panelClasses } from '~components/Panel';
 import {
   UniLayoutContext,
-  useLayoutContextValue,
-} from '~components/Uni/Layout/LayoutContext';
-import { LayoutRenderer } from '~components/Uni/Layout/LayoutRenderer';
+  useUniLayoutContextValue,
+} from '~components/Uni/Layout/UniLayoutContext';
+import { UniLayoutRenderer } from '~components/Uni/Layout/UniLayoutRenderer';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { getEventName, isEventGeometry } from '~core/focused_geometry/utils';
 import { i18n } from '~core/localization';
@@ -45,7 +45,7 @@ const renderEventCard = (event: Event, isActive: boolean) => {
     // only on active card
     showEpisodesButton: isActive && hasTimeline && event.episodeCount > 1,
   };
-  return <LayoutRenderer node={eventCardLayoutTemplate} data={data} />;
+  return <UniLayoutRenderer node={eventCardLayoutTemplate} data={data} />;
 };
 
 export function EventsPanel({
@@ -86,7 +86,7 @@ export function EventsPanel({
   );
 
   // Create a shared layout context for all event cards
-  const layoutContextValue = useLayoutContextValue({
+  const layoutContextValue = useUniLayoutContextValue({
     layout: eventCardLayoutTemplate,
     actionHandler,
   });

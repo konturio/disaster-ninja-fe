@@ -2,7 +2,7 @@ import { SimpleTooltip } from '@konturio/floating';
 import { Button } from '@konturio/ui-kit';
 import { useCallback } from 'react';
 import { Icon } from '~components/Icon';
-import { useLayoutContext } from '../Layout/LayoutContext';
+import { useUniLayoutContext } from '../Layout/UniLayoutContext';
 import baseStyles from './Base.module.css';
 
 interface IconButtonProps {
@@ -23,7 +23,7 @@ export function IconButton({
   handleAction,
   ...props
 }: IconButtonProps) {
-  const context = useLayoutContext();
+  const context = useUniLayoutContext();
 
   const fieldMeta = $meta?.value;
 

@@ -2,7 +2,7 @@ import React, { memo, isValidElement } from 'react';
 import { isNonNullish } from '~utils/common';
 import { componentsRegistry } from '../componentsRegistry';
 import { ErrorComponent } from './ErrorComponent';
-import { useLayoutContext } from './LayoutContext';
+import { useUniLayoutContext } from './UniLayoutContext';
 import type { FieldMeta } from '../fieldsRegistry';
 import type {
   BindingResult,
@@ -177,7 +177,7 @@ function renderChildren(children: any, data: any): React.ReactNode {
  * Recursively renders UI from a JSON layout node, resolving data bindings.
  */
 const LayoutRendererInternal = ({ node, data }: LayoutRendererProps) => {
-  const context = useLayoutContext();
+  const context = useUniLayoutContext();
 
   if (node === null || node === undefined || typeof node === 'boolean') {
     return null;
@@ -253,4 +253,4 @@ const LayoutRendererInternal = ({ node, data }: LayoutRendererProps) => {
   }
 };
 
-export const LayoutRenderer = memo(LayoutRendererInternal);
+export const UniLayoutRenderer = memo(LayoutRendererInternal);
