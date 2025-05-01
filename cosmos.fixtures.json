@@ -22,6 +22,47 @@
       "rendererUrl": "renderer.html?fixtureId=%7B%22path%22%3A%22src%2Fcomponents%2FLinkRenderer%2FLinkRenderer.fixture.tsx%22%7D&locked=true"
     },
     {
+      "filePath": "src/components/Uni/Components/UniComponents.fixture.tsx",
+      "cleanPath": [
+        "src",
+        "components",
+        "Uni",
+        "Components",
+        "UniComponents"
+      ],
+      "rendererUrl": "renderer.html?fixtureId=%7B%22path%22%3A%22src%2Fcomponents%2FUni%2FComponents%2FUniComponents.fixture.tsx%22%7D&locked=true"
+    },
+    {
+      "filePath": "src/components/Uni/ComponentsRegistry.fixture.tsx",
+      "cleanPath": [
+        "src",
+        "components",
+        "Uni",
+        "ComponentsRegistry"
+      ],
+      "rendererUrl": "renderer.html?fixtureId=%7B%22path%22%3A%22src%2Fcomponents%2FUni%2FComponentsRegistry.fixture.tsx%22%7D&locked=true"
+    },
+    {
+      "filePath": "src/components/Uni/FieldsRegistry.fixture.tsx",
+      "cleanPath": [
+        "src",
+        "components",
+        "Uni",
+        "FieldsRegistry"
+      ],
+      "rendererUrl": "renderer.html?fixtureId=%7B%22path%22%3A%22src%2Fcomponents%2FUni%2FFieldsRegistry.fixture.tsx%22%7D&locked=true"
+    },
+    {
+      "filePath": "src/components/Uni/LayoutDebugger.fixture.tsx",
+      "cleanPath": [
+        "src",
+        "components",
+        "Uni",
+        "LayoutDebugger"
+      ],
+      "rendererUrl": "renderer.html?fixtureId=%7B%22path%22%3A%22src%2Fcomponents%2FUni%2FLayoutDebugger.fixture.tsx%22%7D&locked=true"
+    },
+    {
       "filePath": "src/core/pages/PagesDocument.fixture.tsx",
       "cleanPath": [
         "src",
@@ -30,18 +71,6 @@
         "PagesDocument"
       ],
       "rendererUrl": "renderer.html?fixtureId=%7B%22path%22%3A%22src%2Fcore%2Fpages%2FPagesDocument.fixture.tsx%22%7D&locked=true"
-    },
-    {
-      "filePath": "src/features/events_list/components/EventCard/EventCard.fixture.tsx",
-      "cleanPath": [
-        "src",
-        "features",
-        "events_list",
-        "components",
-        "EventCard",
-        "EventCard"
-      ],
-      "rendererUrl": "renderer.html?fixtureId=%7B%22path%22%3A%22src%2Ffeatures%2Fevents_list%2Fcomponents%2FEventCard%2FEventCard.fixture.tsx%22%7D&locked=true"
     },
     {
       "filePath": "src/features/subscriptions/Plans.fixture.tsx",

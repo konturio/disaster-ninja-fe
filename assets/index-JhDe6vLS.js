@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./_virtual_cosmos-imports-DUS9g8k1.js","./_virtual_cosmos-imports-BdTlIQsk.css"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./_virtual_cosmos-imports-C8-1Gi08.js","./_virtual_cosmos-imports-D0-FCz-V.css"])))=>i.map(i=>d[i]);
 var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
@@ -9593,16 +9593,19 @@ function mountDomRenderer({ rendererConfig, moduleWrappers }) {
 }
 mount();
 async function mount() {
-  const args = await __vitePreload(() => import("./_virtual_cosmos-imports-DUS9g8k1.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url);
+  const args = await __vitePreload(() => import("./_virtual_cosmos-imports-C8-1Gi08.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url);
   mountDomRenderer(args);
 }
 export {
-  React$1 as R,
+  React as R,
   reactDomExports as a,
-  React as b,
-  commonjsGlobal as c,
-  ReactDOM as d,
+  React$1 as b,
+  createValue as c,
+  commonjsGlobal as d,
+  extendWithValue as e,
+  ReactDOM as f,
   getDefaultExportFromCjs as g,
+  isEqual as i,
   reactExports as r,
   useFixtureState as u
 };
