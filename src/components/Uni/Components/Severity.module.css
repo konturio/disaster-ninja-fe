@@ -1,0 +1,11 @@
+.indicator {
+  transform: skew(-24deg, 0);
+  display: inline-flex;
+  flex-flow: row nowrap;
+  height: 10px;
+  gap: 3px;
+  & > div {
+    width: 12px;
+    height: 10px;
+  }
+}
