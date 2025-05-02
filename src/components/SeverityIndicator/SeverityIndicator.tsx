@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { Tooltip, TooltipTrigger, TooltipContent } from '~core/tooltips';
+import { SimpleTooltip } from '@konturio/floating';
 import { i18n } from '~core/localization';
 import s from './SeverityIndicator.module.css';
 import type { Severity } from '~core/types';
@@ -35,22 +35,19 @@ function SeverityIndicatorGenerator({ severity }: { severity: Severity }) {
   }[severity];
 
   return (
-    <Tooltip>
-      <TooltipTrigger>
-        <div className={s.indicator}>
-          {Array.from(new Array(5)).map((_, i) => (
-            <div
-              key={i}
-              className={s.indicatorCell}
-              style={{
-                backgroundColor: i < pivot ? COLORS[i] : 'var(--faint-weak)',
-              }}
-            ></div>
-          ))}
-        </div>
-      </TooltipTrigger>
-      <TooltipContent>{severityToText(severity)}</TooltipContent>
-    </Tooltip>
+    <SimpleTooltip content={severityToText(severity)}>
+      <div className={s.indicator}>
+        {Array.from(new Array(5)).map((_, i) => (
+          <div
+            key={i}
+            className={s.indicatorCell}
+            style={{
+              backgroundColor: i < pivot ? COLORS[i] : 'var(--faint-weak)',
+            }}
+          ></div>
+        ))}
+      </div>
+    </SimpleTooltip>
   );
 }
 

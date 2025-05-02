@@ -1,7 +1,8 @@
 import { Heading, Text } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/npm-react';
-import { Rubber16 } from '@konturio/default-icons';
+import { InfoOutline16, Rubber16 } from '@konturio/default-icons';
 import { useMemo, useState } from 'react';
+import { SimpleTooltip } from '@konturio/floating';
 import { i18n } from '~core/localization';
 import {
   referenceAreaAtom,
@@ -10,7 +11,6 @@ import {
 } from '~core/shared_state/referenceArea';
 import { goTo } from '~core/router/goTo';
 import { store } from '~core/store/store';
-import { PopupTooltipTrigger } from '~components/PopupTooltipTrigger';
 import { updateReferenceArea } from '~core/api/features';
 import { getUserLocation } from '~utils/common/userLocation';
 import { getBoundaries } from '~core/api/boundaries';
@@ -94,11 +94,11 @@ export function ReferenceAreaInfo() {
             <a className={s.link} onClick={() => goTo('/map')}>
               {i18n.t('profile.reference_area.set_the_reference_area')}
             </a>
-            <PopupTooltipTrigger
-              tipText={i18n.t('profile.reference_area.tooltip_text')}
-              className={s.tooltip}
-              showedOnHover={true}
-            />
+            <SimpleTooltip content={i18n.t('profile.reference_area.tooltip_text')}>
+              <span className={s.tooltip}>
+                <InfoOutline16 />
+              </span>
+            </SimpleTooltip>
             <span className={s.delimiter}>{i18n.t('or')}</span>
             {isLocationLoading ? (
               <span className={s.userLocationLoader}>

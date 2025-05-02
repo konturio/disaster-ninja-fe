@@ -1,5 +1,5 @@
 .container {
-  transition: 0.8;
+  transition: all 0.8s;
   z-index: calc(var(--modal) + 1);
   margin: 2px auto;
   width: 540px;
