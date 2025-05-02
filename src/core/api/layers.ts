@@ -1,10 +1,13 @@
 import { configRepo } from '~core/config';
 import { apiClient } from '~core/apiClientInstance';
+import type { LayerGroupSettingsDTO } from '~core/types/layers';
 import type { Feature } from 'geojson';
 import type { LayerDetailsDto, LayerSummaryDto } from '~core/logical_layers/types/source';
 
 export const LAYERS_IN_AREA_API_ERROR =
   'Unfortunately, we cannot display map layers. Try refreshing the page or come back later.';
+export const LAYERS_HIERARCHY_API_ERROR =
+  'Unfortunately, we could not retrieve layers hierarchy. Try refreshing the page or come back later.';
 
 export function getGlobalLayers(abortController: AbortController) {
   return apiClient.post<LayerSummaryDto[]>(
@@ -79,6 +82,17 @@ export function getLayerFeatures(
       geoJSON,
     },
     {
+      signal: abortController.signal,
+    },
+  );
+}
+
+export function getLayerGroups(abortController: AbortController) {
+  return apiClient.post<LayerGroupSettingsDTO>(
+    '/layers/search/groups',
+    { appId: configRepo.get().id },
+    {
+      errorsConfig: { messages: LAYERS_HIERARCHY_API_ERROR },
       signal: abortController.signal,
     },
   );

@@ -13,7 +13,7 @@ import type { Tree } from '~core/types/layers';
 export const layersTreeAtom = atom<Tree>((ctx) => {
   const hierarchy = ctx.spy(logicalLayersHierarchyAtom.v3atom);
   const categoriesSettings = ctx.spy(layersCategoriesSettingsAtom.v3atom);
-  const groupsSettings = ctx.spy(layersGroupsSettingsAtom.v3atom);
+  const groupsSettings = ctx.spy(layersGroupsSettingsAtom);
   const focusedGeometry = ctx.spy(focusedGeometryAtom.v3atom);
   const referenceGeometry = ctx.spy(referenceAreaAtom);
 

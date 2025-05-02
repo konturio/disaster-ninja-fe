@@ -9,7 +9,7 @@ import type { AsyncState } from '../types/asyncState';
 
 export const getMutualExcludedActions = (() => {
   let groupsSettings: Record<string, GroupSettings> | null = null;
-  layersGroupsSettingsAtom.subscribe((s) => (groupsSettings = s));
+  layersGroupsSettingsAtom.onChange((ctx, s) => (groupsSettings = s));
 
   let categorySettings: Record<string, CategorySettings> | null = null;
   layersCategoriesSettingsAtom.subscribe((s) => (categorySettings = s));

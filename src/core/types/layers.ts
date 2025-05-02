@@ -23,6 +23,10 @@ export interface GroupSettings {
 
 export type GroupWithSettings = Group & GroupSettings;
 
+export interface LayerGroupSettingsDTO {
+  groups: Record<string, GroupSettings>;
+}
+
 export interface Category {
   id: string;
   isCategory: true;
