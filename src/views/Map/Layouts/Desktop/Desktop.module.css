@@ -11,7 +11,7 @@
   grid-template-rows: calc(100% - 40px - var(--unit)) 40px var(--unit);
 }
 
-.analytics {
+.leftColumn {
   grid-column: 1;
   grid-row: 1/3;
 }
@@ -40,4 +40,55 @@
   height: calc(100% - var(--unit));
   grid-row: 2;
   grid-column: 1/-1;
+}
+
+:global(.presentation-mode) {
+  & .contentWrap {
+    grid-template-columns: 1fr 1fr 385px;
+    grid-template-rows: auto 1fr auto;
+    padding: var(--double-unit);
+  }
+
+  & .topContent {
+    grid-column: 1 / span 2;
+    grid-row: 1;
+    display: flex;
+    flex-direction: column;
+    gap: calc(var(--unit) / 2);
+  }
+
+  & .mapWrap,
+  & .leftColumn {
+    display: none;
+  }
+
+  & .footerWrap {
+    grid-column: 3;
+    grid-row: 3;
+    align-self: end;
+    pointer-events: auto;
+  }
+
+  & .rightColumn {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+    min-width: 385px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    row-gap: var(--unit);
+  }
+
+  & .leftColumn {
+    display: none;
+  }
+
+  & .bottomLeftContent {
+    grid-column: 1 / span 2;
+    grid-row: 2 / span 2;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    pointer-events: none;
+  }
 }

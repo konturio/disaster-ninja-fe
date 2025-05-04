@@ -1,6 +1,7 @@
 import { Suspense, useEffect } from 'react';
 import { lazily } from 'react-lazily';
 import { useAtom } from '@reatom/react-v2';
+import clsx from 'clsx';
 import { configRepo } from '~core/config';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import { CookieConsentBanner } from '~features/cookie_consent_banner';
@@ -15,6 +16,7 @@ const { PopupTooltip } = lazily(() => import('~features/tooltip'));
 const { SideBar } = lazily(() => import('~features/side_bar'));
 
 const featureFlags = configRepo.get().features;
+const isPresentationMode = !!globalThis.presentationMode;
 
 export function CommonView({
   children,
@@ -42,7 +44,10 @@ export function CommonView({
   return (
     <>
       <OriginalLogo />
-      <div className={s.common} id={`app-id-${sanitizedId}`}>
+      <div
+        className={clsx(s.common, isPresentationMode && 'presentation-mode')}
+        id={`app-id-${sanitizedId}`}
+      >
         <Suspense fallback={null}>
           {featureFlags[AppFeature.SIDE_BAR] && (
             <SideBar

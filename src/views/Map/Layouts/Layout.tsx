@@ -6,6 +6,7 @@ import {
 import { DesktopLayout } from './Desktop/Desktop';
 import { LaptopLayout } from './Laptop/Laptop';
 import { MobileLayout } from './Mobile/Mobile';
+import s from './Layout.module.css';
 import type { ReactNode } from 'react';
 
 export function Layout({
@@ -20,6 +21,10 @@ export function Layout({
   layerFeaturesPanel,
   breadcrumbs,
   searchBar,
+  mapTitle,
+  legendsPanel,
+  currentEvent,
+  copyrights,
 }: {
   disasters: ReactNode;
   analytics: ReactNode;
@@ -32,9 +37,36 @@ export function Layout({
   layerFeaturesPanel: ReactNode;
   breadcrumbs: ReactNode;
   searchBar: ReactNode;
+  copyrights: ReactNode;
+  mapTitle: ReactNode;
+  currentEvent: ReactNode;
+  legendsPanel: ReactNode;
 }) {
   const isLaptop = useMediaQuery(IS_LAPTOP_QUERY);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
+  const isPresentationMode = !!globalThis.presentationMode;
+
+  if (isPresentationMode) {
+    return (
+      <DesktopLayout
+        topContent={
+          <div className={s.headerRow}>
+            <div className={s.breadcrumbs}>{breadcrumbs}</div>
+            <div className={s.title}>{mapTitle}</div>
+          </div>
+        }
+        bottomLeftContent={copyrights}
+        rightColumn={
+          <>
+            {currentEvent}
+            {legendsPanel}
+          </>
+        }
+        footer={footer}
+      />
+    );
+  }
+
   if (isMobile)
     return (
       <MobileLayout
@@ -83,7 +115,7 @@ export function Layout({
 
   return (
     <DesktopLayout
-      analyticsColumn={
+      leftColumn={
         <>
           {searchBar}
           {analytics}
@@ -97,7 +129,7 @@ export function Layout({
         </>
       }
       mapColumnBottom={timeline}
-      layersColumn={
+      rightColumn={
         <>
           {matrix}
           {layersAndLegends}

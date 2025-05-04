@@ -4,21 +4,29 @@ import s from './Desktop.module.css';
 import type { ReactNode } from 'react';
 
 export function DesktopLayout({
-  analyticsColumn,
-  layersColumn,
+  topContent,
+  leftColumn,
+  rightColumn,
   mapColumnTop,
   mapColumnBottom,
+  bottomLeftContent,
   footer,
 }: {
-  analyticsColumn: ReactNode;
-  layersColumn: ReactNode;
-  mapColumnTop: ReactNode;
-  mapColumnBottom: ReactNode;
+  topContent?: ReactNode;
+  leftColumn?: ReactNode;
+  bottomLeftContent?: ReactNode;
+  rightColumn: ReactNode;
+  mapColumnTop?: ReactNode;
+  mapColumnBottom?: ReactNode;
   footer: ReactNode;
 }) {
   return (
     <div className={s.contentWrap}>
-      <SmartColumn className={s.analytics}>{analyticsColumn}</SmartColumn>
+      {topContent && <div className={s.topContent}>{topContent}</div>}
+      {bottomLeftContent && (
+        <div className={s.bottomLeftContent}>{bottomLeftContent}</div>
+      )}
+      <SmartColumn className={s.leftColumn}>{leftColumn}</SmartColumn>
 
       <div className={s.mapWrap}>
         <div className={s.mapSpaceTop}>{mapColumnTop}</div>
@@ -26,7 +34,7 @@ export function DesktopLayout({
         <div className={s.mapSpaceBottom}>{mapColumnBottom}</div>
       </div>
 
-      <SmartColumn>{layersColumn}</SmartColumn>
+      <SmartColumn className={s.rightColumn}>{rightColumn}</SmartColumn>
 
       <div className={s.footerWrap}>{footer}</div>
     </div>
