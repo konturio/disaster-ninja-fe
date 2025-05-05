@@ -1,12 +1,14 @@
 import { Suspense, useEffect } from 'react';
 import { lazily } from 'react-lazily';
-import { useAtom } from '@reatom/react-v2';
+import { useAtom as useAtomV2 } from '@reatom/react-v2';
 import clsx from 'clsx';
+import { useAtom } from '@reatom/npm-react';
 import { configRepo } from '~core/config';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import { CookieConsentBanner } from '~features/cookie_consent_banner';
 import { FullScreenLoader } from '~components/LoadingSpinner/LoadingSpinner';
 import { AppFeature } from '~core/app/types';
+import { presentationModeAtom } from '~core/shared_state/presentationMode';
 import s from './CommonView.module.css';
 import type { AppRoute, AvailableRoutesAtom, CurrentRouteAtom } from '~core/router';
 import type { PropsWithChildren } from 'react';
@@ -16,7 +18,6 @@ const { PopupTooltip } = lazily(() => import('~features/tooltip'));
 const { SideBar } = lazily(() => import('~features/side_bar'));
 
 const featureFlags = configRepo.get().features;
-const isPresentationMode = !!globalThis.presentationMode;
 
 export function CommonView({
   children,
@@ -28,7 +29,8 @@ export function CommonView({
   availableRoutesAtom: AvailableRoutesAtom;
   getAbsoluteRoute: (path: string | AppRoute) => string;
 }>) {
-  const [currentRoute] = useAtom(currentRouteAtom);
+  const [currentRoute] = useAtomV2(currentRouteAtom);
+  const [isPresentationMode] = useAtom(presentationModeAtom);
 
   useEffect(() => {
     if (featureFlags[AppFeature.INTERCOM]) {

@@ -1,8 +1,10 @@
+import { useAtom } from '@reatom/npm-react';
 import {
   IS_LAPTOP_QUERY,
   IS_MOBILE_QUERY,
   useMediaQuery,
 } from '~utils/hooks/useMediaQuery';
+import { presentationModeAtom } from '~core/shared_state/presentationMode';
 import { DesktopLayout } from './Desktop/Desktop';
 import { LaptopLayout } from './Laptop/Laptop';
 import { MobileLayout } from './Mobile/Mobile';
@@ -44,7 +46,7 @@ export function Layout({
 }) {
   const isLaptop = useMediaQuery(IS_LAPTOP_QUERY);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
-  const isPresentationMode = !!globalThis.presentationMode;
+  const [isPresentationMode] = useAtom(presentationModeAtom);
 
   if (isPresentationMode) {
     return (
