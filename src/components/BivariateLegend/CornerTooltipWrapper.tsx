@@ -1,13 +1,19 @@
-import { cloneElement, isValidElement } from 'react';
+import { cloneElement, isValidElement, useState, useRef } from 'react';
+import {
+  useFloating,
+  offset,
+  flip,
+  shift,
+  arrow,
+  FloatingArrow,
+} from '@floating-ui/react';
 import clsx from 'clsx';
-import { PopupTooltipWrapper } from '~components/PopupTooltipTrigger';
 import { formatSentimentDirection } from '~utils/bivariate';
 import { LOW, HIGH, isBottomSide, isLeftSide, CORNER_POINTS_INDEXES } from './const';
 import s from './CornerTooltipWrapper.module.css';
 import type { ReactNode, MouseEvent } from 'react';
 import type { Cell } from '@konturio/ui-kit/tslib/Legend/types';
 import type { LayerMeta } from '~core/logical_layers/types/meta';
-import type { TooltipData } from '~core/shared_state/currentTooltip';
 
 export type CornerTooltipWrapperProps = {
   hints: LayerMeta['hints'];
@@ -15,32 +21,65 @@ export type CornerTooltipWrapperProps = {
 };
 
 const CornerTooltipWrapper = ({ children, hints }: CornerTooltipWrapperProps) => {
-  const renderTooltip = (
-    e: MouseEvent<Element>,
-    setTooltip: (tooltipData: TooltipData) => void,
-    _cell: Cell,
-    i: number,
-  ) => {
+  const [activeCorner, setActiveCorner] = useState<number | null>(null);
+  const [referenceEl, setReferenceEl] = useState<HTMLElement | null>(null);
+  const arrowRef = useRef(null);
+
+  const { x, y, strategy, refs, context } = useFloating({
+    placement: 'top',
+    middleware: [offset(8), flip(), shift(), arrow({ element: arrowRef })],
+  });
+
+  const handleShowTooltip = (e: MouseEvent<Element>, _cell: Cell, i: number) => {
     if (hints && CORNER_POINTS_INDEXES.includes(i)) {
-      setTooltip({
-        popup: <BivariateLegendCornerTooltip cellIndex={i} hints={hints} />,
-        position: { x: e.clientX, y: e.clientY },
-        hoverBehavior: true,
-      });
+      setActiveCorner(i);
+      setReferenceEl(e.target as HTMLElement);
+      // @ts-expect-error to fix in label generator, remove span wrappers
+      const divRef = e.target?.tagName == 'SPAN' ? e.target.parentElement : e.target;
+      refs.setReference(divRef as HTMLElement);
     }
   };
 
-  return isValidElement(children) ? (
-    <PopupTooltipWrapper renderTooltip={renderTooltip}>
-      {({ showTooltip, hideTooltip }) =>
-        cloneElement(children, {
-          // @ts-expect-error - react version update should fix that
-          onCellPointerOver: showTooltip,
-          onCellPointerLeave: hideTooltip,
-        })
-      }
-    </PopupTooltipWrapper>
-  ) : null;
+  const handleHideTooltip = () => {
+    setActiveCorner(null);
+    setReferenceEl(null);
+  };
+
+  return (
+    <>
+      {isValidElement(children)
+        ? cloneElement(children, {
+            // @ts-expect-error - Legend component accepts these props but TS doesn't recognize them
+            onCellPointerOver: handleShowTooltip,
+            onCellPointerLeave: handleHideTooltip,
+          })
+        : null}
+
+      {activeCorner !== null && referenceEl && hints && (
+        <div
+          className={s.tooltipContent}
+          ref={refs.setFloating}
+          style={{
+            position: strategy,
+            top: y ?? 0,
+            left: x ?? 0,
+            zIndex: 'var(--tooltip)',
+          }}
+        >
+          <BivariateLegendCornerTooltip cellIndex={activeCorner} hints={hints} />
+          <FloatingArrow
+            ref={arrowRef}
+            context={context}
+            className={s.arrow}
+            stroke="transparent"
+            strokeWidth={2}
+            height={8}
+            width={16}
+          />
+        </div>
+      )}
+    </>
+  );
 };
 
 const BivariateLegendCornerTooltip = ({

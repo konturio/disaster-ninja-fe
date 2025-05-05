@@ -1,5 +1,6 @@
 .container {
-  transition: all 0.8s;
+  transition-property: opacity, transform;
+  transition-duration: 0.8s;
   z-index: calc(var(--modal) + 1);
   margin: 2px auto;
   width: 540px;

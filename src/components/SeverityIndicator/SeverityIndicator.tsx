@@ -44,7 +44,7 @@ function SeverityIndicatorGenerator({ severity }: { severity: Severity }) {
             style={{
               backgroundColor: i < pivot ? COLORS[i] : 'var(--faint-weak)',
             }}
-          ></div>
+          />
         ))}
       </div>
     </SimpleTooltip>

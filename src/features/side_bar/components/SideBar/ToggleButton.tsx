@@ -33,28 +33,27 @@ export function ToggleButton({ isOpen, setIsOpen }: ToggleButtonProps) {
 
   if (isOpen)
     return (
-      <div onClick={toggleIsOpen} tabIndex={-1}>
-        <Button
-          iconBefore={<DoubleChevronLeft24 />}
-          className={clsx(s.navButton, s.sidebarButton)}
-          dark
-          variant="invert"
-        >
-          {i18n.t('sidebar.collapse')}
-        </Button>
-      </div>
+      <Button
+        iconBefore={<DoubleChevronLeft24 />}
+        className={clsx(s.navButton, s.sidebarButton)}
+        dark
+        variant="invert"
+        onClick={toggleIsOpen}
+        tabIndex={-1}
+      >
+        {i18n.t('sidebar.collapse')}
+      </Button>
     );
 
   return (
     <SimpleTooltip content={i18n.t('sidebar.expand')} placement="right" offset={6}>
-      <div onClick={toggleIsOpen}>
-        <Button
-          iconBefore={<DoubleChevronRight24 />}
-          className={clsx(s.navButton, s.sidebarButton)}
-          dark
-          variant="invert"
-        />
-      </div>
+      <Button
+        iconBefore={<DoubleChevronRight24 />}
+        className={clsx(s.navButton, s.sidebarButton)}
+        dark
+        variant="invert"
+        onClick={toggleIsOpen}
+      />
     </SimpleTooltip>
   );
 }
