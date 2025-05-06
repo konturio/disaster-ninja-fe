@@ -45,8 +45,13 @@
   margin-inline-start: var(--unit);
 }
 
+.staticOpacity {
+  width: 100px;
+}
+
 .legendSection {
   width: 100%;
+  margin-top: var(--double-unit);
 }
 
 .legendContainer {

@@ -1,6 +1,9 @@
 import { Hexagon } from '~components/Hexagon/Hexagon';
 import { i18n } from '~core/localization';
-import { generateMCDALayersTableAndScore } from '../../MCDARenderer/popup';
+import {
+  generateMCDALayersTableAndScore,
+  generateMCDAPopupTable,
+} from '../../MCDARenderer/popup';
 import { PopupMCDA } from '../../MCDARenderer/components/PopupMCDA';
 import { getDimensionLevelsAndHexagonParams } from '../helpers/multivariatePopupHelpers';
 import s from './PopupMultivariate.module.css';
@@ -70,6 +73,24 @@ export function PopupMultivariate(
     </div>
   );
 
+  // opacity
+  let opacityTable;
+  if (config.opacity) {
+    if (typeof config.opacity === 'number') {
+      opacityTable = (
+        <div>{`${i18n.t('multivariate.hide_area')}: ${config.opacity}`}</div>
+      );
+    } else {
+      const opacityMCDAAxes = config.opacity.config.layers;
+      opacityTable = (
+        <>
+          <div>{`${i18n.t('multivariate.hide_area')}`}</div>
+          {generateMCDAPopupTable(feature, opacityMCDAAxes)}
+        </>
+      );
+    }
+  }
+
   return (
     <>
       {hexagonLabel && hexagonColor ? (
@@ -79,6 +100,7 @@ export function PopupMultivariate(
       )}
       {scoreTable}
       {baseTable}
+      {opacityTable}
     </>
   );
 }

@@ -5,6 +5,7 @@ import {
 } from '~utils/multivariate/constants';
 import { DEFAULT_MCDA_COLORS_BY_SENTIMENT } from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations/constants';
 import { i18n } from '~core/localization';
+import { isNumber } from '~utils/common';
 import { generateMultivariateId } from './generateMultivariateId';
 import { createStepsForMCDADimension } from './createStepsForMCDADimension';
 import type { Axis } from '~utils/bivariate';
@@ -23,6 +24,7 @@ type MultivariateLayerConfigOverrides = {
   base?: MCDALayer[];
   colors?: MultivariateColorConfig;
   stepOverrides?: MultivariateLayerConfig['stepOverrides'];
+  opacity?: MCDALayer[] | number;
 };
 
 export function createMultivariateConfig(
@@ -53,13 +55,31 @@ export function createMultivariateConfig(
         }),
       }
     : undefined;
-
+  const opacityMCDAStyle: MCDALayerStyle | undefined =
+    overrides.opacity !== undefined &&
+    !isNumber(overrides.opacity) &&
+    overrides?.opacity.length
+      ? {
+          type: 'mcda',
+          config: createDefaultMCDAConfig({
+            layers: overrides?.opacity,
+            name: createMCDANameOverride(
+              overrides.opacity,
+              i18n.t('multivariate.hide_area'),
+            ),
+          }),
+        }
+      : undefined;
+  const opacityStatic: number | undefined = isNumber(overrides.opacity)
+    ? overrides.opacity
+    : undefined;
   return {
     version: 0,
     id: generateMultivariateId(name),
     name,
     score: scoreMCDAStyle,
     base: baseMCDAStyle,
+    opacity: opacityMCDAStyle ?? opacityStatic,
     stepOverrides: isBivariateStyleLegend
       ? overrides.stepOverrides || {
           baseSteps: createStepsForMCDADimension(overrides.base, availableBivariateAxes),
