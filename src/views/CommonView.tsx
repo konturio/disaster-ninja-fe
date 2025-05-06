@@ -1,11 +1,14 @@
 import { Suspense, useEffect } from 'react';
 import { lazily } from 'react-lazily';
-import { useAtom } from '@reatom/react-v2';
+import { useAtom as useAtomV2 } from '@reatom/react-v2';
+import clsx from 'clsx';
+import { useAtom } from '@reatom/npm-react';
 import { configRepo } from '~core/config';
 import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import { CookieConsentBanner } from '~features/cookie_consent_banner';
 import { FullScreenLoader } from '~components/LoadingSpinner/LoadingSpinner';
 import { AppFeature } from '~core/app/types';
+import { presentationModeAtom } from '~core/shared_state/presentationMode';
 import s from './CommonView.module.css';
 import type { AppRoute, AvailableRoutesAtom, CurrentRouteAtom } from '~core/router';
 import type { PropsWithChildren } from 'react';
@@ -26,7 +29,8 @@ export function CommonView({
   availableRoutesAtom: AvailableRoutesAtom;
   getAbsoluteRoute: (path: string | AppRoute) => string;
 }>) {
-  const [currentRoute] = useAtom(currentRouteAtom);
+  const [currentRoute] = useAtomV2(currentRouteAtom);
+  const [isPresentationMode] = useAtom(presentationModeAtom);
 
   useEffect(() => {
     if (featureFlags[AppFeature.INTERCOM]) {
@@ -42,7 +46,10 @@ export function CommonView({
   return (
     <>
       <OriginalLogo />
-      <div className={s.common} id={`app-id-${sanitizedId}`}>
+      <div
+        className={clsx(s.common, isPresentationMode && 'presentation-mode')}
+        id={`app-id-${sanitizedId}`}
+      >
         <Suspense fallback={null}>
           {featureFlags[AppFeature.SIDE_BAR] && (
             <SideBar

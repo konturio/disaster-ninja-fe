@@ -16,8 +16,8 @@ import { panelClasses } from '~components/Panel';
 import { configRepo } from '~core/config';
 import { Search } from '~features/search';
 import { AppFeature } from '~core/app/types';
-import { Layout } from './Layouts/Layout';
 import s from './Map.module.css';
+import { Layout } from './Layouts/Layout';
 
 const featureFlags = configRepo.get().features;
 
@@ -36,6 +36,22 @@ const { Logo } = lazily(() => import('@konturio/ui-kit'));
 const { ConnectedMap } = lazily(() => import('~components/ConnectedMap/ConnectedMap'));
 
 const { EventList: EventListPanel } = lazily(() => import('~features/events_list'));
+
+const { LegendsPanel } = lazily(
+  () => import('~features/presentation_mode/LegendsPanel/LegendsPanel'),
+);
+
+const { CurrentEvent } = lazily(
+  () => import('~features/presentation_mode/CurrentEvent/CurrentEvent'),
+);
+
+const { MapTitle } = lazily(
+  () => import('~features/presentation_mode/MapTitle/MapTitle'),
+);
+
+const { LayersCopyrights } = lazily(
+  () => import('~features/presentation_mode/LayersCoopyrights/LayersCopyrights'),
+);
 
 const { EventEpisodes } = lazily(() => import('~features/event_episodes'));
 
@@ -136,42 +152,45 @@ export function MapPage() {
           )}
         </Suspense>
       </div>
-      {Object.keys(featureFlags).length > 0 && (
-        <Layout
-          searchBar={
-            featureFlags[AppFeature.SEARCH_BAR] &&
-            featureFlags[AppFeature.SEARCH_LOCATION] && <Search />
-          }
-          analytics={<Analytics />}
-          // if EVENTS_LIST is enabled, we always have default feed
-          disasters={featureFlags[AppFeature.EVENTS_LIST] && <EventListPanel />}
-          layersAndLegends={<LayersAndLegends />}
-          matrix={<></>}
-          timeline={featureFlags[AppFeature.EPISODES_TIMELINE] && <EventEpisodes />}
-          breadcrumbs={
-            featureFlags[AppFeature.ADMIN_BOUNDARY_BREADCRUMBS] && <BreadcrumbsPanel />
-          }
-          toolbar={featureFlags[AppFeature.TOOLBAR] && <Toolbar />}
-          layerFeaturesPanel={
-            featureFlags[AppFeature.LAYER_FEATURES_PANEL] && <LayerFeaturesPanel />
-          }
-          footer={
-            <div className={clsx(s.footer, s.clickThrough)}>
-              <div className={s.footerBackground}>
-                <ScaleControl />
-                <Copyrights />
-                <Logo height={24} palette="contrast" />
-              </div>
-              <IntercomBTN />
+
+      <Layout
+        searchBar={
+          featureFlags[AppFeature.SEARCH_BAR] &&
+          featureFlags[AppFeature.SEARCH_LOCATION] && <Search />
+        }
+        analytics={<Analytics />}
+        mapTitle={featureFlags[AppFeature.MAP_TITLE] && <MapTitle />}
+        // if EVENTS_LIST is enabled, we always have default feed
+        disasters={featureFlags[AppFeature.EVENTS_LIST] && <EventListPanel />}
+        layersAndLegends={<LayersAndLegends />}
+        legendsPanel={featureFlags[AppFeature.LEGEND_PANEL] && <LegendsPanel />}
+        currentEvent={featureFlags[AppFeature.CURRENT_EVENT] && <CurrentEvent />}
+        matrix={<></>}
+        timeline={featureFlags[AppFeature.EPISODES_TIMELINE] && <EventEpisodes />}
+        breadcrumbs={
+          featureFlags[AppFeature.ADMIN_BOUNDARY_BREADCRUMBS] && <BreadcrumbsPanel />
+        }
+        toolbar={featureFlags[AppFeature.TOOLBAR] && <Toolbar />}
+        layerFeaturesPanel={
+          featureFlags[AppFeature.LAYER_FEATURES_PANEL] && <LayerFeaturesPanel />
+        }
+        copyrights={featureFlags[AppFeature.LAYERS_COPYRIGHTS] && <LayersCopyrights />}
+        footer={
+          <div className={clsx(s.footer, s.clickThrough)}>
+            <div className={s.footerBackground}>
+              <ScaleControl />
+              <Copyrights />
+              <Logo height={24} palette="contrast" />
             </div>
-          }
-          editPanel={
-            featureFlags[AppFeature.CREATE_LAYER] && (
-              <Suspense fallback={null}>{EditPanel()}</Suspense>
-            )
-          }
-        />
-      )}
+            <IntercomBTN />
+          </div>
+        }
+        editPanel={
+          featureFlags[AppFeature.CREATE_LAYER] && (
+            <Suspense fallback={null}>{EditPanel()}</Suspense>
+          )
+        }
+      />
     </div>
   );
 }

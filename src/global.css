@@ -9,6 +9,7 @@
 */
 @import url('./styles/reset.css');
 @import url('./styles/global-map.css');
+@import url('./styles/presentation-mode.css');
 
 :root {
   /* Layout variables */
