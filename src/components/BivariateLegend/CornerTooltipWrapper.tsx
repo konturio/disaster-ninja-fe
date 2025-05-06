@@ -1,14 +1,7 @@
-import { cloneElement, isValidElement, useState, useRef } from 'react';
-import {
-  useFloating,
-  offset,
-  flip,
-  shift,
-  arrow,
-  FloatingArrow,
-} from '@floating-ui/react';
+import { cloneElement, isValidElement, useState } from 'react';
 import clsx from 'clsx';
 import { formatSentimentDirection } from '~utils/bivariate';
+import { SimpleRefTooltip } from '~components/Floating/SimpleRefTooltip';
 import { LOW, HIGH, isBottomSide, isLeftSide, CORNER_POINTS_INDEXES } from './const';
 import s from './CornerTooltipWrapper.module.css';
 import type { ReactNode, MouseEvent } from 'react';
@@ -20,23 +13,16 @@ export type CornerTooltipWrapperProps = {
   children: ReactNode;
 };
 
-const CornerTooltipWrapper = ({ children, hints }: CornerTooltipWrapperProps) => {
+export function CornerTooltipWrapper({ children, hints }: CornerTooltipWrapperProps) {
   const [activeCorner, setActiveCorner] = useState<number | null>(null);
   const [referenceEl, setReferenceEl] = useState<HTMLElement | null>(null);
-  const arrowRef = useRef(null);
-
-  const { x, y, strategy, refs, context } = useFloating({
-    placement: 'top',
-    middleware: [offset(8), flip(), shift(), arrow({ element: arrowRef })],
-  });
 
   const handleShowTooltip = (e: MouseEvent<Element>, _cell: Cell, i: number) => {
     if (hints && CORNER_POINTS_INDEXES.includes(i)) {
       setActiveCorner(i);
-      setReferenceEl(e.target as HTMLElement);
       // @ts-expect-error to fix in label generator, remove span wrappers
       const divRef = e.target?.tagName == 'SPAN' ? e.target.parentElement : e.target;
-      refs.setReference(divRef as HTMLElement);
+      setReferenceEl(divRef as HTMLElement);
     }
   };
 
@@ -55,32 +41,19 @@ const CornerTooltipWrapper = ({ children, hints }: CornerTooltipWrapperProps) =>
           })
         : null}
 
-      {activeCorner !== null && referenceEl && hints && (
-        <div
-          className={s.tooltipContent}
-          ref={refs.setFloating}
-          style={{
-            position: strategy,
-            top: y ?? 0,
-            left: x ?? 0,
-            zIndex: 'var(--tooltip)',
-          }}
-        >
-          <BivariateLegendCornerTooltip cellIndex={activeCorner} hints={hints} />
-          <FloatingArrow
-            ref={arrowRef}
-            context={context}
-            className={s.arrow}
-            stroke="transparent"
-            strokeWidth={2}
-            height={8}
-            width={16}
+      <SimpleRefTooltip
+        referenceElement={referenceEl}
+        isOpen={activeCorner !== null && referenceEl !== null && !!hints}
+        content={
+          <BivariateLegendCornerTooltip
+            cellIndex={activeCorner as number}
+            hints={hints}
           />
-        </div>
-      )}
+        }
+      />
     </>
   );
-};
+}
 
 const BivariateLegendCornerTooltip = ({
   hints,
@@ -123,5 +96,3 @@ const BivariateLegendCornerTooltip = ({
     </div>
   );
 };
-
-export { CornerTooltipWrapper };

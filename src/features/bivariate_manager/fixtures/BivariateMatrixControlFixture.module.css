@@ -1,4 +1,7 @@
 .axisMatrix {
-  transform: scale(0.7);
   background: #fff;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
