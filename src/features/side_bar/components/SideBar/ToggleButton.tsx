@@ -1,10 +1,10 @@
 import clsx from 'clsx';
 import { useCallback, useEffect } from 'react';
-import { ActionsBarBTN } from '@konturio/ui-kit';
+import { Button } from '@konturio/ui-kit';
 import { DoubleChevronLeft24, DoubleChevronRight24 } from '@konturio/default-icons';
+import { SimpleTooltip } from '@konturio/floating';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { i18n } from '~core/localization';
-import { Tooltip, TooltipTrigger, TooltipContent } from '~core/tooltips';
 import s from './SideBar.module.css';
 
 const wasClosed = 'sidebarClosed';
@@ -33,27 +33,27 @@ export function ToggleButton({ isOpen, setIsOpen }: ToggleButtonProps) {
 
   if (isOpen)
     return (
-      <div onClick={toggleIsOpen} tabIndex={-1}>
-        <ActionsBarBTN
-          iconBefore={<DoubleChevronLeft24 />}
-          className={clsx(s.navButton, s.sidebarButton)}
-        >
-          {i18n.t('sidebar.collapse')}
-        </ActionsBarBTN>
-      </div>
+      <Button
+        iconBefore={<DoubleChevronLeft24 />}
+        className={clsx(s.navButton, s.sidebarButton)}
+        dark
+        variant="invert"
+        onClick={toggleIsOpen}
+        tabIndex={-1}
+      >
+        {i18n.t('sidebar.collapse')}
+      </Button>
     );
 
   return (
-    <Tooltip placement="right" offset={6}>
-      <div onClick={toggleIsOpen}>
-        <TooltipTrigger>
-          <ActionsBarBTN
-            iconBefore={<DoubleChevronRight24 />}
-            className={clsx(s.navButton, s.sidebarButton)}
-          />
-        </TooltipTrigger>
-      </div>
-      <TooltipContent>{i18n.t('sidebar.expand')}</TooltipContent>
-    </Tooltip>
+    <SimpleTooltip content={i18n.t('sidebar.expand')} placement="right" offset={6}>
+      <Button
+        iconBefore={<DoubleChevronRight24 />}
+        className={clsx(s.navButton, s.sidebarButton)}
+        dark
+        variant="invert"
+        onClick={toggleIsOpen}
+      />
+    </SimpleTooltip>
   );
 }
