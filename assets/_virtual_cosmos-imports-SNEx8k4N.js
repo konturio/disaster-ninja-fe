@@ -9,7 +9,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value2) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value2);
 var __privateSet = (obj, member, value2, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value2) : member.set(obj, value2), value2);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, e as extendWithValue, R as React, c as createValue, i as isEqual, r as reactExports, a as reactDomExports, b as React$1, g as getDefaultExportFromCjs, d as commonjsGlobal, f as ReactDOM } from "./index-JhDe6vLS.js";
+import { u as useFixtureState, e as extendWithValue, R as React, c as createValue, i as isEqual, r as reactExports, a as reactDomExports, b as React$1, g as getDefaultExportFromCjs, d as commonjsGlobal, f as ReactDOM } from "./index-BFZUl6XN.js";
 function useCurrentInputValue(inputName, defaultValue) {
   const [fixtureState] = useFixtureState("inputs");
   const inputFs = fixtureState && fixtureState[inputName];
@@ -9373,7 +9373,8 @@ const multivariate$8 = {
     compare_header: "Compare {{level}}"
   },
   score: "Score",
-  compare: "Compare"
+  compare: "Compare",
+  hide_area: "Hide area"
 };
 const search$8 = {
   search_location: "Search location",
