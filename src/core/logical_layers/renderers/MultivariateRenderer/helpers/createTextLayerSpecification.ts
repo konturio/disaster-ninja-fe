@@ -14,34 +14,53 @@ export function createTextLayerSpecification(
   sourceId: string,
   filter?: FilterSpecification,
 ): LayerSpecification | undefined {
-  let value: ExpressionSpecification | undefined = undefined;
-  let formattedValue: ExpressionSpecification | undefined = undefined;
+  let value: ExpressionSpecification[] | undefined = undefined;
   if (textDimension?.expressionValue) {
-    value = textDimension?.expressionValue;
+    value = [textDimension?.expressionValue];
   }
   if (textDimension?.mcdaValue) {
-    value = multivariateDimensionToScore(
-      textDimension?.mcdaValue,
-    ) as ExpressionSpecification;
+    value = [
+      multivariateDimensionToScore(textDimension?.mcdaValue) as ExpressionSpecification,
+    ];
   }
-  if (value) {
+  if (value?.length) {
     if (textDimension?.precision !== undefined) {
       if (textDimension.precision === 0) {
-        value = ['round', value];
+        value = value.map((v) => ['round', v]);
       } else if (textDimension.precision > 0) {
         const precisionMultiplier = Math.pow(10, textDimension.precision);
-        value = ['/', ['round', ['*', value, precisionMultiplier]], precisionMultiplier];
+        value = value.map((v) => [
+          '/',
+          ['round', ['*', v, precisionMultiplier]],
+          precisionMultiplier,
+        ]);
       }
     }
-    if (textDimension.formatString) {
-      formattedValue = formatFeatureText(textDimension.formatString, value);
+    const formatString = textDimension.formatString;
+    const formattedValue: ExpressionSpecification[] = value.map((v) =>
+      formatString ? formatFeatureText(formatString, v) : ['to-string', v],
+    );
+
+    let outputLines: ExpressionSpecification;
+    if (formattedValue.length > 1) {
+      const lines: any[] = [];
+      for (let i = 0; i < formattedValue.length; i += 1) {
+        lines.push(['to-string', formattedValue[i]]);
+        if (i !== formattedValue.length - 1) {
+          lines.push('\n');
+        }
+      }
+      outputLines = ['concat', ...lines];
+    } else {
+      outputLines = formattedValue[0];
     }
-    const sortExpression: ExpressionSpecification = ['*', ['to-number', value], -1];
+
+    const sortExpression: ExpressionSpecification = ['*', value[0], -1];
     const layerStyle: LayerSpecification = {
       id: textLayerId,
       type: 'symbol',
       layout: {
-        'text-field': formattedValue ?? value,
+        'text-field': outputLines,
         'text-font': ['literal', ['Noto Sans Regular']],
         'text-size': 11,
         'symbol-sort-key': sortExpression,
