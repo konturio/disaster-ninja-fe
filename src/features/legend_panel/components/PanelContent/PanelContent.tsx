@@ -25,7 +25,7 @@ export function PanelContent() {
   }, [focusedGeometry, layers, referenceAreaGeometry]);
 
   return (
-    <div className={clsx(s.scrollable, isPresentationMode && s.presentationMode)}>
+    <div className={clsx(s.scrollable, 'knt-legends-panel')}>
       {layersAtoms.map((layer) => (
         <LegendsList layer={layer} key={layer.id} />
       ))}

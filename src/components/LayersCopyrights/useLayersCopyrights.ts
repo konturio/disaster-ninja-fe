@@ -1,11 +1,10 @@
-import { atom } from '@reatom/framework';
-import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
+import { useAtom } from '@reatom/npm-react';
 import { layersMetaAtom } from '~core/logical_layers/atoms/layersMeta';
+import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 
-export const layersCopyrightsAtom = atom((ctx) => {
-  const enabled = ctx.spy(enabledLayersAtom.v3atom);
-  const meta = ctx.spy(layersMetaAtom.v3atom);
-
+export const useLayersCopyrights = () => {
+  const [enabled] = useAtom(enabledLayersAtom.v3atom);
+  const [meta] = useAtom(layersMetaAtom.v3atom);
   const result: string[] = [];
 
   for (const layerId of enabled) {
@@ -18,4 +17,4 @@ export const layersCopyrightsAtom = atom((ctx) => {
 
   const uniqueItems = [...new Set(result)];
   return uniqueItems.join(' ');
-}, 'layersCopyrightsAtom');
+};

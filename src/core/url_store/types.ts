@@ -11,4 +11,5 @@ export type UrlData = {
   app?: string;
   feed?: string;
   bbox?: [[number, number], [number, number]];
+  presentationMode: string;
 };

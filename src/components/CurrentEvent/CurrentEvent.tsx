@@ -4,10 +4,10 @@ import { UniLayout } from '~components/Uni/Layout/UniLayout';
 import { eventCardLayoutTemplate } from '~features/events_list/components/EventsPanel/eventLayouts';
 
 export const CurrentEvent = () => {
-  let [{ data: currentEvent }] = useAtom(currentEventResourceAtom.v3atom);
-  if (!currentEvent) return null;
+  const [{ data }] = useAtom(currentEventResourceAtom.v3atom);
+  if (!data) return null;
 
-  currentEvent = { ...currentEvent, showEpisodesButton: false, active: true };
+  const currentEvent = { ...data, showEpisodesButton: false, active: true };
 
   return (
     <div className="knt-panel knt-current-event">

@@ -2,9 +2,10 @@ import { useAtom } from '@reatom/react-v2';
 import { LEGEND_PANEL_FEATURE_ID } from '~features/legend_panel/constants';
 import { useControlElements } from '~components/Layer/useControlElements';
 import { Layer as LayerComponent } from '~components/Layer';
+import { configRepo } from '~core/config';
 import type { LayerAtom } from '~core/logical_layers/types/logicalLayer';
 
-const isPresentationMode = !!globalThis.presentationMode;
+const presentationMode = configRepo.get().presentationMode;
 
 export function LegendsList({ layer: layerAtom }: { layer: LayerAtom }) {
   const [layerState, layerActions] = useAtom(layerAtom);
@@ -20,7 +21,7 @@ export function LegendsList({ layer: layerAtom }: { layer: LayerAtom }) {
   return (
     <LayerComponent
       canFold={false}
-      controlElements={!isPresentationMode ? controlElements : undefined}
+      controlElements={!presentationMode ? controlElements : undefined}
       layerState={layerState}
     />
   );

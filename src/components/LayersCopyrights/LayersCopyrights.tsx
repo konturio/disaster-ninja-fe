@@ -1,10 +1,9 @@
-import { useAtom } from '@reatom/npm-react';
 import clsx from 'clsx';
-import { layersCopyrightsAtom } from '~features/presentation_mode/LayersCoopyrights/LayersCopyrightsAtom';
+import { useLayersCopyrights } from '~components/LayersCopyrights/useLayersCopyrights';
 import s from './LayersCopyrights.module.css';
 
 export const LayersCopyrights = () => {
-  const [copyrights] = useAtom(layersCopyrightsAtom);
+  const copyrights = useLayersCopyrights();
 
   return (
     <div className={clsx(s.container)}>
