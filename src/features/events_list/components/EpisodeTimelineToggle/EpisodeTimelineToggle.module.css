@@ -1,7 +1,0 @@
-.timelineIcon {
-  height: 16px; /* Caption font size */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--accent-strong);
-}

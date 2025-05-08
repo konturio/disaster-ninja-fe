@@ -1,9 +1,9 @@
 import { expect, describe, it } from 'vitest';
-import { sortByAlphabet, sortByWordOccurence } from './sorting';
+import { sortByAlphabet, sortByWordOccurrence } from './sorting';
 import type { SelectableItem } from '@konturio/ui-kit';
 
-describe('sortByWordOccurence', () => {
-  it('should sort items based on earlier occurence of the substring at a starting word boundary', () => {
+describe('sortByWordOccurrence', () => {
+  it('should sort items based on earlier occurrence of the substring at a starting word boundary', () => {
     const items: SelectableItem[] = [
       { title: 'CCC. Lower case word', value: '1' },
       { title: 'BB. Words can be plural', value: '2' },
@@ -11,7 +11,7 @@ describe('sortByWordOccurence', () => {
       { title: 'Nonword. Not at the start boundary, does not count', value: '4' },
       { title: 'Word at the start of the line', value: '5' },
     ];
-    sortByWordOccurence(items, (item) => item.title, 'word');
+    sortByWordOccurrence(items, (item) => item.title, 'word');
     expect(items).toMatchSnapshot();
   });
 });

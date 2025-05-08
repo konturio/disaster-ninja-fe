@@ -27,6 +27,15 @@ export function EditControl({
         editMCDA(config, layerActions);
       });
     }
+    if (
+      layerState.style?.type === 'multivariate' &&
+      featureFlags[AppFeature.MULTIVARIATE_ANALYSIS]
+    ) {
+      const config = layerState.style?.config;
+      import('~features/multivariate_layer').then(async ({ editMultivariateLayer }) => {
+        editMultivariateLayer(config, layerActions);
+      });
+    }
   }, [layerActions, layerState]);
 
   return (

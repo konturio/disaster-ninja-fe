@@ -48,12 +48,9 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
   /** Get custom plan special properties */
   let planName;
   let description;
-  let demoLink;
   if (isCustomPlan) {
     planName = (content[0] as ReactElement).props.children[0];
     description = content[1];
-    demoLink = planConfig.actions?.find((action) => action.name === 'contact_sales')
-      ?.params.link;
   } else {
     description = content[0];
   }
@@ -78,18 +75,8 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
 
   const renderSubscribeButtons = (paypalPlanId: string) => {
     return currentSubscription?.billingPlanId !== paypalPlanId ? (
-      <div className={s.subscribeButtonsWrapper}>
-        <a
-          className={s.linkAsButton}
-          href={salesLink}
-          onClick={() => dispatchMetricsEvent('request_trial')}
-          target="_blank"
-          rel="noreferrer"
-          aria-label={i18n.t('subscription.request_trial_button')}
-        >
-          {i18n.t('subscription.request_trial_button')}
-        </a>
-        {!currentSubscription && (
+      !currentSubscription && (
+        <div className={s.subscribeButtonsWrapper}>
           <PayPalButtonsGroup
             billingPlanId={paypalPlanId}
             onSubscriptionApproved={(planId, subscriptionId) => {
@@ -102,8 +89,8 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
               }
             }}
           />
-        )}
-      </div>
+        </div>
+      )
     ) : (
       <Button disabled>{i18n.t('subscription.current_plan_button')}</Button>
     );
@@ -149,10 +136,10 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
           href={salesLink}
           target="_blank"
           rel="noreferrer"
-          onClick={() => dispatchMetricsEvent('request_trial')}
-          aria-label={i18n.t('subscription.request_trial_button')}
+          onClick={() => dispatchMetricsEvent('book_demo')}
+          aria-label={i18n.t('subscription.book_demo_button')}
         >
-          {i18n.t('subscription.request_trial_button')}
+          {i18n.t('subscription.book_demo_button')}
         </a>
       )}
     </>
@@ -165,10 +152,10 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
           {i18n.t('subscription.sales_button')}
         </Button>
       )}
-      {demoLink && (
+      {salesLink && (
         <a
           className={s.linkAsButton}
-          href={demoLink}
+          href={salesLink}
           target="_blank"
           rel="noreferrer"
           onClick={() => dispatchMetricsEvent('book_demo')}

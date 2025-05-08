@@ -2,8 +2,8 @@ import { Text } from '@konturio/ui-kit';
 import { useMemo } from 'react';
 import { People16, Area16 } from '@konturio/default-icons';
 import { nanoid } from 'nanoid';
+import { SimpleTooltip } from '@konturio/floating';
 import { i18n } from '~core/localization';
-import { Tooltip, TooltipTrigger, TooltipContent } from '~core/tooltips';
 import s from './Analytics.module.css';
 
 const Sub = ({ children }) => (
@@ -22,17 +22,14 @@ type StatisticProps = {
 
 function Statistic({ tooltip, value, icon }: StatisticProps) {
   return (
-    <Tooltip placement="bottom">
-      <TooltipTrigger>
-        <div className={s.analyticsBadge}>
-          {icon && icon}
-          <div>
-            <Text type="caption">{value}</Text>
-          </div>
-        </div>
-      </TooltipTrigger>
-      <TooltipContent>{tooltip}</TooltipContent>
-    </Tooltip>
+    <SimpleTooltip content={tooltip} placement="bottom">
+      <div className={s.analyticsBadge}>
+        {icon && icon}
+        <span className={s.analyticsValue}>
+          <Text type="caption">{value}</Text>
+        </span>
+      </div>
+    </SimpleTooltip>
   );
 }
 

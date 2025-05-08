@@ -1,0 +1,33 @@
+.dimension {
+  padding: var(--double-unit) var(--unit);
+  width: 100%;
+}
+
+.dimensionName {
+  font-weight: 600;
+}
+
+.layerRow {
+  display: flex;
+  margin-top: var(--unit);
+}
+
+.layerEditor {
+  flex: 1;
+}
+
+.dimensionTypeSelect {
+  width: 100px;
+  margin: var(--unit);
+  margin-inline-start: calc(-1 * var(--unit));
+}
+
+@media screen and (max-width: 960px) {
+  .layerRow {
+    flex-direction: column;
+  }
+
+  .dimensionTypeSelect {
+    margin-bottom: var(--half-unit);
+  }
+}

@@ -7,8 +7,11 @@ import { useCallback, useMemo, useRef } from 'react';
 import { Sheet } from 'react-modal-sheet';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { panelClasses } from '~components/Panel';
-import { AppFeature } from '~core/app/types';
-import { configRepo } from '~core/config';
+import {
+  UniLayoutContext,
+  useUniLayoutContextValue,
+} from '~components/Uni/Layout/UniLayoutContext';
+import { UniLayoutRenderer } from '~components/Uni/Layout/UniLayoutRenderer';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { getEventName, isEventGeometry } from '~core/focused_geometry/utils';
 import { i18n } from '~core/localization';
@@ -17,34 +20,40 @@ import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { sortedEventListAtom } from '~features/events_list/atoms/sortedEventList';
+import { configRepo } from '~core/config';
+import { AppFeature } from '~core/app/types';
 import { MIN_HEIGHT } from '../../constants';
-import { EpisodeTimelineToggle } from '../EpisodeTimelineToggle/EpisodeTimelineToggle';
-import { EventCard } from '../EventCard/EventCard';
 import { FullState } from '../FullState/FullState';
 import { ShortState } from '../ShortState/ShortState';
 import { EventsPanelErrorMessage } from '../EventsPanelErrorMessage/EventsPanelErrorMessage';
+import { eventCardLayoutTemplate } from './eventLayouts';
 import s from './EventsPanel.module.css';
 import type { Event } from '~core/types';
 import type { SheetRef } from 'react-modal-sheet';
 
-const featureFlags = configRepo.get().features;
-const hasTimeline = !!featureFlags[AppFeature.EPISODES_TIMELINE];
+const hasTimeline = !!configRepo.get().features[AppFeature.EPISODES_TIMELINE];
 
 function findEventById(eventsList: Event[] | null, eventId?: string | null) {
   if (!eventId || !eventsList?.length) return null;
   return eventsList.find((event) => event.eventId === eventId);
 }
 
-function shouldShowTimeline(event: Event, hasTimeline: boolean): boolean {
-  return hasTimeline && event.episodeCount > 1;
-}
+const renderEventCard = (event: Event, isActive: boolean) => {
+  const data = {
+    ...event,
+    active: isActive,
+    // only on active card
+    showEpisodesButton: isActive && hasTimeline && event.episodeCount > 1,
+  };
+  return <UniLayoutRenderer node={eventCardLayoutTemplate} data={data} />;
+};
 
 export function EventsPanel({
   currentEventId,
-  onCurrentChange,
+  actionHandler,
 }: {
   currentEventId?: string | null;
-  onCurrentChange: (id: string) => void;
+  actionHandler: (action: string, data?: { eventId: string }) => void;
 }) {
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
 
@@ -76,33 +85,11 @@ export function EventsPanel({
     [eventsList, currentEventId],
   );
 
-  const handleEventClick = useCallback(
-    (id: string) => {
-      if (id !== currentEventId) {
-        onCurrentChange(id);
-      }
-    },
-    [currentEventId, onCurrentChange],
-  );
-
-  const renderEventCard = useCallback(
-    (event: Event, isActive: boolean) => (
-      <EventCard
-        key={event.eventId}
-        event={event}
-        isActive={isActive}
-        onClick={handleEventClick}
-        alternativeActionControl={
-          shouldShowTimeline(event, hasTimeline) ? (
-            <EpisodeTimelineToggle isActive={isActive} />
-          ) : null
-        }
-        externalUrls={event.externalUrls}
-        showDescription={isActive}
-      />
-    ),
-    [handleEventClick],
-  );
+  // Create a shared layout context for all event cards
+  const layoutContextValue = useUniLayoutContextValue({
+    layout: eventCardLayoutTemplate,
+    actionHandler,
+  });
 
   const panelContent = useCallback(
     (state: typeof panelState) => {
@@ -111,26 +98,31 @@ export function EventsPanel({
         return <LoadingSpinner message={i18n.t('loading_events')} marginTop="none" />;
       if (error) return <EventsPanelErrorMessage state={state} message={error} />;
 
-      return state === 'full' ? (
-        <FullState
-          eventsList={eventsList}
-          currentEventId={currentEventId ?? null}
-          renderEventCard={renderEventCard}
-        />
-      ) : (
-        <ShortState
-          openFullState={openFullState}
-          currentEvent={currentEvent ?? null}
-          renderEventCard={renderEventCard}
-        />
+      // Wrap the entire panel content with a shared layout context
+      return (
+        <UniLayoutContext.Provider value={layoutContextValue}>
+          {state === 'full' ? (
+            <FullState
+              eventsList={eventsList}
+              currentEventId={currentEventId ?? null}
+              renderEventCard={renderEventCard}
+            />
+          ) : (
+            <ShortState
+              openFullState={openFullState}
+              currentEvent={currentEvent ?? null}
+              renderEventCard={renderEventCard}
+            />
+          )}
+        </UniLayoutContext.Provider>
       );
     },
     [
+      layoutContextValue,
       loading,
       error,
       eventsList,
       currentEventId,
-      renderEventCard,
       openFullState,
       currentEvent,
     ],

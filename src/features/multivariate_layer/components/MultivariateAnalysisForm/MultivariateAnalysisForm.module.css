@@ -1,0 +1,95 @@
+.modalDialog {
+  max-height: 80vh;
+  max-height: 85dvh;
+  display: flex;
+}
+
+.modalContent {
+  overflow: auto;
+}
+
+.analysisForm {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: var(--double-unit);
+  width: 650px;
+  align-items: flex-start;
+  padding: 0 4px 20px;
+}
+
+.detailsContainer {
+  min-height: 260px;
+  width: 100%;
+  flex: 1;
+}
+
+.buttonsRow {
+  display: flex;
+  flex-flow: row wrap;
+  gap: var(--unit);
+  justify-content: flex-end;
+}
+
+.multiselectContainer {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+}
+
+.layersDropdown {
+  flex: 1;
+}
+
+.addLayersButton {
+  margin-block-start: 28px;
+  margin-inline-start: var(--unit);
+}
+
+.staticOpacity {
+  width: 100px;
+}
+
+.legendSection {
+  width: 100%;
+  margin-top: var(--double-unit);
+}
+
+.legendContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.legendPreview {
+  width: 35%;
+  margin-top: var(--double-unit);
+}
+
+.error {
+  color: var(--error-strong);
+}
+
+@media screen and (max-width: 960px) {
+  .modalDialog {
+    height: 85vh;
+    height: 100dvh;
+  }
+
+  .analysisForm {
+    display: flex;
+    width: 100%;
+  }
+
+  .multiselectContainer {
+    width: 100%;
+    display: block;
+  }
+
+  .addLayersButton {
+    margin: var(--unit) 0;
+  }
+
+  .legendPreview {
+    width: 90%;
+  }
+}

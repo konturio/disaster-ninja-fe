@@ -1,6 +1,7 @@
 import { useAtom } from '@reatom/npm-react';
 import { useMemo } from 'react';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
+import { i18n } from '~core/localization';
 import s from './MultivariateLayerEditor.module.css';
 import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { LayerEditorProps } from '~core/logical_layers/types/editors';
@@ -33,26 +34,28 @@ export function MultivariateLayerEditor({ layerId }: LayerEditorProps) {
     );
   };
 
-  const printValue = (
-    dimensionName: string,
-    paramName: string,
-    value: number | string,
-  ) => {
+  const printValue = (dimensionName: string, value: string) => {
     return (
       <div>
         <div className={s.dimension}>{dimensionName}</div>
-        <div className={s.parameter}>
-          {paramName}: - {value.toString()}
-        </div>
+        <div className={s.parameter}>- {value}</div>
       </div>
     );
   };
 
   return (
     <div className={s.editor}>
-      {printMCDAAxes('Score', layerConfig.score.config.layers)}
-      {layerConfig.base?.config.layers.length &&
-        printMCDAAxes('Base', layerConfig.base.config.layers)}
+      {!!layerConfig.score?.config.layers.length &&
+        printMCDAAxes(i18n.t('multivariate.score'), layerConfig.score.config.layers)}
+      {!!layerConfig.base?.config.layers.length &&
+        printMCDAAxes(i18n.t('multivariate.compare'), layerConfig.base.config.layers)}
+      {typeof layerConfig.opacity === 'number'
+        ? printValue(i18n.t('multivariate.hide_area'), layerConfig.opacity.toString())
+        : layerConfig.opacity?.type === 'mcda' &&
+          printMCDAAxes(
+            i18n.t('multivariate.hide_area'),
+            layerConfig.opacity.config.layers,
+          )}
     </div>
   );
 }

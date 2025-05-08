@@ -1,7 +1,10 @@
 import { test } from './fixtures/test-options.ts';
-import { getProjects } from './page-objects/helperBase.ts';
+import { getProjects, stepCounter } from './page-objects/helperBase.ts';
 
 const projects = getProjects();
+test.beforeEach(() => {
+  stepCounter.counter = 0;
+});
 
 for (const project of projects) {
   test.describe(`As Guest, I can reload the page of ${project.title} and see the info kept`, () => {
@@ -9,7 +12,7 @@ for (const project of projects) {
       test(`Url of map is still the same`, async ({ pageManager }) => {
         test.fixme(
           project.name === 'oam',
-          'Fix https://kontur.fibery.io/Tasks/Task/routing-oam-url-param-map-2.122--0.000-0.000-is-opened-first-instead-of-map-2.122-0.000-0.000-19889 to unblock oam test',
+          'Fix https://kontur.fibery.io/Tasks/Task/reopen-routing-oam-url-param-map-2.122--0.000-0.000-is-opened-first-instead-of-map-2.122-0.000-0.000-21381 to unblock oam test',
         );
         await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
         await pageManager.atNavigationMenu.clickButtonToOpenPage('Map');

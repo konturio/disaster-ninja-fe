@@ -14,10 +14,19 @@
 
 .body {
   margin-bottom: var(--double-unit);
+  margin-top: var(--unit);
 }
 
 .buttonsRow {
   margin-top: var(--unit);
   display: flex;
+  flex-wrap: wrap;
   gap: var(--double-unit);
+}
+
+@media screen and (max-width: 960px) {
+  .cookieBanner {
+    padding: 25px;
+    left: var(--unit);
+  }
 }

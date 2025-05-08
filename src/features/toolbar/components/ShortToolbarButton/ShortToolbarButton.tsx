@@ -1,7 +1,7 @@
 import { Button } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import { forwardRef } from 'react';
-import { Tooltip, TooltipTrigger, TooltipContent } from '~core/tooltips';
+import { SimpleTooltip } from '@konturio/floating';
 import s from './ShortToolbarButton.module.css';
 import type { ControlButttonProps } from '../ToolbarButton/ToolbarButton';
 
@@ -19,21 +19,18 @@ export const ShortToolbarButton = forwardRef(function ToolbarButton(
   ref: React.Ref<HTMLButtonElement>,
 ) {
   return (
-    <Tooltip placement="top">
-      <TooltipTrigger asChild>
-        <Button
-          data-testid={id}
-          ref={ref}
-          variant={variant}
-          iconBefore={icon}
-          size="medium"
-          className={clsx(className, s.shortToolbarButton, { [s.active]: active })}
-          disabled={disabled}
-          active={active}
-          onClick={onClick}
-        />
-      </TooltipTrigger>
-      <TooltipContent>{children}</TooltipContent>
-    </Tooltip>
+    <SimpleTooltip content={children} placement="top">
+      <Button
+        data-testid={id}
+        ref={ref}
+        variant={variant}
+        iconBefore={icon}
+        size="medium"
+        className={clsx(className, s.shortToolbarButton, { [s.active]: active })}
+        disabled={disabled}
+        active={active}
+        onClick={onClick}
+      />
+    </SimpleTooltip>
   );
 });

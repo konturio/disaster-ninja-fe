@@ -4,7 +4,8 @@
   left: 50%;
   transform: translate(-50%, 0);
   text-align: center;
-  transition: 0.8;
+  transition-property: opacity;
+  transition-duration: 0.8s;
   z-index: 100;
 }
 

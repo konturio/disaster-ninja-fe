@@ -1,6 +1,5 @@
 import clsx from 'clsx';
-import { useState } from 'react';
-import { Tooltip, TooltipTrigger, TooltipContent } from '~core/tooltips';
+import { SimpleTooltip } from '@konturio/floating';
 import style from './LayerActionIcon.module.css';
 import type { PropsWithChildren } from 'react';
 
@@ -16,31 +15,11 @@ export function LayerActionIcon({
   children,
   className,
 }: PropsWithChildren<LayerActionButtonProps>) {
-  const [isOpen, setIsOpen] = useState<boolean>();
-
-  function onKeyUp(event: React.KeyboardEvent<HTMLDivElement>) {
-    if (event.key === 'Enter') {
-      onClick();
-    }
-  }
-
   return (
-    <Tooltip placement="top" open={isOpen}>
-      <TooltipTrigger asChild>
-        <div
-          onFocus={() => setIsOpen(true)}
-          onBlur={() => setIsOpen(false)}
-          onMouseEnter={() => setIsOpen(true)}
-          onMouseLeave={() => setIsOpen(false)}
-          onKeyUp={onKeyUp}
-          className={clsx(style.actionButton, className)}
-          onClick={onClick}
-          tabIndex={0}
-        >
-          {children}
-        </div>
-      </TooltipTrigger>
-      <TooltipContent>{hint}</TooltipContent>
-    </Tooltip>
+    <SimpleTooltip content={hint} placement="top">
+      <button className={clsx(style.actionButton, className)} onClick={onClick}>
+        {children}
+      </button>
+    </SimpleTooltip>
   );
 }

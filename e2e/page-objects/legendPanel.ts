@@ -1,5 +1,5 @@
 import { expect } from '@playwright/test';
-import { HelperBase } from './helperBase';
+import { HelperBase, step } from './helperBase';
 
 export class LegendPanel extends HelperBase {
   /**
@@ -7,6 +7,10 @@ export class LegendPanel extends HelperBase {
    * @param expectedTexts - array of expected texts
    */
 
+  @step(
+    () =>
+      `Check that legend panel has expected texts (open this step to see all of them)`,
+  )
   async assertLegendPanelTexts(expectedTexts: string[]) {
     const legendPanel = this.page.locator('#layers_and_legends');
     for (const text of expectedTexts) {

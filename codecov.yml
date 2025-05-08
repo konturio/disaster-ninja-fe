@@ -86,6 +86,8 @@ ignore:
   - '**/test/**'
   - '**/testing/**'
   - '**/vitest/**'
+  - '**/__test__/**'
+  - '**/__tests__/**'
 
   # Mock files
   - '**/__mocks__/**'

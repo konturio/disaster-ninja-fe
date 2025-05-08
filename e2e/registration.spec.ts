@@ -1,13 +1,17 @@
 import { expect } from '@playwright/test';
 import { faker } from '@faker-js/faker';
 import { test } from './fixtures/test-options.ts';
-import { getProjects, getTestData } from './page-objects/helperBase.ts';
+import { getProjects, getTestData, stepCounter } from './page-objects/helperBase.ts';
 import type { Project } from './page-objects/helperBase.ts';
 import type { APIRequestContext } from '@playwright/test';
 
 const countriesToTest = ['us', 'ca', 'pl'];
 
+// Registration is not allowed for testing on prod not to spam the server
 const projects = getProjects().filter((project: Project) => project.env !== 'prod');
+test.beforeEach(() => {
+  stepCounter.counter = 0;
+});
 const phoneByCountry: [string, string][] = Object.entries(
   getTestData('phone-by-country'),
 );
@@ -90,18 +94,14 @@ for (const [countryCode, fullPhone] of testedPhoneByCountry) {
         shouldSuccess: true,
       });
 
-      // Atlas redirects to pricing page after login
+      // Atlas redirects to Profile page after login due to trial period started
       if (project.name === 'atlas') {
+        await pageManager.atNavigationMenu.clickButtonToOpenPage('Plans & Pricing');
         await pageManager.atPricingPage.checkPageAndTextsAvailability();
         await pageManager.atPricingPage.clickBtnAndAssertUrl({
           context,
-          buttonName: 'Request trial',
-          expectedUrlPart: 'demo-call',
-        });
-        await pageManager.atPricingPage.clickBtnAndAssertUrl({
-          context,
           buttonName: 'Book a demo',
-          expectedUrlPart: 'atlas-demo',
+          expectedUrlPart: 'book-a-demo',
         });
         await pageManager.atNavigationMenu.clickButtonToOpenPage('Profile');
       }

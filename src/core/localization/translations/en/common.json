@@ -10,6 +10,7 @@
   "create": "Create",
   "disasters": "Disasters",
   "loading": "Loading...",
+  "preparing_data": "Preparing data",
   "loading_events": "Loading disasters",
   "legend": "Legend",
   "maps": "maps",
@@ -39,7 +40,8 @@
       "download": "Download",
       "edit": "Edit",
       "hide": "Hide",
-      "show": "Show"
+      "show": "Show",
+      "delete": "Delete"
     }
   },
   "feed": "Feed",
@@ -47,6 +49,9 @@
   "spinner_text": "Gathering data",
   "updated": "Updated",
   "started": "Started",
+  "created": "Created",
+  "mapping_types": "Mapping types",
+  "osm_gaps": "OSM gaps",
   "no_data_received": "No data received",
   "wrong_data_received": "Wrong data received",
   "error": "Error",
@@ -102,10 +107,8 @@
     "modal_input_indicators": "Layer list",
     "modal_input_indicators_placeholder": "Select layers",
     "modal_input_indicators_no_options": "No options",
-    "btn_cancel": "Cancel",
     "btn_save": "Save analysis",
     "error_analysis_name_cannot_be_empty": "Analysis name cannot be empty",
-    "error_bad_layer_data": "Invalid MCDA layer data",
     "error_invalid_file": "Invalid MCDA file format",
     "error_invalid_parameter": "Invalid '{{parameter}}' parameter",
     "error_invalid_layer_parameter": "Invalid '{{parameter}}' parameter in '{{axisName}}' layer",
@@ -163,11 +166,16 @@
     "good": "Good"
   },
   "multivariate": {
+    "multivariate_analysis": "Multivariate Analysis",
+    "create_analysis_layer": "Create analysis layer",
     "upload_analysis_layer": "Upload analysis layer",
     "popup": {
       "score_header": "Score {{level}}",
-      "base_header": "Base {{level}}"
-    }
+      "compare_header": "Compare {{level}}"
+    },
+    "score": "Score",
+    "compare": "Compare",
+    "hide_area": "Hide area"
   },
   "search": {
     "search_location": "Search location",
@@ -403,7 +411,11 @@
     "profile": "Profile",
     "privacy": "Privacy",
     "terms": "Terms",
-    "user_guide": "User guide"
+    "user_guide": "User guide",
+    "external": {
+      "upload_imagery": "Upload imagery",
+      "imagery_catalog": "Imagery catalog"
+    }
   },
   "profile": {
     "interfaceTheme": "Theme",
@@ -456,7 +468,7 @@
       "to_replace_reference_area": "You can redefine your reference area on map. Select an area and click \"Save as reference area\" on toolbar.\n",
       "description": "Save an area you are familiar with as a reference. We will use it as a baseline to compare other areas and explain the differences.",
       "set_the_reference_area": "Set area on map",
-      "tooltip_text": "1.Select an area of interest on the map using the Admin Boundary or Draw Geometry tool. <br/> 2. Click the 'Save as Reference' button on the toolbar.",
+      "tooltip_text": "1.Select an area of interest on the map using the Admin Boundary or Draw Geometry tool.\n\n 2. Click the 'Save as Reference' button on the toolbar.",
       "accessing_location": "Accessing your location",
       "accessing_location_error": "Error. Try another way.",
       "select_location": "Select my current location",

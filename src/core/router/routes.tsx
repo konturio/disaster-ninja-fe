@@ -8,13 +8,16 @@ import {
   Reports16,
   Diamond24,
   BookOpen24,
+  Image24,
+  Upload24,
 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
 import { AppFeature } from '~core/app/types';
 import { configRepo } from '~core/config';
 import { PagesDocument } from '~core/pages';
+import { EmbeddedPage } from '~views/EmbeddedPage/EmbeddedPage';
 import { goTo } from './goTo';
-import type { AboutFeatureConfig } from '~core/config/types';
+import type { AboutFeatureConfig, CustomRoutesConfig } from '~core/config/types';
 import type { AppRoute, AppRouterConfig } from './types';
 const { PricingPage } = lazily(() => import('~views/Pricing/Pricing'));
 const { MapPage } = lazily(() => import('~views/Map/Map'));
@@ -27,6 +30,14 @@ const { BivariateManagerPage } = lazily(
 
 export const isAuthenticated = !!configRepo.get().user;
 export const isMapFeatureEnabled = configRepo.get().features[AppFeature.MAP];
+
+const ROUTE_ID_COOKIES = 'cookies';
+
+const shouldShowCookiesPageInSidebar = !!(
+  configRepo?.get().features[AppFeature.ABOUT_PAGE]?.['subTabs'] as
+    | AboutFeatureConfig['subTabs']
+    | undefined
+)?.find((subTab) => subTab.tabId === ROUTE_ID_COOKIES);
 
 const ABOUT_SUBTABS: Record<string, Omit<AppRoute, 'view' | 'parentRouteId'>> = {
   terms: {
@@ -55,6 +66,30 @@ const ABOUT_SUBTABS: Record<string, Omit<AppRoute, 'view' | 'parentRouteId'>> = 
   },
 };
 
+const EMBEDDED_PAGE_ROUTES: Record<string, Omit<AppRoute, 'view'>> = {
+  'profile-external': {
+    id: 'profile-external',
+    slug: 'profile-external',
+    title: i18n.t('modes.profile'),
+    icon: <User24 />,
+    visibilityInNavigation: 'always',
+  },
+  'upload-imagery': {
+    id: 'upload-imagery',
+    slug: 'upload',
+    title: i18n.t('modes.external.upload_imagery'),
+    icon: <Upload24 />,
+    visibilityInNavigation: 'always',
+  },
+  'imagery-catalog': {
+    id: 'imagery-catalog',
+    slug: 'imagery',
+    title: i18n.t('modes.external.imagery_catalog'),
+    icon: <Image24 />,
+    visibilityInNavigation: 'always',
+  },
+};
+
 function getAboutSubTabs() {
   const subTabsConfig = configRepo?.get().features[AppFeature.ABOUT_PAGE]?.['subTabs'] as
     | AboutFeatureConfig['subTabs']
@@ -73,6 +108,35 @@ function getAboutSubTabs() {
           />
         ),
       }));
+  }
+  return [];
+}
+
+function getCustomRoutes(): AppRoute[] {
+  const customRoutesConfig = configRepo?.get().features[AppFeature.CUSTOM_ROUTES]?.[
+    'routes'
+  ] as CustomRoutesConfig['routes'] | undefined;
+  if (Array.isArray(customRoutesConfig)) {
+    return customRoutesConfig
+      .map((customRoute) => {
+        if (
+          customRoute.type === 'embedded' &&
+          EMBEDDED_PAGE_ROUTES[customRoute.id] &&
+          customRoute.url
+        ) {
+          return {
+            ...EMBEDDED_PAGE_ROUTES[customRoute.id],
+            view: (
+              <EmbeddedPage
+                url={customRoute.url}
+                title={EMBEDDED_PAGE_ROUTES[customRoute.id].title}
+              />
+            ),
+          };
+        }
+        return null;
+      })
+      .filter((route) => !!route);
   }
   return [];
 }
@@ -131,6 +195,7 @@ export const routerConfig: AppRouterConfig = {
       view: <PricingPage />,
       requiredFeature: AppFeature.SUBSCRIPTION,
     },
+    ...getCustomRoutes(),
     {
       id: 'about',
       slug: 'about',
@@ -155,7 +220,7 @@ export const routerConfig: AppRouterConfig = {
     },
     ...getAboutSubTabs(),
     {
-      id: 'cookies',
+      id: ROUTE_ID_COOKIES,
       slug: 'cookies',
       title: i18n.t('modes.cookies'),
       icon: <Reports16 />,
@@ -167,7 +232,7 @@ export const routerConfig: AppRouterConfig = {
         />
       ),
       parentRouteId: 'about',
-      visibilityInNavigation: 'never',
+      visibilityInNavigation: shouldShowCookiesPageInSidebar ? 'always' : 'never',
       requiredFeature: AppFeature.ABOUT_PAGE,
     },
   ],

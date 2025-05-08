@@ -5,7 +5,6 @@
 .valueCell {
   text-align: center;
   position: relative;
-  vertical-align: central;
   display: flex;
   align-items: center;
   justify-content: center;

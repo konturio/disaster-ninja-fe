@@ -135,9 +135,11 @@ export function createLogicalLayerAtom(
         isVisible: !get('hiddenLayersAtom').has(id),
         isDownloadable:
           asyncLayerSource.data?.source.type === 'geojson' ||
-          asyncLayerSource.data?.style?.type === 'mcda',
+          asyncLayerSource.data?.style?.type === 'mcda' ||
+          asyncLayerSource.data?.style?.type === 'multivariate',
         isEditable:
-          asyncLayerSource.data?.style?.type === 'mcda' &&
+          (asyncLayerSource.data?.style?.type === 'mcda' ||
+            asyncLayerSource.data?.style?.type === 'multivariate') &&
           !!asyncLayerSettings.data?.ownedByUser,
         settings: deepFreeze(asyncLayerSettings.data),
         meta: deepFreeze(asyncLayerMeta.data),
@@ -223,8 +225,16 @@ export function createLogicalLayerAtom(
               }-${new Date().toISOString()}.json`,
               2,
             );
+          } else if (state.source.style?.type === 'multivariate') {
+            downloadObject(
+              state.source.style,
+              `${
+                state.settings?.name || state.id || 'MVA'
+              }-${new Date().toISOString()}.json`,
+              2,
+            );
           } else {
-            logError('Only geojson layers or MCDA can be downloaded');
+            logError('Only geojson layers, MCDA or MVA can be downloaded');
           }
         } catch (e) {
           logError(e);

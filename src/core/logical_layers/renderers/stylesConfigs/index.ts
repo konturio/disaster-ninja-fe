@@ -1,19 +1,12 @@
 import { generateBivariateColorsAndStyleForMultivariateLayer } from '~utils/multivariate/multivariateStyle';
+import { isNumber } from '~utils/common';
 import { SOURCE_LAYER_BIVARIATE } from '../BivariateRenderer/constants';
-import { createMCDAStyle, linearNormalization } from './mcda/mcdaStyle';
+import { createMCDAStyle } from './mcda/mcdaStyle';
+import { createOpacityStepsExpression } from './multivariate/createOpacityStepsExpression';
 import type { MultivariateLayerStyle } from './multivariate/multivariateStyle';
-import type { MultivariateAxis } from '../MultivariateRenderer/types';
 import type { MCDALayerStyle } from './mcda/types';
 import type { FillLayerSpecification, LayerSpecification } from 'maplibre-gl';
 import type { LayerStyle } from '~core/logical_layers/types/style';
-
-export function multivariateAxisToScore(axis: MultivariateAxis | number) {
-  if (typeof axis === 'number') {
-    return axis;
-  } else {
-    return linearNormalization(axis.config.layers);
-  }
-}
 
 export const styleConfigs: Record<
   LayerStyle['type'],
@@ -34,6 +27,15 @@ export const styleConfigs: Record<
       multivariateStyle = colorsAndStyle[1];
     } else {
       multivariateStyle = createMCDAStyle(config.score.config);
+    }
+    if (config.opacity !== undefined) {
+      const opacity = !isNumber(config.opacity)
+        ? createOpacityStepsExpression(config.opacity)
+        : config.opacity;
+      multivariateStyle = {
+        ...multivariateStyle,
+        paint: { ...multivariateStyle.paint, 'fill-opacity': opacity },
+      };
     }
     return Array(multivariateStyle);
   },
