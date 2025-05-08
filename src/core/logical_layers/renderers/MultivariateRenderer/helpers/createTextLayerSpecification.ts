@@ -16,6 +16,7 @@ export function createTextLayerSpecification(
   filter?: FilterSpecification,
 ): LayerSpecification | undefined {
   let values: ExpressionSpecification[] | undefined = undefined;
+  let units: string[] | undefined = undefined;
   if (textDimension?.expressionValue) {
     values = [textDimension?.expressionValue];
   }
@@ -29,6 +30,7 @@ export function createTextLayerSpecification(
       values = textDimension.mcdaValue.config.layers.map((layer) =>
         calculateMCDALayer(layer),
       );
+      units = textDimension.mcdaValue.config.layers.map((layer) => layer.unit ?? '');
     }
   }
   if (values?.length) {
@@ -45,8 +47,8 @@ export function createTextLayerSpecification(
       }
     }
     const formatString = textDimension.formatString;
-    const formattedValues: ExpressionSpecification[] = values.map((v) =>
-      formatFeatureText(v, formatString),
+    const formattedValues: ExpressionSpecification[] = values.map((v, index) =>
+      formatFeatureText(v, formatString, units?.at(index)),
     );
 
     let outputLines: ExpressionSpecification;

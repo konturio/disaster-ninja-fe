@@ -86,9 +86,10 @@ export function createMultivariateConfig(
   const textSettings = overrides.textSettings ?? {};
   const textDimension: TextDimension | undefined = textMCDAStyle
     ? {
+        mcdaMode: 'layers',
+        precision: 2,
         ...textSettings,
         mcdaValue: textMCDAStyle,
-        mcdaMode: 'score',
       }
     : undefined;
   const opacityStatic: number | undefined = isNumber(overrides.opacity)
