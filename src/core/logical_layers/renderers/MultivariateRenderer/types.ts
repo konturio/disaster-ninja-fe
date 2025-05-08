@@ -10,10 +10,11 @@ import type {
 export type MultivariateDimension = MCDALayerStyle;
 
 export type TextDimension = {
+  expressionValue?: ExpressionSpecification;
+  mcdaValue?: MultivariateDimension;
+  mcdaMode?: 'score' | 'layers';
   formatString?: string;
-  valueExpression?: ExpressionSpecification;
   precision?: number;
-  mcda?: MultivariateDimension;
   paintOverrides?: SymbolLayerSpecification['paint'];
   layoutOverrides?: SymbolLayerSpecification['layout'];
 };

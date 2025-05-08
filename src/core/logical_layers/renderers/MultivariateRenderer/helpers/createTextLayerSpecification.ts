@@ -16,11 +16,13 @@ export function createTextLayerSpecification(
 ): LayerSpecification | undefined {
   let value: ExpressionSpecification | undefined = undefined;
   let formattedValue: ExpressionSpecification | undefined = undefined;
-  if (textDimension?.valueExpression) {
-    value = textDimension?.valueExpression;
+  if (textDimension?.expressionValue) {
+    value = textDimension?.expressionValue;
   }
-  if (textDimension?.mcda) {
-    value = multivariateDimensionToScore(textDimension?.mcda) as ExpressionSpecification;
+  if (textDimension?.mcdaValue) {
+    value = multivariateDimensionToScore(
+      textDimension?.mcdaValue,
+    ) as ExpressionSpecification;
   }
   if (value) {
     if (textDimension?.precision !== undefined) {
