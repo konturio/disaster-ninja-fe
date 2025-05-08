@@ -1,10 +1,10 @@
 import { BreadcrumbsPanel } from '~features/breadcrumbs/BreadcrumbsPanel';
-import { MapTitle } from '~features/presentation_mode/MapTitle/MapTitle';
+import { MapTitle } from '~components/MapTitle/MapTitle';
 import { LayersCopyrights } from '~components/LayersCopyrights/LayersCopyrights';
-import { LegendsPanel } from '~features/presentation_mode/LegendsPanel/LegendsPanel';
 import { CurrentEvent } from '~components/CurrentEvent/CurrentEvent';
 import { configRepo } from '~core/config';
 import { AppFeature } from '~core/app/types';
+import { PanelContent } from '~features/legend_panel/components/PanelContent/PanelContent';
 import s from './Presentation.module.css';
 import type { ReactNode } from 'react';
 
@@ -23,7 +23,11 @@ export function PresentationLayout({ scaleAndLogo }: { scaleAndLogo?: ReactNode 
       </div>
       <div className={s.sidePanel}>
         {featureFlags[AppFeature.CURRENT_EVENT] && <CurrentEvent />}
-        {featureFlags[AppFeature.LEGEND_PANEL] && <LegendsPanel />}
+        {featureFlags[AppFeature.LEGEND_PANEL] && (
+          <div className="knt-panel">
+            <PanelContent />
+          </div>
+        )}
       </div>
       <div className={s.copyrights}>
         {featureFlags[AppFeature.LAYERS_COPYRIGHTS] && <LayersCopyrights />}
