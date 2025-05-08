@@ -23,11 +23,11 @@ export function createTextLayerSpecification(
     value = multivariateDimensionToScore(textDimension?.mcda) as ExpressionSpecification;
   }
   if (value) {
-    if (textDimension?.decimals !== undefined) {
-      if (textDimension.decimals === 0) {
+    if (textDimension?.precision !== undefined) {
+      if (textDimension.precision === 0) {
         value = ['round', value];
-      } else if (textDimension.decimals > 0) {
-        const precisionMultiplier = Math.pow(10, textDimension.decimals);
+      } else if (textDimension.precision > 0) {
+        const precisionMultiplier = Math.pow(10, textDimension.precision);
         value = ['/', ['round', ['*', value, precisionMultiplier]], precisionMultiplier];
       }
     }

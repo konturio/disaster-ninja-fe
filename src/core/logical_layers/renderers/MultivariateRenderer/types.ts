@@ -12,7 +12,7 @@ export type MultivariateDimension = MCDALayerStyle;
 export type TextDimension = {
   formatString?: string;
   valueExpression?: ExpressionSpecification;
-  decimals?: number;
+  precision?: number;
   mcda?: MultivariateDimension;
   paintOverrides?: SymbolLayerSpecification['paint'];
   layoutOverrides?: SymbolLayerSpecification['layout'];
