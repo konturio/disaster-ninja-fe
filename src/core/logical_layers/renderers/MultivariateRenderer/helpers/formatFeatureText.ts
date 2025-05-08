@@ -1,22 +1,32 @@
 import type { ExpressionSpecification } from 'maplibre-gl';
 
-export const MULTIVARIATE_LABEL_VALUE_PLACEHOLDER = '{value}';
+const MULTIVARIATE_LABEL_VALUE_PLACEHOLDER = '{value}';
+const MULTIVARIATE_LABEL_UNIT_PLACEHOLDER = '{unit}';
+const DEFAULT_TEMPLATE = '{value} {unit}';
 
 export function formatFeatureText(
-  formatString: string,
   value: any,
+  formatString?: string,
+  unit?: string,
 ): ExpressionSpecification {
-  const result: any[] = [];
+  if (!formatString && !unit) {
+    return ['to-string', value];
+  }
+  let template = formatString ?? DEFAULT_TEMPLATE;
+  if (unit) {
+    template = template.replaceAll(MULTIVARIATE_LABEL_UNIT_PLACEHOLDER, unit);
+  }
+  const formattedParts: any[] = [];
   let lastIndex = 0;
-  for (const match of formatString.matchAll(
+  for (const match of template.matchAll(
     new RegExp(MULTIVARIATE_LABEL_VALUE_PLACEHOLDER, 'g'),
   )) {
-    result.push(formatString.substring(lastIndex, match.index));
-    result.push(value);
+    formattedParts.push(template.substring(lastIndex, match.index));
+    formattedParts.push(value);
     lastIndex = match.index + MULTIVARIATE_LABEL_VALUE_PLACEHOLDER.length;
   }
-  if (lastIndex < formatString.length) {
-    result.push(formatString.substring(lastIndex, formatString.length));
+  if (lastIndex < template.length) {
+    formattedParts.push(template.substring(lastIndex, template.length));
   }
-  return ['concat', ...result];
+  return ['concat', ...formattedParts];
 }

@@ -46,7 +46,7 @@ export function createTextLayerSpecification(
     }
     const formatString = textDimension.formatString;
     const formattedValue: ExpressionSpecification[] = value.map((v) =>
-      formatString ? formatFeatureText(formatString, v) : ['to-string', v],
+      formatFeatureText(v, formatString),
     );
 
     let outputLines: ExpressionSpecification;
