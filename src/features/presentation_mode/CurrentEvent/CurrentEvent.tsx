@@ -1,22 +1,17 @@
 import { useAtom } from '@reatom/npm-react';
-import { EventCard } from '~features/events_list/components/EventCard/EventCard';
 import { currentEventResourceAtom } from '~core/shared_state/currentEventResource';
-import s from './CurrentEvent.module.css';
+import { UniLayout } from '~components/Uni/Layout/UniLayout';
+import { eventCardLayoutTemplate } from '~features/events_list/components/EventsPanel/eventLayouts';
 
 export const CurrentEvent = () => {
-  const [{ data: currentEvent }] = useAtom(currentEventResourceAtom.v3atom);
+  let [{ data: currentEvent }] = useAtom(currentEventResourceAtom.v3atom);
   if (!currentEvent) return null;
 
+  currentEvent = { ...currentEvent, showEpisodesButton: false, active: true };
+
   return (
-    <div className="knt-panel">
-      <EventCard
-        key={currentEvent.eventId}
-        event={currentEvent}
-        isActive={false}
-        showDescription={true}
-        alternativeActionControl={null}
-        className={s.presentationMode}
-      />
+    <div className="knt-panel knt-current-event">
+      <UniLayout data={currentEvent} layout={eventCardLayoutTemplate}></UniLayout>
     </div>
   );
 };
