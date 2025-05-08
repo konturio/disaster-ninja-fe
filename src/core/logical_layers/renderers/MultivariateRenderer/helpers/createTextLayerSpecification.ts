@@ -15,29 +15,29 @@ export function createTextLayerSpecification(
   sourceId: string,
   filter?: FilterSpecification,
 ): LayerSpecification | undefined {
-  let value: ExpressionSpecification[] | undefined = undefined;
+  let values: ExpressionSpecification[] | undefined = undefined;
   if (textDimension?.expressionValue) {
-    value = [textDimension?.expressionValue];
+    values = [textDimension?.expressionValue];
   }
   if (textDimension?.mcdaValue) {
     if (textDimension.mcdaMode === 'score') {
-      value = [
+      values = [
         multivariateDimensionToScore(textDimension?.mcdaValue) as ExpressionSpecification,
       ];
     } else {
       // @ts-expect-error - typing for calculateMCDALayer needs fixing, it actually returns ExpressionSpecification
-      value = textDimension.mcdaValue.config.layers.map((layer) =>
+      values = textDimension.mcdaValue.config.layers.map((layer) =>
         calculateMCDALayer(layer),
       );
     }
   }
-  if (value?.length) {
+  if (values?.length) {
     if (textDimension?.precision !== undefined) {
       if (textDimension.precision === 0) {
-        value = value.map((v) => ['round', v]);
+        values = values.map((v) => ['round', v]);
       } else if (textDimension.precision > 0) {
         const precisionMultiplier = Math.pow(10, textDimension.precision);
-        value = value.map((v) => [
+        values = values.map((v) => [
           '/',
           ['round', ['*', v, precisionMultiplier]],
           precisionMultiplier,
@@ -45,25 +45,25 @@ export function createTextLayerSpecification(
       }
     }
     const formatString = textDimension.formatString;
-    const formattedValue: ExpressionSpecification[] = value.map((v) =>
+    const formattedValues: ExpressionSpecification[] = values.map((v) =>
       formatFeatureText(v, formatString),
     );
 
     let outputLines: ExpressionSpecification;
-    if (formattedValue.length > 1) {
+    if (formattedValues.length > 1) {
       const lines: any[] = [];
-      for (let i = 0; i < formattedValue.length; i += 1) {
-        lines.push(['to-string', formattedValue[i]]);
-        if (i !== formattedValue.length - 1) {
+      for (let i = 0; i < formattedValues.length; i += 1) {
+        lines.push(['to-string', formattedValues[i]]);
+        if (i !== formattedValues.length - 1) {
           lines.push('\n');
         }
       }
       outputLines = ['concat', ...lines];
     } else {
-      outputLines = formattedValue[0];
+      outputLines = formattedValues[0];
     }
 
-    const sortExpression: ExpressionSpecification = ['*', value[0], -1];
+    const sortExpression: ExpressionSpecification = ['*', values[0], -1];
     const layerStyle: LayerSpecification = {
       id: textLayerId,
       type: 'symbol',
