@@ -1,4 +1,4 @@
-import type { SymbolLayerSpecification } from 'maplibre-gl';
+import type { ExpressionSpecification, SymbolLayerSpecification } from 'maplibre-gl';
 import type { Step } from '~utils/bivariate';
 import type { ColorTheme } from '~core/types';
 import type {
@@ -11,8 +11,8 @@ export type MultivariateDimension = MCDALayerStyle;
 
 export type TextDimension = {
   formatString?: string;
-  propertyName?: string;
-  valueExpression?: any;
+  valueExpression?: ExpressionSpecification;
+  decimals?: number;
   mcda?: MultivariateDimension;
   paintOverrides?: SymbolLayerSpecification['paint'];
   layoutOverrides?: SymbolLayerSpecification['layout'];

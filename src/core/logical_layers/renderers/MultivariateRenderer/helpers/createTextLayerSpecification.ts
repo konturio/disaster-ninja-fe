@@ -16,17 +16,24 @@ export function createTextLayerSpecification(
 ): LayerSpecification {
   let value: ExpressionSpecification | undefined = undefined;
   let formattedValue: ExpressionSpecification | undefined = undefined;
-  if (textDimension?.propertyName) {
-    value = ['get', textDimension.propertyName];
-  }
   if (textDimension?.valueExpression) {
     value = textDimension?.valueExpression;
   }
   if (textDimension?.mcda) {
     value = multivariateDimensionToScore(textDimension?.mcda) as ExpressionSpecification;
   }
-  if (textDimension.formatString) {
-    formattedValue = formatFeatureText(textDimension.formatString, value);
+  if (value) {
+    if (textDimension?.decimals !== undefined) {
+      if (textDimension.decimals === 0) {
+        value = ['round', value];
+      } else if (textDimension.decimals > 0) {
+        const precisionMultiplier = Math.pow(10, textDimension.decimals);
+        value = ['/', ['round', ['*', value, precisionMultiplier]], precisionMultiplier];
+      }
+    }
+    if (textDimension.formatString) {
+      formattedValue = formatFeatureText(textDimension.formatString, value);
+    }
   }
   const sortExpression: ExpressionSpecification | undefined = value
     ? ['*', ['to-number', value], -1]
