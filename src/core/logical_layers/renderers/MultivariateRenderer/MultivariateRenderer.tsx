@@ -36,16 +36,18 @@ export class MultivariateRenderer extends ClickableFeaturesRenderer {
     const filter: FilterSpecification | undefined =
       mainLayerSpecification.type === 'fill' ? mainLayerSpecification.filter : undefined;
     const textLayerId = mainLayerId + TEXT_LAYER_POSTFIX;
-    const textLayerStyle = createTextLayerSpecification(
+    const textLayerSpec = createTextLayerSpecification(
       textDimension,
       textLayerId,
       this._sourceId,
       filter,
     );
-    layerByOrder(map, this._layersOrderManager).addAboveLayerWithSameType(
-      textLayerStyle,
-      this.id,
-    );
+    if (textLayerSpec) {
+      layerByOrder(map, this._layersOrderManager).addAboveLayerWithSameType(
+        textLayerSpec,
+        this.id,
+      );
+    }
   }
 
   protected mountLayers(map: ApplicationMap, layer: LayerTileSource, style: LayerStyle) {

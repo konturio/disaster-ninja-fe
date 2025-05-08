@@ -13,7 +13,7 @@ export function createTextLayerSpecification(
   textLayerId: string,
   sourceId: string,
   filter?: FilterSpecification,
-): LayerSpecification {
+): LayerSpecification | undefined {
   let value: ExpressionSpecification | undefined = undefined;
   let formattedValue: ExpressionSpecification | undefined = undefined;
   if (textDimension?.valueExpression) {
@@ -34,27 +34,26 @@ export function createTextLayerSpecification(
     if (textDimension.formatString) {
       formattedValue = formatFeatureText(textDimension.formatString, value);
     }
+    const sortExpression: ExpressionSpecification = ['*', ['to-number', value], -1];
+    const layerStyle: LayerSpecification = {
+      id: textLayerId,
+      type: 'symbol',
+      layout: {
+        'text-field': formattedValue ?? value,
+        'text-font': ['literal', ['Noto Sans Regular']],
+        'text-size': 11,
+        'symbol-sort-key': sortExpression,
+        'symbol-z-order': 'source',
+        ...textDimension.layoutOverrides,
+      },
+      paint: {
+        ...textDimension.paintOverrides,
+      },
+      source: sourceId,
+      'source-layer': SOURCE_LAYER_MCDA,
+      filter,
+    };
+    return layerStyle;
   }
-  const sortExpression: ExpressionSpecification | undefined = value
-    ? ['*', ['to-number', value], -1]
-    : undefined;
-  const layerStyle: LayerSpecification = {
-    id: textLayerId,
-    type: 'symbol',
-    layout: {
-      'text-field': formattedValue ?? value,
-      'text-font': ['literal', ['Noto Sans Regular']],
-      'text-size': 11,
-      'symbol-sort-key': sortExpression,
-      'symbol-z-order': 'source',
-      ...textDimension.layoutOverrides,
-    },
-    paint: {
-      ...textDimension.paintOverrides,
-    },
-    source: sourceId,
-    'source-layer': SOURCE_LAYER_MCDA,
-    filter,
-  };
-  return layerStyle;
+  return undefined;
 }
