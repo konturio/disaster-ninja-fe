@@ -175,7 +175,8 @@
     },
     "score": "Score",
     "compare": "Compare",
-    "hide_area": "Hide area"
+    "hide_area": "Hide area",
+    "labels": "Labels"
   },
   "search": {
     "search_location": "Search location",

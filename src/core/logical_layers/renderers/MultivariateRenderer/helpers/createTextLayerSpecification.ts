@@ -1,5 +1,6 @@
 import { multivariateDimensionToScore } from '../../stylesConfigs/multivariate/multivariateDimensionToScore';
 import { SOURCE_LAYER_MCDA } from '../../stylesConfigs/mcda/constants';
+import { calculateMCDALayer } from '../../stylesConfigs/mcda/mcdaStyle';
 import { formatFeatureText } from './formatFeatureText';
 import type {
   ExpressionSpecification,
@@ -19,9 +20,16 @@ export function createTextLayerSpecification(
     value = [textDimension?.expressionValue];
   }
   if (textDimension?.mcdaValue) {
-    value = [
-      multivariateDimensionToScore(textDimension?.mcdaValue) as ExpressionSpecification,
-    ];
+    if (textDimension.mcdaMode === 'score') {
+      value = [
+        multivariateDimensionToScore(textDimension?.mcdaValue) as ExpressionSpecification,
+      ];
+    } else {
+      // @ts-expect-error - typing for calculateMCDALayer needs fixing, it actually returns ExpressionSpecification
+      value = textDimension.mcdaValue.config.layers.map((layer) =>
+        calculateMCDALayer(layer),
+      );
+    }
   }
   if (value?.length) {
     if (textDimension?.precision !== undefined) {

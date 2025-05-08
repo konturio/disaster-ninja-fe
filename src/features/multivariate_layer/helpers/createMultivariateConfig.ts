@@ -16,6 +16,7 @@ import type {
 import type {
   MultivariateColorConfig,
   MultivariateLayerConfig,
+  TextDimension,
 } from '~core/logical_layers/renderers/MultivariateRenderer/types';
 
 type MultivariateLayerConfigOverrides = {
@@ -25,6 +26,8 @@ type MultivariateLayerConfigOverrides = {
   colors?: MultivariateColorConfig;
   stepOverrides?: MultivariateLayerConfig['stepOverrides'];
   opacity?: MCDALayer[] | number;
+  text?: MCDALayer[];
+  textSettings?: Exclude<TextDimension, 'mcdaValue' | 'mcdaMode'>;
 };
 
 export function createMultivariateConfig(
@@ -34,6 +37,7 @@ export function createMultivariateConfig(
   const name = overrides?.name || DEFAULT_MULTIVARIATE_ANALYSIS_NAME;
   const hasScore = !!overrides?.score?.length;
   const hasBase = !!overrides?.base?.length;
+  const hasText = !!overrides?.text?.length;
   const isBivariateStyleLegend = hasScore && hasBase;
   const scoreMCDAStyle: MCDALayerStyle = {
     type: 'mcda',
@@ -70,9 +74,27 @@ export function createMultivariateConfig(
           }),
         }
       : undefined;
+  const textMCDAStyle: MCDALayerStyle | undefined = hasText
+    ? {
+        type: 'mcda',
+        config: createDefaultMCDAConfig({
+          layers: overrides?.text,
+          name: createMCDANameOverride(overrides.text, i18n.t('multivariate.labels')),
+        }),
+      }
+    : undefined;
+  const textSettings = overrides.textSettings ?? {};
+  const textDimension: TextDimension | undefined = textMCDAStyle
+    ? {
+        mcdaValue: textMCDAStyle,
+        mcdaMode: 'score',
+        ...textSettings,
+      }
+    : undefined;
   const opacityStatic: number | undefined = isNumber(overrides.opacity)
     ? overrides.opacity
     : undefined;
+
   return {
     version: 0,
     id: generateMultivariateId(name),
@@ -80,6 +102,7 @@ export function createMultivariateConfig(
     score: scoreMCDAStyle,
     base: baseMCDAStyle,
     opacity: opacityMCDAStyle ?? opacityStatic,
+    text: textDimension,
     stepOverrides: isBivariateStyleLegend
       ? overrides.stepOverrides || {
           baseSteps: createStepsForMCDADimension(overrides.base, availableBivariateAxes),
