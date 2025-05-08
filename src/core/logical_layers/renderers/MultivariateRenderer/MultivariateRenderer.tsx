@@ -7,15 +7,10 @@ import {
   FALLBACK_BIVARIATE_MAX_ZOOM,
   FALLBACK_BIVARIATE_MIN_ZOOM,
 } from '../BivariateRenderer/constants';
-import { multivariateDimensionToScore } from '../stylesConfigs/multivariate/multivariateDimensionToScore';
-import { SOURCE_LAYER_MCDA } from '../stylesConfigs/mcda/constants';
 import { generateMultivariatePopupContent } from './popup';
-import { formatFeatureText } from './helpers/formatFeatureText';
-import type { FeatureTextDimension } from './types';
-import type {
-  DataDrivenPropertyValueSpecification,
-  LayerSpecification,
-} from 'maplibre-gl';
+import { createTextLayerSpecification } from './helpers/createTextLayerSpecification';
+import type { TextDimension } from './types';
+import type { FilterSpecification, LayerSpecification } from 'maplibre-gl';
 import type { LayerTileSource } from '~core/logical_layers/types/source';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import type { LayerStyle } from '../../types/style';
@@ -34,47 +29,21 @@ export class MultivariateRenderer extends ClickableFeaturesRenderer {
 
   addTextLayer(
     map: ApplicationMap,
-    textDimension: FeatureTextDimension,
+    textDimension: TextDimension,
     mainLayerId: string,
     mainLayerSpecification: LayerSpecification,
   ) {
-    let value: any = '';
-    if (textDimension?.propertyName) {
-      value = ['get', textDimension.propertyName];
-    }
-    if (textDimension?.valueExpression) {
-      value = textDimension?.valueExpression;
-    }
-    if (textDimension?.axis) {
-      value = multivariateDimensionToScore(
-        textDimension?.axis,
-      ) as DataDrivenPropertyValueSpecification<string>;
-    }
-    if (textDimension.formatString) {
-      value = formatFeatureText(textDimension.formatString, value);
-    }
-    const filter =
+    const filter: FilterSpecification | undefined =
       mainLayerSpecification.type === 'fill' ? mainLayerSpecification.filter : undefined;
-    const layerStyle: LayerSpecification = {
-      id: mainLayerId + TEXT_LAYER_POSTFIX,
-      type: 'symbol',
-      layout: {
-        'text-field': value,
-        'text-font': ['literal', ['Noto Sans Regular']],
-        'text-size': 11,
-        'symbol-sort-key': textDimension?.sortExpression,
-        'symbol-z-order': 'source',
-        ...textDimension.layoutProperties,
-      },
-      paint: {
-        ...textDimension.paintProperties,
-      },
-      source: this._sourceId,
-      'source-layer': SOURCE_LAYER_MCDA,
+    const textLayerId = mainLayerId + TEXT_LAYER_POSTFIX;
+    const textLayerStyle = createTextLayerSpecification(
+      textDimension,
+      textLayerId,
+      this._sourceId,
       filter,
-    };
+    );
     layerByOrder(map, this._layersOrderManager).addAboveLayerWithSameType(
-      layerStyle,
+      textLayerStyle,
       this.id,
     );
   }

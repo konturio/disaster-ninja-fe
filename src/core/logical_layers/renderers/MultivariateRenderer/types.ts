@@ -9,14 +9,13 @@ import type {
 
 export type MultivariateDimension = MCDALayerStyle;
 
-export type FeatureTextDimension = {
+export type TextDimension = {
   formatString?: string;
   propertyName?: string;
   valueExpression?: any;
   axis?: MultivariateDimension;
-  sortExpression?: any;
-  paintProperties?: SymbolLayerSpecification['paint'];
-  layoutProperties?: SymbolLayerSpecification['layout'];
+  paintOverrides?: SymbolLayerSpecification['paint'];
+  layoutOverrides?: SymbolLayerSpecification['layout'];
 };
 
 export type BivariateColorConfig = {
@@ -43,6 +42,6 @@ export interface MultivariateLayerConfig {
   base?: MultivariateDimension;
   stepOverrides?: MultivariateStepOverrides;
   opacity?: MultivariateDimension | number;
-  text?: FeatureTextDimension;
+  text?: TextDimension;
   colors?: MultivariateColorConfig;
 }

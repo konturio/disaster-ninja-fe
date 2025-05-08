@@ -1,6 +1,11 @@
+import type { ExpressionSpecification } from 'maplibre-gl';
+
 export const MULTIVARIATE_LABEL_VALUE_PLACEHOLDER = '{value}';
 
-export function formatFeatureText(formatString: string, value: any): string[] {
+export function formatFeatureText(
+  formatString: string,
+  value: any,
+): ExpressionSpecification {
   const result: any[] = [];
   let lastIndex = 0;
   for (const match of formatString.matchAll(
