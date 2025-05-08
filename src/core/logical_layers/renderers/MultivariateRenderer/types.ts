@@ -13,7 +13,7 @@ export type TextDimension = {
   formatString?: string;
   propertyName?: string;
   valueExpression?: any;
-  axis?: MultivariateDimension;
+  mcda?: MultivariateDimension;
   paintOverrides?: SymbolLayerSpecification['paint'];
   layoutOverrides?: SymbolLayerSpecification['layout'];
 };

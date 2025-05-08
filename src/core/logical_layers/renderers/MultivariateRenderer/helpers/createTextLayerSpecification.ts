@@ -22,8 +22,8 @@ export function createTextLayerSpecification(
   if (textDimension?.valueExpression) {
     value = textDimension?.valueExpression;
   }
-  if (textDimension?.axis) {
-    value = multivariateDimensionToScore(textDimension?.axis) as ExpressionSpecification;
+  if (textDimension?.mcda) {
+    value = multivariateDimensionToScore(textDimension?.mcda) as ExpressionSpecification;
   }
   if (textDimension.formatString) {
     formattedValue = formatFeatureText(textDimension.formatString, value);
