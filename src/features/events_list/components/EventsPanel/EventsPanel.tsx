@@ -44,7 +44,7 @@ const renderEventCard = (event: Event, isActive: boolean) => {
     active: isActive,
     // only on active card
     showEpisodesButton: isActive && hasTimeline && event.episodeCount > 1,
-    showExternalUrls: true,
+    showExternalUrls: isActive,
   };
   return <UniLayoutRenderer node={eventCardLayoutTemplate} data={data} />;
 };

@@ -11,7 +11,7 @@ export const CurrentEvent = () => {
 
   return (
     <div className="knt-panel knt-current-event">
-      <UniLayout data={currentEvent} layout={eventCardLayoutTemplate}></UniLayout>
+      <UniLayout data={currentEvent} layout={eventCardLayoutTemplate} />
     </div>
   );
 };
