@@ -11,4 +11,9 @@
     padding: 12px;
     zoom: var(--presentation-scale);
   }
+
+  & .knt-map-title .knt-app-icon {
+    width: 40px;
+    padding-bottom: 40px;
+  }
 }
