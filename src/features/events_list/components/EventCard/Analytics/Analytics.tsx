@@ -25,9 +25,9 @@ function Statistic({ tooltip, value, icon }: StatisticProps) {
     <SimpleTooltip content={tooltip} placement="bottom">
       <div className={s.analyticsBadge}>
         {icon && icon}
-        <span className={s.analyticsValue}>
+        <div>
           <Text type="caption">{value}</Text>
-        </span>
+        </div>
       </div>
     </SimpleTooltip>
   );

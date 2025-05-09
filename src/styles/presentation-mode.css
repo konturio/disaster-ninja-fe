@@ -1,0 +1,19 @@
+.presentation-mode {
+  --presentation-scale: 1.4;
+
+  & .knt-breadcrumbs {
+    zoom: var(--presentation-scale);
+    padding: calc(1.4 * var(--half-unit)) calc(1.4 * var(--unit));
+  }
+
+  & .knt-current-event > div,
+  & .knt-legends-panel {
+    padding: 12px;
+    zoom: var(--presentation-scale);
+  }
+
+  & .knt-map-title .knt-app-icon {
+    width: 40px;
+    padding-bottom: 40px;
+  }
+}

@@ -10,6 +10,7 @@ export type Config = {
   initialUser: UserDto;
   defaultLayers: LayerDetailsDto[];
   activeLayers: string[]; // Computed in boot stage
+  presentationMode: boolean;
 } & StageConfig &
   AppConfig;
 

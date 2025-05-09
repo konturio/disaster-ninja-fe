@@ -16,6 +16,7 @@ class ConfigRepository {
     initialUser,
     defaultLayers,
     activeLayers,
+    presentationMode,
   }: {
     baseUrl: string;
     initialUrl: string;
@@ -26,6 +27,7 @@ class ConfigRepository {
     initialUser: UserDto;
     defaultLayers: LayerDetailsDto[];
     activeLayers: string[];
+    presentationMode: boolean;
   }) {
     this.#config = {
       baseUrl,
@@ -41,6 +43,7 @@ class ConfigRepository {
       initialUser,
       defaultLayers,
       activeLayers,
+      presentationMode,
     };
   }
 
