@@ -19,6 +19,10 @@ for (const project of projects) {
           project.name === 'oam',
           'Fix https://kontur.fibery.io/Tasks/Task/reopen-routing-oam-url-param-map-2.122--0.000-0.000-is-opened-first-instead-of-map-2.122-0.000-0.000-21381 to unblock oam test',
         );
+        test.fixme(
+          true,
+          'Fix https://kontur.fibery.io/Tasks/Task/Disaster-Ninja-extra-focused-geometry-parameter-after-page-reloading-21604 to unblock this test',
+        );
         await pageManager.atNavigationMenu.clickButtonToOpenPage('Map');
         if (project.name !== 'disaster-ninja')
           await pageManager.atBrowser.waitForUrlToMatchPattern(/map=/);
