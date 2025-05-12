@@ -88,6 +88,7 @@ export class MapCanvas extends HelperBase {
   async clickPlaceOnMapView(pixelsForX: number, pixelsForY: number, project: Project) {
     if (project.name === 'disaster-ninja') {
       await this.page.getByText('Active contributors').click();
+      await this.page.waitForTimeout(3000);
     }
     const map = this.page.locator('#map-view');
     const box = await map.boundingBox();
