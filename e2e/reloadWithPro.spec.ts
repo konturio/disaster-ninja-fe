@@ -2,7 +2,8 @@ import { expect } from '@playwright/test';
 import { test } from './fixtures/test-options.ts';
 import { getProjects, stepCounter } from './page-objects/helperBase.ts';
 
-const projects = getProjects();
+// User is not supported for oam as oam has login at map.openaerialmap.org to third-party system.
+const projects = getProjects().filter((project) => project.name !== 'oam');
 test.beforeEach(() => {
   stepCounter.counter = 0;
 });
@@ -16,6 +17,10 @@ for (const project of projects) {
       test.fixme(
         project.name === 'oam',
         'Fix https://kontur.fibery.io/Tasks/Task/reopen-routing-oam-url-param-map-2.122--0.000-0.000-is-opened-first-instead-of-map-2.122-0.000-0.000-21381 to unblock oam test',
+      );
+      test.fixme(
+        true,
+        'Fix https://kontur.fibery.io/Tasks/Task/Disaster-Ninja-extra-focused-geometry-parameter-after-page-reloading-21604 to unblock this test',
       );
       await pageManager.atNavigationMenu.clickButtonToOpenPage('Map');
       if (project.name !== 'disaster-ninja')

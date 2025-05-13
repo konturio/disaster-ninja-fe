@@ -15,14 +15,14 @@ const areaToSearch = 'Homewood, USA';
 const desiredLocation = 'Homewood, Jefferson County, Alabama, United States';
 const queryToSearchRegExp = /&query=Homewood%2C\+USA/;
 const layers = [
-  '　🛒 Food shops to population (n/ppl)',
+  '　🛒 Food shops to Population (n/ppl)',
   '🌡️↕️ Air temperature monthly amplitude (°C)',
 ];
 const inputs = ['food shops to population', 'air'];
 
 const expectedSuggestions = [
-  '　🛒 Food shops to population (n/ppl)',
-  '　🛬 Airports to Area (n/km²)　🛬 Airports to buildings (n/n)　🛬 Airports to populated area (n/km²)　🛬 Airports to population (n/ppl)　🛬 Airports to road length (n/km)　🌡️ Air temperature average (°C)🌡️🔥 Air temperature maximum (°C)🌡️❄️ Air temperature minimum (°C)🌡️↕️ Air temperature monthly amplitude (°C)',
+  '　🛒 Food shops to Population (n/ppl)',
+  '　🛬 Airports to Area (n/km²)　🛬 Airports to Buildings (n/n)　🛬 Airports to Populated area (n/km²)　🛬 Airports to Population (n/ppl)　🛬 Airports to Road length (n/km)　🌡️ Air temperature average (°C)🌡️🔥 Air temperature maximum (°C)🌡️❄️ Air temperature minimum (°C)🌡️↕️ Air temperature monthly amplitude (°C)　🌡️ GMU Air Temperature Dataset Intepolated to 1　🌡️ GMU Air Temperature Dataset Intepolated to Area　🌡️ GMU Air Temperature Dataset Intepolated to Buildings　🌡️ GMU Air Temperature Dataset Intepolated to Populated area　🌡️ GMU Air Temperature Dataset Intepolated to Population　🌡️ GMU Air Temperature Dataset Intepolated to Road length　🌡️ GMU Air Temperature Dataset to 1',
 ];
 
 const expectedLegendPanelTextsAfterMCDACreation = [

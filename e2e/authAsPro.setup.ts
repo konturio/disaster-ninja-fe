@@ -4,7 +4,8 @@ import { PageManager } from './page-objects/pageManager.ts';
 
 setup('Authentication with PRO', async ({ context }) => {
   const authFile = 'e2e/.auth/user-pro.json';
-  let authProjects = getProjects();
+  // Pro user is not supported for oam as oam has login at map.openaerialmap.org to third-party system.
+  let authProjects = getProjects().filter((project) => project.name !== 'oam');
 
   // Caching authentication to avoid invoking login for each test.
   // Authentication is performed for each domain, but on dev, test, and local envs, the same domain is used.

@@ -3,7 +3,8 @@ import { getProjects, stepCounter } from './page-objects/helperBase.ts';
 import type { Project } from './page-objects/helperBase.ts';
 import type { PageManager } from './page-objects/pageManager.ts';
 
-const projects = getProjects();
+// Pro user is not supported for oam as oam has login at map.openaerialmap.org to third-party system.
+const projects = getProjects().filter((project) => project.name !== 'oam');
 test.beforeEach(() => {
   stepCounter.counter = 0;
 });
