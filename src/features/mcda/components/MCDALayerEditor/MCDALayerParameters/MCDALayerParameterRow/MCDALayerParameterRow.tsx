@@ -18,7 +18,7 @@ export function MCDALayerParameterRow({
     <div className={s.inputLine}>
       <span className={s.inputLinelabel} onDoubleClick={onTitleDoubleClicked}>
         {name}
-        {infoText && <InfoPopover className={s.infoButton} content={infoText} />}
+        {infoText && <InfoPopover content={infoText} />}
       </span>
       <div className={s.inputContainer}>{children}</div>
     </div>

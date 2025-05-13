@@ -17,6 +17,11 @@
   color: var(--back-faint-weak-down);
 }
 
+.InfoPopoverTrigger {
+  display: flex;
+  color: var(--faint-strong);
+}
+
 .PopoverArrow {
   fill: var(--base-weak);
 }
@@ -31,7 +36,7 @@
   background-color: var(--base-weak);
   color: var(--base-strong);
   box-shadow: var(--shadow-large);
-  font-size: 90%;
+  font: var(--font-xs);
   padding: var(--unit) 3px var(--unit) var(--double-unit);
   border-radius: var(--border-radius);
   box-sizing: border-box;

@@ -166,7 +166,7 @@ export const PopoverContent = React.forwardRef<
           className={s.Popover}
           {...context.getFloatingProps(props)}
         >
-          <PopoverClose>🗙</PopoverClose>
+          <PopoverClose />
           <div className={s.PopoverContent}>{props.children}</div>
           <FloatingArrow
             ref={arrowRef}
@@ -199,6 +199,8 @@ export const PopoverClose = React.forwardRef<
         props.onClick?.(event);
         setOpen(false);
       }}
-    />
+    >
+      {props.children ?? '🗙'}
+    </button>
   );
 });

@@ -9,7 +9,6 @@ export type LayerInfo = {
 
 type LayerInfoProps = {
   layersInfo: LayerInfo[];
-  tooltipId?: string;
   className?: string;
 };
 
