@@ -1,5 +1,6 @@
 import Markdown from 'markdown-to-jsx';
 import { InfoOutline16 } from '@konturio/default-icons';
+import clsx from 'clsx';
 import { parseLinksAsTags } from '~utils/markdown/parser';
 import { LinkRenderer } from '~components/LinkRenderer/LinkRenderer';
 import { Popover, PopoverContent, PopoverTrigger } from './Popover';
@@ -7,7 +8,8 @@ import s from './Overlays.module.css';
 
 export function InfoPopover({
   content,
-  ...props
+  className,
+  ...restProps
 }: { content: React.ReactNode } & React.ComponentProps<'button'>) {
   const overlayContent =
     typeof content === 'string' ? (
@@ -21,10 +23,10 @@ export function InfoPopover({
     <Popover>
       <PopoverTrigger asChild>
         <button
-          className={s.InfoPopoverTrigger}
+          className={clsx(s.InfoPopoverTrigger, className)}
           type="button"
           aria-label="More information"
-          {...props}
+          {...restProps}
         >
           <InfoOutline16 />
         </button>
