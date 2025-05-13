@@ -1,5 +1,6 @@
-import { useCallback, useMemo, useRef, useState } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { useCallback, useMemo, useRef, useState, Suspense } from 'react';
+import { reatomContext as ReatomContextV3 } from '@reatom/npm-react';
+import { store } from '~core/store/store';
 import { PopupTooltip } from '~features/tooltip';
 import { BivariateMatrixControlComponent } from '../components/BivariateMatrixControl';
 import { mock } from './mocks/mock-20';
@@ -72,8 +73,8 @@ export default function BivariateMatrixControlFixture() {
   );
 
   return (
-    <div className={styles.axisMatrix}>
-      <Router>
+    <ReatomContextV3.Provider value={store.v3ctx}>
+      <div className={styles.axisMatrix}>
         <BivariateMatrixControlComponent
           matrix={mock.matrix}
           xHeadings={headings?.x!}
@@ -83,7 +84,7 @@ export default function BivariateMatrixControlFixture() {
           onSelectQuotient={onSelectQuotient}
         />
         <PopupTooltip />
-      </Router>
-    </div>
+      </div>
+    </ReatomContextV3.Provider>
   );
 }

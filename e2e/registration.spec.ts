@@ -2,13 +2,14 @@ import { expect } from '@playwright/test';
 import { faker } from '@faker-js/faker';
 import { test } from './fixtures/test-options.ts';
 import { getProjects, getTestData, stepCounter } from './page-objects/helperBase.ts';
-import type { Project } from './page-objects/helperBase.ts';
 import type { APIRequestContext } from '@playwright/test';
 
 const countriesToTest = ['us', 'ca', 'pl'];
 
 // Registration is not allowed for testing on prod not to spam the server
-const projects = getProjects().filter((project: Project) => project.env !== 'prod');
+const projects = getProjects().filter(
+  (project) => project.env !== 'prod' && project.name !== 'oam',
+);
 test.beforeEach(() => {
   stepCounter.counter = 0;
 });

@@ -34,12 +34,28 @@ export function MultivariateLayerEditor({ layerId }: LayerEditorProps) {
     );
   };
 
+  const printValue = (dimensionName: string, value: string) => {
+    return (
+      <div>
+        <div className={s.dimension}>{dimensionName}</div>
+        <div className={s.parameter}>- {value}</div>
+      </div>
+    );
+  };
+
   return (
     <div className={s.editor}>
       {!!layerConfig.score?.config.layers.length &&
         printMCDAAxes(i18n.t('multivariate.score'), layerConfig.score.config.layers)}
       {!!layerConfig.base?.config.layers.length &&
         printMCDAAxes(i18n.t('multivariate.compare'), layerConfig.base.config.layers)}
+      {typeof layerConfig.opacity === 'number'
+        ? printValue(i18n.t('multivariate.hide_area'), layerConfig.opacity.toString())
+        : layerConfig.opacity?.type === 'mcda' &&
+          printMCDAAxes(
+            i18n.t('multivariate.hide_area'),
+            layerConfig.opacity.config.layers,
+          )}
     </div>
   );
 }

@@ -1,0 +1,38 @@
+.cardHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--half-unit);
+}
+
+.imageContainer {
+  flex: 0 0 32px;
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* or 'contain' based on your needs */
+}
+
+.icon {
+  flex-shrink: 0;
+  /* If your Icon component doesn't handle size, add width/height here */
+}
+
+.title {
+  font-size: 1.2em;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.subtitle {
+  font-size: 1em;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--text-faint-strong);
+}

@@ -1,4 +1,5 @@
-import { PopupTooltipTrigger } from '~components/PopupTooltipTrigger';
+import { InfoOutline16 } from '@konturio/default-icons';
+import { SimpleTooltip } from '@konturio/floating';
 import { Label } from '~components/Label/Label';
 
 interface LabelWithTooltipProps {
@@ -14,6 +15,10 @@ export const LabelWithTooltip = ({
 }: LabelWithTooltipProps) => (
   <Label className={className}>
     {text}
-    <PopupTooltipTrigger tipText={description} showedOnHover={true} />
+    <SimpleTooltip content={description}>
+      <span style={{ display: 'inline-block' }}>
+        <InfoOutline16 />
+      </span>
+    </SimpleTooltip>
   </Label>
 );

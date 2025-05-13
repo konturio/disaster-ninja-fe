@@ -49,6 +49,9 @@
   "spinner_text": "Gathering data",
   "updated": "Updated",
   "started": "Started",
+  "created": "Created",
+  "mapping_types": "Mapping types",
+  "osm_gaps": "OSM gaps",
   "no_data_received": "No data received",
   "wrong_data_received": "Wrong data received",
   "error": "Error",
@@ -171,7 +174,8 @@
       "compare_header": "Compare {{level}}"
     },
     "score": "Score",
-    "compare": "Compare"
+    "compare": "Compare",
+    "hide_area": "Hide area"
   },
   "search": {
     "search_location": "Search location",
@@ -464,7 +468,7 @@
       "to_replace_reference_area": "You can redefine your reference area on map. Select an area and click \"Save as reference area\" on toolbar.\n",
       "description": "Save an area you are familiar with as a reference. We will use it as a baseline to compare other areas and explain the differences.",
       "set_the_reference_area": "Set area on map",
-      "tooltip_text": "1.Select an area of interest on the map using the Admin Boundary or Draw Geometry tool. <br/> 2. Click the 'Save as Reference' button on the toolbar.",
+      "tooltip_text": "1.Select an area of interest on the map using the Admin Boundary or Draw Geometry tool.\n\n 2. Click the 'Save as Reference' button on the toolbar.",
       "accessing_location": "Accessing your location",
       "accessing_location_error": "Error. Try another way.",
       "select_location": "Select my current location",

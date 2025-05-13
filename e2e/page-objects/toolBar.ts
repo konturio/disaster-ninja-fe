@@ -101,7 +101,7 @@ export class ToolBar extends HelperBase {
     await element.hover();
     const tooltip = this.page.getByRole('tooltip', { name: tooltipText });
     await tooltip.waitFor({ state: 'visible' });
-    await this.page.getByText('Toolbar').hover();
+    await this.page.getByText('Collapse').hover();
     await tooltip.waitFor({ state: 'hidden' });
   }
 

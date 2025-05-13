@@ -1,5 +1,5 @@
+import { SimpleTooltip } from '@konturio/floating';
 import { i18n } from '~core/localization';
-import { PopupTooltipWrapper } from '~components/PopupTooltipTrigger';
 import styles from './DenominatorIcon.module.css';
 
 interface DenominatorIconProps {
@@ -140,17 +140,9 @@ const DenominatorIcon = ({ iconId }: DenominatorIconProps) => {
   const tooltipText = tooltipTextMapper[iconId] || i18n.t('bivariate.matrix.icon.roads');
 
   return (
-    <PopupTooltipWrapper tooltipText={tooltipText}>
-      {({ showTooltip, hideTooltip }) => (
-        <span
-          className={styles.denominatorIcon}
-          onPointerOver={showTooltip}
-          onPointerLeave={hideTooltip}
-        >
-          {icon}
-        </span>
-      )}
-    </PopupTooltipWrapper>
+    <SimpleTooltip content={tooltipText}>
+      <span className={styles.denominatorIcon}>{icon}</span>
+    </SimpleTooltip>
   );
 };
 

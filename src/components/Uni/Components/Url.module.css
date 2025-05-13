@@ -1,0 +1,15 @@
+.url {
+  color: var(--accent-strong);
+  font: var(--font-xs);
+  text-decoration: none;
+}
+
+.url:hover {
+  outline: 1px solid var(--accent-strong);
+  outline-offset: var(--half-unit);
+}
+
+.icon {
+  vertical-align: middle;
+  margin-left: 4px;
+}

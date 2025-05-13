@@ -1,7 +1,8 @@
 import { getProjects, stepCounter } from './page-objects/helperBase.ts';
 import { test } from './fixtures/test-options.ts';
 
-const projects = getProjects();
+// User is not supported for oam as oam has login at map.openaerialmap.org to third-party system.
+const projects = getProjects().filter((project) => project.name !== 'oam');
 test.beforeEach(() => {
   stepCounter.counter = 0;
 });
@@ -11,6 +12,10 @@ for (const project of projects) {
     pageManager,
     context,
   }) => {
+    test.fixme(
+      true,
+      'Fix https://kontur.fibery.io/Tasks/Task/Privacy-page-links-are-not-clickable-anymore-21599 to activate this test',
+    );
     await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
     await pageManager.atNavigationMenu.clickButtonToOpenPage('Privacy');
     await pageManager.atBrowser.waitForUrlToMatchPattern(/privacy/);

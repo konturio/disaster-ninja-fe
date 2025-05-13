@@ -2,7 +2,8 @@ import { test } from './fixtures/test-options.ts';
 import { getProjects, stepCounter } from './page-objects/helperBase.ts';
 import type { Project } from './page-objects/helperBase.ts';
 
-let projects = getProjects();
+// User is not supported for oam as oam has login at map.openaerialmap.org to third-party system.
+let projects = getProjects().filter((project) => project.name !== 'oam');
 test.beforeEach(() => {
   stepCounter.counter = 0;
 });
