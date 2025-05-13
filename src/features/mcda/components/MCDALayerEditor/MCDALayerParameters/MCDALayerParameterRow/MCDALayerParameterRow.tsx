@@ -1,5 +1,4 @@
-import { PopupTooltipTrigger } from '~components/PopupTooltipTrigger';
-import { LAYERS_PANEL_FEATURE_ID } from '~features/layers_panel/constants';
+import { InfoPopover } from '~components/Overlays';
 import s from './MCDALayerParameterRow.module.css';
 
 export type MCDALayerParameterRowProps = {
@@ -19,13 +18,7 @@ export function MCDALayerParameterRow({
     <div className={s.inputLine}>
       <span className={s.inputLinelabel} onDoubleClick={onTitleDoubleClicked}>
         {name}
-        {infoText && (
-          <PopupTooltipTrigger
-            className={s.infoButton}
-            tipText={infoText}
-            tooltipId={LAYERS_PANEL_FEATURE_ID}
-          />
-        )}
+        {infoText && <InfoPopover className={s.infoButton} content={infoText} />}
       </span>
       <div className={s.inputContainer}>{children}</div>
     </div>

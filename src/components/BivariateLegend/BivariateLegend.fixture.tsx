@@ -1,19 +1,18 @@
 import { Legend as BiLegend } from '@konturio/ui-kit';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { PopupTooltip } from '~features/tooltip';
 import { BIVARIATE_LEGEND_SIZE } from './const';
 import { CornerTooltipWrapper } from './CornerTooltipWrapper';
 import type { LegendProps } from '@konturio/ui-kit';
+import type { Direction } from '~utils/bivariate';
 
 const meta = {
   hints: {
     x: {
       label: 'Average NDVI, JUN 2019',
-      direction: [['bad'], ['good']],
+      direction: [['bad'], ['good']] as Direction,
     },
     y: {
       label: 'Multi-hazard exposure PDC GRVA',
-      direction: [['unimportant'], ['bad', 'important']],
+      direction: [['unimportant'], ['bad', 'important']] as Direction,
     },
   },
 };
@@ -108,10 +107,9 @@ const cells = [
 
 export default function BivariateLegendFixture() {
   return (
-    <Router>
-      <PopupTooltip />
-      {/* @ts-ignore - FIXME */}
-      <CornerTooltipWrapper meta={meta}>
+    <div style={{ margin: '20% 20%' }}>
+      <h1>Bivariate Legend</h1>
+      <CornerTooltipWrapper hints={meta.hints}>
         <BiLegend
           showAxisLabels={true}
           size={BIVARIATE_LEGEND_SIZE}
@@ -119,6 +117,6 @@ export default function BivariateLegendFixture() {
           cells={cells}
         />
       </CornerTooltipWrapper>
-    </Router>
+    </div>
   );
 }

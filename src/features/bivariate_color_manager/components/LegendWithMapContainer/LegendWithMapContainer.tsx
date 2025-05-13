@@ -1,8 +1,4 @@
 import { useAtom } from '@reatom/react-v2';
-import {
-  CSSTransitionWrapper,
-  fadeClassNames,
-} from '~components/CssTransitionWrapper/CssTransitionWrapper';
 import { LegendWithMap } from '~features/bivariate_color_manager/components/LegendWithMap/LegendWithMap';
 import { bivariateColorManagerDataAtom } from '~features/bivariate_color_manager/atoms/bivariateColorManagerData';
 import style from './LegendWithMapContainer.module.css';
@@ -31,24 +27,9 @@ export const LegendWithMapContainer = () => {
 
   return (
     <div className={style.LegendMap}>
-      <CSSTransitionWrapper
-        in={isFullSelection(layersSelection)}
-        timeout={300}
-        unmountOnExit
-        appear
-        classNames={fadeClassNames}
-      >
-        {(ref) => (
-          <div ref={ref}>
-            {selectedData && isFullSelection(layersSelection) && (
-              <LegendWithMap
-                layersSelection={layersSelection}
-                selectedData={selectedData}
-              />
-            )}
-          </div>
-        )}
-      </CSSTransitionWrapper>
+      {selectedData && isFullSelection(layersSelection) && (
+        <LegendWithMap layersSelection={layersSelection} selectedData={selectedData} />
+      )}
     </div>
   );
 };

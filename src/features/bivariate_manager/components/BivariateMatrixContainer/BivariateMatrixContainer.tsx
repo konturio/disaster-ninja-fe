@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import clsx from 'clsx';
 import { useAtom } from '@reatom/react-v2';
 import { Heading } from '@konturio/ui-kit';
-import ConnectedBivariateMatrix from '~features/bivariate_manager/components/ConnectedBivariateMatrix/ConnectedBivariateMatrix';
+import { ConnectedBivariateMatrix } from '~features/bivariate_manager/components/ConnectedBivariateMatrix/ConnectedBivariateMatrix';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { createStateMap } from '~utils/atoms';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
