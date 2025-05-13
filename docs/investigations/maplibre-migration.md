@@ -2,32 +2,34 @@
 
 ## Executive Summary
 
-This document details the migration path from MapLibre GL JS v3 to v5 for the Disaster Ninja FE codebase. It covers breaking changes, code impact, and actionable migration steps, referencing both the [official changelog](https://github.com/maplibre/maplibre-gl-js/blob/main/CHANGELOG.md) and [v5 breaking changes issue](https://github.com/maplibre/maplibre-gl-js/issues/3834).
+This document outlines the migration path from MapLibre GL JS v3 to v5 for the Disaster Ninja FE codebase, consolidating breaking changes introduced in v4 and v5. It covers the cumulative impact on the codebase and provides actionable migration steps, referencing both the [official changelog](https://github.com/maplibre/maplibre-gl-js/blob/main/CHANGELOG.md) and [v5 breaking changes issue](https://github.com/maplibre/maplibre-gl-js/issues/3834).
 
 ---
 
-## 1. Breaking Changes in MapLibre v5
+## 1. Cumulative Breaking Changes from v3 to v5
 
-**Key breaking changes relevant to this codebase:**
+This section summarizes the breaking changes relevant to this codebase when upgrading from v3 directly to v5, incorporating changes from both v4 and v5 releases.
 
-- **`queryTerrainElevation` now returns meters above sea level** ([#3854](https://github.com/maplibre/maplibre-gl-js/pull/3854))
-- **New `getElevationOffset` method** for custom 3D object positioning ([#3854](https://github.com/maplibre/maplibre-gl-js/pull/3854))
-- **`geometry-type` filter changes**: Multi-features are now properly identified ([style-spec#519](https://github.com/maplibre/maplibre-style-spec/pull/519))
-- **Layer ordering and slot changes**: Layer slotting and ordering may affect custom addLayer logic
-- **WebGL1 deprecation**: WebGL2 is now the default, with WebGL1 support being phased out ([discussion](https://github.com/maplibre/maplibre-gl-js/issues/3947))
-- **Custom layer API**: `CustomRenderMethod` now takes an args object ([#3136](https://github.com/maplibre/maplibre-gl-js/pull/3136#issuecomment-2101231496))
-- **Sprite loading**: Order of `normalizeSpriteURL` and `transformRequest` changed ([#3898](https://github.com/maplibre/maplibre-gl-js/pull/3898))
-- **Event subscription**: `.on()` now returns a subscription object for unsubscribing ([#5080](https://github.com/maplibre/maplibre-gl-js/pull/5080))
-- **Projection and globe**: New projection APIs and globe-related changes ([#4909](https://github.com/maplibre/maplibre-gl-js/issues/4909))
-- **Default font**: Default font may change to Noto Sans Regular ([style-spec#436](https://github.com/maplibre/maplibre-style-spec/pull/436))
+- **`queryTerrainElevation` now returns meters above sea level** ([#3854](https://github.com/maplibre/maplibre-gl-js/pull/3854), relevant from v4 onwards). Logic using this method needs to be updated to handle the new unit.
+- **New `getElevationOffset` method** for custom 3D object positioning ([#3854](https://github.com/maplibre/maplibre-gl-js/pull/3854), relevant from v4 onwards). Consider using this for accurate 3D positioning.
+- **`geometry-type` filter changes**: Multi-features are now properly identified ([style-spec#519](https://github.com/maplibre/maplibre-style-spec/pull/519), relevant from v4 onwards). Feature filtering logic may need adjustments.
+- **Layer ordering and slot changes**: Layer slotting and ordering may affect custom `addLayer` logic (relevant from v4 onwards). Review custom layer insertion logic.
+- **WebGL1 deprecation**: WebGL2 is now the default, with WebGL1 support being phased out ([discussion](https://github.com/maplibre/maplibre-gl-js/issues/3947), relevant from v4 onwards). Ensure the environment supports WebGL2.
+- **Custom layer API**: `CustomRenderMethod` now takes an args object ([#3136](https://github.com/maplibre/maplibre-gl-js/pull/3136#issuecomment-2101231496), relevant from v4 onwards). Custom render methods need to be updated.
+- **Sprite loading**: Order of `normalizeSpriteURL` and `transformRequest` changed ([#3898](https://github.com/maplibre/maplibre-gl-js/pull/3898), relevant from v4 onwards). Check custom sprite loading logic if any.
+- **Event subscription**: `.on()` now returns a subscription object for unsubscribing ([#5080](https://github.com/maplibre/maplibre-gl-js/pull/5080), introduced in v5). Event handling cleanup logic must be updated.
+- **Projection and globe**: New projection APIs and globe-related changes ([#4909](https://github.com/maplibre/maplibre-gl-js/issues/4909), relevant from v4 onwards). Review if using custom projections or globe features.
+- **Default font**: Default font may change to Noto Sans Regular ([style-spec#436](https://github.com/maplibre/maplibre-style-spec/pull/436), relevant from v4 onwards). Verify text rendering if relying on default fonts.
 
 ---
 
-## 2. Code Impact Analysis
+## 2. Code Impact Analysis (Cumulative v3 to v5)
+
+This section details the areas in the codebase affected by the cumulative breaking changes from v3 to v5.
 
 ### 2.1. Imports and Type Usages
 
-- All direct imports from `maplibre-gl` (default and named) must be checked for API or type changes.
+- All direct imports from `maplibre-gl` (default and named) must be checked for API or type changes across v4 and v5.
 - Type-only imports (e.g., `Map`, `LayerSpecification`, `MapMouseEvent`, etc.) may have changed or moved.
 
 #### Known locations needing attention:
@@ -61,7 +63,7 @@ This document details the migration path from MapLibre GL JS v3 to v5 for the Di
 
 ### 2.3. Event Handling
 
-- `.on()` now returns a subscription object. All event handler registration and cleanup logic (e.g., `map.on('load', ...)`, `map.off(...)`) must be reviewed.
+- `.on()` now returns a subscription object in v5. All event handler registration and cleanup logic (e.g., `map.on('load', ...)`, `map.off(...)`) must be reviewed and updated for v5 compatibility.
 
 #### Known event registration/cleanup locations needing attention:
 
@@ -83,7 +85,7 @@ This document details the migration path from MapLibre GL JS v3 to v5 for the Di
 
 ### 2.4. Feature State and Filtering
 
-- `geometry-type` filter changes may affect logic in renderers and feature state handlers (see [`activeAndHoverFeatureStates.ts`](../../src/core/logical_layers/renderers/helpers/activeAndHoverFeatureStates.ts)).
+- `geometry-type` filter changes (from v4) may affect logic in renderers and feature state handlers (see [`activeAndHoverFeatureStates.ts`](../../src/core/logical_layers/renderers/helpers/activeAndHoverFeatureStates.ts)).
 
 #### Known locations needing attention:
 
@@ -94,8 +96,8 @@ This document details the migration path from MapLibre GL JS v3 to v5 for the Di
 
 ### 2.5. Terrain and Elevation
 
-- If using `queryTerrainElevation`, update logic to expect meters above sea level.
-- For custom 3D objects, use the new `getElevationOffset` method.
+- If using `queryTerrainElevation` (from v4), update logic to expect meters above sea level.
+- For custom 3D objects, use the new `getElevationOffset` method (from v4).
 
 #### Known locations needing attention:
 
@@ -103,7 +105,7 @@ This document details the migration path from MapLibre GL JS v3 to v5 for the Di
 
 ### 2.6. Layer Ordering and Slots
 
-- Custom layer ordering logic (see [`layersOrder/`](../../src/core/logical_layers/utils/layersOrder/)) may need to support new slot-based API.
+- Custom layer ordering logic (see [`layersOrder/`](../../src/core/logical_layers/utils/layersOrder/)) may need to support new slot-based API (from v4) if using MapLibre Standard style.
 
 #### Known locations needing attention:
 
@@ -115,7 +117,7 @@ This document details the migration path from MapLibre GL JS v3 to v5 for the Di
 
 ### 2.7. WebGL2 and Graphics Backend
 
-- Ensure the environment supports WebGL2. If any custom WebGL1 code exists, plan for migration or removal.
+- Ensure the environment supports WebGL2 (required from v4). If any custom WebGL1 code exists, plan for migration or removal.
 
 #### Known locations needing attention:
 
@@ -124,7 +126,9 @@ This document details the migration path from MapLibre GL JS v3 to v5 for the Di
 
 ---
 
-## 3. Migration Steps
+## 3. Migration Steps (Direct v3 to v5)
+
+To migrate directly from MapLibre GL JS v3 to v5, perform the following steps, addressing the cumulative changes:
 
 ### 3.1. Upgrade Dependency
 
@@ -139,32 +143,32 @@ This document details the migration path from MapLibre GL JS v3 to v5 for the Di
 
 ### 3.2. Update Imports and Types
 
-- Review all imports from `maplibre-gl` for renamed, removed, or changed types and APIs.
-- Update type-only imports as needed.
+- Review all imports from `maplibre-gl` for renamed, removed, or changed types and APIs across v4 and v5.
+- Update type-only imports as needed. Refer to the cumulative breaking changes and code impact analysis.
 
 ### 3.3. Refactor Event Handling
 
-- Update all `.on()`/`.off()` usages to handle the new subscription object if required.
-- Ensure event cleanup logic is compatible with the new API.
-- See the list above for all known locations requiring review.
+- Update all `.on()`/`.off()` usages to handle the new subscription object introduced in v5.
+- Ensure event cleanup logic is compatible with the v5 API.
+- See the list in the code impact analysis for known locations requiring review.
 
 ### 3.4. Review Layer and Source Management
 
-- Update any custom layer ordering logic to support slot-based API if using MapLibre Standard style.
-- Review all usages of `addLayer`, `addSource`, and related methods for API changes.
+- Update any custom layer ordering logic to support slot-based API (from v4) if using MapLibre Standard style.
+- Review all usages of `addLayer`, `addSource`, and related methods for API changes across v4 and v5.
 
 ### 3.5. Terrain and Elevation
 
-- Update any usage of `queryTerrainElevation` to expect meters above sea level.
-- Use `getElevationOffset` for custom 3D object positioning if needed.
+- Update any usage of `queryTerrainElevation` (from v4) to expect meters above sea level.
+- Use `getElevationOffset` (from v4) for custom 3D object positioning if needed.
 
 ### 3.6. Test Globe/Projection Features
 
-- If using globe or custom projections, review new APIs and update initialization/configuration as needed.
+- If using globe or custom projections (changes from v4), review new APIs and update initialization/configuration as needed.
 
 ### 3.7. Font and Style Changes
 
-- If relying on default fonts, verify appearance and update style definitions if needed.
+- If relying on default fonts (change from v4), verify appearance and update style definitions if needed.
 
 ---
 
