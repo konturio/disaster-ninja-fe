@@ -29,7 +29,7 @@ export function MultivariateDimensionDetails({
   onLayerEdited: (editedLayer: MCDALayer, dimension: string) => void;
   onLayerDeleted: (deletedLayer: MCDALayer, dimension: string) => void;
   onLayerDimensionChanged: (
-    layer: MCDALayer,
+    layerIndex: number,
     oldDimension: string,
     newDimension: string,
   ) => void;
@@ -46,7 +46,7 @@ export function MultivariateDimensionDetails({
             onChange={(e) => {
               if (e.selectedItem?.value && e.selectedItem?.value !== dimensionKey) {
                 onLayerDimensionChanged(
-                  mcdaLayer,
+                  index,
                   dimensionKey,
                   e.selectedItem.value as string,
                 );

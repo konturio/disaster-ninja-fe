@@ -188,6 +188,7 @@ export function MultivariateAnalysisForm({
     dimensionsLayers.text,
     initialConfig?.colors,
     initialConfig?.stepOverrides,
+    initialConfig?.text,
     isConfigValid,
     isCustomStepsChecked,
     isKeepColorsChecked,
@@ -259,13 +260,15 @@ export function MultivariateAnalysisForm({
   });
 
   const moveLayerToDimension = useCallback(
-    (updatedLayer: MCDALayer, oldDimension: string, newDimension: string) => {
+    (layerIndex: number, oldDimension: string, newDimension: string) => {
       setDimensionsLayers((oldLayers) => {
         const newLayers = copyDimensions(oldLayers);
-        newLayers[oldDimension] = [
-          ...oldLayers[oldDimension].filter((layer) => layer.id !== updatedLayer.id),
-        ];
-        newLayers[newDimension] = [...oldLayers[newDimension], updatedLayer];
+        const oldDimensionArray = newLayers[oldDimension] as MCDALayer[];
+        if (layerIndex < oldDimensionArray.length) {
+          const mcdaLayer = newLayers[oldDimension][layerIndex];
+          oldDimensionArray.splice(layerIndex, 1);
+          (newLayers[newDimension] as MCDALayer[]).push(mcdaLayer);
+        }
         return newLayers;
       });
     },
