@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-BRpYZzH9.js","./index-BxuTJfAG.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-QP5IcWaD.js","./index-v1-MnN7S.js"])))=>i.map(i=>d[i]);
 var __defProp = Object.defineProperty;
 var __typeError = (msg) => {
   throw TypeError(msg);
@@ -10,7 +10,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value2) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value2);
 var __privateSet = (obj, member, value2, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value2) : member.set(obj, value2), value2);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, e as extendWithValue, R as React, c as createValue, i as isEqual, r as reactExports, a as requireReact, b as requireReactDom, g as getDefaultExportFromCjs, d as React$1, f as clientExports, _ as __vitePreload } from "./index-BxuTJfAG.js";
+import { u as useFixtureState, e as extendWithValue, R as React, c as createValue, i as isEqual, r as reactExports, a as requireReact, b as requireReactDom, g as getDefaultExportFromCjs, d as React$1, f as clientExports, _ as __vitePreload } from "./index-v1-MnN7S.js";
 function useCurrentInputValue(inputName, defaultValue) {
   const [fixtureState] = useFixtureState("inputs");
   const inputFs = fixtureState && fixtureState[inputName];
@@ -5542,7 +5542,8 @@ class ConfigRepository {
     baseMapUrl,
     initialUser,
     defaultLayers,
-    activeLayers
+    activeLayers,
+    presentationMode
   }) {
     __privateSet(this, _config, {
       baseUrl,
@@ -5554,7 +5555,8 @@ class ConfigRepository {
       features: Object.keys(appConfig.features).length > 0 ? appConfig.features : stageConfig.featuresByDefault,
       initialUser,
       defaultLayers,
-      activeLayers
+      activeLayers,
+      presentationMode
     });
   }
   get() {
@@ -11674,7 +11676,7 @@ const eventCardLayoutTemplate = {
     },
     {
       type: "Row",
-      $if: "active",
+      $if: "showExternalUrls",
       children: [
         {
           $value: "externalUrls",
@@ -37777,7 +37779,7 @@ const style = {
   container,
   closeButton
 };
-const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-BRpYZzH9.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
+const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-QP5IcWaD.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
 const BivariateGreetingsContainer = ({
   className
 }) => {
