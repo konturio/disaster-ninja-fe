@@ -1,5 +1,6 @@
 import { useAtom } from '@reatom/npm-react';
 import { useMemo } from 'react';
+import clsx from 'clsx';
 import { mountedLayersAtom } from '~core/logical_layers/atoms/mountedLayers';
 import { FOCUSED_GEOMETRY_LOGICAL_LAYER_ID } from '~core/focused_geometry/constants';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
@@ -22,7 +23,7 @@ export function PanelContent() {
   }, [focusedGeometry, layers, referenceAreaGeometry]);
 
   return (
-    <div className={s.scrollable}>
+    <div className={clsx(s.scrollable, 'knt-legends-panel')}>
       {layersAtoms.map((layer) => (
         <LegendsList layer={layer} key={layer.id} />
       ))}

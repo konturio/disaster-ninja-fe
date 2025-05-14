@@ -44,6 +44,7 @@ const renderEventCard = (event: Event, isActive: boolean) => {
     active: isActive,
     // only on active card
     showEpisodesButton: isActive && hasTimeline && event.episodeCount > 1,
+    showExternalUrls: isActive,
   };
   return <UniLayoutRenderer node={eventCardLayoutTemplate} data={data} />;
 };
@@ -188,7 +189,7 @@ export function EventsPanel({
 
       <PanelIcon
         clickHandler={openFullState}
-        className={clsx(s.panelIcon, isMobile ? s.mobile : s.desktop, 'knt-panel-icon')}
+        className={clsx(s.panelIcon, isMobile ? '' : s.desktop, 'knt-panel-icon')}
         icon={<Disasters24 />}
       />
     </>
