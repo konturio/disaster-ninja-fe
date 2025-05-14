@@ -30,6 +30,15 @@ import type { Axis } from '~utils/bivariate';
 
 export type MVAFormDimensionKey = keyof MVAFormDimensions;
 
+function copyDimensions(dimensions: MVAFormDimensions): MVAFormDimensions {
+  return {
+    score: [...dimensions.score],
+    compare: [...dimensions.compare],
+    text: [...dimensions.text],
+    opacity: Array.isArray(dimensions.opacity) ? [...dimensions.opacity] : [],
+  };
+}
+
 const DEFAULT_CUSTOM_STEPS: CustomSteps = {
   baseSteps: DEFAULT_MULTIBIVARIATE_STEPS.map((v) => v.value.toString()),
   scoreSteps: DEFAULT_MULTIBIVARIATE_STEPS.map((v) => v.value.toString()),
@@ -253,7 +262,7 @@ export function MultivariateAnalysisForm({
   const moveLayerToDimension = useCallback(
     (layerIndex: number, oldDimension: string, newDimension: string) => {
       setDimensionsLayers((oldLayers) => {
-        const newLayers = { ...oldLayers };
+        const newLayers = copyDimensions(oldLayers);
         (newLayers[newDimension] as MCDALayer[]).push(
           newLayers[oldDimension][layerIndex],
         );
@@ -267,7 +276,7 @@ export function MultivariateAnalysisForm({
   const deleteLayerFromDimension = useCallback(
     (layerIndex: number, dimension: string) => {
       setDimensionsLayers((oldLayers) => {
-        const newLayers = { ...oldLayers };
+        const newLayers = copyDimensions(oldLayers);
         (newLayers[dimension] as MCDALayer[]).splice(layerIndex, 1);
         return newLayers;
       });
@@ -278,7 +287,7 @@ export function MultivariateAnalysisForm({
   const editLayerInDimension = useCallback(
     (layerIndex: number, dimension: string, editedMCDALayer: MCDALayer) => {
       setDimensionsLayers((oldLayers) => {
-        const newLayers = { ...oldLayers };
+        const newLayers = copyDimensions(oldLayers);
         newLayers[dimension][layerIndex] = editedMCDALayer;
         return newLayers;
       });
