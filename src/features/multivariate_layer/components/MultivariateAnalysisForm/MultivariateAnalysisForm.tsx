@@ -30,15 +30,6 @@ import type { Axis } from '~utils/bivariate';
 
 export type MVAFormDimensionKey = keyof MVAFormDimensions;
 
-function copyDimensions(dimensions: MVAFormDimensions): MVAFormDimensions {
-  return {
-    score: [...dimensions.score],
-    compare: [...dimensions.compare],
-    text: [...dimensions.text],
-    opacity: Array.isArray(dimensions.opacity) ? [...dimensions.opacity] : [],
-  };
-}
-
 const DEFAULT_CUSTOM_STEPS: CustomSteps = {
   baseSteps: DEFAULT_MULTIBIVARIATE_STEPS.map((v) => v.value.toString()),
   scoreSteps: DEFAULT_MULTIBIVARIATE_STEPS.map((v) => v.value.toString()),
@@ -262,13 +253,11 @@ export function MultivariateAnalysisForm({
   const moveLayerToDimension = useCallback(
     (layerIndex: number, oldDimension: string, newDimension: string) => {
       setDimensionsLayers((oldLayers) => {
-        const newLayers = copyDimensions(oldLayers);
-        const oldDimensionArray = newLayers[oldDimension] as MCDALayer[];
-        if (layerIndex < oldDimensionArray.length) {
-          const mcdaLayer = newLayers[oldDimension][layerIndex];
-          oldDimensionArray.splice(layerIndex, 1);
-          (newLayers[newDimension] as MCDALayer[]).push(mcdaLayer);
-        }
+        const newLayers = { ...oldLayers };
+        (newLayers[newDimension] as MCDALayer[]).push(
+          newLayers[oldDimension][layerIndex],
+        );
+        (newLayers[oldDimension] as MCDALayer[]).splice(layerIndex, 1);
         return newLayers;
       });
     },
@@ -276,12 +265,10 @@ export function MultivariateAnalysisForm({
   );
 
   const deleteLayerFromDimension = useCallback(
-    (deletedLayer: MCDALayer, dimension: string) => {
+    (layerIndex: number, dimension: string) => {
       setDimensionsLayers((oldLayers) => {
-        const newLayers = copyDimensions(oldLayers);
-        newLayers[dimension] = [
-          ...oldLayers[dimension].filter((layer) => layer.id !== deletedLayer.id),
-        ];
+        const newLayers = { ...oldLayers };
+        (newLayers[dimension] as MCDALayer[]).splice(layerIndex, 1);
         return newLayers;
       });
     },
@@ -289,14 +276,10 @@ export function MultivariateAnalysisForm({
   );
 
   const editLayerInDimension = useCallback(
-    (editedLayer: MCDALayer, dimension: string) => {
+    (layerIndex: number, dimension: string, editedMCDALayer: MCDALayer) => {
       setDimensionsLayers((oldLayers) => {
-        const newLayers = copyDimensions(oldLayers);
-        newLayers[dimension] = [
-          ...oldLayers[dimension].map((oldLayer) =>
-            oldLayer.id === editedLayer.id ? editedLayer : oldLayer,
-          ),
-        ];
+        const newLayers = { ...oldLayers };
+        newLayers[dimension][layerIndex] = editedMCDALayer;
         return newLayers;
       });
     },

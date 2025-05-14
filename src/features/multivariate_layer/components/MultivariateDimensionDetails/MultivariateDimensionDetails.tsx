@@ -2,11 +2,11 @@ import { Select } from '@konturio/ui-kit';
 import { MCDALayerParameters } from '~features/mcda/components/MCDALayerEditor/MCDALayerParameters/MCDALayerParameters';
 import { i18n } from '~core/localization';
 import s from './MultivariateDimensionDetails.module.css';
+import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type {
   MVAFormDimensionKey,
   MVAFormDimensions,
 } from '../MultivariateAnalysisForm/MultivariateAnalysisForm';
-import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 
 const dimensionSelectItems: { value: MVAFormDimensionKey; title: string }[] = [
   { value: 'score', title: i18n.t('multivariate.score') },
@@ -26,8 +26,12 @@ export function MultivariateDimensionDetails({
   dimensionsLayers: MVAFormDimensions;
   dimensionKey: MVAFormDimensionKey;
   dimensionTitle: string;
-  onLayerEdited: (editedLayer: MCDALayer, dimension: string) => void;
-  onLayerDeleted: (deletedLayer: MCDALayer, dimension: string) => void;
+  onLayerEdited: (
+    layerIndex: number,
+    dimension: string,
+    editedLayerConfig: MCDALayer,
+  ) => void;
+  onLayerDeleted: (layerIndex: number, dimension: string) => void;
   onLayerDimensionChanged: (
     layerIndex: number,
     oldDimension: string,
@@ -60,10 +64,10 @@ export function MultivariateDimensionDetails({
             <MCDALayerParameters
               layer={mcdaLayer}
               onLayerEdited={(editedLayer) => {
-                onLayerEdited(editedLayer, dimensionKey);
+                onLayerEdited(index, dimensionKey, editedLayer);
               }}
               onDeletePressed={() => {
-                onLayerDeleted(mcdaLayer, dimensionKey);
+                onLayerDeleted(index, dimensionKey);
               }}
             />
           </div>
