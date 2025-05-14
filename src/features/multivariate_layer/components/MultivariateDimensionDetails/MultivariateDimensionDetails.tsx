@@ -22,6 +22,7 @@ export function MultivariateDimensionDetails({
   onLayerEdited,
   onLayerDeleted,
   onLayerDimensionChanged,
+  topControls,
 }: {
   dimensionsLayers: MVAFormDimensions;
   dimensionKey: MVAFormDimensionKey;
@@ -37,10 +38,12 @@ export function MultivariateDimensionDetails({
     oldDimension: string,
     newDimension: string,
   ) => void;
+  topControls?: JSX.Element;
 }) {
   return (
     <div className={s.dimension}>
       <div className={s.dimensionName}>{dimensionTitle}</div>
+      {topControls && <div className={s.topControls}>{topControls}</div>}
       {dimensionsLayers[dimensionKey].map((mcdaLayer, index) => (
         <div key={`${dimensionKey}-${index}-${mcdaLayer.name}`} className={s.layerRow}>
           <Select

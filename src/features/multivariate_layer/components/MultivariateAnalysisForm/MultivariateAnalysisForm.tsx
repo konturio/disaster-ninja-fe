@@ -81,6 +81,9 @@ export function MultivariateAnalysisForm({
   });
   const [isKeepColorsChecked, setKeepColorsChecked] = useState(true);
   const [isCustomStepsChecked, setCustomStepsChecked] = useState(false);
+  const [isTextScoreModeChecked, setTextScoreModeChecked] = useState(
+    initialConfig?.text?.mcdaMode === 'score',
+  );
   const [customSteps, setCustomSteps] = useState<CustomSteps>(DEFAULT_CUSTOM_STEPS);
   const [customStepsErrors, setCustomStepsErrors] = useState<CustomStepsErrors | null>(
     null,
@@ -172,7 +175,10 @@ export function MultivariateAnalysisForm({
                 : initialConfig?.stepOverrides,
             opacity: opacity,
             text,
-            textSettings: initialConfig?.text,
+            textSettings: {
+              ...initialConfig?.text,
+              mcdaMode: isTextScoreModeChecked ? 'score' : 'layers',
+            },
           },
           axesResource.data ?? [],
         )
@@ -192,6 +198,7 @@ export function MultivariateAnalysisForm({
     isConfigValid,
     isCustomStepsChecked,
     isKeepColorsChecked,
+    isTextScoreModeChecked,
     name,
     opacityStatic,
     showKeepColorsCheckbox,
@@ -351,6 +358,22 @@ export function MultivariateAnalysisForm({
     setCustomStepsErrors(hasErrors ? errors : null);
   }, []);
 
+  const getTopControlsForDimension = useCallback(
+    (dimensionKey: keyof MVAFormDimensions) => {
+      if (dimensionKey === 'text') {
+        return (
+          <Checkbox
+            id="textScoreMode"
+            checked={isTextScoreModeChecked}
+            onChange={(checked) => setTextScoreModeChecked(checked)}
+            label="Use total score instead of separate layers"
+          />
+        );
+      }
+    },
+    [isTextScoreModeChecked],
+  );
+
   return (
     <ModalDialog
       contentClassName={s.modalContent}
@@ -414,6 +437,7 @@ export function MultivariateAnalysisForm({
                 onLayerEdited={editLayerInDimension}
                 onLayerDeleted={deleteLayerFromDimension}
                 onLayerDimensionChanged={moveLayerToDimension}
+                topControls={getTopControlsForDimension(dimensionKey)}
               />
             ))}
           {previewConfig && !dimensionsLayers['opacity'].length && (
