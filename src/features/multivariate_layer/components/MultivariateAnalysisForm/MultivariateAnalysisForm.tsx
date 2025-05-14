@@ -422,7 +422,7 @@ export function MultivariateAnalysisForm({
           )}
           {showLegendPreview && previewConfig && (
             <div className={s.legendSection}>
-              <Text type="label">Legend</Text>
+              <Text type="label">{i18n.t('legend')}</Text>
               <div className={s.legendContainer}>
                 <div className={s.legendPreview}>
                   <MultivariateLegend config={previewConfig} />
