@@ -6,6 +6,7 @@ import {
 import { DEFAULT_MCDA_COLORS_BY_SENTIMENT } from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations/constants';
 import { i18n } from '~core/localization';
 import { isNumber } from '~utils/common';
+import { DEFAULT_MULTIVARIATE_TEXT_PRECISION } from '../constants';
 import { generateMultivariateId } from './generateMultivariateId';
 import { createStepsForMCDADimension } from './createStepsForMCDADimension';
 import type { Axis } from '~utils/bivariate';
@@ -86,7 +87,7 @@ export function createMultivariateConfig(
   const textSettings = overrides.textSettings ?? {};
   const textDimension: TextDimension | undefined = textMCDAStyle
     ? {
-        precision: 2,
+        precision: DEFAULT_MULTIVARIATE_TEXT_PRECISION,
         ...textSettings,
         mcdaValue: textMCDAStyle,
       }
