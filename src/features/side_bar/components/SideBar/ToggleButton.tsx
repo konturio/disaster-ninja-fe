@@ -45,15 +45,15 @@ export function ToggleButton({ isOpen, setIsOpen }: ToggleButtonProps) {
       </Button>
     );
 
-  // return (
-  //   <SimpleTooltip content={i18n.t('sidebar.expand')} placement="right" offset={6}>
-  //     <Button
-  //       iconBefore={<DoubleChevronRight24 />}
-  //       className={clsx(s.navButton, s.sidebarButton)}
-  //       dark
-  //       variant="invert"
-  //       onClick={toggleIsOpen}
-  //     />
-  //   </SimpleTooltip>
-  // );
+  return (
+    <SimpleTooltip content={i18n.t('sidebar.expand')} placement="right" offset={6}>
+      <Button
+        iconBefore={<DoubleChevronRight24 />}
+        className={clsx(s.navButton, s.sidebarButton)}
+        dark
+        variant="invert"
+        onClick={toggleIsOpen}
+      />
+    </SimpleTooltip>
+  );
 }
