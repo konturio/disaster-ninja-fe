@@ -16,6 +16,7 @@ import {
   FloatingArrow,
   type Placement,
 } from '@floating-ui/react';
+import { Close16 } from '@konturio/default-icons';
 import s from './Overlays.module.css';
 
 interface PopoverOptions {
@@ -176,7 +177,6 @@ export const PopoverContent = React.forwardRef<
             strokeWidth={1}
             height={8}
             width={16}
-            style={{ transform: 'translateY(-1px)' }}
           />
         </div>
       </FloatingFocusManager>
@@ -200,7 +200,7 @@ export const PopoverClose = React.forwardRef<
         setOpen(false);
       }}
     >
-      {props.children ?? '🗙'}
+      {props.children ?? <Close16 />}
     </button>
   );
 });
