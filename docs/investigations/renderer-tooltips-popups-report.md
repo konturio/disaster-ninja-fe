@@ -31,6 +31,10 @@ Within the [`src/core/logical_layers/renderers`](../../src/core/logical_layers/r
 #### Generic Tooltip Flow Diagram
 
 ```mermaid
+---
+config:
+  layout: elk
+---
 graph TD
     GenericRenderer["GenericRenderer (Handles Click, Gets Data)"] --> currentTooltipAtom["currentTooltipAtom (Updates State)"]
     currentTooltipAtom --> UIComponent["UI Component (Reads State, Renders Tooltip)"]
@@ -59,6 +63,10 @@ graph TD
 #### MapLibre Popup Framework - Abstract Flow Diagram
 
 ```mermaid
+---
+config:
+  layout: elk
+---
 graph TD
     MapClickEvent["Map Click Event"] --> ClickableFeaturesRendererAbstract["ClickableFeaturesRenderer (Abstract Renderer - Listener, Queries Features, Manages Popup)"]
     ClickableFeaturesRendererAbstract --> CreateContentMethod{Calls createPopupContent Method}
@@ -90,6 +98,10 @@ graph TD
 #### MCDA Popup Flow - Content Generation Diagram
 
 ```mermaid
+---
+config:
+  layout: elk
+---
 graph TD
     FeatureProperties["Feature Properties"] --> MCDACalculations["MCDA Utilities (Calculations)"]
     MCDALayerConfig["MCDA Layer Config"] --> MCDACalculations
@@ -120,6 +132,10 @@ graph TD
 #### Multivariate Popup Flow - Content Generation Diagram
 
 ```mermaid
+---
+config:
+  layout: elk
+---
 graph TD
     FeatureProperties["Feature Properties"] --> PopupMultivariateComponent["PopupMultivariate.tsx (React Component - Uses Data & Config)"]
     MultivariateConfig["Multivariate Layer Config"] --> PopupMultivariateComponent
@@ -154,6 +170,10 @@ graph TD
 #### Bivariate Popup Flow - Handling and Content Generation Diagram
 
 ```mermaid
+---
+config:
+  layout: elk
+---
 graph TD
     MapClickEvent["Map Click Event"] --> BivariateRenderer["BivariateRenderer (Listener, Queries Features, Manages Popup)"]
     FeatureProperties["Feature Properties"] --> BivariateRenderer("Uses feature data")
@@ -172,7 +192,11 @@ graph TD
 This diagram illustrates how the different renderer types interact with the map and the popup/tooltip mechanisms.
 
 ```mermaid
-graph LR
+---
+config:
+  layout: elk
+---
+graph TD
     Map["MapLibre GL JS Map"] --> GenericRenderer["GenericRenderer"];
     Map --> ClickableFeaturesRendererAbstract["ClickableFeaturesRenderer (Abstract)"];
 
