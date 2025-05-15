@@ -12,6 +12,10 @@
   margin-top: var(--unit);
 }
 
+.topControls {
+  margin-top: var(--unit);
+}
+
 .layerEditor {
   flex: 1;
 }

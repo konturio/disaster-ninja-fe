@@ -8,12 +8,15 @@ import {
   FALLBACK_BIVARIATE_MIN_ZOOM,
 } from '../BivariateRenderer/constants';
 import { generateMultivariatePopupContent } from './popup';
-import type { LayerSpecification } from 'maplibre-gl';
+import { createTextLayerSpecification } from './helpers/createTextLayerSpecification';
+import type { TextDimension } from './types';
+import type { FilterSpecification, LayerSpecification } from 'maplibre-gl';
 import type { LayerTileSource } from '~core/logical_layers/types/source';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import type { LayerStyle } from '../../types/style';
 
 const MULTIVARIATE_LAYER_PREFIX = 'multivariate-layer-';
+const TEXT_LAYER_POSTFIX = '-text';
 
 export class MultivariateRenderer extends ClickableFeaturesRenderer {
   protected getSourcePrefix(): string {
@@ -22,6 +25,29 @@ export class MultivariateRenderer extends ClickableFeaturesRenderer {
 
   protected getClickableLayerId(): string {
     return MULTIVARIATE_LAYER_PREFIX + this.id;
+  }
+
+  addTextLayer(
+    map: ApplicationMap,
+    textDimension: TextDimension,
+    mainLayerId: string,
+    mainLayerSpecification: LayerSpecification,
+  ) {
+    const filter: FilterSpecification | undefined =
+      mainLayerSpecification.type === 'fill' ? mainLayerSpecification.filter : undefined;
+    const textLayerId = mainLayerId + TEXT_LAYER_POSTFIX;
+    const textLayerSpec = createTextLayerSpecification(
+      textDimension,
+      textLayerId,
+      this._sourceId,
+      filter,
+    );
+    if (textLayerSpec) {
+      layerByOrder(map, this._layersOrderManager).addAboveLayerWithSameType(
+        textLayerSpec,
+        this.id,
+      );
+    }
   }
 
   protected mountLayers(map: ApplicationMap, layer: LayerTileSource, style: LayerStyle) {
@@ -42,6 +68,9 @@ export class MultivariateRenderer extends ClickableFeaturesRenderer {
         layerRes,
         this.id,
       );
+      if (style.config.text) {
+        this.addTextLayer(map, style.config.text, layerId, layerRes);
+      }
       this._layerId = layerId;
     } else {
       console.error(
@@ -79,6 +108,10 @@ export class MultivariateRenderer extends ClickableFeaturesRenderer {
   willUnMount({ map }: { map: ApplicationMap }): void {
     if (this._layerId) {
       // clean up additional layers like text or extrusion
+      const textLayerId = this._layerId + TEXT_LAYER_POSTFIX;
+      if (map.getLayer(textLayerId)) {
+        map.removeLayer(textLayerId);
+      }
     }
 
     super.willUnMount({ map });

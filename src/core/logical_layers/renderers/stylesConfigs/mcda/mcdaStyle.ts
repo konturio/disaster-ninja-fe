@@ -18,7 +18,7 @@ import type {
 import type { ColorsByMapLibreExpression, MCDAConfig } from './types';
 
 //@ts-expect-error - not clear how to type this right, but this compromise do the trick
-const calculateLayer = calculateLayerPipeline(inStyleCalculations, (axis) => ({
+export const calculateMCDALayer = calculateLayerPipeline(inStyleCalculations, (axis) => ({
   num: ['get', axis.num],
   den: ['get', axis.den],
 }));
@@ -58,9 +58,9 @@ export function linearNormalization(
   layers: MCDAConfig['layers'],
 ): ExpressionSpecification {
   if (layers.length === 1) {
-    return ['/', calculateLayer(layers.at(0)!), layers.at(0)!.coefficient];
+    return ['/', calculateMCDALayer(layers.at(0)!), layers.at(0)!.coefficient];
   } else {
-    return ['/', ['+', ...layers.map(calculateLayer)], sumBy(layers, 'coefficient')];
+    return ['/', ['+', ...layers.map(calculateMCDALayer)], sumBy(layers, 'coefficient')];
   }
 }
 
