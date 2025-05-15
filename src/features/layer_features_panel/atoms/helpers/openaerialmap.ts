@@ -10,11 +10,17 @@ const formatDateFn = new Intl.DateTimeFormat(language, {
   day: 'numeric',
 }).format;
 
-const formatTime = (d: string | number | Date) => formatDateFn(new Date(d));
+const formatDate = (d: string | number | Date) => {
+  try {
+    return formatDateFn(new Date(d));
+  } catch (e) {
+    return undefined;
+  }
+};
 
 const formatAcquisitionDates = (dateStart?: string, dateEnd?: string) => {
-  const startFormatted = dateStart ? formatTime(dateStart) : null;
-  const endFormatted = dateEnd ? formatTime(dateEnd) : null;
+  const startFormatted = dateStart ? formatDate(dateStart) : null;
+  const endFormatted = dateEnd ? formatDate(dateEnd) : null;
   if (startFormatted) {
     if (endFormatted && endFormatted !== startFormatted) {
       return `${startFormatted} - ${endFormatted}`;
@@ -66,7 +72,7 @@ export function getOAMPanelData(featuresListOAM: object) {
         'Acquisition date',
         formatAcquisitionDates(p.acquisition_start, p.acquisition_end),
       ],
-      ['Uploaded at', formatTime(p.uploaded_at)],
+      ['Uploaded at', formatDate(p.uploaded_at)],
       [
         'Resolution',
         p.properties?.resolution_in_meters
