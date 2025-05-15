@@ -22,6 +22,16 @@
       "rendererUrl": "renderer.html?fixtureId=%7B%22path%22%3A%22src%2Fcomponents%2FLinkRenderer%2FLinkRenderer.fixture.tsx%22%7D&locked=true"
     },
     {
+      "filePath": "src/components/Overlays/Overlays.fixture.tsx",
+      "cleanPath": [
+        "src",
+        "components",
+        "Overlays",
+        "Overlays"
+      ],
+      "rendererUrl": "renderer.html?fixtureId=%7B%22path%22%3A%22src%2Fcomponents%2FOverlays%2FOverlays.fixture.tsx%22%7D&locked=true"
+    },
+    {
       "filePath": "src/components/Uni/Components/UniComponents.fixture.tsx",
       "cleanPath": [
         "src",
