@@ -104,7 +104,13 @@ export function getOAMPanelData(featuresListOAM: object) {
               title: 'Download',
               icon: 'Download16',
               type: 'external_link',
-              // TODO: it's weird that that the full picture link is only inside uuid field
+              // TODO: Is there a different way to get a working file link? It's weird that that the full picture link is only inside uuid field.
+              data: p.uuid,
+            },
+            {
+              title: 'Open in catalog',
+              type: 'external_link',
+              // TODO: use actual image catalog link here
               data: p.uuid,
             },
           ],
