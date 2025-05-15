@@ -1,5 +1,5 @@
 import { Panel, PanelIcon } from '@konturio/ui-kit';
-import { useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { clsx } from 'clsx';
 import { Legend24 } from '@konturio/default-icons';
 import { useAction, useAtom } from '@reatom/npm-react';
@@ -19,9 +19,13 @@ import {
 } from '../../atoms/layerFeaturesCollectionAtom';
 import {
   ACAPS_DATA_HEADER,
+  ACAPS_LAYER_ID,
+  ACAPS_SIMPLE_LAYER_ID,
   FEATURESPANEL_MIN_HEIGHT,
   HOT_PROJECTS_HEADER,
   HOT_PROJECTS_LAYER_ID,
+  OAM_HEADER,
+  OAM_LAYER_ID,
 } from '../../constants';
 import { FullState } from './FullState';
 import { ShortState } from './ShortState';
@@ -68,6 +72,20 @@ export function LayerFeaturesPanel() {
 
   useAutoCollapsePanel(isOpen, closePanel);
 
+  const panelHeader = useMemo(() => {
+    switch (featuresPanelLayerId) {
+      case HOT_PROJECTS_LAYER_ID:
+        return HOT_PROJECTS_HEADER;
+      case ACAPS_LAYER_ID:
+      case ACAPS_SIMPLE_LAYER_ID:
+        return ACAPS_DATA_HEADER;
+      case OAM_LAYER_ID:
+        return OAM_HEADER;
+      default:
+        return undefined;
+    }
+  }, []);
+
   const panelContent =
     featuresList === null || featuresList.length === 0 ? (
       <EmptyState />
@@ -99,11 +117,7 @@ export function LayerFeaturesPanel() {
 
   const panel = (
     <Panel
-      header={
-        featuresPanelLayerId === HOT_PROJECTS_LAYER_ID
-          ? HOT_PROJECTS_HEADER
-          : ACAPS_DATA_HEADER
-      }
+      header={panelHeader}
       headerIcon={
         <div className={s.iconWrap}>
           <Legend24 />

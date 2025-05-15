@@ -8,4 +8,4 @@ export const ACAPS_SIMPLE_LAYER_ID = 'acaps_simple';
 export const ACAPS_DATA_HEADER = 'ACAPS data';
 
 export const OAM_LAYER_ID = 'openaerialmap';
-export const OAM_DATA_HEADER = 'OpenAerialMap';
+export const OAM_HEADER = 'OpenAerialMap';
