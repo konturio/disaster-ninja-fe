@@ -97,6 +97,18 @@ export function getOAMPanelData(featuresListOAM: object) {
           type: 'table',
           rows: dataTable,
         },
+        {
+          type: 'actions',
+          items: [
+            {
+              title: 'Download',
+              icon: 'Download16',
+              type: 'external_link',
+              // TODO: it's weird that that the full picture link is only inside uuid field
+              data: p.uuid,
+            },
+          ],
+        },
       ],
     };
   });
