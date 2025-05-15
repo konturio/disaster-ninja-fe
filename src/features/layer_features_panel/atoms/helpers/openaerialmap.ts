@@ -4,14 +4,28 @@ import type { FeatureCardCfg } from '../../components/CardElements';
 
 const language = i18n.instance.language || 'default';
 
-const formatTimeFn = new Intl.DateTimeFormat(language, {
+const formatDateFn = new Intl.DateTimeFormat(language, {
   year: 'numeric',
   month: 'short',
   day: 'numeric',
-  timeZoneName: 'short',
 }).format;
 
-const formatTime = (d: string | number | Date) => formatTimeFn(new Date(d));
+const formatTime = (d: string | number | Date) => formatDateFn(new Date(d));
+
+const formatAcquisitionDates = (dateStart?: string, dateEnd?: string) => {
+  const startFormatted = dateStart ? formatTime(dateStart) : null;
+  const endFormatted = dateEnd ? formatTime(dateEnd) : null;
+  if (startFormatted) {
+    if (endFormatted && endFormatted !== startFormatted) {
+      return `${startFormatted} - ${endFormatted}`;
+    } else {
+      return startFormatted;
+    }
+  } else if (endFormatted) {
+    return endFormatted;
+  }
+  return null;
+};
 
 function formatResolutionForOutput(resolutionInMeters: string) {
   const resNumber = Number.parseFloat(resolutionInMeters);
@@ -36,7 +50,11 @@ export function getOAMPanelData(featuresListOAM: object) {
   const featuresList: FeatureCardCfg[] = Object.values(featuresListOAM).map((f) => {
     const { properties: p } = f;
     const dataTable: any[][] = [
-      ['Uploaded', formatTime(p.uploaded_at)],
+      [
+        'Acquisition date',
+        formatAcquisitionDates(p.acquisition_start, p.acquisition_end),
+      ],
+      ['Uploaded at', formatTime(p.uploaded_at)],
       [
         'Resolution',
         p.properties?.resolution_in_meters
