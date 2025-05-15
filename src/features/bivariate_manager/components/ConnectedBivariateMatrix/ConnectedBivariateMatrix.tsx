@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useAction, useAtom } from '@reatom/npm-react';
 import { debounce } from '~utils/common';
-import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { bivariateStatisticsResourceAtom } from '~core/resources/bivariateStatisticsResource';
 import { bivariateCorrelationMatrixAtom } from '../../atoms/bivatiateCorrelationMatrix';
 import {
@@ -13,8 +12,6 @@ import { BivariateMatrixControlComponent } from '../BivariateMatrixControl';
 import { ProgressTooltip } from '../ProgressTooltip/ProgressTooltip';
 import type { AxisGroup } from '~core/types';
 import type { Indicator, CorrelationRate } from '~utils/bivariate';
-
-const TOOLTIP_ID = 'BIVARIATE_MATRIX_CELL_TOOLTIP';
 
 function qualityFormat(quality?) {
   return typeof quality === 'number' ? Math.floor(quality * 100).toString() : undefined;
@@ -55,7 +52,7 @@ function mapHeaderCell(
   };
 }
 
-const ConnectedBivariateMatrix = () => {
+export function ConnectedBivariateMatrix() {
   const [{ selectedCell }] = useAtom(bmSelection.bivariateMatrixSelectionAtom);
   const setMatrixSelection = useAction(bmSelection.setMatrixSelectionAction);
   const runPreselection = useAction(bmSelection.runPreselectionAction);
@@ -64,10 +61,14 @@ const ConnectedBivariateMatrix = () => {
 
   const [{ xGroups, yGroups }] = useAtom(bivariateNumeratorsAtom);
   const setNumerators = useAction(setNumeratorsAction);
-  const setTooltip = useAction(currentTooltipAtom.setCurrentTooltip.v3action);
-  const turnOffById = useAction(currentTooltipAtom.turnOffById.v3action);
 
   const [{ data: stats }] = useAtom(bivariateStatisticsResourceAtom.v3atom);
+
+  // Local state for ProgressTooltip visibility and position
+  const [progressTooltip, setProgressTooltip] = useState<{
+    visible: boolean;
+    position: { x: number; y: number } | null;
+  }>({ visible: false, position: null });
 
   useEffect(() => {
     selectedCellRef.current = selectedCell;
@@ -98,19 +99,20 @@ const ConnectedBivariateMatrix = () => {
     };
   }, [stats, xGroups, yGroups]);
 
-  const debouncedShowTooltip = useCallback(
-    debounce((position: { x: number; y: number }) => {
-      const resetTooltip = () => turnOffById(TOOLTIP_ID);
-      resetTooltip();
-      setTooltip({
-        popup: <ProgressTooltip close={resetTooltip} />,
-        position,
-        initiatorId: TOOLTIP_ID,
-        hoverBehavior: true,
-      });
-    }, 400),
-    [turnOffById, setTooltip],
+  // Debounced show ProgressTooltip at mouse position
+  const debouncedShowTooltip = useMemo(
+    () =>
+      debounce((position: { x: number; y: number }) => {
+        setProgressTooltip({ visible: false, position: null }); // reset first
+        setProgressTooltip({ visible: true, position });
+      }, 400),
+    [],
   );
+
+  // Handler to close ProgressTooltip (passed to ProgressTooltip)
+  const handleTooltipClose = useCallback(() => {
+    setProgressTooltip((prev) => ({ ...prev, visible: false }));
+  }, []);
 
   const onSelectCellHandler = useCallback(
     (x, y, e) => {
@@ -173,18 +175,31 @@ const ConnectedBivariateMatrix = () => {
     [setMatrixSelection, setNumerators, xGroups, yGroups],
   );
 
-  return matrix && headings ? (
-    <BivariateMatrixControlComponent
-      matrix={matrix}
-      xHeadings={headings.x}
-      yHeadings={headings.y}
-      onSelectCell={onSelectCellHandler}
-      selectedCell={selectedCell}
-      onSelectQuotient={onSelectQuotient}
-    />
-  ) : null;
-};
-
-ConnectedBivariateMatrix.displayName = 'ConnectedBivariateMatrix';
-
-export default ConnectedBivariateMatrix;
+  return (
+    <>
+      {matrix && headings ? (
+        <BivariateMatrixControlComponent
+          matrix={matrix}
+          xHeadings={headings.x}
+          yHeadings={headings.y}
+          onSelectCell={onSelectCellHandler}
+          selectedCell={selectedCell}
+          onSelectQuotient={onSelectQuotient}
+        />
+      ) : null}
+      {progressTooltip.visible && progressTooltip.position && (
+        <div
+          style={{
+            position: 'fixed',
+            left: progressTooltip.position.x,
+            top: progressTooltip.position.y,
+            zIndex: 'var(--tooltip)',
+            pointerEvents: 'none',
+          }}
+        >
+          <ProgressTooltip close={handleTooltipClose} />
+        </div>
+      )}
+    </>
+  );
+}

@@ -36,6 +36,7 @@ export function ToggleButton({ isOpen, setIsOpen }: ToggleButtonProps) {
       <Button
         iconBefore={<DoubleChevronLeft24 />}
         className={clsx(s.navButton, s.sidebarButton)}
+        size="small"
         dark
         variant="invert"
         onClick={toggleIsOpen}
@@ -50,6 +51,7 @@ export function ToggleButton({ isOpen, setIsOpen }: ToggleButtonProps) {
       <Button
         iconBefore={<DoubleChevronRight24 />}
         className={clsx(s.navButton, s.sidebarButton)}
+        size="small"
         dark
         variant="invert"
         onClick={toggleIsOpen}

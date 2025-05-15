@@ -1,8 +1,4 @@
 import clsx from 'clsx';
-import {
-  CSSTransitionWrapper,
-  fadeClassNames,
-} from '~components/CssTransitionWrapper/CssTransitionWrapper';
 import { sortByKey } from '~utils/common';
 import s from './CombinationsSublist.module.css';
 import type {
@@ -33,13 +29,13 @@ type SublistProps = {
 
 type Plane = 'vertical' | 'horizontal';
 
-const CombinationsSublist = ({
+export function CombinationsSublist({
   open = false,
   rowData,
   rowKey: key,
   setLayersSelection,
   layersSelection,
-}: SublistProps) => {
+}: SublistProps) {
   const { vertical, horizontal } = rowData;
   const verticalList = Object.values(vertical).sort(sortDescendingByQuality);
   const horizontalList = Object.values(horizontal).sort(sortDescendingByQuality);
@@ -70,24 +66,14 @@ const CombinationsSublist = ({
   const renderVerticalItem = renderItem('vertical');
   const renderHorizontalItem = renderItem('horizontal');
 
-  return (
-    <CSSTransitionWrapper
-      in={open}
-      timeout={300}
-      unmountOnExit
-      appear
-      classNames={fadeClassNames}
-    >
-      {(ref) => (
-        <tr ref={ref} className={s.sublist}>
-          <td />
-          <td />
-          <td>{verticalList.map(renderVerticalItem)}</td>
-          <td>{horizontalList.map(renderHorizontalItem)}</td>
-        </tr>
-      )}
-    </CSSTransitionWrapper>
-  );
-};
+  if (!open) return null;
 
-export { CombinationsSublist };
+  return (
+    <tr className={s.sublist}>
+      <td />
+      <td />
+      <td>{verticalList.map(renderVerticalItem)}</td>
+      <td>{horizontalList.map(renderHorizontalItem)}</td>
+    </tr>
+  );
+}

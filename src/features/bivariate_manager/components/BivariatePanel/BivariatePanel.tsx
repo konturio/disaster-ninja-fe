@@ -18,5 +18,3 @@ export function BivariatePanel({ onConfirm }) {
     </Panel>
   );
 }
-
-export default BivariatePanel;

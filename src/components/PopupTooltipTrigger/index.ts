@@ -1,1 +1,0 @@
-export { PopupTooltipTrigger } from './PopupTooltipTrigger';
