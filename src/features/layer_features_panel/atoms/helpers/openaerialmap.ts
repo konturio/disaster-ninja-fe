@@ -33,17 +33,29 @@ function formatResolutionForOutput(resolutionInMeters: string) {
     return resolutionInMeters;
   }
   if (resNumber > 1000) {
-    return `${parseFloat((resNumber / 1000).toFixed(3))} km`;
+    return `${parseFloat((resNumber / 1000).toFixed(3))} km/px`;
   }
   if (resNumber < 1) {
-    return `${parseFloat((resNumber * 100).toFixed(3))} cm`;
+    return `${parseFloat((resNumber * 100).toFixed(3))} cm/px`;
   }
-  return `${parseFloat(resNumber.toFixed(3))} m`;
+  return `${parseFloat(resNumber.toFixed(3))} m/px`;
 }
 
-function fileSizeToMB(fileSizeKB: string) {
-  const mbNumber = Number.parseFloat(fileSizeKB) / 1000000;
-  return parseFloat(mbNumber.toFixed(2));
+function formatFileSize(sizeBytesString: string) {
+  const sizeBytes = Number.parseFloat(sizeBytesString);
+  if (!isNumber(sizeBytes)) {
+    return 'unknown';
+  }
+  if (sizeBytes > 1000000000) {
+    return `${parseFloat((sizeBytes / 1000000000).toFixed(2))} GB`;
+  }
+  if (sizeBytes > 1000000) {
+    return `${parseFloat((sizeBytes / 1000000).toFixed(2))} MB`;
+  }
+  if (sizeBytes > 1000) {
+    return `${parseFloat((sizeBytes / 1000).toFixed(2))} KB`;
+  }
+  return `${parseFloat((sizeBytes / 1000).toFixed(2))} B`;
 }
 
 export function getOAMPanelData(featuresListOAM: object) {
@@ -58,14 +70,14 @@ export function getOAMPanelData(featuresListOAM: object) {
       [
         'Resolution',
         p.properties?.resolution_in_meters
-          ? `${formatResolutionForOutput(p.properties?.resolution_in_meters)}`
+          ? formatResolutionForOutput(p.properties?.resolution_in_meters)
           : null,
       ],
       ['Uploaded by', p.user?.name],
       ['Provider', p.provider],
       ['Platform', p.platform],
       ['Sensor', p.properties?.sensor],
-      ['Image size', p.file_size ? `${fileSizeToMB(p.file_size)} MB` : 'unknown'],
+      ['Image size', p.file_size ? formatFileSize(p.file_size) : 'unknown'],
       ['License', p.properties?.license],
     ].filter((v) => !!v[1]);
     return {
