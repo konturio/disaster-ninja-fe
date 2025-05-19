@@ -61,6 +61,7 @@ class ToolbarImpl implements Toolbar {
           CREATE_MULTIVARIATE_CONTROL_ID,
           UPLOAD_MULTIVARIATE_CONTROL_ID,
           'EditableLayer',
+          'customLayerDrawToolsControl',
         ],
       },
       {

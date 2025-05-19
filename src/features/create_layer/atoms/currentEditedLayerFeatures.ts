@@ -21,6 +21,7 @@ export const currentEditedLayerFeatures = createAtom(
     drawnGeometryAtom,
     reset: () => null,
     save: (safeCallbacks?: SafeCallbacks) => safeCallbacks,
+    saveFeatures: (features?: GeoJSON.Feature[]) => features,
     setFeatureProperty: (featureIdx: number, properties: GeoJSON.GeoJsonProperties) => ({
       featureIdx,
       properties,
@@ -108,10 +109,8 @@ export const currentEditedLayerFeatures = createAtom(
               },
             );
             notificationServiceInstance.info({ title: 'Features was saved' }, 3);
-            if (safeCallbacks) safeCallbacks.onSuccess();
             dispatch(editableLayersListResource.refetch());
           } catch (e) {
-            if (safeCallbacks) safeCallbacks.onError();
             notificationServiceInstance.error({
               title: 'Failed to save features',
             });
@@ -121,6 +120,28 @@ export const currentEditedLayerFeatures = createAtom(
       });
     });
 
+    onAction('saveFeatures', (features) => {
+      schedule(async (dispatch, ctx) => {
+        if (ctx.layerId && features) {
+          try {
+            await apiClient.put<unknown>(
+              `/layers/${ctx.layerId}/items/`,
+              new FeatureCollection(features || null),
+              {
+                authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
+              },
+            );
+            notificationServiceInstance.info({ title: 'Features was saved' }, 3);
+            dispatch(editableLayersListResource.refetch());
+          } catch (e) {
+            notificationServiceInstance.error({
+              title: 'Failed to save features',
+            });
+            console.error(e);
+          }
+        }
+      });
+    });
     return state;
   },
 );

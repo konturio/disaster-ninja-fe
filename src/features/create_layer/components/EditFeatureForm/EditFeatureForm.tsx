@@ -31,17 +31,16 @@ export function EditFeatureForm({
   featureProperties,
   onSave,
 }: EditFeatureFormProps) {
-  // we only expecting point geometry ATM
-  if (geometry !== null && geometry.type !== 'Point') return null;
-
   return (
     <div className={s.formContainer}>
-      <Input
-        disabled={true}
-        className={s.formParam}
-        renderLabel={<Label>{i18n.t('create_layer.location')}</Label>}
-        value={geometry ? `${geometry.coordinates[0]}, ${geometry.coordinates[1]}` : ''}
-      />
+      {geometry?.type === 'Point' && (
+        <Input
+          disabled={true}
+          className={s.formParam}
+          renderLabel={<Label>{i18n.t('create_layer.location')}</Label>}
+          value={geometry ? `${geometry.coordinates[0]}, ${geometry.coordinates[1]}` : ''}
+        />
+      )}
       {Object.entries(fieldsSettings.featureProperties).map(([key, type]) => {
         function onPropertyChange(ev: ChangeEvent<HTMLInputElement>) {
           changeProperty(key, ev.target.value);

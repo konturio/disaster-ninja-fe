@@ -218,6 +218,7 @@
     "open_timeline_button": "Timeline"
   },
   "create_layer": {
+    "save_and_draw": "Save and draw",
     "edit_layer": "Edit Layer",
     "edit_features": "Edit Features",
     "delete_layer": "Delete Layer",

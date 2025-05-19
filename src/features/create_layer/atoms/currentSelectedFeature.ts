@@ -2,13 +2,13 @@ import { createAtom } from '~utils/atoms/createPrimitives';
 import { drawnGeometryAtom } from '~core/draw_tools/atoms/drawnGeometryAtom';
 import { currentEditedLayerFeatures } from './currentEditedLayerFeatures';
 
-const currentSelectedPointIndex = createAtom({ drawnGeometryAtom }, ({ get }) =>
+const currentSelectedFeatureIndex = createAtom({ drawnGeometryAtom }, ({ get }) =>
   get('drawnGeometryAtom').features.findIndex((f) => f.properties?.isSelected),
 );
 
-export const currentSelectedPoint = createAtom(
+export const currentSelectedFeature = createAtom(
   {
-    currentSelectedPointIndex,
+    currentSelectedFeatureIndex,
     currentEditedLayerFeatures,
     updateProperties: (properties: GeoJSON.GeoJsonProperties) => properties,
     setPosition: (position: { lng: number; lat: number }) => position,
@@ -18,12 +18,12 @@ export const currentSelectedPoint = createAtom(
     { get, onAction, schedule, getUnlistedState },
     state: null | GeoJSON.Feature = null,
   ): typeof state => {
-    const currentSelectedPointIndex = get('currentSelectedPointIndex');
-    if (currentSelectedPointIndex === -1) return null;
+    const currentSelectedFeatureIndex = get('currentSelectedFeatureIndex');
+    if (currentSelectedFeatureIndex === -1) return null;
 
     onAction('updateProperties', (properties) => {
       const currentFeature =
-        getUnlistedState(drawnGeometryAtom).features[currentSelectedPointIndex];
+        getUnlistedState(drawnGeometryAtom).features[currentSelectedFeatureIndex];
       const updatedProperties = {
         ...currentFeature.properties,
         ...properties,
@@ -31,20 +31,10 @@ export const currentSelectedPoint = createAtom(
       schedule((d) => {
         d(
           currentEditedLayerFeatures.setFeatureProperty(
-            currentSelectedPointIndex,
+            currentSelectedFeatureIndex,
             updatedProperties,
           ),
         );
-      });
-    });
-
-    onAction('setPosition', (position) => {
-      console.error('setPosition Not implemented yet');
-    });
-
-    onAction('deleteFeature', () => {
-      schedule((d) => {
-        d(drawnGeometryAtom.removeByIndexes([currentSelectedPointIndex]));
       });
     });
 
@@ -53,6 +43,6 @@ export const currentSelectedPoint = createAtom(
       return null;
     }
 
-    return layerFeatures[currentSelectedPointIndex];
+    return layerFeatures[currentSelectedFeatureIndex];
   },
 );
