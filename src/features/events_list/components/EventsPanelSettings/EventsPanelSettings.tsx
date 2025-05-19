@@ -3,7 +3,7 @@ import { configRepo } from '~core/config';
 import { AppFeature } from '~core/app/types';
 import { eventListFilters } from '~features/events_list/atoms/eventListFilters';
 import { BBoxFilterToggle } from '~components/BBoxFilterToggle/BBoxFilterToggle';
-import { EventListSettingsRow } from '../EventListSettingsRow/EventListSettingsRow';
+import { PanelSettingsRow } from '~components/PanelSettingsRow/PanelSettingsRow';
 import { FeedSelectorFlagged } from '../FeedSelector';
 
 const featureFlags = configRepo.get().features;
@@ -16,7 +16,7 @@ export function EventsPanelSettings() {
   );
 
   return (
-    <EventListSettingsRow>
+    <PanelSettingsRow>
       <FeedSelectorFlagged />
       {featureFlags[AppFeature.EVENTS_LIST__BBOX_FILTER] && (
         <BBoxFilterToggle
@@ -30,6 +30,6 @@ export function EventsPanelSettings() {
               onSort={onSort}
               onFocus={currentEventIndex !== undefined ? scrollToCurrentEvent : undefined}
             /> */}
-    </EventListSettingsRow>
+    </PanelSettingsRow>
   );
 }

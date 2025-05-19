@@ -20,6 +20,7 @@ import {
 } from '~features/layer_features_panel/atoms/layerFeaturesFiltersAtom';
 import { configRepo } from '~core/config';
 import { AppFeature } from '~core/app/types';
+import { PanelSettingsRow } from '~components/PanelSettingsRow/PanelSettingsRow';
 import {
   featuresPanelLayerId,
   currentFeatureIdAtom,
@@ -154,11 +155,13 @@ export function LayerFeaturesPanel() {
       minContentHeight={isShort ? 'min-content' : FEATURESPANEL_MIN_HEIGHT}
     >
       {layerFeaturesPanelConfig?.showBboxFilterToggle && (
-        <BBoxFilterToggle
-          currentFilter={bboxFilter}
-          onCleanFilter={resetBboxFilter}
-          onSetFilter={setBboxFilter}
-        />
+        <PanelSettingsRow>
+          <BBoxFilterToggle
+            currentFilter={bboxFilter}
+            onCleanFilter={resetBboxFilter}
+            onSetFilter={setBboxFilter}
+          />
+        </PanelSettingsRow>
       )}
       {panelContent}
     </Panel>
