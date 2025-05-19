@@ -15,6 +15,7 @@ import {
 import { getHotProjectsPanelData } from './helpers/hotProjects_outlines';
 import { getAcapsPanelData } from './helpers/acaps';
 import { getOAMPanelData } from './helpers/openaerialmap';
+import { layerFeaturesFiltersAtom } from './layerFeaturesFiltersAtom';
 import type { LayerFeaturesPanelConfig } from '../types/layerFeaturesPanel';
 import type { FeatureCardCfg } from '../components/CardElements';
 import type { Feature } from 'geojson';
@@ -55,23 +56,20 @@ function transformFeaturesToPanelData(featuresList: object): FeatureCardCfg[] {
 
 const fetchLayerFeaturesResource = reatomResource<Feature[] | null>(async (ctx) => {
   const enabledLayers = ctx.spy(enabledLayersAtom.v3atom);
+  const layerFeaturesFilters = ctx.spy(layerFeaturesFiltersAtom);
   const focusedGeoJSON = ctx.spy(focusedGeometryAtom.v3atom)?.geometry;
+  const geometry = layerFeaturesFilters.geometry ?? focusedGeoJSON;
   currentFeatureIdAtom(ctx, null);
   if (
     !featuresPanelLayerId ||
-    !focusedGeoJSON ||
-    isGeoJSONEmpty(focusedGeoJSON) ||
+    (layerFeaturesPanelConfig?.requireGeometry && isGeoJSONEmpty(geometry)) ||
     (requiresEnabledLayer && !enabledLayers.has(featuresPanelLayerId))
   ) {
     return null;
   }
   let responseData: Feature[] | null;
   try {
-    responseData = await getLayerFeatures(
-      featuresPanelLayerId,
-      focusedGeoJSON,
-      ctx.controller,
-    );
+    responseData = await getLayerFeatures(featuresPanelLayerId, geometry, ctx.controller);
   } catch (e: unknown) {
     throw new Error(i18n.t('layer_features_panel.error_loading'));
   }

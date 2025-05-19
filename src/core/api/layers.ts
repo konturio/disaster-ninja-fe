@@ -69,7 +69,7 @@ export async function getLayersDetails(ids: string[], appId: string, language: s
 
 export function getLayerFeatures(
   layerId: string,
-  geoJSON: GeoJSON.GeoJSON,
+  geoJSON: GeoJSON.GeoJSON | undefined,
   abortController: AbortController,
 ) {
   return apiClient.post<Feature[]>(
