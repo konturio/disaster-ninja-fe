@@ -2,9 +2,9 @@ import { useAtom } from '@reatom/react-v2';
 import { configRepo } from '~core/config';
 import { AppFeature } from '~core/app/types';
 import { eventListFilters } from '~features/events_list/atoms/eventListFilters';
+import { BBoxFilterToggle } from '~components/BBoxFilterToggle/BBoxFilterToggle';
 import { EventListSettingsRow } from '../EventListSettingsRow/EventListSettingsRow';
 import { FeedSelectorFlagged } from '../FeedSelector';
-import { BBoxFilterToggle } from '../BBoxFilterToggle/BBoxFilterToggle';
 
 const featureFlags = configRepo.get().features;
 
