@@ -45,6 +45,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
   private _layerIds: Set<string>;
   private _sourceId: string;
   private _removeClickListener: null | (() => void) = null;
+  private _updateToken = 0;
 
   public constructor({ id }: { id: string }) {
     super();
@@ -208,7 +209,9 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     style: LayerStyle | null,
   ) {
     if (layerData == null) return;
+    const token = ++this._updateToken;
     await mapLoaded(map);
+    if (token !== this._updateToken) return;
 
     if (isGeoJSONLayer(layerData)) {
       this.mountGeoJSONLayer(map, layerData, legend, style);
@@ -372,6 +375,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
   }
 
   willUnMount({ map }: { map: ApplicationMap }) {
+    this._updateToken++;
     this._removeLayers(map);
     if (this._sourceId) {
       if (map.getSource(this._sourceId) !== undefined) {
@@ -409,6 +413,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
   }
 
   willDestroy({ map }: { map: ApplicationMap | null }) {
+    this._updateToken++;
     // only unmount layers that was mounted
     if (!this._layerIds.size) return;
     if (map === null) return;
