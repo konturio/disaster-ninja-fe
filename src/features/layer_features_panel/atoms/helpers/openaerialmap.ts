@@ -1,26 +1,10 @@
-import { i18n } from '~core/localization';
 import { isNumber } from '~utils/common';
+import { formatsRegistry } from '~components/Uni/formatsRegistry';
 import type { FeatureCardCfg } from '../../components/CardElements';
 
-const language = i18n.instance.language || 'default';
-
-const formatDateFn = new Intl.DateTimeFormat(language, {
-  year: 'numeric',
-  month: 'short',
-  day: 'numeric',
-}).format;
-
-const formatDate = (d: string | number | Date) => {
-  try {
-    return formatDateFn(new Date(d));
-  } catch (e) {
-    return undefined;
-  }
-};
-
 const formatAcquisitionDates = (dateStart?: string, dateEnd?: string) => {
-  const startFormatted = dateStart ? formatDate(dateStart) : null;
-  const endFormatted = dateEnd ? formatDate(dateEnd) : null;
+  const startFormatted = dateStart ? formatsRegistry.date_month_year(dateStart) : null;
+  const endFormatted = dateEnd ? formatsRegistry.date_month_year(dateEnd) : null;
   if (startFormatted) {
     if (endFormatted && endFormatted !== startFormatted) {
       return `${startFormatted} - ${endFormatted}`;
@@ -72,7 +56,7 @@ export function getOAMPanelData(featuresListOAM: object) {
         'Acquisition date',
         formatAcquisitionDates(p.acquisition_start, p.acquisition_end),
       ],
-      ['Uploaded at', formatDate(p.uploaded_at)],
+      ['Uploaded at', formatsRegistry.date_month_year(p.uploaded_at)],
       [
         'Resolution',
         p.properties?.resolution_in_meters

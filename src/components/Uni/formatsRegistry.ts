@@ -11,6 +11,12 @@ export const dateFormatter = new Intl.DateTimeFormat(language, {
   timeZoneName: 'short',
 }).format;
 
+const dateMonthYearFormatter = new Intl.DateTimeFormat(language, {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+}).format;
+
 export const numberFormatter = new Intl.NumberFormat(language);
 
 export const number_f000_Formatter = new Intl.NumberFormat(language, {
@@ -36,6 +42,9 @@ export const compactCurrencyFormatter = new Intl.NumberFormat(language, {
 export const formatsRegistry = {
   date(date?: string) {
     return date ? dateFormatter(new Date(date)) : '';
+  },
+  date_month_year(date?: string) {
+    return date ? dateMonthYearFormatter(new Date(date)) : '';
   },
   square_km(value: number) {
     return `${number_f000_Formatter.format(value)} km²`;
