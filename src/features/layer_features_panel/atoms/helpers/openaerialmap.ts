@@ -31,23 +31,6 @@ function formatResolutionForOutput(resolutionInMeters: string) {
   return `${parseFloat(resNumber.toFixed(3))} m/px`;
 }
 
-function formatFileSize(sizeBytesString: string) {
-  const sizeBytes = Number.parseFloat(sizeBytesString);
-  if (!isNumber(sizeBytes)) {
-    return 'unknown';
-  }
-  if (sizeBytes > 1000000000) {
-    return `${parseFloat((sizeBytes / 1000000000).toFixed(2))} GB`;
-  }
-  if (sizeBytes > 1000000) {
-    return `${parseFloat((sizeBytes / 1000000).toFixed(2))} MB`;
-  }
-  if (sizeBytes > 1000) {
-    return `${parseFloat((sizeBytes / 1000).toFixed(2))} KB`;
-  }
-  return `${parseFloat((sizeBytes / 1000).toFixed(2))} B`;
-}
-
 export function getOAMPanelData(featuresListOAM: object) {
   const featuresList: FeatureCardCfg[] = Object.values(featuresListOAM).map((f) => {
     const { properties: p } = f;
@@ -67,7 +50,7 @@ export function getOAMPanelData(featuresListOAM: object) {
       ['Provider', p.provider],
       ['Platform', p.platform],
       ['Sensor', p.properties?.sensor],
-      ['Image size', p.file_size ? formatFileSize(p.file_size) : 'unknown'],
+      ['Image size', formatsRegistry.file_size(p.file_size)],
       ['License', p.properties?.license],
     ].filter((v) => !!v[1]);
     return {

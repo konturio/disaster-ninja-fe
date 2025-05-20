@@ -1,4 +1,5 @@
 import { i18n } from '~core/localization';
+import { isNumber } from '~utils/common';
 
 const language = i18n.instance.language || 'default';
 
@@ -39,6 +40,19 @@ export const compactCurrencyFormatter = new Intl.NumberFormat(language, {
   maximumFractionDigits: 0,
 });
 
+function formatFileSize(sizeBytes: number): string {
+  if (sizeBytes > 1000000000) {
+    return `${parseFloat((sizeBytes / 1000000000).toFixed(2))} GB`;
+  }
+  if (sizeBytes > 1000000) {
+    return `${parseFloat((sizeBytes / 1000000).toFixed(2))} MB`;
+  }
+  if (sizeBytes > 1000) {
+    return `${parseFloat((sizeBytes / 1000).toFixed(2))} KB`;
+  }
+  return `${parseFloat((sizeBytes / 1000).toFixed(2))} B`;
+}
+
 export const formatsRegistry = {
   date(date?: string) {
     return date ? dateFormatter(new Date(date)) : '';
@@ -71,5 +85,8 @@ export const formatsRegistry = {
       return domain;
     } catch (_) {}
     return placeholder;
+  },
+  file_size(sizeInBytes?: number) {
+    return isNumber(sizeInBytes) ? formatFileSize(sizeInBytes) : '';
   },
 };
