@@ -27,6 +27,7 @@ const layerFeaturesPanelConfig =
     : null;
 export const featuresPanelLayerId = layerFeaturesPanelConfig?.layerId;
 const requiresEnabledLayer = layerFeaturesPanelConfig?.requiresEnabledLayer;
+const requiresGeometry = layerFeaturesPanelConfig?.requiresGeometry ?? true;
 
 export const currentFeatureIdAtom = atom<number | null>(null, 'currentFeatureIdAtom');
 
@@ -62,7 +63,7 @@ const fetchLayerFeaturesResource = reatomResource<Feature[] | null>(async (ctx) 
   currentFeatureIdAtom(ctx, null);
   if (
     !featuresPanelLayerId ||
-    (layerFeaturesPanelConfig?.requireGeometry && isGeoJSONEmpty(geometry)) ||
+    (requiresGeometry && isGeoJSONEmpty(geometry)) ||
     (requiresEnabledLayer && !enabledLayers.has(featuresPanelLayerId))
   ) {
     return null;
