@@ -53,12 +53,40 @@ function formatFileSize(sizeBytes: number): string {
   return `${parseFloat((sizeBytes / 1000).toFixed(2))} B`;
 }
 
+function formatDistancePerPixel(metersPerPixel: number) {
+  if (metersPerPixel > 1000) {
+    return `${parseFloat((metersPerPixel / 1000).toFixed(3))} km/px`;
+  }
+  if (metersPerPixel < 1) {
+    return `${parseFloat((metersPerPixel * 100).toFixed(3))} cm/px`;
+  }
+  return `${parseFloat(metersPerPixel.toFixed(3))} m/px`;
+}
+
+const formatDatesInterval = (dateStart?: string, dateEnd?: string) => {
+  const startFormatted = dateStart ? formatsRegistry.date_month_year(dateStart) : null;
+  const endFormatted = dateEnd ? formatsRegistry.date_month_year(dateEnd) : null;
+  if (startFormatted) {
+    if (endFormatted && endFormatted !== startFormatted) {
+      return `${startFormatted} - ${endFormatted}`;
+    } else {
+      return startFormatted;
+    }
+  } else if (endFormatted) {
+    return endFormatted;
+  }
+  return '';
+};
+
 export const formatsRegistry = {
   date(date?: string) {
     return date ? dateFormatter(new Date(date)) : '';
   },
   date_month_year(date?: string) {
     return date ? dateMonthYearFormatter(new Date(date)) : '';
+  },
+  dates_interval(datesInterval: { dateStart?: string; dateEnd?: string }) {
+    return formatDatesInterval(datesInterval.dateStart, datesInterval.dateEnd);
   },
   square_km(value: number) {
     return `${number_f000_Formatter.format(value)} km²`;
@@ -88,5 +116,8 @@ export const formatsRegistry = {
   },
   file_size(sizeInBytes?: number) {
     return isNumber(sizeInBytes) ? formatFileSize(sizeInBytes) : '';
+  },
+  distance_per_pixel(metersPerPixel?: number) {
+    return isNumber(metersPerPixel) ? formatDistancePerPixel(metersPerPixel) : '';
   },
 };
