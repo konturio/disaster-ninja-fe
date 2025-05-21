@@ -84,6 +84,7 @@ export function getLayerFeatures(
       geoJSON: params.geoJSON,
       limit: params.limit,
       order: params.order,
+      offset: params.offset,
     },
     {
       signal: abortController.signal,
