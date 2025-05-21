@@ -71,12 +71,16 @@ export function getLayerFeatures(
   layerId: string,
   geoJSON: GeoJSON.GeoJSON,
   abortController: AbortController,
+  limit?: number,
+  order?: string,
 ) {
   return apiClient.post<Feature[]>(
     `/layers/${layerId}/items/search`,
     {
       appId: configRepo.get().id,
       geoJSON,
+      limit,
+      order,
     },
     {
       signal: abortController.signal,
