@@ -3,4 +3,6 @@ export interface LayerFeaturesPanelConfig {
   requiresEnabledLayer?: boolean;
   maxItems?: number;
   sortOrder?: 'asc' | 'desc';
+  requireGeometry?: boolean;
+  showBboxFilterToggle?: boolean;
 }

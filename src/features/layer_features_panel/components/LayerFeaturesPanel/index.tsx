@@ -12,6 +12,15 @@ import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { scheduledAutoFocus } from '~core/shared_state/currentEvent';
 import { i18n } from '~core/localization';
 import { setCurrentMapBbox, type Bbox } from '~core/shared_state/currentMapPosition';
+import { BBoxFilterToggle } from '~components/BBoxFilterToggle/BBoxFilterToggle';
+import {
+  layerFeaturesFiltersAtom,
+  resetGeometryForLayerFeatures,
+  setBBoxAsGeometryForLayerFeatures,
+} from '~features/layer_features_panel/atoms/layerFeaturesFiltersAtom';
+import { configRepo } from '~core/config';
+import { AppFeature } from '~core/app/types';
+import { PanelSettingsRow } from '~components/PanelSettingsRow/PanelSettingsRow';
 import {
   featuresPanelLayerId,
   currentFeatureIdAtom,
@@ -33,6 +42,7 @@ import s from './LayerFeaturesPanel.module.css';
 import { EmptyState } from './EmptyState';
 import type { FeatureCardCfg } from '../CardElements';
 import type { SheetRef } from 'react-modal-sheet';
+import type { LayerFeaturesPanelConfig } from '../../types/layerFeaturesPanel';
 
 export function LayerFeaturesPanel() {
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
@@ -48,6 +58,16 @@ export function LayerFeaturesPanel() {
       setMapBbox(feature.focus as Bbox);
     }
   };
+
+  const panelFeature = configRepo.get().features[AppFeature.LAYER_FEATURES_PANEL];
+  const layerFeaturesPanelConfig =
+    panelFeature && typeof panelFeature === 'object'
+      ? (panelFeature as LayerFeaturesPanelConfig)
+      : null;
+
+  const [{ geometry: bboxFilter }] = useAtom(layerFeaturesFiltersAtom);
+  const setBboxFilter = useAction(setBBoxAsGeometryForLayerFeatures);
+  const resetBboxFilter = useAction(resetGeometryForLayerFeatures);
 
   const [featuresList] = useAtom(layerFeaturesCollectionAtom);
 
@@ -134,6 +154,15 @@ export function LayerFeaturesPanel() {
       contentHeight={isShort ? 'min-content' : 'unset'}
       minContentHeight={isShort ? 'min-content' : FEATURESPANEL_MIN_HEIGHT}
     >
+      {layerFeaturesPanelConfig?.showBboxFilterToggle && (
+        <PanelSettingsRow>
+          <BBoxFilterToggle
+            currentFilter={bboxFilter}
+            onCleanFilter={resetBboxFilter}
+            onSetFilter={setBboxFilter}
+          />
+        </PanelSettingsRow>
+      )}
       {panelContent}
     </Panel>
   );

@@ -70,7 +70,7 @@ export async function getLayersDetails(ids: string[], appId: string, language: s
 export function getLayerFeatures(
   layerId: string,
   params: {
-    geoJSON: GeoJSON.GeoJSON;
+    geoJSON?: GeoJSON.GeoJSON;
     limit?: number;
     offset?: number;
     order?: 'asc' | 'desc';
