@@ -69,10 +69,12 @@ const fetchLayerFeaturesResource = reatomResource<Feature[] | null>(async (ctx) 
   try {
     responseData = await getLayerFeatures(
       featuresPanelLayerId,
-      focusedGeoJSON,
+      {
+        geoJSON: focusedGeoJSON,
+        limit: layerFeaturesPanelConfig?.maxItems,
+        order: layerFeaturesPanelConfig?.sortOrder,
+      },
       ctx.controller,
-      layerFeaturesPanelConfig?.maxItems,
-      layerFeaturesPanelConfig?.sortOrder,
     );
   } catch (e: unknown) {
     throw new Error(i18n.t('layer_features_panel.error_loading'));
