@@ -31,13 +31,16 @@ const requiresGeometry = layerFeaturesPanelConfig?.requiresGeometry ?? true;
 
 export const currentFeatureIdAtom = atom<number | null>(null, 'currentFeatureIdAtom');
 
-export const layerFeaturesCollectionAtom = atom<FeatureCardCfg[] | null>((ctx) => {
+export const layerFeaturesCollectionAtom = atom<{
+  data: FeatureCardCfg[] | null;
+  loading: boolean;
+}>((ctx) => {
   const layerFeatures = ctx.spy(fetchLayerFeaturesResource.dataAtom);
-  const isLoading = ctx.spy(fetchLayerFeaturesResource.pendingAtom);
-  if (isLoading) {
-    return null;
-  }
-  return layerFeatures ? transformFeaturesToPanelData(layerFeatures) : null;
+  const loading = ctx.spy(fetchLayerFeaturesResource.pendingAtom) > 0;
+  const transformedLaterFeatures = layerFeatures
+    ? transformFeaturesToPanelData(layerFeatures)
+    : null;
+  return { data: transformedLaterFeatures, loading };
 }, 'layerFeaturesCollectionAtom');
 
 function transformFeaturesToPanelData(featuresList: object): FeatureCardCfg[] {

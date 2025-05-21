@@ -1,5 +1,5 @@
 import { Panel, PanelIcon } from '@konturio/ui-kit';
-import { useMemo, useRef } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import { clsx } from 'clsx';
 import { Legend24 } from '@konturio/default-icons';
 import { useAction, useAtom } from '@reatom/npm-react';
@@ -21,6 +21,7 @@ import {
 import { configRepo } from '~core/config';
 import { AppFeature } from '~core/app/types';
 import { PanelSettingsRow } from '~components/PanelSettingsRow/PanelSettingsRow';
+import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import {
   featuresPanelLayerId,
   currentFeatureIdAtom,
@@ -51,13 +52,16 @@ export function LayerFeaturesPanel() {
   const setMapBbox = useAction(setCurrentMapBbox);
   const sheetRef = useRef<SheetRef>(null);
 
-  const onCurrentChange = (id: number, feature: FeatureCardCfg) => {
-    setCurrentFeatureIdAtom(id);
-    scheduledAutoFocus.setFalse.dispatch();
-    if (feature.focus) {
-      setMapBbox(feature.focus as Bbox);
-    }
-  };
+  const onCurrentChange = useCallback(
+    (id: number, feature: FeatureCardCfg) => {
+      setCurrentFeatureIdAtom(id);
+      scheduledAutoFocus.setFalse.dispatch();
+      if (feature.focus) {
+        setMapBbox(feature.focus as Bbox);
+      }
+    },
+    [setCurrentFeatureIdAtom, setMapBbox],
+  );
 
   const panelFeature = configRepo.get().features[AppFeature.LAYER_FEATURES_PANEL];
   const layerFeaturesPanelConfig =
@@ -69,7 +73,7 @@ export function LayerFeaturesPanel() {
   const setBboxFilter = useAction(setBBoxAsGeometryForLayerFeatures);
   const resetBboxFilter = useAction(resetGeometryForLayerFeatures);
 
-  const [featuresList] = useAtom(layerFeaturesCollectionAtom);
+  const [{ data: featuresList, loading }] = useAtom(layerFeaturesCollectionAtom);
 
   const {
     panelState,
@@ -106,34 +110,42 @@ export function LayerFeaturesPanel() {
     }
   }, []);
 
-  const panelContent =
-    featuresList === null || featuresList.length === 0 ? (
-      <EmptyState />
-    ) : (
-      {
-        full: (
-          <FullState
-            featuresList={featuresList}
-            currentFeatureId={currentFeatureId}
-            onClick={onCurrentChange}
-            listInfoText={
-              featuresPanelLayerId === HOT_PROJECTS_LAYER_ID
-                ? i18n.t('layer_features_panel.listInfo')
-                : undefined
-            }
-          />
-        ),
-        short: (
-          <ShortState
-            openFullState={openFullState}
-            feature={
-              currentFeatureId !== null ? featuresList[currentFeatureId] : undefined
-            }
-          />
-        ),
-        closed: null,
-      }[panelState]
-    );
+  const getPanelContent = useMemo(() => {
+    if (loading) {
+      return <LoadingSpinner message={i18n.t('loading')} marginTop="none" />;
+    }
+    if (featuresList === null || featuresList.length === 0) {
+      return <EmptyState />;
+    }
+    return {
+      full: (
+        <FullState
+          featuresList={featuresList}
+          currentFeatureId={currentFeatureId}
+          onClick={onCurrentChange}
+          listInfoText={
+            featuresPanelLayerId === HOT_PROJECTS_LAYER_ID
+              ? i18n.t('layer_features_panel.listInfo')
+              : undefined
+          }
+        />
+      ),
+      short: (
+        <ShortState
+          openFullState={openFullState}
+          feature={currentFeatureId !== null ? featuresList[currentFeatureId] : undefined}
+        />
+      ),
+      closed: null,
+    }[panelState];
+  }, [
+    currentFeatureId,
+    featuresList,
+    loading,
+    onCurrentChange,
+    openFullState,
+    panelState,
+  ]);
 
   const panel = (
     <Panel
@@ -163,7 +175,7 @@ export function LayerFeaturesPanel() {
           />
         </PanelSettingsRow>
       )}
-      {panelContent}
+      {getPanelContent}
     </Panel>
   );
 
