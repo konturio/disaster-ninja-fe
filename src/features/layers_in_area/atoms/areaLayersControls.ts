@@ -4,6 +4,7 @@ import { getLayerRenderer } from '~core/logical_layers/utils/getLayerRenderer';
 import { createUpdateActionsFromLayersDTO } from '~core/logical_layers/utils/createUpdateActionsFromLayersDTO';
 import { layersInAreaAndEventLayerResource } from './layersInAreaAndEventLayerResource';
 import { layersGlobalResource } from './layersGlobalResource';
+import { dispatchMetricsEventOnce } from '~core/metrics/dispatch';
 import type { LayerSummaryDto } from '~core/logical_layers/types/source';
 import type { Action } from '@reatom/core-v2';
 
@@ -104,6 +105,8 @@ export const areaLayersControlsAtom = createAtom(
           dispatch(actions);
         });
       }
+
+      dispatchMetricsEventOnce('allLayers', nextLayers.length > 0);
     });
   },
   'areaLayersControlsAtom',
