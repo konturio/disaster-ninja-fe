@@ -42,25 +42,25 @@ export const compactCurrencyFormatter = new Intl.NumberFormat(language, {
 
 function formatFileSize(sizeBytes: number): string {
   if (sizeBytes > 1000000000) {
-    return `${parseFloat((sizeBytes / 1000000000).toFixed(2))} GB`;
+    return `${Number.parseFloat((sizeBytes / 1000000000).toFixed(2))} GB`;
   }
   if (sizeBytes > 1000000) {
-    return `${parseFloat((sizeBytes / 1000000).toFixed(2))} MB`;
+    return `${Number.parseFloat((sizeBytes / 1000000).toFixed(2))} MB`;
   }
   if (sizeBytes > 1000) {
-    return `${parseFloat((sizeBytes / 1000).toFixed(2))} KB`;
+    return `${Number.parseFloat((sizeBytes / 1000).toFixed(2))} KB`;
   }
-  return `${parseFloat((sizeBytes / 1000).toFixed(2))} B`;
+  return `${Number.parseFloat((sizeBytes / 1000).toFixed(2))} B`;
 }
 
 function formatDistancePerPixel(metersPerPixel: number) {
   if (metersPerPixel > 1000) {
-    return `${parseFloat((metersPerPixel / 1000).toFixed(3))} km/px`;
+    return `${Number.parseFloat((metersPerPixel / 1000).toFixed(3))} km/px`;
   }
   if (metersPerPixel < 1) {
-    return `${parseFloat((metersPerPixel * 100).toFixed(3))} cm/px`;
+    return `${Number.parseFloat((metersPerPixel * 100).toFixed(3))} cm/px`;
   }
-  return `${parseFloat(metersPerPixel.toFixed(3))} m/px`;
+  return `${Number.parseFloat(metersPerPixel.toFixed(3))} m/px`;
 }
 
 const formatDatesInterval = (dateStart?: string, dateEnd?: string) => {
