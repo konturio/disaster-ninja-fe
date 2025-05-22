@@ -69,14 +69,22 @@ export async function getLayersDetails(ids: string[], appId: string, language: s
 
 export function getLayerFeatures(
   layerId: string,
-  geoJSON: GeoJSON.GeoJSON,
+  params: {
+    geoJSON?: GeoJSON.GeoJSON;
+    limit?: number;
+    offset?: number;
+    order?: 'asc' | 'desc';
+  },
   abortController: AbortController,
 ) {
   return apiClient.post<Feature[]>(
     `/layers/${layerId}/items/search`,
     {
       appId: configRepo.get().id,
-      geoJSON,
+      geoJSON: params.geoJSON,
+      limit: params.limit,
+      order: params.order,
+      offset: params.offset,
     },
     {
       signal: abortController.signal,

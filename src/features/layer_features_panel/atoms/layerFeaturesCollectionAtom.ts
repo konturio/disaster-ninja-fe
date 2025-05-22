@@ -10,9 +10,12 @@ import {
   ACAPS_LAYER_ID,
   ACAPS_SIMPLE_LAYER_ID,
   HOT_PROJECTS_LAYER_ID,
+  OAM_LAYER_ID,
 } from '../constants';
 import { getHotProjectsPanelData } from './helpers/hotProjects_outlines';
 import { getAcapsPanelData } from './helpers/acaps';
+import { getOAMPanelData } from './helpers/openaerialmap';
+import { layerFeaturesFiltersAtom } from './layerFeaturesFiltersAtom';
 import type { LayerFeaturesPanelConfig } from '../types/layerFeaturesPanel';
 import type { FeatureCardCfg } from '../components/CardElements';
 import type { Feature } from 'geojson';
@@ -24,16 +27,20 @@ const layerFeaturesPanelConfig =
     : null;
 export const featuresPanelLayerId = layerFeaturesPanelConfig?.layerId;
 const requiresEnabledLayer = layerFeaturesPanelConfig?.requiresEnabledLayer;
+const requiresGeometry = layerFeaturesPanelConfig?.requiresGeometry ?? true;
 
 export const currentFeatureIdAtom = atom<number | null>(null, 'currentFeatureIdAtom');
 
-export const layerFeaturesCollectionAtom = atom<FeatureCardCfg[] | null>((ctx) => {
+export const layerFeaturesCollectionAtom = atom<{
+  data: FeatureCardCfg[] | null;
+  loading: boolean;
+}>((ctx) => {
   const layerFeatures = ctx.spy(fetchLayerFeaturesResource.dataAtom);
-  const isLoading = ctx.spy(fetchLayerFeaturesResource.pendingAtom);
-  if (isLoading) {
-    return null;
-  }
-  return layerFeatures ? transformFeaturesToPanelData(layerFeatures) : null;
+  const loading = ctx.spy(fetchLayerFeaturesResource.pendingAtom) > 0;
+  const transformedLaterFeatures = layerFeatures
+    ? transformFeaturesToPanelData(layerFeatures)
+    : null;
+  return { data: transformedLaterFeatures, loading };
 }, 'layerFeaturesCollectionAtom');
 
 function transformFeaturesToPanelData(featuresList: object): FeatureCardCfg[] {
@@ -43,6 +50,8 @@ function transformFeaturesToPanelData(featuresList: object): FeatureCardCfg[] {
     case ACAPS_LAYER_ID:
     case ACAPS_SIMPLE_LAYER_ID:
       return getAcapsPanelData(featuresList);
+    case OAM_LAYER_ID:
+      return getOAMPanelData(featuresList);
     default:
       console.error(`Layer Features panel: unsupported layerId: ${featuresPanelLayerId}`);
       return [];
@@ -51,12 +60,13 @@ function transformFeaturesToPanelData(featuresList: object): FeatureCardCfg[] {
 
 const fetchLayerFeaturesResource = reatomResource<Feature[] | null>(async (ctx) => {
   const enabledLayers = ctx.spy(enabledLayersAtom.v3atom);
+  const layerFeaturesFilters = ctx.spy(layerFeaturesFiltersAtom);
   const focusedGeoJSON = ctx.spy(focusedGeometryAtom.v3atom)?.geometry;
+  const geometry = layerFeaturesFilters.geometry ?? focusedGeoJSON;
   currentFeatureIdAtom(ctx, null);
   if (
     !featuresPanelLayerId ||
-    !focusedGeoJSON ||
-    isGeoJSONEmpty(focusedGeoJSON) ||
+    (requiresGeometry && isGeoJSONEmpty(geometry)) ||
     (requiresEnabledLayer && !enabledLayers.has(featuresPanelLayerId))
   ) {
     return null;
@@ -65,7 +75,11 @@ const fetchLayerFeaturesResource = reatomResource<Feature[] | null>(async (ctx) 
   try {
     responseData = await getLayerFeatures(
       featuresPanelLayerId,
-      focusedGeoJSON,
+      {
+        geoJSON: geometry,
+        limit: layerFeaturesPanelConfig?.maxItems,
+        order: layerFeaturesPanelConfig?.sortOrder,
+      },
       ctx.controller,
     );
   } catch (e: unknown) {
