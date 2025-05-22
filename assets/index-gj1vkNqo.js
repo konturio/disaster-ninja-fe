@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./_virtual_cosmos-imports-O-1g3YCu.js","./_virtual_cosmos-imports-DPXE47Al.css"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./_virtual_cosmos-imports-BOlv4Jw8.js","./_virtual_cosmos-imports-DPXE47Al.css"])))=>i.map(i=>d[i]);
 var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
@@ -9652,7 +9652,7 @@ function mountDomRenderer({ rendererConfig, moduleWrappers }) {
 }
 mount();
 async function mount() {
-  const args = await __vitePreload(() => import("./_virtual_cosmos-imports-O-1g3YCu.js").then((n) => n._), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url);
+  const args = await __vitePreload(() => import("./_virtual_cosmos-imports-BOlv4Jw8.js").then((n) => n._), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url);
   mountDomRenderer(args);
 }
 export {

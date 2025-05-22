@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-BErs1YAs.js","./index-CLPU_bO6.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-5QyehjC6.js","./index-gj1vkNqo.js"])))=>i.map(i=>d[i]);
 var __defProp = Object.defineProperty;
 var __typeError = (msg) => {
   throw TypeError(msg);
@@ -10,7 +10,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value2) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value2);
 var __privateSet = (obj, member, value2, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value2) : member.set(obj, value2), value2);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, e as extendWithValue, R as React, c as createValue, i as isEqual, r as reactExports, a as requireReact, b as requireReactDom, d as React$1, g as getDefaultExportFromCjs, f as clientExports, _ as __vitePreload } from "./index-CLPU_bO6.js";
+import { u as useFixtureState, e as extendWithValue, R as React, c as createValue, i as isEqual, r as reactExports, a as requireReact, b as requireReactDom, d as React$1, g as getDefaultExportFromCjs, f as clientExports, _ as __vitePreload } from "./index-gj1vkNqo.js";
 function useCurrentInputValue(inputName, defaultValue) {
   const [fixtureState] = useFixtureState("inputs");
   const inputFs = fixtureState && fixtureState[inputName];
@@ -12776,6 +12776,17 @@ const fieldsRegistry = {
   }
 };
 fieldsRegistry["lastUpdated"] = fieldsRegistry.updatedAt;
+const isErrorWithMessage = (e) => {
+  return e !== null && typeof e === "object" && "message" in e;
+};
+const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+const toCapitalizedList = (arr) => arr.map(capitalize).join(", ");
+const spacesToUnderscore = (str) => str.replace(/\s+/g, "_");
+const sumBy = (arr, prop) => arr.reduce((acc, item) => acc + item[prop], 0);
+function isNumber(value2) {
+  return typeof value2 === "number" && isFinite(value2);
+}
+const haveValue = (val) => val !== void 0 && val !== null;
 const language = TranslationService.instance.language || "default";
 const dateFormatter = new Intl.DateTimeFormat(language, {
   hour: "numeric",
@@ -12784,6 +12795,11 @@ const dateFormatter = new Intl.DateTimeFormat(language, {
   month: "short",
   day: "numeric",
   timeZoneName: "short"
+}).format;
+const dateMonthYearFormatter = new Intl.DateTimeFormat(language, {
+  year: "numeric",
+  month: "short",
+  day: "numeric"
 }).format;
 const numberFormatter = new Intl.NumberFormat(language);
 const number_f000_Formatter = new Intl.NumberFormat(language, {
@@ -12802,9 +12818,50 @@ const compactCurrencyFormatter = new Intl.NumberFormat(language, {
   currency: "USD",
   maximumFractionDigits: 0
 });
+function formatFileSize(sizeBytes) {
+  if (sizeBytes > 1e9) {
+    return `${Number.parseFloat((sizeBytes / 1e9).toFixed(2))} GB`;
+  }
+  if (sizeBytes > 1e6) {
+    return `${Number.parseFloat((sizeBytes / 1e6).toFixed(2))} MB`;
+  }
+  if (sizeBytes > 1e3) {
+    return `${Number.parseFloat((sizeBytes / 1e3).toFixed(2))} KB`;
+  }
+  return `${Number.parseFloat((sizeBytes / 1e3).toFixed(2))} B`;
+}
+function formatDistancePerPixel(metersPerPixel) {
+  if (metersPerPixel > 1e3) {
+    return `${Number.parseFloat((metersPerPixel / 1e3).toFixed(3))} km/px`;
+  }
+  if (metersPerPixel < 1) {
+    return `${Number.parseFloat((metersPerPixel * 100).toFixed(3))} cm/px`;
+  }
+  return `${Number.parseFloat(metersPerPixel.toFixed(3))} m/px`;
+}
+const formatDatesInterval = (dateStart, dateEnd) => {
+  const startFormatted = dateStart ? formatsRegistry.date_month_year(dateStart) : null;
+  const endFormatted = dateEnd ? formatsRegistry.date_month_year(dateEnd) : null;
+  if (startFormatted) {
+    if (endFormatted && endFormatted !== startFormatted) {
+      return `${startFormatted} - ${endFormatted}`;
+    } else {
+      return startFormatted;
+    }
+  } else if (endFormatted) {
+    return endFormatted;
+  }
+  return "";
+};
 const formatsRegistry = {
   date(date) {
     return date ? dateFormatter(new Date(date)) : "";
+  },
+  date_month_year(date) {
+    return date ? dateMonthYearFormatter(new Date(date)) : "";
+  },
+  dates_interval(datesInterval) {
+    return formatDatesInterval(datesInterval.dateStart, datesInterval.dateEnd);
   },
   square_km(value2) {
     return `${number_f000_Formatter.format(value2)} km²`;
@@ -12831,6 +12888,12 @@ const formatsRegistry = {
     } catch (_2) {
     }
     return placeholder;
+  },
+  file_size(sizeInBytes) {
+    return isNumber(sizeInBytes) ? formatFileSize(sizeInBytes) : "";
+  },
+  distance_per_pixel(metersPerPixel) {
+    return isNumber(metersPerPixel) ? formatDistancePerPixel(metersPerPixel) : "";
   }
 };
 function compilePathAccessor(path2) {
@@ -12954,17 +13017,6 @@ function useUniLayoutContextValue({
     ]
   );
 }
-const isErrorWithMessage = (e) => {
-  return e !== null && typeof e === "object" && "message" in e;
-};
-const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
-const toCapitalizedList = (arr) => arr.map(capitalize).join(", ");
-const spacesToUnderscore = (str) => str.replace(/\s+/g, "_");
-const sumBy = (arr, prop) => arr.reduce((acc, item) => acc + item[prop], 0);
-function isNumber(value2) {
-  return typeof value2 === "number" && isFinite(value2);
-}
-const haveValue = (val) => val !== void 0 && val !== null;
 const row$2 = "_row_6zanc_1";
 const s$f = {
   row: row$2
@@ -38093,7 +38145,7 @@ const style = {
   container,
   closeButton
 };
-const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-BErs1YAs.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
+const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-5QyehjC6.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
 const BivariateGreetingsContainer = ({
   className
 }) => {
