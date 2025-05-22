@@ -1,18 +1,18 @@
 import { Button } from '@konturio/ui-kit';
 import { CloseFilled16, Update16 } from '@konturio/default-icons';
-import { useAtom } from '@reatom/react-v2';
 import { i18n } from '~core/localization';
-import { eventListFilters } from '../../atoms/eventListFilters';
 import s from './BBoxFilterToggle.module.css';
 
-// AppFeature: EVENTS_LIST__BBOX_FILTER
-export function BBoxFilterToggle() {
-  const [bbox, { setBBoxFilterFromCurrentMapView, resetBboxFilter }] = useAtom(
-    eventListFilters,
-    (filters) => filters.bbox,
-    [],
-  );
-  const isActive = bbox !== null;
+export function BBoxFilterToggle({
+  currentFilter,
+  onCleanFilter,
+  onSetFilter,
+}: {
+  currentFilter: object | null;
+  onCleanFilter: () => void;
+  onSetFilter: () => void;
+}) {
+  const isActive = currentFilter !== null;
   return (
     <div className={s.bBoxFilterToggle}>
       <Button
@@ -20,7 +20,7 @@ export function BBoxFilterToggle() {
         className="knt-panel-button"
         size="small"
         active={isActive}
-        onClick={isActive ? resetBboxFilter : setBBoxFilterFromCurrentMapView}
+        onClick={isActive ? onCleanFilter : onSetFilter}
         iconAfter={isActive ? <CloseFilled16 /> : null}
       >
         {i18n.t('event_list.bbox_filter_button')}
@@ -29,7 +29,7 @@ export function BBoxFilterToggle() {
         <Button
           variant="invert-outline"
           size="small"
-          onClick={setBBoxFilterFromCurrentMapView}
+          onClick={onSetFilter}
           iconAfter={<Update16 />}
         ></Button>
       )}

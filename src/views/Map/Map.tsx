@@ -16,10 +16,12 @@ import { panelClasses } from '~components/Panel';
 import { configRepo } from '~core/config';
 import { Search } from '~features/search';
 import { AppFeature } from '~core/app/types';
-import { Layout } from './Layouts/Layout';
+import { PresentationLayout } from '~views/Map/Layouts/Presentation/Presentation';
 import s from './Map.module.css';
+import { Layout } from './Layouts/Layout';
 
 const featureFlags = configRepo.get().features;
+const presentationMode = configRepo.get().presentationMode;
 
 const EditPanel = () => {
   const { EditFeaturesOrLayerPanel } = lazily(
@@ -127,7 +129,7 @@ export function MapPage() {
   }, [featureFlags]);
 
   return (
-    <div className={s.mainView}>
+    <div className={clsx(s.mainView, presentationMode ? 'presentation-mode' : '')}>
       <div className={s.mapWrap}>
         <Suspense fallback={null}>
           <ConnectedMap className={s.Map} />
@@ -136,7 +138,18 @@ export function MapPage() {
           )}
         </Suspense>
       </div>
-      {Object.keys(featureFlags).length > 0 && (
+      {presentationMode ? (
+        <PresentationLayout
+          scaleAndLogo={
+            <div className={clsx(s.footer, s.clickThrough)}>
+              <div className={s.footerBackground}>
+                <ScaleControl />
+                <Logo height={24} palette="contrast" />
+              </div>
+            </div>
+          }
+        />
+      ) : (
         <Layout
           searchBar={
             featureFlags[AppFeature.SEARCH_BAR] &&

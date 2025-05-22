@@ -1,7 +1,6 @@
 import { useCallback, useMemo, useRef, useState, Suspense } from 'react';
 import { reatomContext as ReatomContextV3 } from '@reatom/npm-react';
 import { store } from '~core/store/store';
-import { PopupTooltip } from '~features/tooltip';
 import { BivariateMatrixControlComponent } from '../components/BivariateMatrixControl';
 import { mock } from './mocks/mock-20';
 import styles from './BivariateMatrixControlFixture.module.css';
@@ -83,7 +82,6 @@ export default function BivariateMatrixControlFixture() {
           selectedCell={selectedCell}
           onSelectQuotient={onSelectQuotient}
         />
-        <PopupTooltip />
       </div>
     </ReatomContextV3.Provider>
   );

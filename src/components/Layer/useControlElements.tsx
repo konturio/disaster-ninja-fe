@@ -80,13 +80,7 @@ export function useControlElements({
       );
 
     if (layerState.meta && !skipControls?.skipLayerInfo) {
-      elements.push(
-        <LayerInfo
-          key={layerState.id}
-          layersInfo={[layerState.meta]}
-          tooltipId={tooltipLayerId}
-        />,
-      );
+      elements.push(<LayerInfo key={layerState.id} layersInfo={[layerState.meta]} />);
     }
 
     setControlElements(elements);

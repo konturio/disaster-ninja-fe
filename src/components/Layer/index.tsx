@@ -48,7 +48,7 @@ export function Layer({
   childrenWithIndent = true,
 }: {
   layerState: LogicalLayerState;
-  controlElements: JSX.Element[];
+  controlElements?: JSX.Element[];
   mutuallyExclusive?: boolean;
   onChange?: (isChecked: boolean) => void;
   canFold?: boolean;

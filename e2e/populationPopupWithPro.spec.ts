@@ -49,6 +49,10 @@ projects.forEach((project: Project) => {
       await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
     });
     test('Normal population in USA', async ({ pageManager, page }) => {
+      test.fixme(
+        true,
+        'Fix https://kontur.fibery.io/Tasks/Task/Population-density-layer-is-calculated-more-then-1-2-min-for-high-zooms-21601 to activate this test',
+      );
       await testPopulation({
         page: page,
         pageManager: pageManager,
@@ -61,6 +65,10 @@ projects.forEach((project: Project) => {
       });
     });
     test('Huge population in Mumbai', async ({ pageManager, page }) => {
+      test.fixme(
+        true,
+        'Fix https://kontur.fibery.io/Tasks/Task/Population-density-layer-is-calculated-more-then-1-2-min-for-high-zooms-21601 to activate this test',
+      );
       await testPopulation({
         page: page,
         pageManager: pageManager,
@@ -74,6 +82,10 @@ projects.forEach((project: Project) => {
     });
     if (project.env !== 'dev')
       test('Tiny population in Antarctica', async ({ pageManager, page }) => {
+        test.fixme(
+          true,
+          'Fix https://kontur.fibery.io/Tasks/Task/Population-density-layer-is-calculated-more-then-1-2-min-for-high-zooms-21601 to activate this test',
+        );
         await testPopulation({
           page: page,
           pageManager: pageManager,
@@ -86,6 +98,10 @@ projects.forEach((project: Project) => {
         });
       });
     test('Near equator', async ({ pageManager, page }) => {
+      test.fixme(
+        true,
+        'Fix https://kontur.fibery.io/Tasks/Task/Population-density-layer-is-calculated-more-then-1-2-min-for-high-zooms-21601 to activate this test',
+      );
       await testPopulation({
         page: page,
         pageManager: pageManager,

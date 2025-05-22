@@ -1,7 +1,7 @@
-import { cloneElement, isValidElement, useState } from 'react';
+import { cloneElement, isValidElement, useState, useRef } from 'react';
 import clsx from 'clsx';
 import { formatSentimentDirection } from '~utils/bivariate';
-import { SimpleRefTooltip } from '~components/Floating/SimpleRefTooltip';
+import { Tooltip } from '../Overlays/Tooltip';
 import { LOW, HIGH, isBottomSide, isLeftSide, CORNER_POINTS_INDEXES } from './const';
 import s from './CornerTooltipWrapper.module.css';
 import type { ReactNode, MouseEvent } from 'react';
@@ -15,20 +15,22 @@ export type CornerTooltipWrapperProps = {
 
 export function CornerTooltipWrapper({ children, hints }: CornerTooltipWrapperProps) {
   const [activeCorner, setActiveCorner] = useState<number | null>(null);
-  const [referenceEl, setReferenceEl] = useState<HTMLElement | null>(null);
+  const referenceEl = useRef<HTMLElement | null>(null);
 
   const handleShowTooltip = (e: MouseEvent<Element>, _cell: Cell, i: number) => {
     if (hints && CORNER_POINTS_INDEXES.includes(i)) {
       setActiveCorner(i);
       // @ts-expect-error to fix in label generator, remove span wrappers
       const divRef = e.target?.tagName == 'SPAN' ? e.target.parentElement : e.target;
-      setReferenceEl(divRef as HTMLElement);
+      if (divRef instanceof HTMLElement) {
+        referenceEl.current = divRef;
+      }
     }
   };
 
   const handleHideTooltip = () => {
     setActiveCorner(null);
-    setReferenceEl(null);
+    referenceEl.current = null;
   };
 
   return (
@@ -41,16 +43,18 @@ export function CornerTooltipWrapper({ children, hints }: CornerTooltipWrapperPr
           })
         : null}
 
-      <SimpleRefTooltip
-        referenceElement={referenceEl}
-        isOpen={activeCorner !== null && referenceEl !== null && !!hints}
-        content={
-          <BivariateLegendCornerTooltip
-            cellIndex={activeCorner as number}
-            hints={hints}
-          />
-        }
-      />
+      {referenceEl.current && (
+        <Tooltip
+          triggerRef={referenceEl}
+          isOpen={activeCorner !== null && !!hints}
+          content={
+            <BivariateLegendCornerTooltip
+              cellIndex={activeCorner as number}
+              hints={hints}
+            />
+          }
+        />
+      )}
     </>
   );
 }

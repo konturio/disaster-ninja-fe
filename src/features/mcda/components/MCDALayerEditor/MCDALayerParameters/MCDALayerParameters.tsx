@@ -11,8 +11,8 @@ import { LayerInfo } from '~components/LayerInfo/LayerInfo';
 import { availableBivariateAxesAtom } from '~core/bivariate/atoms/availableBivariateAxesAtom';
 import { getAxisTransformations } from '~core/api/mcda';
 import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
-import { PopupTooltipTrigger } from '~components/PopupTooltipTrigger';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
+import { InfoPopover } from '~components/Overlays';
 import { Sentiments } from '../Sentiments';
 import MCDARangeControls from '../MCDARangeControls/MCDARangeControls';
 import { MCDALayerParameterRow } from './MCDALayerParameterRow/MCDALayerParameterRow';
@@ -283,11 +283,7 @@ export function MCDALayerParameters({
             >
               <Prefs16 />
             </LayerActionIcon>
-            <LayerInfo
-              className={s.infoButton}
-              layersInfo={mcdaLayerHint}
-              tooltipId={LAYERS_PANEL_FEATURE_ID}
-            />
+            <LayerInfo layersInfo={mcdaLayerHint} />
             {!!onDeletePressed && (
               <LayerActionIcon
                 onClick={deleteLayer}
@@ -316,11 +312,7 @@ export function MCDALayerParameters({
                 ? i18n.t('mcda.layer_editor.reverse_to_good_bad')
                 : i18n.t('mcda.layer_editor.reverse_to_bad_good')}
             </Button>
-            <PopupTooltipTrigger
-              className={s.infoButton}
-              tipText={i18n.t('mcda.layer_editor.tips.sentiment')}
-              tooltipId={LAYERS_PANEL_FEATURE_ID}
-            />
+            <InfoPopover content={i18n.t('mcda.layer_editor.tips.sentiment')} />
           </div>
         </div>
         {!editMode ? (

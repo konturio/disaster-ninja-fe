@@ -289,7 +289,11 @@ const replaceDomain = (domain: string) => (project: Project) => {
  * This function transforms projects got from json file adapting them for localhost env
  */
 
-const getLocalhostProjects = (data: string, appName: string, environment: string) => {
+const getLocalhostProjects = (
+  data: string,
+  appName: string,
+  environment: string,
+): Project[] => {
   const [_, env] = environment.split('-');
 
   const projects: Project[] = JSON.parse(data).filter(
@@ -318,7 +322,7 @@ const getLocalhostProjects = (data: string, appName: string, environment: string
  * This function gets projects to test from json file with all needed info to run e2e tests
  */
 
-export function getProjects() {
+export function getProjects(): Project[] {
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = path.dirname(__filename);
 

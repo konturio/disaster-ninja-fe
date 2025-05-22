@@ -1,5 +1,5 @@
 import { Panel, PanelIcon } from '@konturio/ui-kit';
-import { useRef } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import { clsx } from 'clsx';
 import { Legend24 } from '@konturio/default-icons';
 import { useAction, useAtom } from '@reatom/npm-react';
@@ -12,6 +12,16 @@ import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { scheduledAutoFocus } from '~core/shared_state/currentEvent';
 import { i18n } from '~core/localization';
 import { setCurrentMapBbox, type Bbox } from '~core/shared_state/currentMapPosition';
+import { BBoxFilterToggle } from '~components/BBoxFilterToggle/BBoxFilterToggle';
+import {
+  layerFeaturesFiltersAtom,
+  resetGeometryForLayerFeatures,
+  setBBoxAsGeometryForLayerFeatures,
+} from '~features/layer_features_panel/atoms/layerFeaturesFiltersAtom';
+import { configRepo } from '~core/config';
+import { AppFeature } from '~core/app/types';
+import { PanelSettingsRow } from '~components/PanelSettingsRow/PanelSettingsRow';
+import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import {
   featuresPanelLayerId,
   currentFeatureIdAtom,
@@ -19,9 +29,13 @@ import {
 } from '../../atoms/layerFeaturesCollectionAtom';
 import {
   ACAPS_DATA_HEADER,
+  ACAPS_LAYER_ID,
+  ACAPS_SIMPLE_LAYER_ID,
   FEATURESPANEL_MIN_HEIGHT,
   HOT_PROJECTS_HEADER,
   HOT_PROJECTS_LAYER_ID,
+  OAM_HEADER,
+  OAM_LAYER_ID,
 } from '../../constants';
 import { FullState } from './FullState';
 import { ShortState } from './ShortState';
@@ -29,6 +43,7 @@ import s from './LayerFeaturesPanel.module.css';
 import { EmptyState } from './EmptyState';
 import type { FeatureCardCfg } from '../CardElements';
 import type { SheetRef } from 'react-modal-sheet';
+import type { LayerFeaturesPanelConfig } from '../../types/layerFeaturesPanel';
 
 export function LayerFeaturesPanel() {
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
@@ -37,15 +52,28 @@ export function LayerFeaturesPanel() {
   const setMapBbox = useAction(setCurrentMapBbox);
   const sheetRef = useRef<SheetRef>(null);
 
-  const onCurrentChange = (id: number, feature: FeatureCardCfg) => {
-    setCurrentFeatureIdAtom(id);
-    scheduledAutoFocus.setFalse.dispatch();
-    if (feature.focus) {
-      setMapBbox(feature.focus as Bbox);
-    }
-  };
+  const onCurrentChange = useCallback(
+    (id: number, feature: FeatureCardCfg) => {
+      setCurrentFeatureIdAtom(id);
+      scheduledAutoFocus.setFalse.dispatch();
+      if (feature.focus) {
+        setMapBbox(feature.focus as Bbox);
+      }
+    },
+    [setCurrentFeatureIdAtom, setMapBbox],
+  );
 
-  const [featuresList] = useAtom(layerFeaturesCollectionAtom);
+  const panelFeature = configRepo.get().features[AppFeature.LAYER_FEATURES_PANEL];
+  const layerFeaturesPanelConfig =
+    panelFeature && typeof panelFeature === 'object'
+      ? (panelFeature as LayerFeaturesPanelConfig)
+      : null;
+
+  const [{ geometry: bboxFilter }] = useAtom(layerFeaturesFiltersAtom);
+  const setBboxFilter = useAction(setBBoxAsGeometryForLayerFeatures);
+  const resetBboxFilter = useAction(resetGeometryForLayerFeatures);
+
+  const [{ data: featuresList, loading }] = useAtom(layerFeaturesCollectionAtom);
 
   const {
     panelState,
@@ -68,42 +96,60 @@ export function LayerFeaturesPanel() {
 
   useAutoCollapsePanel(isOpen, closePanel);
 
-  const panelContent =
-    featuresList === null || featuresList.length === 0 ? (
-      <EmptyState />
-    ) : (
-      {
-        full: (
-          <FullState
-            featuresList={featuresList}
-            currentFeatureId={currentFeatureId}
-            onClick={onCurrentChange}
-            listInfoText={
-              featuresPanelLayerId === HOT_PROJECTS_LAYER_ID
-                ? i18n.t('layer_features_panel.listInfo')
-                : undefined
-            }
-          />
-        ),
-        short: (
-          <ShortState
-            openFullState={openFullState}
-            feature={
-              currentFeatureId !== null ? featuresList[currentFeatureId] : undefined
-            }
-          />
-        ),
-        closed: null,
-      }[panelState]
-    );
+  const panelHeader = useMemo(() => {
+    switch (featuresPanelLayerId) {
+      case HOT_PROJECTS_LAYER_ID:
+        return HOT_PROJECTS_HEADER;
+      case ACAPS_LAYER_ID:
+      case ACAPS_SIMPLE_LAYER_ID:
+        return ACAPS_DATA_HEADER;
+      case OAM_LAYER_ID:
+        return OAM_HEADER;
+      default:
+        return undefined;
+    }
+  }, []);
+
+  const getPanelContent = useMemo(() => {
+    if (loading) {
+      return <LoadingSpinner message={i18n.t('loading')} marginTop="none" />;
+    }
+    if (featuresList === null || featuresList.length === 0) {
+      return <EmptyState />;
+    }
+    return {
+      full: (
+        <FullState
+          featuresList={featuresList}
+          currentFeatureId={currentFeatureId}
+          onClick={onCurrentChange}
+          listInfoText={
+            featuresPanelLayerId === HOT_PROJECTS_LAYER_ID
+              ? i18n.t('layer_features_panel.listInfo')
+              : undefined
+          }
+        />
+      ),
+      short: (
+        <ShortState
+          openFullState={openFullState}
+          feature={currentFeatureId !== null ? featuresList[currentFeatureId] : undefined}
+        />
+      ),
+      closed: null,
+    }[panelState];
+  }, [
+    currentFeatureId,
+    featuresList,
+    loading,
+    onCurrentChange,
+    openFullState,
+    panelState,
+  ]);
 
   const panel = (
     <Panel
-      header={
-        featuresPanelLayerId === HOT_PROJECTS_LAYER_ID
-          ? HOT_PROJECTS_HEADER
-          : ACAPS_DATA_HEADER
-      }
+      header={panelHeader}
       headerIcon={
         <div className={s.iconWrap}>
           <Legend24 />
@@ -120,7 +166,16 @@ export function LayerFeaturesPanel() {
       contentHeight={isShort ? 'min-content' : 'unset'}
       minContentHeight={isShort ? 'min-content' : FEATURESPANEL_MIN_HEIGHT}
     >
-      {panelContent}
+      {layerFeaturesPanelConfig?.showBboxFilterToggle && (
+        <PanelSettingsRow>
+          <BBoxFilterToggle
+            currentFilter={bboxFilter}
+            onCleanFilter={resetBboxFilter}
+            onSetFilter={setBboxFilter}
+          />
+        </PanelSettingsRow>
+      )}
+      {getPanelContent}
     </Panel>
   );
 

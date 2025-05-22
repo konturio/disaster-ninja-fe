@@ -6,6 +6,7 @@ export type ActionItem =
   | {
       type: 'external_link';
       title: string;
+      icon?: Parameters<typeof Icon>[0]['icon'];
       data: string;
     }
   | {
@@ -29,7 +30,7 @@ export function ActionButtons({ items }: { items: ActionItem[] }) {
         if (props.type == 'external_link') {
           return (
             <a key={i} href={props.data || '#'} target="_blank" rel="noreferrer">
-              <ExternalLink16 />
+              {props.icon ? <Icon icon={props.icon} /> : <ExternalLink16 />}
               {props.title}
             </a>
           );

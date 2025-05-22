@@ -1,4 +1,4 @@
-.eventListSettingsRow:not(:empty) {
+.panelSettingsRow:not(:empty) {
   padding: var(--half-unit) var(--double-unit) var(--unit);
   border-bottom: 1px solid var(--faint-weak);
   gap: var(--unit);

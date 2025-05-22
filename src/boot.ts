@@ -20,6 +20,9 @@ export async function setupApplicationEnv() {
   // Shared config - comes from url
   const sharedConfig = readInitialUrl();
 
+  const presentationMode =
+    sharedConfig.presentationMode === 'true' || !!globalThis.presentationMode;
+
   // Stage config - depends from appconfig.json in CI repo
   // (/configs/config.local.json for localhost)
   const stageConfig = await getStageConfig();
@@ -92,6 +95,7 @@ export async function setupApplicationEnv() {
     baseMapUrl,
     initialUser,
     defaultLayers,
+    presentationMode,
   });
 
   return configRepo.get();

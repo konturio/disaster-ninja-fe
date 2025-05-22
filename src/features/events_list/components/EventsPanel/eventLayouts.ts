@@ -38,7 +38,7 @@ export const eventCardLayoutTemplate = {
     },
     {
       type: 'Row',
-      $if: 'active',
+      $if: 'showExternalUrls',
       children: [
         {
           $value: 'externalUrls',
