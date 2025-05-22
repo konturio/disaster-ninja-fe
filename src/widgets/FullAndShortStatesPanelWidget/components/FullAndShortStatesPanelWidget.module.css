@@ -9,6 +9,10 @@
   }
 }
 
+.content {
+  padding-bottom: var(--unit);
+}
+
 /* Overrides hardcoded color in the lib */
 .backdrop {
   background-color: rgba(0, 0, 0, 0.3) !important;

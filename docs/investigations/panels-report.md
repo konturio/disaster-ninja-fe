@@ -142,6 +142,31 @@ export const layersPanel: () => PanelFeatureInterface = () => ({
 });
 ```
 
+### Resizable Panels
+
+The following panels are configured to be vertically resizable, often using the `useHeightResizer` hook and the `resize='vertical'` prop:
+
+- [`FullAndShortStatesPanelWidget.tsx`](../../src/widgets/FullAndShortStatesPanelWidget/components/FullAndShortStatesPanelWidget.tsx)
+- [`LayerFeaturesPanel/index.tsx`](../../src/features/layer_features_panel/components/LayerFeaturesPanel/index.tsx)
+- [`EventsPanel.tsx`](../../src/features/events_list/components/EventsPanel/EventsPanel.tsx)
+- [`layers_panel/index.tsx`](../../src/features/layers_panel/index.tsx) (configured via `PanelFeatureInterface`)
+
+### Mobile Modal Panels
+
+Several Panel implementations are designed to appear as modal sheets on narrow displays (mobile view). This is primarily achieved through the conditional use of the `modal` prop, often in conjunction with the `useMediaQuery` hook and the `react-modal-sheet` library.
+
+The following panels function as mobile modal sheets:
+
+- [`FullAndShortStatesPanelWidget.tsx`](../../src/widgets/FullAndShortStatesPanelWidget/components/FullAndShortStatesPanelWidget.tsx)
+- [`LayerFeaturesPanel/index.tsx`](../../src/features/layer_features_panel/components/LayerFeaturesPanel/index.tsx)
+- [`EventsPanel.tsx`](../../src/features/events_list/components/EventsPanel/EventsPanel.tsx)
+- [`Search/index.tsx`](../../src/features/search/index.tsx)
+- [`EpisodesTimelinePanel.tsx`](../../src/features/event_episodes/components/EpisodesTimelinePanel/EpisodesTimelinePanel.tsx)
+- [`EditLayerPanel.tsx`](../../src/features/create_layer/components/EditLayerPanel/EditLayerPanel.tsx)
+- [`EditFeaturesPanel.tsx`](../../src/features/create_layer/components/EditFeaturesPanel/EditFeaturesPanel.tsx)
+
+Other panels, such as `BreadcrumbsPanel` (`resize="none"`) and `BivariatePanel`, do not appear to have specific resizing or mobile modal implementations based on the reviewed code.
+
 ## Panel Content Patterns
 
 ### Conditional Content Rendering
