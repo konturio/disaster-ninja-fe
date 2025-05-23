@@ -6,8 +6,6 @@ export const FieldTypes = {
   None: 'none',
   ShortText: 'short_text',
   LongText: 'long_text',
-  Image: 'image',
-  Link: 'link',
 } as const;
 
 export const EditTargets = {
@@ -28,14 +26,6 @@ export const USER_LAYER_FIELDS = [
   {
     label: i18n.t('create_layer.long_text'),
     type: FieldTypes.LongText,
-  },
-  {
-    label: i18n.t('create_layer.link'),
-    type: FieldTypes.Link,
-  },
-  {
-    label: i18n.t('create_layer.image'),
-    type: FieldTypes.Image,
   },
 ];
 

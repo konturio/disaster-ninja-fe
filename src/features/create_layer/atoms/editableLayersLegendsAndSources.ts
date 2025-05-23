@@ -5,8 +5,6 @@ import {
   convertDetailsToSource,
   convertDetailsToLegends,
 } from '~core/logical_layers/utils/convert';
-import { forceRun } from '~utils/atoms/forceRun';
-import { createLayerController } from '../control';
 import { editableLayersDetailsResourceAtom } from './editableLayersDetailsResource';
 import type { Action } from '@reatom/core-v2';
 
@@ -74,5 +72,3 @@ export const editableLayersLegendsAndSources = createAtom(
   },
   'editableLayersLegendsAndSources',
 );
-
-createLayerController.onInit(() => forceRun(editableLayersLegendsAndSources));

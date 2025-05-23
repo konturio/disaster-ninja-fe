@@ -2,8 +2,8 @@ import { configRepo } from '~core/config';
 import { apiClient } from '~core/apiClientInstance';
 import { createAtom } from '~utils/atoms';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
+import { notificationServiceInstance } from '~core/notificationServiceInstance';
 import { EditTargets, TEMPORARY_USER_LAYER_LEGEND } from '../constants';
-import { createLayerController } from '../control';
 import { createLayerEditorFormAtom } from './layerEditorForm';
 import { createLayerEditorFormFieldAtom } from './layerEditorFormField';
 import { editableLayerSettingsAtom } from './editableLayerSettings';
@@ -121,10 +121,22 @@ export const editableLayerControllerAtom = createAtom(
                   authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
                 },
               );
+              notificationServiceInstance.success(
+                {
+                  title: `Your layer “${dataState.name}” has been updated.`,
+                },
+                2,
+              );
             } else {
               responseData = await apiClient.post<EditableLayers>(`/layers`, data, {
                 authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
               });
+              notificationServiceInstance.success(
+                {
+                  title: `Your layer “${dataState.name}” has been added to Layers panel. You can start drawing.`,
+                },
+                2,
+              );
             }
 
             if (responseData) {
@@ -205,15 +217,3 @@ export const editableLayerControllerAtom = createAtom(
   },
   'editableLayerControllerAtom',
 );
-
-createLayerController.onStateChange((ctx, state) => {
-  if (state === 'active') {
-    editableLayerControllerAtom.createNewLayer.dispatch();
-  } else {
-    editableLayerControllerAtom.reset.dispatch();
-  }
-});
-
-createLayerController.onRemove(() => {
-  editableLayerControllerAtom.reset.dispatch();
-});

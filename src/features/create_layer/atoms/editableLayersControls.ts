@@ -120,5 +120,3 @@ export const editableLayersControlsAtom = createAtom(
   },
   'editableLayersControlsAtom',
 );
-
-createLayerController.onInit(() => forceRun(editableLayersControlsAtom));
