@@ -1,3 +1,4 @@
+import type { ExpressionSpecification, SymbolLayerSpecification } from 'maplibre-gl';
 import type { Step } from '~utils/bivariate';
 import type { ColorTheme } from '~core/types';
 import type {
@@ -7,6 +8,16 @@ import type {
 } from '../stylesConfigs/mcda/types';
 
 export type MultivariateDimension = MCDALayerStyle;
+
+export type TextDimension = {
+  expressionValue?: ExpressionSpecification;
+  mcdaValue?: MultivariateDimension;
+  mcdaMode?: 'score' | 'layers';
+  formatString?: string;
+  precision?: number;
+  paintOverrides?: SymbolLayerSpecification['paint'];
+  layoutOverrides?: SymbolLayerSpecification['layout'];
+};
 
 export type BivariateColorConfig = {
   type: 'bivariate';
@@ -32,5 +43,6 @@ export interface MultivariateLayerConfig {
   base?: MultivariateDimension;
   stepOverrides?: MultivariateStepOverrides;
   opacity?: MultivariateDimension | number;
+  text?: TextDimension;
   colors?: MultivariateColorConfig;
 }
