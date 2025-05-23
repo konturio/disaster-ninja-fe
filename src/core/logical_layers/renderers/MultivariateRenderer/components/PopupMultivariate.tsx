@@ -91,6 +91,18 @@ export function PopupMultivariate(
     }
   }
 
+  // extrusion
+  let extrusionTable;
+  if (config.extrusion) {
+    const extrusionMCDAAxes = config.extrusion.extrusionTop.config.layers;
+    opacityTable = (
+      <>
+        <div>{`${i18n.t('multivariate.3d')}`}</div>
+        {generateMCDAPopupTable(feature, extrusionMCDAAxes)}
+      </>
+    );
+  }
+
   return (
     <>
       {hexagonLabel && hexagonColor ? (
@@ -101,6 +113,7 @@ export function PopupMultivariate(
       {scoreTable}
       {baseTable}
       {opacityTable}
+      {extrusionTable}
     </>
   );
 }
