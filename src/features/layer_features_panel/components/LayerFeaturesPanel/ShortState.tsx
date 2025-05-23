@@ -1,17 +1,18 @@
 import { Button, Text } from '@konturio/ui-kit';
 import { i18n } from '~core/localization';
-import { LayerFeaturesCard } from '../LayerFeaturesCard';
+import { UniLayoutRenderer } from '~components/Uni/Layout/UniLayoutRenderer';
 import s from './LayerFeaturesPanel.module.css';
-import type { FeatureCardCfg } from '../CardElements';
+import type { Feature } from 'geojson';
 
-export function ShortState({
-  openFullState,
-  feature,
-}: {
+export interface ShortStateProps {
   openFullState: Parameters<typeof Button>[0]['onClick'];
-  feature?: FeatureCardCfg;
-}) {
-  const featureInfo = feature && <LayerFeaturesCard feature={feature} isActive={true} />;
+  feature?: Feature;
+  layout: any;
+}
+
+export function ShortState({ openFullState, feature, layout }: ShortStateProps) {
+  const featureInfo =
+    feature && <UniLayoutRenderer node={layout} data={{ ...feature, active: true }} />;
 
   const panelContent = featureInfo || (
     <div className={s.noFeatures}>
