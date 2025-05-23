@@ -19,6 +19,10 @@ export type TextDimension = {
   layoutOverrides?: SymbolLayerSpecification['layout'];
 };
 
+export type ExtrusionDimension = {
+  extrusionTop: MultivariateDimension;
+};
+
 export type BivariateColorConfig = {
   type: 'bivariate';
   colors: ColorTheme;
@@ -44,5 +48,6 @@ export interface MultivariateLayerConfig {
   stepOverrides?: MultivariateStepOverrides;
   opacity?: MultivariateDimension | number;
   text?: TextDimension;
+  extrusion?: ExtrusionDimension;
   colors?: MultivariateColorConfig;
 }

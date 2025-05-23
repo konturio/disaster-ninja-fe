@@ -9,7 +9,8 @@ import {
 } from '../BivariateRenderer/constants';
 import { generateMultivariatePopupContent } from './popup';
 import { createTextLayerSpecification } from './helpers/createTextLayerSpecification';
-import type { TextDimension } from './types';
+import { createExtrusionLayerSpecification } from './helpers/createExtrusionLayerSpecification';
+import type { ExtrusionDimension, TextDimension } from './types';
 import type { FilterSpecification, LayerSpecification } from 'maplibre-gl';
 import type { LayerTileSource } from '~core/logical_layers/types/source';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
@@ -17,6 +18,7 @@ import type { LayerStyle } from '../../types/style';
 
 const MULTIVARIATE_LAYER_PREFIX = 'multivariate-layer-';
 const TEXT_LAYER_POSTFIX = '-text';
+const EXTRUSION_POSTFIX = '-extrusion';
 
 export class MultivariateRenderer extends ClickableFeaturesRenderer {
   protected getSourcePrefix(): string {
@@ -50,6 +52,30 @@ export class MultivariateRenderer extends ClickableFeaturesRenderer {
     }
   }
 
+  addExtrusionLayer(
+    map: ApplicationMap,
+    extrusionDimension: ExtrusionDimension,
+    mainLayerId: string,
+    mainLayerSpecification: LayerSpecification,
+  ) {
+    const extrusionLayerId = mainLayerId + EXTRUSION_POSTFIX;
+
+    const filter =
+      mainLayerSpecification.type === 'fill' ? mainLayerSpecification.filter : undefined;
+    const extrusionLayerSpecification = createExtrusionLayerSpecification(
+      extrusionDimension,
+      extrusionLayerId,
+      this._sourceId,
+      mainLayerSpecification,
+      filter,
+    );
+
+    layerByOrder(map, this._layersOrderManager).addAboveLayerWithSameType(
+      extrusionLayerSpecification,
+      this.id,
+    );
+  }
+
   protected mountLayers(map: ApplicationMap, layer: LayerTileSource, style: LayerStyle) {
     // here is the only change in the method, we use layerStyle instead of generating it from the legend
     const layerId = this.getClickableLayerId();
@@ -70,6 +96,9 @@ export class MultivariateRenderer extends ClickableFeaturesRenderer {
       );
       if (style.config.text) {
         this.addTextLayer(map, style.config.text, layerId, layerRes);
+      }
+      if (style.config.extrusion) {
+        this.addExtrusionLayer(map, style.config.extrusion, layerId, layerRes);
       }
       this._layerId = layerId;
     } else {
@@ -111,6 +140,10 @@ export class MultivariateRenderer extends ClickableFeaturesRenderer {
       const textLayerId = this._layerId + TEXT_LAYER_POSTFIX;
       if (map.getLayer(textLayerId)) {
         map.removeLayer(textLayerId);
+      }
+      const extrusionLayerId = this._layerId + EXTRUSION_POSTFIX;
+      if (map.getLayer(extrusionLayerId)) {
+        map.removeLayer(extrusionLayerId);
       }
     }
 
