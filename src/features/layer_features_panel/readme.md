@@ -26,7 +26,11 @@ This feature enables Layer Features panel. The panel displays a list of features
       "type": "UI_PANEL",
       "configuration": {
         "layerId": "hotProjects_outlines",
-        "requiresEnabledLayer": true
+        "requiresEnabledLayer": true,
+        "requiresGeometry": false,
+        "maxItems": 1000,
+        "sortOrder": "desc",
+        "showBboxFilterToggle": true
       }
     }
   ]
@@ -37,7 +41,13 @@ This feature enables Layer Features panel. The panel displays a list of features
   - `layerId` - the id of the associated layer
   - `requiresEnabledLayer`
     - `true` the associated layer must be enabled
-    - `false` Layer Features panel works regardless of its associated layer's status.
+    - `false` Layer Features panel works regardless of its associated layer's status
+  - `requiresGeometry`
+    - `true` Layer Features are loaded only if geometry (Selected Area or Bbox filter) is not empty
+    - `false` Layer Features are loaded regardless of Selected Area or Bbox filter
+  - `maxItems` - limits number of items that can be shown in the panel
+  - `sortOrder` - `asc`/`desc` order in which items are sorted
+  - `showBboxFilterToggle` - if true, a "Filter by window view" toggle button is displayed at the top of the panel
 
 2. Create a function to transform Feature properties to `FeatureCardCfg` interface.
 3. Add a new case inside `transformFeaturesToPanelData` for the associated layer id, return the result of the function there:
@@ -58,14 +68,19 @@ function transformFeaturesToPanelData(featuresList: object): FeatureCardCfg[] {
 }
 ```
 
+### Bbox filter
+
+If `showBboxFilterToggle` is enabled, the Bbox filter toggle button (`BBoxFilterToggle` component) is displayed.
+When Bbox filter button is turned on, current bounding box coordinates are used to filter the layer features (instead of Selected Area layer). The geometry can be updated manually using "update" button near the toggle.
+
 ### How it works
 
 1. `fetchLayerFeaturesResource` is fetching the data from the layer features endpoint (`/layers/${layerId}/items/search`).
 
-- New data is fetched each time the Selected area changes.
+- New data is fetched each time the Selected area (or Bbox filter, if enabled) changes.
 - The data is only fetched if both are true:
-  - The Selected area is not empty.
-  - The associated layer is enabled (if the layer is required to be enabled).
+  - The Selected area/Bbox filter is not empty (if `requiresGeometry === true`).
+  - The associated layer is enabled (if `requiresEnabledLayer === true`).
 
 2. [layerFeaturesCollectionAtom](./atoms/layerFeaturesCollectionAtom.ts) transforms the data from `fetchLayerFeaturesResource` into an array of items (`FeatureCardCfg[]`)
 3. [LayerFeaturesPanel](./components/LayerFeaturesPanel/index.tsx) component renders a list of items based on data from `layerFeaturesCollectionAtom`.
