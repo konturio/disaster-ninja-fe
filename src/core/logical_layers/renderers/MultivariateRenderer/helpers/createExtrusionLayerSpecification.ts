@@ -14,10 +14,24 @@ export function createExtrusionLayerSpecification(
   mainLayerSpecification: LayerSpecification,
   filter?: FilterSpecification,
 ): LayerSpecification {
-  const maxExtrusionValue = [
+  const minHeight = 0;
+  const maxHeight = 100000;
+  const mcdaLayers = extrusionDimension.extrusionTop.config.layers;
+  let multiplier = 1;
+  if (
+    mcdaLayers.length === 1 &&
+    mcdaLayers[0].normalization === 'no' &&
+    mcdaLayers[0].range[1] > mcdaLayers[0].range[0]
+  ) {
+    multiplier =
+      (maxHeight - minHeight) / (mcdaLayers[0].range[1] - mcdaLayers[0].range[0]);
+  } else {
+    multiplier = maxHeight;
+  }
+  const heightExpression = [
     '*',
     multivariateDimensionToScore(extrusionDimension.extrusionTop),
-    6000,
+    multiplier,
   ] as ExpressionSpecification;
   const extrusionColor = mainLayerSpecification.paint?.['fill-color'];
   const layerSpecification: LayerSpecification = {
@@ -26,8 +40,8 @@ export function createExtrusionLayerSpecification(
     filter: filter,
     layout: {},
     paint: {
-      'fill-extrusion-height': maxExtrusionValue,
-      'fill-extrusion-base': 0,
+      'fill-extrusion-height': heightExpression,
+      'fill-extrusion-base': minHeight,
       'fill-extrusion-color': extrusionColor,
       'fill-extrusion-opacity': 0.75,
       'fill-extrusion-vertical-gradient': false,
