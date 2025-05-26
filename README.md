@@ -22,7 +22,7 @@ The easiest way to use disaster-ninja front-end build is to use a docker image.
 docker run --rm -d -p 80:80/tcp ghcr.io/konturio/disaster-ninja-fe:latest
 ```
 
-after that it will be available on `http://localhost/active/` URL
+After that, it will be available at `http://localhost/active/`.
 
 Another way is to use a Vite preview build
 
@@ -34,7 +34,7 @@ pnpm run serve
 
 ## How to develop
 
-To start the dev server, all you need is
+To start the dev server, all you need is:
 
 ```
 pnpm i
@@ -168,7 +168,7 @@ Builds a static copy of your site to the `dist/` folder.
 
 ### pnpm run serve
 
-Run a static server for the built app
+Run a static server for the built app.
 
 ### typecheck and typecheck:watch
 
