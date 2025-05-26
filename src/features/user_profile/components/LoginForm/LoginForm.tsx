@@ -17,6 +17,12 @@ const registrationUrlEncoded = encodeURIComponent(
 );
 const registrationUrl = `${configRepo.get().keycloakUrl}/realms/${configRepo.get().keycloakRealm}/protocol/openid-connect/logout?client_id=account&redirect_uri=${registrationUrlEncoded}`;
 const resetUrl = `${configRepo.get().keycloakUrl}/realms/${configRepo.get().keycloakRealm}/login-actions/reset-credentials?client_id=account`;
+const googleRedirectUri = encodeURIComponent(
+  `${window.location.origin}${configRepo
+    .get()
+    .baseUrl.replace(/\/$/, '')}/profile`,
+);
+const googleLoginUrl = `${configRepo.get().keycloakUrl}/realms/${configRepo.get().keycloakRealm}/protocol/openid-connect/auth?client_id=${configRepo.get().keycloakClientId}&redirect_uri=${googleRedirectUri}&response_type=code&scope=openid&kc_idp_hint=google`;
 
 export function LoginForm() {
   const [error, setError] = useState<{
@@ -56,6 +62,10 @@ export function LoginForm() {
     [],
   );
   const onSignUpClick = useCallback(() => dispatchMetricsEvent('sign_up'), []);
+  const onGoogleLoginClick = useCallback(
+    () => dispatchMetricsEvent('google_login'),
+    [],
+  );
 
   const onLoginClick = useCallback(async () => {
     const err: { email?: string; password?: string; general?: string } = {};
@@ -116,6 +126,20 @@ export function LoginForm() {
       <Heading type="heading-01">{i18n.t('login.log_in')}</Heading>
       <div className={s.loginDescription}>
         <Text type="short-m">{i18n.t('login.description')}</Text>
+      </div>
+      <div className={s.socialLoginContainer}>
+        <a
+          href={googleLoginUrl}
+          onClick={onGoogleLoginClick}
+          className={s.socialButton}
+        >
+          {i18n.t('login.google_login')}
+        </a>
+      </div>
+      <div className={s.useEmailLabelContainer}>
+        <Text type="short-s" className={s.useEmailLabel}>
+          {i18n.t('login.use_email')}
+        </Text>
       </div>
       <div className={s.inputsContainer}>
         <Input
