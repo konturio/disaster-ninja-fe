@@ -71,7 +71,7 @@ function transformFeaturesToPanelData(featuresList: object): FeatureCardCfg[] {
 ### Bbox filter
 
 If `showBboxFilterToggle` is enabled, the Bbox filter toggle button (`BBoxFilterToggle` component) is displayed.
-When Bbox filter button is turned on, current bounding box coordinates are used to filter the layer features (instead of Selected Area layer). The geometry is can be updated manually using "update" button near the toggle.
+When Bbox filter button is turned on, current bounding box coordinates are used to filter the layer features (instead of Selected Area layer). The geometry can be updated manually using "update" button near the toggle.
 
 ### How it works
 
