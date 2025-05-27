@@ -6,7 +6,10 @@ import {
 import { DEFAULT_MCDA_COLORS_BY_SENTIMENT } from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations/constants';
 import { i18n } from '~core/localization';
 import { isNumber } from '~utils/common';
-import { DEFAULT_MULTIVARIATE_TEXT_PRECISION } from '../constants';
+import {
+  DEFAULT_EXTRUSION_MAX_HEIGHT_M,
+  DEFAULT_MULTIVARIATE_TEXT_PRECISION,
+} from '../constants';
 import { generateMultivariateId } from './generateMultivariateId';
 import { createStepsForMCDADimension } from './createStepsForMCDADimension';
 import type { Axis } from '~utils/bivariate';
@@ -30,6 +33,7 @@ type MultivariateLayerConfigOverrides = {
   text?: MCDALayer[];
   textSettings?: Exclude<TextDimension, 'mcdaValue' | 'mcdaMode'>;
   extrusion?: MCDALayer[];
+  extrusionSettings?: { maxHeight?: number };
 };
 
 export function createMultivariateConfig(
@@ -107,6 +111,7 @@ export function createMultivariateConfig(
         }),
       }
     : undefined;
+  // const extrusionSettings =
 
   return {
     version: 0,
@@ -133,7 +138,13 @@ export function createMultivariateConfig(
             type: 'mcda',
             colors: DEFAULT_MCDA_COLORS_BY_SENTIMENT,
           }),
-    extrusion: extrusionMCDAStyle ? { extrusionTop: extrusionMCDAStyle } : undefined,
+    extrusion: extrusionMCDAStyle
+      ? {
+          extrusionTop: extrusionMCDAStyle,
+          maxHeight:
+            overrides.extrusionSettings?.maxHeight ?? DEFAULT_EXTRUSION_MAX_HEIGHT_M,
+        }
+      : undefined,
   };
 }
 

@@ -21,6 +21,7 @@ export type TextDimension = {
 
 export type ExtrusionDimension = {
   extrusionTop: MultivariateDimension;
+  maxHeight: number;
 };
 
 export type BivariateColorConfig = {

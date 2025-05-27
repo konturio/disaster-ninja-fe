@@ -45,8 +45,12 @@
   margin-inline-start: var(--unit);
 }
 
-.staticOpacity {
+.shortInput {
   width: 100px;
+}
+
+.staticOpacity {
+  margin-top: var(--double-unit);
 }
 
 .legendSection {
