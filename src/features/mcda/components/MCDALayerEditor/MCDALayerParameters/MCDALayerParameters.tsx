@@ -4,7 +4,6 @@ import { Button, Input, Select, Text } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/npm-react';
 import clsx from 'clsx';
 import { i18n } from '~core/localization';
-import { LAYERS_PANEL_FEATURE_ID } from '~features/layers_panel/constants';
 import { isNumber } from '~utils/common';
 import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
 import { LayerInfo } from '~components/LayerInfo/LayerInfo';
@@ -13,13 +12,13 @@ import { getAxisTransformations } from '~core/api/mcda';
 import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 import { InfoPopover } from '~components/Overlays';
+import { INPUT_FILTER_POSITIVE_NUMBER } from '~utils/form/inputFilters';
 import { Sentiments } from '../Sentiments';
 import MCDARangeControls from '../MCDARangeControls/MCDARangeControls';
 import { MCDALayerParameterRow } from './MCDALayerParameterRow/MCDALayerParameterRow';
 import s from './MCDALayerParameters.module.css';
 import {
   MCDA_LAYER_DEFAULTS as DEFAULTS,
-  POSITIVE_NUMBER_FILTER,
   SENTIMENT_VALUES,
   normalizationOptions,
   outliersOptions,
@@ -373,7 +372,10 @@ export function MCDALayerParameters({
                 type="text"
                 value={coefficient}
                 onChange={(event) => {
-                  const value = event.target.value.replace(POSITIVE_NUMBER_FILTER, '');
+                  const value = event.target.value.replace(
+                    INPUT_FILTER_POSITIVE_NUMBER,
+                    '',
+                  );
                   setCoefficient(value);
                 }}
                 error={coefficientError}

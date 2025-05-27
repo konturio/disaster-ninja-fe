@@ -1,5 +1,5 @@
 import { Input, Text } from '@konturio/ui-kit';
-import { NUMBER_FILTER } from '~features/mcda/components/MCDALayerEditor/MCDALayerParameters/constants';
+import { INPUT_FILTER_NUMBER } from '~utils/form/inputFilters';
 import s from './CustomStepsInput.module.css';
 
 export type CustomSteps = { scoreSteps: string[]; baseSteps: string[] };
@@ -32,7 +32,7 @@ export function CustomStepsInput({
             value={step}
             type="text"
             onChange={(event) => {
-              const newValue = event.target.value.replace(NUMBER_FILTER, '');
+              const newValue = event.target.value.replace(INPUT_FILTER_NUMBER, '');
               const newScoreSteps = [...customSteps.scoreSteps];
               newScoreSteps[index] = newValue;
               onCustomStepsChanged({
@@ -57,7 +57,7 @@ export function CustomStepsInput({
             value={step}
             type="text"
             onChange={(event) => {
-              const newValue = event.target.value.replace(NUMBER_FILTER, '');
+              const newValue = event.target.value.replace(INPUT_FILTER_NUMBER, '');
               const newBaseSteps = [...customSteps.baseSteps];
               newBaseSteps[index] = newValue;
               onCustomStepsChanged({
