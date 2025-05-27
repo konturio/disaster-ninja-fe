@@ -15,7 +15,7 @@ export function createExtrusionLayerSpecification(
   filter?: FilterSpecification,
 ): LayerSpecification {
   const minHeight = 0;
-  const maxHeight = 100000;
+  const maxHeight = extrusionDimension.maxHeight ?? 0;
   const mcdaLayers = extrusionDimension.extrusionTop.config.layers;
   let multiplier = 1;
   if (

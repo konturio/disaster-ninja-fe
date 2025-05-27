@@ -9,6 +9,7 @@ import {
   type SelectableItem,
   Checkbox,
 } from '@konturio/ui-kit';
+import clsx from 'clsx';
 import { i18n } from '~core/localization';
 import { createStateMap } from '~utils/atoms';
 import { sortByAlphabet, sortByWordOccurrence } from '~utils/common/sorting';
@@ -20,6 +21,8 @@ import { MultivariateLegend } from '~components/MultivariateLegend/MultivariateL
 import { DEFAULT_MULTIBIVARIATE_STEPS } from '~utils/multivariate/constants';
 import { createStepsForMCDADimension } from '~features/multivariate_layer/helpers/createStepsForMCDADimension';
 import { isNumber } from '~utils/common';
+import { NUMBER_FILTER } from '~features/mcda/components/MCDALayerEditor/MCDALayerParameters/constants';
+import { DEFAULT_EXTRUSION_MAX_HEIGHT_M } from '~features/multivariate_layer/constants';
 import { MultivariateDimensionDetails } from '../MultivariateDimensionDetails/MultivariateDimensionDetails';
 import { CustomStepsInput, type CustomSteps } from '../CustomStepsInput/CustomStepsInput';
 import s from './MultivariateAnalysisForm.module.css';
@@ -95,6 +98,10 @@ export function MultivariateAnalysisForm({
 
   const [opacityStatic, setOpacityStatic] = useState(
     isNumber(initialConfig?.opacity) ? initialConfig?.opacity?.toString() : undefined,
+  );
+  const [extrusionMaxHeight, setExtrusionMaxHeight] = useState(
+    initialConfig?.extrusion?.maxHeight?.toString() ??
+      DEFAULT_EXTRUSION_MAX_HEIGHT_M.toString(),
   );
 
   const isBivariate = useMemo(
@@ -183,6 +190,11 @@ export function MultivariateAnalysisForm({
               mcdaMode: isTextScoreModeChecked ? 'score' : 'layers',
             },
             extrusion: dimensionsLayers.extrusion,
+            extrusionSettings: {
+              maxHeight: extrusionMaxHeight
+                ? Number.parseFloat(extrusionMaxHeight)
+                : undefined,
+            },
           },
           axesResource.data ?? [],
         )
@@ -200,6 +212,7 @@ export function MultivariateAnalysisForm({
     name,
     opacityStatic,
     showKeepColorsCheckbox,
+    extrusionMaxHeight,
   ]);
 
   // Possible exits
@@ -370,8 +383,26 @@ export function MultivariateAnalysisForm({
           />
         );
       }
+      if (dimensionKey === 'extrusion') {
+        return (
+          <>
+            <div className={s.shortInput}>
+              <Input
+                type="text"
+                value={extrusionMaxHeight ?? ''}
+                onChange={(event) => {
+                  const newValue = event.target.value.replace(NUMBER_FILTER, '');
+                  setExtrusionMaxHeight(newValue);
+                }}
+                renderLabel={<Text type="label">Max height, m</Text>}
+                placeholder="Max height"
+              />
+            </div>
+          </>
+        );
+      }
     },
-    [isTextScoreModeChecked],
+    [extrusionMaxHeight, isTextScoreModeChecked],
   );
 
   return (
@@ -441,7 +472,7 @@ export function MultivariateAnalysisForm({
               />
             ))}
           {previewConfig && !dimensionsLayers['opacity'].length && (
-            <div className={s.staticOpacity}>
+            <div className={clsx(s.shortInput, s.staticOpacity)}>
               <Input
                 type="text"
                 value={opacityStatic ?? ''}
