@@ -36,6 +36,7 @@ function copyDimensions(dimensions: MVAFormDimensions): MVAFormDimensions {
     compare: [...dimensions.compare],
     text: [...dimensions.text],
     opacity: Array.isArray(dimensions.opacity) ? [...dimensions.opacity] : [],
+    extrusion: [...dimensions.extrusion],
   };
 }
 
@@ -53,6 +54,7 @@ export type MVAFormDimensions = {
   compare: MCDALayer[];
   opacity: MCDALayer[];
   text: MCDALayer[];
+  extrusion: MCDALayer[];
 };
 
 export function MultivariateAnalysisForm({
@@ -78,6 +80,7 @@ export function MultivariateAnalysisForm({
         ? initialConfig?.opacity?.config.layers
         : [],
     text: initialConfig?.text?.mcdaValue?.config.layers ?? [],
+    extrusion: initialConfig?.extrusion?.extrusionTop?.config.layers ?? [],
   });
   const [isKeepColorsChecked, setKeepColorsChecked] = useState(true);
   const [isCustomStepsChecked, setCustomStepsChecked] = useState(false);
@@ -179,22 +182,17 @@ export function MultivariateAnalysisForm({
               ...initialConfig?.text,
               mcdaMode: isTextScoreModeChecked ? 'score' : 'layers',
             },
+            extrusion: dimensionsLayers.extrusion,
           },
           axesResource.data ?? [],
         )
       : undefined;
   }, [
     axesResource.data,
-    customSteps.baseSteps,
-    customSteps.scoreSteps,
+    customSteps,
     customStepsErrors,
-    dimensionsLayers.compare,
-    dimensionsLayers.opacity,
-    dimensionsLayers.score,
-    dimensionsLayers.text,
-    initialConfig?.colors,
-    initialConfig?.stepOverrides,
-    initialConfig?.text,
+    dimensionsLayers,
+    initialConfig,
     isConfigValid,
     isCustomStepsChecked,
     isKeepColorsChecked,
@@ -221,6 +219,7 @@ export function MultivariateAnalysisForm({
         compare: oldLayers.compare,
         opacity: oldLayers.opacity,
         text: oldLayers.text,
+        extrusion: oldLayers.extrusion,
       }));
       setSelectedIndicators([]);
     }
@@ -310,6 +309,7 @@ export function MultivariateAnalysisForm({
     { dimensionKey: 'compare', dimensionTitle: i18n.t('multivariate.compare') },
     { dimensionKey: 'opacity', dimensionTitle: i18n.t('multivariate.hide_area') },
     { dimensionKey: 'text', dimensionTitle: i18n.t('multivariate.labels') },
+    { dimensionKey: 'extrusion', dimensionTitle: i18n.t('multivariate.3d') },
   ];
 
   function onCustomStepsCheckboxChanged(checked: boolean): void {
