@@ -29,6 +29,7 @@ type MultivariateLayerConfigOverrides = {
   opacity?: MCDALayer[] | number;
   text?: MCDALayer[];
   textSettings?: Exclude<TextDimension, 'mcdaValue' | 'mcdaMode'>;
+  extrusion?: MCDALayer[];
 };
 
 export function createMultivariateConfig(
@@ -39,6 +40,7 @@ export function createMultivariateConfig(
   const hasScore = !!overrides?.score?.length;
   const hasBase = !!overrides?.base?.length;
   const hasText = !!overrides?.text?.length;
+  const hasExtrusion = !!overrides?.extrusion;
   const isBivariateStyleLegend = hasScore && hasBase;
   const scoreMCDAStyle: MCDALayerStyle = {
     type: 'mcda',
@@ -96,6 +98,16 @@ export function createMultivariateConfig(
     ? overrides.opacity
     : undefined;
 
+  const extrusionMCDAStyle: MCDALayerStyle | undefined = hasExtrusion
+    ? {
+        type: 'mcda',
+        config: createDefaultMCDAConfig({
+          layers: overrides.extrusion,
+          name: createMCDANameOverride(overrides.extrusion, i18n.t('multivariate.3d')),
+        }),
+      }
+    : undefined;
+
   return {
     version: 0,
     id: generateMultivariateId(name),
@@ -121,6 +133,7 @@ export function createMultivariateConfig(
             type: 'mcda',
             colors: DEFAULT_MCDA_COLORS_BY_SENTIMENT,
           }),
+    extrusion: extrusionMCDAStyle ? { extrusionTop: extrusionMCDAStyle } : undefined,
   };
 }
 
