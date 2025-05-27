@@ -83,7 +83,7 @@ export function MultivariateAnalysisForm({
         ? initialConfig?.opacity?.config.layers
         : [],
     text: initialConfig?.text?.mcdaValue?.config.layers ?? [],
-    extrusion: initialConfig?.extrusion?.extrusionTop?.config.layers ?? [],
+    extrusion: initialConfig?.extrusion?.height?.config.layers ?? [],
   });
   const [isKeepColorsChecked, setKeepColorsChecked] = useState(true);
   const [isCustomStepsChecked, setCustomStepsChecked] = useState(false);

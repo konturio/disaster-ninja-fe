@@ -140,7 +140,7 @@ export function createMultivariateConfig(
           }),
     extrusion: extrusionMCDAStyle
       ? {
-          extrusionTop: extrusionMCDAStyle,
+          height: extrusionMCDAStyle,
           maxHeight:
             overrides.extrusionSettings?.maxHeight ?? DEFAULT_EXTRUSION_MAX_HEIGHT_M,
         }

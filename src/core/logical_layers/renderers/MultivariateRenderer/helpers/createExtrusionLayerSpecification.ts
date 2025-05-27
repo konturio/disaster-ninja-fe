@@ -16,7 +16,7 @@ export function createExtrusionLayerSpecification(
 ): LayerSpecification {
   const minHeight = 0;
   const maxHeight = extrusionDimension.maxHeight ?? 0;
-  const mcdaLayers = extrusionDimension.extrusionTop.config.layers;
+  const mcdaLayers = extrusionDimension.height.config.layers;
   let multiplier = 1;
   if (
     mcdaLayers.length === 1 &&
@@ -30,7 +30,7 @@ export function createExtrusionLayerSpecification(
   }
   const heightExpression = [
     '*',
-    multivariateDimensionToScore(extrusionDimension.extrusionTop),
+    multivariateDimensionToScore(extrusionDimension.height),
     multiplier,
   ] as ExpressionSpecification;
   const extrusionColor = mainLayerSpecification.paint?.['fill-color'];
