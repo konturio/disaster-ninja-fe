@@ -9,8 +9,6 @@ export const SENTIMENT_VALUES = {
   'bad-good': sentimentDefault,
   'good-bad': sentimentReversed,
 };
-export const NUMBER_FILTER = /[^.\-\d]/;
-export const POSITIVE_NUMBER_FILTER = /[^.\d]/;
 export const sentimentColors = { bad: '#D93A3A', good: '#29A301' };
 
 export const sentimentsOptions: SelectableItem[] = [
