@@ -121,7 +121,7 @@ function getOAMAuthRequiredRoutes(): string[] {
   const oamAuthConfig = configRepo.get().features[AppFeature.OAM_AUTH] as
     | OAMAuthFeatureConfig
     | undefined;
-  return oamAuthConfig?.requiredRoutes ?? [];
+  return oamAuthConfig?.requiredRoutes ?? ['profile-external', 'upload-imagery'];
 }
 
 function getCustomRoutes(): AppRoute[] {
