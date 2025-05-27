@@ -16,6 +16,7 @@ import { AppFeature } from '~core/app/types';
 import { configRepo } from '~core/config';
 import { PagesDocument } from '~core/pages';
 import { EmbeddedPage } from '~views/EmbeddedPage/EmbeddedPage';
+import { OAMAuthWrapper } from '~features/oam-auth/components/OAMAuthWrapper';
 import { goTo } from './goTo';
 import type { AboutFeatureConfig, CustomRoutesConfig } from '~core/config/types';
 import type { AppRoute, AppRouterConfig } from './types';
@@ -112,6 +113,8 @@ function getAboutSubTabs() {
   return [];
 }
 
+const OAM_AUTH_REQUIRED_ROUTES = ['profile-external', 'upload-imagery'];
+
 function getCustomRoutes(): AppRoute[] {
   const customRoutesConfig = configRepo?.get().features[AppFeature.CUSTOM_ROUTES]?.[
     'routes'
@@ -124,15 +127,18 @@ function getCustomRoutes(): AppRoute[] {
           EMBEDDED_PAGE_ROUTES[customRoute.id] &&
           customRoute.url
         ) {
-          return {
-            ...EMBEDDED_PAGE_ROUTES[customRoute.id],
-            view: (
-              <EmbeddedPage
-                url={customRoute.url}
-                title={EMBEDDED_PAGE_ROUTES[customRoute.id].title}
-              />
-            ),
-          };
+          let view = (
+            <EmbeddedPage
+              url={customRoute.url}
+              title={EMBEDDED_PAGE_ROUTES[customRoute.id].title}
+            />
+          );
+
+          if (OAM_AUTH_REQUIRED_ROUTES.includes(customRoute.id)) {
+            view = <OAMAuthWrapper>{view}</OAMAuthWrapper>;
+          }
+
+          return { ...EMBEDDED_PAGE_ROUTES[customRoute.id], view };
         }
         return null;
       })
