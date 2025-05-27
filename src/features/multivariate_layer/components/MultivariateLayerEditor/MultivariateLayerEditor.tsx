@@ -61,10 +61,10 @@ export function MultivariateLayerEditor({ layerId }: LayerEditorProps) {
           i18n.t('multivariate.labels'),
           layerConfig.text.mcdaValue?.config.layers,
         )}
-      {!!layerConfig.extrusion?.extrusionTop.config.layers.length &&
+      {!!layerConfig.extrusion?.height.config.layers.length &&
         printMCDAAxes(
           i18n.t('multivariate.3d'),
-          layerConfig.extrusion?.extrusionTop.config.layers,
+          layerConfig.extrusion?.height.config.layers,
         )}
     </div>
   );

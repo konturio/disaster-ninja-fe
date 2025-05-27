@@ -20,7 +20,7 @@ export type TextDimension = {
 };
 
 export type ExtrusionDimension = {
-  extrusionTop: MultivariateDimension;
+  height: MultivariateDimension;
   maxHeight: number;
 };
 
