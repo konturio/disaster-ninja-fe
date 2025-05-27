@@ -2,7 +2,7 @@
 
 [![codecov](https://codecov.io/github/konturio/disaster-ninja-fe/branch/main/graph/badge.svg?token=ZGBNM8GA5A)](https://codecov.io/github/konturio/disaster-ninja-fe)
 
-Disaster Ninja is a tool specifically designed for humanitarian mappers. It is complete critical event management solution that visualizes mapping gaps, provides information about recent natural disasters, and helps connect with local mappers for ground truth verification.
+Disaster Ninja is a tool specifically designed for humanitarian mappers. It is a complete critical event management solution that visualizes mapping gaps, provides information about recent natural disasters, and helps connect with local mappers for ground truth verification.
 
 Improving and updating OpenStreetMap data has proven to be an effective way to help international response efforts when disasters strike. An active contributor to the OpenStreetMap community, Kontur partnered with [the Humanitarian OpenStreetMap Team (HOT)](https://www.hotosm.org/) to create a tool to support the rapid deployment of emergency mapping campaigns.
 
@@ -22,9 +22,9 @@ The easiest way to use disaster-ninja front-end build is to use a docker image.
 docker run --rm -d -p 80:80/tcp ghcr.io/konturio/disaster-ninja-fe:latest
 ```
 
-after that it will be available on `http://localhost/active/` url
+After that, it will be available at `http://localhost/active/`.
 
-Another way is - use vite preview build
+Another way is to use a Vite preview build
 
 ```
 pnpm i
@@ -34,7 +34,7 @@ pnpm run serve
 
 ## How to develop
 
-For start dev server all you need is
+To start the dev server, all you need is:
 
 ```
 pnpm i
@@ -168,7 +168,7 @@ Builds a static copy of your site to the `dist/` folder.
 
 ### pnpm run serve
 
-Run static server for builded app
+Run a static server for the built app.
 
 ### typecheck and typecheck:watch
 
