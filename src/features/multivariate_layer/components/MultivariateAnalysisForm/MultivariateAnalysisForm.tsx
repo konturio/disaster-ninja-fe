@@ -22,7 +22,7 @@ import { DEFAULT_MULTIBIVARIATE_STEPS } from '~utils/multivariate/constants';
 import { createStepsForMCDADimension } from '~features/multivariate_layer/helpers/createStepsForMCDADimension';
 import { isNumber } from '~utils/common';
 import { DEFAULT_EXTRUSION_MAX_HEIGHT_M } from '~features/multivariate_layer/constants';
-import { INPUT_FILTER_NUMBER } from '~utils/form/inputFilters';
+import { INPUT_FILTER_POSITIVE_NUMBER } from '~utils/form/inputFilters';
 import { MultivariateDimensionDetails } from '../MultivariateDimensionDetails/MultivariateDimensionDetails';
 import { CustomStepsInput, type CustomSteps } from '../CustomStepsInput/CustomStepsInput';
 import s from './MultivariateAnalysisForm.module.css';
@@ -391,7 +391,10 @@ export function MultivariateAnalysisForm({
                 type="text"
                 value={extrusionMaxHeight ?? ''}
                 onChange={(event) => {
-                  const newValue = event.target.value.replace(INPUT_FILTER_NUMBER, '');
+                  const newValue = event.target.value.replace(
+                    INPUT_FILTER_POSITIVE_NUMBER,
+                    '',
+                  );
                   setExtrusionMaxHeight(newValue);
                 }}
                 renderLabel={<Text type="label">Max height, m</Text>}
