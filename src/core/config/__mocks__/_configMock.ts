@@ -18,6 +18,7 @@ const _configDataMock = {
   keycloakUrl: 'https://keycloak01.kontur.io',
   keycloakRealm: 'kontur',
   keycloakClientId: 'kontur_platform',
+  oamAuthUrl: 'http://api.openaerialmap.org/oauth/google',
   // intercomDefaultName: null,
   intercomAppId: 'e59cl64z',
   intercomSelector: '#kontur_header_chat_btn',

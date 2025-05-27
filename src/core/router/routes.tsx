@@ -18,7 +18,11 @@ import { PagesDocument } from '~core/pages';
 import { EmbeddedPage } from '~views/EmbeddedPage/EmbeddedPage';
 import { OAMAuthWrapper } from '~features/oam-auth/components/OAMAuthWrapper';
 import { goTo } from './goTo';
-import type { AboutFeatureConfig, CustomRoutesConfig } from '~core/config/types';
+import type {
+  AboutFeatureConfig,
+  CustomRoutesConfig,
+  OAMAuthFeatureConfig,
+} from '~core/config/types';
 import type { AppRoute, AppRouterConfig } from './types';
 const { PricingPage } = lazily(() => import('~views/Pricing/Pricing'));
 const { MapPage } = lazily(() => import('~views/Map/Map'));
@@ -113,7 +117,12 @@ function getAboutSubTabs() {
   return [];
 }
 
-const OAM_AUTH_REQUIRED_ROUTES = ['profile-external', 'upload-imagery'];
+function getOAMAuthRequiredRoutes(): string[] {
+  const oamAuthConfig = configRepo.get().features[AppFeature.OAM_AUTH] as
+    | OAMAuthFeatureConfig
+    | undefined;
+  return oamAuthConfig?.requiredRoutes ?? [];
+}
 
 function getCustomRoutes(): AppRoute[] {
   const customRoutesConfig = configRepo?.get().features[AppFeature.CUSTOM_ROUTES]?.[
@@ -134,7 +143,7 @@ function getCustomRoutes(): AppRoute[] {
             />
           );
 
-          if (OAM_AUTH_REQUIRED_ROUTES.includes(customRoute.id)) {
+          if (getOAMAuthRequiredRoutes().includes(customRoute.id)) {
             view = <OAMAuthWrapper>{view}</OAMAuthWrapper>;
           }
 

@@ -2,14 +2,32 @@ import React, { useEffect, useState } from 'react';
 import { OAMAuthRequired } from './OAMAuthRequired';
 
 function hasOAMSession() {
-  return document.cookie.split(';').some((c) => c.trim().startsWith('oam-session='));
+  try {
+    return document.cookie.split(';').some((cookie) => {
+      const trimmed = cookie.trim();
+      return trimmed.startsWith('oam-session=') && trimmed.split('=')[1];
+    });
+  } catch (error) {
+    console.error('Failed to parse cookies:', error);
+    return false;
+  }
 }
 
 export function OAMAuthWrapper({ children }: { children: React.ReactNode }) {
-  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [isAuthorized, setIsAuthorized] = useState(() => {
+    return typeof window !== 'undefined' ? hasOAMSession() : false;
+  });
 
   useEffect(() => {
-    setIsAuthorized(hasOAMSession());
+    const checkOAMSession = () => {
+      setIsAuthorized(hasOAMSession());
+    };
+
+    checkOAMSession();
+
+    const interval = setInterval(checkOAMSession, 30000);
+
+    return () => clearInterval(interval);
   }, []);
 
   if (isAuthorized) {
