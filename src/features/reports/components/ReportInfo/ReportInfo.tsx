@@ -40,7 +40,7 @@ export function ReportInfo() {
         });
       else setReport(report);
     }
-  }, [reports]);
+  }, [reports, reportId]);
 
   return (
     <div className={styles.mainWrap}>
