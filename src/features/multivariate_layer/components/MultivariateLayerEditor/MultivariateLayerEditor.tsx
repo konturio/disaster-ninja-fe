@@ -56,6 +56,11 @@ export function MultivariateLayerEditor({ layerId }: LayerEditorProps) {
             i18n.t('multivariate.hide_area'),
             layerConfig.opacity.config.layers,
           )}
+      {!!layerConfig.text?.mcdaValue?.config.layers.length &&
+        printMCDAAxes(
+          i18n.t('multivariate.labels'),
+          layerConfig.text.mcdaValue?.config.layers,
+        )}
     </div>
   );
 }
