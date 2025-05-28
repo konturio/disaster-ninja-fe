@@ -95,7 +95,7 @@ export function PopupMultivariate(
   let extrusionTable;
   if (config.extrusion) {
     const extrusionMCDAAxes = config.extrusion.height.config.layers;
-    opacityTable = (
+    extrusionTable = (
       <>
         <div>{`${i18n.t('multivariate.3d')}`}</div>
         {generateMCDAPopupTable(feature, extrusionMCDAAxes)}
