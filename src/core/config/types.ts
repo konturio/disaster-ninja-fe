@@ -101,12 +101,25 @@ export type AboutFeatureConfig = {
   }[];
 };
 
+export type CrossFrameOAuthProviderConfig = {
+  id: string;
+  type: 'cross_frame_oauth';
+  name: string;
+  authUrl: string;
+  sessionCookie: string;
+  loginButtonText: string;
+  sessionCheckIntervalMs?: number;
+  redirectUriParamName?: string;
+};
+
 export type LoginFeatureConfig = {
   profile_form: {
     organization_section: boolean;
     phone: boolean;
     linkedin: boolean;
   };
+  auth_providers?: CrossFrameOAuthProviderConfig[];
+  protectedRoutes?: string[];
 };
 
 export type EmbeddedPageConfig = {
@@ -116,15 +129,3 @@ export type EmbeddedPageConfig = {
 };
 
 export type CustomRouteConfig = EmbeddedPageConfig;
-
-export type CustomRoutesConfig = {
-  routes: CustomRouteConfig[];
-};
-
-export type OAMAuthFeatureConfig = {
-  requiredRoutes: string[];
-  authUrl: string;
-  sessionCookieName: string;
-  sessionCheckIntervalMs: number;
-  redirectUriParamName: string;
-};

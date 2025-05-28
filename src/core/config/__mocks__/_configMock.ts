@@ -97,12 +97,23 @@ const _configDataMock = {
     side_bar: true,
     intercom: true,
     tooltip: true,
-    oam_auth: {
-      requiredRoutes: ['profile-external', 'upload-imagery'],
-      authUrl: 'https://api.openaerialmap.org/oauth/google',
-      sessionCookieName: 'oam-session',
-      sessionCheckIntervalMs: 30000,
-      redirectUriParamName: 'original_uri',
+    app_login: {
+      profile_form: {
+        organization_section: true,
+        phone: true,
+        linkedin: true,
+      },
+      auth_providers: [
+        {
+          id: 'oam',
+          type: 'cross_frame_oauth',
+          name: 'OpenAerialMap',
+          authUrl: 'https://api.openaerialmap.org/oauth/google',
+          sessionCookie: 'oam-session',
+          loginButtonText: 'Login with Google',
+        },
+      ],
+      protectedRoutes: ['upload-imagery', 'profile-external'],
     },
     subscription: {
       billingMethodsDetails: [
@@ -203,10 +214,7 @@ const _configDataMock = {
           ],
         },
       ],
-    },
-    app_login: true,
     toasts: true,
-    use_3rdparty_analytics: true,
     about_page: {
       tabId: 'about',
       assetUrl: 'about.md',
