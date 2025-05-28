@@ -19,6 +19,8 @@ export function createExtrusionLayerSpecification(
   const maxHeight = extrusionDimension.maxHeight ?? 0;
   const mcdaLayers = extrusionDimension.height.config.layers;
   let multiplier = 1;
+  // For single non-normalized layer, scale by data range
+  // Otherwise, use maxHeight as direct multiplier
   if (
     mcdaLayers.length === 1 &&
     mcdaLayers[0].normalization === 'no' &&

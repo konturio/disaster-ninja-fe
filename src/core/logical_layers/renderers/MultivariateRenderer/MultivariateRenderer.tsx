@@ -69,6 +69,7 @@ export class MultivariateRenderer extends ClickableFeaturesRenderer {
       this._sourceId,
       mainLayerSpecification,
       filter,
+      // Extrusion layers in Maplibre don't support opacity expressions
       isNumber(opacityDimension) ? opacityDimension : undefined,
     );
 
