@@ -111,7 +111,6 @@ export function createMultivariateConfig(
         }),
       }
     : undefined;
-  // const extrusionSettings =
 
   return {
     version: 0,
