@@ -13,7 +13,6 @@ export interface StageConfigLegacy {
   KEYCLOAK_URL: string;
   KEYCLOAK_REALM: string;
   KEYCLOAK_CLIENT_ID: string;
-  OAM_AUTH_URL: string;
   YANDEX_METRICA_ID?: number[];
   MAP_BLANK_SPACE_ID: string;
   AUTOFOCUS_ZOOM: number;
@@ -42,7 +41,6 @@ export async function getStageConfig(): Promise<StageConfig> {
     keycloakUrl: c.KEYCLOAK_URL,
     keycloakRealm: c.KEYCLOAK_REALM,
     keycloakClientId: c.KEYCLOAK_CLIENT_ID,
-    oamAuthUrl: c.OAM_AUTH_URL,
     yandexMetricaId: c.YANDEX_METRICA_ID,
     intercomDefaultName: c.INTERCOM_DEFAULT_NAME,
     intercomAppId: c.INTERCOM_APP_ID,

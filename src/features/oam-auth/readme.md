@@ -17,7 +17,7 @@ The current authentication implementation was developed to solve a specific tech
 2. **Solution**:
 
    - Authentication flow is now initiated from our main application (outside the iframe)
-   - We make requests to OAM's backend (`OAM_AUTH_URL`) to handle the authentication
+   - We make requests to OAM's backend to handle the authentication
    - After successful authentication, the session cookie is set and shared between applications
    - This works because both applications are on the same domain (though on different subdomains)
    - The cookie sharing enables seamless access to authenticated OAM content
@@ -35,9 +35,9 @@ The current authentication implementation was developed to solve a specific tech
 1. `OAMAuthWrapper` (`OAMAuthWrapper.tsx`)
 
    - A wrapper component that checks for OAM session
-   - Periodically verifies authentication status (every 30 seconds)
+   - Periodically verifies authentication status (configurable interval)
    - Shows either the protected content or the authentication button
-   - Uses cookie-based session detection (`oam-session` cookie)
+   - Uses cookie-based session detection
 
 2. `OAMAuthRequired` (`OAMAuthRequired.tsx`)
    - Displays the authentication button when user is not authenticated
@@ -46,41 +46,68 @@ The current authentication implementation was developed to solve a specific tech
 
 ### Configuration
 
-The feature requires two types of configuration:
+The feature is configured through the feature configuration system. All settings are available in the `OAMAuthFeatureConfig`:
 
-1. Stage Configuration:
+```typescript
+type OAMAuthFeatureConfig = {
+  // Routes that require OAM authentication
+  requiredRoutes: string[];
 
-   - `oamAuthUrl`: The OAM authentication endpoint (configured in stage config)
-     - Default value: `https://api.openaerialmap.org/oauth/google`
-     - Can be overridden through environment configuration
+  // OAM authentication endpoint URL
+  authUrl: string;
 
-   ```json
-   {
-     "OAM_AUTH_URL": "https://api.openaerialmap.org/oauth/google"
-   }
-   ```
+  // Name of the session cookie
+  sessionCookieName: string;
 
-2. Feature Configuration (`OAMAuthFeatureConfig`):
-   - `requiredRoutes`: Array of route paths that require OAM authentication
-   ```json
-   {
-     "features": {
-       "oam_auth": {
-         "requiredRoutes": ["/oam/upload", "/oam/manage"]
-       }
-     }
-   }
-   ```
+  // Interval in milliseconds for checking session status
+  sessionCheckIntervalMs: number;
+
+  // Name of the redirect URI parameter in auth URL
+  redirectUriParamName: string;
+};
+```
+
+#### Default Configuration
+
+```json
+{
+  "features": {
+    "oam_auth": {
+      "requiredRoutes": ["profile-external", "upload-imagery"],
+      "authUrl": "https://api.openaerialmap.org/oauth/google",
+      "sessionCookieName": "oam-session",
+      "sessionCheckIntervalMs": 30000,
+      "redirectUriParamName": "original_uri"
+    }
+  }
+}
+```
+
+#### Local Development
+
+For local development, you can override the configuration by creating a `public/config/features.local.json` file:
+
+```json
+{
+  "oam_auth": {
+    "requiredRoutes": ["profile-external", "upload-imagery"],
+    "authUrl": "https://api.openaerialmap.org/oauth/google",
+    "sessionCookieName": "oam-session",
+    "sessionCheckIntervalMs": 5000,
+    "redirectUriParamName": "original_uri"
+  }
+}
+```
 
 ### Authentication Flow
 
 1. User navigates to a protected OAM route
-2. `OAMAuthWrapper` checks if `oam-session` cookie exsists
+2. `OAMAuthWrapper` checks if session cookie exists (using configured `sessionCookieName`)
 3. If not exists:
    - `OAMAuthRequired` component is shown with login button
-   - Clicking the button redirects to OAM auth URL with original URI
+   - Clicking the button redirects to auth URL with redirect URI parameter
 4. After successful authentication:
-   - The OAM `oam-session` cookie sets from the BE redirect to original URI
+   - The session cookie is set from the backend redirect
    - Cookie is shared between applications due to same-domain setup
    - Protected content becomes accessible
 
@@ -88,8 +115,9 @@ The feature requires two types of configuration:
 
 - Authentication is handled through OAM's OAuth flow
 - Session cookie is domain-shared but secure
-- Regular session checks (30-second intervals) ensure authentication state is current
-- Original URI is preserved and encoded for secure redirect
+- Regular session checks (configurable interval) ensure authentication state is current
+- Redirect URI is preserved and encoded for secure redirect
+- All sensitive configuration is managed through the feature configuration system
 
 ## Usage
 
@@ -106,3 +134,25 @@ function ProtectedOAMRoute() {
   );
 }
 ```
+
+## Configuration Options
+
+### requiredRoutes
+
+Array of route paths that require OAM authentication. These routes will be protected by the `OAMAuthWrapper`.
+
+### authUrl
+
+The OAM authentication endpoint URL. This is where users will be redirected for authentication.
+
+### sessionCookieName
+
+The name of the cookie used to store the session. This cookie is shared between applications.
+
+### sessionCheckIntervalMs
+
+The interval in milliseconds for checking the session status. Default is 30000 (30 seconds). Can be reduced for development.
+
+### redirectUriParamName
+
+The name of the parameter used in the auth URL for the redirect URI. This is the parameter that tells the auth server where to redirect after successful authentication.
