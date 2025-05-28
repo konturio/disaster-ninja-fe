@@ -164,9 +164,14 @@ export function MultivariateAnalysisForm({
     // mcda opacity takes precedence
     let opacity: number | MCDALayer[] | undefined = dimensionsLayers.opacity;
     if (!opacity.length && opacityStatic !== undefined) {
-      opacity = isNumber(parseFloat(opacityStatic))
-        ? parseFloat(opacityStatic)
-        : undefined;
+      opacity = parseFloat(opacityStatic);
+      if (!isNumber(opacity)) {
+        opacity = undefined;
+      } else if (opacity > 1) {
+        opacity = 1;
+      } else if (opacity < 0) {
+        opacity = 0;
+      }
     }
     const text: MCDALayer[] | undefined = dimensionsLayers.text;
     return isConfigValid
@@ -480,7 +485,11 @@ export function MultivariateAnalysisForm({
                 type="text"
                 value={opacityStatic ?? ''}
                 onChange={(e) => {
-                  setOpacityStatic(e.target.value);
+                  const filteredValue = e.target.value.replace(
+                    INPUT_FILTER_POSITIVE_NUMBER,
+                    '',
+                  );
+                  setOpacityStatic(filteredValue);
                 }}
                 renderLabel={<Text type="label">Static opacity</Text>}
                 placeholder="Opacity"
