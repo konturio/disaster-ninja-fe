@@ -510,8 +510,5 @@
     "save_as_reference_area": "Save as reference area",
     "error_couldnt_save": "Unfortunately, we could not save your reference area. Please try again.",
     "selected_area_saved_as_reference_area": "Selected area has been saved as reference area in your profile"
-  },
-  "oam_auth": {
-    "login_button": "Login with Google"
   }
 }

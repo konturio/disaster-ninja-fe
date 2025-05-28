@@ -16,12 +16,16 @@ import { AppFeature } from '~core/app/types';
 import { configRepo } from '~core/config';
 import { PagesDocument } from '~core/pages';
 import { EmbeddedPage } from '~views/EmbeddedPage/EmbeddedPage';
-import { OAMAuthWrapper } from '~features/oam-auth/components/OAMAuthWrapper';
+import {
+  CrossFrameOAuthProvider,
+  CrossFrameAuthWrapper,
+} from '~core/auth/crossFrameOAuth';
 import { goTo } from './goTo';
 import type {
   AboutFeatureConfig,
   CustomRoutesConfig,
-  OAMAuthFeatureConfig,
+  LoginFeatureConfig,
+  CrossFrameOAuthProviderConfig,
 } from '~core/config/types';
 import type { AppRoute, AppRouterConfig } from './types';
 const { PricingPage } = lazily(() => import('~views/Pricing/Pricing'));
@@ -117,11 +121,25 @@ function getAboutSubTabs() {
   return [];
 }
 
-function getOAMAuthRequiredRoutes(): string[] {
-  const oamAuthConfig = configRepo.get().features[AppFeature.OAM_AUTH] as
-    | OAMAuthFeatureConfig
-    | undefined;
-  return oamAuthConfig?.requiredRoutes ?? ['profile-external', 'upload-imagery'];
+
+function wrapProtectedRoute(view: JSX.Element, routeId: string) {
+  const loginConfig = configRepo.get().features[
+    AppFeature.APP_LOGIN
+  ] as LoginFeatureConfig | undefined;
+  const protectedRoutes = loginConfig?.protectedRoutes ?? [];
+  if (!protectedRoutes.includes(routeId)) return view;
+
+  const providerCfg = (loginConfig?.auth_providers || []).find(
+    (p) => (p as CrossFrameOAuthProviderConfig).type === 'cross_frame_oauth',
+  ) as CrossFrameOAuthProviderConfig | undefined;
+
+  if (providerCfg) {
+    const provider = new CrossFrameOAuthProvider(providerCfg);
+    return (
+      <CrossFrameAuthWrapper provider={provider}>{view}</CrossFrameAuthWrapper>
+    );
+  }
+  return view;
 }
 
 function getCustomRoutes(): AppRoute[] {
@@ -143,9 +161,7 @@ function getCustomRoutes(): AppRoute[] {
             />
           );
 
-          if (getOAMAuthRequiredRoutes().includes(customRoute.id)) {
-            view = <OAMAuthWrapper>{view}</OAMAuthWrapper>;
-          }
+          view = wrapProtectedRoute(view, customRoute.id);
 
           return { ...EMBEDDED_PAGE_ROUTES[customRoute.id], view };
         }

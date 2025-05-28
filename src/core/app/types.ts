@@ -2,7 +2,6 @@ export const AppFeature = {
   ABOUT_PAGE: 'about_page',
   CUSTOM_ROUTES: 'custom_routes',
   APP_LOGIN: 'app_login',
-  OAM_AUTH: 'oam_auth',
   ANALYTICS_PANEL: 'analytics_panel',
   ADVANCED_ANALYTICS_PANEL: 'advanced_analytics_panel',
   EVENTS_LIST: 'events_list',
