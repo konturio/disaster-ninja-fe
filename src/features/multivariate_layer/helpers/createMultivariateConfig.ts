@@ -44,7 +44,7 @@ export function createMultivariateConfig(
   const hasScore = !!overrides?.score?.length;
   const hasBase = !!overrides?.base?.length;
   const hasText = !!overrides?.text?.length;
-  const hasExtrusion = !!overrides?.extrusion;
+  const hasExtrusion = !!overrides?.extrusion?.length;
   const isBivariateStyleLegend = hasScore && hasBase;
   const scoreMCDAStyle: MCDALayerStyle = {
     type: 'mcda',
