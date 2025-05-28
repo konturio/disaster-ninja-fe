@@ -1,6 +1,5 @@
 {
   "API_GATEWAY": "https://disaster.ninja/active/api",
-  "OAM_AUTH_URL": "https://api.openaerialmap.org/oauth/google",
   "REPORTS_API": "https://disaster.ninja/active/reports",
   "BIVARIATE_TILES_RELATIVE_URL": "api/tiles/bivariate/v1/",
   "BIVARIATE_TILES_INDICATORS_CLASS": "all",

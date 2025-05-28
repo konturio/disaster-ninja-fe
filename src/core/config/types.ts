@@ -42,7 +42,6 @@ export interface StageConfig {
   keycloakUrl: string;
   keycloakRealm: string;
   keycloakClientId: string;
-  oamAuthUrl: string;
   // Third-party services
   yandexMetricaId?: number[];
   intercomDefaultName?: string;
@@ -124,4 +123,8 @@ export type CustomRoutesConfig = {
 
 export type OAMAuthFeatureConfig = {
   requiredRoutes: string[];
+  authUrl: string;
+  sessionCookieName: string;
+  sessionCheckIntervalMs: number;
+  redirectUriParamName: string;
 };

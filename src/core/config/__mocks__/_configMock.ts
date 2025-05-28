@@ -18,7 +18,6 @@ const _configDataMock = {
   keycloakUrl: 'https://keycloak01.kontur.io',
   keycloakRealm: 'kontur',
   keycloakClientId: 'kontur_platform',
-  oamAuthUrl: 'https://api.openaerialmap.org/oauth/google',
   // intercomDefaultName: null,
   intercomAppId: 'e59cl64z',
   intercomSelector: '#kontur_header_chat_btn',
@@ -98,6 +97,13 @@ const _configDataMock = {
     side_bar: true,
     intercom: true,
     tooltip: true,
+    oam_auth: {
+      requiredRoutes: ['profile-external', 'upload-imagery'],
+      authUrl: 'https://api.openaerialmap.org/oauth/google',
+      sessionCookieName: 'oam-session',
+      sessionCheckIntervalMs: 30000,
+      redirectUriParamName: 'original_uri',
+    },
     subscription: {
       billingMethodsDetails: [
         {
