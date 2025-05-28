@@ -10,7 +10,7 @@ import {
 import { generateMultivariatePopupContent } from './popup';
 import { createTextLayerSpecification } from './helpers/createTextLayerSpecification';
 import { createExtrusionLayerSpecification } from './helpers/createExtrusionLayerSpecification';
-import type { ExtrusionDimension, TextDimension } from './types';
+import type { ExtrusionDimension, OpacityDimension, TextDimension } from './types';
 import type { FilterSpecification, LayerSpecification } from 'maplibre-gl';
 import type { LayerTileSource } from '~core/logical_layers/types/source';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
@@ -57,6 +57,7 @@ export class MultivariateRenderer extends ClickableFeaturesRenderer {
     extrusionDimension: ExtrusionDimension,
     mainLayerId: string,
     mainLayerSpecification: LayerSpecification,
+    opacityDimension?: OpacityDimension,
   ) {
     const extrusionLayerId = mainLayerId + EXTRUSION_POSTFIX;
 
@@ -68,6 +69,7 @@ export class MultivariateRenderer extends ClickableFeaturesRenderer {
       this._sourceId,
       mainLayerSpecification,
       filter,
+      isNumber(opacityDimension) ? opacityDimension : undefined,
     );
 
     layerByOrder(map, this._layersOrderManager).addAboveLayerWithSameType(
@@ -85,20 +87,26 @@ export class MultivariateRenderer extends ClickableFeaturesRenderer {
     let layerStyle;
     if (style.type == 'multivariate') {
       layerStyle = styleConfigs.multivariate(style.config)[0];
-      const layerRes: LayerSpecification = {
+      const mainLayerSpec: LayerSpecification = {
         ...layerStyle,
         id: layerId,
         source: this._sourceId,
       };
       layerByOrder(map, this._layersOrderManager).addAboveLayerWithSameType(
-        layerRes,
+        mainLayerSpec,
         this.id,
       );
       if (style.config.text) {
-        this.addTextLayer(map, style.config.text, layerId, layerRes);
+        this.addTextLayer(map, style.config.text, layerId, mainLayerSpec);
       }
       if (style.config.extrusion) {
-        this.addExtrusionLayer(map, style.config.extrusion, layerId, layerRes);
+        this.addExtrusionLayer(
+          map,
+          style.config.extrusion,
+          layerId,
+          mainLayerSpec,
+          style.config.opacity,
+        );
       }
       this._layerId = layerId;
     } else {

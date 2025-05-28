@@ -13,6 +13,7 @@ export function createExtrusionLayerSpecification(
   sourceId: string,
   mainLayerSpecification: LayerSpecification,
   filter?: FilterSpecification,
+  opacity?: number,
 ): LayerSpecification {
   const minHeight = 0;
   const maxHeight = extrusionDimension.maxHeight ?? 0;
@@ -43,7 +44,7 @@ export function createExtrusionLayerSpecification(
       'fill-extrusion-height': heightExpression,
       'fill-extrusion-base': minHeight,
       'fill-extrusion-color': extrusionColor,
-      'fill-extrusion-opacity': 0.75,
+      'fill-extrusion-opacity': opacity !== undefined ? opacity : 0.75,
       'fill-extrusion-vertical-gradient': false,
     },
     source: sourceId,

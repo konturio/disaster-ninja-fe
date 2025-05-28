@@ -9,6 +9,8 @@ import type {
 
 export type MultivariateDimension = MCDALayerStyle;
 
+export type OpacityDimension = MultivariateDimension | number;
+
 export type TextDimension = {
   expressionValue?: ExpressionSpecification;
   mcdaValue?: MultivariateDimension;
@@ -47,7 +49,7 @@ export interface MultivariateLayerConfig {
   score: MultivariateDimension;
   base?: MultivariateDimension;
   stepOverrides?: MultivariateStepOverrides;
-  opacity?: MultivariateDimension | number;
+  opacity?: OpacityDimension;
   text?: TextDimension;
   extrusion?: ExtrusionDimension;
   colors?: MultivariateColorConfig;
