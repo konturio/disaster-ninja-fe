@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-D4Watxm2.js","./index-CLLZzaYh.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-Sgw5yzzz.js","./index-Dl8IMfWx.js"])))=>i.map(i=>d[i]);
 var __defProp = Object.defineProperty;
 var __typeError = (msg) => {
   throw TypeError(msg);
@@ -10,7 +10,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value2) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value2);
 var __privateSet = (obj, member, value2, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value2) : member.set(obj, value2), value2);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, e as extendWithValue, R as React, c as createValue, i as isEqual, r as reactExports, a as requireReact, b as requireReactDom, d as React$1, g as getDefaultExportFromCjs, f as clientExports, _ as __vitePreload } from "./index-CLLZzaYh.js";
+import { u as useFixtureState, e as extendWithValue, R as React, c as createValue, i as isEqual, r as reactExports, a as requireReact, b as requireReactDom, d as React$1, g as getDefaultExportFromCjs, f as clientExports, _ as __vitePreload } from "./index-Dl8IMfWx.js";
 function useCurrentInputValue(inputName, defaultValue) {
   const [fixtureState] = useFixtureState("inputs");
   const inputFs = fixtureState && fixtureState[inputName];
@@ -12177,6 +12177,500 @@ const fixture0 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProp
   __proto__: null,
   default: Plans_fixture
 }, Symbol.toStringTag, { value: "Module" }));
+const _configDataMock = {
+  baseUrl: "/active/",
+  initialUrl: "https://disaster.ninja/active/map?map=4.920/37.682/112.588&event=1c1eb9ce-2fb0-4660-ae2e-ee93d15f8874&layers=kontur_lines%2CactiveContributors%2CeventShape%2ChotProjects_outlines%2Cpopulation_density%2Cfocused-geometry",
+  initialUrlData: {
+    layers: ["kontur_lines", "population_density"]
+  },
+  apiGateway: "https://disaster.ninja/active/api",
+  reportsApiGateway: "/active/reports",
+  bivariateTilesRelativeUrl: "api/tiles/bivariate/v1/",
+  bivariateTilesIndicatorsClass: "all",
+  refreshIntervalSec: 300,
+  sentryDsn: "",
+  keycloakUrl: "https://keycloak01.kontur.io",
+  keycloakRealm: "kontur",
+  keycloakClientId: "kontur_platform",
+  // intercomDefaultName: null,
+  intercomAppId: "e59cl64z",
+  intercomSelector: "#kontur_header_chat_btn",
+  defaultFeed: "kontur-public",
+  osmEditors: [
+    {
+      id: "josm",
+      title: "JOSM",
+      url: "https://www.openstreetmap.org/edit?editor=remote#map="
+    },
+    {
+      id: "id",
+      title: "iD",
+      url: "https://www.openstreetmap.org/edit?editor=id&node=2188188227#map="
+    },
+    {
+      id: "rapid",
+      title: "RapiD",
+      url: "https://mapwith.ai/rapid#map="
+    }
+  ],
+  autofocusZoom: 13,
+  mapBlankSpaceId: "map-view",
+  mapBaseStyle: "https://prod-basemap-tileserver.k8s-01.konturlabs.com/layers/tiles/basemap/style_ninja_en.json",
+  featuresByDefault: {
+    events_list: true,
+    current_event: true,
+    reports: true,
+    current_episode: true,
+    episode_list: true,
+    osm_edit_link: true,
+    side_bar: true,
+    analytics_panel: true,
+    map_layers_panel: true,
+    focused_geometry_layer: true,
+    map_ruler: true,
+    boundary_selector: true,
+    draw_tools: true,
+    geometry_uploader: true,
+    legend_panel: true,
+    // @ts-ignore
+    url_store: true,
+    feature_settings: true,
+    layers_in_area: true,
+    toasts: true,
+    interactive_map: true,
+    feed_selector: true,
+    header: true,
+    intercom: true,
+    geocoder: true,
+    communities: true,
+    tooltip: true
+  },
+  id: "9043acf9-2cf3-48ac-9656-a5d7c4b7593d",
+  name: "Kontur Atlas",
+  description: "Kontur SAAS application",
+  ownedByUser: false,
+  extent: [-135, 0, 63, 62],
+  sidebarIconUrl: "/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/favicon.svg",
+  faviconUrl: "/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/favicon.svg",
+  faviconPack: {
+    "favicon.svg": "/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/favicon.svg",
+    "favicon.ico": "/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/favicon.ico",
+    "apple-touch-icon.png": "/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/apple-touch-icon.png",
+    "icon-192x192.png": "/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/icon-192x192.png",
+    "icon-512x512.png": "/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/icon-512x512.png"
+  },
+  // @ts-ignore
+  features: {
+    side_bar: true,
+    intercom: true,
+    tooltip: true,
+    oam_auth: {
+      requiredRoutes: ["profile-external", "upload-imagery"],
+      authUrl: "https://api.openaerialmap.org/oauth/google",
+      sessionCookieName: "oam-session",
+      sessionCheckIntervalMs: 3e4,
+      redirectUriParamName: "original_uri"
+    },
+    subscription: {
+      billingMethodsDetails: [
+        {
+          id: "paypal",
+          clientId: "xxxxxxx-xxxx-xxxxxxxxxxxxxx"
+        }
+      ],
+      billingCyclesDetails: [
+        {
+          id: "month",
+          name: "Monthly",
+          note: null
+        },
+        {
+          id: "year",
+          name: "Annually",
+          note: "Save 5%"
+        }
+      ],
+      plans: [
+        {
+          id: "kontur_atlas_edu",
+          name: "Educational",
+          style: "basic",
+          billingCycles: [
+            {
+              id: "month",
+              initialPricePerMonth: null,
+              pricePerMonth: 100,
+              pricePerYear: null,
+              billingMethods: [
+                {
+                  id: "paypal",
+                  billingPlanId: "P-000000000000000000000000"
+                }
+              ]
+            },
+            {
+              id: "year",
+              initialPricePerMonth: 100,
+              pricePerMonth: 95,
+              pricePerYear: 1140,
+              billingMethods: [
+                {
+                  id: "paypal",
+                  billingPlanId: "P-000000000000000000000000"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: "kontur_atlas_pro",
+          name: "Professional",
+          style: "premium",
+          billingCycles: [
+            {
+              id: "month",
+              initialPricePerMonth: null,
+              pricePerMonth: 1e3,
+              pricePerYear: null,
+              billingMethods: [
+                {
+                  id: "paypal",
+                  billingPlanId: "P-000000000000000000000000"
+                }
+              ]
+            },
+            {
+              id: "year",
+              initialPricePerMonth: 1e3,
+              pricePerMonth: 950,
+              pricePerYear: 11400,
+              billingMethods: [
+                {
+                  id: "paypal",
+                  billingPlanId: "P-000000000000000000000000"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: "kontur_atlas_custom",
+          name: "Custom",
+          style: "custom",
+          actions: [
+            {
+              name: "contact_sales",
+              params: {
+                link: "https://calendly.com/"
+              }
+            },
+            {
+              name: "book_a_demo"
+            }
+          ]
+        }
+      ]
+    },
+    app_login: true,
+    toasts: true,
+    use_3rdparty_analytics: true,
+    about_page: {
+      tabId: "about",
+      assetUrl: "about.md",
+      subTabs: [
+        {
+          tabId: "terms",
+          assetUrl: "terms.md"
+        },
+        {
+          tabId: "privacy",
+          assetUrl: "privacy.md"
+        },
+        {
+          tabId: "user-guide",
+          assetUrl: "user_guide.md"
+        }
+      ]
+    }
+  },
+  public: true,
+  initialUser: {
+    username: "",
+    email: "",
+    fullName: "",
+    language: "en",
+    useMetricUnits: true,
+    subscribedToKonturUpdates: false,
+    bio: "",
+    osmEditor: "josm",
+    defaultFeed: "kontur-public",
+    theme: "kontur"
+  },
+  defaultLayers: [
+    {
+      id: "kontur_lines",
+      source: {
+        type: "maplibre-style-url",
+        urls: [
+          "https://prod-basemap-tileserver.k8s-01.konturlabs.com/layers/tiles/basemap/style_ninja_en.json"
+        ]
+      },
+      ownedByUser: false
+    },
+    {
+      id: "population_density",
+      // @ts-ignore
+      source: {
+        urls: [
+          "https://disaster.ninja/active/api/tiles/bivariate/v1/{z}/{x}/{y}.mvt?indicatorsClass=general"
+        ]
+      },
+      // @ts-ignore
+      legend: {
+        type: "simple",
+        steps: [
+          {
+            stepName: "0 - 1.27",
+            stepShape: "square",
+            style: {
+              color: "#F0F0D6",
+              "fill-color": "#F0F0D6",
+              "fill-opacity": 0.8
+            }
+          },
+          {
+            stepName: "1.27 - 2.45",
+            stepShape: "square",
+            style: {
+              color: "#ECECC4",
+              "fill-color": "#ECECC4",
+              "fill-opacity": 0.8
+            }
+          },
+          {
+            stepName: "2.45 - 5.75",
+            stepShape: "square",
+            style: {
+              color: "#EAEAB0",
+              "fill-color": "#EAEAB0",
+              "fill-opacity": 0.8
+            }
+          },
+          {
+            stepName: "5.75 - 12.43",
+            stepShape: "square",
+            style: {
+              color: "#E8E89D",
+              "fill-color": "#E8E89D",
+              "fill-opacity": 0.8
+            }
+          },
+          {
+            stepName: "12.43 - 28.47",
+            stepShape: "square",
+            style: {
+              color: "#E1D689",
+              "fill-color": "#E1D689",
+              "fill-opacity": 0.8
+            }
+          },
+          {
+            stepName: "28.47 - 66.03",
+            stepShape: "square",
+            style: {
+              color: "#DAC075",
+              "fill-color": "#DAC075",
+              "fill-opacity": 0.8
+            }
+          },
+          {
+            stepName: "66.03 - 172.46",
+            stepShape: "square",
+            style: {
+              color: "#D1A562",
+              "fill-color": "#D1A562",
+              "fill-opacity": 0.8
+            }
+          },
+          {
+            stepName: "172.46 - 535.67",
+            stepShape: "square",
+            style: {
+              color: "#C98A50",
+              "fill-color": "#C98A50",
+              "fill-opacity": 0.8
+            }
+          },
+          {
+            stepName: "535.67 - 46200",
+            stepShape: "square",
+            style: {
+              color: "#BF6C3F",
+              "fill-color": "#BF6C3F",
+              "fill-opacity": 0.8
+            }
+          }
+        ]
+      },
+      ownedByUser: false
+    }
+  ],
+  activeLayers: ["kontur_lines", "population_density"]
+};
+configRepo.get = () => _configDataMock;
+const _md = `![Kontur Atlas](about-atlas-1.png)
+
+# Kontur Atlas
+
+Atlas is your GPS for big decisions. It's a tool that helps you use maps and data to figure out a wide range of things, from where to open a new store to exploring environmental sustainability.
+
+![Geospatial Data with Ease](about-atlas-2.png)
+
+## Geospatial Data with Ease
+
+### Browse & Choose Data
+
+We've got tons of info like who lives where and how people get around. Find the data that'll answer your questions.
+
+### Make Maps
+
+With a few clicks, Atlas turns that data into maps and visuals so it's easy to understand.
+
+### Analyze & Decide
+
+Use these insights to make smart decisions, like picking the perfect spot for your next big project or making concussions based on spatial patterns.
+
+### Jump in and start exploring
+
+Your next big opportunity is waiting to be mapped out!
+
+## _[Subscribe to Atlas](/pricing)_ wrapped in "\\_"
+
+### **[Subscribe to Atlas](/pricing)** "\\_\\_"
+
+### **_[Subscribe to Atlas](/pricing)_** "\\_\\_\\*"
+
+## How to Use
+
+---
+
+![youtube](https://www.youtube.com/embed/g7WMD10DMPs?si=Gl6RdNM0L3ufi0uF::800,470,true)
+
+### Area Selection
+
+To choose an area for analysis, you can use the toolbar to select an administrative unit, draw a shape manually, or import a GeoJSON file.
+
+![youtube](https://www.youtube.com/embed/aCXaAYEW0oM::800,470,true)
+
+### Analytics Panel
+
+This panel displays essential data about your selected area.
+
+#### AI Insights
+
+Compares your area's data with global averages, alerting you to any significant discrepancies.
+
+#### Personalized AI Insights
+
+Reference Area: This allows you to set a known area as a reference point for comparisons and highlights differences.
+Bio: Here, you can record details like who you're working for, your analysis purpose, and key topics, helping to personalize AI conclusions.
+
+![youtube](https://www.youtube.com/embed/Md5Mex-POBo::800,470,true)
+
+### Creating Custom Analysis
+
+To create your own analysis, select the "MCDA" button in the toolbar.
+
+#### Choosing Relevant Layers
+
+Start by picking data layers appropriate for your requirements — this could include anything from population density to environmental risk factors.
+
+#### Browse the map
+
+By default, the map displays red hexagons in high-value areas and green hexagons where values are minimal. Click on any hexagon to access detailed info for that particular sector.
+
+#### Layer Customization
+
+Enhance your analysis by fine-tuning the range and what is bad and good of each layer. This means you can focus specifically on aspects crucial to your study.
+
+---
+
+### _[Learn more on kontur.io](https://www.kontur.io/atlas)_
+`;
+const _css = "article {\n  & * {\n    outline: lime solid thin;\n  }\n}\n";
+console.info("test app id", configRepo.get().id);
+const PagesDocument_fixture = {
+  "PagesDocument with custom css": /* @__PURE__ */ jsxRuntimeExports.jsx(
+    PagesDocument,
+    {
+      id: "",
+      doc: [
+        {
+          type: "md",
+          data: `
+#Kontur Atlas
+Atlas is your GPS for big decisions. It's a tool that helps you use maps and data to figure out a wide range of things, from where to open a new store to exploring environmental sustainability.
+`
+        },
+        {
+          type: "css",
+          data: `
+h1 { background-color: #f2f2f2; }
+p { background-color: #BF6C3F; }
+`
+        }
+      ]
+    }
+  ),
+  "Links test": /* @__PURE__ */ jsxRuntimeExports.jsx(
+    PagesDocument,
+    {
+      id: "",
+      doc: [
+        {
+          type: "md",
+          data: `
+[Link](https://example.com)
+
+Controller using this email: [hello@kontur.io](mailto:hello@kontur.io) or contact address.
+
+Controller using this email: <hello@kontur.io> or contact address.
+
+hello@kontur.io
+
+kancelaria@uodo.gov.pl
+
+ng: <kancelaria@uodo.gov.pl>
+
+http://www.youronlinechoices.com/
+
+ng: <http://www.youronlinechoices.com/>
+`
+        }
+      ]
+    }
+  ),
+  "PagesDocument markdown sample": /* @__PURE__ */ jsxRuntimeExports.jsx(
+    PagesDocument,
+    {
+      id: "",
+      doc: [
+        {
+          type: "md",
+          data: _md
+        },
+        {
+          type: "css",
+          data: _css
+        }
+      ]
+    }
+  )
+};
+const fixture1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: PagesDocument_fixture
+}, Symbol.toStringTag, { value: "Module" }));
 const eventCardLayoutTemplate = {
   type: "Card",
   action: "focusEvent",
@@ -13802,7 +14296,7 @@ const LayoutDebugger_fixture = {
   "HOT Project Card": createLayoutDebugger(hotProjectLayoutTemplate, hotData),
   "Complex Demo": createLayoutDebugger(complexDataLayout, complexDataSamples)
 };
-const fixture1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const fixture2 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   default: LayoutDebugger_fixture
 }, Symbol.toStringTag, { value: "Module" }));
@@ -13879,14 +14373,14 @@ function FieldsRegistry() {
     ] }, fieldName);
   }) });
 }
-const fixture2 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const fixture3 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   default: FieldsRegistry
 }, Symbol.toStringTag, { value: "Module" }));
 function ComponentsRegistry() {
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: Object.keys(componentsRegistry).map((component) => /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("code", { children: component }) }, component)) });
 }
-const fixture3 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const fixture4 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   default: ComponentsRegistry
 }, Symbol.toStringTag, { value: "Module" }));
@@ -14298,7 +14792,7 @@ const Overlays_fixture = /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { childre
     /* @__PURE__ */ jsxRuntimeExports.jsx(InfoPopover, { content: MD_TEXT })
   ] })
 ] });
-const fixture4 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const fixture5 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   default: Overlays_fixture
 }, Symbol.toStringTag, { value: "Module" }));
@@ -14319,7 +14813,7 @@ const LinkRenderer_fixture = /* @__PURE__ */ jsxRuntimeExports.jsxs("blockquote"
     "https://disaster.ninja/active/?layers=kontur_lines%2CactiveContributors%2CeventShape%2ChotProjects_outlines%2Cpopulation_density%2Cfocused-geometry"
   ] })
 ] });
-const fixture5 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const fixture6 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   default: LinkRenderer_fixture
 }, Symbol.toStringTag, { value: "Module" }));
@@ -14739,503 +15233,9 @@ function BivariateLegendFixture() {
     ) })
   ] });
 }
-const fixture6 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  default: BivariateLegendFixture
-}, Symbol.toStringTag, { value: "Module" }));
-const _configDataMock = {
-  baseUrl: "/active/",
-  initialUrl: "https://disaster.ninja/active/map?map=4.920/37.682/112.588&event=1c1eb9ce-2fb0-4660-ae2e-ee93d15f8874&layers=kontur_lines%2CactiveContributors%2CeventShape%2ChotProjects_outlines%2Cpopulation_density%2Cfocused-geometry",
-  initialUrlData: {
-    layers: ["kontur_lines", "population_density"]
-  },
-  apiGateway: "https://disaster.ninja/active/api",
-  reportsApiGateway: "/active/reports",
-  bivariateTilesRelativeUrl: "api/tiles/bivariate/v1/",
-  bivariateTilesIndicatorsClass: "all",
-  refreshIntervalSec: 300,
-  sentryDsn: "",
-  keycloakUrl: "https://keycloak01.kontur.io",
-  keycloakRealm: "kontur",
-  keycloakClientId: "kontur_platform",
-  // intercomDefaultName: null,
-  intercomAppId: "e59cl64z",
-  intercomSelector: "#kontur_header_chat_btn",
-  defaultFeed: "kontur-public",
-  osmEditors: [
-    {
-      id: "josm",
-      title: "JOSM",
-      url: "https://www.openstreetmap.org/edit?editor=remote#map="
-    },
-    {
-      id: "id",
-      title: "iD",
-      url: "https://www.openstreetmap.org/edit?editor=id&node=2188188227#map="
-    },
-    {
-      id: "rapid",
-      title: "RapiD",
-      url: "https://mapwith.ai/rapid#map="
-    }
-  ],
-  autofocusZoom: 13,
-  mapBlankSpaceId: "map-view",
-  mapBaseStyle: "https://prod-basemap-tileserver.k8s-01.konturlabs.com/layers/tiles/basemap/style_ninja_en.json",
-  featuresByDefault: {
-    events_list: true,
-    current_event: true,
-    reports: true,
-    current_episode: true,
-    episode_list: true,
-    osm_edit_link: true,
-    side_bar: true,
-    analytics_panel: true,
-    map_layers_panel: true,
-    focused_geometry_layer: true,
-    map_ruler: true,
-    boundary_selector: true,
-    draw_tools: true,
-    geometry_uploader: true,
-    legend_panel: true,
-    // @ts-ignore
-    url_store: true,
-    feature_settings: true,
-    layers_in_area: true,
-    toasts: true,
-    interactive_map: true,
-    feed_selector: true,
-    header: true,
-    intercom: true,
-    geocoder: true,
-    communities: true,
-    tooltip: true
-  },
-  id: "9043acf9-2cf3-48ac-9656-a5d7c4b7593d",
-  name: "Kontur Atlas",
-  description: "Kontur SAAS application",
-  ownedByUser: false,
-  extent: [-135, 0, 63, 62],
-  sidebarIconUrl: "/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/favicon.svg",
-  faviconUrl: "/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/favicon.svg",
-  faviconPack: {
-    "favicon.svg": "/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/favicon.svg",
-    "favicon.ico": "/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/favicon.ico",
-    "apple-touch-icon.png": "/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/apple-touch-icon.png",
-    "icon-192x192.png": "/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/icon-192x192.png",
-    "icon-512x512.png": "/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/icon-512x512.png"
-  },
-  // @ts-ignore
-  features: {
-    side_bar: true,
-    intercom: true,
-    tooltip: true,
-    oam_auth: {
-      requiredRoutes: ["profile-external", "upload-imagery"],
-      authUrl: "https://api.openaerialmap.org/oauth/google",
-      sessionCookieName: "oam-session",
-      sessionCheckIntervalMs: 3e4,
-      redirectUriParamName: "original_uri"
-    },
-    subscription: {
-      billingMethodsDetails: [
-        {
-          id: "paypal",
-          clientId: "xxxxxxx-xxxx-xxxxxxxxxxxxxx"
-        }
-      ],
-      billingCyclesDetails: [
-        {
-          id: "month",
-          name: "Monthly",
-          note: null
-        },
-        {
-          id: "year",
-          name: "Annually",
-          note: "Save 5%"
-        }
-      ],
-      plans: [
-        {
-          id: "kontur_atlas_edu",
-          name: "Educational",
-          style: "basic",
-          billingCycles: [
-            {
-              id: "month",
-              initialPricePerMonth: null,
-              pricePerMonth: 100,
-              pricePerYear: null,
-              billingMethods: [
-                {
-                  id: "paypal",
-                  billingPlanId: "P-000000000000000000000000"
-                }
-              ]
-            },
-            {
-              id: "year",
-              initialPricePerMonth: 100,
-              pricePerMonth: 95,
-              pricePerYear: 1140,
-              billingMethods: [
-                {
-                  id: "paypal",
-                  billingPlanId: "P-000000000000000000000000"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          id: "kontur_atlas_pro",
-          name: "Professional",
-          style: "premium",
-          billingCycles: [
-            {
-              id: "month",
-              initialPricePerMonth: null,
-              pricePerMonth: 1e3,
-              pricePerYear: null,
-              billingMethods: [
-                {
-                  id: "paypal",
-                  billingPlanId: "P-000000000000000000000000"
-                }
-              ]
-            },
-            {
-              id: "year",
-              initialPricePerMonth: 1e3,
-              pricePerMonth: 950,
-              pricePerYear: 11400,
-              billingMethods: [
-                {
-                  id: "paypal",
-                  billingPlanId: "P-000000000000000000000000"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          id: "kontur_atlas_custom",
-          name: "Custom",
-          style: "custom",
-          actions: [
-            {
-              name: "contact_sales",
-              params: {
-                link: "https://calendly.com/"
-              }
-            },
-            {
-              name: "book_a_demo"
-            }
-          ]
-        }
-      ]
-    },
-    app_login: true,
-    toasts: true,
-    use_3rdparty_analytics: true,
-    about_page: {
-      tabId: "about",
-      assetUrl: "about.md",
-      subTabs: [
-        {
-          tabId: "terms",
-          assetUrl: "terms.md"
-        },
-        {
-          tabId: "privacy",
-          assetUrl: "privacy.md"
-        },
-        {
-          tabId: "user-guide",
-          assetUrl: "user_guide.md"
-        }
-      ]
-    }
-  },
-  public: true,
-  initialUser: {
-    username: "",
-    email: "",
-    fullName: "",
-    language: "en",
-    useMetricUnits: true,
-    subscribedToKonturUpdates: false,
-    bio: "",
-    osmEditor: "josm",
-    defaultFeed: "kontur-public",
-    theme: "kontur"
-  },
-  defaultLayers: [
-    {
-      id: "kontur_lines",
-      source: {
-        type: "maplibre-style-url",
-        urls: [
-          "https://prod-basemap-tileserver.k8s-01.konturlabs.com/layers/tiles/basemap/style_ninja_en.json"
-        ]
-      },
-      ownedByUser: false
-    },
-    {
-      id: "population_density",
-      // @ts-ignore
-      source: {
-        urls: [
-          "https://disaster.ninja/active/api/tiles/bivariate/v1/{z}/{x}/{y}.mvt?indicatorsClass=general"
-        ]
-      },
-      // @ts-ignore
-      legend: {
-        type: "simple",
-        steps: [
-          {
-            stepName: "0 - 1.27",
-            stepShape: "square",
-            style: {
-              color: "#F0F0D6",
-              "fill-color": "#F0F0D6",
-              "fill-opacity": 0.8
-            }
-          },
-          {
-            stepName: "1.27 - 2.45",
-            stepShape: "square",
-            style: {
-              color: "#ECECC4",
-              "fill-color": "#ECECC4",
-              "fill-opacity": 0.8
-            }
-          },
-          {
-            stepName: "2.45 - 5.75",
-            stepShape: "square",
-            style: {
-              color: "#EAEAB0",
-              "fill-color": "#EAEAB0",
-              "fill-opacity": 0.8
-            }
-          },
-          {
-            stepName: "5.75 - 12.43",
-            stepShape: "square",
-            style: {
-              color: "#E8E89D",
-              "fill-color": "#E8E89D",
-              "fill-opacity": 0.8
-            }
-          },
-          {
-            stepName: "12.43 - 28.47",
-            stepShape: "square",
-            style: {
-              color: "#E1D689",
-              "fill-color": "#E1D689",
-              "fill-opacity": 0.8
-            }
-          },
-          {
-            stepName: "28.47 - 66.03",
-            stepShape: "square",
-            style: {
-              color: "#DAC075",
-              "fill-color": "#DAC075",
-              "fill-opacity": 0.8
-            }
-          },
-          {
-            stepName: "66.03 - 172.46",
-            stepShape: "square",
-            style: {
-              color: "#D1A562",
-              "fill-color": "#D1A562",
-              "fill-opacity": 0.8
-            }
-          },
-          {
-            stepName: "172.46 - 535.67",
-            stepShape: "square",
-            style: {
-              color: "#C98A50",
-              "fill-color": "#C98A50",
-              "fill-opacity": 0.8
-            }
-          },
-          {
-            stepName: "535.67 - 46200",
-            stepShape: "square",
-            style: {
-              color: "#BF6C3F",
-              "fill-color": "#BF6C3F",
-              "fill-opacity": 0.8
-            }
-          }
-        ]
-      },
-      ownedByUser: false
-    }
-  ],
-  activeLayers: ["kontur_lines", "population_density"]
-};
-configRepo.get = () => _configDataMock;
-const _md = `![Kontur Atlas](about-atlas-1.png)
-
-# Kontur Atlas
-
-Atlas is your GPS for big decisions. It's a tool that helps you use maps and data to figure out a wide range of things, from where to open a new store to exploring environmental sustainability.
-
-![Geospatial Data with Ease](about-atlas-2.png)
-
-## Geospatial Data with Ease
-
-### Browse & Choose Data
-
-We've got tons of info like who lives where and how people get around. Find the data that'll answer your questions.
-
-### Make Maps
-
-With a few clicks, Atlas turns that data into maps and visuals so it's easy to understand.
-
-### Analyze & Decide
-
-Use these insights to make smart decisions, like picking the perfect spot for your next big project or making concussions based on spatial patterns.
-
-### Jump in and start exploring
-
-Your next big opportunity is waiting to be mapped out!
-
-## _[Subscribe to Atlas](/pricing)_ wrapped in "\\_"
-
-### **[Subscribe to Atlas](/pricing)** "\\_\\_"
-
-### **_[Subscribe to Atlas](/pricing)_** "\\_\\_\\*"
-
-## How to Use
-
----
-
-![youtube](https://www.youtube.com/embed/g7WMD10DMPs?si=Gl6RdNM0L3ufi0uF::800,470,true)
-
-### Area Selection
-
-To choose an area for analysis, you can use the toolbar to select an administrative unit, draw a shape manually, or import a GeoJSON file.
-
-![youtube](https://www.youtube.com/embed/aCXaAYEW0oM::800,470,true)
-
-### Analytics Panel
-
-This panel displays essential data about your selected area.
-
-#### AI Insights
-
-Compares your area's data with global averages, alerting you to any significant discrepancies.
-
-#### Personalized AI Insights
-
-Reference Area: This allows you to set a known area as a reference point for comparisons and highlights differences.
-Bio: Here, you can record details like who you're working for, your analysis purpose, and key topics, helping to personalize AI conclusions.
-
-![youtube](https://www.youtube.com/embed/Md5Mex-POBo::800,470,true)
-
-### Creating Custom Analysis
-
-To create your own analysis, select the "MCDA" button in the toolbar.
-
-#### Choosing Relevant Layers
-
-Start by picking data layers appropriate for your requirements — this could include anything from population density to environmental risk factors.
-
-#### Browse the map
-
-By default, the map displays red hexagons in high-value areas and green hexagons where values are minimal. Click on any hexagon to access detailed info for that particular sector.
-
-#### Layer Customization
-
-Enhance your analysis by fine-tuning the range and what is bad and good of each layer. This means you can focus specifically on aspects crucial to your study.
-
----
-
-### _[Learn more on kontur.io](https://www.kontur.io/atlas)_
-`;
-const _css = "article {\n  & * {\n    outline: lime solid thin;\n  }\n}\n";
-console.info("test app id", configRepo.get().id);
-const PagesDocument_fixture = {
-  "PagesDocument with custom css": /* @__PURE__ */ jsxRuntimeExports.jsx(
-    PagesDocument,
-    {
-      id: "",
-      doc: [
-        {
-          type: "md",
-          data: `
-#Kontur Atlas
-Atlas is your GPS for big decisions. It's a tool that helps you use maps and data to figure out a wide range of things, from where to open a new store to exploring environmental sustainability.
-`
-        },
-        {
-          type: "css",
-          data: `
-h1 { background-color: #f2f2f2; }
-p { background-color: #BF6C3F; }
-`
-        }
-      ]
-    }
-  ),
-  "Links test": /* @__PURE__ */ jsxRuntimeExports.jsx(
-    PagesDocument,
-    {
-      id: "",
-      doc: [
-        {
-          type: "md",
-          data: `
-[Link](https://example.com)
-
-Controller using this email: [hello@kontur.io](mailto:hello@kontur.io) or contact address.
-
-Controller using this email: <hello@kontur.io> or contact address.
-
-hello@kontur.io
-
-kancelaria@uodo.gov.pl
-
-ng: <kancelaria@uodo.gov.pl>
-
-http://www.youronlinechoices.com/
-
-ng: <http://www.youronlinechoices.com/>
-`
-        }
-      ]
-    }
-  ),
-  "PagesDocument markdown sample": /* @__PURE__ */ jsxRuntimeExports.jsx(
-    PagesDocument,
-    {
-      id: "",
-      doc: [
-        {
-          type: "md",
-          data: _md
-        },
-        {
-          type: "css",
-          data: _css
-        }
-      ]
-    }
-  )
-};
 const fixture7 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
-  default: PagesDocument_fixture
+  default: BivariateLegendFixture
 }, Symbol.toStringTag, { value: "Module" }));
 const useIsomorphicEffect = "undefined" != typeof document ? React.useLayoutEffect : React.useEffect, { __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED } = React, getComponentDebugName = (type) => {
   var _a2, _b;
@@ -38154,7 +38154,7 @@ const style = {
   container,
   closeButton
 };
-const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-D4Watxm2.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
+const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-Sgw5yzzz.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
 const BivariateGreetingsContainer = ({
   className
 }) => {
@@ -38399,13 +38399,13 @@ const rendererConfig = {
 };
 const fixtures = {
   "src/features/subscriptions/Plans.fixture.tsx": { module: fixture0 },
-  "src/components/Uni/LayoutDebugger.fixture.tsx": { module: fixture1 },
-  "src/components/Uni/FieldsRegistry.fixture.tsx": { module: fixture2 },
-  "src/components/Uni/ComponentsRegistry.fixture.tsx": { module: fixture3 },
-  "src/components/Overlays/Overlays.fixture.tsx": { module: fixture4 },
-  "src/components/LinkRenderer/LinkRenderer.fixture.tsx": { module: fixture5 },
-  "src/components/BivariateLegend/BivariateLegend.fixture.tsx": { module: fixture6 },
-  "src/core/pages/PagesDocument.fixture.tsx": { module: fixture7 },
+  "src/core/pages/PagesDocument.fixture.tsx": { module: fixture1 },
+  "src/components/Uni/LayoutDebugger.fixture.tsx": { module: fixture2 },
+  "src/components/Uni/FieldsRegistry.fixture.tsx": { module: fixture3 },
+  "src/components/Uni/ComponentsRegistry.fixture.tsx": { module: fixture4 },
+  "src/components/Overlays/Overlays.fixture.tsx": { module: fixture5 },
+  "src/components/LinkRenderer/LinkRenderer.fixture.tsx": { module: fixture6 },
+  "src/components/BivariateLegend/BivariateLegend.fixture.tsx": { module: fixture7 },
   "src/features/bivariate_manager/fixtures/BivariateMatrixControl.fixture.tsx": { module: fixture8 },
   "src/features/bivariate_manager/fixtures/BivariateGreetings.fixture.tsx": { module: fixture9 },
   "src/components/Uni/Components/UniComponents.fixture.tsx": { module: fixture10 },
