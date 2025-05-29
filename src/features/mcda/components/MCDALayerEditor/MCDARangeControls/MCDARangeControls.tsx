@@ -4,7 +4,7 @@ import { useCallback, useEffect, type Dispatch, type SetStateAction } from 'reac
 import { i18n } from '~core/localization';
 import { generateSigmaRange } from '~utils/mcda/generateSigmaRange';
 import { isNumber } from '~utils/common';
-import { NUMBER_FILTER } from '../MCDALayerParameters/constants';
+import { INPUT_FILTER_NUMBER } from '~utils/form/inputFilters';
 import s from './MCDARangeControls.module.css';
 import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 
@@ -96,7 +96,7 @@ function MCDARangeControls({
           type="text"
           value={rangeFrom}
           onChange={(event) => {
-            const value = event.target.value.replace(NUMBER_FILTER, '');
+            const value = event.target.value.replace(INPUT_FILTER_NUMBER, '');
             setRangeFrom(value);
           }}
           error={rangeFromError}
@@ -111,7 +111,7 @@ function MCDARangeControls({
           type="text"
           value={rangeTo}
           onChange={(event) => {
-            const value = event.target.value.replace(NUMBER_FILTER, '');
+            const value = event.target.value.replace(INPUT_FILTER_NUMBER, '');
             setRangeTo(value);
           }}
           error={rangeToError}

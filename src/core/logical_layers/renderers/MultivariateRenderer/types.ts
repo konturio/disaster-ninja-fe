@@ -9,6 +9,8 @@ import type {
 
 export type MultivariateDimension = MCDALayerStyle;
 
+export type OpacityDimension = MultivariateDimension | number;
+
 export type TextDimension = {
   expressionValue?: ExpressionSpecification;
   mcdaValue?: MultivariateDimension;
@@ -17,6 +19,11 @@ export type TextDimension = {
   precision?: number;
   paintOverrides?: SymbolLayerSpecification['paint'];
   layoutOverrides?: SymbolLayerSpecification['layout'];
+};
+
+export type ExtrusionDimension = {
+  height: MultivariateDimension;
+  maxHeight: number;
 };
 
 export type BivariateColorConfig = {
@@ -42,7 +49,8 @@ export interface MultivariateLayerConfig {
   score: MultivariateDimension;
   base?: MultivariateDimension;
   stepOverrides?: MultivariateStepOverrides;
-  opacity?: MultivariateDimension | number;
+  opacity?: OpacityDimension;
   text?: TextDimension;
+  extrusion?: ExtrusionDimension;
   colors?: MultivariateColorConfig;
 }

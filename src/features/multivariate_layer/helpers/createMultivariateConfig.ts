@@ -6,7 +6,10 @@ import {
 import { DEFAULT_MCDA_COLORS_BY_SENTIMENT } from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations/constants';
 import { i18n } from '~core/localization';
 import { isNumber } from '~utils/common';
-import { DEFAULT_MULTIVARIATE_TEXT_PRECISION } from '../constants';
+import {
+  DEFAULT_EXTRUSION_MAX_HEIGHT_M,
+  DEFAULT_MULTIVARIATE_TEXT_PRECISION,
+} from '../constants';
 import { generateMultivariateId } from './generateMultivariateId';
 import { createStepsForMCDADimension } from './createStepsForMCDADimension';
 import type { Axis } from '~utils/bivariate';
@@ -29,6 +32,8 @@ type MultivariateLayerConfigOverrides = {
   opacity?: MCDALayer[] | number;
   text?: MCDALayer[];
   textSettings?: Exclude<TextDimension, 'mcdaValue' | 'mcdaMode'>;
+  extrusion?: MCDALayer[];
+  extrusionSettings?: { maxHeight?: number };
 };
 
 export function createMultivariateConfig(
@@ -39,6 +44,7 @@ export function createMultivariateConfig(
   const hasScore = !!overrides?.score?.length;
   const hasBase = !!overrides?.base?.length;
   const hasText = !!overrides?.text?.length;
+  const hasExtrusion = !!overrides?.extrusion?.length;
   const isBivariateStyleLegend = hasScore && hasBase;
   const scoreMCDAStyle: MCDALayerStyle = {
     type: 'mcda',
@@ -96,6 +102,16 @@ export function createMultivariateConfig(
     ? overrides.opacity
     : undefined;
 
+  const extrusionMCDAStyle: MCDALayerStyle | undefined = hasExtrusion
+    ? {
+        type: 'mcda',
+        config: createDefaultMCDAConfig({
+          layers: overrides.extrusion,
+          name: createMCDANameOverride(overrides.extrusion, i18n.t('multivariate.3d')),
+        }),
+      }
+    : undefined;
+
   return {
     version: 0,
     id: generateMultivariateId(name),
@@ -121,6 +137,13 @@ export function createMultivariateConfig(
             type: 'mcda',
             colors: DEFAULT_MCDA_COLORS_BY_SENTIMENT,
           }),
+    extrusion: extrusionMCDAStyle
+      ? {
+          height: extrusionMCDAStyle,
+          maxHeight:
+            overrides.extrusionSettings?.maxHeight ?? DEFAULT_EXTRUSION_MAX_HEIGHT_M,
+        }
+      : undefined,
   };
 }
 

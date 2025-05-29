@@ -13,6 +13,7 @@ const dimensionSelectItems: { value: MVAFormDimensionKey; title: string }[] = [
   { value: 'compare', title: i18n.t('multivariate.compare') },
   { value: 'opacity', title: i18n.t('multivariate.hide_area') },
   { value: 'text', title: i18n.t('multivariate.labels') },
+  { value: 'extrusion', title: i18n.t('multivariate.3d') },
 ];
 
 export function MultivariateDimensionDetails({
