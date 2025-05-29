@@ -23,14 +23,18 @@ function OneLayerPopup({
   layer: MCDALayer;
 }) {
   const key = `${layer.axis[0]}-${layer.axis[1]}`;
-  const [numLabel, denLabel] = useMemo(
-    () => layer.axis.map((ax) => capitalize(ax.replaceAll('_', ' '))),
-    [layer],
-  );
-  const resultLabel =
-    layer.normalization === 'no' && layer.transformation?.transformation === 'no'
-      ? `${numLabel} / ${denLabel}`
-      : i18n.t('map_popup.normalized_value');
+
+  const { numLabel, denLabel, resultLabel } = useMemo(() => {
+    const [numLabel, denLabel] = layer.axis.map((ax) =>
+      capitalize(ax.replaceAll('_', ' ')),
+    );
+    const resultLabel =
+      layer.normalization === 'no' && layer.transformation?.transformation === 'no'
+        ? `${numLabel} / ${denLabel}`
+        : i18n.t('map_popup.normalized_value');
+    return { numLabel, denLabel, resultLabel };
+  }, [layer]);
+
   return (
     <ul className={s.list}>
       <li>
