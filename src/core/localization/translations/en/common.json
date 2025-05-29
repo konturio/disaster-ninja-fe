@@ -18,6 +18,7 @@
   "horizontal_direction": "Horizontal direction",
   "legend_presentation": "Legend presentation",
   "layers": "Layers",
+  "layer": "Layer",
   "toolbar": {
     "map_ruler": "Measure distance",
     "locate_me": "Locate me",
@@ -178,6 +179,12 @@
     "hide_area": "Hide area",
     "labels": "Labels",
     "3d": "3D"
+  },
+  "map_popup": {
+    "value": "Value",
+    "range": "Range",
+    "coefficient": "Coefficient",
+    "normalized_value": "Normalized value"
   },
   "search": {
     "search_location": "Search location",
