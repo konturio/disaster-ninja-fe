@@ -6,6 +6,7 @@ import { createApiError } from '~core/api_client/errors';
 import { autoParseBody } from '~core/api_client/utils';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import { localStorage } from '~utils/storage';
+import { getAbsoluteRoute } from '~core/router/getAbsoluteRoute';
 import {
   LOCALSTORAGE_AUTH_KEY,
   SESSION_STATE,
@@ -479,8 +480,8 @@ export class OidcSimpleClient {
     try {
       const loginOk = await this.login(user, password);
       if (loginOk) {
-        // reload to init with authenticated config and profile
-        location.reload();
+        // load map page after succesful login
+        location.href = getAbsoluteRoute('/map') + globalThis.location.search;
       }
       return true;
     } catch (e: unknown) {
