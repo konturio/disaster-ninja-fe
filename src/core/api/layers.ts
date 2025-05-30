@@ -1,7 +1,9 @@
 import { configRepo } from '~core/config';
 import { apiClient } from '~core/apiClientInstance';
+import { FeatureCollection } from '~utils/geoJSON/helpers';
 import type { Feature } from 'geojson';
 import type { LayerDetailsDto, LayerSummaryDto } from '~core/logical_layers/types/source';
+import type { EditableLayers } from '~features/create_layer/types';
 
 export const LAYERS_IN_AREA_API_ERROR =
   'Unfortunately, we cannot display map layers. Try refreshing the page or come back later.';
@@ -80,6 +82,34 @@ export function getLayerFeatures(
     },
     {
       signal: abortController.signal,
+    },
+  );
+}
+
+export function createLayer(data: any) {
+  return apiClient.post<EditableLayers>(`/layers`, data, {
+    authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
+  });
+}
+
+export function updateLayer(data: any) {
+  return apiClient.put<EditableLayers>(`/layers/${data.id}`, data, {
+    authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
+  });
+}
+
+export function deleteLayer(id: string) {
+  return apiClient.delete<unknown>(`/layers/${id}`, {
+    authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
+  });
+}
+
+export function saveFeaturesToLayer(layerId: string, features: GeoJSON.Feature[]) {
+  return apiClient.put<unknown>(
+    `/layers/${layerId}/items/`,
+    new FeatureCollection(features),
+    {
+      authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
     },
   );
 }

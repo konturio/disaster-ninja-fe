@@ -1,9 +1,10 @@
 import { toolbar } from '~core/toolbar';
 import { drawTools } from '~core/draw_tools';
 import { CustomLayerDrawToolsWidget } from '~features/create_layer/CustomLayerDrawToolsWidget';
+import { CUSTOM_LAYER_DRAW_TOOLS_CONTROL } from '~features/create_layer/constants';
 
 export const customLayerDrawToolsControl = toolbar.setupControl({
-  id: 'customLayerDrawToolsControl',
+  id: CUSTOM_LAYER_DRAW_TOOLS_CONTROL,
   borrowMapInteractions: true,
   type: 'widget',
   typeSettings: {

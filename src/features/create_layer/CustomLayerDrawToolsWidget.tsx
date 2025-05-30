@@ -20,7 +20,7 @@ export function CustomLayerDrawToolsWidget({
     case 'regular':
       return null;
 
-    case 'active':
+    case 'active': {
       const onFinish = () => {
         finishDrawing(); // order of callings is important!
         onClick();
@@ -71,5 +71,6 @@ export function CustomLayerDrawToolsWidget({
           </ControlComponent>
         </>
       );
+    }
   }
 }

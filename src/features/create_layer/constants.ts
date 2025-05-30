@@ -1,5 +1,6 @@
 import { i18n } from '~core/localization';
 export const CREATE_LAYER_CONTROL_ID = 'EditableLayer' as const;
+export const CUSTOM_LAYER_DRAW_TOOLS_CONTROL = 'customLayerDrawToolsControl';
 export const CREATE_LAYER_CONTROL_NAME = i18n.t('toolbar.create_layer');
 
 export const FieldTypes = {
