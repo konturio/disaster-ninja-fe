@@ -6,7 +6,7 @@ import { i18n } from '~core/localization';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { EditTargets } from '../../constants';
 import { currentEditedLayerFeatures } from '../../atoms/currentEditedLayerFeatures';
-import { currentSelectedPoint } from '../../atoms/currentSelectedPoint';
+import { currentSelectedFeature } from '../../atoms/currentSelectedFeature';
 import { editTargetAtom } from '../../atoms/editTarget';
 import {
   EditFeatureForm,
@@ -17,22 +17,19 @@ import { createLayerController } from '../../control';
 import s from './EditFeaturesPanel.module.css';
 
 export function EditFeaturesPanel() {
-  const [selectedFeature, { updateProperties }] = useAtom(currentSelectedPoint);
+  const [selectedFeature, { updateProperties }] = useAtom(currentSelectedFeature);
   const [{ layerId }] = useAtom(editTargetAtom);
   const [layersSettings] = useAtom(editableLayerSettingsAtom);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
-  const disableSideBarControl = useAction(
-    () => createLayerController.setState('regular'),
-    [],
-  );
+
   const disableEditing = useAction(
     () => editTargetAtom.set({ type: EditTargets.none }),
     [],
   );
   const onPanelClose = useCallback(() => {
-    disableSideBarControl();
+    createLayerController.setState('regular');
     disableEditing();
-  }, [disableSideBarControl, disableEditing]);
+  }, [disableEditing]);
 
   const saveFeatures = useAction(currentEditedLayerFeatures.save);
   const onSave = useCallback(() => {

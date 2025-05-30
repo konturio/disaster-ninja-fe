@@ -6,27 +6,30 @@ import { drawModes } from '~core/draw_tools/constants';
 import { toolboxAtom } from '~core/draw_tools/atoms/toolboxAtom';
 import { drawModeLogicalLayerAtom } from '~core/draw_tools/atoms/logicalLayerAtom';
 import { createAtom } from '~utils/atoms/createPrimitives';
-import { forceRun } from '~utils/atoms/forceRun';
+import { customLayerDrawToolsControl } from '~features/create_layer/drawToolsControl';
+import { drawTools } from '~core/draw_tools';
+import { FeatureCollection } from '~utils/geoJSON/helpers';
+import { notificationServiceInstance } from '~core/notificationServiceInstance';
+import { createLayerController } from '~features/create_layer/control';
 import { EditTargets } from '../constants';
-import { createLayerController } from '../control';
-import { currentEditedLayerFeatures } from './currentEditedLayerFeatures';
 import { editTargetAtom } from './editTarget';
+import { currentEditedLayerFeatures } from './currentEditedLayerFeatures';
 
-/* When saving success - close darwtools panel and edit feature form */
-function onFinishDrawing() {
-  return new Promise<boolean>((res, rej) => {
-    currentEditedLayerFeatures.save.dispatch({
-      onSuccess: () => {
-        store.dispatch([
-          createLayerController.setState('regular'),
-          editTargetAtom.set({ type: EditTargets.none }),
-        ]);
-        res(true);
-      },
-      onError: rej,
-    });
-  });
-}
+// /* When saving success - close darwtools panel and edit feature form */
+// function onFinishDrawing() {
+//   return new Promise<boolean>((res, rej) => {
+//     currentEditedLayerFeatures.save.dispatch({
+//       onSuccess: () => {
+//         store.dispatch([
+//           createLayerController.setState('regular'),
+//           editTargetAtom.set({ type: EditTargets.none }),
+//         ]);
+//         res(true);
+//       },
+//       onError: rej,
+//     });
+//   });
+// }
 
 /* Enable / Disable draw tools panel */
 export const openDrawToolsInFeatureEditMode = createAtom(
@@ -40,20 +43,34 @@ export const openDrawToolsInFeatureEditMode = createAtom(
 
       if (next.type === EditTargets.features && layerId !== undefined) {
         if (!drawToolsActivated) {
-          schedule((dispatch, ctx = {}) => {
+          schedule(async (dispatch, ctx = {}) => {
             ctx.unsubscribe = currentEditedLayerFeatures.subscribe(() => null);
             // TODO fix that logic in layer.setMode() in #9782
             dispatch([
               drawModeLogicalLayerAtom.enable(),
               toolboxAtom.setSettings({
-                availableModes: ['DrawPointMode', 'ModifyMode'],
+                availableModes: ['DrawPolygonMode', 'DrawLineMode', 'DrawPointMode'],
                 finishButtonText: i18n.t('draw_tools.save_features'),
-                finishButtonCallback: onFinishDrawing,
+                // finishButtonCallback: onFinishDrawing,
               }),
               activeDrawModeAtom.setDrawMode(drawModes.ModifyMode),
               currentEditedLayerFeatures.readFeaturesFromLayer(layerId),
+              customLayerDrawToolsControl.setState('active'),
             ]);
+
+            const result = await drawTools.edit(new FeatureCollection([]));
+            const features = result?.features;
+
+            // This needed when saving features with save button in draw tools controls
+            dispatch([currentEditedLayerFeatures.saveFeatures(features)]);
           });
+        } else {
+          notificationServiceInstance.info(
+            {
+              title: `You are already editing a layer`,
+            },
+            3,
+          );
         }
       }
 
@@ -75,5 +92,3 @@ export const openDrawToolsInFeatureEditMode = createAtom(
     });
   },
 );
-
-createLayerController.onInit(() => forceRun(openDrawToolsInFeatureEditMode));
