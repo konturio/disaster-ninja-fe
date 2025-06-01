@@ -80,7 +80,7 @@
     "@nebula.gl/edit-modes": "1.1.0-alpha.5",
     "@nebula.gl/layers": "1.1.0-alpha.5",
     "@paypal/react-paypal-js": "^8.7.0",
-    "@reatom/core": "^3.9.1",
+    "@reatom/core": "^3.10.1",
     "@reatom/core-v2": "^3.1.4",
     "@reatom/framework": "^3.4.56",
     "@reatom/npm-react": "^3.10.3",
