@@ -91,7 +91,7 @@
     "@turf/centroid": "^6.5.0",
     "@turf/distance": "^6.5.0",
     "@turf/great-circle": "^6.5.0",
-    "@turf/helpers": "^6.5.0",
+    "@turf/helpers": "^7.2.0",
     "@turf/kinks": "^6.5.0",
     "@turf/union": "^6.5.0",
     "@types/d3-color": "^3.1.3",
