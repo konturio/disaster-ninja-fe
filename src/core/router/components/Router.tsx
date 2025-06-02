@@ -111,8 +111,13 @@ function initRouter() {
 
   // if landing redirect is not needed
   // check if user is logged in and doesn't have access to map (means no subscription)
-  // and redirect to pricing page
-  if (initialRedirect === false && isAuthenticated && !isMapFeatureEnabled) {
+  // and redirect to pricing page only if user opened the root page
+  if (
+    initialRedirect === false &&
+    router.state.matches.length < 2 &&
+    isAuthenticated &&
+    !isMapFeatureEnabled
+  ) {
     const pricingRoute = availableRoutes.routes.find((r) => r.id === 'pricing');
     if (pricingRoute) {
       initialRedirect = pricingRoute.slug;
