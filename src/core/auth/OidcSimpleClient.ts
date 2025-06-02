@@ -7,6 +7,8 @@ import { autoParseBody } from '~core/api_client/utils';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import { localStorage } from '~utils/storage';
 import { getAbsoluteRoute } from '~core/router/getAbsoluteRoute';
+import { configRepo } from '~core/config';
+import { AppFeature } from '~core/app/types';
 import {
   LOCALSTORAGE_AUTH_KEY,
   SESSION_STATE,
@@ -480,8 +482,12 @@ export class OidcSimpleClient {
     try {
       const loginOk = await this.login(user, password);
       if (loginOk) {
-        // load map page after succesful login
-        location.href = getAbsoluteRoute('/map') + globalThis.location.search;
+        if (configRepo.get().features[AppFeature.MAP]) {
+          // load map page after succesful login
+          location.href = getAbsoluteRoute('/map') + globalThis.location.search;
+        } else {
+          location.reload();
+        }
       }
       return true;
     } catch (e: unknown) {
