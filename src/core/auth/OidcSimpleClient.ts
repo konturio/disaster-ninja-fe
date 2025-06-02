@@ -480,6 +480,7 @@ export class OidcSimpleClient {
       const loginOk = await this.login(user, password);
       if (loginOk) {
         // reload to init with authenticated config and profile
+        globalThis.sessionStorage.setItem('justLoggedIn', 'true');
         location.reload();
       }
       return true;

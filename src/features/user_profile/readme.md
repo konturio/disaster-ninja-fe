@@ -16,3 +16,5 @@ Import `LoginForm`, `SettingsForm` from feature root
 `LoginForm` renders login UI allowing user to authenticate, calling authClientInstance with entered credentials
 
 `SettingsForm` renders form for editing user profile. Changes got synced with `/users/current_user` endpoint and `currentUserAtom`
+
+Successful login stores a `justLoggedIn` flag in `sessionStorage` and reloads the page. The router reads this flag and redirects the user to the map (or pricing page if the map is unavailable).
