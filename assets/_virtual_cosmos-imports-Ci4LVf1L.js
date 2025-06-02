@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-Sgw5yzzz.js","./index-Dl8IMfWx.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-DGRC5lY-.js","./index-Cw_V3qfB.js"])))=>i.map(i=>d[i]);
 var __defProp = Object.defineProperty;
 var __typeError = (msg) => {
   throw TypeError(msg);
@@ -10,7 +10,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value2) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value2);
 var __privateSet = (obj, member, value2, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value2) : member.set(obj, value2), value2);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, e as extendWithValue, R as React, c as createValue, i as isEqual, r as reactExports, a as requireReact, b as requireReactDom, d as React$1, g as getDefaultExportFromCjs, f as clientExports, _ as __vitePreload } from "./index-Dl8IMfWx.js";
+import { u as useFixtureState, e as extendWithValue, R as React, c as createValue, i as isEqual, r as reactExports, a as requireReact, b as requireReactDom, d as React$1, g as getDefaultExportFromCjs, f as clientExports, _ as __vitePreload } from "./index-Cw_V3qfB.js";
 function useCurrentInputValue(inputName, defaultValue) {
   const [fixtureState] = useFixtureState("inputs");
   const inputFs = fixtureState && fixtureState[inputName];
@@ -10727,6 +10727,7 @@ const vertical_direction$8 = "Vertical direction";
 const horizontal_direction$8 = "Horizontal direction";
 const legend_presentation$8 = "Legend presentation";
 const layers$8 = "Layers";
+const layer = "Layer";
 const toolbar$8 = { "map_ruler": "Measure distance", "locate_me": "Locate me", "panel_title": "Toolbar", "download": "Download", "delete": "Delete", "boundary_selector": "Select admin boundary", "create_layer": "Create layer", "geometry_uploader": "Upload GeoJSON", "focused_geometry_editor": "Draw or edit geometry", "edit_in_osm": "Edit map in OSM", "record_sensors": "Record sensors", "tools_label": "Tools", "selected_area_label": "Selected area", "upload_mcda": "Upload MCDA" };
 const layer_actions$8 = { "tooltips": { "erase": "Erase", "download": "Download", "edit": "Edit", "hide": "Hide", "show": "Show", "delete": "Delete" } };
 const feed$8 = "Feed";
@@ -10748,6 +10749,7 @@ const groups$8 = { "layers_in_selected_area": "Layers in selected area", "your_l
 const advanced_analytics_data_list$8 = { "load_world_data": "Load World Data", "numerator": "Numerator", "normalized_by": "Normalized By", "sum": "Sum", "min": "Min", "max": "Max", "mean": "Mean", "stddev": "Stddev", "median": "Median", "filter_numerator": "Filter Numerator", "filter_denominator": "Filter Denominator" };
 const mcda$8 = { "title": "Multi-criteria decision analysis", "name": "Create MCDA", "modal_title": "Multi-criteria decision analysis", "modal_input_name": "Analysis name", "modal_input_name_placeholder": "e.g., Climate change", "modal_input_indicators": "Layer list", "modal_input_indicators_placeholder": "Select layers", "modal_input_indicators_no_options": "No options", "btn_save": "Save analysis", "error_analysis_name_cannot_be_empty": "Analysis name cannot be empty", "error_invalid_file": "Invalid MCDA file format", "error_invalid_parameter": "Invalid '{{parameter}}' parameter", "error_invalid_layer_parameter": "Invalid '{{parameter}}' parameter in '{{axisName}}' layer", "error_wrong_mcda_version": "Wrong MCDA version", "legend_title": "Legend", "legend_subtitle": "Hexagons are colored based on analysis layer settings. Click a hexagon to see its values.", "layer_editor": { "save_changes": "Save changes", "range": "Value range", "outliers": "Outliers", "reverse_to_good_bad": "Reverse to Good → Bad", "reverse_to_bad_good": "Reverse to Bad → Good", "weight": "Weight", "transform": "Transform", "transformation": "Transformation", "normalize": "Normalize", "normalization": "Normalization", "range_buttons": { "full_range": "Full range", "3_sigma": "3σ", "2_sigma": "2σ", "1_sigma": "1σ" }, "outliers_options": { "clamp": "Clamp", "hide": "Hide", "dont_modify": "Don't modify" }, "transformations": { "no_transformation": "No transformation", "square_root": "Square root: sign(x)⋅√|x|", "cube_root": "Cube root: ∛x", "log_one": "log₁₀(x - xmin + 1)", "log_epsilon": "log₁₀(x - xmin + ε)" }, "no": "No", "max_min": "Max-min", "errors": { "weight_cannot_be_empty": "Weight cannot be empty", "weight_must_be_a_number": "Weight must be a valid number", "range_from_cannot_be_bigger": "The ‘from’ value cannot be bigger than the ‘to’ value", "range_cannot_be_empty": "Range cannot be empty", "range_must_be_a_number": "Range must be a valid number" }, "tips": { "range": "The values that will be considered the worst and the best in your analysis.", "sentiment": "Determine the direction of sentiment for the layer's impact on the analysis:\n* **Bad → Good**: Higher values indicate a positive sentiment.\n* **Good → Bad**: Higher values indicate a negative sentiment.", "weight": "By default, all layers contribute equally to the analysis through a weighted average. Adjusting the increased weight of a layer (2, 3, etc.) allows you to assign additional importance to it in the analysis.", "transform": "Apply calculations to the values. Achieving a more linear distribution will provide more useful information for analysis.\n\n **Note**: Calculations are done before normalization.", "normalize": "Adjusts values to a standardized scale. This helps compare them easily and make decisions.\n* **Standard score scaling**: This option adjusts values to a standardized scale, ensuring they are all comparable.\n* **No (for specialists only)**: Leaves values unmodified.", "outliers": "* **Clamp**: Set values above the range to 1 and below the range to 0.\n* **Don’t modify**: Keep 0 and 1 for min and max, but allow outlier scores beyond this range.\n* **Exclude**: Exclude areas where values are out of range." } }, "bad": "Bad", "good": "Good" };
 const multivariate$8 = { "multivariate_analysis": "Multivariate Analysis", "create_analysis_layer": "Create analysis layer", "upload_analysis_layer": "Upload analysis layer", "popup": { "score_header": "Score {{level}}", "compare_header": "Compare {{level}}" }, "score": "Score", "compare": "Compare", "hide_area": "Hide area", "labels": "Labels", "3d": "3D" };
+const map_popup = { "value": "Value", "range": "Range", "coefficient": "Coefficient", "normalized_value": "Normalized value" };
 const search$8 = { "search_location": "Search location", "info_block": "You can search for 📍 locations", "info_block_with_mcda": "You can search for 📍 locations or ask ✨ AI your question like “Where is dead wood”", "input_placeholder": "Search", "input_placeholder_mcda": "Search or ask AI", "locations_no_result": "No locations found", "mcda_loading_message": "AI is generating an analysis for you", "mcda_no_result": "No AI suggestion", "mcda_error_message": "AI engine did not respond. Please try again later", "mcda_create_analysis": "Create analysis", "upload_analysis": "“{{name}}” Multi-Criteria Decision Analysis has been created" };
 const event_list$8 = { "warning_title": "Cannot filter by map view", "warning_description": "Map is not ready yet, try later", "bbox_filter_button": "Filter by map view", "analytics": { "affected_people": { "tooltip": "Affected people", "value": "No humanitarian impact" }, "settled_area_tooltip": "Settled area", "loss_tooltip": "Estimated loss" }, "no_event_in_feed": "The disaster was not found in the current disaster feed", "no_selected_disaster": "No disaster selected", "chose_disaster": "Choose disaster", "no_historical_disasters": "No historical disasters in this area", "no_feed_disasters": "No disasters in this feed", "no_feed_disasters_matching_your_filters": "No disasters matching your filters", "no_disasters": "No disasters", "severity_unknown": "Unknown", "severity_termination": "Termination", "severity_minor": "Minor", "severity_moderate": "Moderate", "severity_severe": "Severe", "severity_extreme": "Extreme", "open_timeline_button": "Timeline" };
 const create_layer$8 = { "edit_layer": "Edit Layer", "edit_features": "Edit Features", "delete_layer": "Delete Layer", "create_layer": "Create Layer", "saving_layer": "Saving layer...", "field_name": "Field name", "layer_name": "Layer name", "marker_icon": "Marker icon", "type": "Type", "select": "Select", "short_text": "Short Text", "long_text": "Long Text", "link": "Link", "image": "Image", "fields": "Fields", "add_field": "Add field", "location": "Location", "edit_feature_placeholder": "Select some feature for start edit feature properties" };
@@ -10800,6 +10802,7 @@ const en_common = {
   horizontal_direction: horizontal_direction$8,
   legend_presentation: legend_presentation$8,
   layers: layers$8,
+  layer,
   toolbar: toolbar$8,
   layer_actions: layer_actions$8,
   feed: feed$8,
@@ -10821,6 +10824,7 @@ const en_common = {
   advanced_analytics_data_list: advanced_analytics_data_list$8,
   mcda: mcda$8,
   multivariate: multivariate$8,
+  map_popup,
   search: search$8,
   event_list: event_list$8,
   create_layer: create_layer$8,
@@ -32668,16 +32672,16 @@ class LayersOrderManager {
     const customLayers = allLayers.slice(this._baseMapFirstLayerIdx + 1);
     if (!customLayers.length) return void 0;
     const mountedOrderedLayers = /* @__PURE__ */ new Map();
-    customLayers.forEach((layer) => {
+    customLayers.forEach((layer2) => {
       var _a2, _b, _c, _d;
-      const layerParentId = (_a2 = this._layersParentsIds) == null ? void 0 : _a2.get(layer.id);
-      if (!layerParentId) return console.warn("id was not found for", layer.id, layer);
-      const orderedLayersUnderSameType = mountedOrderedLayers.get(layer.type) || [];
+      const layerParentId = (_a2 = this._layersParentsIds) == null ? void 0 : _a2.get(layer2.id);
+      if (!layerParentId) return console.warn("id was not found for", layer2.id, layer2);
+      const orderedLayersUnderSameType = mountedOrderedLayers.get(layer2.type) || [];
       orderedLayersUnderSameType.push({
-        layer,
+        layer: layer2,
         category: (_d = (_c = (_b = this._layersSettings) == null ? void 0 : _b.get(layerParentId)) == null ? void 0 : _c.data) == null ? void 0 : _d.category
       });
-      mountedOrderedLayers.set(layer.type, orderedLayersUnderSameType);
+      mountedOrderedLayers.set(layer2.type, orderedLayersUnderSameType);
     });
     return mountedOrderedLayers;
   }
@@ -33577,19 +33581,23 @@ const s$2 = {
   entryName
 };
 function OneLayerPopup({
-  layer,
+  layer: layer2,
   normalized,
   resultMCDA
 }) {
-  const key = `${layer.axis[0]}-${layer.axis[1]}`;
-  const [num, den] = reactExports.useMemo(
-    () => layer.axis.map((ax) => capitalize(ax.replaceAll("_", " "))),
-    [layer]
-  );
+  const key = `${layer2.axis[0]}-${layer2.axis[1]}`;
+  const { numLabel, denLabel, resultLabel } = reactExports.useMemo(() => {
+    var _a2;
+    const [numLabel2, denLabel2] = layer2.axis.map(
+      (ax) => capitalize(ax.replaceAll("_", " "))
+    );
+    const resultLabel2 = layer2.normalization === "no" && ((_a2 = layer2.transformation) == null ? void 0 : _a2.transformation) === "no" ? `${numLabel2} / ${denLabel2}` : TranslationService.t("map_popup.normalized_value");
+    return { numLabel: numLabel2, denLabel: denLabel2, resultLabel: resultLabel2 };
+  }, [layer2]);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: s$2.list, children: [
     /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: s$2.entryName, children: [
-        num,
+        numLabel,
         ":"
       ] }),
       " ",
@@ -33597,7 +33605,7 @@ function OneLayerPopup({
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: s$2.entryName, children: [
-        den,
+        denLabel,
         ":"
       ] }),
       " ",
@@ -33605,9 +33613,7 @@ function OneLayerPopup({
     ] }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: s$2.entryName, children: [
-        num,
-        " / ",
-        den,
+        resultLabel,
         ":"
       ] }),
       " ",
@@ -33618,11 +33624,11 @@ function OneLayerPopup({
 function MultiLayerPopup({ layers: layers2, normalized, resultMCDA }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Layer" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Range" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Coefficient" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Value" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: "Normalized Value" })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: TranslationService.t("layer") }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: TranslationService.t("map_popup.range") }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: TranslationService.t("map_popup.coefficient") }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: TranslationService.t("map_popup.value") }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: TranslationService.t("map_popup.normalized_value") })
     ] }) }),
     /* @__PURE__ */ jsxRuntimeExports.jsxs("tbody", { className: s$2.tableBody, children: [
       layers2.map(({ axis: axis2, range, coefficient }, index2) => {
@@ -33670,13 +33676,13 @@ function createTableWithCalculations(feature, layers2) {
       den: (_b = feature.properties) == null ? void 0 : _b[den]
     };
   });
-  return layers2.reduce((acc, layer) => {
+  return layers2.reduce((acc, layer2) => {
     var _a2, _b, _c, _d;
-    const [num, den] = layer.axis;
+    const [num, den] = layer2.axis;
     const value2 = ((_a2 = feature.properties) == null ? void 0 : _a2[num]) / ((_b = feature.properties) == null ? void 0 : _b[den]);
     acc[`${num}-${den}`] = {
       val: value2,
-      norm: calculateLayer(layer),
+      norm: calculateLayer(layer2),
       numValue: (_c = feature.properties) == null ? void 0 : _c[num],
       denValue: (_d = feature.properties) == null ? void 0 : _d[den]
     };
@@ -33859,18 +33865,18 @@ class BivariateRenderer extends LogicalLayerDefaultRenderer {
     this._listenersCleaningTasks.add(registerMapListener("mouseleave", onMouseLeave, 60));
     this.resetFeatureStates = reset2;
   }
-  async mountBivariateLayer(map, layer, legend2) {
+  async mountBivariateLayer(map, layer2, legend2) {
     const maxZoom = getMaxNumeratorZoomLevel(
       [(legend2 == null ? void 0 : legend2.axis.x.quotients) ?? [], (legend2 == null ? void 0 : legend2.axis.y.quotients) ?? []],
-      layer.maxZoom || FALLBACK_BIVARIATE_MAX_ZOOM
+      layer2.maxZoom || FALLBACK_BIVARIATE_MAX_ZOOM
     );
     const mapSource = {
       type: "vector",
-      tiles: layer.source.urls.map((url2) => adaptTileUrl(url2)),
-      minzoom: layer.minZoom || FALLBACK_BIVARIATE_MIN_ZOOM,
+      tiles: layer2.source.urls.map((url2) => adaptTileUrl(url2)),
+      minzoom: layer2.minZoom || FALLBACK_BIVARIATE_MIN_ZOOM,
       maxzoom: maxZoom
     };
-    setTileScheme(layer.source.urls[0], mapSource);
+    setTileScheme(layer2.source.urls[0], mapSource);
     await mapLoaded(map);
     if (map.getSource(this._sourceId) === void 0) {
       map.addSource(this._sourceId, mapSource);
@@ -33881,12 +33887,12 @@ class BivariateRenderer extends LogicalLayerDefaultRenderer {
       if (map.getLayer(layerId)) {
         return;
       }
-      const layer2 = { ...layerStyle, id: layerId, source: this._sourceId };
+      const layer22 = { ...layerStyle, id: layerId, source: this._sourceId };
       layerByOrder(map, this._layersOrderManager).addAboveLayerWithSameType(
-        layer2,
+        layer22,
         this.id
       );
-      this._layerId = layer2.id;
+      this._layerId = layer22.id;
     } else {
       throw new Error(`[Bivariate ${this.id}] Vector layers must have legend`);
     }
@@ -33958,16 +33964,16 @@ class BivariateRenderer extends LogicalLayerDefaultRenderer {
     this._listenersCleaningTasks.add(removeClickListener);
     this.removeBivariatePopupClickHandler = removeClickListener;
   }
-  async mountMCDALayer(map, layer, style2) {
-    const minZoomLevel = isNumber(layer.minZoom) ? layer.minZoom : FALLBACK_BIVARIATE_MIN_ZOOM;
-    const maxZoomLevel = isNumber(layer.maxZoom) ? layer.maxZoom : getMaxMCDAZoomLevel(style2.config, FALLBACK_BIVARIATE_MAX_ZOOM);
+  async mountMCDALayer(map, layer2, style2) {
+    const minZoomLevel = isNumber(layer2.minZoom) ? layer2.minZoom : FALLBACK_BIVARIATE_MIN_ZOOM;
+    const maxZoomLevel = isNumber(layer2.maxZoom) ? layer2.maxZoom : getMaxMCDAZoomLevel(style2.config, FALLBACK_BIVARIATE_MAX_ZOOM);
     const mapSource = {
       type: "vector",
-      tiles: layer.source.urls.map((url2) => adaptTileUrl(url2)),
+      tiles: layer2.source.urls.map((url2) => adaptTileUrl(url2)),
       minzoom: minZoomLevel,
       maxzoom: maxZoomLevel
     };
-    setTileScheme(layer.source.urls[0], mapSource);
+    setTileScheme(layer2.source.urls[0], mapSource);
     await mapLoaded(map);
     if (map.getSource(this._sourceId) === void 0) {
       map.addSource(this._sourceId, mapSource);
@@ -35573,12 +35579,12 @@ const resetSelectionAction = action((ctx) => {
   });
 }, "resetSelectionAction");
 action((ctx) => {
-  const layer = getEnabledBivariateLayer(ctx);
-  if (!layer || !(layer == null ? void 0 : layer.legend)) {
+  const layer2 = getEnabledBivariateLayer(ctx);
+  if (!layer2 || !(layer2 == null ? void 0 : layer2.legend)) {
     resetSelectionAction(ctx);
     return;
   }
-  const axis2 = layer.legend.axis;
+  const axis2 = layer2.legend.axis;
   if (axis2) {
     const preselectionFormatted = formatSelection(
       axis2.x.quotient[0] || null,
@@ -35637,9 +35643,9 @@ const presetMatrixSelectionAction = action((ctx, selection) => {
 }, "presetMatrixSelectionAction");
 const enableBivariateLayerAction = action((ctx, lId) => {
   const registry = ctx.get(layersRegistryAtom);
-  const layer = registry.get(lId);
-  if (layer) {
-    layer.enable.v3action(ctx);
+  const layer2 = registry.get(lId);
+  if (layer2) {
+    layer2.enable.v3action(ctx);
   }
 }, "enableBivariateLayerAction");
 const disableBivariateLayerAction = action(
@@ -35758,14 +35764,14 @@ action(
 function getEnabledBivariateLayer(ctx) {
   const enabledLayers = ctx.get(enabledLayersAtom);
   const registry = ctx.get(layersRegistryAtom);
-  const layer = [...enabledLayers].map((layer2) => {
+  const layer2 = [...enabledLayers].map((layer22) => {
     var _a2;
-    return (_a2 = registry.get(layer2)) == null ? void 0 : _a2.getState();
-  }).find((layer2) => {
+    return (_a2 = registry.get(layer22)) == null ? void 0 : _a2.getState();
+  }).find((layer22) => {
     var _a2;
-    return layer2 && layer2.isEnabled && ((_a2 = layer2.legend) == null ? void 0 : _a2.type) === "bivariate";
+    return layer22 && layer22.isEnabled && ((_a2 = layer22.legend) == null ? void 0 : _a2.type) === "bivariate";
   });
-  return layer;
+  return layer2;
 }
 const BivariateMatrixContext = reactExports.createContext(null);
 const MATRIX_CELL_SIDE = 37;
@@ -38154,7 +38160,7 @@ const style = {
   container,
   closeButton
 };
-const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-Sgw5yzzz.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
+const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-DGRC5lY-.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
 const BivariateGreetingsContainer = ({
   className
 }) => {
