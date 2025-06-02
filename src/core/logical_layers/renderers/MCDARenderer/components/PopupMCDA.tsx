@@ -1,10 +1,12 @@
 import { useMemo } from 'react';
 import { capitalize } from '~utils/common';
 import { roundNumberToPrecision } from '~utils/common/roundNumberToPrecision';
+import { i18n } from '~core/localization';
 import s from './PopupMCDA.module.css';
+import type { MCDALayer } from '../../stylesConfigs/mcda/types';
 import type { PopupMCDAProps } from '../types';
 
-export function OneLayerPopup({
+function OneLayerPopup({
   layer,
   normalized,
   resultMCDA,
@@ -18,32 +20,33 @@ export function OneLayerPopup({
     };
   };
   resultMCDA: number;
-  layer: {
-    axis: [string, string];
-    range: [number, number];
-    sentiment: [string, string];
-    coefficient: number;
-  };
+  layer: MCDALayer;
 }) {
   const key = `${layer.axis[0]}-${layer.axis[1]}`;
-  const [num, den] = useMemo(
-    () => layer.axis.map((ax) => capitalize(ax.replaceAll('_', ' '))),
-    [layer],
-  );
+
+  const { numLabel, denLabel, resultLabel } = useMemo(() => {
+    const [numLabel, denLabel] = layer.axis.map((ax) =>
+      capitalize(ax.replaceAll('_', ' ')),
+    );
+    const resultLabel =
+      layer.normalization === 'no' && layer.transformation?.transformation === 'no'
+        ? `${numLabel} / ${denLabel}`
+        : i18n.t('map_popup.normalized_value');
+    return { numLabel, denLabel, resultLabel };
+  }, [layer]);
+
   return (
     <ul className={s.list}>
       <li>
-        <span className={s.entryName}>{num}:</span>{' '}
+        <span className={s.entryName}>{numLabel}:</span>{' '}
         {roundNumberToPrecision(normalized[key].numValue, 3, false, 2)}
       </li>
       <li>
-        <span className={s.entryName}>{den}:</span>{' '}
+        <span className={s.entryName}>{denLabel}:</span>{' '}
         {roundNumberToPrecision(normalized[key].denValue, 3, false, 2)}
       </li>
       <li>
-        <span className={s.entryName}>
-          {num} / {den}:
-        </span>{' '}
+        <span className={s.entryName}>{resultLabel}:</span>{' '}
         {roundNumberToPrecision(resultMCDA, 2, true)}
       </li>
     </ul>
@@ -51,16 +54,16 @@ export function OneLayerPopup({
 }
 
 type MultiLayerPopup = PopupMCDAProps;
-export function MultiLayerPopup({ layers, normalized, resultMCDA }: MultiLayerPopup) {
+function MultiLayerPopup({ layers, normalized, resultMCDA }: MultiLayerPopup) {
   return (
     <table>
       <thead>
         <tr>
-          <th>Layer</th>
-          <th>Range</th>
-          <th>Coefficient</th>
-          <th>Value</th>
-          <th>Normalized Value</th>
+          <th>{i18n.t('layer')}</th>
+          <th>{i18n.t('map_popup.range')}</th>
+          <th>{i18n.t('map_popup.coefficient')}</th>
+          <th>{i18n.t('map_popup.value')}</th>
+          <th>{i18n.t('map_popup.normalized_value')}</th>
         </tr>
       </thead>
       <tbody className={s.tableBody}>
