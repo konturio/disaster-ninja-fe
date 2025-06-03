@@ -7,8 +7,6 @@ import { autoParseBody } from '~core/api_client/utils';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import { localStorage } from '~utils/storage';
 import { getAbsoluteRoute } from '~core/router/getAbsoluteRoute';
-import { configRepo } from '~core/config';
-import { AppFeature } from '~core/app/types';
 import {
   LOCALSTORAGE_AUTH_KEY,
   SESSION_STATE,
