@@ -482,12 +482,8 @@ export class OidcSimpleClient {
     try {
       const loginOk = await this.login(user, password);
       if (loginOk) {
-        if (configRepo.get().features[AppFeature.MAP]) {
-          // load map page after succesful login
-          location.href = getAbsoluteRoute('/map') + globalThis.location.search;
-        } else {
-          location.reload();
-        }
+        // after successful login, reload the page on default route
+        location.href = getAbsoluteRoute('') + globalThis.location.search;
       }
       return true;
     } catch (e: unknown) {
