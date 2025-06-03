@@ -1,7 +1,6 @@
 package main
 
 import (
-	"io/fs"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -40,6 +39,12 @@ func TestRenderTemplateCaching(t *testing.T) {
 	if etag == "" {
 		t.Fatal("etag header missing")
 	}
+	if lm := rr.Header().Get("Last-Modified"); lm != indexModTime.UTC().Format(http.TimeFormat) {
+		t.Errorf("unexpected Last-Modified header: %s", lm)
+	}
+	if cc := rr.Header().Get("Cache-Control"); cc != "no-cache" {
+		t.Errorf("unexpected Cache-Control header: %s", cc)
+	}
 
 	req2 := httptest.NewRequest(http.MethodGet, "/active/", nil)
 	req2.Header.Set("If-None-Match", etag)
@@ -55,7 +60,7 @@ func TestHandleStaticFilesCacheControl(t *testing.T) {
 	cleanup := setupTestFiles(t)
 	defer cleanup()
 
-	os.WriteFile(filepath.Join("static", "file.js"), []byte("1"), fs.ModePerm)
+	os.WriteFile(filepath.Join("static", "file.js"), []byte("1"), 0o644)
 	handler := handleStaticFiles(http.FileServer(http.Dir("static")))
 
 	req := httptest.NewRequest(http.MethodGet, "/file.js", nil)
