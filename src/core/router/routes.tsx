@@ -158,6 +158,7 @@ function getCustomRoutes(): AppRoute[] {
 
 export const routerConfig: AppRouterConfig = {
   defaultRoute: isAuthenticated && !isMapFeatureEnabled ? 'pricing' : 'map',
+  loginRedirectOrder: ['map', 'pricing', 'profile'],
   routes: [
     {
       id: 'map',

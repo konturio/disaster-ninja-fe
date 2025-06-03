@@ -13,6 +13,7 @@ import { FullScreenLoader } from '~components/LoadingSpinner/LoadingSpinner';
 import { landUser, userWasLanded } from '~core/app/userWasLanded';
 import { dispatchMetricsEvent, dispatchMetricsEventOnce } from '~core/metrics/dispatch';
 import { availableRoutesAtom, getAvailableRoutes } from '../atoms/availableRoutes';
+import { routerConfig } from '../routes';
 import { currentRouteAtom } from '../atoms/currentRoute';
 import { getAbsoluteRoute } from '../getAbsoluteRoute';
 import { NAVIGATE_EVENT } from '../goTo';
@@ -95,20 +96,19 @@ function initRouter() {
   const justLoggedIn = globalThis.sessionStorage.getItem('justLoggedIn') === 'true';
   if (justLoggedIn) {
     globalThis.sessionStorage.removeItem('justLoggedIn');
-    const mapRoute = availableRoutes.routes.find((r) => r.id === 'map' && !r.disabled);
-    const pricingRoute = availableRoutes.routes.find((r) => r.id === 'pricing' && !r.disabled);
-    const profileRoute = availableRoutes.routes.find((r) => r.id === 'profile' && !r.disabled);
-    if (mapRoute) {
-      initialRedirect = mapRoute.slug;
-    } else if (pricingRoute) {
-      initialRedirect = pricingRoute.slug;
-    } else if (profileRoute) {
-      initialRedirect = profileRoute.slug;
+    const order = routerConfig.loginRedirectOrder ?? [];
+    const routeId = order.find((id) =>
+      availableRoutes.routes.find((r) => r.id === id && !r.disabled),
+    );
+    const foundRoute =
+      routeId && availableRoutes.routes.find((r) => r.id === routeId && !r.disabled);
+    if (foundRoute) {
+      initialRedirect = foundRoute.slug;
     } else {
       initialRedirect = defaultRoute;
     }
   } else if (router.state.matches.length < 2) {
-    // if we are on root /, redirect to default child route
+    // if we are on root /, redirect to the default child route
     // router.state.matches[0] is Layout route, router.state.matches[1] etc will be actual app pages
     initialRedirect = defaultRoute;
   }

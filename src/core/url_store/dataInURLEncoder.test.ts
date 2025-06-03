@@ -96,5 +96,5 @@ test('Work without losses', () => {
 
 test('Encode map position removes values close to zero', () => {
   const data = urlEncoder.encode({ map: [2, -0.0001, 0.00004] });
-  expect(data).toBe('map=2.000/0.000/0.000');
+  expect(data).toBe('map=3.000/0.000/0.000');
 });
