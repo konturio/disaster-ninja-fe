@@ -25,6 +25,7 @@ interface PopoverOptions {
   modal?: boolean;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  virtualReference?: { x: number; y: number };
 }
 
 export function usePopover({
@@ -33,6 +34,7 @@ export function usePopover({
   modal,
   open: controlledOpen,
   onOpenChange: setControlledOpen,
+  virtualReference,
 }: PopoverOptions = {}) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen);
   const arrowRef = React.useRef(null);
@@ -40,35 +42,69 @@ export function usePopover({
   const open = controlledOpen ?? uncontrolledOpen;
   const setOpen = setControlledOpen ?? setUncontrolledOpen;
 
+  // Virtual reference for programmatic positioning
+  const virtualRef = React.useRef({
+    getBoundingClientRect: () => ({
+      x: virtualReference?.x ?? 0,
+      y: virtualReference?.y ?? 0,
+      width: 0,
+      height: 0,
+      top: virtualReference?.y ?? 0,
+      left: virtualReference?.x ?? 0,
+      right: virtualReference?.x ?? 0,
+      bottom: virtualReference?.y ?? 0,
+    }),
+  });
+
   const data = useFloating({
     placement,
     open,
     onOpenChange: setOpen,
+    strategy: 'fixed',
     whileElementsMounted: autoUpdate,
     middleware: [
-      offset(5),
+      offset(8), // match arrow height
       flip({
         crossAxis: placement.includes('-'),
         fallbackAxisSideDirection: 'end',
         padding: 5,
       }),
-      shift({ padding: 5 }),
-      arrow({
-        element: arrowRef,
-        padding: 5, // Add padding to prevent arrow from touching edges
-      }),
+      shift({ crossAxis: false, padding: 0 }),
+      arrow({ element: arrowRef, padding: 8 }), // Adding padding to prevent arrow from overlapping rounded corners
     ],
   });
 
   const context = data.context;
 
   const click = useClick(context, {
-    enabled: controlledOpen == null,
+    enabled: controlledOpen == null && !virtualReference,
   });
-  const dismiss = useDismiss(context);
+  const dismiss = useDismiss(context, {
+    enabled: !virtualReference, // Disable dismiss when using virtual reference
+  });
   const role = useRole(context);
 
   const interactions = useInteractions([click, dismiss, role]);
+
+  // Update virtual reference when coordinates change
+  React.useEffect(() => {
+    if (virtualReference) {
+      // Update the getBoundingClientRect function with new coordinates
+      virtualRef.current.getBoundingClientRect = () => ({
+        x: virtualReference.x,
+        y: virtualReference.y,
+        width: 0,
+        height: 0,
+        top: virtualReference.y,
+        left: virtualReference.x,
+        right: virtualReference.x,
+        bottom: virtualReference.y,
+      });
+      data.refs.setReference(virtualRef.current);
+      // Force position update when virtual reference changes
+      data.update();
+    }
+  }, [virtualReference, data.refs, data.update]);
 
   return React.useMemo(
     () => ({
@@ -78,8 +114,9 @@ export function usePopover({
       ...data,
       modal,
       arrowRef, // Pass arrowRef to components
+      virtualReference,
     }),
-    [open, setOpen, interactions, data, modal],
+    [open, setOpen, interactions, data, modal, virtualReference],
   );
 }
 
