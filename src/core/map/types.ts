@@ -1,4 +1,5 @@
 import type { Map, MapMouseEvent, MapGeoJSONFeature } from 'maplibre-gl';
+import type { Placement } from '@floating-ui/react';
 
 export interface ScreenPoint {
   x: number;
@@ -11,14 +12,15 @@ export interface GeographicPoint {
 }
 
 export interface MapPopoverService {
-  show: (point: ScreenPoint, content: React.ReactNode, placement?: string) => void;
-  move: (point: ScreenPoint, placement?: string) => void;
+  show: (point: ScreenPoint, content: React.ReactNode, placement?: Placement) => void;
+  move: (point: ScreenPoint, placement?: Placement) => void;
   close: () => void;
 }
 
 export interface MapPositionTracker {
   startTracking: (lngLat: [number, number]) => void;
   stopTracking: () => void;
+  cleanup: () => void;
 }
 
 export interface MapClickHandler<T = MapGeoJSONFeature> {
@@ -32,12 +34,12 @@ export interface MapClickEvent<T = MapGeoJSONFeature> {
   originalEvent: MapMouseEvent;
 }
 
-export interface PopoverPositionCalculator {
+export interface MapPopoverPositionCalculator {
   calculate: (
     containerRect: DOMRect,
     rawX: number,
     rawY: number,
-  ) => { pageX: number; pageY: number; placement: string };
+  ) => { pageX: number; pageY: number; placement: Placement };
 }
 
 /**
@@ -59,10 +61,18 @@ export interface MapClickContext {
 
 /**
  * A callback function responsible for rendering the content of a map popover.
- *
- * @param context - The {@link MapClickContext} object containing details about the map click event.
- * @returns A React.ReactNode to be displayed in the popover, or null/undefined if no popover should be shown.
+ * Wrapped in error boundary internally to prevent crashes.
  */
 export type RenderPopoverContentFn = (
   context: MapClickContext,
 ) => React.ReactNode | null | undefined;
+
+// Error handling types
+export interface MapPopoverErrorInfo {
+  error: Error;
+  context: MapClickContext;
+}
+
+export type MapPopoverErrorHandler = (
+  errorInfo: MapPopoverErrorInfo,
+) => React.ReactNode | null;

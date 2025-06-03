@@ -1,15 +1,16 @@
-import type { PopoverPositionCalculator } from '../types';
+import type { MapPopoverPositionCalculator } from '../types';
+import type { Placement } from '@floating-ui/react';
 
-interface PopoverPositionConfig {
+interface MapPopoverPositionConfig {
   arrowWidth?: number;
   placementThreshold?: number;
   edgePadding?: number;
 }
 
-export class DefaultPopoverPositionCalculator implements PopoverPositionCalculator {
-  private readonly config: Required<PopoverPositionConfig>;
+export class DefaultMapPopoverPositionCalculator implements MapPopoverPositionCalculator {
+  private readonly config: Required<MapPopoverPositionConfig>;
 
-  constructor(config: PopoverPositionConfig = {}) {
+  constructor(config: MapPopoverPositionConfig = {}) {
     this.config = {
       arrowWidth: config.arrowWidth ?? 16,
       placementThreshold: config.placementThreshold ?? 16,
@@ -21,7 +22,7 @@ export class DefaultPopoverPositionCalculator implements PopoverPositionCalculat
     rect: DOMRect,
     rawX: number,
     rawY: number,
-  ): { pageX: number; pageY: number; placement: string } {
+  ): { pageX: number; pageY: number; placement: Placement } {
     const placement = this.calculatePlacement(rect, rawX, rawY);
     const { clampedX, clampedY } = this.clampCoordinates(rect, rawX, rawY);
 
@@ -32,7 +33,7 @@ export class DefaultPopoverPositionCalculator implements PopoverPositionCalculat
     };
   }
 
-  private calculatePlacement(rect: DOMRect, rawX: number, rawY: number): string {
+  private calculatePlacement(rect: DOMRect, rawX: number, rawY: number): Placement {
     const { placementThreshold } = this.config;
 
     if (rawX < placementThreshold) return 'right';

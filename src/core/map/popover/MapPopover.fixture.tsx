@@ -1,214 +1,181 @@
-import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
+import React, { useRef, useMemo, useLayoutEffect, useState } from 'react';
 import mapLibre, { type Map } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import { MapPopoverProvider, useMapPopoverService } from './MapPopoverProvider';
+import { DefaultMapPopoverPositionCalculator } from './MapPopoverPositionCalculator';
 import { useMapPopoverInteraction } from '../hooks/useMapPopoverInteraction';
-import { useMapPopoverService, MapPopoverProvider } from './MapPopoverProvider';
-import { MapPopoverServiceAdapter } from './MapPopoverServiceAdapter';
-import { DefaultPopoverPositionCalculator } from '..';
-import type { MapClickContext } from '../types';
+import type { MapClickContext, RenderPopoverContentFn } from '../types';
 
-// Shared Hook to initialize the map
-function useMap(ref: React.RefObject<HTMLDivElement>) {
+// Simple map initialization hook
+function useMapInstance(containerRef: React.RefObject<HTMLDivElement>) {
   const [map, setMap] = useState<Map | null>(null);
 
   useLayoutEffect(() => {
-    if (!ref.current) return;
+    if (!containerRef.current) return;
 
     const mapInstance = new mapLibre.Map({
-      container: ref.current,
+      container: containerRef.current,
       style: 'https://demotiles.maplibre.org/styles/osm-bright-gl-style/style.json',
       center: [11.4, 47.25],
       zoom: 11,
     });
 
     mapInstance.on('load', () => {
-      // Add a sample GeoJSON source and layer to make features clickable
-      mapInstance.addSource('sample-geojson', {
+      // Add sample features for testing
+      mapInstance.addSource('sample-features', {
         type: 'geojson',
         data: {
           type: 'FeatureCollection',
           features: [
             {
               type: 'Feature',
-              properties: { name: 'Null island', value: 123 },
+              properties: { name: 'Sample Point', type: 'Demo', value: 123 },
               geometry: { type: 'Point', coordinates: [11.41, 47.25] },
             },
             {
               type: 'Feature',
-              properties: { name: 'Another Point', value: 456, type: 'Important' },
+              properties: { name: 'Another Point', category: 'Important', value: 456 },
               geometry: { type: 'Point', coordinates: [11.4, 47.252] },
             },
           ],
         },
       });
+
       mapInstance.addLayer({
-        id: 'sample-geojson-points',
+        id: 'sample-points',
         type: 'circle',
-        source: 'sample-geojson',
+        source: 'sample-features',
         paint: {
-          'circle-radius': 6,
-          'circle-color': '#B42222',
+          'circle-radius': 8,
+          'circle-color': '#ff4444',
+          'circle-stroke-color': '#ffffff',
+          'circle-stroke-width': 2,
         },
       });
+
       setMap(mapInstance);
     });
 
     return () => {
       mapInstance.remove();
+      setMap(null);
     };
-  }, [ref]);
+  }, [containerRef]);
 
   return map;
 }
 
-function formatFeatureDataForDefaultDemo(
-  featureProperties: Record<string, any> | undefined,
-): string {
-  const properties = featureProperties || {};
-  try {
-    let str = JSON.stringify(properties);
-    str = str.substring(1, Math.min(str.length - 1, 80)); // Avoid negative length if stringify is short
-    return str.replaceAll('\","', '\n').replaceAll(/[\"}]/g, '');
-  } catch (e) {
-    return 'Error formatting properties';
-  }
-}
-
-const defaultRenderContentCallback = (context: MapClickContext): React.ReactNode => {
-  if (!context.features || context.features.length === 0) {
+// Simplified render content examples
+const defaultRenderContent: RenderPopoverContentFn = (context: MapClickContext) => {
+  if (context.features && context.features.length > 0) {
+    const feature = context.features[0];
     return (
-      <div style={{ padding: '10px', maxWidth: '250px' }}>
-        <p>No features found at this location.</p>
-        <p style={{ fontSize: '0.8em', marginTop: '5px' }}>
-          Clicked at: {context.lngLat.lng.toFixed(4)}, {context.lngLat.lat.toFixed(4)}
+      <div>
+        <h4>Feature Info</h4>
+        <p>
+          <strong>Layer:</strong> {feature.layer.id}
         </p>
+        <p>
+          <strong>Type:</strong> {feature.geometry.type}
+        </p>
+        {feature.properties && Object.keys(feature.properties).length > 0 && (
+          <div>
+            <strong>Properties:</strong>
+            <pre>{JSON.stringify(feature.properties, null, 2)}</pre>
+          </div>
+        )}
       </div>
     );
   }
 
-  const featuresByLayer: Record<string, any[]> = {};
-  context.features.forEach((feature) => {
-    const layerId = feature.layer.id || 'unknown_layer';
-    if (!featuresByLayer[layerId]) {
-      featuresByLayer[layerId] = [];
-    }
-    featuresByLayer[layerId].push(feature);
-  });
-
   return (
-    <div style={{ padding: '10px', maxWidth: '250px' }}>
-      <h4 style={{ margin: '0 0 10px 0' }}>Map Features</h4>
-      {Object.entries(featuresByLayer).map(([layerId, featuresInLayer], index) => (
-        <dl key={layerId + '-' + index} style={{ marginBottom: '10px' }}>
-          <dt style={{ backgroundColor: '#eee', padding: '2px 4px', fontWeight: 'bold' }}>
-            Layer: {layerId}
-          </dt>
-          {featuresInLayer.map((feature, featureIndex) => (
-            <dd
-              key={featureIndex}
-              style={{
-                margin: '0 0 0 10px',
-                whiteSpace: 'pre-wrap',
-                wordBreak: 'break-all',
-                fontSize: '0.9em',
-              }}
-            >
-              {formatFeatureDataForDefaultDemo(feature.properties)}
-            </dd>
+    <div>
+      <p>
+        Clicked at: {context.lngLat.lng.toFixed(5)}, {context.lngLat.lat.toFixed(5)}
+      </p>
+      <p> No features found at this location </p>
+    </div>
+  );
+};
+
+const customRenderContent: RenderPopoverContentFn = (context: MapClickContext) => {
+  return (
+    <div>
+      <h3>Custom Popover</h3>
+      <p>
+        Coordinates: {context.lngLat.lng.toFixed(4)}, {context.lngLat.lat.toFixed(4)}
+      </p>
+      <h4>Features ({context.features?.length || 0})</h4>
+      {context.features && context.features.length > 0 && (
+        <dl>
+          {context.features.map((feature, index) => (
+            <div key={index}>
+              <dt>
+                [{feature.geometry.type}] {feature.layer.id}
+              </dt>
+              <dd>
+                {feature?.properties?.class} {feature?.properties?.name}
+              </dd>
+            </div>
           ))}
         </dl>
-      ))}
-      <p
-        style={{
-          fontSize: '0.8em',
-          marginTop: '10px',
-          borderTop: '1px solid #eee',
-          paddingTop: '5px',
-        }}
-      >
-        Clicked at: {context.lngLat.lng.toFixed(4)}, {context.lngLat.lat.toFixed(4)}
-      </p>
-    </div>
-  );
-};
-
-const customRenderContentCallback = (context: MapClickContext): React.ReactNode => {
-  const features = context.features || [];
-
-  return (
-    <div
-      style={{
-        padding: '10px',
-        maxWidth: '280px',
-        border: '1px solid #ccc',
-        background: '#fff',
-      }}
-    >
-      <h3 style={{ margin: '0 0 5px 0', fontSize: '1em' }}>
-        Custom Features ({features.length})
-      </h3>
-      {features.length === 0 ? (
-        <p style={{ margin: 0, fontSize: '0.9em' }}>No features here.</p>
-      ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-          {features.slice(0, 3).map((feature, index) => (
-            <div
-              key={feature.id || `feature-${index}`} // Use feature.id if available
-              style={{
-                padding: '5px',
-                backgroundColor: '#f9f9f9',
-                border: '1px solid #eee',
-                fontSize: '0.8em',
-              }}
-            >
-              <div style={{ fontWeight: 'bold' }}>
-                {feature.layer.id || 'Unknown Layer'}
-              </div>
-              <div>{Object.keys(feature.properties || {}).length} properties</div>
-            </div>
-          ))}
-          {features.length > 3 && (
-            <div style={{ textAlign: 'center', fontSize: '0.8em' }}>
-              + {features.length - 3} more
-            </div>
-          )}
-        </div>
       )}
-      <p style={{ fontSize: '0.8em', marginTop: '5px' }}>
-        Clicked at: {context.lngLat.lng.toFixed(4)}, {context.lngLat.lat.toFixed(4)}
-      </p>
     </div>
   );
 };
 
-class CustomPositionCalculator extends DefaultPopoverPositionCalculator {
+// Error handler example
+const handlePopoverError = (errorInfo: { error: Error; context: MapClickContext }) => {
+  console.error('Popover rendering error:', errorInfo.error);
+  return (
+    <div>
+      <h4>Rendering Error</h4>
+      <p>Failed to render popover content: {errorInfo.error.message}</p>
+    </div>
+  );
+};
+
+// Custom position calculator
+class CustomPositionCalculator extends DefaultMapPopoverPositionCalculator {
   constructor() {
     super({
-      arrowWidth: 16,
-      placementThreshold: 24,
-      edgePadding: 10,
+      arrowWidth: 20,
+      placementThreshold: 80,
+      edgePadding: 20,
     });
   }
 }
 
-function CustomDemoContent() {
+function DefaultDemo() {
   const mapRef = useRef<HTMLDivElement>(null);
-  const map = useMap(mapRef);
+  const map = useMapInstance(mapRef);
   const popoverService = useMapPopoverService();
-
-  const adaptedPopoverService = useMemo(
-    () => new MapPopoverServiceAdapter(popoverService),
-    [popoverService],
-  );
-  const positionCalculator = useMemo(() => new CustomPositionCalculator(), []);
 
   const { close } = useMapPopoverInteraction({
     map,
-    popoverService: adaptedPopoverService,
-    renderContent: customRenderContentCallback,
+    popoverService,
+    renderContent: defaultRenderContent,
+    enabled: true,
+    trackingDebounceMs: 16,
+  });
+
+  return <div ref={mapRef} style={{ width: '100%', height: '100vh' }} />;
+}
+
+function EnhancedDemo() {
+  const mapRef = useRef<HTMLDivElement>(null);
+  const map = useMapInstance(mapRef);
+  const popoverService = useMapPopoverService();
+  const positionCalculator = useMemo(() => new CustomPositionCalculator(), []);
+
+  const { close, destroy } = useMapPopoverInteraction({
+    map,
+    popoverService,
+    renderContent: customRenderContent,
     positionCalculator,
     enabled: true,
     trackingDebounceMs: 32,
+    onError: handlePopoverError,
   });
 
   return (
@@ -220,60 +187,95 @@ function CustomDemoContent() {
         marginBottom: '20px',
       }}
     >
-      <h4>Custom Popover Demo</h4>
-      <div ref={mapRef} style={{ width: '100%', height: 'calc(100% - 30px)' }} />
-      <button
-        onClick={close}
-        style={{ position: 'absolute', top: 5, right: 5, zIndex: 1 }}
-      >
-        Close Custom Popover
-      </button>
+      <h4>Enhanced Features: Custom Style + Error Handling</h4>
+      <div
+        ref={mapRef}
+        style={{
+          width: '100%',
+          height: 'calc(100% - 80px)',
+          border: '1px solid #ddd',
+          borderRadius: '8px',
+        }}
+      />
+      <div style={{ position: 'absolute', top: 35, right: 10, zIndex: 1 }}>
+        <button onClick={close} style={{ background: '#10b981' }}>
+          Close
+        </button>
+        <button onClick={destroy} style={{ background: '#dc2626' }}>
+          Destroy
+        </button>
+      </div>
     </div>
   );
 }
 
-function DefaultDemoContent() {
-  const mapRef = useRef<HTMLDivElement>(null);
-  const map = useMap(mapRef);
+function MultiMapDemo() {
+  const map1Ref = useRef<HTMLDivElement>(null);
+  const map2Ref = useRef<HTMLDivElement>(null);
+  const map1 = useMapInstance(map1Ref);
+  const map2 = useMapInstance(map2Ref);
   const popoverService = useMapPopoverService();
 
-  const adaptedPopoverService = useMemo(
-    () => new MapPopoverServiceAdapter(popoverService),
-    [popoverService],
-  );
-  const positionCalculator = useMemo(() => new DefaultPopoverPositionCalculator(), []);
+  // 🚀 Both maps share the same service - no complex setup required
+  useMapPopoverInteraction({
+    map: map1,
+    popoverService,
+    renderContent: defaultRenderContent,
+  });
 
-  const { close } = useMapPopoverInteraction({
-    map,
-    popoverService: adaptedPopoverService,
-    renderContent: defaultRenderContentCallback,
-    positionCalculator,
-    enabled: true,
-    trackingDebounceMs: 16,
+  useMapPopoverInteraction({
+    map: map2,
+    popoverService,
+    renderContent: customRenderContent,
   });
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '400px' }}>
-      <h4>Default Popover Demo</h4>
-      <div ref={mapRef} style={{ width: '100%', height: 'calc(100% - 30px)' }} />
-      <button
-        onClick={close}
-        style={{ position: 'absolute', top: 5, right: 5, zIndex: 1 }}
-      >
-        Close Default Popover
-      </button>
+    <div style={{ margin: 32 }}>
+      <h4>Multi-Map Support - Shared Service</h4>
+      <div style={{ display: 'flex', gap: 32, height: '40vh' }}>
+        <div style={{ flex: 1 }}>
+          <h5 style={{ margin: '0 0 8px 0' }}>Map 1 (Default Style)</h5>
+          <div
+            ref={map1Ref}
+            style={{
+              width: '100%',
+              height: '250px',
+              border: '1px solid #ddd',
+              borderRadius: '8px',
+            }}
+          />
+        </div>
+        <div style={{ flex: 1 }}>
+          <h5 style={{ margin: '0 0 8px 0' }}>Map 2 (Custom Style)</h5>
+          <div
+            ref={map2Ref}
+            style={{
+              width: '100%',
+              height: '250px',
+              border: '1px solid #ddd',
+              borderRadius: '8px',
+            }}
+          />
+        </div>
+      </div>
     </div>
   );
 }
 
-export default function MapDemos() {
-  return (
+export default {
+  'Simplified API': () => (
     <MapPopoverProvider>
-      <div style={{ padding: '20px' }}>
-        <h1>Map Popover Demos</h1>
-        <CustomDemoContent />
-        <DefaultDemoContent />
-      </div>
+      <DefaultDemo />
     </MapPopoverProvider>
-  );
-}
+  ),
+  'Enhanced Features': () => (
+    <MapPopoverProvider>
+      <EnhancedDemo />
+    </MapPopoverProvider>
+  ),
+  'Multi-Map Support': () => (
+    <MapPopoverProvider>
+      <MultiMapDemo />
+    </MapPopoverProvider>
+  ),
+};

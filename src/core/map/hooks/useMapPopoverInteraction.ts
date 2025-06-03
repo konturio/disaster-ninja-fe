@@ -1,13 +1,14 @@
 import { useMemo, useEffect, useCallback } from 'react';
-import { DefaultPopoverPositionCalculator } from '../popover/PopoverPositionCalculator';
+import { DefaultMapPopoverPositionCalculator } from '../popover/MapPopoverPositionCalculator';
 import { MapPopoverController } from '../popover/MapPopoverController';
 import { useMapPositionTracker } from './useMapPositionTracker';
 import { useMapClickHandler } from './useMapClickHandler';
 import type {
   MapPopoverService,
   ScreenPoint,
-  PopoverPositionCalculator,
+  MapPopoverPositionCalculator,
   RenderPopoverContentFn,
+  MapPopoverErrorHandler,
 } from '../types';
 import type { Map } from 'maplibre-gl';
 
@@ -15,45 +16,48 @@ export interface UseMapPopoverInteractionOptions {
   map: Map | null;
   popoverService: MapPopoverService;
   renderContent: RenderPopoverContentFn;
-  positionCalculator?: PopoverPositionCalculator;
+  positionCalculator?: MapPopoverPositionCalculator;
   enabled?: boolean;
   trackingDebounceMs?: number;
+  onError?: MapPopoverErrorHandler;
 }
+
+// Singleton position calculator to avoid recreating instances
+const defaultPositionCalculator = new DefaultMapPopoverPositionCalculator();
 
 export function useMapPopoverInteraction(options: UseMapPopoverInteractionOptions) {
   const {
     map,
     popoverService,
     renderContent,
-    positionCalculator: optionPositionCalculator,
+    positionCalculator = defaultPositionCalculator,
     enabled = true,
     trackingDebounceMs = 16, // ~60fps
+    onError,
   } = options;
-
-  const defaultPositionCalculator = useMemo(
-    () => new DefaultPopoverPositionCalculator(),
-    [],
-  );
-  const currentPositionCalculator = optionPositionCalculator ?? defaultPositionCalculator;
 
   const handlePositionChange = useCallback(
     (point: ScreenPoint) => {
       if (!map) return;
-      const container = map.getContainer();
-      const rect = container.getBoundingClientRect();
 
-      const relativeX = point.x - rect.left;
-      const relativeY = point.y - rect.top;
+      try {
+        // The position tracker already gives us the correct page coordinates
+        // We just need to calculate the placement based on the relative position within the map container
+        const container = map.getContainer();
+        const rect = container.getBoundingClientRect();
 
-      const {
-        pageX: newPageX,
-        pageY: newPageY,
-        placement: newPlacement,
-      } = currentPositionCalculator.calculate(rect, relativeX, relativeY);
+        const relativeX = point.x - rect.left;
+        const relativeY = point.y - rect.top;
 
-      popoverService.move({ x: newPageX, y: newPageY }, newPlacement);
+        const { placement } = positionCalculator.calculate(rect, relativeX, relativeY);
+
+        // Use the point coordinates directly - they're already in page coordinates
+        popoverService.move(point, placement);
+      } catch (error) {
+        console.error('Error updating popover position:', error);
+      }
     },
-    [map, popoverService, currentPositionCalculator],
+    [map, popoverService, positionCalculator],
   );
 
   const positionTracker = useMapPositionTracker(map, {
@@ -68,10 +72,11 @@ export function useMapPopoverInteraction(options: UseMapPopoverInteractionOption
       map,
       popoverService,
       positionTracker,
-      positionCalculator: currentPositionCalculator,
+      positionCalculator,
       renderContent,
+      onError,
     });
-  }, [map, popoverService, positionTracker, currentPositionCalculator, renderContent]);
+  }, [map, popoverService, positionTracker, positionCalculator, renderContent, onError]);
 
   useMapClickHandler(map, {
     handler: controller || { handleClick: () => {} },
@@ -80,11 +85,21 @@ export function useMapPopoverInteraction(options: UseMapPopoverInteractionOption
 
   useEffect(() => {
     return () => {
-      controller?.close();
+      controller?.destroy();
     };
   }, [controller]);
 
+  const close = useCallback(() => {
+    controller?.close();
+  }, [controller]);
+
+  const destroy = useCallback(() => {
+    controller?.destroy();
+  }, [controller]);
+
   return {
-    close: () => controller?.close(),
+    close,
+    destroy,
+    isDestroyed: false,
   };
 }

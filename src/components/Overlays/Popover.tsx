@@ -42,7 +42,6 @@ export function usePopover({
   const open = controlledOpen ?? uncontrolledOpen;
   const setOpen = setControlledOpen ?? setUncontrolledOpen;
 
-  // Virtual reference for programmatic positioning
   const virtualRef = React.useRef({
     getBoundingClientRect: () => ({
       x: virtualReference?.x ?? 0,
@@ -63,16 +62,20 @@ export function usePopover({
     strategy: 'fixed',
     whileElementsMounted: autoUpdate,
     middleware: [
-      offset(8), // match arrow height
+      offset(8),
       flip({
         crossAxis: placement.includes('-'),
         fallbackAxisSideDirection: 'end',
         padding: 5,
       }),
       shift({ crossAxis: false, padding: 0 }),
-      arrow({ element: arrowRef, padding: 8 }), // Adding padding to prevent arrow from overlapping rounded corners
+      arrow({ element: arrowRef, padding: 8 }),
     ],
   });
+
+  if (virtualReference && !data.refs.reference.current) {
+    data.refs.setReference(virtualRef.current);
+  }
 
   const context = data.context;
 
@@ -80,16 +83,14 @@ export function usePopover({
     enabled: controlledOpen == null && !virtualReference,
   });
   const dismiss = useDismiss(context, {
-    enabled: !virtualReference, // Disable dismiss when using virtual reference
+    enabled: !virtualReference,
   });
   const role = useRole(context);
 
   const interactions = useInteractions([click, dismiss, role]);
 
-  // Update virtual reference when coordinates change
   React.useEffect(() => {
     if (virtualReference) {
-      // Update the getBoundingClientRect function with new coordinates
       virtualRef.current.getBoundingClientRect = () => ({
         x: virtualReference.x,
         y: virtualReference.y,
@@ -101,7 +102,6 @@ export function usePopover({
         bottom: virtualReference.y,
       });
       data.refs.setReference(virtualRef.current);
-      // Force position update when virtual reference changes
       data.update();
     }
   }, [virtualReference, data.refs, data.update]);
@@ -113,7 +113,7 @@ export function usePopover({
       ...interactions,
       ...data,
       modal,
-      arrowRef, // Pass arrowRef to components
+      arrowRef,
       virtualReference,
     }),
     [open, setOpen, interactions, data, modal, virtualReference],
@@ -141,8 +141,6 @@ export function Popover({
 }: {
   children: React.ReactNode;
 } & PopoverOptions) {
-  // This can accept any props as options, e.g. `placement`,
-  // or other positioning options.
   const popover = usePopover({ modal, ...restOptions });
   return <PopoverContext.Provider value={popover}>{children}</PopoverContext.Provider>;
 }
@@ -160,7 +158,6 @@ export const PopoverTrigger = React.forwardRef<
   const childrenRef = (children as any).ref;
   const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef]);
 
-  // `asChild` allows the user to pass any element as the anchor
   if (asChild && React.isValidElement(children)) {
     return React.cloneElement(
       children,
@@ -177,7 +174,6 @@ export const PopoverTrigger = React.forwardRef<
     <button
       ref={ref}
       type="button"
-      // The user can style the trigger based on the state
       data-state={context.open ? 'open' : 'closed'}
       {...context.getReferenceProps(props)}
     >
