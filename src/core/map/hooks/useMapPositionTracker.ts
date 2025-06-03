@@ -21,17 +21,22 @@ export function useMapPositionTracker(
       if (!map || !currentLngLatRef.current) return;
 
       const [lng, lat] = currentLngLatRef.current;
-      const projected = map.project([lng, lat]);
-      const container = map.getContainer();
-      const rect = container.getBoundingClientRect();
 
-      const px = Math.min(Math.max(0, projected.x), rect.width);
-      const py = Math.min(Math.max(0, projected.y), rect.height);
+      try {
+        const projected = map.project([lng, lat]);
+        const container = map.getContainer();
+        const rect = container.getBoundingClientRect();
 
-      const pageX = rect.left + px;
-      const pageY = rect.top + py;
+        const px = Math.min(Math.max(0, projected.x), rect.width);
+        const py = Math.min(Math.max(0, projected.y), rect.height);
 
-      onPositionChange({ x: pageX, y: pageY });
+        const pageX = rect.left + px;
+        const pageY = rect.top + py;
+
+        onPositionChange({ x: pageX, y: pageY });
+      } catch (error) {
+        console.error('Error updating position:', error);
+      }
     };
 
     if (debounceMs > 0) {
@@ -40,7 +45,6 @@ export function useMapPositionTracker(
     return rawUpdate;
   }, [map, onPositionChange, debounceMs]);
 
-  // Separate RAF wrapper to avoid cancellation conflicts with throttling
   const scheduleUpdate = useCallback(() => {
     if (rafIdRef.current) {
       cancelAnimationFrame(rafIdRef.current);
@@ -89,11 +93,23 @@ export function useMapPositionTracker(
     }
   }, [map, handleMapMove]);
 
+  const cleanup = useCallback(() => {
+    stopTracking();
+
+    if (typeof (throttledUpdatePosition as any).cancel === 'function') {
+      (throttledUpdatePosition as any).cancel();
+    }
+  }, [stopTracking, throttledUpdatePosition]);
+
   useEffect(() => {
     return () => {
-      stopTracking();
+      cleanup();
     };
-  }, [stopTracking]);
+  }, [cleanup]);
 
-  return { startTracking, stopTracking };
+  return {
+    startTracking,
+    stopTracking,
+    cleanup,
+  };
 }

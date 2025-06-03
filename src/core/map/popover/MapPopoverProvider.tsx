@@ -1,21 +1,29 @@
 import React, { createContext, useContext, useState, useCallback, useMemo } from 'react';
 import { Popover, PopoverContent } from '~components/Overlays/Popover';
 import type { Placement } from '@floating-ui/react';
+import type { ScreenPoint, MapPopoverService } from '../types';
 
-export interface ScreenPoint {
-  x: number;
-  y: number;
+interface PopoverState {
+  id: string;
+  isOpen: boolean;
+  content: React.ReactNode;
+  placement: Placement;
+  screenPoint: ScreenPoint;
 }
 
-export interface PopoverService {
-  show: (point: ScreenPoint, content: React.ReactNode, placement?: Placement) => void;
-  move: (point: ScreenPoint, placement?: Placement) => void;
-  close: () => void;
+interface MultiPopoverService extends MapPopoverService {
+  showWithId: (
+    id: string,
+    point: ScreenPoint,
+    content: React.ReactNode,
+    placement?: Placement,
+  ) => void;
+  closeById: (id: string) => void;
 }
 
-const MapPopoverContext = createContext<PopoverService | undefined>(undefined);
+const MapPopoverContext = createContext<MultiPopoverService | undefined>(undefined);
 
-export function useMapPopoverService(): PopoverService {
+export function useMapPopoverService(): MapPopoverService {
   const context = useContext(MapPopoverContext);
   if (!context) {
     throw new Error('useMapPopoverService must be used within MapPopoverProvider');
@@ -24,47 +32,106 @@ export function useMapPopoverService(): PopoverService {
 }
 
 export function MapPopoverProvider({ children }: { children: React.ReactNode }) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [content, setContent] = useState<React.ReactNode>(null);
-  const [placement, setPlacement] = useState<Placement>('top');
-  const [screenPoint, setScreenPoint] = useState<ScreenPoint>({ x: 0, y: 0 });
+  const [popovers, setPopovers] = useState<Map<string, PopoverState>>(new Map());
+  const [globalPopover, setGlobalPopover] = useState<PopoverState | null>(null);
 
   const show = useCallback(
-    (point: ScreenPoint, newContent: React.ReactNode, newPlacement?: Placement) => {
-      setContent(newContent);
-      setScreenPoint(point);
-      if (newPlacement) {
-        setPlacement(newPlacement);
-      }
-      setIsOpen(true);
+    (point: ScreenPoint, content: React.ReactNode, placement: Placement = 'top') => {
+      setGlobalPopover({
+        id: 'global',
+        isOpen: true,
+        content,
+        placement,
+        screenPoint: point,
+      });
     },
     [],
   );
 
-  const move = useCallback((point: ScreenPoint, newPlacement?: Placement) => {
-    setScreenPoint(point);
-    if (newPlacement) {
-      setPlacement(newPlacement);
-    }
+  const move = useCallback((point: ScreenPoint, placement?: Placement) => {
+    setGlobalPopover((prev) => {
+      if (!prev) {
+        return null;
+      }
+
+      const updated = {
+        ...prev,
+        screenPoint: point,
+        placement: placement ?? prev.placement,
+      };
+      return updated;
+    });
   }, []);
 
   const close = useCallback(() => {
-    setIsOpen(false);
+    setGlobalPopover(null);
   }, []);
 
-  const contextValue = useMemo(() => ({ show, move, close }), [show, move, close]);
+  const showWithId = useCallback(
+    (
+      id: string,
+      point: ScreenPoint,
+      content: React.ReactNode,
+      placement: Placement = 'top',
+    ) => {
+      setPopovers((prev) => {
+        const next = new Map(prev);
+        next.set(id, {
+          id,
+          isOpen: true,
+          content,
+          placement,
+          screenPoint: point,
+        });
+        return next;
+      });
+    },
+    [],
+  );
+
+  const closeById = useCallback((id: string) => {
+    setPopovers((prev) => {
+      const next = new Map(prev);
+      next.delete(id);
+      return next;
+    });
+  }, []);
+
+  const contextValue = useMemo(
+    () => ({
+      show,
+      move,
+      close,
+      showWithId,
+      closeById,
+    }),
+    [show, move, close, showWithId, closeById],
+  );
 
   return (
     <MapPopoverContext.Provider value={contextValue}>
       {children}
-      <Popover
-        open={isOpen}
-        onOpenChange={setIsOpen}
-        virtualReference={screenPoint}
-        placement={placement}
-      >
-        <PopoverContent>{content}</PopoverContent>
-      </Popover>
+      {globalPopover && (
+        <Popover
+          open={globalPopover.isOpen}
+          onOpenChange={(open) => !open && close()}
+          virtualReference={globalPopover.screenPoint}
+          placement={globalPopover.placement}
+        >
+          <PopoverContent>{globalPopover.content}</PopoverContent>
+        </Popover>
+      )}
+      {Array.from(popovers.values()).map((popover) => (
+        <Popover
+          key={popover.id}
+          open={popover.isOpen}
+          onOpenChange={(open) => !open && closeById(popover.id)}
+          virtualReference={popover.screenPoint}
+          placement={popover.placement}
+        >
+          <PopoverContent>{popover.content}</PopoverContent>
+        </Popover>
+      ))}
     </MapPopoverContext.Provider>
   );
 }
