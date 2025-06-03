@@ -60,7 +60,9 @@ func TestHandleStaticFilesCacheControl(t *testing.T) {
 	cleanup := setupTestFiles(t)
 	defer cleanup()
 
-	os.WriteFile(filepath.Join("static", "file.js"), []byte("1"), 0o644)
+	if err := os.WriteFile(filepath.Join("static", "file.js"), []byte("1"), 0o644); err != nil {
+		t.Fatalf("failed to write static file: %v", err)
+	}
 	handler := handleStaticFiles(http.FileServer(http.Dir("static")))
 
 	req := httptest.NewRequest(http.MethodGet, "/file.js", nil)
