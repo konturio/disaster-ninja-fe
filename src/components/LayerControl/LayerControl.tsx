@@ -5,6 +5,7 @@ import type { LayerLegend } from '~core/logical_layers/types/legends';
 
 interface LayerControl {
   inputType: 'radio' | 'checkbox' | 'not-interactive';
+  id: string;
   name: string;
   icon?: JSX.Element | false;
   isLoading?: boolean;
@@ -19,6 +20,7 @@ interface LayerControl {
 
 export function LayerControl({
   inputType,
+  id,
   icon,
   hidden,
   name,
@@ -49,7 +51,7 @@ export function LayerControl({
       )}
     >
       <LayerInput
-        id={name}
+        id={id}
         type={inputType}
         enabled={enabled}
         label={Label}
