@@ -480,7 +480,7 @@ export class OidcSimpleClient {
     try {
       const loginOk = await this.login(user, password);
       if (loginOk) {
-        // after successful login, reload the page on default route
+        // reload to init with authenticated config and profile + open the new default route
         location.href = getAbsoluteRoute('') + globalThis.location.search;
       }
       return true;
