@@ -76,3 +76,56 @@ export interface MapPopoverErrorInfo {
 export type MapPopoverErrorHandler = (
   errorInfo: MapPopoverErrorInfo,
 ) => React.ReactNode | null;
+
+// Content Provider Architecture Types
+
+export interface MapPopoverOptions {
+  placement?: Placement;
+  closeOnMove?: boolean;
+  className?: string;
+}
+
+/**
+ * Content provider interface for autonomous map popover content generation.
+ * Each provider handles its own domain logic and returns content for the map popover.
+ */
+export interface IMapPopoverContentProvider {
+  /**
+   * Renders content for the map popover based on the click event.
+   * @param mapEvent - The original MapLibre mouse event
+   * @returns React content to display, or null if this provider doesn't handle this event
+   */
+  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null;
+
+  /**
+   * Optional: Returns popover display options for this provider's content.
+   * @param mapEvent - The original MapLibre mouse event
+   * @returns Options for how the popover should be displayed
+   */
+  getPopoverOptions?(mapEvent: MapMouseEvent): MapPopoverOptions;
+}
+
+/**
+ * Registry interface for coordinating multiple content providers.
+ */
+export interface IMapPopoverContentRegistry {
+  /**
+   * Registers a content provider with the registry.
+   */
+  register(provider: IMapPopoverContentProvider): void;
+
+  /**
+   * Unregisters a content provider from the registry.
+   */
+  unregister(provider: IMapPopoverContentProvider): void;
+
+  /**
+   * Attempts to render content using registered providers.
+   * @param mapEvent - The original MapLibre mouse event
+   * @returns Content and options, or null if no provider can handle the event
+   */
+  renderContent(mapEvent: MapMouseEvent): {
+    content: React.ReactNode;
+    options?: MapPopoverOptions;
+  } | null;
+}

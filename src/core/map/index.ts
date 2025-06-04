@@ -6,3 +6,4 @@ export { useMapPopoverInteraction } from './hooks/useMapPopoverInteraction';
 export { DefaultMapPopoverPositionCalculator } from './popover/MapPopoverPositionCalculator';
 export { MapPopoverController } from './popover/MapPopoverController';
 export { MapPopoverProvider, useMapPopoverService } from './popover/MapPopoverProvider';
+export { MapPopoverContentRegistry } from './popover/MapPopoverContentRegistry';

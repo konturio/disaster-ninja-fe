@@ -4,7 +4,14 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { MapPopoverProvider, useMapPopoverService } from './MapPopoverProvider';
 import { DefaultMapPopoverPositionCalculator } from './MapPopoverPositionCalculator';
 import { useMapPopoverInteraction } from '../hooks/useMapPopoverInteraction';
-import type { MapClickContext, RenderPopoverContentFn } from '../types';
+import { MapPopoverContentRegistry } from './MapPopoverContentRegistry';
+import type {
+  MapClickContext,
+  RenderPopoverContentFn,
+  IMapPopoverContentProvider,
+  MapPopoverOptions,
+} from '../types';
+import type { MapMouseEvent } from 'maplibre-gl';
 
 // Simple map initialization hook
 function useMapInstance(containerRef: React.RefObject<HTMLDivElement>) {
@@ -262,6 +269,68 @@ function MultiMapDemo() {
   );
 }
 
+// Content Provider Demo
+class DemoContentProvider implements IMapPopoverContentProvider {
+  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null {
+    const features = mapEvent.target.queryRenderedFeatures(mapEvent.point);
+
+    if (!features || features.length === 0) {
+      return <div>No features found</div>;
+    }
+
+    const feature = features[0];
+    return (
+      <div>
+        <h4>Content Provider Demo</h4>
+        <p>
+          <strong>Layer:</strong> {feature.layer.id}
+        </p>
+        <p>
+          <strong>Properties:</strong>
+        </p>
+        <pre>{JSON.stringify(feature.properties, null, 2)}</pre>
+      </div>
+    );
+  }
+
+  getPopoverOptions(): MapPopoverOptions {
+    return {
+      placement: 'bottom',
+      closeOnMove: true,
+      className: 'demo-provider',
+    };
+  }
+}
+
+function ContentProviderDemo() {
+  const mapRef = useRef<HTMLDivElement>(null);
+  const map = useMapInstance(mapRef);
+  const popoverService = useMapPopoverService();
+
+  const registry = useMemo(() => {
+    const reg = new MapPopoverContentRegistry();
+    reg.register(new DemoContentProvider());
+    return reg;
+  }, []);
+
+  useMapPopoverInteraction({
+    map,
+    popoverService,
+    registry, // Using registry instead of renderContent
+  });
+
+  return (
+    <div>
+      <h4>Content Provider Architecture Demo</h4>
+      <div
+        ref={mapRef}
+        style={{ width: '100%', height: '400px', border: '1px solid #ddd' }}
+      />
+      <p>Click on the red dots to see provider-generated content</p>
+    </div>
+  );
+}
+
 export default {
   'Simplified API': () => (
     <MapPopoverProvider>
@@ -276,6 +345,11 @@ export default {
   'Multi-Map Support': () => (
     <MapPopoverProvider>
       <MultiMapDemo />
+    </MapPopoverProvider>
+  ),
+  'Content Provider Demo': () => (
+    <MapPopoverProvider>
+      <ContentProviderDemo />
     </MapPopoverProvider>
   ),
 };
