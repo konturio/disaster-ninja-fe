@@ -9,13 +9,16 @@ import type {
   MapPopoverPositionCalculator,
   RenderPopoverContentFn,
   MapPopoverErrorHandler,
+  IMapPopoverContentRegistry,
+  MapClickContext,
 } from '../types';
 import type { Map } from 'maplibre-gl';
 
 export interface UseMapPopoverInteractionOptions {
   map: Map | null;
   popoverService: MapPopoverService;
-  renderContent: RenderPopoverContentFn;
+  renderContent?: RenderPopoverContentFn;
+  registry?: IMapPopoverContentRegistry;
   positionCalculator?: MapPopoverPositionCalculator;
   enabled?: boolean;
   trackingDebounceMs?: number;
@@ -29,12 +32,30 @@ export function useMapPopoverInteraction(options: UseMapPopoverInteractionOption
   const {
     map,
     popoverService,
-    renderContent,
+    renderContent: providedRenderContent,
+    registry,
     positionCalculator = defaultPositionCalculator,
     enabled = true,
     trackingDebounceMs = 16, // ~60fps
     onError,
   } = options;
+
+  // Create renderContent function from registry if provided, otherwise use provided function
+  const renderContent = useMemo(() => {
+    if (providedRenderContent) {
+      return providedRenderContent;
+    }
+
+    if (registry) {
+      return (context: MapClickContext) => {
+        const result = registry.renderContent(context.originalEvent);
+        return result?.content || null;
+      };
+    }
+
+    // Fallback function that does nothing
+    return () => null;
+  }, [providedRenderContent, registry]);
 
   const handlePositionChange = useCallback(
     (point: ScreenPoint) => {
