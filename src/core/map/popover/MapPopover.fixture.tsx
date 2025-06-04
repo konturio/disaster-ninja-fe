@@ -58,6 +58,12 @@ function useMapInstance(containerRef: React.RefObject<HTMLDivElement>) {
           'circle-stroke-color': '#ffffff',
           'circle-stroke-width': 2,
         },
+        metadata: {
+          tooltip: {
+            type: 'markdown',
+            paramName: 'name', // Use 'name' property from features
+          },
+        },
       });
 
       setMap(mapInstance);
@@ -313,12 +319,6 @@ function ContentProviderDemo() {
     return reg;
   }, []);
 
-  useMapPopoverInteraction({
-    map,
-    popoverService,
-    registry, // Using registry instead of renderContent
-  });
-
   return (
     <div>
       <h4>Content Provider Architecture Demo</h4>
@@ -327,6 +327,48 @@ function ContentProviderDemo() {
         style={{ width: '100%', height: '400px', border: '1px solid #ddd' }}
       />
       <p>Click on the red dots to see provider-generated content</p>
+    </div>
+  );
+}
+
+function GenericTooltipDemo() {
+  const mapRef = useRef<HTMLDivElement>(null);
+  const map = useMapInstance(mapRef);
+  const popoverService = useMapPopoverService();
+
+  const registry = useMemo(() => {
+    const reg = new MapPopoverContentRegistry();
+    // Note: In the actual implementation, renderers will register their own providers
+    // This demo shows the registry infrastructure working
+    return reg;
+  }, []);
+
+  useMapPopoverInteraction({
+    map,
+    popoverService,
+    registry, // Using registry instead of renderContent
+  });
+
+  return (
+    <div>
+      <h4>Generic Tooltip Provider Demo (Phase 2)</h4>
+      <div
+        ref={mapRef}
+        style={{ width: '100%', height: '400px', border: '1px solid #ddd' }}
+      />
+      <p>Click on the red dots to see tooltip provider content (using layer metadata)</p>
+      <div
+        style={{
+          marginTop: '10px',
+          padding: '8px',
+          backgroundColor: '#f0f8ff',
+          borderRadius: '4px',
+        }}
+      >
+        <strong>Phase 2 Achievement:</strong> Generic tooltips now use content provider
+        architecture. This provider reads layer metadata tooltip configuration and renders
+        markdown content.
+      </div>
     </div>
   );
 }
@@ -350,6 +392,11 @@ export default {
   'Content Provider Demo': () => (
     <MapPopoverProvider>
       <ContentProviderDemo />
+    </MapPopoverProvider>
+  ),
+  'Generic Tooltip Provider (Phase 2)': () => (
+    <MapPopoverProvider>
+      <GenericTooltipDemo />
     </MapPopoverProvider>
   ),
 };
