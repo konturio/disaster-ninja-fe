@@ -6,6 +6,12 @@ import { layersOrderManager } from '~core/logical_layers/utils/layersOrder/layer
 import { mapLibreParentsIds } from '~core/logical_layers/utils/layersOrder/mapLibreParentsIds';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { configRepo } from '~core/config';
+import {
+  MapPopoverProvider,
+  useMapPopoverService,
+  useMapPopoverInteraction,
+  mapPopoverRegistry,
+} from '~core/map';
 import Map from './map-libre-adapter';
 import { useMapPositionSync } from './useMapPositionSync';
 import type {
@@ -34,9 +40,10 @@ const LAYERS_ON_TOP = [
   'selected-boundaries-layer',
 ];
 
-export function ConnectedMap({ className }: { className?: string }) {
+function ConnectedMapWithPopover({ className }: { className?: string }) {
   const mapBaseStyle = configRepo.get().mapBaseStyle;
   const mapRef = useRef<ApplicationMap>();
+  const popoverService = useMapPopoverService();
   useMapPositionSync(mapRef);
 
   // init current MapRefAtom
@@ -49,6 +56,13 @@ export function ConnectedMap({ className }: { className?: string }) {
       layersOrderManager.init(mapRef.current!, mapLibreParentsIds, layersSettingsAtom),
     [],
   );
+
+  // Initialize popover interaction with global registry
+  useMapPopoverInteraction({
+    map: mapRef.current || null,
+    popoverService,
+    registry: mapPopoverRegistry,
+  });
 
   useEffect(() => {
     if (mapRef.current && !globalThis.KONTUR_MAP) {
@@ -128,5 +142,13 @@ export function ConnectedMap({ className }: { className?: string }) {
       className={className}
       style={mapBaseStyle}
     />
+  );
+}
+
+export function ConnectedMap({ className }: { className?: string }) {
+  return (
+    <MapPopoverProvider>
+      <ConnectedMapWithPopover className={className} />
+    </MapPopoverProvider>
   );
 }

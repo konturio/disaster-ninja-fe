@@ -319,6 +319,12 @@ function ContentProviderDemo() {
     return reg;
   }, []);
 
+  useMapPopoverInteraction({
+    map,
+    popoverService,
+    registry, // Using registry instead of renderContent
+  });
+
   return (
     <div>
       <h4>Content Provider Architecture Demo</h4>
@@ -331,6 +337,54 @@ function ContentProviderDemo() {
   );
 }
 
+// Demo provider that works with the fixture map
+class GenericTooltipDemoProvider implements IMapPopoverContentProvider {
+  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null {
+    const features = mapEvent.target.queryRenderedFeatures(mapEvent.point);
+
+    // Find features from the demo source
+    const demoFeatures = features.filter((f) => f.source === 'sample-features');
+
+    if (demoFeatures.length === 0) {
+      return null;
+    }
+
+    const feature = demoFeatures[0];
+    const name = feature.properties?.name;
+
+    if (!name) {
+      return null;
+    }
+
+    // Simulate tooltip content from feature property
+    return (
+      <div>
+        <h4>Generic Tooltip Demo</h4>
+        <p>
+          <strong>Feature:</strong> {name}
+        </p>
+        <p>
+          <strong>Source:</strong> {feature.source}
+        </p>
+        <p>
+          <strong>Layer:</strong> {feature.layer.id}
+        </p>
+        <div style={{ marginTop: '8px', fontSize: '12px', color: '#666' }}>
+          This tooltip is rendered by the registry-based provider system (Phase 2)
+        </div>
+      </div>
+    );
+  }
+
+  getPopoverOptions(): MapPopoverOptions {
+    return {
+      placement: 'top',
+      closeOnMove: false,
+      className: 'generic-tooltip-demo',
+    };
+  }
+}
+
 function GenericTooltipDemo() {
   const mapRef = useRef<HTMLDivElement>(null);
   const map = useMapInstance(mapRef);
@@ -338,8 +392,8 @@ function GenericTooltipDemo() {
 
   const registry = useMemo(() => {
     const reg = new MapPopoverContentRegistry();
-    // Note: In the actual implementation, renderers will register their own providers
-    // This demo shows the registry infrastructure working
+    // Register the demo provider to simulate how the GenericRenderer would work
+    reg.register(new GenericTooltipDemoProvider());
     return reg;
   }, []);
 

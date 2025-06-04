@@ -7,3 +7,4 @@ export { DefaultMapPopoverPositionCalculator } from './popover/MapPopoverPositio
 export { MapPopoverController } from './popover/MapPopoverController';
 export { MapPopoverProvider, useMapPopoverService } from './popover/MapPopoverProvider';
 export { MapPopoverContentRegistry } from './popover/MapPopoverContentRegistry';
+export { mapPopoverRegistry } from './popover/globalMapPopoverRegistry';
