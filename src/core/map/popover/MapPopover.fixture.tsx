@@ -192,20 +192,13 @@ function EnhancedDemo() {
   });
 
   return (
-    <div
-      style={{
-        position: 'relative',
-        width: '100%',
-        height: '400px',
-        marginBottom: '20px',
-      }}
-    >
+    <div style={{ margin: 32 }}>
       <h4>Enhanced Features: Custom Style + Error Handling</h4>
       <div
         ref={mapRef}
         style={{
           width: '100%',
-          height: 'calc(100% - 80px)',
+          height: '60vh',
           border: '1px solid #ddd',
           borderRadius: '8px',
         }}
@@ -229,7 +222,7 @@ function MultiMapDemo() {
   const map2 = useMapInstance(map2Ref);
   const popoverService = useMapPopoverService();
 
-  // 🚀 Both maps share the same service - no complex setup required
+  // Both maps share the same service
   useMapPopoverInteraction({
     map: map1,
     popoverService,
@@ -245,31 +238,13 @@ function MultiMapDemo() {
   return (
     <div style={{ margin: 32 }}>
       <h4>Multi-Map Support - Shared Service</h4>
-      <div style={{ display: 'flex', gap: 32, height: '40vh' }}>
-        <div style={{ flex: 1 }}>
-          <h5 style={{ margin: '0 0 8px 0' }}>Map 1 (Default Style)</h5>
-          <div
-            ref={map1Ref}
-            style={{
-              width: '100%',
-              height: '250px',
-              border: '1px solid #ddd',
-              borderRadius: '8px',
-            }}
-          />
-        </div>
-        <div style={{ flex: 1 }}>
-          <h5 style={{ margin: '0 0 8px 0' }}>Map 2 (Custom Style)</h5>
-          <div
-            ref={map2Ref}
-            style={{
-              width: '100%',
-              height: '250px',
-              border: '1px solid #ddd',
-              borderRadius: '8px',
-            }}
-          />
-        </div>
+      <div>
+        <h5>Map 1 (Default Style)</h5>
+        <div ref={map1Ref} style={{ width: '100%', height: '30vh' }} />
+      </div>
+      <div>
+        <h5>Map 2 (Custom Style)</h5>
+        <div ref={map2Ref} style={{ width: '100%', height: '30vh' }} />
       </div>
     </div>
   );
@@ -370,7 +345,7 @@ class GenericTooltipDemoProvider implements IMapPopoverContentProvider {
           <strong>Layer:</strong> {feature.layer.id}
         </p>
         <div style={{ marginTop: '8px', fontSize: '12px', color: '#666' }}>
-          This tooltip is rendered by the registry-based provider system (Phase 2)
+          This tooltip is rendered by the registry-based provider system
         </div>
       </div>
     );
@@ -405,7 +380,7 @@ function GenericTooltipDemo() {
 
   return (
     <div>
-      <h4>Generic Tooltip Provider Demo (Phase 2)</h4>
+      <h4>Generic Tooltip Content Provider Demo</h4>
       <div
         ref={mapRef}
         style={{ width: '100%', height: '400px', border: '1px solid #ddd' }}
@@ -419,9 +394,8 @@ function GenericTooltipDemo() {
           borderRadius: '4px',
         }}
       >
-        <strong>Phase 2 Achievement:</strong> Generic tooltips now use content provider
-        architecture. This provider reads layer metadata tooltip configuration and renders
-        markdown content.
+        Generic tooltips use content provider architecture. This provider reads layer
+        metadata tooltip configuration and renders markdown content.
       </div>
     </div>
   );
@@ -443,12 +417,12 @@ export default {
       <MultiMapDemo />
     </MapPopoverProvider>
   ),
-  'Content Provider Demo': () => (
+  'Content Provider': () => (
     <MapPopoverProvider>
       <ContentProviderDemo />
     </MapPopoverProvider>
   ),
-  'Generic Tooltip Provider (Phase 2)': () => (
+  'Generic Tooltip Content Provider': () => (
     <MapPopoverProvider>
       <GenericTooltipDemo />
     </MapPopoverProvider>
