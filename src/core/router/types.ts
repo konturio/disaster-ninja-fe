@@ -30,6 +30,4 @@ export interface AppRouterConfig {
   routes: AppRoute[];
   /** Used as home page and in fallback redirects */
   defaultRoute: AppRoute['slug'];
-  /** Order of routes to pick when redirecting after login */
-  loginRedirectOrder?: AppRoute['id'][];
 }

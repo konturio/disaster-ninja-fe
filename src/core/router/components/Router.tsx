@@ -13,7 +13,6 @@ import { FullScreenLoader } from '~components/LoadingSpinner/LoadingSpinner';
 import { landUser, userWasLanded } from '~core/app/userWasLanded';
 import { dispatchMetricsEvent, dispatchMetricsEventOnce } from '~core/metrics/dispatch';
 import { availableRoutesAtom, getAvailableRoutes } from '../atoms/availableRoutes';
-import { routerConfig } from '../routes';
 import { currentRouteAtom } from '../atoms/currentRoute';
 import { getAbsoluteRoute } from '../getAbsoluteRoute';
 import { NAVIGATE_EVENT } from '../goTo';
@@ -96,8 +95,8 @@ function initRouter() {
   const justLoggedIn = globalThis.sessionStorage.getItem('justLoggedIn') === 'true';
   if (justLoggedIn) {
     globalThis.sessionStorage.removeItem('justLoggedIn');
-    const order = routerConfig.loginRedirectOrder ?? [];
-    const routeId = order.find((id) =>
+    const loginRedirectOrder = ['map', 'pricing', 'profile'];
+    const routeId = loginRedirectOrder.find((id) =>
       availableRoutes.routes.find((r) => r.id === id && !r.disabled),
     );
     const foundRoute =
