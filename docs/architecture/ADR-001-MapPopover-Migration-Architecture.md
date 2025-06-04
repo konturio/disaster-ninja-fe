@@ -67,9 +67,9 @@ graph TD
 5. **Testing Complexity**: Must mock different popup systems for different features
 6. **Inconsistent UX**: Different interaction patterns for similar use cases
 
-## Solution: Autonomous Provider Architecture
+## Solution: Renderer-Managed Provider Architecture
 
-### Core Principle: Clean Separation of Concerns
+### Core Principle: Renderers Own Their Interaction Logic
 
 ```mermaid
 ---
@@ -77,43 +77,48 @@ config:
   layout: elk
 ---
 graph TD
-    subgraph "Unified Architecture - Clean Separation"
+    subgraph "Unified Architecture - Renderer-Managed Providers"
         A["Map Click Event"] --> B["useMapPopoverInteraction Hook"]
         B --> C["Content Registry"]
         C --> D["Provider Lookup"]
 
-        D --> E["FeaturePopoverProvider"]
-        D --> F["BivariatePopoverProvider"]
-        D --> G["MCDAPopoverProvider"]
-        D --> H["GenericTooltipProvider"]
-        D --> I["BoundaryToolProvider"]
+        subgraph "Renderer Lifecycle"
+            E["GenericRenderer.willMount()"] --> E1["Register Tooltip Provider"]
+            F["BivariateRenderer.willMount()"] --> F1["Register Popup Provider"]
+            G["MCDARenderer.willMount()"] --> G1["Register MCDA Provider"]
+            H["BoundaryTool.activate()"] --> H1["Register Boundary Provider"]
+        end
 
-        E --> J["Feature Analysis + PopupMCDA"]
-        F --> K["Bivariate Calc + MapHexTooltip"]
-        G --> L["MCDA Calc + PopupMCDA"]
-        H --> M["Property Extract + Markdown"]
-        I --> N["API Call + BoundarySelector"]
+        E1 --> I["Tooltip: Property + Markdown"]
+        F1 --> J["Bivariate: Calc + MapHexTooltip"]
+        G1 --> K["MCDA: Analysis + PopupMCDA"]
+        H1 --> L["Boundary: API + Selector"]
 
-        J --> O["MapPopover Service"]
-        K --> O
-        L --> O
-        M --> O
-        N --> O
+        D --> I
+        D --> J
+        D --> K
+        D --> L
 
-        O --> P["Unified Popover UI"]
+        I --> M["MapPopover Service"]
+        J --> M
+        K --> M
+        L --> M
+
+        M --> N["Unified Popover UI"]
 
         style C fill:#ccffcc
-        style O fill:#ccffcc
-        style P fill:#ccffcc
+        style M fill:#ccffcc
+        style N fill:#ccffcc
     end
 ```
 
 **Key Benefits:**
 
 - **Single Presentation System**: Only MapPopover handles positioning and rendering
-- **Autonomous Providers**: Each handles its own domain logic completely
-- **Zero Core Changes**: Adding new providers requires no core interface modifications
-- **Simple Testing**: Mock map events, test providers independently
+- **Domain Logic Stays in Domain**: Renderers manage their own interaction providers
+- **Automatic Lifecycle Management**: Providers register/unregister with renderer mount/unmount
+- **Access to Renderer Context**: Providers have access to source IDs, legends, and renderer state
+- **Zero Orphaned Providers**: Cleanup happens automatically when renderers are destroyed
 
 ### Core Interfaces
 
@@ -218,89 +223,124 @@ function useMapPopoverInteraction({
 }
 ```
 
-## Provider Implementations - Autonomous and Self-Contained
+## Renderer-Based Provider Implementation
 
-### MCDA Provider Example
+### GenericRenderer Tooltip Provider Integration
 
 ```typescript
-class MCDAPopoverProvider implements IMapPopoverContentProvider {
-  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null {
-    // Provider handles ALL its domain logic
-    const features = mapEvent.target.queryRenderedFeatures(mapEvent.point);
-    const mcdaFeature = this.findMCDAFeature(features);
+export class GenericRenderer extends LogicalLayerDefaultRenderer {
+  private _tooltipProvider: IMapPopoverContentProvider | null = null;
 
-    if (!mcdaFeature) return null;
+  async willMount({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
+    // Handle layer mounting as before
+    if (state.source) {
+      await this._updateMap(map, state.source, state.legend, state.isVisible, state.style);
+    }
 
-    // Provider extracts its own config from feature/layer
-    const mcdaConfig = this.extractMCDAConfig(mcdaFeature);
-    if (!mcdaConfig) return null;
-
-    // Provider handles error boundaries
-    return (
-      <ErrorBoundary fallback={<div>MCDA analysis unavailable</div>}>
-        <PopupMCDA
-          feature={mcdaFeature}
-          config={mcdaConfig}
-          map={mapEvent.target}
-        />
-      </ErrorBoundary>
-    );
+    // Register tooltip provider if legend has tooltip configuration
+    if (state.legend && 'tooltip' in state.legend && state.legend.tooltip) {
+      this._tooltipProvider = this.createTooltipProvider(state.legend.tooltip);
+      mapPopoverRegistry.register(this._tooltipProvider);
+    }
   }
 
-  private findMCDAFeature(features: MapGeoJSONFeature[]): MapGeoJSONFeature | null {
-    return features.find(f => f.layer.metadata?.type === 'mcda') || null;
+  willUnMount({ map }: { map: ApplicationMap }) {
+    // Cleanup layers as before
+    this._removeLayers(map);
+    // ... existing cleanup
+
+    // Unregister tooltip provider
+    if (this._tooltipProvider) {
+      mapPopoverRegistry.unregister(this._tooltipProvider);
+      this._tooltipProvider = null;
+    }
   }
 
-  private extractMCDAConfig(feature: MapGeoJSONFeature): MCDAConfig | null {
-    // Provider knows how to extract its config from layer/feature
-    return feature.layer.metadata?.mcdaConfig || null;
+  private createTooltipProvider(tooltipConfig: TooltipConfig): IMapPopoverContentProvider {
+    const sourceId = this._sourceId;
+    const { paramName, type } = tooltipConfig;
+
+    return {
+      renderContent: (mapEvent: MapMouseEvent) => {
+        const features = mapEvent.target
+          .queryRenderedFeatures(mapEvent.point)
+          .filter(f => f.source.includes(sourceId));
+
+        const feature = features.find(f => f.properties?.[paramName]);
+        if (!feature?.properties?.[paramName]) return null;
+
+        const content = feature.properties[paramName];
+        return type === 'markdown' ? (
+          <MarkdownRenderer content={content} />
+        ) : (
+          <div>{content}</div>
+        );
+      },
+
+      getPopoverOptions: () => ({
+        placement: 'top',
+        closeOnMove: false,
+        className: 'generic-tooltip',
+      }),
+    };
   }
 }
 ```
 
-### Boundary Tool Provider Example
+### BivariateRenderer Popup Provider Integration
 
 ```typescript
-class BoundaryToolProvider implements IMapPopoverContentProvider {
-  private isToolActive = false;
-  private boundaryService = new BoundaryService();
+export class BivariateRenderer extends LogicalLayerDefaultRenderer {
+  private _popupProvider: IMapPopoverContentProvider | null = null;
 
-  activate() { this.isToolActive = true; }
-  deactivate() { this.isToolActive = false; }
+  async willMount({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
+    // Handle bivariate layer mounting
+    await this.setupBivariateVisualization(map, state);
 
-  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null {
-    if (!this.isToolActive) return null;
-
-    // Provider handles coordinate-based logic
-    return (
-      <ErrorBoundary fallback={<div>Boundary tool unavailable</div>}>
-        <BoundarySelector
-          coordinates={mapEvent.lngLat}
-          boundaryService={this.boundaryService}
-          onSelect={(boundary) => this.handleBoundarySelect(boundary, mapEvent)}
-          onHover={(boundary) => this.handleBoundaryHover(boundary)}
-        />
-      </ErrorBoundary>
-    );
+    // Register popup provider for bivariate interactions
+    this._popupProvider = this.createBivariateProvider();
+    mapPopoverRegistry.register(this._popupProvider);
   }
 
-  getPopoverOptions(mapEvent: MapMouseEvent): MapPopoverOptions {
+  willUnMount({ map }: { map: ApplicationMap }) {
+    // Cleanup bivariate layers
+    this.cleanupBivariateVisualization(map);
+
+    // Unregister popup provider
+    if (this._popupProvider) {
+      mapPopoverRegistry.unregister(this._popupProvider);
+      this._popupProvider = null;
+    }
+  }
+
+  private createBivariateProvider(): IMapPopoverContentProvider {
+    const sourceId = this._sourceId;
+
     return {
-      placement: 'bottom-start',
-      closeOnMove: false, // Keep open during boundary selection
-      className: 'boundary-tool-popover'
+      renderContent: (mapEvent: MapMouseEvent) => {
+        const features = mapEvent.target
+          .queryRenderedFeatures(mapEvent.point)
+          .filter(f => f.source.includes(sourceId));
+
+        const bivariateFeature = features.find(f => f.layer.metadata?.type === 'bivariate');
+        if (!bivariateFeature) return null;
+
+        const bivariateValues = this.calculateBivariateValues(bivariateFeature);
+        return (
+          <MapHexTooltip
+            feature={bivariateFeature}
+            values={bivariateValues}
+            axis={this.getBivariateAxis()}
+          />
+        );
+      },
+
+      getPopoverOptions: () => ({
+        placement: 'top',
+        closeOnMove: true,
+        className: 'bivariate-popup',
+      }),
     };
-  }
-
-  private handleBoundarySelect(boundary: Boundary, mapEvent: MapMouseEvent) {
-    // Provider handles all side effects
-    focusedGeometryService.setFocusedGeometry(boundary);
-    mapPositionService.fitToBounds(boundary.bounds);
-    this.deactivate();
-  }
-
-  private handleBoundaryHover(boundary: Boundary) {
-    boundaryHighlightService.highlight(boundary);
   }
 }
 ```
@@ -339,30 +379,21 @@ class GenericTooltipProvider implements IMapPopoverContentProvider {
 
 ## Migration Strategy - Incremental and Low-Risk
 
-### Current State Assessment
+### Architectural Approach
 
-**✅ Already Implemented (MapPopover Core Infrastructure):**
+The migration strategy leverages existing MapPopover infrastructure and applies the renderer-managed provider pattern incrementally. Each renderer can be migrated independently without affecting others, ensuring zero-risk deployment.
 
-- `MapPopoverService` interface and implementation
-- `MapPopoverProvider` React context provider
-- `useMapPopoverService` hook for accessing the service
-- `useMapPopoverInteraction` hook for map click handling
-- `MapPopoverController` for click event orchestration
-- `MapPopoverPositionCalculator` for positioning and placement
-- Position tracking and movement handling
-- Error handling and cleanup
-- Multi-map support
+### Core Migration Principles
 
-**📋 Need to Implement (Content Provider Layer):**
+1. **Preserve Domain Boundaries**: Interaction logic stays within renderer classes
+2. **Automatic Lifecycle Management**: Providers register/unregister with renderer mount/unmount
+3. **Incremental Adoption**: Each renderer migrates independently
+4. **Zero Breaking Changes**: Existing popup systems continue working during migration
+5. **Easy Rollback**: Simply disable provider registration to revert
 
-- `IMapPopoverContentProvider` interface
-- `MapPopoverContentRegistry` for provider coordination
-- Specific content providers (MCDA, Bivariate, Generic, Boundary)
-- Migration of existing renderer popup logic to providers
+### Phase 1: Content Provider Infrastructure
 
-### Phase 1: Content Provider Architecture _(NEW WORK)_
-
-**Goal**: Build provider layer on top of existing MapPopover infrastructure
+**Goal**: Build provider registry infrastructure and update map interaction hook
 
 ```typescript
 // 1. Define provider interface
@@ -373,112 +404,122 @@ interface IMapPopoverContentProvider {
 
 // 2. Create registry to coordinate providers
 class MapPopoverContentRegistry implements IMapPopoverContentRegistry {
-  // ... implementation as defined above
+  // Simple registration and first-match-wins content rendering
 }
 
-// 3. Integrate with existing useMapPopoverInteraction
-function MapComponent() {
-  const map = useMapInstance();
-  const popoverService = useMapPopoverService(); // ✅ Already exists
-  const registry = useMemo(() => new MapPopoverContentRegistry(), []);
-
-  useMapPopoverInteraction({ // ✅ Already exists
-    map,
-    popoverService,
-    renderContent: (context: MapClickContext) => {
-      // NEW: Use registry to render content
-      const result = registry.renderContent(context.originalEvent);
-      return result?.content || null;
-    },
-    onError: (errorInfo) => <div>Error: {errorInfo.error.message}</div>
-  });
-}
+// 3. Enhanced map interaction hook
+useMapPopoverInteraction({
+  map,
+  popoverService,
+  registry, // Registry support alongside existing renderContent
+});
 ```
 
-**Implementation:**
+### Phase 2: GenericRenderer Provider Integration
 
-- Create `IMapPopoverContentProvider` interface
-- Create `MapPopoverContentRegistry` class
-- Integrate registry with existing `useMapPopoverInteraction`
-- **Zero risk** - builds on proven infrastructure
-- **No changes** to existing MapPopover core system
-
-### Phase 2: Migrate Generic Tooltips _(LOW RISK)_
-
-**Goal**: Replace `currentTooltipAtom` with `GenericTooltipProvider`
+**Goal**: Replace `currentTooltipAtom` with renderer-managed provider
 
 ```typescript
-// Create first provider
-class GenericTooltipProvider implements IMapPopoverContentProvider {
-  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null {
-    const features = mapEvent.target.queryRenderedFeatures(mapEvent.point);
-    const tooltipFeature = this.findTooltipFeature(features);
-    // ... rest of implementation
+export class GenericRenderer extends LogicalLayerDefaultRenderer {
+  private _tooltipProvider: IMapPopoverContentProvider | null = null;
+
+  async willMount({ map, state }) {
+    // Existing layer mounting logic
+    await this._updateMap(map, state.source, state.legend, state.isVisible, state.style);
+
+    // NEW: Register tooltip provider if legend has tooltip configuration
+    if (state.legend?.tooltip) {
+      this._tooltipProvider = this.createTooltipProvider(state.legend.tooltip);
+      mapPopoverRegistry.register(this._tooltipProvider);
+    }
   }
-}
 
-// Register with registry
-const registry = new MapPopoverContentRegistry();
-registry.register(new GenericTooltipProvider());
+  willUnMount({ map }) {
+    // Existing cleanup
+    this._removeLayers(map);
 
-// Gradually disable currentTooltipAtom for layers using new system
-```
-
-**Implementation:**
-
-- Create `GenericTooltipProvider`
-- Extract tooltip logic from `GenericRenderer`
-- Register provider with registry
-- **Test side-by-side** with old system
-- **Easy rollback** - just unregister provider
-
-### Phase 3: Migrate Feature Popups _(MEDIUM RISK)_
-
-**Goal**: Replace `ClickableFeaturesRenderer` popup management with providers
-
-```typescript
-class MCDAPopoverProvider implements IMapPopoverContentProvider {
-  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null {
-    const features = mapEvent.target.queryRenderedFeatures(mapEvent.point);
-    const mcdaFeature = this.findMCDAFeature(features);
-    if (!mcdaFeature) return null;
-
-    // Reuse existing PopupMCDA component
-    return <PopupMCDA feature={mcdaFeature} map={mapEvent.target} />;
-  }
-}
-
-registry.register(new MCDAPopoverProvider());
-registry.register(new MultivariatePopoverProvider());
-```
-
-**Implementation:**
-
-- Extract popup content logic from `ClickableFeaturesRenderer` derivatives
-- Create `MCDAPopoverProvider` and `MultivariatePopoverProvider`
-- **Reuse existing** `PopupMCDA` and `PopupMultivariate` components
-- Disable popup creation in renderers gradually
-- **Preserve** all existing component logic and styling
-
-### Phase 4: Migrate Bivariate Popups _(MEDIUM RISK)_
-
-**Goal**: Replace `BivariateRenderer` direct popup management
-
-```typescript
-class BivariatePopoverProvider implements IMapPopoverContentProvider {
-  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null {
-    const features = mapEvent.target.queryRenderedFeatures(mapEvent.point);
-    const bivariateFeature = this.findBivariateFeature(features);
-    if (!bivariateFeature) return null;
-
-    // Reuse existing MapHexTooltip component
-    const bivariateValues = this.calculateBivariateValues(bivariateFeature);
-    return <MapHexTooltip feature={bivariateFeature} values={bivariateValues} />;
+    // NEW: Unregister provider
+    if (this._tooltipProvider) {
+      mapPopoverRegistry.unregister(this._tooltipProvider);
+      this._tooltipProvider = null;
+    }
   }
 }
 ```
 
-### Phase 5: Migrate Boundary Selector _(HIGH VALUE)_
+**Key Architectural Benefits:**
+
+- **Domain logic stays in renderer** - no artificial separation of concerns
+- **Automatic lifecycle management** - providers tied to renderer lifecycle
+- **Access to renderer context** - source IDs, legends, and renderer state available
+
+### Phase 3: ClickableFeaturesRenderer Integration
+
+**Goal**: Migrate MCDA and Multivariate popup logic to renderer-managed providers
+
+```typescript
+export class ClickableFeaturesRenderer extends LogicalLayerDefaultRenderer {
+  private _mcdaProvider: IMapPopoverContentProvider | null = null;
+  private _multivariateProvider: IMapPopoverContentProvider | null = null;
+
+  async willMount({ map, state }) {
+    // Existing feature layer setup
+    await this.setupClickableFeatures(map, state);
+
+    // Register popup providers based on layer type
+    if (state.metadata?.type === 'mcda') {
+      this._mcdaProvider = this.createMCDAProvider(state.config);
+      mapPopoverRegistry.register(this._mcdaProvider);
+    }
+
+    if (state.metadata?.type === 'multivariate') {
+      this._multivariateProvider = this.createMultivariateProvider(state.config);
+      mapPopoverRegistry.register(this._multivariateProvider);
+    }
+  }
+
+  private createMCDAProvider(config: MCDAConfig) {
+    return {
+      renderContent: (mapEvent) => {
+        const mcdaFeature = this.findMCDAFeature(mapEvent);
+        return mcdaFeature ? <PopupMCDA feature={mcdaFeature} config={config} /> : null;
+      }
+    };
+  }
+}
+```
+
+### Phase 4: BivariateRenderer Integration
+
+**Goal**: Apply renderer-managed provider pattern to bivariate popups
+
+```typescript
+export class BivariateRenderer extends LogicalLayerDefaultRenderer {
+  private _bivariateProvider: IMapPopoverContentProvider | null = null;
+
+  async willMount({ map, state }) {
+    await this.setupBivariateVisualization(map, state);
+
+    // Register bivariate popup provider
+    this._bivariateProvider = this.createBivariateProvider();
+    mapPopoverRegistry.register(this._bivariateProvider);
+  }
+
+  private createBivariateProvider() {
+    return {
+      renderContent: (mapEvent) => {
+        const feature = this.findBivariateFeature(mapEvent);
+        if (!feature) return null;
+
+        const values = this.calculateBivariateValues(feature);
+        return <MapHexTooltip feature={feature} values={values} />;
+      }
+    };
+  }
+}
+```
+
+### Phase 5: Boundary Selector Integration
 
 **Goal**: Replace marker-based dropdown with popover-based approach
 
@@ -489,12 +530,10 @@ class BoundaryToolProvider implements IMapPopoverContentProvider {
   renderContent(mapEvent: MapMouseEvent): React.ReactNode | null {
     if (!this.isToolActive) return null;
 
-    // Use existing boundary fetching logic in popover context
     return (
       <BoundarySelector
         coordinates={mapEvent.lngLat}
         onSelect={(boundary) => {
-          // Reuse existing boundary selection logic
           focusedGeometryService.setFocusedGeometry(boundary);
           mapPositionService.fitToBounds(boundary.bounds);
           this.deactivate();
@@ -511,7 +550,7 @@ class BoundaryToolProvider implements IMapPopoverContentProvider {
   }
 }
 
-// Integrate with existing toolbar control
+// Integrate with toolbar control lifecycle
 boundarySelectorControl.onStateChange((state) => {
   if (state === 'active') {
     boundaryProvider.activate();
@@ -521,86 +560,85 @@ boundarySelectorControl.onStateChange((state) => {
 });
 ```
 
-**Benefits:**
+**Architectural Pattern:**
 
-- **Eliminates** marker-based dropdown complexity
-- **Consistent UX** with other map interactions
-- **Preserves** all existing boundary selection logic
+- **Tool-managed providers** - providers activated/deactivated with tool state
+- **Consistent interaction model** - same popover system as layer interactions
+- **Preserved existing logic** - boundary selection and geometry handling unchanged
 - **Leverages** proven MapPopover positioning system
 
-### Phase 6: Legacy Cleanup _(FINAL CLEANUP)_
+### Phase 6: Legacy System Cleanup
 
-**Goal**: Remove old systems after successful migration
+**Goal**: Remove deprecated systems after successful migration
 
-- Remove `currentTooltipAtom` and related components
-- Remove popup management from renderers
+- Remove `currentTooltipAtom` and related tooltip infrastructure
+- Remove direct popup management from renderers
 - Remove marker-based dropdown utilities
-- Clean up atoms and legacy interaction handlers
+- Clean up legacy interaction handlers and atoms
 
-## Updated Technical Implementation
+## Technical Integration Pattern
 
-### Integration with Existing System
+### Registry-Based Map Component
 
 ```typescript
-// This leverages the existing, proven MapPopover infrastructure
 function MapComponent() {
   const map = useMapInstance();
-  const popoverService = useMapPopoverService(); // ✅ Already working
-  const registry = useMemo(() => {
-    const reg = new MapPopoverContentRegistry();
-    reg.register(new GenericTooltipProvider());
-    reg.register(new MCDAPopoverProvider());
-    reg.register(new BivariatePopoverProvider());
-    reg.register(boundaryToolProvider); // Conditional registration
-    return reg;
-  }, []);
+  const popoverService = useMapPopoverService();
+  const registry = useMemo(() => new MapPopoverContentRegistry(), []);
 
-  useMapPopoverInteraction({ // ✅ Already working
+  useMapPopoverInteraction({
     map,
     popoverService,
-    renderContent: (context: MapClickContext) => {
-      // NEW: Registry provides content, existing system handles presentation
-      const result = registry.renderContent(context.originalEvent);
-      return result?.content || null;
-    },
-    onError: (errorInfo) => <div>Error: {errorInfo.error.message}</div>
+    registry, // Registry coordinates all renderer-managed providers
   });
 
   return <div ref={mapRef} />;
 }
 ```
 
-### Key Architecture Benefits
+### Renderer Integration Pattern
 
-**A.1> Building on Proven Foundation**
+```typescript
+export class ExampleRenderer extends LogicalLayerDefaultRenderer {
+  private _interactionProvider: IMapPopoverContentProvider | null = null;
 
-- MapPopover core is **already tested and working**
-- Position tracking, error handling, cleanup - **all solved**
-- Multi-map support - **already implemented**
-- No need to reinvent presentation layer
+  async willMount({ map, state }) {
+    // Standard layer mounting
+    await this.setupLayer(map, state);
 
-**A.2> Minimal Risk Migration**
+    // Register interaction provider
+    this._interactionProvider = this.createInteractionProvider(state);
+    mapPopoverRegistry.register(this._interactionProvider);
+  }
 
-- Each provider can be **independently tested**
-- **Side-by-side operation** with old systems during migration
-- **Easy rollback** - just unregister problematic providers
-- **Incremental value** - each migrated system immediately benefits
+  willUnMount({ map }) {
+    // Standard cleanup
+    this.cleanupLayer(map);
 
-**A.3> Preserved Investment**
-
-- **Reuse existing** `PopupMCDA`, `PopupMultivariate`, `MapHexTooltip` components
-- **Preserve existing** boundary selection, geometry highlighting logic
-- **Maintain existing** styling, UX patterns, and user workflows
-
-The updated migration strategy leverages the significant work already completed on the MapPopover infrastructure and focuses on implementing the missing content provider layer to unify all map interactions.
+    // Unregister provider
+    if (this._interactionProvider) {
+      mapPopoverRegistry.unregister(this._interactionProvider);
+      this._interactionProvider = null;
+    }
+  }
+}
+```
 
 ## Conclusion
 
-This architecture achieves **true separation of concerns**:
+This architecture achieves **true separation of concerns** with **domain-appropriate ownership**:
 
-- **MapPopover**: Pure presentation layer
-- **Providers**: Autonomous domain logic
-- **Registry**: Simple coordination
-- **Migration**: Incremental and low-risk
+- **MapPopover**: Pure presentation layer (positioning + rendering)
+- **Registry**: Simple provider coordination (first-match-wins)
+- **Renderers**: Own their interaction logic via managed providers
+- **Migration**: Incremental renderer-by-renderer approach
 
-The result is a maintainable, extensible, and testable system that unifies all map interaction patterns without architectural anti-patterns or tight coupling.
+**Key Architectural Benefits:**
+
+1. **Domain Logic Stays in Domain**: Tooltip logic remains in `GenericRenderer`, popup logic in `BivariateRenderer`, etc.
+2. **Automatic Lifecycle Management**: Providers register/unregister with renderer mount/unmount cycles
+3. **No Orphaned Providers**: Impossible to have providers without corresponding renderers
+4. **Access to Renderer Context**: Providers can access source IDs, legends, and renderer-specific state
+5. **Incremental Migration**: Each renderer can be migrated independently with zero risk
+
+The result is a maintainable, extensible system that **preserves domain boundaries** while **unifying presentation** through the MapPopover infrastructure.
