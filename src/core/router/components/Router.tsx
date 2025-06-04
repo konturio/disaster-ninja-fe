@@ -96,11 +96,10 @@ function initRouter() {
   if (justLoggedIn) {
     globalThis.sessionStorage.removeItem('justLoggedIn');
     const loginRedirectOrder = ['map', 'pricing', 'profile'];
-    const routeId = loginRedirectOrder.find((id) =>
-      availableRoutes.routes.find((r) => r.id === id && !r.disabled),
-    );
-    const foundRoute =
-      routeId && availableRoutes.routes.find((r) => r.id === routeId && !r.disabled);
+    const foundRoute = loginRedirectOrder
+      .map((id) => availableRoutes.routes.find((r) => r.id === id && !r.disabled))
+      .find(Boolean);
+
     if (foundRoute) {
       initialRedirect = foundRoute.slug;
     } else {
