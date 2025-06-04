@@ -38,7 +38,7 @@ This section details the areas in the codebase affected by the cumulative breaki
 - [`ConnectedMap.tsx`](../../src/components/ConnectedMap/ConnectedMap.tsx): [Lines 2, 13, 16](../../src/components/ConnectedMap/ConnectedMap.tsx#L2), [Lines 13, 16](../../src/components/ConnectedMap/ConnectedMap.tsx#L13-L16)
 - [`useMapPositionSync.ts`](../../src/components/ConnectedMap/useMapPositionSync.ts): [Line 5](../../src/components/ConnectedMap/useMapPositionSync.ts#L5)
 - [`GenericRenderer.ts`](../../src/core/logical_layers/renderers/GenericRenderer.ts): [Lines 17–27](../../src/core/logical_layers/renderers/GenericRenderer.ts#L17-L27)
-- [`BivariateRenderer/BivariateRenderer.tsx`](../../src/core/logical_layers/renderers/BivariateRenderer/BivariateRenderer.tsx): [Lines 1, 16, 40, 43](../../src/core/logical_layers/renderers/BivariateRenderer/BivariateRenderer.tsx#L1), [Lines 16, 40, 43](../../src/core/logical_layers/renderers/BivariateRenderer/BivariateRenderer.tsx#L16-L43)
+- [`BivariateRenderer/BivariateRenderer.tsx`](../../src/core/logical_layers/renderers/BivariateRenderer/BivariateRenderer.tsx): [Lines 1–45](../../src/core/logical_layers/renderers/BivariateRenderer/BivariateRenderer.tsx#L1-L45)
 - [`ClickableFeaturesRenderer/ClickableFeaturesRenderer.tsx`](../../src/core/logical_layers/renderers/ClickableFeaturesRenderer/ClickableFeaturesRenderer.tsx): [Lines 1, 17, 20](../../src/core/logical_layers/renderers/ClickableFeaturesRenderer/ClickableFeaturesRenderer.tsx#L1), [Lines 17, 20](../../src/core/logical_layers/renderers/ClickableFeaturesRenderer/ClickableFeaturesRenderer.tsx#L17-L20)
 - [`helpers/activeAndHoverFeatureStates.ts`](../../src/core/logical_layers/renderers/helpers/activeAndHoverFeatureStates.ts): [Line 25](../../src/core/logical_layers/renderers/helpers/activeAndHoverFeatureStates.ts#L25)
 - [`helpers/featureVisibilityCheck.ts`](../../src/core/logical_layers/renderers/helpers/featureVisibilityCheck.ts): [Line 3](../../src/core/logical_layers/renderers/helpers/featureVisibilityCheck.ts#L3)
@@ -57,7 +57,7 @@ This section details the areas in the codebase affected by the cumulative breaki
 
 - [`map-libre-adapter/index.tsx`](../../src/components/ConnectedMap/map-libre-adapter/index.tsx): [Lines 74–200](../../src/components/ConnectedMap/map-libre-adapter/index.tsx#L74-L200) (map instantiation, options, addSource/addLayer)
 - [`GenericRenderer.ts`](../../src/core/logical_layers/renderers/GenericRenderer.ts): [Lines 65–200](../../src/core/logical_layers/renderers/GenericRenderer.ts#L65-L200) (addSource/addLayer)
-- [`BivariateRenderer/BivariateRenderer.tsx`](../../src/core/logical_layers/renderers/BivariateRenderer/BivariateRenderer.tsx): [Lines 140–400](../../src/core/logical_layers/renderers/BivariateRenderer/BivariateRenderer.tsx#L140-L400) (addSource/addLayer)
+- [`BivariateRenderer/BivariateRenderer.tsx`](../../src/core/logical_layers/renderers/BivariateRenderer/BivariateRenderer.tsx): [Lines 1–45](../../src/core/logical_layers/renderers/BivariateRenderer/BivariateRenderer.tsx#L1-L45) (addSource/addLayer)
 - [`ClickableFeaturesRenderer/ClickableFeaturesRenderer.tsx`](../../src/core/logical_layers/renderers/ClickableFeaturesRenderer/ClickableFeaturesRenderer.tsx): [Lines 61–200](../../src/core/logical_layers/renderers/ClickableFeaturesRenderer/ClickableFeaturesRenderer.tsx#L61-L200) (addSource/addLayer)
 - [`layersOrder/layerByOrder.ts`](../../src/core/logical_layers/utils/layersOrder/layerByOrder.ts): [Lines 7–37](../../src/core/logical_layers/utils/layersOrder/layerByOrder.ts#L7-L37) (custom addLayer logic)
 
@@ -77,7 +77,7 @@ This section details the areas in the codebase affected by the cumulative breaki
 - [`GenericRenderer.ts`](../../src/core/logical_layers/renderers/GenericRenderer.ts):
   - [Lines 201–400](../../src/core/logical_layers/renderers/GenericRenderer.ts#L201-L400): event listener registration via `registerMapListener` (which may wrap `.on()`/`.off()`)
 - [`BivariateRenderer/BivariateRenderer.tsx`](../../src/core/logical_layers/renderers/BivariateRenderer/BivariateRenderer.tsx):
-  - [Lines 103–400](../../src/core/logical_layers/renderers/BivariateRenderer/BivariateRenderer.tsx#L103-L400): event listener registration via `registerMapListener`
+  - [Lines 1–45](../../src/core/logical_layers/renderers/BivariateRenderer/BivariateRenderer.tsx#L1-L45): event listener registration via `registerMapListener`
 - [`ClickableFeaturesRenderer/ClickableFeaturesRenderer.tsx`](../../src/core/logical_layers/renderers/ClickableFeaturesRenderer/ClickableFeaturesRenderer.tsx):
   - [Lines 61–200](../../src/core/logical_layers/renderers/ClickableFeaturesRenderer/ClickableFeaturesRenderer.tsx#L61-L200): event listener registration via `registerMapListener`
 - [`activeAndHoverFeatureStates.ts`](../../src/core/logical_layers/renderers/helpers/activeAndHoverFeatureStates.ts):
@@ -91,7 +91,7 @@ This section details the areas in the codebase affected by the cumulative breaki
 
 - [`helpers/activeAndHoverFeatureStates.ts`](../../src/core/logical_layers/renderers/helpers/activeAndHoverFeatureStates.ts): [Lines 1–112](../../src/core/logical_layers/renderers/helpers/activeAndHoverFeatureStates.ts#L1-L112) (feature filtering, state logic)
 - [`helpers/featureVisibilityCheck.ts`](../../src/core/logical_layers/renderers/helpers/featureVisibilityCheck.ts): [Lines 1–21](../../src/core/logical_layers/renderers/helpers/featureVisibilityCheck.ts#L1-L21) (feature visibility logic)
-- [`BivariateRenderer/BivariateRenderer.tsx`](../../src/core/logical_layers/renderers/BivariateRenderer/BivariateRenderer.tsx): [Lines 103–400](../../src/core/logical_layers/renderers/BivariateRenderer/BivariateRenderer.tsx#L103-L400) (feature state logic)
+- [`BivariateRenderer/BivariateRenderer.tsx`](../../src/core/logical_layers/renderers/BivariateRenderer/BivariateRenderer.tsx): [Lines 1–45](../../src/core/logical_layers/renderers/BivariateRenderer/BivariateRenderer.tsx#L1-L45) (feature state logic)
 - [`ClickableFeaturesRenderer/ClickableFeaturesRenderer.tsx`](../../src/core/logical_layers/renderers/ClickableFeaturesRenderer/ClickableFeaturesRenderer.tsx): [Lines 61–200](../../src/core/logical_layers/renderers/ClickableFeaturesRenderer/ClickableFeaturesRenderer.tsx#L61-L200) (feature state logic)
 
 ### 2.5. Terrain and Elevation
@@ -112,7 +112,7 @@ This section details the areas in the codebase affected by the cumulative breaki
 - [`layersOrder/layerByOrder.ts`](../../src/core/logical_layers/utils/layersOrder/layerByOrder.ts): [Lines 1–45](../../src/core/logical_layers/utils/layersOrder/layerByOrder.ts#L1-L45) (layer ordering helpers)
 - [`layersOrder/layersOrder.ts`](../../src/core/logical_layers/utils/layersOrder/layersOrder.ts): [Lines 1–231](../../src/core/logical_layers/utils/layersOrder/layersOrder.ts#L1-L231) (layer ordering manager)
 - [`GenericRenderer.ts`](../../src/core/logical_layers/renderers/GenericRenderer.ts): [Lines 65–200](../../src/core/logical_layers/renderers/GenericRenderer.ts#L65-L200) (calls to layerByOrder)
-- [`BivariateRenderer/BivariateRenderer.tsx`](../../src/core/logical_layers/renderers/BivariateRenderer/BivariateRenderer.tsx): [Lines 140–400](../../src/core/logical_layers/renderers/BivariateRenderer/BivariateRenderer.tsx#L140-L400) (calls to layerByOrder)
+- [`BivariateRenderer/BivariateRenderer.tsx`](../../src/core/logical_layers/renderers/BivariateRenderer/BivariateRenderer.tsx): now a ~45 line wrapper delegating to `MultivariateRenderer`
 - [`ClickableFeaturesRenderer/ClickableFeaturesRenderer.tsx`](../../src/core/logical_layers/renderers/ClickableFeaturesRenderer/ClickableFeaturesRenderer.tsx): [Lines 61–200](../../src/core/logical_layers/renderers/ClickableFeaturesRenderer/ClickableFeaturesRenderer.tsx#L61-L200) (calls to layerByOrder)
 
 ### 2.7. WebGL2 and Graphics Backend
