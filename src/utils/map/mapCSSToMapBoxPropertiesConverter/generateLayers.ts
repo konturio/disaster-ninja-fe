@@ -11,7 +11,9 @@ interface CasingLineLayer extends Omit<LineLayerSpecification, 'type'> {
 type LayerSpecificationWithoutId = Omit<LayerSpecification | CasingLineLayer, 'id'>;
 
 const filters = {
+  // only use polygons for fill to avoid adding fill to line strings
   fill: ['==', '$type', 'Polygon'] as FilterSpecification,
+  // only use points for symbols to avoid adding markers on top of polygons/lineStrings
   symbol: ['==', '$type', 'Point'] as FilterSpecification,
 };
 
