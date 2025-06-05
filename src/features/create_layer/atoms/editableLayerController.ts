@@ -4,7 +4,7 @@ import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { notificationServiceInstance } from '~core/notificationServiceInstance';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { createLayer, deleteLayer, updateLayer } from '~core/api/layers';
-import { EditTargets, TEMPORARY_USER_LAYER_LEGEND } from '../constants';
+import { EditTargets, DEFAULT_USER_LAYER_LEGEND } from '../constants';
 import { createLayerEditorFormAtom } from './layerEditorForm';
 import { createLayerEditorFormFieldAtom } from './layerEditorFormField';
 import { editableLayerSettingsAtom } from './editableLayerSettings';
@@ -94,7 +94,7 @@ export const editableLayerControllerAtom = createAtom(
           name: dataState.name,
           legend: {
             name: dataState.name,
-            ...TEMPORARY_USER_LAYER_LEGEND,
+            ...DEFAULT_USER_LAYER_LEGEND,
           },
           featureProperties: dataState.fields.reduce(
             (acc, fldAtom: LayerEditorFormFieldAtomType) => {
