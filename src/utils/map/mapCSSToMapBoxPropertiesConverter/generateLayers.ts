@@ -19,10 +19,7 @@ export function generateLayers(
   requirements,
   valueConverters,
 ): Omit<LayerSpecification, 'id'>[] {
-  const layersByType: Record<
-    string,
-    Omit<LayerSpecification | CasingLineLayer, 'id'>
-  > = {};
+  const layersByType: Record<string, LayerSpecificationWithoutId> = {};
   requirements.forEach(([req, value]) => {
     /**
      * One mapCSS property can require array of mapbox properties,
@@ -57,14 +54,10 @@ export function generateLayers(
   });
 
   return Object.values(layersByType)
-    .map(
-      (
-        layer: Omit<LayerSpecification | CasingLineLayer, 'id'>,
-      ): Omit<LayerSpecification, 'id'> => {
-        layer.type = layer.type === 'casing_line' ? 'line' : layer.type;
-        return layer as Omit<LayerSpecification, 'id'>;
-      },
-    )
+    .map((layer: LayerSpecificationWithoutId): Omit<LayerSpecification, 'id'> => {
+      layer.type = layer.type === 'casing_line' ? 'line' : layer.type;
+      return layer as Omit<LayerSpecification, 'id'>;
+    })
     .filter((l) => {
       const isUnnecessaryLayer =
         // @ts-expect-error - FIXME
