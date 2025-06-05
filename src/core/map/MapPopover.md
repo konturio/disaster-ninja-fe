@@ -177,25 +177,50 @@ useMapPopoverInteraction({
 });
 ```
 
-## Multiple Maps
+## Multiple Maps - Isolated Systems
+
+⚠️ **Important**: Each map should have its own isolated popover system to avoid conflicts.
 
 ```tsx
-function MultiMapComponent() {
-  const map1 = useMap(ref1);
-  const map2 = useMap(ref2);
-  const service = useMapPopoverService();
+function MultiMapApp() {
+  return (
+    <div>
+      {/* Each map gets its own isolated popover provider */}
+      <MapPopoverProvider>
+        <MapComponent mapId="map1" renderContent={contentForMap1} />
+      </MapPopoverProvider>
+
+      <MapPopoverProvider>
+        <MapComponent mapId="map2" renderContent={contentForMap2} />
+      </MapPopoverProvider>
+    </div>
+  );
+}
+
+function MapComponent({ mapId, renderContent }) {
+  const map = useMap();
+  const popoverService = useMapPopoverService(); // Isolated per provider
 
   useMapPopoverInteraction({
-    map: map1,
-    popoverService: service,
-    renderContent: contentForMap1,
+    map,
+    popoverService,
+    renderContent,
   });
 
-  useMapPopoverInteraction({
-    map: map2,
-    popoverService: service,
-    renderContent: contentForMap2,
-  });
+  return <div ref={mapRef} style={{ width: '100%', height: '400px' }} />;
+}
+```
+
+### ❌ Avoid Shared Popover Service
+
+```tsx
+// DON'T DO THIS - causes position tracking conflicts
+function ProblematicMultiMap() {
+  const sharedService = useMapPopoverService(); // ❌ Shared context
+
+  useMapPopoverInteraction({ map: map1, popoverService: sharedService });
+  useMapPopoverInteraction({ map: map2, popoverService: sharedService });
+  // Result: Only last popover works, orphaned position trackers
 }
 ```
 

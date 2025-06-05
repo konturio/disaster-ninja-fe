@@ -28,6 +28,19 @@ interface PopoverOptions {
   virtualReference?: { x: number; y: number };
 }
 
+function createBoundingRect(x: number, y: number): DOMRect {
+  return {
+    x,
+    y,
+    width: 0,
+    height: 0,
+    top: y,
+    left: x,
+    right: x,
+    bottom: y,
+  } as DOMRect;
+}
+
 export function usePopover({
   initialOpen = false,
   placement = 'top',
@@ -42,18 +55,13 @@ export function usePopover({
   const open = controlledOpen ?? uncontrolledOpen;
   const setOpen = setControlledOpen ?? setUncontrolledOpen;
 
-  const virtualRef = React.useRef({
-    getBoundingClientRect: () => ({
-      x: virtualReference?.x ?? 0,
-      y: virtualReference?.y ?? 0,
-      width: 0,
-      height: 0,
-      top: virtualReference?.y ?? 0,
-      left: virtualReference?.x ?? 0,
-      right: virtualReference?.x ?? 0,
-      bottom: virtualReference?.y ?? 0,
+  const virtualRef = React.useMemo(
+    () => ({
+      getBoundingClientRect: () =>
+        createBoundingRect(virtualReference?.x ?? 0, virtualReference?.y ?? 0),
     }),
-  });
+    [virtualReference],
+  );
 
   const data = useFloating({
     placement,
@@ -74,7 +82,7 @@ export function usePopover({
   });
 
   if (virtualReference && !data.refs.reference.current) {
-    data.refs.setReference(virtualRef.current);
+    data.refs.setReference(virtualRef);
   }
 
   const context = data.context;
@@ -91,20 +99,12 @@ export function usePopover({
 
   React.useEffect(() => {
     if (virtualReference) {
-      virtualRef.current.getBoundingClientRect = () => ({
-        x: virtualReference.x,
-        y: virtualReference.y,
-        width: 0,
-        height: 0,
-        top: virtualReference.y,
-        left: virtualReference.x,
-        right: virtualReference.x,
-        bottom: virtualReference.y,
-      });
-      data.refs.setReference(virtualRef.current);
+      virtualRef.getBoundingClientRect = () =>
+        createBoundingRect(virtualReference.x, virtualReference.y);
+      data.refs.setReference(virtualRef);
       data.update();
     }
-  }, [virtualReference, data.refs, data.update]);
+  }, [virtualReference, data.refs, data.update, virtualRef]);
 
   return React.useMemo(
     () => ({
