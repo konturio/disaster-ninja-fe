@@ -194,40 +194,33 @@ function EnhancedDemo() {
   return (
     <div style={{ margin: 32 }}>
       <h4>Enhanced Features: Custom Style + Error Handling</h4>
-      <div
-        ref={mapRef}
-        style={{
-          width: '100%',
-          height: '60vh',
-          border: '1px solid #ddd',
-          borderRadius: '8px',
-        }}
-      />
-      <div style={{ position: 'absolute', top: 35, right: 10, zIndex: 1 }}>
-        <button onClick={close} style={{ background: '#10b981' }}>
-          Close
-        </button>
-        <button onClick={destroy} style={{ background: '#dc2626' }}>
-          Destroy
-        </button>
+      <div ref={mapRef} style={{ width: '100%', height: '60vh' }} />
+      <div>
+        <button onClick={close}>Close</button>
+        <button onClick={destroy}>Destroy</button>
       </div>
     </div>
   );
 }
 
-function MultiMapDemo() {
+function Map1Component() {
   const map1Ref = useRef<HTMLDivElement>(null);
-  const map2Ref = useRef<HTMLDivElement>(null);
   const map1 = useMapInstance(map1Ref);
-  const map2 = useMapInstance(map2Ref);
   const popoverService = useMapPopoverService();
 
-  // Both maps share the same service
   useMapPopoverInteraction({
     map: map1,
     popoverService,
     renderContent: defaultRenderContent,
   });
+
+  return <div ref={map1Ref} style={{ width: '100%', height: '30vh' }} />;
+}
+
+function Map2Component() {
+  const map2Ref = useRef<HTMLDivElement>(null);
+  const map2 = useMapInstance(map2Ref);
+  const popoverService = useMapPopoverService();
 
   useMapPopoverInteraction({
     map: map2,
@@ -235,16 +228,24 @@ function MultiMapDemo() {
     renderContent: customRenderContent,
   });
 
+  return <div ref={map2Ref} style={{ width: '100%', height: '30vh' }} />;
+}
+
+function MultiMapDemo() {
   return (
     <div style={{ margin: 32 }}>
-      <h4>Multi-Map Support - Shared Service</h4>
+      <h4>Multi-Map Support - Isolated Systems</h4>
       <div>
-        <h5>Map 1 (Default Style)</h5>
-        <div ref={map1Ref} style={{ width: '100%', height: '30vh' }} />
+        <h5>Map 1 (Default Style) - Independent Popover</h5>
+        <MapPopoverProvider>
+          <Map1Component />
+        </MapPopoverProvider>
       </div>
       <div>
-        <h5>Map 2 (Custom Style)</h5>
-        <div ref={map2Ref} style={{ width: '100%', height: '30vh' }} />
+        <h5>Map 2 (Custom Style) - Independent Popover</h5>
+        <MapPopoverProvider>
+          <Map2Component />
+        </MapPopoverProvider>
       </div>
     </div>
   );
@@ -412,11 +413,7 @@ export default {
       <EnhancedDemo />
     </MapPopoverProvider>
   ),
-  'Multi-Map Support': () => (
-    <MapPopoverProvider>
-      <MultiMapDemo />
-    </MapPopoverProvider>
-  ),
+  'Multi-Map Support': () => <MultiMapDemo />,
   'Content Provider': () => (
     <MapPopoverProvider>
       <ContentProviderDemo />

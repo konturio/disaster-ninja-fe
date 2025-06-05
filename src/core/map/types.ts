@@ -67,7 +67,6 @@ export type RenderPopoverContentFn = (
   context: MapClickContext,
 ) => React.ReactNode | null | undefined;
 
-// Error handling types
 export interface MapPopoverErrorInfo {
   error: Error;
   context: MapClickContext;
@@ -76,8 +75,6 @@ export interface MapPopoverErrorInfo {
 export type MapPopoverErrorHandler = (
   errorInfo: MapPopoverErrorInfo,
 ) => React.ReactNode | null;
-
-// Content Provider Architecture Types
 
 export interface MapPopoverOptions {
   placement?: Placement;
