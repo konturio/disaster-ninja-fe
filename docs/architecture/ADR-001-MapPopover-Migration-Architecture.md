@@ -27,7 +27,7 @@ config:
   layout: elk
 ---
 graph TD
-    subgraph "Current State - Fragmented Systems"
+    subgraph "Legacy - Fragmented Systems"
         A["Map Click Event"] --> B["GenericRenderer"]
         A --> C["ClickableFeaturesRenderer"]
         A --> D["BivariateRenderer"]
@@ -67,9 +67,9 @@ graph TD
 5. **Testing Complexity**: Must mock different popup systems for different features
 6. **Inconsistent UX**: Different interaction patterns for similar use cases
 
-## Solution: Renderer-Managed Provider Architecture
+## Solution: Provider-Based Content Delegation Model
 
-### Core Principle: Renderers Own Their Interaction Logic
+### Core Principle: Providers Contribute to Aggregated Content
 
 ```mermaid
 ---
@@ -77,12 +77,12 @@ config:
   layout: elk
 ---
 graph TD
-    subgraph "Unified Architecture - Renderer-Managed Providers"
+    subgraph "Unified Architecture - Provider-Based Content Delegation"
         A["Map Click Event"] --> B["useMapPopoverInteraction Hook"]
         B --> C["Content Registry"]
         C --> D["Provider Lookup"]
 
-        subgraph "Renderer Lifecycle"
+        subgraph "Provider Registration"
             E["GenericRenderer.willMount()"] --> E1["Register Tooltip Provider"]
             F["BivariateRenderer.willMount()"] --> F1["Register Popup Provider"]
             G["MCDARenderer.willMount()"] --> G1["Register MCDA Provider"]
@@ -99,26 +99,28 @@ graph TD
         D --> K
         D --> L
 
-        I --> M["MapPopover Service"]
+        I --> M["Aggregate Content"]
         J --> M
         K --> M
         L --> M
 
-        M --> N["Unified Popover UI"]
+        M --> N["MapPopover Service"]
+        N --> O["Unified Popover UI (Aggregated Content)"]
 
         style C fill:#ccffcc
         style M fill:#ccffcc
         style N fill:#ccffcc
+        style O fill:#ccffcc
     end
 ```
 
 **Key Benefits:**
 
-- **Single Presentation System**: Only MapPopover handles positioning and rendering
-- **Domain Logic Stays in Domain**: Renderers manage their own interaction providers
-- **Automatic Lifecycle Management**: Providers register/unregister with renderer mount/unmount
-- **Access to Renderer Context**: Providers have access to source IDs, legends, and renderer state
-- **Zero Orphaned Providers**: Cleanup happens automatically when renderers are destroyed
+- **Single Presentation System**: Only `MapPopover` handles positioning and rendering.
+- **Domain Logic Stays in Domain**: Providers manage their own interaction logic, contributing to a unified output.
+- **Aggregated Content Display**: All providers that return content contribute to the popover, ensuring comprehensive feedback.
+- **Flexible Registration**: Providers can be registered from any component, not strictly tied to renderer lifecycle.
+- **Simplified Coordination**: Registry collects and aggregates content without complex prioritization logic.
 
 ### Core Interfaces
 
@@ -150,13 +152,13 @@ interface IMapPopoverContentRegistry {
   register(provider: IMapPopoverContentProvider): void;
   unregister(provider: IMapPopoverContentProvider): void;
   renderContent(mapEvent: MapMouseEvent): {
-    content: React.ReactNode;
+    contents: React.ReactNode[];
     options?: MapPopoverOptions;
   } | null;
 }
 ```
 
-### Registry Implementation - Simple and Clean
+### Registry Implementation - Aggregated Content Approach
 
 ```typescript
 class MapPopoverContentRegistry implements IMapPopoverContentRegistry {
@@ -174,18 +176,33 @@ class MapPopoverContentRegistry implements IMapPopoverContentRegistry {
   }
 
   renderContent(mapEvent: MapMouseEvent): {
-    content: React.ReactNode;
+    contents: React.ReactNode[];
     options?: MapPopoverOptions;
   } | null {
-    // Simple iteration - first provider that returns content wins
+    const collectedContents: React.ReactNode[] = [];
+    let mergedOptions: MapPopoverOptions = {};
+
     for (const provider of this.providers) {
-      const content = provider.renderContent(mapEvent);
-      if (content) {
-        return {
-          content,
-          options: provider.getPopoverOptions?.(mapEvent),
-        };
+      try {
+        const content = provider.renderContent(mapEvent);
+        if (content) {
+          collectedContents.push(content);
+          if (provider.getPopoverOptions) {
+            const providerOptions = provider.getPopoverOptions(mapEvent);
+            mergedOptions = { ...mergedOptions, ...providerOptions };
+          }
+        }
+      } catch (error) {
+        console.error('Error in content provider:', error);
+        // Continue to next provider on error
       }
+    }
+
+    if (collectedContents.length > 0) {
+      return {
+        contents: collectedContents,
+        options: mergedOptions,
+      };
     }
     return null;
   }
@@ -211,7 +228,7 @@ function useMapPopoverInteraction({
       const result = registry.renderContent(event);
 
       if (result) {
-        popoverService.show(event.point, result.content, result.options);
+        popoverService.show(event.point, result.contents, result.options);
       } else {
         popoverService.close();
       }
@@ -629,16 +646,16 @@ export class ExampleRenderer extends LogicalLayerDefaultRenderer {
 This architecture achieves **true separation of concerns** with **domain-appropriate ownership**:
 
 - **MapPopover**: Pure presentation layer (positioning + rendering)
-- **Registry**: Simple provider coordination (first-match-wins)
-- **Renderers**: Own their interaction logic via managed providers
-- **Migration**: Incremental renderer-by-renderer approach
+- **Registry**: Simple provider coordination (aggregates content from all providers)
+- **Providers**: Contribute domain-specific content to a unified popover
+- **Migration**: Incremental provider-by-provider approach
 
 **Key Architectural Benefits:**
 
-1. **Domain Logic Stays in Domain**: Tooltip logic remains in `GenericRenderer`, popup logic in `BivariateRenderer`, etc.
-2. **Automatic Lifecycle Management**: Providers register/unregister with renderer mount/unmount cycles
-3. **No Orphaned Providers**: Impossible to have providers without corresponding renderers
-4. **Access to Renderer Context**: Providers can access source IDs, legends, and renderer-specific state
-5. **Incremental Migration**: Each renderer can be migrated independently with zero risk
+1. **Domain Logic Stays in Domain**: Tooltip logic remains in `GenericRenderer`, popup logic in `BivariateRenderer`, etc., with contributions aggregated.
+2. **Comprehensive User Feedback**: All relevant providers add content to the popover, avoiding information loss.
+3. **Flexible Provider Management**: Providers can be registered from any component, supporting varied use cases.
+4. **Access to Context**: Providers can access relevant state and configurations as needed.
+5. **Incremental Migration**: Each provider can be integrated independently with zero risk.
 
-The result is a maintainable, extensible system that **preserves domain boundaries** while **unifying presentation** through the MapPopover infrastructure.
+The result is a maintainable, extensible system that **preserves domain boundaries** while **unifying presentation** through the `MapPopover` infrastructure, displaying aggregated content from all contributing providers.
