@@ -45,5 +45,5 @@
 }
 
 .childrenIndent {
-  margin: var(--half-unit) var(--unit) calc(var(--unit) * 2) calc(var(--unit) * 3);
+  margin: var(--half-unit) 0 calc(var(--unit)) calc(var(--unit) * 2);
 }

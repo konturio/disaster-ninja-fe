@@ -18,6 +18,7 @@
   "horizontal_direction": "Horizontal direction",
   "legend_presentation": "Legend presentation",
   "layers": "Layers",
+  "layer": "Layer",
   "toolbar": {
     "map_ruler": "Measure distance",
     "locate_me": "Locate me",
@@ -175,7 +176,15 @@
     },
     "score": "Score",
     "compare": "Compare",
-    "hide_area": "Hide area"
+    "hide_area": "Hide area",
+    "labels": "Labels",
+    "3d": "3D"
+  },
+  "map_popup": {
+    "value": "Value",
+    "range": "Range",
+    "coefficient": "Coefficient",
+    "normalized_value": "Normalized value"
   },
   "search": {
     "search_location": "Search location",
@@ -511,5 +520,8 @@
     "save_as_reference_area": "Save as reference area",
     "error_couldnt_save": "Unfortunately, we could not save your reference area. Please try again.",
     "selected_area_saved_as_reference_area": "Selected area has been saved as reference area in your profile"
+  },
+  "oam_auth": {
+    "login_button": "Login with Google"
   }
 }

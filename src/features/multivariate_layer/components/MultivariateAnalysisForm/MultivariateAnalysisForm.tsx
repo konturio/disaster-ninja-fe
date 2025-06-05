@@ -9,6 +9,7 @@ import {
   type SelectableItem,
   Checkbox,
 } from '@konturio/ui-kit';
+import clsx from 'clsx';
 import { i18n } from '~core/localization';
 import { createStateMap } from '~utils/atoms';
 import { sortByAlphabet, sortByWordOccurrence } from '~utils/common/sorting';
@@ -20,6 +21,8 @@ import { MultivariateLegend } from '~components/MultivariateLegend/MultivariateL
 import { DEFAULT_MULTIBIVARIATE_STEPS } from '~utils/multivariate/constants';
 import { createStepsForMCDADimension } from '~features/multivariate_layer/helpers/createStepsForMCDADimension';
 import { isNumber } from '~utils/common';
+import { DEFAULT_EXTRUSION_MAX_HEIGHT_M } from '~features/multivariate_layer/constants';
+import { INPUT_FILTER_POSITIVE_NUMBER } from '~utils/form/inputFilters';
 import { MultivariateDimensionDetails } from '../MultivariateDimensionDetails/MultivariateDimensionDetails';
 import { CustomStepsInput, type CustomSteps } from '../CustomStepsInput/CustomStepsInput';
 import s from './MultivariateAnalysisForm.module.css';
@@ -27,6 +30,23 @@ import type { CustomStepsErrors } from '../CustomStepsInput/CustomStepsInput';
 import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { MultivariateLayerConfig } from '~core/logical_layers/renderers/MultivariateRenderer/types';
 import type { Axis } from '~utils/bivariate';
+
+export type MVAFormDimensionKey = keyof MVAFormDimensions;
+
+function copyDimensions(dimensions: MVAFormDimensions): MVAFormDimensions {
+  return {
+    score: [...dimensions.score],
+    compare: [...dimensions.compare],
+    text: [...dimensions.text],
+    opacity: Array.isArray(dimensions.opacity) ? [...dimensions.opacity] : [],
+    extrusion: [...dimensions.extrusion],
+  };
+}
+
+const DEFAULT_CUSTOM_STEPS: CustomSteps = {
+  baseSteps: DEFAULT_MULTIBIVARIATE_STEPS.map((v) => v.value.toString()),
+  scoreSteps: DEFAULT_MULTIBIVARIATE_STEPS.map((v) => v.value.toString()),
+};
 
 type FormResult = {
   config: MultivariateLayerConfig;
@@ -36,21 +56,8 @@ export type MVAFormDimensions = {
   score: MCDALayer[];
   compare: MCDALayer[];
   opacity: MCDALayer[];
-};
-
-export type MVAFormDimensionKey = keyof MVAFormDimensions;
-
-function copyDimensions(dimensions: MVAFormDimensions): MVAFormDimensions {
-  return {
-    score: [...dimensions.score],
-    compare: [...dimensions.compare],
-    opacity: Array.isArray(dimensions.opacity) ? [...dimensions.opacity] : [],
-  };
-}
-
-const DEFAULT_CUSTOM_STEPS: CustomSteps = {
-  baseSteps: DEFAULT_MULTIBIVARIATE_STEPS.map((v) => v.value.toString()),
-  scoreSteps: DEFAULT_MULTIBIVARIATE_STEPS.map((v) => v.value.toString()),
+  text: MCDALayer[];
+  extrusion: MCDALayer[];
 };
 
 export function MultivariateAnalysisForm({
@@ -75,9 +82,14 @@ export function MultivariateAnalysisForm({
       initialConfig?.opacity && !isNumber(initialConfig?.opacity)
         ? initialConfig?.opacity?.config.layers
         : [],
+    text: initialConfig?.text?.mcdaValue?.config.layers ?? [],
+    extrusion: initialConfig?.extrusion?.height?.config.layers ?? [],
   });
   const [isKeepColorsChecked, setKeepColorsChecked] = useState(true);
   const [isCustomStepsChecked, setCustomStepsChecked] = useState(false);
+  const [isTextScoreModeChecked, setTextScoreModeChecked] = useState(
+    initialConfig?.text?.mcdaMode === 'score',
+  );
   const [customSteps, setCustomSteps] = useState<CustomSteps>(DEFAULT_CUSTOM_STEPS);
   const [customStepsErrors, setCustomStepsErrors] = useState<CustomStepsErrors | null>(
     null,
@@ -86,6 +98,10 @@ export function MultivariateAnalysisForm({
 
   const [opacityStatic, setOpacityStatic] = useState(
     isNumber(initialConfig?.opacity) ? initialConfig?.opacity?.toString() : undefined,
+  );
+  const [extrusionMaxHeight, setExtrusionMaxHeight] = useState(
+    initialConfig?.extrusion?.maxHeight?.toString() ??
+      DEFAULT_EXTRUSION_MAX_HEIGHT_M.toString(),
   );
 
   const isBivariate = useMemo(
@@ -148,10 +164,16 @@ export function MultivariateAnalysisForm({
     // mcda opacity takes precedence
     let opacity: number | MCDALayer[] | undefined = dimensionsLayers.opacity;
     if (!opacity.length && opacityStatic !== undefined) {
-      opacity = isNumber(parseFloat(opacityStatic))
-        ? parseFloat(opacityStatic)
-        : undefined;
+      opacity = parseFloat(opacityStatic);
+      if (!isNumber(opacity)) {
+        opacity = undefined;
+      } else if (opacity > 1) {
+        opacity = 1;
+      } else if (opacity < 0) {
+        opacity = 0;
+      }
     }
+    const text: MCDALayer[] | undefined = dimensionsLayers.text;
     return isConfigValid
       ? createMultivariateConfig(
           {
@@ -167,26 +189,35 @@ export function MultivariateAnalysisForm({
                 ? customStepOverrides
                 : initialConfig?.stepOverrides,
             opacity: opacity,
+            text,
+            textSettings: {
+              ...initialConfig?.text,
+              mcdaMode: isTextScoreModeChecked ? 'score' : 'layers',
+            },
+            extrusion: dimensionsLayers.extrusion,
+            extrusionSettings: {
+              maxHeight: extrusionMaxHeight
+                ? Number.parseFloat(extrusionMaxHeight)
+                : undefined,
+            },
           },
           axesResource.data ?? [],
         )
       : undefined;
   }, [
     axesResource.data,
-    customSteps.baseSteps,
-    customSteps.scoreSteps,
+    customSteps,
     customStepsErrors,
-    dimensionsLayers.compare,
-    dimensionsLayers.opacity,
-    dimensionsLayers.score,
-    initialConfig?.colors,
-    initialConfig?.stepOverrides,
+    dimensionsLayers,
+    initialConfig,
     isConfigValid,
     isCustomStepsChecked,
     isKeepColorsChecked,
+    isTextScoreModeChecked,
     name,
     opacityStatic,
     showKeepColorsCheckbox,
+    extrusionMaxHeight,
   ]);
 
   // Possible exits
@@ -205,6 +236,8 @@ export function MultivariateAnalysisForm({
         score: [...(oldLayers?.score ?? []), ...newLayers],
         compare: oldLayers.compare,
         opacity: oldLayers.opacity,
+        text: oldLayers.text,
+        extrusion: oldLayers.extrusion,
       }));
       setSelectedIndicators([]);
     }
@@ -251,13 +284,13 @@ export function MultivariateAnalysisForm({
   });
 
   const moveLayerToDimension = useCallback(
-    (updatedLayer: MCDALayer, oldDimension: string, newDimension: string) => {
+    (layerIndex: number, oldDimension: string, newDimension: string) => {
       setDimensionsLayers((oldLayers) => {
         const newLayers = copyDimensions(oldLayers);
-        newLayers[oldDimension] = [
-          ...oldLayers[oldDimension].filter((layer) => layer.id !== updatedLayer.id),
-        ];
-        newLayers[newDimension] = [...oldLayers[newDimension], updatedLayer];
+        (newLayers[newDimension] as MCDALayer[]).push(
+          newLayers[oldDimension][layerIndex],
+        );
+        (newLayers[oldDimension] as MCDALayer[]).splice(layerIndex, 1);
         return newLayers;
       });
     },
@@ -265,12 +298,10 @@ export function MultivariateAnalysisForm({
   );
 
   const deleteLayerFromDimension = useCallback(
-    (deletedLayer: MCDALayer, dimension: string) => {
+    (layerIndex: number, dimension: string) => {
       setDimensionsLayers((oldLayers) => {
         const newLayers = copyDimensions(oldLayers);
-        newLayers[dimension] = [
-          ...oldLayers[dimension].filter((layer) => layer.id !== deletedLayer.id),
-        ];
+        (newLayers[dimension] as MCDALayer[]).splice(layerIndex, 1);
         return newLayers;
       });
     },
@@ -278,14 +309,10 @@ export function MultivariateAnalysisForm({
   );
 
   const editLayerInDimension = useCallback(
-    (editedLayer: MCDALayer, dimension: string) => {
+    (layerIndex: number, dimension: string, editedMCDALayer: MCDALayer) => {
       setDimensionsLayers((oldLayers) => {
         const newLayers = copyDimensions(oldLayers);
-        newLayers[dimension] = [
-          ...oldLayers[dimension].map((oldLayer) =>
-            oldLayer.id === editedLayer.id ? editedLayer : oldLayer,
-          ),
-        ];
+        newLayers[dimension][layerIndex] = editedMCDALayer;
         return newLayers;
       });
     },
@@ -299,6 +326,8 @@ export function MultivariateAnalysisForm({
     { dimensionKey: 'score', dimensionTitle: i18n.t('multivariate.score') },
     { dimensionKey: 'compare', dimensionTitle: i18n.t('multivariate.compare') },
     { dimensionKey: 'opacity', dimensionTitle: i18n.t('multivariate.hide_area') },
+    { dimensionKey: 'text', dimensionTitle: i18n.t('multivariate.labels') },
+    { dimensionKey: 'extrusion', dimensionTitle: i18n.t('multivariate.3d') },
   ];
 
   function onCustomStepsCheckboxChanged(checked: boolean): void {
@@ -346,6 +375,43 @@ export function MultivariateAnalysisForm({
     setCustomSteps(newCustomSteps);
     setCustomStepsErrors(hasErrors ? errors : null);
   }, []);
+
+  const getTopControlsForDimension = useCallback(
+    (dimensionKey: keyof MVAFormDimensions) => {
+      if (dimensionKey === 'text') {
+        return (
+          <Checkbox
+            id="textScoreMode"
+            checked={isTextScoreModeChecked}
+            onChange={(checked) => setTextScoreModeChecked(checked)}
+            label="Use total score instead of separate layers"
+          />
+        );
+      }
+      if (dimensionKey === 'extrusion') {
+        return (
+          <>
+            <div className={s.shortInput}>
+              <Input
+                type="text"
+                value={extrusionMaxHeight ?? ''}
+                onChange={(event) => {
+                  const newValue = event.target.value.replace(
+                    INPUT_FILTER_POSITIVE_NUMBER,
+                    '',
+                  );
+                  setExtrusionMaxHeight(newValue);
+                }}
+                renderLabel={<Text type="label">Max height, m</Text>}
+                placeholder="Max height"
+              />
+            </div>
+          </>
+        );
+      }
+    },
+    [extrusionMaxHeight, isTextScoreModeChecked],
+  );
 
   return (
     <ModalDialog
@@ -410,15 +476,20 @@ export function MultivariateAnalysisForm({
                 onLayerEdited={editLayerInDimension}
                 onLayerDeleted={deleteLayerFromDimension}
                 onLayerDimensionChanged={moveLayerToDimension}
+                topControls={getTopControlsForDimension(dimensionKey)}
               />
             ))}
           {previewConfig && !dimensionsLayers['opacity'].length && (
-            <div className={s.staticOpacity}>
+            <div className={clsx(s.shortInput, s.staticOpacity)}>
               <Input
                 type="text"
                 value={opacityStatic ?? ''}
                 onChange={(e) => {
-                  setOpacityStatic(e.target.value);
+                  const filteredValue = e.target.value.replace(
+                    INPUT_FILTER_POSITIVE_NUMBER,
+                    '',
+                  );
+                  setOpacityStatic(filteredValue);
                 }}
                 renderLabel={<Text type="label">Static opacity</Text>}
                 placeholder="Opacity"
@@ -427,7 +498,7 @@ export function MultivariateAnalysisForm({
           )}
           {showLegendPreview && previewConfig && (
             <div className={s.legendSection}>
-              <Text type="label">Legend</Text>
+              <Text type="label">{i18n.t('legend')}</Text>
               <div className={s.legendContainer}>
                 <div className={s.legendPreview}>
                   <MultivariateLegend config={previewConfig} />

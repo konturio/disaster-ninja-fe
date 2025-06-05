@@ -3,8 +3,6 @@ import {
   sentimentReversed,
 } from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations/constants';
 import { formatBivariateAxisUnit } from '~utils/bivariate';
-import { notificationServiceInstance } from '~core/notificationServiceInstance';
-import { i18n } from '~core/localization';
 import { generateSigmaRange } from './generateSigmaRange';
 import type { Axis } from '~utils/bivariate';
 import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';

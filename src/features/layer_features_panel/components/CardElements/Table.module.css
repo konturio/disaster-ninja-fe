@@ -15,3 +15,9 @@
 .table > div + div {
   border-top: 1px solid var(--faint-weak);
 }
+
+.table > div > div:last-of-type {
+  max-width: 70%;
+  text-align: end;
+  word-wrap: break-word;
+}

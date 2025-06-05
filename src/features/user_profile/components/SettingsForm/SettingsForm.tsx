@@ -277,16 +277,18 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
                   />
                 )}
 
-                <Select
-                  data-testid="osmEditor"
-                  alwaysShowPlaceholder
-                  value={localSettings.osmEditor || DEFAULT_OSM_EDITOR}
-                  items={OPTIONS_OSM}
-                  withResetButton={false}
-                  onSelect={onChange('osmEditor')}
-                >
-                  {i18n.t('profile.defaultOSMeditor')}
-                </Select>
+                {featureFlags[AppFeature.OSM_EDIT_LINK] && (
+                  <Select
+                    data-testid="osmEditor"
+                    alwaysShowPlaceholder
+                    value={localSettings.osmEditor || DEFAULT_OSM_EDITOR}
+                    items={OPTIONS_OSM}
+                    withResetButton={false}
+                    onSelect={onChange('osmEditor')}
+                  >
+                    {i18n.t('profile.defaultOSMeditor')}
+                  </Select>
+                )}
 
                 <div>
                   <Text type="short-l" className={stylesV1.smallTitle}>

@@ -97,6 +97,13 @@ const _configDataMock = {
     side_bar: true,
     intercom: true,
     tooltip: true,
+    oam_auth: {
+      requiredRoutes: ['profile-external', 'upload-imagery'],
+      authUrl: 'https://api.openaerialmap.org/oauth/google',
+      sessionCookieName: 'oam-session',
+      sessionCheckIntervalMs: 30000,
+      redirectUriParamName: 'original_uri',
+    },
     subscription: {
       billingMethodsDetails: [
         {

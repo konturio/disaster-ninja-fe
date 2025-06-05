@@ -46,6 +46,7 @@
   &.show > .contentWrap {
     display: flex;
     height: 100%;
+    padding-bottom: var(--unit);
   }
 
   &.collapse {

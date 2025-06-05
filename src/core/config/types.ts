@@ -120,3 +120,11 @@ export type CustomRouteConfig = EmbeddedPageConfig;
 export type CustomRoutesConfig = {
   routes: CustomRouteConfig[];
 };
+
+export type OAMAuthFeatureConfig = {
+  requiredRoutes: string[];
+  authUrl: string;
+  sessionCookieName: string;
+  sessionCheckIntervalMs: number;
+  redirectUriParamName: string;
+};
