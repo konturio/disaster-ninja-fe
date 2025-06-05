@@ -1,10 +1,19 @@
-import type { LayerSpecification, LineLayerSpecification } from 'maplibre-gl';
+import type {
+  FilterSpecification,
+  LayerSpecification,
+  LineLayerSpecification,
+} from 'maplibre-gl';
 
 interface CasingLineLayer extends Omit<LineLayerSpecification, 'type'> {
   type: 'casing_line';
   paint: Record<string, string | number>;
 }
 type LayerSpecificationWithoutId = Omit<LayerSpecification | CasingLineLayer, 'id'>;
+
+const filters = {
+  fill: ['==', '$type', 'Polygon'] as FilterSpecification,
+  symbol: ['==', '$type', 'Point'] as FilterSpecification,
+};
 
 export function generateLayers(
   requirements,
@@ -27,6 +36,9 @@ export function generateLayers(
       /* Create layer for type if not created yet */
       if (layersByType[r.type] === undefined) {
         layersByType[r.type] = { type: r.type };
+        if (filters[r.type]) {
+          layersByType[r.type]['filter'] = filters[r.type];
+        }
       }
 
       /* Create layer category if not not created yet */
