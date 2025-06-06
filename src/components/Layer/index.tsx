@@ -83,6 +83,7 @@ export function Layer({
       onChange={onChange}
       enabled={layerState.isEnabled}
       hidden={!layerState.isVisible}
+      id={layerState.id}
       name={layerState.settings?.name || layerState.id}
       icon={
         // Add inline legend
