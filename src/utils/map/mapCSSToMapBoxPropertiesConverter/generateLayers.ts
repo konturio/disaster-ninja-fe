@@ -1,4 +1,8 @@
-import type { LayerSpecification, LineLayerSpecification } from 'maplibre-gl';
+import type {
+  FilterSpecification,
+  LayerSpecification,
+  LineLayerSpecification,
+} from 'maplibre-gl';
 
 interface CasingLineLayer extends Omit<LineLayerSpecification, 'type'> {
   type: 'casing_line';
@@ -6,14 +10,18 @@ interface CasingLineLayer extends Omit<LineLayerSpecification, 'type'> {
 }
 type LayerSpecificationWithoutId = Omit<LayerSpecification | CasingLineLayer, 'id'>;
 
+const filters = {
+  // only use polygons for fill to avoid adding fill to line strings
+  fill: ['==', '$type', 'Polygon'] as FilterSpecification,
+  // only use points for symbols to avoid adding markers on top of polygons/lineStrings
+  symbol: ['==', '$type', 'Point'] as FilterSpecification,
+};
+
 export function generateLayers(
   requirements,
   valueConverters,
 ): Omit<LayerSpecification, 'id'>[] {
-  const layersByType: Record<
-    string,
-    Omit<LayerSpecification | CasingLineLayer, 'id'>
-  > = {};
+  const layersByType: Record<string, LayerSpecificationWithoutId> = {};
   requirements.forEach(([req, value]) => {
     /**
      * One mapCSS property can require array of mapbox properties,
@@ -27,6 +35,9 @@ export function generateLayers(
       /* Create layer for type if not created yet */
       if (layersByType[r.type] === undefined) {
         layersByType[r.type] = { type: r.type };
+        if (filters[r.type]) {
+          layersByType[r.type]['filter'] = filters[r.type];
+        }
       }
 
       /* Create layer category if not not created yet */
@@ -45,14 +56,10 @@ export function generateLayers(
   });
 
   return Object.values(layersByType)
-    .map(
-      (
-        layer: Omit<LayerSpecification | CasingLineLayer, 'id'>,
-      ): Omit<LayerSpecification, 'id'> => {
-        layer.type = layer.type === 'casing_line' ? 'line' : layer.type;
-        return layer as Omit<LayerSpecification, 'id'>;
-      },
-    )
+    .map((layer: LayerSpecificationWithoutId): Omit<LayerSpecification, 'id'> => {
+      layer.type = layer.type === 'casing_line' ? 'line' : layer.type;
+      return layer as Omit<LayerSpecification, 'id'>;
+    })
     .filter((l) => {
       const isUnnecessaryLayer =
         // @ts-expect-error - FIXME

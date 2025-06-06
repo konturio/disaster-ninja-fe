@@ -1,13 +1,13 @@
 import { i18n } from '~core/localization';
+import type { SimpleLegend } from '~core/logical_layers/types/legends';
 export const CREATE_LAYER_CONTROL_ID = 'EditableLayer' as const;
+export const CUSTOM_LAYER_DRAW_TOOLS_CONTROL = 'customLayerDrawToolsControl';
 export const CREATE_LAYER_CONTROL_NAME = i18n.t('toolbar.create_layer');
 
 export const FieldTypes = {
   None: 'none',
   ShortText: 'short_text',
   LongText: 'long_text',
-  Image: 'image',
-  Link: 'link',
 } as const;
 
 export const EditTargets = {
@@ -29,17 +29,9 @@ export const USER_LAYER_FIELDS = [
     label: i18n.t('create_layer.long_text'),
     type: FieldTypes.LongText,
   },
-  {
-    label: i18n.t('create_layer.link'),
-    type: FieldTypes.Link,
-  },
-  {
-    label: i18n.t('create_layer.image'),
-    type: FieldTypes.Image,
-  },
 ];
 
-export const TEMPORARY_USER_LAYER_LEGEND = {
+export const DEFAULT_USER_LAYER_LEGEND: Omit<SimpleLegend, 'name'> = {
   type: 'simple',
   steps: [
     {
@@ -49,7 +41,8 @@ export const TEMPORARY_USER_LAYER_LEGEND = {
         'icon-image': 'marker-15',
         'symbol-z-order': 'viewport-y',
         'icon-allow-overlap': true,
-        'fill-color': 'black',
+        color: '#000000',
+        width: 3,
       },
     },
   ],

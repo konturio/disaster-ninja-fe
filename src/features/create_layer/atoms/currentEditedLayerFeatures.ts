@@ -1,10 +1,9 @@
 import { notificationServiceInstance } from '~core/notificationServiceInstance';
-import { apiClient } from '~core/apiClientInstance';
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { deepCopy } from '~core/logical_layers/utils/deepCopy';
-import { FeatureCollection } from '~utils/geoJSON/helpers';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import { drawnGeometryAtom } from '~core/draw_tools/atoms/drawnGeometryAtom';
+import { saveFeaturesToLayer } from '~core/api/layers';
 import { editableLayersListResource } from './editableLayersListResource';
 
 interface SafeCallbacks {
@@ -21,6 +20,7 @@ export const currentEditedLayerFeatures = createAtom(
     drawnGeometryAtom,
     reset: () => null,
     save: (safeCallbacks?: SafeCallbacks) => safeCallbacks,
+    saveFeatures: (features?: GeoJSON.Feature[]) => features,
     setFeatureProperty: (featureIdx: number, properties: GeoJSON.GeoJsonProperties) => ({
       featureIdx,
       properties,
@@ -95,23 +95,16 @@ export const currentEditedLayerFeatures = createAtom(
       });
     });
 
+    /** Executed when clicking save features button on Edit features panel */
     onAction('save', (safeCallbacks) => {
       const stateSnapshot = state ? [...state] : null;
       schedule(async (dispatch, ctx) => {
         if (ctx.layerId && stateSnapshot) {
           try {
-            await apiClient.put<unknown>(
-              `/layers/${ctx.layerId}/items/`,
-              new FeatureCollection(stateSnapshot),
-              {
-                authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
-              },
-            );
+            await saveFeaturesToLayer(ctx.layerId as string, stateSnapshot);
             notificationServiceInstance.info({ title: 'Features was saved' }, 3);
-            if (safeCallbacks) safeCallbacks.onSuccess();
             dispatch(editableLayersListResource.refetch());
           } catch (e) {
-            if (safeCallbacks) safeCallbacks.onError();
             notificationServiceInstance.error({
               title: 'Failed to save features',
             });
@@ -121,6 +114,23 @@ export const currentEditedLayerFeatures = createAtom(
       });
     });
 
+    /** Executed when clicking save button in draw tools */
+    onAction('saveFeatures', (features) => {
+      schedule(async (dispatch, ctx) => {
+        if (ctx.layerId && features) {
+          try {
+            await saveFeaturesToLayer(ctx.layerId as string, features);
+            notificationServiceInstance.info({ title: 'Features was saved' }, 3);
+            dispatch(editableLayersListResource.refetch());
+          } catch (e) {
+            notificationServiceInstance.error({
+              title: 'Failed to save features',
+            });
+            console.error(e);
+          }
+        }
+      });
+    });
     return state;
   },
 );

@@ -2,6 +2,7 @@ import { createAtom } from '~utils/atoms/createPrimitives';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { getLayerRenderer } from '~core/logical_layers/utils/getLayerRenderer';
 import { createUpdateActionsFromLayersDTO } from '~core/logical_layers/utils/createUpdateActionsFromLayersDTO';
+import { editableLayersListResource } from '~features/create_layer/atoms/editableLayersListResource';
 import { layersInAreaAndEventLayerResource } from './layersInAreaAndEventLayerResource';
 import { layersGlobalResource } from './layersGlobalResource';
 import type { LayerSummaryDto } from '~core/logical_layers/types/source';
@@ -11,11 +12,13 @@ const allLayers = createAtom(
   {
     layersGlobalResource,
     layersInAreaAndEventLayerResource,
+    editableLayersListResource,
   },
   ({ get }) => {
     return [
       ...(get('layersGlobalResource').data ?? []),
       ...(get('layersInAreaAndEventLayerResource').data ?? []),
+      ...(get('editableLayersListResource').data ?? []),
     ];
   },
   'allLayers',
