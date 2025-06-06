@@ -92,9 +92,22 @@ function initRouter() {
   );
 
   let initialRedirect: string | false = false;
-
-  if (router.state.matches.length < 2) {
-    // if we are on root /, redirect to default child route
+  const MIN_ROUTE_MATCHES = 2; // index 0 is Layout, index 1 is the first page
+  const justLoggedIn = globalThis.sessionStorage.getItem('justLoggedIn') === 'true';
+  if (justLoggedIn) {
+    globalThis.sessionStorage.removeItem('justLoggedIn');
+    const loginRedirectOrder = ['map', 'pricing', 'profile'];
+    let redirectRoute: (typeof availableRoutes.routes)[number] | undefined;
+    for (const id of loginRedirectOrder) {
+      const candidate = availableRoutes.routes.find((r) => r.id === id && !r.disabled);
+      if (candidate) {
+        redirectRoute = candidate;
+        break;
+      }
+    }
+    initialRedirect = redirectRoute?.slug ?? defaultRoute;
+  } else if (router.state.matches.length < MIN_ROUTE_MATCHES) {
+    // if we are on root /, redirect to the default child route
     // router.state.matches[0] is Layout route, router.state.matches[1] etc will be actual app pages
     initialRedirect = defaultRoute;
   }
@@ -112,7 +125,13 @@ function initRouter() {
   // if landing redirect is not needed
   // check if user is logged in and doesn't have access to map (means no subscription)
   // and redirect to pricing page
-  if (initialRedirect === false && isAuthenticated && !isMapFeatureEnabled) {
+  if (
+    initialRedirect === false &&
+    !justLoggedIn &&
+    isAuthenticated &&
+    !isMapFeatureEnabled &&
+    router.state.matches.length < MIN_ROUTE_MATCHES
+  ) {
     const pricingRoute = availableRoutes.routes.find((r) => r.id === 'pricing');
     if (pricingRoute) {
       initialRedirect = pricingRoute.slug;
