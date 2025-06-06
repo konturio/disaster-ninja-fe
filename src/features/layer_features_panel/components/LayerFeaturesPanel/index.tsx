@@ -41,9 +41,12 @@ import { FullState } from './FullState';
 import { ShortState } from './ShortState';
 import s from './LayerFeaturesPanel.module.css';
 import { EmptyState } from './EmptyState';
-import type { FeatureCardCfg } from '../CardElements';
+import { UniLayoutContext, useUniLayoutContextValue } from '~components/Uni/Layout/UniLayoutContext';
+import { layerLayouts } from '../../layouts';
+import { layerFeaturesFormats } from '../../layouts/formats';
 import type { SheetRef } from 'react-modal-sheet';
 import type { LayerFeaturesPanelConfig } from '../../types/layerFeaturesPanel';
+import type { Feature } from 'geojson';
 
 export function LayerFeaturesPanel() {
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
@@ -53,11 +56,15 @@ export function LayerFeaturesPanel() {
   const sheetRef = useRef<SheetRef>(null);
 
   const onCurrentChange = useCallback(
-    (id: number, feature: FeatureCardCfg) => {
+    (id: number, feature: Feature) => {
       setCurrentFeatureIdAtom(id);
       scheduledAutoFocus.setFalse.dispatch();
-      if (feature.focus) {
-        setMapBbox(feature.focus as Bbox);
+      const bbox =
+        (feature as any).bbox ||
+        (feature.properties as any)?.bbox ||
+        (feature.properties as any)?.aoiBBOX;
+      if (bbox) {
+        setMapBbox(bbox as Bbox);
       }
     },
     [setCurrentFeatureIdAtom, setMapBbox],
@@ -74,6 +81,12 @@ export function LayerFeaturesPanel() {
   const resetBboxFilter = useAction(resetGeometryForLayerFeatures);
 
   const [{ data: featuresList, loading }] = useAtom(layerFeaturesCollectionAtom);
+
+  const layout = layerLayouts[featuresPanelLayerId ?? ''];
+  const layoutContextValue = useUniLayoutContextValue({
+    layout,
+    customFormatsRegistry: layerFeaturesFormats,
+  });
 
   const {
     panelState,
@@ -117,7 +130,7 @@ export function LayerFeaturesPanel() {
     if (featuresList === null || featuresList.length === 0) {
       return <EmptyState />;
     }
-    return {
+    const content = {
       full: (
         <FullState
           featuresList={featuresList}
@@ -128,16 +141,20 @@ export function LayerFeaturesPanel() {
               ? i18n.t('layer_features_panel.listInfo')
               : undefined
           }
+          layout={layout}
         />
       ),
       short: (
         <ShortState
           openFullState={openFullState}
           feature={currentFeatureId !== null ? featuresList[currentFeatureId] : undefined}
+          layout={layout}
         />
       ),
       closed: null,
     }[panelState];
+
+    return <UniLayoutContext.Provider value={layoutContextValue}>{content}</UniLayoutContext.Provider>;
   }, [
     currentFeatureId,
     featuresList,
@@ -145,6 +162,8 @@ export function LayerFeaturesPanel() {
     onCurrentChange,
     openFullState,
     panelState,
+    layout,
+    layoutContextValue,
   ]);
 
   const panel = (
