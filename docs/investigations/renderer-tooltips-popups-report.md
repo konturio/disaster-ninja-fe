@@ -148,24 +148,12 @@ graph TD
 ### 5. Bivariate Popups ([`BivariateRenderer/BivariateRenderer.tsx`](../../src/core/logical_layers/renderers/BivariateRenderer/BivariateRenderer.tsx), `~components/MapHexTooltip/MapHexTooltip.tsx` - not provided)
 
 - **Purpose:** To display detailed information about a hovered or clicked bivariate hexagon on the map, including the bivariate values and corresponding legend cell.
-- **Role in Popup Flow (Handling and Content Generation):** `BivariateRenderer.tsx` handles both the map interaction to trigger the popup and the initial step of content generation by calling the `MapHexTooltip` component.
+- **Role in Popup Flow (Handling and Content Generation):** In the past `BivariateRenderer.tsx` contained custom popup logic. It has since been simplified to delegate rendering to `MultivariateRenderer` after converting the legacy legend format.
 - **Mechanism:**
-  - Extends `LogicalLayerDefaultRenderer` (note: it was previously identified as extending `ClickableFeaturesRenderer` in our analysis, but the provided code shows it extends `LogicalLayerDefaultRenderer` directly and implements similar popup logic. This suggests a potential area for refactoring to align with the `ClickableFeaturesRenderer` pattern).
-  - Uses Maplibre's native `MapPopup` class to create and manage the popup instance (`this._popup`).
-  - Registers a click event listener on the map that filters features belonging to the bivariate source (`addBivariatePopup`).
-  - When a clickable feature is identified and visible, it calculates the bivariate values (x and y) based on feature properties and the legend configuration.
-  - Determines the bivariate cell label and color based on the calculated values and legend.
-  - Creates a DOM node (`div`) and uses `createRoot` from `react-dom/client` to render the [`<MapHexTooltip>`](../../src/components/MapHexTooltip/MapHexTooltip.tsx) React component into it, passing the calculated values, cell info, and color.
-  - Sets this DOM node as the content of the `maplibre-gl.Popup` instance using `setDOMContent`.
-  - Opens the popup at the clicked geographical coordinates.
-  - Includes methods to clean up the previous popup (`cleanPopup`) and handles removal on map zoom (`onMapZoom`).
-  - Includes logic for adding hover and active feature states.
+  - Previously it implemented its own event listeners and popup handling using `MapPopup` and `MapHexTooltip`.
+  - Now it converts the bivariate legend using `legendToMultivariateStyle` and relies on the shared popup logic implemented in `MultivariateRenderer`.
 - **Dependencies:**
-  - `maplibre-gl`: For `MapPopup` and map event handling.
-  - `react-dom/client`: For rendering React components into a DOM node.
-  - [`~components/MapHexTooltip/MapHexTooltip`](../../src/components/MapHexTooltip/MapHexTooltip.tsx): The React component rendered inside the popup.
-  - Internal utils ([`~utils/bivariate`](../../src/utils/bivariate), [`~core/logical_layers/utils/layersOrder/layersOrder`](../../src/core/logical_layers/utils/layersOrder/layersOrder), etc.) for data processing, legend interaction, and layer management.
-- **Architecture/Dependency Description:** `BivariateRenderer` manages the full lifecycle of the MapLibre popup for bivariate layers. It directly handles map events, performs necessary data calculations based on feature properties and legend, and then uses the `MapHexTooltip` component to generate the content. While it performs similar functions to `ClickableFeaturesRenderer`, it implements the popup handling logic directly rather than inheriting it, which is a point of divergence.
+- **Architecture/Dependency Description:** Historically `BivariateRenderer` implemented its own popup logic, duplicating a lot of `ClickableFeaturesRenderer` behaviour. After refactoring it merely converts the legacy legend to a multivariate style and delegates all rendering and popup handling to `MultivariateRenderer`.
 
 #### Bivariate Popup Flow - Handling and Content Generation Diagram
 
