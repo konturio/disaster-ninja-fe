@@ -5,6 +5,13 @@ import { MapPopoverProvider, useMapPopoverService } from './MapPopoverProvider';
 import { DefaultMapPopoverPositionCalculator } from './MapPopoverPositionCalculator';
 import { useMapPopoverInteraction } from '../hooks/useMapPopoverInteraction';
 import { MapPopoverContentRegistry } from './MapPopoverContentRegistry';
+import {
+  UniLayoutContext,
+  useUniLayoutContextValue,
+} from '~components/Uni/Layout/UniLayoutContext';
+import { UniLayoutRenderer } from '~components/Uni/Layout/UniLayoutRenderer';
+import { hotProjectLayoutTemplate } from '~components/Uni/__mocks__/_hotLayout.js';
+import { hotData } from '~core/api/__mocks__/_hotSampleData';
 import type {
   MapClickContext,
   RenderPopoverContentFn,
@@ -12,6 +19,44 @@ import type {
   MapPopoverOptions,
 } from '../types';
 import type { MapMouseEvent } from 'maplibre-gl';
+import type { MapGeoJSONFeature } from 'maplibre-gl';
+
+interface FeatureInfoDisplayProps {
+  features: MapGeoJSONFeature[];
+  title?: string;
+}
+
+const FeatureInfoDisplay: React.FC<FeatureInfoDisplayProps> = ({ features, title }) => {
+  if (!features || features.length === 0) {
+    return <div>No features found.</div>;
+  }
+
+  return (
+    <div>
+      {title && <h4>{title}</h4>}
+      <table cellSpacing={16}>
+        <thead>
+          <tr>
+            <th>Layer</th>
+            <th>Type</th>
+            <th>Properties</th>
+          </tr>
+        </thead>
+        <tbody>
+          {features.map((feature, index) => (
+            <tr key={index}>
+              <td>{feature.layer.id}</td>
+              <td>{feature.geometry.type}</td>
+              <td>
+                <pre>{JSON.stringify(feature.properties, null, 2)}</pre>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
 
 // Simple map initialization hook
 function useMapInstance(containerRef: React.RefObject<HTMLDivElement>) {
@@ -81,24 +126,7 @@ function useMapInstance(containerRef: React.RefObject<HTMLDivElement>) {
 // Simplified render content examples
 const defaultRenderContent: RenderPopoverContentFn = (context: MapClickContext) => {
   if (context.features && context.features.length > 0) {
-    const feature = context.features[0];
-    return (
-      <div>
-        <h4>Feature Info</h4>
-        <p>
-          <strong>Layer:</strong> {feature.layer.id}
-        </p>
-        <p>
-          <strong>Type:</strong> {feature.geometry.type}
-        </p>
-        {feature.properties && Object.keys(feature.properties).length > 0 && (
-          <div>
-            <strong>Properties:</strong>
-            <pre>{JSON.stringify(feature.properties, null, 2)}</pre>
-          </div>
-        )}
-      </div>
-    );
+    return <FeatureInfoDisplay features={context.features} title="Feature Info" />;
   }
 
   return (
@@ -118,21 +146,7 @@ const customRenderContent: RenderPopoverContentFn = (context: MapClickContext) =
       <p>
         Coordinates: {context.lngLat.lng.toFixed(4)}, {context.lngLat.lat.toFixed(4)}
       </p>
-      <h4>Features ({context.features?.length || 0})</h4>
-      {context.features && context.features.length > 0 && (
-        <dl>
-          {context.features.map((feature, index) => (
-            <div key={index}>
-              <dt>
-                [{feature.geometry.type}] {feature.layer.id}
-              </dt>
-              <dd>
-                {feature?.properties?.class} {feature?.properties?.name}
-              </dd>
-            </div>
-          ))}
-        </dl>
-      )}
+      <FeatureInfoDisplay features={context.features || []} title="Features" />
     </div>
   );
 };
@@ -260,19 +274,7 @@ class DemoContentProvider implements IMapPopoverContentProvider {
       return <div>No features found</div>;
     }
 
-    const feature = features[0];
-    return (
-      <div>
-        <h4>Content Provider Demo</h4>
-        <p>
-          <strong>Layer:</strong> {feature.layer.id}
-        </p>
-        <p>
-          <strong>Properties:</strong>
-        </p>
-        <pre>{JSON.stringify(feature.properties, null, 2)}</pre>
-      </div>
-    );
+    return <FeatureInfoDisplay features={features} title="Content Provider Demo" />;
   }
 
   getPopoverOptions(): MapPopoverOptions {
@@ -325,26 +327,10 @@ class GenericTooltipDemoProvider implements IMapPopoverContentProvider {
       return null;
     }
 
-    const feature = demoFeatures[0];
-    const name = feature.properties?.name;
-
-    if (!name) {
-      return null;
-    }
-
     // Simulate tooltip content from feature property
     return (
       <div>
-        <h4>Generic Tooltip Demo</h4>
-        <p>
-          <strong>Feature:</strong> {name}
-        </p>
-        <p>
-          <strong>Source:</strong> {feature.source}
-        </p>
-        <p>
-          <strong>Layer:</strong> {feature.layer.id}
-        </p>
+        <FeatureInfoDisplay features={demoFeatures} title="Generic Tooltip Demo" />
         <div style={{ marginTop: '8px', fontSize: '12px', color: '#666' }}>
           This tooltip is rendered by the registry-based provider system
         </div>
@@ -402,6 +388,70 @@ function GenericTooltipDemo() {
   );
 }
 
+function HotProjectCardDemo() {
+  const mapRef = useRef<HTMLDivElement>(null);
+  const map = useMapInstance(mapRef);
+  const popoverService = useMapPopoverService();
+
+  const handleAction = (action: string, payload: any) => {
+    console.info('HOT Project Card action triggered:', action, payload);
+    alert(`Action triggered: ${action}\nPayload: ${JSON.stringify(payload)}`);
+  };
+
+  const contextValue = useUniLayoutContextValue({
+    layout: hotProjectLayoutTemplate,
+    actionHandler: handleAction,
+  });
+
+  const renderHotProjectCard: RenderPopoverContentFn = (context: MapClickContext) => {
+    if (context.features && context.features.length > 0) {
+      const feature = context.features[0];
+
+      // Use the first item from hotData for demo purposes
+      const projectData = Array.isArray(hotData) ? hotData[0] : hotData;
+
+      return (
+        <UniLayoutContext.Provider value={contextValue}>
+          <div style={{ maxWidth: '400px', minWidth: '300px' }}>
+            <h3>HOT Projects provider:</h3>
+            <UniLayoutRenderer node={hotProjectLayoutTemplate} data={projectData} />
+          </div>
+          <hr />
+          <FeatureInfoDisplay
+            features={context.features}
+            title="Layers Features provider:"
+          />
+          <h5>
+            Features ({context.features?.length || 0}) in [{context.lngLat.lng.toFixed(4)}
+            ,{context.lngLat.lat.toFixed(4)}]
+          </h5>
+        </UniLayoutContext.Provider>
+      );
+    }
+
+    // Return null when no features - this prevents popover from showing
+    return null;
+  };
+
+  useMapPopoverInteraction({
+    map,
+    popoverService,
+    renderContent: renderHotProjectCard,
+    trackingDebounceMs: 32,
+  });
+
+  return (
+    <div>
+      <h4>HOT Project Card in Popover Demo</h4>
+      <div ref={mapRef} style={{ width: '100%', height: '60vh' }} />
+      <div>
+        This demo shows how Uni layout cards can be rendered inside map popovers. The
+        cards are fully interactive with action handlers.
+      </div>
+    </div>
+  );
+}
+
 export default {
   'Simplified API': () => (
     <MapPopoverProvider>
@@ -422,6 +472,11 @@ export default {
   'Generic Tooltip Content Provider': () => (
     <MapPopoverProvider>
       <GenericTooltipDemo />
+    </MapPopoverProvider>
+  ),
+  'HOT Project Card Popover': () => (
+    <MapPopoverProvider>
+      <HotProjectCardDemo />
     </MapPopoverProvider>
   ),
 };

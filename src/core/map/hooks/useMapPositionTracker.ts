@@ -94,18 +94,17 @@ export function useMapPositionTracker(
   }, [map, handleMapMove]);
 
   const cleanup = useCallback(() => {
-    stopTracking();
-
     if (typeof (throttledUpdatePosition as any).cancel === 'function') {
       (throttledUpdatePosition as any).cancel();
     }
-  }, [stopTracking, throttledUpdatePosition]);
+  }, [throttledUpdatePosition]);
 
   useEffect(() => {
     return () => {
       cleanup();
+      stopTracking();
     };
-  }, [cleanup]);
+  }, [cleanup, stopTracking]);
 
   return {
     startTracking,
