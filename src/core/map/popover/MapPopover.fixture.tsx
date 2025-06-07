@@ -1,10 +1,18 @@
-import React, { useRef, useMemo, useLayoutEffect, useState } from 'react';
+import React, {
+  useRef,
+  useMemo,
+  useLayoutEffect,
+  useState,
+  useEffect,
+  useCallback,
+} from 'react';
 import mapLibre, { type Map } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { MapPopoverProvider, useMapPopoverService } from './MapPopoverProvider';
 import { DefaultMapPopoverPositionCalculator } from './MapPopoverPositionCalculator';
-import { useMapPopoverInteraction } from '../hooks/useMapPopoverInteraction';
 import { MapPopoverContentRegistry } from './MapPopoverContentRegistry';
+import { useMapPopoverIntegration } from '../hooks/useMapPopoverIntegration';
+import { useMapPositionTracker } from '../hooks/useMapPositionTracker';
 import {
   UniLayoutContext,
   useUniLayoutContextValue,
@@ -18,8 +26,7 @@ import type {
   IMapPopoverContentProvider,
   MapPopoverOptions,
 } from '../types';
-import type { MapMouseEvent } from 'maplibre-gl';
-import type { MapGeoJSONFeature } from 'maplibre-gl';
+import type { MapMouseEvent, MapGeoJSONFeature } from 'maplibre-gl';
 
 interface FeatureInfoDisplayProps {
   features: MapGeoJSONFeature[];
@@ -123,8 +130,11 @@ function useMapInstance(containerRef: React.RefObject<HTMLDivElement>) {
   return map;
 }
 
-// Simplified render content examples
-const defaultRenderContent: RenderPopoverContentFn = (context: MapClickContext) => {
+// DEPRECATED: This custom position tracking hook is no longer needed.
+// Use useMapPopoverIntegration instead to eliminate duplication.
+
+// Simple content rendering function
+const defaultRenderContent = (context: MapClickContext) => {
   if (context.features && context.features.length > 0) {
     return <FeatureInfoDisplay features={context.features} title="Feature Info" />;
   }
@@ -139,7 +149,7 @@ const defaultRenderContent: RenderPopoverContentFn = (context: MapClickContext) 
   );
 };
 
-const customRenderContent: RenderPopoverContentFn = (context: MapClickContext) => {
+const customRenderContent = (context: MapClickContext) => {
   return (
     <div>
       <h3>Custom Popover</h3>
@@ -162,28 +172,16 @@ const handlePopoverError = (errorInfo: { error: Error; context: MapClickContext 
   );
 };
 
-// Custom position calculator
-class CustomPositionCalculator extends DefaultMapPopoverPositionCalculator {
-  constructor() {
-    super({
-      arrowWidth: 20,
-      placementThreshold: 80,
-      edgePadding: 20,
-    });
-  }
-}
-
 function DefaultDemo() {
   const mapRef = useRef<HTMLDivElement>(null);
   const map = useMapInstance(mapRef);
   const popoverService = useMapPopoverService();
 
-  const { close } = useMapPopoverInteraction({
+  // Simplified integration using new hook - eliminates ~40 lines of boilerplate
+  const { close } = useMapPopoverIntegration({
     map,
     popoverService,
     renderContent: defaultRenderContent,
-    enabled: true,
-    trackingDebounceMs: 16,
   });
 
   return <div ref={mapRef} style={{ width: '100%', height: '100vh' }} />;
@@ -193,25 +191,70 @@ function EnhancedDemo() {
   const mapRef = useRef<HTMLDivElement>(null);
   const map = useMapInstance(mapRef);
   const popoverService = useMapPopoverService();
-  const positionCalculator = useMemo(() => new CustomPositionCalculator(), []);
+  const { startTracking, stopTracking } = useMapPositionTracker(map, popoverService);
 
-  const { close, destroy } = useMapPopoverInteraction({
-    map,
-    popoverService,
-    renderContent: customRenderContent,
-    positionCalculator,
-    enabled: true,
-    trackingDebounceMs: 32,
-    onError: handlePopoverError,
-  });
+  // Service-based delegation with custom options
+  useEffect(() => {
+    if (!map) return;
+
+    const handleMapClick = (event: MapMouseEvent) => {
+      // Close existing popover
+      if (popoverService.isOpen()) {
+        popoverService.close();
+        stopTracking();
+      }
+
+      try {
+        const context: MapClickContext = {
+          map,
+          lngLat: event.lngLat,
+          point: event.point,
+          originalEvent: event,
+          features: event.target.queryRenderedFeatures(event.point),
+        };
+
+        const content = customRenderContent(context);
+
+        if (content) {
+          popoverService.showWithContent(event.point, content, {
+            placement: 'bottom',
+            className: 'enhanced-demo-popover',
+          });
+          startTracking([event.lngLat.lng, event.lngLat.lat]);
+        }
+      } catch (error) {
+        const errorContent = handlePopoverError({
+          error: error as Error,
+          context: {
+            map,
+            lngLat: event.lngLat,
+            point: event.point,
+            originalEvent: event,
+            features: [],
+          },
+        });
+        popoverService.showWithContent(event.point, errorContent);
+      }
+    };
+
+    map.on('click', handleMapClick);
+    return () => {
+      map.off('click', handleMapClick);
+      stopTracking();
+    };
+  }, [map, popoverService, startTracking, stopTracking]);
+
+  const handleClose = () => {
+    popoverService.close();
+    stopTracking();
+  };
 
   return (
     <div style={{ margin: 32 }}>
       <h4>Enhanced Features: Custom Style + Error Handling</h4>
       <div ref={mapRef} style={{ width: '100%', height: '60vh' }} />
       <div>
-        <button onClick={close}>Close</button>
-        <button onClick={destroy}>Destroy</button>
+        <button onClick={handleClose}>Close Popover</button>
       </div>
     </div>
   );
@@ -221,12 +264,38 @@ function Map1Component() {
   const map1Ref = useRef<HTMLDivElement>(null);
   const map1 = useMapInstance(map1Ref);
   const popoverService = useMapPopoverService();
+  const { startTracking, stopTracking } = useMapPositionTracker(map1, popoverService);
 
-  useMapPopoverInteraction({
-    map: map1,
-    popoverService,
-    renderContent: defaultRenderContent,
-  });
+  useEffect(() => {
+    if (!map1) return;
+
+    const handleMapClick = (event: MapMouseEvent) => {
+      if (popoverService.isOpen()) {
+        popoverService.close();
+        stopTracking();
+      }
+
+      const context: MapClickContext = {
+        map: map1,
+        lngLat: event.lngLat,
+        point: event.point,
+        originalEvent: event,
+        features: event.target.queryRenderedFeatures(event.point),
+      };
+
+      const content = defaultRenderContent(context);
+      if (content) {
+        popoverService.showWithContent(event.point, content);
+        startTracking([event.lngLat.lng, event.lngLat.lat]);
+      }
+    };
+
+    map1.on('click', handleMapClick);
+    return () => {
+      map1.off('click', handleMapClick);
+      stopTracking();
+    };
+  }, [map1, popoverService, startTracking, stopTracking]);
 
   return <div ref={map1Ref} style={{ width: '100%', height: '30vh' }} />;
 }
@@ -235,12 +304,38 @@ function Map2Component() {
   const map2Ref = useRef<HTMLDivElement>(null);
   const map2 = useMapInstance(map2Ref);
   const popoverService = useMapPopoverService();
+  const { startTracking, stopTracking } = useMapPositionTracker(map2, popoverService);
 
-  useMapPopoverInteraction({
-    map: map2,
-    popoverService,
-    renderContent: customRenderContent,
-  });
+  useEffect(() => {
+    if (!map2) return;
+
+    const handleMapClick = (event: MapMouseEvent) => {
+      if (popoverService.isOpen()) {
+        popoverService.close();
+        stopTracking();
+      }
+
+      const context: MapClickContext = {
+        map: map2,
+        lngLat: event.lngLat,
+        point: event.point,
+        originalEvent: event,
+        features: event.target.queryRenderedFeatures(event.point),
+      };
+
+      const content = customRenderContent(context);
+      if (content) {
+        popoverService.showWithContent(event.point, content);
+        startTracking([event.lngLat.lng, event.lngLat.lat]);
+      }
+    };
+
+    map2.on('click', handleMapClick);
+    return () => {
+      map2.off('click', handleMapClick);
+      stopTracking();
+    };
+  }, [map2, popoverService, startTracking, stopTracking]);
 
   return <div ref={map2Ref} style={{ width: '100%', height: '30vh' }} />;
 }
@@ -265,7 +360,7 @@ function MultiMapDemo() {
   );
 }
 
-// Content Provider Demo
+// Content Provider Demo using service-based delegation
 class DemoContentProvider implements IMapPopoverContentProvider {
   renderContent(mapEvent: MapMouseEvent): React.ReactNode | null {
     const features = mapEvent.target.queryRenderedFeatures(mapEvent.point);
@@ -290,6 +385,7 @@ function ContentProviderDemo() {
   const mapRef = useRef<HTMLDivElement>(null);
   const map = useMapInstance(mapRef);
   const popoverService = useMapPopoverService();
+  const { startTracking, stopTracking } = useMapPositionTracker(map, popoverService);
 
   const registry = useMemo(() => {
     const reg = new MapPopoverContentRegistry();
@@ -297,11 +393,30 @@ function ContentProviderDemo() {
     return reg;
   }, []);
 
-  useMapPopoverInteraction({
-    map,
-    popoverService,
-    registry, // Using registry instead of renderContent
-  });
+  // Service-based delegation with registry
+  useEffect(() => {
+    if (!map) return;
+
+    const handleMapClick = (event: MapMouseEvent) => {
+      if (popoverService.isOpen()) {
+        popoverService.close();
+        stopTracking();
+      }
+
+      // Use service's registry-based API
+      const hasContent = popoverService.showWithEvent(event);
+
+      if (hasContent) {
+        startTracking([event.lngLat.lng, event.lngLat.lat]);
+      }
+    };
+
+    map.on('click', handleMapClick);
+    return () => {
+      map.off('click', handleMapClick);
+      stopTracking();
+    };
+  }, [map, popoverService, startTracking, stopTracking]);
 
   return (
     <div>
@@ -315,19 +430,16 @@ function ContentProviderDemo() {
   );
 }
 
-// Demo provider that works with the fixture map
+// Generic tooltip demo provider
 class GenericTooltipDemoProvider implements IMapPopoverContentProvider {
   renderContent(mapEvent: MapMouseEvent): React.ReactNode | null {
     const features = mapEvent.target.queryRenderedFeatures(mapEvent.point);
-
-    // Find features from the demo source
     const demoFeatures = features.filter((f) => f.source === 'sample-features');
 
     if (demoFeatures.length === 0) {
       return null;
     }
 
-    // Simulate tooltip content from feature property
     return (
       <div>
         <FeatureInfoDisplay features={demoFeatures} title="Generic Tooltip Demo" />
@@ -351,19 +463,35 @@ function GenericTooltipDemo() {
   const mapRef = useRef<HTMLDivElement>(null);
   const map = useMapInstance(mapRef);
   const popoverService = useMapPopoverService();
+  const { startTracking, stopTracking } = useMapPositionTracker(map, popoverService);
 
   const registry = useMemo(() => {
     const reg = new MapPopoverContentRegistry();
-    // Register the demo provider to simulate how the GenericRenderer would work
     reg.register(new GenericTooltipDemoProvider());
     return reg;
   }, []);
 
-  useMapPopoverInteraction({
-    map,
-    popoverService,
-    registry, // Using registry instead of renderContent
-  });
+  useEffect(() => {
+    if (!map) return;
+
+    const handleMapClick = (event: MapMouseEvent) => {
+      if (popoverService.isOpen()) {
+        popoverService.close();
+        stopTracking();
+      }
+
+      const hasContent = popoverService.showWithEvent(event);
+      if (hasContent) {
+        startTracking([event.lngLat.lng, event.lngLat.lat]);
+      }
+    };
+
+    map.on('click', handleMapClick);
+    return () => {
+      map.off('click', handleMapClick);
+      stopTracking();
+    };
+  }, [map, popoverService, startTracking, stopTracking]);
 
   return (
     <div>
@@ -392,6 +520,7 @@ function HotProjectCardDemo() {
   const mapRef = useRef<HTMLDivElement>(null);
   const map = useMapInstance(mapRef);
   const popoverService = useMapPopoverService();
+  const { startTracking, stopTracking } = useMapPositionTracker(map, popoverService);
 
   const handleAction = (action: string, payload: any) => {
     console.info('HOT Project Card action triggered:', action, payload);
@@ -403,11 +532,8 @@ function HotProjectCardDemo() {
     actionHandler: handleAction,
   });
 
-  const renderHotProjectCard: RenderPopoverContentFn = (context: MapClickContext) => {
+  const renderHotProjectCard = (context: MapClickContext) => {
     if (context.features && context.features.length > 0) {
-      const feature = context.features[0];
-
-      // Use the first item from hotData for demo purposes
       const projectData = Array.isArray(hotData) ? hotData[0] : hotData;
 
       return (
@@ -429,16 +555,39 @@ function HotProjectCardDemo() {
       );
     }
 
-    // Return null when no features - this prevents popover from showing
     return null;
   };
 
-  useMapPopoverInteraction({
-    map,
-    popoverService,
-    renderContent: renderHotProjectCard,
-    trackingDebounceMs: 32,
-  });
+  useEffect(() => {
+    if (!map) return;
+
+    const handleMapClick = (event: MapMouseEvent) => {
+      if (popoverService.isOpen()) {
+        popoverService.close();
+        stopTracking();
+      }
+
+      const context: MapClickContext = {
+        map,
+        lngLat: event.lngLat,
+        point: event.point,
+        originalEvent: event,
+        features: event.target.queryRenderedFeatures(event.point),
+      };
+
+      const content = renderHotProjectCard(context);
+      if (content) {
+        popoverService.showWithContent(event.point, content);
+        startTracking([event.lngLat.lng, event.lngLat.lat]);
+      }
+    };
+
+    map.on('click', handleMapClick);
+    return () => {
+      map.off('click', handleMapClick);
+      stopTracking();
+    };
+  }, [map, popoverService, startTracking, stopTracking]);
 
   return (
     <div>
@@ -452,8 +601,97 @@ function HotProjectCardDemo() {
   );
 }
 
+// Debug demo to showcase KONTUR_DEBUG functionality
+function DebugDemo() {
+  const mapRef = useRef<HTMLDivElement>(null);
+  const map = useMapInstance(mapRef);
+  const popoverService = useMapPopoverService();
+  const { startTracking, stopTracking } = useMapPositionTracker(map, popoverService);
+  const [debugEnabled, setDebugEnabled] = useState(() => {
+    return localStorage.getItem('KONTUR_DEBUG') === 'true';
+  });
+
+  const toggleDebug = () => {
+    const newValue = !debugEnabled;
+    if (newValue) {
+      localStorage.setItem('KONTUR_DEBUG', 'true');
+    } else {
+      localStorage.removeItem('KONTUR_DEBUG');
+    }
+    setDebugEnabled(newValue);
+    // Force page reload to activate/deactivate debug provider
+    window.location.reload();
+  };
+
+  useEffect(() => {
+    if (!map) return;
+
+    const handleMapClick = (event: MapMouseEvent) => {
+      if (popoverService.isOpen()) {
+        popoverService.close();
+        stopTracking();
+      }
+
+      // When debug is enabled, the DebugMapPopoverProvider should be auto-registered
+      // and handle content via showWithEvent
+      const hasContent = popoverService.showWithEvent(event);
+
+      if (hasContent) {
+        startTracking([event.lngLat.lng, event.lngLat.lat]);
+      } else if (!debugEnabled) {
+        // Fallback content when debug is not enabled
+        const context: MapClickContext = {
+          map,
+          lngLat: event.lngLat,
+          point: event.point,
+          originalEvent: event,
+          features: event.target.queryRenderedFeatures(event.point),
+        };
+        const content = defaultRenderContent(context);
+        popoverService.showWithContent(event.point, content);
+        startTracking([event.lngLat.lng, event.lngLat.lat]);
+      }
+    };
+
+    map.on('click', handleMapClick);
+    return () => {
+      map.off('click', handleMapClick);
+      stopTracking();
+    };
+  }, [map, popoverService, startTracking, stopTracking, debugEnabled]);
+
+  return (
+    <div>
+      <h4>Debug MapPopover Demo</h4>
+      <div style={{ marginBottom: '10px' }}>
+        <button onClick={toggleDebug}>
+          {debugEnabled ? 'Disable' : 'Enable'} Debug Mode (KONTUR_DEBUG)
+        </button>
+        <div style={{ fontSize: '12px', color: '#666', marginTop: '5px' }}>
+          Current state: {debugEnabled ? 'ENABLED' : 'DISABLED'}
+          {debugEnabled && ' - Debug provider should show comprehensive feature info'}
+        </div>
+      </div>
+      <div ref={mapRef} style={{ width: '100%', height: '60vh' }} />
+      <div
+        style={{
+          marginTop: '10px',
+          padding: '8px',
+          backgroundColor: '#f9f9f9',
+          borderRadius: '4px',
+        }}
+      >
+        <strong>Debug Mode:</strong> When enabled, clicking on the map will show detailed
+        feature information including layer details, source information, geometry type,
+        and all properties in a structured format. This uses the DebugMapPopoverProvider
+        that activates when KONTUR_DEBUG is set to 'true'.
+      </div>
+    </div>
+  );
+}
+
 export default {
-  'Simplified API': () => (
+  'Service-Based API': () => (
     <MapPopoverProvider>
       <DefaultDemo />
     </MapPopoverProvider>
@@ -477,6 +715,11 @@ export default {
   'HOT Project Card Popover': () => (
     <MapPopoverProvider>
       <HotProjectCardDemo />
+    </MapPopoverProvider>
+  ),
+  'Debug MapPopover': () => (
+    <MapPopoverProvider>
+      <DebugDemo />
     </MapPopoverProvider>
   ),
 };

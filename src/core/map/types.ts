@@ -12,9 +12,28 @@ export interface GeographicPoint {
 }
 
 export interface MapPopoverService {
+  // Enhanced API for service-based delegation
+
+  // Content-based API - parent determines when to show
+  showWithContent: (
+    point: ScreenPoint,
+    content: React.ReactNode,
+    options?: MapPopoverOptions,
+  ) => void;
+
+  // Registry-based API - parent passes map event, service determines content
+  showWithEvent: (mapEvent: MapMouseEvent, options?: MapPopoverOptions) => boolean;
+
+  // Position updates - parent tracks position, calls this
+  updatePosition: (point: ScreenPoint, placement?: Placement) => void;
+
+  // Simple control
+  close: () => void;
+  isOpen: () => boolean;
+
+  // Legacy API methods for backward compatibility
   show: (point: ScreenPoint, content: React.ReactNode, placement?: Placement) => void;
   move: (point: ScreenPoint, placement?: Placement) => void;
-  close: () => void;
 }
 
 export interface MapPositionTracker {
