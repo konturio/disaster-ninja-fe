@@ -1,7 +1,13 @@
 import React, { createContext, useContext, useState, useCallback, useMemo } from 'react';
 import { Popover, PopoverContent } from '~components/Overlays/Popover';
 import type { Placement } from '@floating-ui/react';
-import type { ScreenPoint, MapPopoverService } from '../types';
+import type {
+  ScreenPoint,
+  MapPopoverService,
+  MapPopoverOptions,
+  IMapPopoverContentRegistry,
+} from '../types';
+import type { MapMouseEvent } from 'maplibre-gl';
 
 interface PopoverState {
   id: string;
@@ -31,10 +37,78 @@ export function useMapPopoverService(): MapPopoverService {
   return context;
 }
 
-export function MapPopoverProvider({ children }: { children: React.ReactNode }) {
+export function MapPopoverProvider({
+  children,
+  registry,
+}: {
+  children: React.ReactNode;
+  registry?: IMapPopoverContentRegistry;
+}) {
   const [popovers, setPopovers] = useState<Map<string, PopoverState>>(new Map());
   const [globalPopover, setGlobalPopover] = useState<PopoverState | null>(null);
 
+  // Enhanced API method: showWithContent
+  const showWithContent = useCallback(
+    (point: ScreenPoint, content: React.ReactNode, options?: MapPopoverOptions) => {
+      const placement = options?.placement ?? 'top';
+      setGlobalPopover({
+        id: 'global',
+        isOpen: true,
+        content,
+        placement,
+        screenPoint: point,
+      });
+    },
+    [],
+  );
+
+  // Enhanced API method: showWithEvent
+  const showWithEvent = useCallback(
+    (mapEvent: MapMouseEvent, options?: MapPopoverOptions): boolean => {
+      if (!registry) {
+        return false;
+      }
+
+      const result = registry.renderContent(mapEvent);
+      if (result) {
+        const mergedOptions = { ...options, ...result.options };
+        const placement = mergedOptions.placement ?? 'top';
+
+        setGlobalPopover({
+          id: 'global',
+          isOpen: true,
+          content: result.content,
+          placement,
+          screenPoint: mapEvent.point,
+        });
+        return true;
+      }
+      return false;
+    },
+    [registry],
+  );
+
+  // Enhanced API method: updatePosition
+  const updatePosition = useCallback((point: ScreenPoint, placement?: Placement) => {
+    setGlobalPopover((prev) => {
+      if (!prev) {
+        return null;
+      }
+
+      return {
+        ...prev,
+        screenPoint: point,
+        placement: placement ?? prev.placement,
+      };
+    });
+  }, []);
+
+  // Enhanced API method: isOpen
+  const isOpen = useCallback(() => {
+    return globalPopover?.isOpen || false;
+  }, [globalPopover]);
+
+  // Legacy API methods for backward compatibility
   const show = useCallback(
     (point: ScreenPoint, content: React.ReactNode, placement: Placement = 'top') => {
       setGlobalPopover({
@@ -99,13 +173,29 @@ export function MapPopoverProvider({ children }: { children: React.ReactNode }) 
 
   const contextValue = useMemo(
     () => ({
+      // Enhanced API
+      showWithContent,
+      showWithEvent,
+      updatePosition,
+      isOpen,
+      // Legacy API
       show,
       move,
       close,
       showWithId,
       closeById,
     }),
-    [show, move, close, showWithId, closeById],
+    [
+      showWithContent,
+      showWithEvent,
+      updatePosition,
+      isOpen,
+      show,
+      move,
+      close,
+      showWithId,
+      closeById,
+    ],
   );
 
   return (
