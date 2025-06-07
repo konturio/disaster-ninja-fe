@@ -114,7 +114,6 @@ export function useMapPopoverIntegration(options: UseMapPopoverIntegrationOption
     const currentRegistry = registryRef.current;
     const currentRenderContent = renderContentRef.current;
     const currentOnError = onErrorRef.current;
-    const currentEnabled = enabledRef.current;
     const currentTracker = positionTrackerRef.current;
 
     if (!currentMap) return;
