@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import { Marker } from 'maplibre-gl';
 import { useAction, useAtom } from '@reatom/react-v2';
 import { currentMapAtom, mapListenersAtom } from '~core/shared_state';
+import { registerMapListener } from '~core/shared_state/mapListeners';
 import { layersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
 import { mapLibreParentsIds } from '~core/logical_layers/utils/layersOrder/mapLibreParentsIds';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
@@ -9,8 +10,8 @@ import { configRepo } from '~core/config';
 import {
   MapPopoverProvider,
   useMapPopoverService,
-  useMapPopoverInteraction,
   mapPopoverRegistry,
+  useMapPopoverPriorityIntegration,
 } from '~core/map';
 import Map from './map-libre-adapter';
 import { useMapPositionSync } from './useMapPositionSync';
@@ -44,6 +45,7 @@ function ConnectedMapWithPopover({ className }: { className?: string }) {
   const mapBaseStyle = configRepo.get().mapBaseStyle;
   const mapRef = useRef<ApplicationMap>();
   const popoverService = useMapPopoverService();
+
   useMapPositionSync(mapRef);
 
   // init current MapRefAtom
@@ -57,11 +59,12 @@ function ConnectedMapWithPopover({ className }: { className?: string }) {
     [],
   );
 
-  // Initialize popover interaction with global registry
-  useMapPopoverInteraction({
+  // Simplified popover integration using new hook - eliminates 70+ lines of duplication
+  useMapPopoverPriorityIntegration({
     map: mapRef.current || null,
     popoverService,
     registry: mapPopoverRegistry,
+    priority: 55, // Between Boundary Selector:50 and Legacy Renderers:60
   });
 
   useEffect(() => {
@@ -147,7 +150,7 @@ function ConnectedMapWithPopover({ className }: { className?: string }) {
 
 export function ConnectedMap({ className }: { className?: string }) {
   return (
-    <MapPopoverProvider>
+    <MapPopoverProvider registry={mapPopoverRegistry}>
       <ConnectedMapWithPopover className={className} />
     </MapPopoverProvider>
   );
