@@ -59,12 +59,3 @@ export function generateMCDAPopupTable(
 
   return PopupMCDA({ layers, normalized: mcdaLayersTable, resultMCDA: resultMCDAScore });
 }
-
-export function generateMCDAPopupContent(
-  feature: GeoJSON.Feature,
-  layers: MCDAConfig['layers'],
-): HTMLDivElement {
-  const popupNode = document.createElement('div');
-  createRoot(popupNode).render(generateMCDAPopupTable(feature, layers));
-  return popupNode;
-}

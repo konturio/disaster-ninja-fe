@@ -51,6 +51,8 @@ export function MapPopoverProvider({
   const showWithContent = useCallback(
     (point: ScreenPoint, content: React.ReactNode, options?: MapPopoverOptions) => {
       const placement = options?.placement ?? 'top';
+      // Note: point should already be in page coordinates when passed to this method
+      // If called with map-relative coordinates, caller should convert first
       setGlobalPopover({
         id: 'global',
         isOpen: true,
@@ -74,12 +76,18 @@ export function MapPopoverProvider({
         const mergedOptions = { ...options, ...result.options };
         const placement = mergedOptions.placement ?? 'top';
 
+        // Convert map-relative coordinates to page coordinates
+        const container = mapEvent.target.getContainer();
+        const rect = container.getBoundingClientRect();
+        const pageX = rect.left + mapEvent.point.x;
+        const pageY = rect.top + mapEvent.point.y;
+
         setGlobalPopover({
           id: 'global',
           isOpen: true,
           content: result.content,
           placement,
-          screenPoint: mapEvent.point,
+          screenPoint: { x: pageX, y: pageY },
         });
         return true;
       }
