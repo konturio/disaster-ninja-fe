@@ -2,7 +2,6 @@ import { useCallback, useEffect, useRef } from 'react';
 import { Marker } from 'maplibre-gl';
 import { useAction, useAtom } from '@reatom/react-v2';
 import { currentMapAtom, mapListenersAtom } from '~core/shared_state';
-import { registerMapListener } from '~core/shared_state/mapListeners';
 import { layersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
 import { mapLibreParentsIds } from '~core/logical_layers/utils/layersOrder/mapLibreParentsIds';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';

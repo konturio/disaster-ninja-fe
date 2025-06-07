@@ -1,3 +1,4 @@
+import React from 'react';
 import type {
   IMapPopoverContentProvider,
   IMapPopoverContentRegistry,
@@ -25,21 +26,21 @@ export class MapPopoverContentRegistry implements IMapPopoverContentRegistry {
     content: React.ReactNode;
     options?: MapPopoverOptions;
   } | null {
+    const content: React.ReactNode[] = [];
     for (const provider of this.providers) {
       try {
-        const content = provider.renderContent(mapEvent);
-        if (content) {
-          return {
-            content,
-            options: provider.getPopoverOptions?.(mapEvent),
-          };
+        const providerContent = provider.renderContent(mapEvent);
+        if (providerContent) {
+          content.push(
+            React.createElement('div', { key: content.length }, providerContent),
+          );
         }
       } catch (error) {
         console.error('Error in content provider:', error);
         // Continue to next provider on error
       }
     }
-    return null;
+    return { content };
   }
 
   get providerCount(): number {

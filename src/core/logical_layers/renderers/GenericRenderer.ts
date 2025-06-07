@@ -10,13 +10,14 @@ import {
 import { layerTypesOrdered } from '~core/logical_layers/utils/layersOrder/layersOrder';
 import { registerMapListener } from '~core/shared_state/mapListeners';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
-import { currentTooltipAtom } from '~core/shared_state/currentTooltip';
 import { layerByOrder } from '~core/logical_layers';
 import { mapLoaded } from '~utils/map/waitMapEvent';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
+import { mapPopoverRegistry } from '~core/map/popover/globalMapPopoverRegistry';
 import { addZoomFilter, onActiveContributorsClick } from './activeContributorsLayers';
 import { styleConfigs } from './stylesConfigs';
 import { setTileScheme } from './setTileScheme';
+import { GenericRendererPopoverProvider } from './GenericRendererPopoverProvider';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import type {
   LayerSpecification,
@@ -34,6 +35,7 @@ import type {
   LayerTileSource,
 } from '~core/logical_layers/types/source';
 import type { LayerStyle } from '../types/style';
+import type { IMapPopoverContentProvider } from '~core/map/types';
 
 /**
  * mapLibre have very expensive event handler with getClientRects. Sometimes it took almost ~1 second!
@@ -45,6 +47,8 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
   private _layerIds: Set<string>;
   private _sourceId: string;
   private _removeClickListener: null | (() => void) = null;
+  private _tooltipProvider: IMapPopoverContentProvider | null = null;
+  private _linkClickHandler: (() => void) | null = null;
 
   public constructor({ id }: { id: string }) {
     super();
@@ -249,44 +253,29 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
         }
       }
 
-      // Add tooltip if it's described in legend
-      // Todo we might want to move this logic somewhere else
-      if ('tooltip' in legend && !this._removeClickListener) {
-        const paramName = legend.tooltip?.paramName;
-        const tooltipType = legend.tooltip?.type;
+      // Add tooltip provider if it's described in legend
+      if ('tooltip' in legend && legend.tooltip) {
+        const paramName = legend.tooltip.paramName;
+        const tooltipType = legend.tooltip.type;
         // we only expect markdown tooltip type ATM
-        if (!paramName || tooltipType !== 'markdown') return;
-
-        this._removeClickListener = registerMapListener(
-          'click',
-          (ev) => {
-            if (!ev || !ev.lngLat) return true;
-            const thisLayersFeatures = ev.target
-              .queryRenderedFeatures(ev.point)
-              .filter((f) => f.source.includes(this._sourceId));
-            const featureProperties = thisLayersFeatures.find(
-              (feature) => feature.properties?.[paramName],
-            )?.properties;
-            if (!featureProperties) return true;
-            currentTooltipAtom.setCurrentTooltip.dispatch({
-              popup: featureProperties[paramName],
-              position: {
-                x: ev.originalEvent.clientX,
-                y: ev.originalEvent.clientY,
-              },
-              onOuterClick(e, close) {
-                close();
-              },
-            });
-            // Don't allow lower clicks to run - for example ignore active contributors click afterwards
-            return false;
-          },
-          // lower number would mean higher priority for layer types that drawn higher
-          50 -
-            (this.highestLayerType
-              ? layerTypesOrdered.indexOf(this.highestLayerType)
-              : 0),
-        );
+        if (paramName && tooltipType === 'markdown') {
+          // Create and register tooltip provider with MapPopover registry
+          if (this._tooltipProvider) {
+            mapPopoverRegistry.unregister(this._tooltipProvider);
+          }
+          this._tooltipProvider = new GenericRendererPopoverProvider(
+            this._sourceId,
+            paramName,
+            tooltipType,
+          );
+          mapPopoverRegistry.register(this._tooltipProvider);
+        }
+      } else {
+        // Clean up tooltip provider if no longer needed
+        if (this._tooltipProvider) {
+          mapPopoverRegistry.unregister(this._tooltipProvider);
+          this._tooltipProvider = null;
+        }
       }
     }
   }
@@ -384,6 +373,12 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     }
     this._removeClickListener?.();
     this._removeClickListener = null;
+
+    // Clean up tooltip provider
+    if (this._tooltipProvider) {
+      mapPopoverRegistry.unregister(this._tooltipProvider);
+      this._tooltipProvider = null;
+    }
   }
 
   willHide({ map }: { map: ApplicationMap }) {

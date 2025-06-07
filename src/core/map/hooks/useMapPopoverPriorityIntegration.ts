@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { registerMapListener } from '~core/shared_state/mapListeners';
 import { useMapPopoverIntegration } from './useMapPopoverIntegration';
 import type { UseMapPopoverIntegrationOptions } from './useMapPopoverIntegration';
-import type { Map, MapMouseEvent } from 'maplibre-gl';
+import type { MapMouseEvent } from 'maplibre-gl';
 
 export interface UseMapPopoverPriorityIntegrationOptions
   extends Omit<UseMapPopoverIntegrationOptions, 'enabled'> {

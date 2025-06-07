@@ -167,7 +167,11 @@ export function useMapPopoverIntegration(options: UseMapPopoverIntegrationOption
     }
 
     if (content) {
-      currentService.showWithContent(event.point, content);
+      // Convert map-relative coordinates to page coordinates
+      const container = currentMap.getContainer();
+      const rect = container.getBoundingClientRect();
+      const pagePoint = { x: rect.left + event.point.x, y: rect.top + event.point.y };
+      currentService.showWithContent(pagePoint, content);
       currentTracker.startTracking([event.lngLat.lng, event.lngLat.lat]);
     }
   };

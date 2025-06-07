@@ -191,7 +191,9 @@ function EnhancedDemo() {
   const mapRef = useRef<HTMLDivElement>(null);
   const map = useMapInstance(mapRef);
   const popoverService = useMapPopoverService();
-  const { startTracking, stopTracking } = useMapPositionTracker(map, popoverService);
+  const { startTracking, stopTracking } = useMapPositionTracker(map, {
+    onPositionChange: (point) => popoverService.updatePosition(point),
+  });
 
   // Service-based delegation with custom options
   useEffect(() => {
@@ -216,7 +218,12 @@ function EnhancedDemo() {
         const content = customRenderContent(context);
 
         if (content) {
-          popoverService.showWithContent(event.point, content, {
+          // Convert map-relative coordinates to page coordinates
+          const container = map.getContainer();
+          const rect = container.getBoundingClientRect();
+          const pagePoint = { x: rect.left + event.point.x, y: rect.top + event.point.y };
+
+          popoverService.showWithContent(pagePoint, content, {
             placement: 'bottom',
             className: 'enhanced-demo-popover',
           });
@@ -233,7 +240,11 @@ function EnhancedDemo() {
             features: [],
           },
         });
-        popoverService.showWithContent(event.point, errorContent);
+        // Convert map-relative coordinates to page coordinates
+        const container = map.getContainer();
+        const rect = container.getBoundingClientRect();
+        const pagePoint = { x: rect.left + event.point.x, y: rect.top + event.point.y };
+        popoverService.showWithContent(pagePoint, errorContent);
       }
     };
 
@@ -264,7 +275,9 @@ function Map1Component() {
   const map1Ref = useRef<HTMLDivElement>(null);
   const map1 = useMapInstance(map1Ref);
   const popoverService = useMapPopoverService();
-  const { startTracking, stopTracking } = useMapPositionTracker(map1, popoverService);
+  const { startTracking, stopTracking } = useMapPositionTracker(map1, {
+    onPositionChange: (point) => popoverService.updatePosition(point),
+  });
 
   useEffect(() => {
     if (!map1) return;
@@ -285,7 +298,11 @@ function Map1Component() {
 
       const content = defaultRenderContent(context);
       if (content) {
-        popoverService.showWithContent(event.point, content);
+        // Convert map-relative coordinates to page coordinates
+        const container = map1.getContainer();
+        const rect = container.getBoundingClientRect();
+        const pagePoint = { x: rect.left + event.point.x, y: rect.top + event.point.y };
+        popoverService.showWithContent(pagePoint, content);
         startTracking([event.lngLat.lng, event.lngLat.lat]);
       }
     };
@@ -304,7 +321,9 @@ function Map2Component() {
   const map2Ref = useRef<HTMLDivElement>(null);
   const map2 = useMapInstance(map2Ref);
   const popoverService = useMapPopoverService();
-  const { startTracking, stopTracking } = useMapPositionTracker(map2, popoverService);
+  const { startTracking, stopTracking } = useMapPositionTracker(map2, {
+    onPositionChange: (point) => popoverService.updatePosition(point),
+  });
 
   useEffect(() => {
     if (!map2) return;
@@ -325,7 +344,11 @@ function Map2Component() {
 
       const content = customRenderContent(context);
       if (content) {
-        popoverService.showWithContent(event.point, content);
+        // Convert map-relative coordinates to page coordinates
+        const container = map2.getContainer();
+        const rect = container.getBoundingClientRect();
+        const pagePoint = { x: rect.left + event.point.x, y: rect.top + event.point.y };
+        popoverService.showWithContent(pagePoint, content);
         startTracking([event.lngLat.lng, event.lngLat.lat]);
       }
     };
@@ -385,7 +408,9 @@ function ContentProviderDemo() {
   const mapRef = useRef<HTMLDivElement>(null);
   const map = useMapInstance(mapRef);
   const popoverService = useMapPopoverService();
-  const { startTracking, stopTracking } = useMapPositionTracker(map, popoverService);
+  const { startTracking, stopTracking } = useMapPositionTracker(map, {
+    onPositionChange: (point) => popoverService.updatePosition(point),
+  });
 
   const registry = useMemo(() => {
     const reg = new MapPopoverContentRegistry();
@@ -463,7 +488,9 @@ function GenericTooltipDemo() {
   const mapRef = useRef<HTMLDivElement>(null);
   const map = useMapInstance(mapRef);
   const popoverService = useMapPopoverService();
-  const { startTracking, stopTracking } = useMapPositionTracker(map, popoverService);
+  const { startTracking, stopTracking } = useMapPositionTracker(map, {
+    onPositionChange: (point) => popoverService.updatePosition(point),
+  });
 
   const registry = useMemo(() => {
     const reg = new MapPopoverContentRegistry();
@@ -520,7 +547,9 @@ function HotProjectCardDemo() {
   const mapRef = useRef<HTMLDivElement>(null);
   const map = useMapInstance(mapRef);
   const popoverService = useMapPopoverService();
-  const { startTracking, stopTracking } = useMapPositionTracker(map, popoverService);
+  const { startTracking, stopTracking } = useMapPositionTracker(map, {
+    onPositionChange: (point) => popoverService.updatePosition(point),
+  });
 
   const handleAction = (action: string, payload: any) => {
     console.info('HOT Project Card action triggered:', action, payload);
@@ -577,7 +606,11 @@ function HotProjectCardDemo() {
 
       const content = renderHotProjectCard(context);
       if (content) {
-        popoverService.showWithContent(event.point, content);
+        // Convert map-relative coordinates to page coordinates
+        const container = map.getContainer();
+        const rect = container.getBoundingClientRect();
+        const pagePoint = { x: rect.left + event.point.x, y: rect.top + event.point.y };
+        popoverService.showWithContent(pagePoint, content);
         startTracking([event.lngLat.lng, event.lngLat.lat]);
       }
     };
@@ -606,7 +639,9 @@ function DebugDemo() {
   const mapRef = useRef<HTMLDivElement>(null);
   const map = useMapInstance(mapRef);
   const popoverService = useMapPopoverService();
-  const { startTracking, stopTracking } = useMapPositionTracker(map, popoverService);
+  const { startTracking, stopTracking } = useMapPositionTracker(map, {
+    onPositionChange: (point) => popoverService.updatePosition(point),
+  });
   const [debugEnabled, setDebugEnabled] = useState(() => {
     return localStorage.getItem('KONTUR_DEBUG') === 'true';
   });
@@ -648,7 +683,11 @@ function DebugDemo() {
           features: event.target.queryRenderedFeatures(event.point),
         };
         const content = defaultRenderContent(context);
-        popoverService.showWithContent(event.point, content);
+        // Convert map-relative coordinates to page coordinates
+        const container = map.getContainer();
+        const rect = container.getBoundingClientRect();
+        const pagePoint = { x: rect.left + event.point.x, y: rect.top + event.point.y };
+        popoverService.showWithContent(pagePoint, content);
         startTracking([event.lngLat.lng, event.lngLat.lat]);
       }
     };
