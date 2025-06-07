@@ -1,4 +1,4 @@
-import type { Map, MapMouseEvent, MapGeoJSONFeature } from 'maplibre-gl';
+import type { Map, MapGeoJSONFeature } from 'maplibre-gl';
 import type {
   MapPopoverService,
   MapPositionTracker,
