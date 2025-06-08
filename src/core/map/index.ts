@@ -21,6 +21,7 @@ export {
   pageToMapContainerCoords,
   geographicToPageCoords,
   geographicToClampedContainerCoords,
+  mapEventToPageCoords,
   type MapContainerPoint,
   type PagePoint,
   type ProjectedPoint,
