@@ -71,9 +71,6 @@ export { MapPopoverProvider, useMapPopoverService } from './popover/MapPopoverPr
 
 // Global registry
 export { mapPopoverRegistry } from './popover/globalMapPopoverRegistry';
-
-// Type definitions
-export type * from './types';
 ```
 
 **Advanced Usage**: For simple maps without priority systems, you may also use:

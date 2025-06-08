@@ -52,9 +52,13 @@ export function useMapPopoverPriorityIntegration(
 
     return () => {
       unregister();
-      close();
     };
   }, [priority, options.map]);
+
+  // Separate unmount-only cleanup
+  useEffect(() => {
+    return () => close();
+  }, []);
 
   return { close };
 }

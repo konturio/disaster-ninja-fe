@@ -9,7 +9,7 @@ export type * from './types';
 export { useMapPopoverPriorityIntegration } from './hooks/useMapPopoverPriorityIntegration';
 // export { DefaultMapPopoverPositionCalculator } from './popover/MapPopoverPositionCalculator';
 export { MapPopoverProvider, useMapPopoverService } from './popover/MapPopoverProvider';
-// export { MapPopoverContentRegistry } from './popover/MapPopoverContentRegistry';
+export { MapPopoverContentRegistry } from './popover/MapPopoverContentRegistry';
 export { mapPopoverRegistry } from './popover/globalMapPopoverRegistry';
 
 // Coordinate utilities (new DRY-compliant utilities)
@@ -26,6 +26,8 @@ export {
   type ProjectedPoint,
   type ClampConfig,
 } from './utils/maplibreCoordinateUtils';
+
+export { isValidLngLat, isValidLngLatArray } from './utils/coordinateValidation';
 
 // Register debug provider if debug mode is enabled
 if (KONTUR_DEBUG) {
