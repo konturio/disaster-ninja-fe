@@ -30,7 +30,7 @@ class MapPopoverController {
 }
 
 // Pattern 3: Hook-based wrapper (confusion layer) ❌
-function useMapPopoverIntegration(options) {
+function useMapPopoverMaplibreIntegration(options) {
   // Adds useEffect/useCallback complexity over service calls
 }
 ```
@@ -137,7 +137,9 @@ class MapPopoverController {
 
 ```typescript
 // ❌ PROBLEMATIC: Adds useEffect complexity over simple service calls
-function useMapPopoverIntegration(options: UseMapPopoverIntegrationOptions) {
+function useMapPopoverMaplibreIntegration(
+  options: UseMapPopoverMaplibreIntegrationOptions,
+) {
   // 100+ lines of useEffect/useCallback/ref management
   // All to wrap simple service calls
 }
@@ -200,7 +202,7 @@ useEffect(() => {
 
 ```typescript
 // Before: Complex hook usage
-const { close } = useMapPopoverIntegration({
+const { close } = useMapPopoverMaplibreIntegration({
   map,
   popoverService,
   renderContent,
@@ -284,8 +286,10 @@ namespace LegacyMapPopover {
   }
 
   /** @deprecated Use useSimpleMapPopover or direct service calls */
-  export function useMapPopoverIntegration(options: any) {
-    console.warn('useMapPopoverIntegration deprecated - use direct service calls');
+  export function useMapPopoverMaplibreIntegration(options: any) {
+    console.warn(
+      'useMapPopoverMaplibreIntegration deprecated - use direct service calls',
+    );
     // Simplified implementation
   }
 }
@@ -303,7 +307,7 @@ namespace LegacyMapPopover {
 
 - [ ] ⏳ Update ConnectedMap to use direct service calls
 - [ ] ⏳ Update fixture files to use simplified patterns
-- [ ] ⏳ Remove complex useMapPopoverIntegration hook
+- [ ] ⏳ Remove complex useMapPopoverMaplibreIntegration hook
 
 **Week 3:**
 

@@ -1,10 +1,11 @@
 import { useEffect, useRef, useCallback, useMemo } from 'react';
 import { throttle } from '@github/mini-throttle';
+import { screenPointToMapPagePoint } from '../popover/coordinateConverter';
 import type { Map } from 'maplibre-gl';
-import type { ScreenPoint, MapPositionTracker } from '../types';
+import type { MapPagePoint, MapPositionTracker } from '../types';
 
 interface UseMapPositionTrackerOptions {
-  onPositionChange: (point: ScreenPoint) => void;
+  onPositionChange: (point: MapPagePoint) => void;
   debounceMs?: number;
 }
 
@@ -33,7 +34,7 @@ export function useMapPositionTracker(
         const pageX = rect.left + px;
         const pageY = rect.top + py;
 
-        onPositionChange({ x: pageX, y: pageY });
+        onPositionChange(screenPointToMapPagePoint({ x: pageX, y: pageY }));
       } catch (error) {
         console.error('Error updating position:', error);
       }

@@ -1,8 +1,12 @@
 import React, { createContext, useContext, useState, useCallback, useMemo } from 'react';
 import { Popover, PopoverContent } from '~components/Overlays/Popover';
+import {
+  mapContainerPointToPagePoint,
+  screenPointToMapContainerPoint,
+} from './coordinateConverter';
 import type { Placement } from '@floating-ui/react';
 import type {
-  ScreenPoint,
+  MapPagePoint,
   MapPopoverService,
   MapPopoverOptions,
   IMapPopoverContentRegistry,
@@ -14,13 +18,13 @@ interface PopoverState {
   isOpen: boolean;
   content: React.ReactNode;
   placement: Placement;
-  screenPoint: ScreenPoint;
+  screenPoint: MapPagePoint;
 }
 
 interface MultiPopoverService extends MapPopoverService {
   showWithId: (
     id: string,
-    point: ScreenPoint,
+    point: MapPagePoint,
     content: React.ReactNode,
     placement?: Placement,
   ) => void;
@@ -49,10 +53,8 @@ export function MapPopoverProvider({
 
   // Enhanced API method: showWithContent
   const showWithContent = useCallback(
-    (point: ScreenPoint, content: React.ReactNode, options?: MapPopoverOptions) => {
+    (point: MapPagePoint, content: React.ReactNode, options?: MapPopoverOptions) => {
       const placement = options?.placement ?? 'top';
-      // Note: point should already be in page coordinates when passed to this method
-      // If called with map-relative coordinates, caller should convert first
       setGlobalPopover({
         id: 'global',
         isOpen: true,
@@ -76,18 +78,17 @@ export function MapPopoverProvider({
         const mergedOptions = { ...options, ...result.options };
         const placement = mergedOptions.placement ?? 'top';
 
-        // Convert map-relative coordinates to page coordinates
-        const container = mapEvent.target.getContainer();
-        const rect = container.getBoundingClientRect();
-        const pageX = rect.left + mapEvent.point.x;
-        const pageY = rect.top + mapEvent.point.y;
+        const pagePoint = mapContainerPointToPagePoint(
+          screenPointToMapContainerPoint(mapEvent.point),
+          mapEvent.target,
+        );
 
         setGlobalPopover({
           id: 'global',
           isOpen: true,
           content: result.content,
           placement,
-          screenPoint: { x: pageX, y: pageY },
+          screenPoint: pagePoint,
         });
         return true;
       }
@@ -97,7 +98,7 @@ export function MapPopoverProvider({
   );
 
   // Enhanced API method: updatePosition
-  const updatePosition = useCallback((point: ScreenPoint, placement?: Placement) => {
+  const updatePosition = useCallback((point: MapPagePoint, placement?: Placement) => {
     setGlobalPopover((prev) => {
       if (!prev) {
         return null;
@@ -118,7 +119,7 @@ export function MapPopoverProvider({
 
   // Legacy API methods for backward compatibility
   const show = useCallback(
-    (point: ScreenPoint, content: React.ReactNode, placement: Placement = 'top') => {
+    (point: MapPagePoint, content: React.ReactNode, placement: Placement = 'top') => {
       setGlobalPopover({
         id: 'global',
         isOpen: true,
@@ -130,7 +131,7 @@ export function MapPopoverProvider({
     [],
   );
 
-  const move = useCallback((point: ScreenPoint, placement?: Placement) => {
+  const move = useCallback((point: MapPagePoint, placement?: Placement) => {
     setGlobalPopover((prev) => {
       if (!prev) {
         return null;
@@ -152,7 +153,7 @@ export function MapPopoverProvider({
   const showWithId = useCallback(
     (
       id: string,
-      point: ScreenPoint,
+      point: MapPagePoint,
       content: React.ReactNode,
       placement: Placement = 'top',
     ) => {

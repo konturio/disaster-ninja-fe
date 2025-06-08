@@ -55,7 +55,9 @@ useEffect(() => {
 
 ```typescript
 // ✅ SOLUTION: Manual ref-based approach
-export function useMapPopoverIntegration(options: UseMapPopoverIntegrationOptions) {
+export function useMapPopoverMaplibreIntegration(
+  options: UseMapPopoverMaplibreIntegrationOptions,
+) {
   // Store ALL reactive values in refs
   const mapRef = useRef(map);
   const popoverServiceRef = useRef(popoverService);

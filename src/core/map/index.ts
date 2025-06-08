@@ -4,16 +4,14 @@ import { mapPopoverRegistry } from './popover/globalMapPopoverRegistry';
 
 export type * from './types';
 
-export { useMapPositionTracker } from './hooks/useMapPositionTracker';
-export { useMapClickHandler } from './hooks/useMapClickHandler';
-export { useMapPopoverIntegration } from './hooks/useMapPopoverIntegration';
+// export { useMapPositionTracker } from './hooks/useMapPositionTracker';
+// export { useMapClickHandler } from './hooks/useMapClickHandler';
+// export { useMapPopoverMaplibreIntegration } from './hooks/useMapPopoverMaplibreIntegration';
 export { useMapPopoverPriorityIntegration } from './hooks/useMapPopoverPriorityIntegration';
-export { DefaultMapPopoverPositionCalculator } from './popover/MapPopoverPositionCalculator';
-export { MapPopoverController } from './popover/MapPopoverController';
+// export { DefaultMapPopoverPositionCalculator } from './popover/MapPopoverPositionCalculator';
 export { MapPopoverProvider, useMapPopoverService } from './popover/MapPopoverProvider';
-export { MapPopoverContentRegistry } from './popover/MapPopoverContentRegistry';
+// export { MapPopoverContentRegistry } from './popover/MapPopoverContentRegistry';
 export { mapPopoverRegistry } from './popover/globalMapPopoverRegistry';
-export { DebugMapPopoverProvider } from './popover/DebugMapPopoverProvider';
 
 // Register debug provider if debug mode is enabled
 if (KONTUR_DEBUG) {

@@ -1,6 +1,9 @@
 import type { Map, MapMouseEvent, MapGeoJSONFeature } from 'maplibre-gl';
 import type { Placement } from '@floating-ui/react';
 
+export type MapPagePoint = ScreenPoint & { __mapPagePoint: true };
+export type MapContainerPoint = ScreenPoint & { __mapContainerPoint: true };
+
 export interface ScreenPoint {
   x: number;
   y: number;
@@ -16,7 +19,7 @@ export interface MapPopoverService {
 
   // Content-based API - parent determines when to show
   showWithContent: (
-    point: ScreenPoint,
+    point: MapPagePoint,
     content: React.ReactNode,
     options?: MapPopoverOptions,
   ) => void;
@@ -25,15 +28,15 @@ export interface MapPopoverService {
   showWithEvent: (mapEvent: MapMouseEvent, options?: MapPopoverOptions) => boolean;
 
   // Position updates - parent tracks position, calls this
-  updatePosition: (point: ScreenPoint, placement?: Placement) => void;
+  updatePosition: (point: MapPagePoint, placement?: Placement) => void;
 
   // Simple control
   close: () => void;
   isOpen: () => boolean;
 
   // Legacy API methods for backward compatibility
-  show: (point: ScreenPoint, content: React.ReactNode, placement?: Placement) => void;
-  move: (point: ScreenPoint, placement?: Placement) => void;
+  show: (point: MapPagePoint, content: React.ReactNode, placement?: Placement) => void;
+  move: (point: MapPagePoint, placement?: Placement) => void;
 }
 
 export interface MapPositionTracker {
@@ -47,7 +50,7 @@ export interface MapClickHandler<T = MapGeoJSONFeature> {
 }
 
 export interface MapClickEvent<T = MapGeoJSONFeature> {
-  point: ScreenPoint;
+  point: MapContainerPoint;
   lngLat: GeographicPoint;
   features: T[];
   originalEvent: MapMouseEvent;
@@ -71,7 +74,7 @@ export interface MapClickContext {
   /** The geographic coordinates (longitude, latitude) of the click. */
   lngLat: GeographicPoint;
   /** The screen pixel coordinates of the click relative to the map container. */
-  point: ScreenPoint;
+  point: MapContainerPoint;
   /** Optional array of map features found at the click location. */
   features?: MapGeoJSONFeature[];
   /** The original MapLibre mouse event. */

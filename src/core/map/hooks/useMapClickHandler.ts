@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { screenPointToMapContainerPoint } from '../popover/coordinateConverter';
 import type { Map } from 'maplibre-gl';
 import type {
   MapClickHandler,
@@ -34,7 +35,7 @@ export function useMapClickHandler<T = any>(
       };
 
       const clickEvent: MapClickEvent<T> = {
-        point,
+        point: screenPointToMapContainerPoint(point),
         lngLat,
         features,
         originalEvent,

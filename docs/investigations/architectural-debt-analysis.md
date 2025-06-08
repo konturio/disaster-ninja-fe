@@ -75,7 +75,7 @@ setGlobalPopover({
 
 - `src/core/map/types.ts` - Type definitions
 - `src/core/map/popover/MapPopoverProvider.tsx` - Service implementation
-- `src/core/map/hooks/useMapPopoverIntegration.ts` - Integration logic
+- `src/core/map/hooks/useMapPopoverMaplibreIntegration.ts` - Integration logic
 - `src/core/map/popover/MapPopover.fixture.tsx` - 6+ usage examples
 
 **Related ADR:** [ADR-004: Type-Safe Coordinate System Architecture](../architecture/ADR-004-Type-Safe-Coordinate-System.md)
@@ -107,7 +107,7 @@ class MapPopoverController {
 }
 
 // Pattern 3: Hook-based wrapper (confusion layer)
-function useMapPopoverIntegration(options) {
+function useMapPopoverMaplibreIntegration(options) {
   // Wraps service calls in useEffect/useCallback complexity
 }
 ```
@@ -259,7 +259,7 @@ const clickHandlers = (event: MapMouseEvent) => {
 };
 
 // Parallel system - operates independently
-useMapPopoverIntegration({
+useMapPopoverMaplibreIntegration({
   map: mapRef.current || null,
   popoverService,
   registry: mapPopoverRegistry,
