@@ -85,7 +85,7 @@ const isTrackingRef = useRef<boolean>(false);
 
 ### Layer 2: Integration Abstractions (New)
 
-- `useMapPopoverIntegration` - High-level integration for simple maps
+- `useMapPopoverMaplibreIntegration` - High-level integration for simple maps
 - `useMapPopoverPriorityIntegration` - Specialized integration for priority systems
 
 ### Layer 3: Application Components (Simplified)
@@ -98,8 +98,10 @@ const isTrackingRef = useRef<boolean>(false);
 ### 1. High-Level Integration Hook
 
 ```typescript
-// src/core/map/hooks/useMapPopoverIntegration.ts
-export function useMapPopoverIntegration(options: UseMapPopoverIntegrationOptions) {
+// src/core/map/hooks/useMapPopoverMaplibreIntegration.ts
+export function useMapPopoverMaplibreIntegration(
+  options: UseMapPopoverMaplibreIntegrationOptions,
+) {
   const { map, popoverService, renderContent, registry, enabled = true } = options;
 
   // Reuse existing position tracker hook
@@ -152,7 +154,7 @@ export function useMapPopoverPriorityIntegration(
   const { priority = 55, enabled = true, ...integrationOptions } = options;
 
   // Reuse the main integration hook
-  const { handleMapClick, close } = useMapPopoverIntegration({
+  const { handleMapClick, close } = useMapPopoverMaplibreIntegration({
     ...integrationOptions,
     enabled: false, // Disable direct binding, use priority system instead
   });
@@ -199,8 +201,10 @@ function DefaultDemo() {
   // ... 40+ lines of manual integration
 
   // After: 4 lines
-  const { close } = useMapPopoverIntegration({
-    map, popoverService, renderContent: defaultRenderContent,
+  const { close } = useMapPopoverMaplibreIntegration({
+    map,
+    popoverService,
+    renderContent: defaultRenderContent,
   });
 ```
 
@@ -241,7 +245,7 @@ function DefaultDemo() {
 
 **Reusability:**
 
-- `useMapPopoverIntegration` works for simple maps
+- `useMapPopoverMaplibreIntegration` works for simple maps
 - `useMapPopoverPriorityIntegration` works for priority systems
 - Both reuse existing `useMapPositionTracker` hook
 
@@ -255,7 +259,7 @@ function DefaultDemo() {
 
 ### Phase 1: Infrastructure (Completed)
 
-- ✅ Create `useMapPopoverIntegration` hook
+- ✅ Create `useMapPopoverMaplibreIntegration` hook
 - ✅ Create `useMapPopoverPriorityIntegration` hook
 - ✅ Update exports
 
@@ -275,7 +279,7 @@ useMapPopoverPriorityIntegration({
 
 ```typescript
 // Replace each demo's manual implementation with:
-const { close } = useMapPopoverIntegration({
+const { close } = useMapPopoverMaplibreIntegration({
   map,
   popoverService,
   renderContent: demoRenderContent,
@@ -347,7 +351,7 @@ The deprecated `useMapPopoverInteraction` hook can be gradually replaced:
 useMapPopoverInteraction({ map, popoverService, renderContent });
 
 // New
-useMapPopoverIntegration({ map, popoverService, renderContent });
+useMapPopoverMaplibreIntegration({ map, popoverService, renderContent });
 ```
 
 ## Conclusion
