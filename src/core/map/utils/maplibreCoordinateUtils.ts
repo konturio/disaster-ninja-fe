@@ -1,4 +1,5 @@
 import type { Map } from 'maplibre-gl';
+import type { MapMouseEvent } from 'maplibre-gl';
 import type { ScreenPoint, GeographicPoint } from '../types';
 
 /**
@@ -134,4 +135,12 @@ export function geographicToClampedContainerCoords(
   const clamped = clampToContainerBounds(projected, containerRect, config);
 
   return clamped as MapContainerPoint;
+}
+
+/**
+ * Converts MapMouseEvent to page coordinates.
+ */
+export function mapEventToPageCoords(mapEvent: MapMouseEvent): PagePoint {
+  const containerRect = getMapContainerRect(mapEvent.target);
+  return mapContainerToPageCoords(mapEvent.point, containerRect);
 }

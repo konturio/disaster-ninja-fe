@@ -102,7 +102,6 @@ type MapListener = (event: MapMouseEvent, map?: ApplicationMap) => boolean;
 ```typescript
 interface IMapPopoverContentProvider {
   renderContent(mapEvent: MapMouseEvent): React.ReactNode | null;
-  getPopoverOptions?(mapEvent: MapMouseEvent): MapPopoverOptions;
 }
 ```
 
