@@ -7,7 +7,7 @@ import {
 import { useMapPositionTracker } from './useMapPositionTracker';
 import type {
   MapPopoverService,
-  MapPagePoint,
+  ScreenPoint,
   MapPopoverPositionCalculator,
   RenderPopoverContentFn,
   IMapPopoverContentRegistry,
@@ -82,7 +82,7 @@ export function useMapPopoverMaplibreIntegration(
 
   // Position tracking using existing hook with stable callback
   const handlePositionChange = useCallback(
-    (point: MapPagePoint) => {
+    (point: ScreenPoint) => {
       const currentMap = mapRef.current;
       const currentService = popoverServiceRef.current;
 

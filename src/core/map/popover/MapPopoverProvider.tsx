@@ -6,7 +6,7 @@ import {
 } from './coordinateConverter';
 import type { Placement } from '@floating-ui/react';
 import type {
-  MapPagePoint,
+  ScreenPoint,
   MapPopoverService,
   MapPopoverOptions,
   IMapPopoverContentRegistry,
@@ -18,13 +18,13 @@ interface PopoverState {
   isOpen: boolean;
   content: React.ReactNode;
   placement: Placement;
-  screenPoint: MapPagePoint;
+  screenPoint: ScreenPoint;
 }
 
 interface MultiPopoverService extends MapPopoverService {
   showWithId: (
     id: string,
-    point: MapPagePoint,
+    point: ScreenPoint,
     content: React.ReactNode,
     placement?: Placement,
   ) => void;
@@ -53,7 +53,7 @@ export function MapPopoverProvider({
 
   // Enhanced API method: showWithContent
   const showWithContent = useCallback(
-    (point: MapPagePoint, content: React.ReactNode, options?: MapPopoverOptions) => {
+    (point: ScreenPoint, content: React.ReactNode, options?: MapPopoverOptions) => {
       const placement = options?.placement ?? 'top';
       setGlobalPopover({
         id: 'global',
@@ -98,7 +98,7 @@ export function MapPopoverProvider({
   );
 
   // Enhanced API method: updatePosition
-  const updatePosition = useCallback((point: MapPagePoint, placement?: Placement) => {
+  const updatePosition = useCallback((point: ScreenPoint, placement?: Placement) => {
     setGlobalPopover((prev) => {
       if (!prev) {
         return null;
@@ -119,7 +119,7 @@ export function MapPopoverProvider({
 
   // Legacy API methods for backward compatibility
   const show = useCallback(
-    (point: MapPagePoint, content: React.ReactNode, placement: Placement = 'top') => {
+    (point: ScreenPoint, content: React.ReactNode, placement: Placement = 'top') => {
       setGlobalPopover({
         id: 'global',
         isOpen: true,
@@ -131,7 +131,7 @@ export function MapPopoverProvider({
     [],
   );
 
-  const move = useCallback((point: MapPagePoint, placement?: Placement) => {
+  const move = useCallback((point: ScreenPoint, placement?: Placement) => {
     setGlobalPopover((prev) => {
       if (!prev) {
         return null;
@@ -153,7 +153,7 @@ export function MapPopoverProvider({
   const showWithId = useCallback(
     (
       id: string,
-      point: MapPagePoint,
+      point: ScreenPoint,
       content: React.ReactNode,
       placement: Placement = 'top',
     ) => {

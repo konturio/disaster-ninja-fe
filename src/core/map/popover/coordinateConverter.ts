@@ -1,21 +1,18 @@
 import type { MapMouseEvent } from 'maplibre-gl';
-import type { MapContainerPoint, MapPagePoint, ScreenPoint } from '../types';
+import type { ScreenPoint } from '../types';
 
 export function mapContainerPointToPagePoint(
-  mapContainerPoint: MapContainerPoint,
+  mapContainerPoint: ScreenPoint,
   mapEventTarget: MapMouseEvent['target'],
-): MapPagePoint {
+): ScreenPoint {
   const container = mapEventTarget.getContainer();
   const rect = container.getBoundingClientRect();
-  const pageX = rect.left + mapContainerPoint.x;
-  const pageY = rect.top + mapContainerPoint.y;
-  return { x: pageX, y: pageY } as MapPagePoint;
+  return {
+    x: rect.left + mapContainerPoint.x,
+    y: rect.top + mapContainerPoint.y,
+  };
 }
 
-export function screenPointToMapPagePoint(point: ScreenPoint): MapPagePoint {
-  return point as MapPagePoint;
-}
-
-export function screenPointToMapContainerPoint(point: ScreenPoint): MapContainerPoint {
-  return point as MapContainerPoint;
+export function screenPointToMapContainerPoint(point: ScreenPoint): ScreenPoint {
+  return point;
 }
