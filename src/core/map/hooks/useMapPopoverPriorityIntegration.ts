@@ -1,18 +1,18 @@
 import { useEffect, useRef } from 'react';
 import { registerMapListener } from '~core/shared_state/mapListeners';
-import { useMapPopoverIntegration } from './useMapPopoverIntegration';
-import type { UseMapPopoverIntegrationOptions } from './useMapPopoverIntegration';
+import { useMapPopoverMaplibreIntegration } from './useMapPopoverMaplibreIntegration';
+import type { UseMapPopoverMaplibreIntegrationOptions } from './useMapPopoverMaplibreIntegration';
 import type { MapMouseEvent } from 'maplibre-gl';
 
 export interface UseMapPopoverPriorityIntegrationOptions
-  extends Omit<UseMapPopoverIntegrationOptions, 'enabled'> {
+  extends Omit<UseMapPopoverMaplibreIntegrationOptions, 'enabled'> {
   priority?: number;
   enabled?: boolean;
 }
 
 /**
  * Specialized hook for ConnectedMap that integrates popover with priority system.
- * Reuses useMapPopoverIntegration to eliminate duplication while working with
+ * Reuses useMapPopoverMaplibreIntegration to eliminate duplication while working with
  * the existing priority-based event coordination.
  */
 export function useMapPopoverPriorityIntegration(
@@ -21,7 +21,7 @@ export function useMapPopoverPriorityIntegration(
   const { priority = 55, enabled = true, ...integrationOptions } = options;
 
   // Use the main integration hook but disable its direct click binding
-  const { handleMapClick, close } = useMapPopoverIntegration({
+  const { handleMapClick, close } = useMapPopoverMaplibreIntegration({
     ...integrationOptions,
     enabled: false, // Disable direct binding, we'll use priority system
   });
