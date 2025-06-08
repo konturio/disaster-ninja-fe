@@ -1,4 +1,4 @@
-import type { Map, MapMouseEvent, MapGeoJSONFeature } from 'maplibre-gl';
+import type { MapMouseEvent, MapGeoJSONFeature } from 'maplibre-gl';
 import type { Placement } from '@floating-ui/react';
 
 export interface ScreenPoint {

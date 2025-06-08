@@ -477,65 +477,6 @@ namespace LegacyInteractions {
 }
 ```
 
-### Migration Checklist
-
-**Phase 1: Infrastructure (Week 1-2)**
-
-- [ ] ✅ UnifiedInteractionService implementation
-- [ ] ✅ Provider base classes and interfaces
-- [ ] ✅ Priority coordination system
-- [ ] ✅ Integration with ConnectedMap
-
-**Phase 2: Tool Providers (Week 3-4)**
-
-- [ ] ⏳ Map Ruler provider migration
-- [ ] ⏳ Draw Tools provider migration
-- [ ] ⏳ Boundary Selector provider migration
-- [ ] ⏳ Toolbar integration updates
-
-**Phase 3: Content Providers (Week 5-6)**
-
-- [ ] ❌ Generic feature provider
-- [ ] ❌ Bivariate content provider
-- [ ] ❌ MCDA content provider
-- [ ] ❌ Existing popup logic migration
-
-**Phase 4: Cleanup (Week 7-8)**
-
-- [ ] ❌ Remove currentTooltipAtom system
-- [ ] ❌ Remove direct MapLibre popup usage
-- [ ] ❌ Remove marker-based dropdown
-- [ ] ❌ Remove legacy priority system
-
-## Type Safety Integration
-
-Building on [ADR-004: Type-Safe Coordinate System](./ADR-004-Type-Safe-Coordinate-System.md):
-
-```typescript
-interface IMapInteractionProvider {
-  handle(event: MapMouseEvent): InteractionResult;
-}
-
-// Event contains map-relative coordinates
-interface MapMouseEvent {
-  point: MapRelativePoint; // From ADR-004
-  lngLat: GeographicPoint; // From ADR-004
-  target: Map;
-}
-
-// Providers convert to page coordinates when showing popovers
-class ContentProvider {
-  protected showContent(content: React.ReactNode, event: MapMouseEvent): void {
-    const pagePoint = CoordinateConverter.mapToPage(
-      event.point,
-      event.target.getContainer(),
-    );
-
-    popoverService.showWithContent(pagePoint, content);
-  }
-}
-```
-
 ## Performance Considerations
 
 ### Event Processing Optimization
@@ -588,57 +529,11 @@ class UnifiedInteractionService {
 }
 ```
 
-## Success Metrics
-
-### Code Quality Metrics
-
-| Metric                    | Before     | After     | Improvement   |
-| ------------------------- | ---------- | --------- | ------------- |
-| Interaction systems       | 4 separate | 1 unified | 75% reduction |
-| Lines of duplicated logic | ~400       | <50       | 87% reduction |
-
-| Integration conflicts | Multiple | Zero | 100% elimination |
-| Provider registration complexity | High | Low | Major simplification |
-
-### Developer Experience Metrics
-
-| Metric                     | Before        | After         | Improvement       |
-| -------------------------- | ------------- | ------------- | ----------------- |
-| Time to add interaction    | 2-4 hours     | 30-60 minutes | 70% faster        |
-| Onboarding time            | 1-2 days      | 2-4 hours     | 80% faster        |
-| Bug investigation time     | 3x multiplier | Direct        | 67% faster        |
-| Feature conflict debugging | Complex       | Systematic    | Major improvement |
-
-## Risk Assessment
-
-### Migration Risks
-
-**Medium Risk:**
-
-- ⚠️ Complex migration requires careful coordination
-- ⚠️ Temporary integration complexity during transition
-- ⚠️ Provider priority tuning may require iteration
-
-**Mitigation Strategies:**
-
-- Incremental migration with feature flags
-- Rollback plan for each migration phase
-
-### Performance Risks
-
-**Low Risk:**
-
-- ✅ Single event listener more efficient than multiple
-- ✅ Provider pattern adds minimal overhead
-- ✅ Lazy sorting and early exit optimizations
-
 ## Related Documentation
 
 **Root Analysis:** [Architectural Debt Analysis](../investigations/architectural-debt-analysis.md) - Section 3
 **Vision Foundation:** [ADR-001: MapPopover Migration Architecture](./ADR-001-MapPopover-Migration-Architecture.md)
 **Service Integration:** [ADR-002: MapPopover Event System Integration](./ADR-002-MapPopover-Event-System-Integration.md)
-**Service Consolidation:** [ADR-002 Amendment: Service Pattern Enforcement](./ADR-002-Amendment-Service-Pattern-Enforcement.md)
-**Type Safety:** [ADR-004: Type-Safe Coordinate System Architecture](./ADR-004-Type-Safe-Coordinate-System.md)
 
 **Event System Analysis:** [Map Event Management System Investigation](../investigations/map-event-management-system.md)
 
