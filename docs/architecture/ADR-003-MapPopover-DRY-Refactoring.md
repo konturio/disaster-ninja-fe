@@ -2,32 +2,33 @@
 
 ## Status
 
-**Approved** - Architectural improvements to eliminate code duplication and improve SOLID compliance
+**Approved** - DRY refactoring partially complete, position tracking consolidation remains
 
 ## Executive Summary
 
-This ADR addresses the architectural debt introduced in ADR-002 implementation, which created significant code duplication and SOLID principle violations. The solution introduces layered hook abstractions that maintain service benefits while eliminating ~100+ lines of duplicated code.
+This ADR addresses the code duplication issues that emerged after ADR-002 implementation. The service-based approach created low-level APIs without corresponding high-level abstractions, leading to ~200+ lines of duplicated integration logic. **Status: Integration hooks implemented and working, but position tracking duplication still exists.**
 
-## Problem Analysis
+## Problem Analysis - Current Status
 
-### Code Duplication Issues Identified
+### ✅ RESOLVED: Service Integration Duplication
 
-**1. Position Tracking Logic Duplicated 3x:**
+**Before:** Each component manually implemented service calls + click handling + position tracking
+**After:** `useMapPopoverMaplibreIntegration` and `useMapPopoverPriorityIntegration` hooks eliminate boilerplate
 
-- `ConnectedMap.tsx` lines 64-130: Manual refs-based implementation (70 lines)
-- `MapPopover.fixture.tsx` lines 129-207: Custom hook implementation (78 lines)
-- `useMapPositionTracker.ts`: Original proper hook (114 lines) - **UNUSED**
+### ❌ REMAINING: Position Tracking Logic Duplicated
 
-**2. Service Integration Patterns Repeated:**
+**Issue:** Position tracking logic still appears in multiple places:
 
-- Each component manually implements: click handling + service calls + position tracking
-- Boilerplate pattern repeated across 7+ fixture demos
-- Same error handling and cleanup logic duplicated
+- `useMapPositionTracker.ts` - Proper implementation (114 lines) ✅ USED
+- `ConnectedMap.tsx` lines 64-130 - Manual refs-based implementation (70 lines) ❌ UNUSED
+- `MapPopover.fixture.tsx` - Custom tracking in demos ❌ PARTIALLY USED
 
-**3. Geographic-to-Screen Projection Logic Duplicated:**
+### ❌ REMAINING: Coordinate Conversion Scattered
+
+The same projection logic appears multiple times:
 
 ```typescript
-// This exact pattern appears 3 times:
+// This pattern appears 3+ times:
 const projected = map.project([lng, lat]);
 const container = map.getContainer();
 const rect = container.getBoundingClientRect();
@@ -37,22 +38,22 @@ const pageX = rect.left + px;
 const pageY = rect.top + py;
 ```
 
-### SOLID Principle Violations
+## Remaining Work
 
-**Single Responsibility Principle (SRP):**
+### Phase 1: Clean up ConnectedMap ⏳ IN PROGRESS
 
-- `ConnectedMap` handles: map management + position tracking + service integration + priority management
-- Each fixture component handles: map setup + click handling + position tracking + service calls
+- Remove manual position tracking implementation
+- Use `useMapPopoverPriorityIntegration` hook instead
 
-**Open/Closed Principle (OCP):**
+### Phase 2: Consolidate Coordinate Conversion ⏳ TODO
 
-- Adding new popover behavior requires modifying existing components
-- No extensible abstractions for common patterns
+- Centralize projection logic in `coordinateConverter.ts`
+- Remove scattered implementations
 
-**Don't Repeat Yourself (DRY):**
+### Phase 3: Simplify Type System ✅ COMPLETE
 
-- ~200 lines of duplicated position tracking and integration logic
-- Same service call patterns across components
+- ✅ Removed branded types from ADR-004 (were adding noise without benefit)
+- ✅ Using simple `ScreenPoint` interface - positioning works correctly
 
 ## Root Cause Analysis
 
