@@ -1,18 +1,12 @@
 import React from 'react';
-import { KONTUR_DEBUG } from '~utils/debug';
 import type { IMapPopoverContentProvider, MapPopoverOptions } from '../types';
 import type { MapMouseEvent } from 'maplibre-gl';
 
 /**
  * Debug content provider that dumps all found features properties.
- * Only active when KONTUR_DEBUG is enabled.
  */
 export class DebugMapPopoverProvider implements IMapPopoverContentProvider {
   renderContent(mapEvent: MapMouseEvent): React.ReactNode | null {
-    if (!KONTUR_DEBUG) {
-      return null;
-    }
-
     const features = mapEvent.target?.queryRenderedFeatures?.(mapEvent.point) || [];
 
     if (features.length === 0) {

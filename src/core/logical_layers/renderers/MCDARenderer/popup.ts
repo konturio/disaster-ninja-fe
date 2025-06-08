@@ -1,4 +1,3 @@
-import { createRoot } from 'react-dom/client';
 import { sumBy } from '~utils/common';
 import {
   calculateLayerPipeline,

@@ -48,7 +48,6 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
   private _sourceId: string;
   private _removeClickListener: null | (() => void) = null;
   private _tooltipProvider: IMapPopoverContentProvider | null = null;
-  private _linkClickHandler: (() => void) | null = null;
 
   public constructor({ id }: { id: string }) {
     super();

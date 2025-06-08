@@ -7,7 +7,6 @@ import { layerByOrder } from '~core/logical_layers';
 import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
 import { mapLoaded } from '~utils/map/waitMapEvent';
 import { registerMapListener } from '~core/shared_state/mapListeners';
-import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 import {
   getMaxMCDAZoomLevel,
   getMaxNumeratorZoomLevel,
@@ -33,20 +32,14 @@ import type {
   LayerSpecification,
   LineLayerSpecification,
   MapLibreZoomEvent,
-  MapMouseEvent,
   VectorSourceSpecification,
 } from 'maplibre-gl';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
-import type {
-  BivariateLegend,
-  BivariateLegendStep,
-} from '~core/logical_layers/types/legends';
+import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
 import type { LayerTileSource } from '~core/logical_layers/types/source';
 import type { LayersOrderManager } from '../../utils/layersOrder/layersOrder';
-import type { GeoJsonProperties } from 'geojson';
 import type { LayerStyle } from '../../types/style';
-import type { RGBAColor } from '~core/types/color';
 
 // Helper functions moved to BivariatePopoverProviders.tsx
 
