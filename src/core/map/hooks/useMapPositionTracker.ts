@@ -24,7 +24,6 @@ export function useMapPositionTracker(
       const [lng, lat] = currentLngLatRef.current;
 
       try {
-        // Use centralized coordinate conversion with clamping
         const pagePoint = geographicToPageCoords(map, [lng, lat], {
           edgePadding: 0,
           clampToBounds: true,

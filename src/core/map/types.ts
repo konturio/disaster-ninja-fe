@@ -57,40 +57,6 @@ export interface MapPopoverPositionCalculator {
   ) => { pageX: number; pageY: number; placement: Placement };
 }
 
-/**
- * Contextual information about a map click event.
- * This data is passed to the renderContent callback of the useMapPopoverInteraction hook.
- */
-export interface MapClickContext {
-  /** The MapLibre map instance where the click occurred. */
-  map: Map;
-  /** The geographic coordinates (longitude, latitude) of the click. */
-  lngLat: GeographicPoint;
-  /** The screen pixel coordinates of the click relative to the map container. */
-  point: ScreenPoint;
-  /** Optional array of map features found at the click location. */
-  features?: MapGeoJSONFeature[];
-  /** The original MapLibre mouse event. */
-  originalEvent: MapMouseEvent;
-}
-
-/**
- * A callback function responsible for rendering the content of a map popover.
- * Wrapped in error boundary internally to prevent crashes.
- */
-export type RenderPopoverContentFn = (
-  context: MapClickContext,
-) => React.ReactNode | null | undefined;
-
-export interface MapPopoverErrorInfo {
-  error: Error;
-  context: MapClickContext;
-}
-
-export type MapPopoverErrorHandler = (
-  errorInfo: MapPopoverErrorInfo,
-) => React.ReactNode | null;
-
 export interface MapPopoverOptions {
   placement?: Placement;
   closeOnMove?: boolean;
