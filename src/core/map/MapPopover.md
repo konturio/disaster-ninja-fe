@@ -1,6 +1,6 @@
 # Map Popover System
 
-Service-based popover system for displaying content on map click events with automatic positioning and tracking. Implements ADR-002 service-based delegation architecture with registry-based content providers.
+Service-based popover system for displaying content on map click events with automatic positioning and tracking. Uses registry-based content providers for clean separation of concerns.
 
 ## Architecture
 
@@ -63,7 +63,7 @@ graph TD
 Current exports from `src/core/map`:
 
 ```typescript
-// Main integration hook (for ConnectedMap)
+// Priority integration (for ConnectedMap with tools)
 export { useMapPopoverPriorityIntegration } from './hooks/useMapPopoverPriorityIntegration';
 
 // Service and provider
@@ -76,13 +76,29 @@ export { mapPopoverRegistry } from './popover/globalMapPopoverRegistry';
 export type * from './types';
 ```
 
-**Note**: Other hooks like `useMapPopoverMaplibreIntegration` are internal implementation details and not exported for public use.
+**Advanced Usage**: For simple maps without priority systems, you may also use:
+
+```typescript
+// Direct integration (for simple maps without tools)
+import { useMapPopoverMaplibreIntegration } from '~core/map/hooks/useMapPopoverMaplibreIntegration';
+```
+
+**⚠️ Note**: `useMapPopoverMaplibreIntegration` is intended for simple map implementations. Use `useMapPopoverPriorityIntegration` for ConnectedMap to ensure proper tool coordination.
 
 ## Integration Patterns
 
-### 1. ConnectedMap Integration (Recommended)
+The MapPopover system provides **two integration patterns** for different architectural contexts:
 
-ConnectedMap automatically integrates MapPopover through the priority system:
+### Pattern Selection Guide
+
+| Use Case         | Pattern              | Hook                               | Why                                               |
+| ---------------- | -------------------- | ---------------------------------- | ------------------------------------------------- |
+| **ConnectedMap** | Priority Integration | `useMapPopoverPriorityIntegration` | Respects tool exclusivity (Map Ruler, Draw Tools) |
+| **Simple Maps**  | Direct Integration   | `useMapPopoverMaplibreIntegration` | No priority system overhead                       |
+
+### 1. Priority Integration (ConnectedMap)
+
+**When to use**: In ConnectedMap or applications with priority-based event system
 
 ```tsx
 import { ConnectedMap } from '~components/ConnectedMap';
@@ -92,7 +108,7 @@ function App() {
     <div>
       <ConnectedMap />
       {/* MapPopover automatically integrated at priority 55 */}
-      {/* Content providers register with global mapPopoverRegistry */}
+      {/* Respects Map Ruler, Draw Tools, Boundary Selector priority */}
     </div>
   );
 }
@@ -100,48 +116,39 @@ function App() {
 
 **How it works:**
 
-- ConnectedMap uses `useMapPopoverPriorityIntegration` internally
-- Integrates with existing priority event system
+- Uses `useMapPopoverPriorityIntegration` internally
+- **Integrates with priority event system** (priority 55)
+- **Respects tool exclusivity**: When Map Ruler is active, MapPopover won't show
 - Uses global `mapPopoverRegistry` for content providers
-- No manual setup required
+- Automatic position tracking during map movement
 
-### 2. Simple Integration (Custom Implementation)
+**Priority Chain:**
 
-For simple cases without ConnectedMap, you can implement basic integration:
+```
+Map Ruler (P:1) → Draw Tools (P:10) → Boundary Selector (P:50) → MapPopover (P:55) → Legacy Renderers (P:60)
+```
+
+### 2. Direct Integration (Simple Maps)
+
+**When to use**: Simple map implementations without priority system infrastructure
 
 ```tsx
 import { MapPopoverProvider, useMapPopoverService, mapPopoverRegistry } from '~core/map';
-import type { Map, MapMouseEvent } from 'maplibre-gl';
+import { useMapPopoverMaplibreIntegration } from '~core/map/hooks/useMapPopoverMaplibreIntegration';
+import type { Map } from 'maplibre-gl';
 
 function SimpleMapDemo() {
   const mapRef = useRef<HTMLDivElement>(null);
   const map = useMapInstance(mapRef);
   const popoverService = useMapPopoverService();
 
-  useEffect(() => {
-    if (!map) return;
-
-    const handleClick = (event: MapMouseEvent) => {
-      // Use registry to find and display content
-      const hasContent = popoverService.showWithEvent(event);
-
-      if (!hasContent) {
-        // Fallback content if no providers handle the event
-        const content = (
-          <div>
-            <p>
-              Clicked at: {event.lngLat.lng.toFixed(5)}, {event.lngLat.lat.toFixed(5)}
-            </p>
-            <p>No features found</p>
-          </div>
-        );
-        popoverService.showWithContent(event.point, content);
-      }
-    };
-
-    map.on('click', handleClick);
-    return () => map.off('click', handleClick);
-  }, [map, popoverService]);
+  // Direct integration - registry-only pattern
+  useMapPopoverMaplibreIntegration({
+    map,
+    popoverService,
+    registry: mapPopoverRegistry,
+    enabled: true,
+  });
 
   return (
     <MapPopoverProvider registry={mapPopoverRegistry}>
@@ -151,13 +158,146 @@ function SimpleMapDemo() {
 }
 ```
 
-**Important**: This pattern requires manual position tracking during map movement, which ConnectedMap handles automatically.
+**How it works:**
+
+- Uses `useMapPopoverMaplibreIntegration` directly with registry
+- **Direct event binding** to map click events
+- **No priority coordination** - always responds to clicks
+- Automatic position tracking during map movement
+- Registry-based content providers
+
+**⚠️ Important**: This pattern bypasses priority systems. Use only when you don't have Map Ruler, Draw Tools, or other exclusive interaction tools.
+
+### Architecture Rationale
+
+**Why Two Integration Patterns?**
+
+1. **ConnectedMap Complexity**: Full application needs priority coordination between multiple interaction tools
+2. **Simple Map Flexibility**: Basic implementations shouldn't require priority system infrastructure
+3. **Service Reusability**: Same `MapPopoverService` and content providers work in both contexts
+4. **Performance**: Simple maps avoid priority system overhead
+
+**Design Benefits:**
+
+- ✅ **Registry-only content**: Single, clear pattern for adding popover content
+- ✅ **Flexible Integration**: Works in complex and simple contexts
+- ✅ **Tool Coordination**: Respects exclusivity in ConnectedMap
+- ✅ **Performance**: Minimal overhead for simple cases
+
+## Position Tracking Stability
+
+### ⚠️ Critical: Avoiding Tracking Issues
+
+When using `useMapPopoverMaplibreIntegration` directly, **position tracking can break** if callback dependencies are not handled correctly.
+
+### Common Problem
+
+**❌ This breaks position tracking:**
+
+```tsx
+function BrokenMapDemo() {
+  const map = useMapInstance(mapRef);
+  const popoverService = useMapPopoverService();
+
+  // WRONG: This recreates the hook constantly!
+  useMapPopoverMaplibreIntegration({
+    map, // ❌ Causes position callback recreation
+    popoverService, // ❌ Causes position callback recreation
+    registry: mapPopoverRegistry,
+  });
+}
+```
+
+**Why it breaks:**
+
+- `map` and `popoverService` change references on every render
+- Position change callback recreates → position tracker recreates
+- Tracking stops working when tracker is replaced
+
+### ✅ Correct Implementation
+
+The hooks internally use **refs for stability**:
+
+```tsx
+// Inside useMapPopoverMaplibreIntegration
+const mapRef = useRef(map);
+const popoverServiceRef = useRef(popoverService);
+mapRef.current = map;
+popoverServiceRef.current = popoverService;
+
+const handlePositionChange = useCallback(
+  (point: ScreenPoint) => {
+    const currentMap = mapRef.current; // ✅ Stable reference
+    const currentService = popoverServiceRef.current; // ✅ Stable reference
+
+    if (!currentMap || !currentService.isOpen()) return;
+    // ... position update logic
+  },
+  [positionCalculator], // ✅ Only stable dependencies
+);
+```
+
+### Best Practices
+
+**✅ Use stable map instances:**
+
+```tsx
+function CorrectMapDemo() {
+  const mapRef = useRef<HTMLDivElement>(null);
+  const [map, setMap] = useState<Map | null>(null); // ✅ Stable reference
+  const popoverService = useMapPopoverService(); // ✅ Context provides stable service
+
+  useLayoutEffect(() => {
+    if (!mapRef.current) return;
+
+    const mapInstance = new mapLibre.Map({
+      container: mapRef.current,
+      // ... map config
+    });
+
+    setMap(mapInstance); // ✅ Set once, stays stable
+
+    return () => {
+      mapInstance.remove();
+      setMap(null);
+    };
+  }, []); // ✅ Empty dependency array
+
+  useMapPopoverMaplibreIntegration({
+    map, // ✅ Now stable
+    popoverService, // ✅ Always stable from context
+    registry: mapPopoverRegistry,
+  });
+}
+```
+
+**✅ For priority integration, refs are handled automatically:**
+
+```tsx
+function ConnectedMapExample() {
+  // ✅ Priority integration handles all stability internally
+  useMapPopoverPriorityIntegration({
+    map: someMapInstance,
+    popoverService,
+    registry: mapPopoverRegistry,
+  });
+}
+```
+
+### Debug Tracking Issues
+
+If position tracking stops working:
+
+1. **Check console**: Look for "Error updating popover position" messages
+2. **Verify stable references**: Ensure map and service don't recreate
+3. **Use priority integration**: For ConnectedMap, prefer `useMapPopoverPriorityIntegration`
+4. **Enable debug mode**: Set `KONTUR_DEBUG=true` to see tracking behavior
 
 ## Content Provider Architecture
 
-### Current Registry Interface (ID-Based)
+### Registry Interface
 
-The registry now uses ID-based registration for better reliability:
+The registry uses ID-based registration for reliability:
 
 ```typescript
 interface IMapPopoverContentRegistry {
@@ -199,7 +339,7 @@ class FeatureTooltipProvider implements IMapPopoverContentProvider {
 }
 ```
 
-### Provider Registration (Updated Pattern)
+### Provider Registration
 
 ```tsx
 import { mapPopoverRegistry } from '~core/map';
@@ -219,11 +359,11 @@ function FeatureLayer({ enabled }: { enabled: boolean }) {
 }
 ```
 
-**Key Changes from Previous Version:**
+**Registry Benefits:**
 
 - **ID-based registration**: Prevents memory leaks and enables better debugging
-- **No getPopoverOptions**: Container controls popover behavior, providers only provide content
-- **Stable React keys**: Uses provider IDs instead of array indices
+- **Provider isolation**: Errors in one provider don't crash others
+- **Stable React keys**: Uses provider IDs for optimal reconciliation
 - **Better error handling**: Provider ID included in error messages
 
 ## Current Renderer Integrations
@@ -376,6 +516,7 @@ interface MapPopoverProviderProps {
 
 ### Maintainability
 
+- **Single content pattern**: Registry-only approach eliminates API confusion
 - **Clear separation of concerns**: Container controls behavior, providers provide content
 - **Consistent patterns**: All renderers use same registration approach
 - **Type safety**: Full TypeScript support with proper interfaces

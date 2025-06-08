@@ -5,7 +5,6 @@ import { mapPopoverRegistry } from './popover/globalMapPopoverRegistry';
 export type * from './types';
 
 // export { useMapPositionTracker } from './hooks/useMapPositionTracker';
-// export { useMapClickHandler } from './hooks/useMapClickHandler';
 // export { useMapPopoverMaplibreIntegration } from './hooks/useMapPopoverMaplibreIntegration';
 export { useMapPopoverPriorityIntegration } from './hooks/useMapPopoverPriorityIntegration';
 // export { DefaultMapPopoverPositionCalculator } from './popover/MapPopoverPositionCalculator';

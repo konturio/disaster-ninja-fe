@@ -19,7 +19,7 @@ import {
 import { UniLayoutRenderer } from '~components/Uni/Layout/UniLayoutRenderer';
 import { hotProjectLayoutTemplate } from '~components/Uni/__mocks__/_hotLayout.js';
 import { hotData } from '~core/api/__mocks__/_hotSampleData';
-import type { MapClickContext } from '../types';
+import type { IMapPopoverContentProvider } from '../types';
 import type { MapMouseEvent } from 'maplibre-gl';
 
 // Simple map initialization hook
@@ -87,39 +87,53 @@ function useMapInstance(containerRef: React.RefObject<HTMLDivElement>) {
   return map;
 }
 
-// Stable content rendering function for fallback
-function defaultRenderContent(context: MapClickContext) {
-  if (context.features && context.features.length > 0) {
+// Simple provider that shows basic feature info
+class SimpleFeatureProvider implements IMapPopoverContentProvider {
+  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null {
+    const features = mapEvent.target?.queryRenderedFeatures?.(mapEvent.point) || [];
+
+    if (features.length === 0) {
+      return (
+        <div>
+          <p>
+            Clicked at: {mapEvent.lngLat.lng.toFixed(5)}, {mapEvent.lngLat.lat.toFixed(5)}
+          </p>
+          <p>No features found at this location</p>
+        </div>
+      );
+    }
+
     return (
       <div>
         <h4>Simple Feature Info</h4>
-        <p>Found {context.features.length} feature(s)</p>
+        <p>Found {features.length} feature(s)</p>
         <p>
-          Coordinates: {context.lngLat.lng.toFixed(5)}, {context.lngLat.lat.toFixed(5)}
+          Coordinates: {mapEvent.lngLat.lng.toFixed(5)}, {mapEvent.lngLat.lat.toFixed(5)}
         </p>
       </div>
     );
   }
-
-  return (
-    <div>
-      <p>
-        Clicked at: {context.lngLat.lng.toFixed(5)}, {context.lngLat.lat.toFixed(5)}
-      </p>
-      <p>No features found at this location</p>
-    </div>
-  );
 }
 
 function DefaultDemo() {
   const mapRef = useRef<HTMLDivElement>(null);
   const map = useMapInstance(mapRef);
   const popoverService = useMapPopoverService();
+  const registry = useMemo(() => new MapPopoverContentRegistry(), []);
+
+  const simpleProvider = useMemo(() => new SimpleFeatureProvider(), []);
+
+  useEffect(() => {
+    if (map) {
+      registry.register('simple', simpleProvider);
+      return () => registry.unregister('simple');
+    }
+  }, [map, registry, simpleProvider]);
 
   useMapPopoverMaplibreIntegration({
     map,
     popoverService,
-    renderContent: defaultRenderContent,
+    registry,
   });
 
   return <div ref={mapRef} style={{ width: '100%', height: '100vh' }} />;
@@ -131,7 +145,6 @@ function DebugProviderDemo() {
   const popoverService = useMapPopoverService();
   const registry = useMemo(() => new MapPopoverContentRegistry(), []);
 
-  // Reuse existing DebugMapPopoverProvider - much better than custom implementation
   const debugProvider = useMemo(() => new DebugMapPopoverProvider(), []);
 
   useEffect(() => {
@@ -169,44 +182,32 @@ function HotProjectCardDemo() {
     actionHandler: handleAction,
   });
 
-  // Stable render function using useCallback
-  const renderHotProjectCard = useCallback(
-    (mapEvent: MapMouseEvent) => {
-      if (!map) return null;
-
-      const context: MapClickContext = {
-        map,
-        lngLat: mapEvent.lngLat,
-        point: mapEvent.point,
-        features: mapEvent.target.queryRenderedFeatures(mapEvent.point),
-        originalEvent: mapEvent,
-      };
-
-      const features =
-        context.features?.filter((f) => f.source === 'hot-project-layers') || [];
-      if (features.length === 0) return null;
-
-      const feature = features[0];
-      if (!feature || !feature.properties) return null;
-
-      const data = hotData.find((d) => d.projectId === feature.properties!.projectId);
-      if (!data) return null;
-
-      return (
-        <UniLayoutContext.Provider value={uniLayoutContextValue}>
-          <UniLayoutRenderer node={hotProjectLayoutTemplate} data={data} />
-        </UniLayoutContext.Provider>
-      );
-    },
-    [map, uniLayoutContextValue],
-  );
-
-  // Create stable content provider
+  // Create hot project provider
   const hotProjectProvider = useMemo(
     () => ({
-      renderContent: renderHotProjectCard,
+      renderContent: (mapEvent: MapMouseEvent) => {
+        if (!map) return null;
+
+        const features =
+          mapEvent.target
+            ?.queryRenderedFeatures?.(mapEvent.point)
+            ?.filter((f) => f.source === 'hot-project-layers') || [];
+        if (features.length === 0) return null;
+
+        const feature = features[0];
+        if (!feature || !feature.properties) return null;
+
+        const data = hotData.find((d) => d.projectId === feature.properties!.projectId);
+        if (!data) return null;
+
+        return (
+          <UniLayoutContext.Provider value={uniLayoutContextValue}>
+            <UniLayoutRenderer node={hotProjectLayoutTemplate} data={data} />
+          </UniLayoutContext.Provider>
+        );
+      },
     }),
-    [renderHotProjectCard],
+    [map, uniLayoutContextValue],
   );
 
   // Also add debug provider for better development experience

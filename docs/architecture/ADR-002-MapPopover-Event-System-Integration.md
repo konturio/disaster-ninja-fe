@@ -43,7 +43,6 @@ config:
 graph TD
     subgraph "Current Problematic Architecture"
         A["MapLibre Click Event"] --> B["ConnectedMap Event Handler"]
-        A --> C["useMapClickHandler"]
 
         B --> D["Priority Chain Execution"]
         D --> E1["Map Ruler (P:1)"]

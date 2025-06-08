@@ -23,22 +23,17 @@ export function useMapPopoverPriorityIntegration(
   // Use the main integration hook but disable its direct click binding
   const { handleMapClick, close } = useMapPopoverMaplibreIntegration({
     ...integrationOptions,
-    enabled: false, // Disable direct binding, we'll use priority system
+    enabled: false,
   });
 
-  // Store values in refs to avoid useEffect dependency hell
   const mapRef = useRef(options.map);
   const enabledRef = useRef(enabled);
   const handleMapClickRef = useRef(handleMapClick);
-  const closeRef = useRef(close);
 
-  // Update refs when values change
   mapRef.current = options.map;
   enabledRef.current = enabled;
   handleMapClickRef.current = handleMapClick;
-  closeRef.current = close;
 
-  // Register with priority system using stable dependencies
   useEffect(() => {
     const currentMap = mapRef.current;
     if (!currentMap) return;
@@ -48,10 +43,7 @@ export function useMapPopoverPriorityIntegration(
       const currentHandler = handleMapClickRef.current;
 
       if (currentEnabled && currentHandler) {
-        const actualHandler = currentHandler(); // Call the getter function
-        if (actualHandler) {
-          actualHandler(event);
-        }
+        currentHandler(event);
       }
       return true; // Always non-blocking in priority system
     };
@@ -60,12 +52,9 @@ export function useMapPopoverPriorityIntegration(
 
     return () => {
       unregister();
-      const currentClose = closeRef.current;
-      if (currentClose) {
-        currentClose();
-      }
+      close();
     };
-  }, [priority, options.map]); // Depend on both priority and map instance
+  }, [priority, options.map]);
 
   return { close };
 }
