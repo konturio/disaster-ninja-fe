@@ -44,9 +44,13 @@ graph TD
     Service --> Provider
     Provider --> PopoverComponent
 
-    style PrioritySystem fill:#e3f2fd,stroke:#1976d2
-    style Service fill:#ccffcc,stroke:#00cc00
-    style Registry fill:#fff3e0,stroke:#f57c00
+    classDef integration stroke:#1976d2,stroke-width:3px
+    classDef coreService stroke:#00cc00,stroke-width:3px
+    classDef contentSystem stroke:#f57c00,stroke-width:3px
+
+    class PrioritySystem,PriorityHook integration
+    class Service,Provider coreService
+    class Registry,ContentProviders,DebugProvider,RendererProviders contentSystem
 ```
 
 ## Core Components
@@ -181,7 +185,152 @@ function SimpleMapDemo() {
 - ✅ **Tool Coordination**: Respects exclusivity in ConnectedMap
 - ✅ **Performance**: Minimal overhead for simple cases
 
-## Position Tracking Stability
+## Position Tracking Architecture
+
+### Geographic Coordinate Tracking
+
+**Location**: [`useMapPositionTracker.ts:13-117`](../../src/core/map/hooks/useMapPositionTracker.ts#L13-L117)
+
+The tracking system converts geographic coordinates to screen positions with viewport change handling:
+
+```typescript
+interface MapPositionTracker {
+  startTracking: (lngLat: [number, number]) => void;
+  stopTracking: () => void;
+  cleanup: () => void;
+}
+
+// Core tracking mechanism
+const handleMapMove = useCallback(() => {
+  if (!map || !currentLngLatRef.current) return;
+
+  const [lng, lat] = currentLngLatRef.current;
+  const pagePoint = geographicToPageCoords(map, [lng, lat], {
+    edgePadding: 0,
+    clampToBounds: true,
+  });
+
+  onPositionChange({ x: pagePoint.x, y: pagePoint.y });
+}, [map, onPositionChange]);
+```
+
+**Key tracking behaviors:**
+
+- **Geographic persistence**: Stores `[lng, lat]` coordinates, not screen pixels
+- **Event-driven updates**: Responds to `map.on('move')` events
+- **Viewport tolerance**: Handles pan, zoom, rotation, resize automatically
+- **Performance optimization**: Throttled updates with RAF scheduling
+
+### Performance Architecture
+
+**Location**: [`useMapPositionTracker.ts:21-41`](../../src/core/map/hooks/useMapPositionTracker.ts#L21-L41)
+
+The system employs multiple performance strategies:
+
+```typescript
+// Dual performance strategy
+const throttledUpdatePosition = useMemo(() => {
+  const rawUpdate = () => {
+    // Geographic → screen coordinate calculation
+    const pagePoint = geographicToPageCoords(map, [lng, lat]);
+    onPositionChange({ x: pagePoint.x, y: pagePoint.y });
+  };
+
+  // Strategy 1: Throttled updates for high-frequency events
+  if (debounceMs > 0) {
+    return throttle(rawUpdate, debounceMs);
+  }
+  // Strategy 2: RAF scheduling for smooth animations
+  return rawUpdate;
+}, [map, onPositionChange, debounceMs]);
+```
+
+**Performance features:**
+
+- **Throttling**: Configurable `debounceMs` for high-frequency events (default: 16ms)
+- **RAF scheduling**: Uses `requestAnimationFrame` for smooth visual updates
+- **Reference stability**: Refs prevent callback recreation during tracking
+- **Cleanup management**: Cancels pending operations on unmount
+
+### Tracking Lifecycle
+
+1. **Start**: `startTracking([lng, lat])` stores geographic coordinates and binds to map `move` events
+2. **Track**: Map movement triggers `handleMapMove()` which recalculates screen position
+3. **Update**: New screen coordinates sent via `onPositionChange` callback
+4. **Stop**: `stopTracking()` removes event listeners and clears stored coordinates
+
+### Integration with MapPopover Service
+
+**Location**: [`useMapPopoverMaplibreIntegration.ts:43-63`](../../src/core/map/hooks/useMapPopoverMaplibreIntegration.ts#L43-L63)
+
+The service integrates tracking with popover display logic:
+
+```typescript
+const handlePositionChange = useCallback(
+  (point: ScreenPoint) => {
+    const currentService = popoverServiceRef.current;
+    if (!currentService.isOpen()) return;
+
+    try {
+      // Calculate optimal placement based on viewport
+      const { placement } = positionCalculator.calculate(containerRect, point.x, point.y);
+
+      // Update popover position with new placement
+      currentService.updatePosition(point, placement);
+    } catch (error) {
+      console.error('Error updating popover position:', error);
+    }
+  },
+  [positionCalculator],
+);
+
+// Tracking activation on popover display
+const handleMapClick = useCallback(
+  (event: MapMouseEvent) => {
+    const hasContent = popoverService.showWithEvent(event);
+    if (hasContent) {
+      // Start tracking the clicked geographic point
+      positionTracker.startTracking([event.lngLat.lng, event.lngLat.lat]);
+    }
+  },
+  [popoverService, positionTracker],
+);
+```
+
+**Integration flow:**
+
+1. **Click event**: Geographic coordinates captured from `MapMouseEvent`
+2. **Content resolution**: Registry determines if content should display
+3. **Tracking start**: Geographic point becomes tracking reference
+4. **Position updates**: Screen position recalculated on map movement
+5. **Placement optimization**: Popover placement adjusted for viewport edges
+
+### Error Handling and Robustness
+
+```typescript
+// Coordinate validation
+if (!isValidLngLatArray(lngLat)) {
+  console.error(`Invalid coordinates for tracking: [${lngLat[0]}, ${lngLat[1]}]`);
+  return;
+}
+
+// Position calculation error handling
+try {
+  const pagePoint = geographicToPageCoords(map, [lng, lat]);
+  onPositionChange({ x: pagePoint.x, y: pagePoint.y });
+} catch (error) {
+  console.error('Error updating position:', error);
+}
+```
+
+**Robustness features:**
+
+- **Coordinate validation**: Prevents tracking invalid geographic points
+- **Calculation error recovery**: Continues tracking even if single update fails
+- **Resource cleanup**: Proper event listener and RAF cancellation
+- **Null safety**: Guards against map instance changes during tracking
+
+### Position Tracking Stability
 
 ### ⚠️ Critical: Avoiding Tracking Issues
 
