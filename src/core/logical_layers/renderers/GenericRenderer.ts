@@ -260,19 +260,19 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
         if (paramName && tooltipType === 'markdown') {
           // Create and register tooltip provider with MapPopover registry
           if (this._tooltipProvider) {
-            mapPopoverRegistry.unregister(this._tooltipProvider);
+            mapPopoverRegistry.unregister(`tooltip-${this._sourceId}`);
           }
           this._tooltipProvider = new GenericRendererPopoverProvider(
             this._sourceId,
             paramName,
             tooltipType,
           );
-          mapPopoverRegistry.register(this._tooltipProvider);
+          mapPopoverRegistry.register(`tooltip-${this._sourceId}`, this._tooltipProvider);
         }
       } else {
         // Clean up tooltip provider if no longer needed
         if (this._tooltipProvider) {
-          mapPopoverRegistry.unregister(this._tooltipProvider);
+          mapPopoverRegistry.unregister(`tooltip-${this._sourceId}`);
           this._tooltipProvider = null;
         }
       }
@@ -375,7 +375,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
 
     // Clean up tooltip provider
     if (this._tooltipProvider) {
-      mapPopoverRegistry.unregister(this._tooltipProvider);
+      mapPopoverRegistry.unregister(`tooltip-${this._sourceId}`);
       this._tooltipProvider = null;
     }
   }

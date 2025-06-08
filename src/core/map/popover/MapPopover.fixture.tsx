@@ -21,7 +21,6 @@ import { hotProjectLayoutTemplate } from '~components/Uni/__mocks__/_hotLayout.j
 import { hotData } from '~core/api/__mocks__/_hotSampleData';
 import type { MapClickContext } from '../types';
 import type { MapMouseEvent } from 'maplibre-gl';
-import { screenPointToMapContainerPoint } from './coordinateConverter';
 
 // Simple map initialization hook
 function useMapInstance(containerRef: React.RefObject<HTMLDivElement>) {
@@ -137,9 +136,9 @@ function DebugProviderDemo() {
 
   useEffect(() => {
     if (map && debugProvider) {
-      registry.register(debugProvider);
+      registry.register('debug', debugProvider);
       return () => {
-        registry.unregister(debugProvider);
+        registry.unregister('debug');
       };
     }
   }, [map, registry, debugProvider]);
@@ -178,7 +177,7 @@ function HotProjectCardDemo() {
       const context: MapClickContext = {
         map,
         lngLat: mapEvent.lngLat,
-        point: screenPointToMapContainerPoint(mapEvent.point),
+        point: mapEvent.point,
         features: mapEvent.target.queryRenderedFeatures(mapEvent.point),
         originalEvent: mapEvent,
       };
@@ -206,7 +205,6 @@ function HotProjectCardDemo() {
   const hotProjectProvider = useMemo(
     () => ({
       renderContent: renderHotProjectCard,
-      getPopoverOptions: () => ({ placement: 'top' as const }),
     }),
     [renderHotProjectCard],
   );
@@ -257,12 +255,12 @@ function HotProjectCardDemo() {
     }
 
     // Register both providers - hot project has priority, debug as fallback
-    registry.register(hotProjectProvider);
-    registry.register(debugProvider);
+    registry.register('hot-project', hotProjectProvider);
+    registry.register('debug', debugProvider);
 
     return () => {
-      registry.unregister(hotProjectProvider);
-      registry.unregister(debugProvider);
+      registry.unregister('hot-project');
+      registry.unregister('debug');
 
       // Clean up map layers and sources
       if (map.getLayer('hot-project-points')) {

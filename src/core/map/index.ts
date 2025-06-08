@@ -13,9 +13,24 @@ export { MapPopoverProvider, useMapPopoverService } from './popover/MapPopoverPr
 // export { MapPopoverContentRegistry } from './popover/MapPopoverContentRegistry';
 export { mapPopoverRegistry } from './popover/globalMapPopoverRegistry';
 
+// Coordinate utilities (new DRY-compliant utilities)
+export {
+  getMapContainerRect,
+  projectGeographicToScreen,
+  clampToContainerBounds,
+  mapContainerToPageCoords,
+  pageToMapContainerCoords,
+  geographicToPageCoords,
+  geographicToClampedContainerCoords,
+  type MapContainerPoint,
+  type PagePoint,
+  type ProjectedPoint,
+  type ClampConfig,
+} from './utils/maplibreCoordinateUtils';
+
 // Register debug provider if debug mode is enabled
 if (KONTUR_DEBUG) {
   const debugProvider = new DebugMapPopoverProvider();
-  mapPopoverRegistry.register(debugProvider);
+  mapPopoverRegistry.register('debug', debugProvider);
   console.info('Map popover debug provider registered');
 }

@@ -1,6 +1,6 @@
 # Map Popover System
 
-Service-based popover system for displaying content on map click events with automatic positioning and tracking. Implements ADR-002 service-based delegation architecture.
+Service-based popover system for displaying content on map click events with automatic positioning and tracking. Implements ADR-002 service-based delegation architecture with registry-based content providers.
 
 ## Architecture
 
@@ -10,101 +10,108 @@ config:
   layout: elk
 ---
 graph TD
-    subgraph "Parent Component (ConnectedMap or Simple Map)"
-        EventHandling["Event Handling<br/>(Priority System or Direct)"]
-        PositionTracking["Position Tracking<br/>(Parent Managed)"]
+    subgraph "Parent Component (ConnectedMap)"
+        PrioritySystem["Priority Event System<br/>(55: MapPopover)"]
+        PriorityHook["useMapPopoverPriorityIntegration"]
         MapInstance["Map Instance"]
     end
 
     subgraph "Service Layer"
-        Service["MapPopoverService"]
-        Registry["MapPopoverContentRegistry"]
-        Provider["MapPopoverProvider"]
+        Service["MapPopoverService<br/>(Enhanced API)"]
+        Registry["MapPopoverContentRegistry<br/>(ID-based registration)"]
+        Provider["MapPopoverProvider<br/>(React Context)"]
     end
 
     subgraph "Content Providers"
-        ContentProviders["IMapPopoverContentProvider[]"]
-        DebugProvider["DebugMapPopoverProvider"]
+        ContentProviders["IMapPopoverContentProvider[]<br/>(renderContent only)"]
+        DebugProvider["DebugMapPopoverProvider<br/>(Auto-registered in debug mode)"]
+        RendererProviders["Renderer Providers<br/>(GenericRenderer, BivariateRenderer, etc.)"]
     end
 
     subgraph "UI Layer"
-        PopoverComponent["Popover Component"]
+        PopoverComponent["Popover Component<br/>(Floating UI)"]
     end
 
-    MapInstance --> EventHandling
-    EventHandling --> Service
-    PositionTracking --> Service
+    MapInstance --> PrioritySystem
+    PrioritySystem --> PriorityHook
+    PriorityHook --> Service
 
     Service --> Registry
     Registry --> ContentProviders
     Registry --> DebugProvider
+    Registry --> RendererProviders
 
     Service --> Provider
     Provider --> PopoverComponent
 
-    style EventHandling fill:#e3f2fd,stroke:#1976d2
+    style PrioritySystem fill:#e3f2fd,stroke:#1976d2
     style Service fill:#ccffcc,stroke:#00cc00
     style Registry fill:#fff3e0,stroke:#f57c00
 ```
 
 ## Core Components
 
+- **`useMapPopoverPriorityIntegration`**: Hook for ConnectedMap integration via priority system (priority 55)
 - **`MapPopoverService`**: Enhanced service API for popover display and positioning
 - **`MapPopoverProvider`**: React context provider for popover rendering and service access
-- **`MapPopoverContentRegistry`**: Registry for managing multiple content providers
-- **`MapPopoverPositionCalculator`**: Screen position and placement calculation
-- **Parent Component**: Handles event detection and position tracking (ConnectedMap or simple maps)
+- **`MapPopoverContentRegistry`**: ID-based registry for managing multiple content providers
+- **`mapPopoverRegistry`**: Global singleton registry instance
+- **`DebugMapPopoverProvider`**: Auto-registered debug provider when `KONTUR_DEBUG` is enabled
 
-## Service-Based API
+## Public API
 
-### Enhanced MapPopoverService Interface
+Current exports from `src/core/map`:
 
 ```typescript
-interface MapPopoverService {
-  // Enhanced API for service-based delegation
-  showWithContent: (
-    point: ScreenPoint,
-    content: React.ReactNode,
-    options?: MapPopoverOptions,
-  ) => void;
-  showWithEvent: (mapEvent: MapMouseEvent, options?: MapPopoverOptions) => boolean;
-  updatePosition: (point: ScreenPoint, placement?: Placement) => void;
-  close: () => void;
-  isOpen: () => boolean;
+// Main integration hook (for ConnectedMap)
+export { useMapPopoverPriorityIntegration } from './hooks/useMapPopoverPriorityIntegration';
 
-  // Legacy API methods for backward compatibility
-  show: (point: ScreenPoint, content: React.ReactNode, placement?: Placement) => void;
-  move: (point: ScreenPoint, placement?: Placement) => void;
-}
+// Service and provider
+export { MapPopoverProvider, useMapPopoverService } from './popover/MapPopoverProvider';
+
+// Global registry
+export { mapPopoverRegistry } from './popover/globalMapPopoverRegistry';
+
+// Type definitions
+export type * from './types';
 ```
+
+**Note**: Other hooks like `useMapPopoverMaplibreIntegration` are internal implementation details and not exported for public use.
 
 ## Integration Patterns
 
-### 1. ConnectedMap Integration (Priority System)
+### 1. ConnectedMap Integration (Recommended)
 
-ConnectedMap integrates MapPopover through the existing priority-based event system:
+ConnectedMap automatically integrates MapPopover through the priority system:
 
 ```tsx
-// ConnectedMap automatically integrates MapPopover at priority 55
 import { ConnectedMap } from '~components/ConnectedMap';
 
 function App() {
   return (
     <div>
       <ConnectedMap />
-      {/* MapPopover is automatically integrated */}
+      {/* MapPopover automatically integrated at priority 55 */}
+      {/* Content providers register with global mapPopoverRegistry */}
     </div>
   );
 }
 ```
 
-### 2. Simple Map Integration (Direct API)
+**How it works:**
 
-For simple maps without the priority system:
+- ConnectedMap uses `useMapPopoverPriorityIntegration` internally
+- Integrates with existing priority event system
+- Uses global `mapPopoverRegistry` for content providers
+- No manual setup required
+
+### 2. Simple Integration (Custom Implementation)
+
+For simple cases without ConnectedMap, you can implement basic integration:
 
 ```tsx
-import { MapPopoverProvider, useMapPopoverService } from 'src/core/map';
-import type { Map } from 'maplibre-gl';
+import { MapPopoverProvider, useMapPopoverService, mapPopoverRegistry } from '~core/map';
+import type { Map, MapMouseEvent } from 'maplibre-gl';
 
 function SimpleMapDemo() {
   const mapRef = useRef<HTMLDivElement>(null);
@@ -115,69 +122,55 @@ function SimpleMapDemo() {
     if (!map) return;
 
     const handleClick = (event: MapMouseEvent) => {
-      // Direct content approach
-      const features = event.target?.queryRenderedFeatures?.(event.point) || [];
-      if (features.length > 0) {
+      // Use registry to find and display content
+      const hasContent = popoverService.showWithEvent(event);
+
+      if (!hasContent) {
+        // Fallback content if no providers handle the event
         const content = (
           <div>
-            <h4>Feature: {features[0].layer.id}</h4>
-            <pre>{JSON.stringify(features[0].properties, null, 2)}</pre>
+            <p>
+              Clicked at: {event.lngLat.lng.toFixed(5)}, {event.lngLat.lat.toFixed(5)}
+            </p>
+            <p>No features found</p>
           </div>
         );
         popoverService.showWithContent(event.point, content);
       }
     };
 
-    const handleMove = () => {
-      if (popoverService.isOpen()) {
-        // Handle position updates manually
-        const newPosition = calculatePosition(); // Your position logic
-        popoverService.updatePosition(newPosition);
-      }
-    };
-
     map.on('click', handleClick);
-    map.on('move', handleMove);
-
-    return () => {
-      map.off('click', handleClick);
-      map.off('move', handleMove);
-    };
+    return () => map.off('click', handleClick);
   }, [map, popoverService]);
 
   return (
-    <MapPopoverProvider>
+    <MapPopoverProvider registry={mapPopoverRegistry}>
       <div ref={mapRef} style={{ width: '100%', height: '400px' }} />
     </MapPopoverProvider>
   );
 }
 ```
 
-### 3. Registry-Based Integration
-
-For complex applications with multiple content providers:
-
-```tsx
-import { MapPopoverProvider, mapPopoverRegistry } from 'src/core/map';
-
-function AppWithRegistry() {
-  return (
-    <MapPopoverProvider registry={mapPopoverRegistry}>
-      <ConnectedMap />
-      {/* Content providers register themselves with mapPopoverRegistry */}
-    </MapPopoverProvider>
-  );
-}
-```
+**Important**: This pattern requires manual position tracking during map movement, which ConnectedMap handles automatically.
 
 ## Content Provider Architecture
 
-The registry-based architecture allows multiple systems to provide content without conflicts.
+### Current Registry Interface (ID-Based)
+
+The registry now uses ID-based registration for better reliability:
+
+```typescript
+interface IMapPopoverContentRegistry {
+  register(id: string, provider: IMapPopoverContentProvider): void;
+  unregister(id: string): void;
+  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null;
+}
+```
 
 ### Creating Content Providers
 
 ```tsx
-import type { IMapPopoverContentProvider, MapPopoverOptions } from 'src/core/map';
+import type { IMapPopoverContentProvider } from '~core/map';
 import type { MapMouseEvent } from 'maplibre-gl';
 
 class FeatureTooltipProvider implements IMapPopoverContentProvider {
@@ -203,29 +196,22 @@ class FeatureTooltipProvider implements IMapPopoverContentProvider {
       </div>
     );
   }
-
-  getPopoverOptions(): MapPopoverOptions {
-    return {
-      placement: 'top',
-      closeOnMove: false,
-      className: 'feature-tooltip',
-    };
-  }
 }
 ```
 
-### Provider Registration
+### Provider Registration (Updated Pattern)
 
 ```tsx
-import { mapPopoverRegistry } from 'src/core/map';
+import { mapPopoverRegistry } from '~core/map';
 
 function FeatureLayer({ enabled }: { enabled: boolean }) {
   const provider = useMemo(() => new FeatureTooltipProvider(), []);
 
   useEffect(() => {
     if (enabled) {
-      mapPopoverRegistry.register(provider);
-      return () => mapPopoverRegistry.unregister(provider);
+      // Use unique ID for registration
+      mapPopoverRegistry.register('feature-tooltip', provider);
+      return () => mapPopoverRegistry.unregister('feature-tooltip');
     }
   }, [enabled, provider]);
 
@@ -233,19 +219,75 @@ function FeatureLayer({ enabled }: { enabled: boolean }) {
 }
 ```
 
+**Key Changes from Previous Version:**
+
+- **ID-based registration**: Prevents memory leaks and enables better debugging
+- **No getPopoverOptions**: Container controls popover behavior, providers only provide content
+- **Stable React keys**: Uses provider IDs instead of array indices
+- **Better error handling**: Provider ID included in error messages
+
+## Current Renderer Integrations
+
+The system integrates with existing layer renderers using consistent ID patterns:
+
+### GenericRenderer
+
+```typescript
+// Registers with ID: `tooltip-${sourceId}`
+mapPopoverRegistry.register(`tooltip-${this._sourceId}`, this._tooltipProvider);
+```
+
+### BivariateRenderer
+
+```typescript
+// Registers with IDs: `bivariate-${sourceId}` and `mcda-${sourceId}`
+mapPopoverRegistry.register(`bivariate-${this._sourceId}`, this._bivariateProvider);
+mapPopoverRegistry.register(`mcda-${this._sourceId}`, this._mcdaProvider);
+```
+
+### ClickableFeaturesRenderer
+
+```typescript
+// Registers with ID: `clickable-${sourceId}`
+mapPopoverRegistry.register(`clickable-${this._sourceId}`, this._popoverProvider);
+```
+
 ## Debug Features
 
-The system includes a debug provider that activates when `KONTUR_DEBUG` is enabled:
+Debug provider automatically registers when `KONTUR_DEBUG` is enabled:
 
-```tsx
-// Enable debug mode
-localStorage.setItem('KONTUR_DEBUG', 'true');
+```typescript
+// Automatically registered with ID: 'debug'
+if (KONTUR_DEBUG) {
+  mapPopoverRegistry.register('debug', new DebugMapPopoverProvider());
+}
+```
 
-// Debug provider automatically registers and shows:
-// - All found features at click point
-// - Layer information and source details
-// - Complete properties JSON
-// - Geographic coordinates and screen position
+**Debug provider shows:**
+
+- All found features at click point
+- Layer information and source details
+- Complete properties JSON
+- Geographic coordinates and screen position
+- Feature count and geometry types
+
+## Service API Reference
+
+### Enhanced API Methods
+
+```typescript
+// Registry-based content resolution
+popoverService.showWithEvent(mapEvent: MapMouseEvent, options?: MapPopoverOptions): boolean
+
+// Direct content display
+popoverService.showWithContent(point: ScreenPoint, content: React.ReactNode, options?: MapPopoverOptions): void
+
+// Position updates (for map movement tracking)
+popoverService.updatePosition(point: ScreenPoint, placement?: Placement): void
+
+// State queries
+popoverService.isOpen(): boolean
+popoverService.close(): void
 ```
 
 ## Multiple Maps Support
@@ -257,78 +299,19 @@ function MultiMapApp() {
   return (
     <div>
       {/* Each map gets its own isolated popover system */}
-      <MapPopoverProvider>
-        <SimpleMap mapId="map1" />
+      <MapPopoverProvider registry={mapPopoverRegistry}>
+        <ConnectedMap mapId="map1" />
       </MapPopoverProvider>
 
-      <MapPopoverProvider>
-        <SimpleMap mapId="map2" />
+      <MapPopoverProvider registry={mapPopoverRegistry}>
+        <ConnectedMap mapId="map2" />
       </MapPopoverProvider>
     </div>
   );
 }
 ```
 
-## Service Methods
-
-### showWithContent()
-
-Direct content display - parent determines when to show:
-
-```tsx
-popoverService.showWithContent({ x: 100, y: 200 }, <div>Custom content</div>, {
-  placement: 'top',
-});
-```
-
-### showWithEvent()
-
-Registry-based content via map events:
-
-```tsx
-const hasContent = popoverService.showWithEvent(mapClickEvent);
-// Returns true if content was found and displayed
-```
-
-### updatePosition()
-
-Position updates during map movement:
-
-```tsx
-popoverService.updatePosition({ x: 150, y: 250 }, 'bottom');
-```
-
-### isOpen()
-
-Check if popover is currently displayed:
-
-```tsx
-if (popoverService.isOpen()) {
-  // Handle position tracking
-}
-```
-
-## Position Tracking
-
-Position tracking is handled by the parent component:
-
-```tsx
-// ConnectedMap handles this automatically
-// For simple maps, implement manual tracking:
-
-const handleMapMove = useCallback(() => {
-  if (popoverService.isOpen() && currentGeographicPoint) {
-    const screenPoint = map.project(currentGeographicPoint);
-    const container = map.getContainer();
-    const rect = container.getBoundingClientRect();
-
-    popoverService.updatePosition({
-      x: rect.left + screenPoint.x,
-      y: rect.top + screenPoint.y,
-    });
-  }
-}, [map, popoverService, currentGeographicPoint]);
-```
+**Note**: All maps can share the same global `mapPopoverRegistry` since providers are designed to work with any map instance.
 
 ## Type Definitions
 
@@ -345,10 +328,6 @@ interface MapPopoverService {
   updatePosition: (point: ScreenPoint, placement?: Placement) => void;
   close: () => void;
   isOpen: () => boolean;
-
-  // Legacy compatibility
-  show: (point: ScreenPoint, content: React.ReactNode, placement?: Placement) => void;
-  move: (point: ScreenPoint, placement?: Placement) => void;
 }
 
 interface MapPopoverOptions {
@@ -363,16 +342,12 @@ interface MapPopoverOptions {
 ```typescript
 interface IMapPopoverContentProvider {
   renderContent(mapEvent: MapMouseEvent): React.ReactNode | null;
-  getPopoverOptions?(mapEvent: MapMouseEvent): MapPopoverOptions;
 }
 
 interface IMapPopoverContentRegistry {
-  register(provider: IMapPopoverContentProvider): void;
-  unregister(provider: IMapPopoverContentProvider): void;
-  renderContent(mapEvent: MapMouseEvent): {
-    content: React.ReactNode;
-    options?: MapPopoverOptions;
-  } | null;
+  register(id: string, provider: IMapPopoverContentProvider): void;
+  unregister(id: string): void;
+  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null;
 }
 ```
 
@@ -385,42 +360,22 @@ interface MapPopoverProviderProps {
 }
 ```
 
-## Migration from Hook-Based Architecture
-
-If migrating from the deprecated `useMapPopoverInteraction` hook:
-
-### Before (Deprecated)
-
-```tsx
-// ❌ Old hook-based approach
-useMapPopoverInteraction({
-  map,
-  popoverService,
-  renderContent: (context) => <div>Content</div>,
-});
-```
-
-### After (Service-Based)
-
-```tsx
-// ✅ New service-based approach
-useEffect(() => {
-  if (!map) return;
-
-  const handleClick = (event: MapMouseEvent) => {
-    const content = <div>Content</div>;
-    popoverService.showWithContent(event.point, content);
-  };
-
-  map.on('click', handleClick);
-  return () => map.off('click', handleClick);
-}, [map, popoverService]);
-```
-
 ## Architecture Benefits
 
-- **Decoupled Design**: MapPopover no longer directly binds to map events
-- **Flexible Integration**: Works with both priority systems and direct event handling
-- **Multi-Map Support**: Clean isolation between different map instances
-- **Provider Pattern**: Multiple content sources can coexist without conflicts
-- **Debug Support**: Built-in debugging when `KONTUR_DEBUG` is enabled
+### Reliability
+
+- **Memory leak prevention**: ID-based registration eliminates object reference issues
+- **Error isolation**: Provider errors don't crash the entire system
+- **Debug capabilities**: Provider identification in error messages
+
+### Performance
+
+- **Stable React keys**: Uses provider IDs for optimal reconciliation
+- **Centralized position tracking**: ConnectedMap handles all position updates
+- **Registry aggregation**: Multiple providers rendered in single React fragment
+
+### Maintainability
+
+- **Clear separation of concerns**: Container controls behavior, providers provide content
+- **Consistent patterns**: All renderers use same registration approach
+- **Type safety**: Full TypeScript support with proper interfaces
