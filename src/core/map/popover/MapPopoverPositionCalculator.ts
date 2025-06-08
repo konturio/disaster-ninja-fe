@@ -29,12 +29,10 @@ export class DefaultMapPopoverPositionCalculator implements MapPopoverPositionCa
   ): { pageX: number; pageY: number; placement: Placement } {
     const placement = this.calculatePlacement(rect, rawX, rawY);
 
-    // Use centralized clamping utility
     const clampedPoint = clampToContainerBounds({ x: rawX, y: rawY }, rect, {
       edgePadding: this.config.edgePadding,
     });
 
-    // Use centralized coordinate conversion
     const pagePoint = mapContainerToPageCoords(clampedPoint, rect);
 
     return {

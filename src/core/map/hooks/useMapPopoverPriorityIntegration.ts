@@ -29,10 +29,12 @@ export function useMapPopoverPriorityIntegration(
   const mapRef = useRef(options.map);
   const enabledRef = useRef(enabled);
   const handleMapClickRef = useRef(handleMapClick);
+  const closeRef = useRef(close);
 
   mapRef.current = options.map;
   enabledRef.current = enabled;
   handleMapClickRef.current = handleMapClick;
+  closeRef.current = close;
 
   useEffect(() => {
     const currentMap = mapRef.current;
@@ -57,7 +59,11 @@ export function useMapPopoverPriorityIntegration(
 
   // Separate unmount-only cleanup
   useEffect(() => {
-    return () => close();
+    return () => {
+      if (closeRef.current) {
+        closeRef.current();
+      }
+    };
   }, []);
 
   return { close };

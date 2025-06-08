@@ -398,7 +398,6 @@ The migration strategy leverages existing MapPopover infrastructure and applies 
 // 1. Define provider interface
 interface IMapPopoverContentProvider {
   renderContent(mapEvent: MapMouseEvent): React.ReactNode | null;
-  getPopoverOptions?(mapEvent: MapMouseEvent): MapPopoverOptions;
 }
 
 // 2. Create registry to coordinate providers
