@@ -1,53 +1,51 @@
 import React from 'react';
-import type {
-  IMapPopoverContentProvider,
-  IMapPopoverContentRegistry,
-  MapPopoverOptions,
-} from '../types';
+import type { IMapPopoverContentProvider, IMapPopoverContentRegistry } from '../types';
 import type { MapMouseEvent } from 'maplibre-gl';
 
 export class MapPopoverContentRegistry implements IMapPopoverContentRegistry {
-  private providers: IMapPopoverContentProvider[] = [];
+  private providers = new Map<string, IMapPopoverContentProvider>();
 
-  register(provider: IMapPopoverContentProvider): void {
-    if (!this.providers.includes(provider)) {
-      this.providers.push(provider);
+  register(id: string, provider: IMapPopoverContentProvider): void {
+    if (this.providers.has(id)) {
+      console.warn(`MapPopover provider "${id}" already registered, replacing`);
     }
+    this.providers.set(id, provider);
   }
 
-  unregister(provider: IMapPopoverContentProvider): void {
-    const index = this.providers.indexOf(provider);
-    if (index > -1) {
-      this.providers.splice(index, 1);
-    }
+  unregister(id: string): void {
+    this.providers.delete(id);
   }
 
-  renderContent(mapEvent: MapMouseEvent): {
-    content: React.ReactNode;
-    options?: MapPopoverOptions;
-  } | null {
-    const content: React.ReactNode[] = [];
-    for (const provider of this.providers) {
+  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null {
+    const contentElements: React.ReactNode[] = [];
+
+    for (const [id, provider] of this.providers) {
       try {
         const providerContent = provider.renderContent(mapEvent);
         if (providerContent) {
-          content.push(
-            React.createElement('div', { key: content.length }, providerContent),
-          );
+          // Use stable provider ID as React key
+          contentElements.push(React.createElement('div', { key: id }, providerContent));
         }
       } catch (error) {
-        console.error('Error in content provider:', error);
+        console.error(`Error in MapPopover provider "${id}":`, error);
         // Continue to next provider on error
       }
     }
-    return { content };
+
+    // Return null if no content (not empty array)
+    if (contentElements.length === 0) {
+      return null;
+    }
+
+    // Return aggregated content as React fragment
+    return React.createElement(React.Fragment, {}, ...contentElements);
   }
 
   get providerCount(): number {
-    return this.providers.length;
+    return this.providers.size;
   }
 
   clear(): void {
-    this.providers = [];
+    this.providers.clear();
   }
 }

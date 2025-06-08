@@ -105,14 +105,6 @@ export class BivariatePopoverProvider implements IMapPopoverContentProvider {
       />
     );
   }
-
-  getPopoverOptions(): MapPopoverOptions {
-    return {
-      placement: 'top',
-      closeOnMove: true,
-      className: 'bivariate-popup',
-    };
-  }
 }
 
 /**
@@ -141,13 +133,5 @@ export class MCDAPopoverProvider implements IMapPopoverContentProvider {
     dispatchMetricsEvent('mcda_popup');
     // Generate MCDA popup content directly as React element
     return generateMCDAPopupTable(feature, this.style.config.layers);
-  }
-
-  getPopoverOptions(): MapPopoverOptions {
-    return {
-      placement: 'top',
-      closeOnMove: true,
-      className: 'mcda-popup',
-    };
   }
 }

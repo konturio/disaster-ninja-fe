@@ -1,3 +1,7 @@
+import {
+  clampToContainerBounds,
+  mapContainerToPageCoords,
+} from '../utils/maplibreCoordinateUtils';
 import type { MapPopoverPositionCalculator } from '../types';
 import type { Placement } from '@floating-ui/react';
 
@@ -24,11 +28,18 @@ export class DefaultMapPopoverPositionCalculator implements MapPopoverPositionCa
     rawY: number,
   ): { pageX: number; pageY: number; placement: Placement } {
     const placement = this.calculatePlacement(rect, rawX, rawY);
-    const { clampedX, clampedY } = this.clampCoordinates(rect, rawX, rawY);
+
+    // Use centralized clamping utility
+    const clampedPoint = clampToContainerBounds({ x: rawX, y: rawY }, rect, {
+      edgePadding: this.config.edgePadding,
+    });
+
+    // Use centralized coordinate conversion
+    const pagePoint = mapContainerToPageCoords(clampedPoint, rect);
 
     return {
-      pageX: rect.left + clampedX,
-      pageY: rect.top + clampedY,
+      pageX: pagePoint.x,
+      pageY: pagePoint.y,
       placement,
     };
   }
@@ -42,18 +53,5 @@ export class DefaultMapPopoverPositionCalculator implements MapPopoverPositionCa
     if (rawY > rect.height - placementThreshold) return 'top';
 
     return 'top';
-  }
-
-  private clampCoordinates(
-    rect: DOMRect,
-    rawX: number,
-    rawY: number,
-  ): { clampedX: number; clampedY: number } {
-    const { edgePadding } = this.config;
-
-    return {
-      clampedX: Math.min(Math.max(edgePadding, rawX), rect.width - edgePadding),
-      clampedY: Math.min(Math.max(edgePadding, rawY), rect.height - edgePadding),
-    };
   }
 }

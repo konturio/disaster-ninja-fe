@@ -154,13 +154,13 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
   // Register bivariate popover provider with registry
   registerBivariateProvider(legend: BivariateLegend | null) {
     if (this._bivariateProvider) {
-      mapPopoverRegistry.unregister(this._bivariateProvider);
+      mapPopoverRegistry.unregister(`bivariate-${this._sourceId}`);
       this._bivariateProvider = null;
     }
 
     if (legend) {
       this._bivariateProvider = new BivariatePopoverProvider(this._sourceId, legend);
-      mapPopoverRegistry.register(this._bivariateProvider);
+      mapPopoverRegistry.register(`bivariate-${this._sourceId}`, this._bivariateProvider);
     }
   }
 
@@ -207,13 +207,13 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
   // Register MCDA popover provider with registry
   registerMCDAProvider(style: MCDALayerStyle | null) {
     if (this._mcdaProvider) {
-      mapPopoverRegistry.unregister(this._mcdaProvider);
+      mapPopoverRegistry.unregister(`mcda-${this._sourceId}`);
       this._mcdaProvider = null;
     }
 
     if (style) {
       this._mcdaProvider = new MCDAPopoverProvider(this._sourceId, style);
-      mapPopoverRegistry.register(this._mcdaProvider);
+      mapPopoverRegistry.register(`mcda-${this._sourceId}`, this._mcdaProvider);
     }
   }
 
@@ -298,11 +298,11 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
 
     // Unregister popover providers
     if (this._bivariateProvider) {
-      mapPopoverRegistry.unregister(this._bivariateProvider);
+      mapPopoverRegistry.unregister(`bivariate-${this._sourceId}`);
       this._bivariateProvider = null;
     }
     if (this._mcdaProvider) {
-      mapPopoverRegistry.unregister(this._mcdaProvider);
+      mapPopoverRegistry.unregister(`mcda-${this._sourceId}`);
       this._mcdaProvider = null;
     }
 

@@ -30,10 +30,6 @@ export interface MapPopoverService {
   // Simple control
   close: () => void;
   isOpen: () => boolean;
-
-  // Legacy API methods for backward compatibility
-  show: (point: ScreenPoint, content: React.ReactNode, placement?: Placement) => void;
-  move: (point: ScreenPoint, placement?: Placement) => void;
 }
 
 export interface MapPositionTracker {
@@ -112,13 +108,6 @@ export interface IMapPopoverContentProvider {
    * @returns React content to display, or null if this provider doesn't handle this event
    */
   renderContent(mapEvent: MapMouseEvent): React.ReactNode | null;
-
-  /**
-   * Optional: Returns popover display options for this provider's content.
-   * @param mapEvent - The original MapLibre mouse event
-   * @returns Options for how the popover should be displayed
-   */
-  getPopoverOptions?(mapEvent: MapMouseEvent): MapPopoverOptions;
 }
 
 /**
@@ -126,22 +115,22 @@ export interface IMapPopoverContentProvider {
  */
 export interface IMapPopoverContentRegistry {
   /**
-   * Registers a content provider with the registry.
+   * Registers a content provider with the registry using a unique ID.
+   * @param id - Unique identifier for the provider
+   * @param provider - The content provider instance
    */
-  register(provider: IMapPopoverContentProvider): void;
+  register(id: string, provider: IMapPopoverContentProvider): void;
 
   /**
-   * Unregisters a content provider from the registry.
+   * Unregisters a content provider from the registry by ID.
+   * @param id - Unique identifier of the provider to remove
    */
-  unregister(provider: IMapPopoverContentProvider): void;
+  unregister(id: string): void;
 
   /**
    * Attempts to render content using registered providers.
    * @param mapEvent - The original MapLibre mouse event
-   * @returns Content and options, or null if no provider can handle the event
+   * @returns Aggregated content from all providers, or null if no provider can handle the event
    */
-  renderContent(mapEvent: MapMouseEvent): {
-    content: React.ReactNode;
-    options?: MapPopoverOptions;
-  } | null;
+  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null;
 }

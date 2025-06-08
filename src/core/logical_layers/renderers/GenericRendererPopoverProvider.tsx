@@ -1,5 +1,5 @@
 import React from 'react';
-import type { IMapPopoverContentProvider, MapPopoverOptions } from '~core/map/types';
+import type { IMapPopoverContentProvider } from '~core/map/types';
 import type { MapMouseEvent } from 'maplibre-gl';
 
 export class GenericRendererPopoverProvider implements IMapPopoverContentProvider {
@@ -34,13 +34,5 @@ export class GenericRendererPopoverProvider implements IMapPopoverContentProvide
     }
 
     return <div>{content}</div>;
-  }
-
-  getPopoverOptions(): MapPopoverOptions {
-    return {
-      placement: 'top',
-      closeOnMove: false,
-      className: 'generic-renderer-tooltip',
-    };
   }
 }

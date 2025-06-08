@@ -1,9 +1,9 @@
 import React, { createContext, useContext, useState, useCallback, useMemo } from 'react';
 import { Popover, PopoverContent } from '~components/Overlays/Popover';
 import {
-  mapContainerPointToPagePoint,
-  screenPointToMapContainerPoint,
-} from './coordinateConverter';
+  mapContainerToPageCoords,
+  getMapContainerRect,
+} from '../utils/maplibreCoordinateUtils';
 import type { Placement } from '@floating-ui/react';
 import type {
   ScreenPoint,
@@ -73,20 +73,18 @@ export function MapPopoverProvider({
         return false;
       }
 
-      const result = registry.renderContent(mapEvent);
-      if (result) {
-        const mergedOptions = { ...options, ...result.options };
-        const placement = mergedOptions.placement ?? 'top';
+      const content = registry.renderContent(mapEvent);
+      if (content) {
+        const placement = options?.placement ?? 'top';
 
-        const pagePoint = mapContainerPointToPagePoint(
-          screenPointToMapContainerPoint(mapEvent.point),
-          mapEvent.target,
-        );
+        // Direct utility usage instead of wrapper function
+        const containerRect = getMapContainerRect(mapEvent.target);
+        const pagePoint = mapContainerToPageCoords(mapEvent.point, containerRect);
 
         setGlobalPopover({
           id: 'global',
           isOpen: true,
-          content: result.content,
+          content,
           placement,
           screenPoint: pagePoint,
         });
@@ -116,35 +114,6 @@ export function MapPopoverProvider({
   const isOpen = useCallback(() => {
     return globalPopover?.isOpen || false;
   }, [globalPopover]);
-
-  // Legacy API methods for backward compatibility
-  const show = useCallback(
-    (point: ScreenPoint, content: React.ReactNode, placement: Placement = 'top') => {
-      setGlobalPopover({
-        id: 'global',
-        isOpen: true,
-        content,
-        placement,
-        screenPoint: point,
-      });
-    },
-    [],
-  );
-
-  const move = useCallback((point: ScreenPoint, placement?: Placement) => {
-    setGlobalPopover((prev) => {
-      if (!prev) {
-        return null;
-      }
-
-      const updated = {
-        ...prev,
-        screenPoint: point,
-        placement: placement ?? prev.placement,
-      };
-      return updated;
-    });
-  }, []);
 
   const close = useCallback(() => {
     setGlobalPopover(null);
@@ -187,9 +156,6 @@ export function MapPopoverProvider({
       showWithEvent,
       updatePosition,
       isOpen,
-      // Legacy API
-      show,
-      move,
       close,
       showWithId,
       closeById,
@@ -199,8 +165,6 @@ export function MapPopoverProvider({
       showWithEvent,
       updatePosition,
       isOpen,
-      show,
-      move,
       close,
       showWithId,
       closeById,
