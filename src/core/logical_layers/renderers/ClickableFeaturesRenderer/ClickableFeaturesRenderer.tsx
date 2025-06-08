@@ -12,7 +12,6 @@ import { ClickableFeaturesPopoverProvider } from './ClickableFeaturesPopoverProv
 import type {
   LineLayerSpecification,
   MapLibreZoomEvent,
-  MapMouseEvent,
   VectorSourceSpecification,
 } from 'maplibre-gl';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
