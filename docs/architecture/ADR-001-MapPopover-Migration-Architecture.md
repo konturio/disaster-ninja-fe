@@ -142,19 +142,13 @@ interface MapPopoverOptions {
 interface IMapPopoverContentProvider {
   // Provider gets raw map event, returns content or null
   renderContent(mapEvent: MapMouseEvent): React.ReactNode | null;
-
-  // Optional: Provider can specify display options
-  getPopoverOptions?(mapEvent: MapMouseEvent): MapPopoverOptions;
 }
 
-// Registry: Simple provider coordination
+// Registry: Simple provider coordination with ID-based registration
 interface IMapPopoverContentRegistry {
-  register(provider: IMapPopoverContentProvider): void;
-  unregister(provider: IMapPopoverContentProvider): void;
-  renderContent(mapEvent: MapMouseEvent): {
-    contents: React.ReactNode[];
-    options?: MapPopoverOptions;
-  } | null;
+  register(id: string, provider: IMapPopoverContentProvider): void;
+  unregister(id: string): void;
+  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null;
 }
 ```
 
@@ -162,49 +156,42 @@ interface IMapPopoverContentRegistry {
 
 ```typescript
 class MapPopoverContentRegistry implements IMapPopoverContentRegistry {
-  private providers: IMapPopoverContentProvider[] = [];
+  private providers = new Map<string, IMapPopoverContentProvider>();
 
-  register(provider: IMapPopoverContentProvider): void {
-    this.providers.push(provider);
-  }
-
-  unregister(provider: IMapPopoverContentProvider): void {
-    const index = this.providers.indexOf(provider);
-    if (index > -1) {
-      this.providers.splice(index, 1);
+  register(id: string, provider: IMapPopoverContentProvider): void {
+    if (this.providers.has(id)) {
+      console.warn(`MapPopover provider "${id}" already registered, replacing`);
     }
+    this.providers.set(id, provider);
   }
 
-  renderContent(mapEvent: MapMouseEvent): {
-    contents: React.ReactNode[];
-    options?: MapPopoverOptions;
-  } | null {
-    const collectedContents: React.ReactNode[] = [];
-    let mergedOptions: MapPopoverOptions = {};
+  unregister(id: string): void {
+    this.providers.delete(id);
+  }
 
-    for (const provider of this.providers) {
+  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null {
+    const contentElements: React.ReactNode[] = [];
+
+    for (const [id, provider] of this.providers) {
       try {
-        const content = provider.renderContent(mapEvent);
-        if (content) {
-          collectedContents.push(content);
-          if (provider.getPopoverOptions) {
-            const providerOptions = provider.getPopoverOptions(mapEvent);
-            mergedOptions = { ...mergedOptions, ...providerOptions };
-          }
+        const providerContent = provider.renderContent(mapEvent);
+        if (providerContent) {
+          // Use stable provider ID as React key
+          contentElements.push(React.createElement('div', { key: id }, providerContent));
         }
       } catch (error) {
-        console.error('Error in content provider:', error);
+        console.error(`Error in MapPopover provider "${id}":`, error);
         // Continue to next provider on error
       }
     }
 
-    if (collectedContents.length > 0) {
-      return {
-        contents: collectedContents,
-        options: mergedOptions,
-      };
+    // Return null if no content (not empty array)
+    if (contentElements.length === 0) {
+      return null;
     }
-    return null;
+
+    // Return aggregated content as React fragment
+    return React.createElement(React.Fragment, {}, ...contentElements);
   }
 }
 ```
@@ -257,7 +244,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     // Register tooltip provider if legend has tooltip configuration
     if (state.legend && 'tooltip' in state.legend && state.legend.tooltip) {
       this._tooltipProvider = this.createTooltipProvider(state.legend.tooltip);
-      mapPopoverRegistry.register(this._tooltipProvider);
+      mapPopoverRegistry.register(`tooltip-${this._sourceId}`, this._tooltipProvider);
     }
   }
 
@@ -268,7 +255,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
 
     // Unregister tooltip provider
     if (this._tooltipProvider) {
-      mapPopoverRegistry.unregister(this._tooltipProvider);
+      mapPopoverRegistry.unregister(`tooltip-${this._sourceId}`);
       this._tooltipProvider = null;
     }
   }
@@ -316,7 +303,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
 
     // Register popup provider for bivariate interactions
     this._popupProvider = this.createBivariateProvider();
-    mapPopoverRegistry.register(this._popupProvider);
+    mapPopoverRegistry.register(`bivariate-${this._sourceId}`, this._popupProvider);
   }
 
   willUnMount({ map }: { map: ApplicationMap }) {
@@ -325,7 +312,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
 
     // Unregister popup provider
     if (this._popupProvider) {
-      mapPopoverRegistry.unregister(this._popupProvider);
+      mapPopoverRegistry.unregister(`bivariate-${this._sourceId}`);
       this._popupProvider = null;
     }
   }

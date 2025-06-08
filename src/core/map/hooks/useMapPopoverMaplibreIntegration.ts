@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useMemo, useRef } from 'react';
 import { DefaultMapPopoverPositionCalculator } from '../popover/MapPopoverPositionCalculator';
 import {
-  mapContainerPointToPagePoint,
-  screenPointToMapContainerPoint,
-} from '../popover/coordinateConverter';
+  getMapContainerRect,
+  pageToMapContainerCoords,
+  mapContainerToPageCoords,
+} from '../utils/maplibreCoordinateUtils';
 import { useMapPositionTracker } from './useMapPositionTracker';
 import type {
   MapPopoverService,
@@ -56,8 +57,7 @@ export function useMapPopoverMaplibreIntegration(
 
     if (registry) {
       return (context: MapClickContext) => {
-        const result = registry.renderContent(context.originalEvent);
-        return result?.content || null;
+        return registry.renderContent(context.originalEvent);
       };
     }
 
@@ -89,12 +89,15 @@ export function useMapPopoverMaplibreIntegration(
       if (!currentMap || !currentService.isOpen()) return;
 
       try {
-        const container = currentMap.getContainer();
-        const rect = container.getBoundingClientRect();
-        const relativeX = point.x - rect.left;
-        const relativeY = point.y - rect.top;
+        // Use centralized coordinate utilities
+        const containerRect = getMapContainerRect(currentMap);
+        const containerPoint = pageToMapContainerCoords(point, containerRect);
 
-        const { placement } = positionCalculator.calculate(rect, relativeX, relativeY);
+        const { placement } = positionCalculator.calculate(
+          containerRect,
+          containerPoint.x,
+          containerPoint.y,
+        );
         currentService.updatePosition(point, placement);
       } catch (error) {
         console.error('Error updating popover position:', error);
@@ -147,7 +150,7 @@ export function useMapPopoverMaplibreIntegration(
         const context: MapClickContext = {
           map: currentMap,
           lngLat: event.lngLat,
-          point: screenPointToMapContainerPoint(event.point),
+          point: event.point, // Direct usage - no need for no-op conversion
           features: event.target.queryRenderedFeatures(event.point),
           originalEvent: event,
         };
@@ -161,7 +164,7 @@ export function useMapPopoverMaplibreIntegration(
         const context: MapClickContext = {
           map: currentMap,
           lngLat: event.lngLat,
-          point: screenPointToMapContainerPoint(event.point),
+          point: event.point, // Direct usage - no need for no-op conversion
           features: event.target.queryRenderedFeatures(event.point),
           originalEvent: event,
         };
@@ -172,10 +175,10 @@ export function useMapPopoverMaplibreIntegration(
     }
 
     if (content) {
-      const pagePoint = mapContainerPointToPagePoint(
-        screenPointToMapContainerPoint(event.point),
-        currentMap,
-      );
+      // Direct utility usage instead of wrapper function
+      const containerRect = getMapContainerRect(currentMap);
+      const pagePoint = mapContainerToPageCoords(event.point, containerRect);
+
       currentService.showWithContent(pagePoint, content);
       currentTracker.startTracking([event.lngLat.lng, event.lngLat.lat]);
     }

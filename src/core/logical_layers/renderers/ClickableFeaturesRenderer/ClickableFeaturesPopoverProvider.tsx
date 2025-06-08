@@ -34,12 +34,4 @@ export class ClickableFeaturesPopoverProvider implements IMapPopoverContentProvi
     // Use the provided createPopupContent method to generate React content
     return this.createPopupContent(feature, this.style);
   }
-
-  getPopoverOptions(): MapPopoverOptions {
-    return {
-      placement: 'top',
-      closeOnMove: true,
-      className: 'clickable-features-popup',
-    };
-  }
 }

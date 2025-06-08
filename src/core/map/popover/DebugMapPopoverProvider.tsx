@@ -1,5 +1,5 @@
 import React from 'react';
-import type { IMapPopoverContentProvider, MapPopoverOptions } from '../types';
+import type { IMapPopoverContentProvider } from '../types';
 import type { MapMouseEvent } from 'maplibre-gl';
 
 /**
@@ -58,12 +58,5 @@ export class DebugMapPopoverProvider implements IMapPopoverContentProvider {
         ))}
       </div>
     );
-  }
-
-  getPopoverOptions?(mapEvent: MapMouseEvent): MapPopoverOptions {
-    return {
-      placement: 'top',
-      closeOnMove: false,
-    };
   }
 }

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useCallback, useMemo } from 'react';
 import { throttle } from '@github/mini-throttle';
+import { geographicToPageCoords } from '../utils/maplibreCoordinateUtils';
 import type { Map } from 'maplibre-gl';
 import type { ScreenPoint, MapPositionTracker } from '../types';
 
@@ -23,17 +24,13 @@ export function useMapPositionTracker(
       const [lng, lat] = currentLngLatRef.current;
 
       try {
-        const projected = map.project([lng, lat]);
-        const container = map.getContainer();
-        const rect = container.getBoundingClientRect();
+        // Use centralized coordinate conversion with clamping
+        const pagePoint = geographicToPageCoords(map, [lng, lat], {
+          edgePadding: 0,
+          clampToBounds: true,
+        });
 
-        const px = Math.min(Math.max(0, projected.x), rect.width);
-        const py = Math.min(Math.max(0, projected.y), rect.height);
-
-        const pageX = rect.left + px;
-        const pageY = rect.top + py;
-
-        onPositionChange({ x: pageX, y: pageY });
+        onPositionChange({ x: pagePoint.x, y: pagePoint.y });
       } catch (error) {
         console.error('Error updating position:', error);
       }
