@@ -2,7 +2,7 @@
 
 ## Status
 
-**Approved** - Integration of MapPopover into existing priority-based event coordination system
+**Approved** - Service-based architecture successfully implemented and working in production
 
 ## Executive Summary
 
