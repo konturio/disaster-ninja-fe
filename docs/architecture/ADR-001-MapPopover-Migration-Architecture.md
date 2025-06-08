@@ -48,13 +48,10 @@ graph TD
         E --> O["React Selector Component"]
         O --> P["Dropdown UI"]
 
-        style B fill:#ffcccc
-        style D fill:#ffcccc
-        style E fill:#ffcccc
-        style F fill:#ffcccc
-        style H fill:#ffffcc
-        style L fill:#ffcccc
-        style N fill:#ffcccc
+        classDef legacy stroke:#ff6666,stroke-width:4px
+        classDef warning stroke:#ffaa00,stroke-width:4px
+        class B,D,E,F,L,N legacy
+        class H warning
     end
 ```
 
@@ -107,10 +104,8 @@ graph TD
         M --> N["MapPopover Service"]
         N --> O["Unified Popover UI (Aggregated Content)"]
 
-        style C fill:#ccffcc
-        style M fill:#ccffcc
-        style N fill:#ccffcc
-        style O fill:#ccffcc
+        classDef unified stroke:#00aa00,stroke-width:4px
+        class C,M,N,O unified
     end
 ```
 

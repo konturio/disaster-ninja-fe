@@ -51,7 +51,6 @@ export function MapPopoverProvider({
   const [popovers, setPopovers] = useState<Map<string, PopoverState>>(new Map());
   const [globalPopover, setGlobalPopover] = useState<PopoverState | null>(null);
 
-  // Enhanced API method: showWithContent
   const showWithContent = useCallback(
     (point: ScreenPoint, content: React.ReactNode, options?: MapPopoverOptions) => {
       const placement = options?.placement ?? 'top';
@@ -66,7 +65,6 @@ export function MapPopoverProvider({
     [],
   );
 
-  // Enhanced API method: showWithEvent
   const showWithEvent = useCallback(
     (mapEvent: MapMouseEvent, options?: MapPopoverOptions): boolean => {
       if (!registry) {
@@ -77,7 +75,6 @@ export function MapPopoverProvider({
       if (content) {
         const placement = options?.placement ?? 'top';
 
-        // Direct utility usage instead of wrapper function
         const containerRect = getMapContainerRect(mapEvent.target);
         const pagePoint = mapContainerToPageCoords(mapEvent.point, containerRect);
 
@@ -95,7 +92,6 @@ export function MapPopoverProvider({
     [registry],
   );
 
-  // Enhanced API method: updatePosition
   const updatePosition = useCallback((point: ScreenPoint, placement?: Placement) => {
     setGlobalPopover((prev) => {
       if (!prev) {
@@ -110,7 +106,6 @@ export function MapPopoverProvider({
     });
   }, []);
 
-  // Enhanced API method: isOpen
   const isOpen = useCallback(() => {
     return globalPopover?.isOpen || false;
   }, [globalPopover]);
@@ -151,7 +146,6 @@ export function MapPopoverProvider({
 
   const contextValue = useMemo(
     () => ({
-      // Enhanced API
       showWithContent,
       showWithEvent,
       updatePosition,
