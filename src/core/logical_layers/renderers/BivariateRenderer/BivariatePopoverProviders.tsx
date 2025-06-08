@@ -3,6 +3,7 @@ import { MapHexTooltip } from '~components/MapHexTooltip/MapHexTooltip';
 import { invertClusters } from '~utils/bivariate';
 import { getCellLabelByValue } from '~utils/bivariate/bivariateLegendUtils';
 import { isNumber } from '~utils/common';
+import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 import { isFeatureVisible } from '../helpers/featureVisibilityCheck';
 import { generateMCDAPopupTable } from '../MCDARenderer/popup';
 import type { IMapPopoverContentProvider, MapPopoverOptions } from '~core/map/types';
@@ -137,6 +138,7 @@ export class MCDAPopoverProvider implements IMapPopoverContentProvider {
     // Don't show popup when click on feature that filtered by map style
     if (!isFeatureVisible(feature)) return null;
 
+    dispatchMetricsEvent('mcda_popup');
     // Generate MCDA popup content directly as React element
     return generateMCDAPopupTable(feature, this.style.config.layers);
   }
