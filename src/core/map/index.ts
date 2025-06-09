@@ -36,3 +36,28 @@ if (KONTUR_DEBUG) {
   mapPopoverRegistry.register('debug', debugProvider);
   console.info('Map popover debug provider registered');
 }
+
+// Additional legacy exports for compatibility
+export { DebugMapPopoverProvider } from './popover/DebugMapPopoverProvider';
+export { DefaultMapPopoverPositionCalculator } from './popover/MapPopoverPositionCalculator';
+export { useMapPopoverMaplibreIntegration } from './hooks/useMapPopoverMaplibreIntegration';
+
+// New modular architecture exports
+// Provider layer
+export type { IMapProvider, IMap } from './providers/IMapProvider';
+export { MapLibreProvider, MapLibreAdapter } from './providers/MapLibreProvider';
+
+// Core hooks
+export { useMapInstance } from './hooks/useMapInstance';
+export { useMapEffect } from './hooks/useMapEffect';
+export { useMapEvents } from './hooks/useMapEvents';
+export { useMapLayers } from './hooks/useMapLayers';
+export { useMapPositionTracking } from './hooks/useMapPositionTracking';
+export type { MapEventHandler } from './hooks/useMapEvents';
+
+// Plugin system
+export type { MapPlugin } from './plugins/MapPlugin';
+export { createMapPopoverPlugin } from './plugins/MapPopoverPlugin';
+
+// Application integration
+export { useApplicationMap } from './hooks/useApplicationMap';

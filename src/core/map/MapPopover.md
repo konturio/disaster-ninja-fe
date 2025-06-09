@@ -11,8 +11,8 @@ config:
 ---
 graph TD
     subgraph "Parent Component (ConnectedMap)"
-        PrioritySystem["Priority Event System<br/>(55: MapPopover)"]
-        PriorityHook["useMapPopoverPriorityIntegration"]
+        UseApplicationMap["useApplicationMap<br/>(Suspense-based)"]
+        MapPopoverPlugin["createMapPopoverPlugin<br/>(Priority: 55)"]
         MapInstance["Map Instance"]
     end
 
@@ -32,9 +32,9 @@ graph TD
         PopoverComponent["Popover Component<br/>(Floating UI)"]
     end
 
-    MapInstance --> PrioritySystem
-    PrioritySystem --> PriorityHook
-    PriorityHook --> Service
+    UseApplicationMap --> MapPopoverPlugin
+    MapPopoverPlugin --> MapInstance
+    MapPopoverPlugin --> Service
 
     Service --> Registry
     Registry --> ContentProviders
@@ -48,14 +48,14 @@ graph TD
     classDef coreService stroke:#00cc00,stroke-width:3px
     classDef contentSystem stroke:#f57c00,stroke-width:3px
 
-    class PrioritySystem,PriorityHook integration
+    class UseApplicationMap,MapPopoverPlugin integration
     class Service,Provider coreService
     class Registry,ContentProviders,DebugProvider,RendererProviders contentSystem
 ```
 
 ## Core Components
 
-- **`useMapPopoverPriorityIntegration`**: Hook for ConnectedMap integration via priority system (priority 55)
+- **`createMapPopoverPlugin`**: Plugin for ConnectedMap integration via useApplicationMap architecture (priority 55)
 - **`MapPopoverService`**: Enhanced service API for popover display and positioning
 - **`MapPopoverProvider`**: React context provider for popover rendering and service access
 - **`MapPopoverContentRegistry`**: ID-based registry for managing multiple content providers
@@ -67,8 +67,8 @@ graph TD
 Current exports from `src/core/map`:
 
 ```typescript
-// Priority integration (for ConnectedMap with tools)
-export { useMapPopoverPriorityIntegration } from './hooks/useMapPopoverPriorityIntegration';
+// Plugin integration (for useApplicationMap architecture)
+export { createMapPopoverPlugin } from './plugins/MapPopoverPlugin';
 
 // Service and provider
 export { MapPopoverProvider, useMapPopoverService } from './popover/MapPopoverProvider';
@@ -77,14 +77,14 @@ export { MapPopoverProvider, useMapPopoverService } from './popover/MapPopoverPr
 export { mapPopoverRegistry } from './popover/globalMapPopoverRegistry';
 ```
 
-**Advanced Usage**: For simple maps without priority systems, you may also use:
+**Legacy Usage**: For direct integration without plugin system, you may also use:
 
 ```typescript
 // Direct integration (for simple maps without tools)
 import { useMapPopoverMaplibreIntegration } from '~core/map/hooks/useMapPopoverMaplibreIntegration';
 ```
 
-**⚠️ Note**: `useMapPopoverMaplibreIntegration` is intended for simple map implementations. Use `useMapPopoverPriorityIntegration` for ConnectedMap to ensure proper tool coordination.
+**⚠️ Note**: `useMapPopoverMaplibreIntegration` is intended for simple map implementations. ConnectedMap uses `createMapPopoverPlugin` via the new `useApplicationMap` architecture for proper tool coordination.
 
 ## Integration Patterns
 
@@ -92,12 +92,12 @@ The MapPopover system provides **two integration patterns** for different archit
 
 ### Pattern Selection Guide
 
-| Use Case         | Pattern              | Hook                               | Why                                               |
-| ---------------- | -------------------- | ---------------------------------- | ------------------------------------------------- |
-| **ConnectedMap** | Priority Integration | `useMapPopoverPriorityIntegration` | Respects tool exclusivity (Map Ruler, Draw Tools) |
-| **Simple Maps**  | Direct Integration   | `useMapPopoverMaplibreIntegration` | No priority system overhead                       |
+| Use Case         | Pattern            | Integration                        | Why                                               |
+| ---------------- | ------------------ | ---------------------------------- | ------------------------------------------------- |
+| **ConnectedMap** | Plugin Integration | `createMapPopoverPlugin`           | Respects tool exclusivity (Map Ruler, Draw Tools) |
+| **Simple Maps**  | Direct Integration | `useMapPopoverMaplibreIntegration` | No priority system overhead                       |
 
-### 1. Priority Integration (ConnectedMap)
+### 1. Plugin Integration (ConnectedMap)
 
 **When to use**: In ConnectedMap or applications with priority-based event system
 
@@ -108,7 +108,7 @@ function App() {
   return (
     <div>
       <ConnectedMap />
-      {/* MapPopover automatically integrated at priority 55 */}
+      {/* MapPopover automatically integrated via createMapPopoverPlugin at priority 55 */}
       {/* Respects Map Ruler, Draw Tools, Boundary Selector priority */}
     </div>
   );
@@ -117,11 +117,12 @@ function App() {
 
 **How it works:**
 
-- Uses `useMapPopoverPriorityIntegration` internally
+- Uses `createMapPopoverPlugin` in the new `useApplicationMap` architecture
 - **Integrates with priority event system** (priority 55)
 - **Respects tool exclusivity**: When Map Ruler is active, MapPopover won't show
 - Uses global `mapPopoverRegistry` for content providers
 - Automatic position tracking during map movement
+- Clean Suspense-based map loading with guaranteed ready map instances
 
 **Priority Chain:**
 
@@ -182,8 +183,9 @@ function SimpleMapDemo() {
 
 - ✅ **Registry-only content**: Single, clear pattern for adding popover content
 - ✅ **Flexible Integration**: Works in complex and simple contexts
-- ✅ **Tool Coordination**: Respects exclusivity in ConnectedMap
+- ✅ **Tool Coordination**: Respects exclusivity in ConnectedMap via plugin priority system
 - ✅ **Performance**: Minimal overhead for simple cases
+- ✅ **Clean Architecture**: Plugin system maintains separation between core and app-specific concerns
 
 ## Position Tracking Architecture
 
@@ -417,15 +419,17 @@ function CorrectMapDemo() {
 }
 ```
 
-**✅ For priority integration, refs are handled automatically:**
+**✅ For plugin integration, refs are handled automatically:**
 
 ```tsx
 function ConnectedMapExample() {
-  // ✅ Priority integration handles all stability internally
-  useMapPopoverPriorityIntegration({
-    map: someMapInstance,
-    popoverService,
-    registry: mapPopoverRegistry,
+  // ✅ Plugin integration handles all stability internally via useApplicationMap
+  const map = useApplicationMap({
+    container: containerRef,
+    provider,
+    config,
+    mapId: 'main-map',
+    plugins: [createMapPopoverPlugin(mapPopoverRegistry, { priority: 55 })],
   });
 }
 ```
@@ -436,7 +440,7 @@ If position tracking stops working:
 
 1. **Check console**: Look for "Error updating popover position" messages
 2. **Verify stable references**: Ensure map and service don't recreate
-3. **Use priority integration**: For ConnectedMap, prefer `useMapPopoverPriorityIntegration`
+3. **Use plugin integration**: For ConnectedMap, use `createMapPopoverPlugin` via `useApplicationMap`
 4. **Enable debug mode**: Set `KONTUR_DEBUG=true` to see tracking behavior
 
 ## Content Provider Architecture
