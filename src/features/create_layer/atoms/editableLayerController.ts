@@ -3,7 +3,7 @@ import { createAtom } from '~utils/atoms';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { notificationServiceInstance } from '~core/notificationServiceInstance';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
-import { createLayer, deleteLayer, updateLayer } from '~core/api/layers';
+import { createLayer, deleteLayer, updateLayer } from '../api/layers';
 import { EditTargets, DEFAULT_USER_LAYER_LEGEND } from '../constants';
 import { createLayerEditorFormAtom } from './layerEditorForm';
 import { createLayerEditorFormFieldAtom } from './layerEditorFormField';
@@ -90,7 +90,7 @@ export const editableLayerControllerAtom = createAtom(
         state = { ...state, loading: true };
 
         const data = {
-          id: dataState.id,
+          id: dataState.id!,
           name: dataState.name,
           legend: {
             name: dataState.name,

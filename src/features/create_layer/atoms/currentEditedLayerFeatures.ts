@@ -3,7 +3,7 @@ import { createAtom } from '~utils/atoms/createPrimitives';
 import { deepCopy } from '~core/logical_layers/utils/deepCopy';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import { drawnGeometryAtom } from '~core/draw_tools/atoms/drawnGeometryAtom';
-import { saveFeaturesToLayer } from '~core/api/layers';
+import { saveFeaturesToLayer } from '../api/layers';
 import { editableLayersListResource } from './editableLayersListResource';
 
 interface SafeCallbacks {
