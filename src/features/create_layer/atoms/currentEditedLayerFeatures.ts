@@ -6,11 +6,6 @@ import { drawnGeometryAtom } from '~core/draw_tools/atoms/drawnGeometryAtom';
 import { saveFeaturesToLayer } from '../api/layers';
 import { editableLayersListResource } from './editableLayersListResource';
 
-interface SafeCallbacks {
-  onSuccess: () => void;
-  onError: () => void;
-}
-
 export const currentEditedLayerFeatures = createAtom(
   {
     readFeaturesFromLayer: (layerId: string) => layerId,
@@ -19,7 +14,7 @@ export const currentEditedLayerFeatures = createAtom(
     removeFeature: drawnGeometryAtom.removeByIndexes,
     drawnGeometryAtom,
     reset: () => null,
-    save: (safeCallbacks?: SafeCallbacks) => safeCallbacks,
+    save: () => null,
     saveFeatures: (features?: GeoJSON.Feature[]) => features,
     setFeatureProperty: (featureIdx: number, properties: GeoJSON.GeoJsonProperties) => ({
       featureIdx,
@@ -96,7 +91,7 @@ export const currentEditedLayerFeatures = createAtom(
     });
 
     /** Executed when clicking save features button on Edit features panel */
-    onAction('save', (safeCallbacks) => {
+    onAction('save', () => {
       const stateSnapshot = state ? [...state] : null;
       schedule(async (dispatch, ctx) => {
         if (ctx.layerId && stateSnapshot) {
