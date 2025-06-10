@@ -3,7 +3,7 @@ import { currentMapAtom } from '~core/shared_state';
 import { forceRun } from '~utils/atoms/forceRun';
 import { store } from '~core/store/store';
 import { v3toV2 } from '~utils/atoms/v3tov2';
-import { boundarySelectorControl } from '../control';
+import { boundarySelectorToolbarControl } from '../control';
 import { BoundarySelectorRenderer } from '../renderers/BoundarySelectorRenderer';
 import {
   BOUNDARY_GEOMETRY_COLOR,
@@ -108,7 +108,7 @@ export const createBoundaryRegistryAtom = (
   return v2Atom;
 };
 
-boundarySelectorControl.onInit((ctx) => {
+boundarySelectorToolbarControl.onInit((ctx) => {
   const renderer = new BoundarySelectorRenderer({
     layerId: BOUNDARY_SELECTOR_LAYER_ID,
     sourceId: HOVERED_BOUNDARIES_SOURCE_ID,
@@ -124,7 +124,7 @@ boundarySelectorControl.onInit((ctx) => {
   return forceRun(boundaryRegistryAtom);
 });
 
-boundarySelectorControl.onStateChange((ctx, state, prevState) => {
+boundarySelectorToolbarControl.onStateChange((ctx, state, prevState) => {
   switch (state) {
     case 'active':
       if (ctx.boundaryRegistryAtom) store.dispatch(ctx.boundaryRegistryAtom.start());

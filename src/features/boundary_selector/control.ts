@@ -6,7 +6,7 @@ import { i18n } from '~core/localization';
 import { toolbar } from '~core/toolbar';
 import type { Action } from '@reatom/core-v2';
 
-export const boundarySelectorControl = toolbar.setupControl<{
+export const boundarySelectorToolbarControl = toolbar.setupControl<{
   boundaryRegistryAtom?: { start: () => Action; stop: () => Action };
 }>({
   id: BOUNDARY_SELECTOR_CONTROL_ID,
