@@ -2,6 +2,7 @@ import { nanoid } from 'nanoid';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { createAtom } from '~utils/atoms';
 import { apiClient } from '~core/apiClientInstance';
+import { i18n } from '~core/localization';
 import { currentEventAtom } from '~core/shared_state/currentEvent';
 import { currentEventFeedAtom } from '~core/shared_state/currentEventFeed';
 import type { Episode } from '~core/types';
@@ -34,7 +35,7 @@ export const episodesResource = createAsyncAtom(
           signal: abortController.signal,
         },
       );
-      if (!responseData) throw 'No data received';
+      if (!responseData) throw new Error(i18n.t('no_data_received'));
 
       // Adapter:
       // - add missing ids
