@@ -16,12 +16,12 @@ export class MapPopoverContentRegistry implements IMapPopoverContentRegistry {
     this.providers.delete(id);
   }
 
-  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null {
+  renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null {
     const contentElements: React.ReactNode[] = [];
 
     for (const [id, provider] of this.providers) {
       try {
-        const providerContent = provider.renderContent(mapEvent);
+        const providerContent = provider.renderContent(mapEvent, onClose);
         if (providerContent) {
           contentElements.push(
             React.createElement('div', { key: id, title: id }, providerContent),

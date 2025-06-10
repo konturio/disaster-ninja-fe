@@ -1,56 +1,68 @@
 import { Selector } from '@konturio/ui-kit';
-import { useAtom } from '@reatom/react-v2';
-import { configRepo } from '~core/config';
+import { useAtom, useAction } from '@reatom/npm-react';
+import { onConnect } from '@reatom/framework';
 import { i18n } from '~core/localization';
-import { boundarySelectorToolbarControl } from '../control';
+import { store } from '~core/store/store';
+import { constructOptionsFromBoundaries } from '~utils/map/boundaries';
 import { clickCoordinatesAtom } from '../atoms/clickCoordinatesAtom';
-import { boundaryMarkerAtom } from '../atoms/boundaryMarkerAtom';
+import { fetchBoundariesAsyncResource } from '../atoms/boundaryResourceAtom';
+import { hoverBoundaryAction, selectBoundaryAction } from '../atoms/boundaryActions';
 import type React from 'react';
 import type { IMapPopoverContentProvider } from '~core/map/types';
 import type { MapMouseEvent } from 'maplibre-gl';
 
 // Content provider that sets coordinates and lets existing atom flow handle the rest
 export const boundarySelectorContentProvider: IMapPopoverContentProvider = {
-  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null {
-    clickCoordinatesAtom.set.dispatch(mapEvent.lngLat);
-    return <BoundarySelector />;
+  renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null {
+    clickCoordinatesAtom(store.v3ctx, mapEvent.lngLat);
+    return <BoundarySelector onClose={onClose} />;
   },
 };
 
-function BoundarySelector() {
-  const [boundarySelectorAtom, {}] = useAtom(boundaryMarkerAtom);
+function BoundarySelector({ onClose }) {
+  const [data] = useAtom(fetchBoundariesAsyncResource.dataAtom);
+  const [loading] = useAtom(fetchBoundariesAsyncResource.pendingAtom);
+  const [error] = useAtom(fetchBoundariesAsyncResource.errorAtom);
+  const selectBoundary = useAction(selectBoundaryAction);
+  const hoverBoundary = useAction(hoverBoundaryAction);
 
-  if (!boundarySelectorAtom.content) {
-    return null;
+  // Initialize resource on mount - will automatically fetch when coordinates are available
+  onConnect(fetchBoundariesAsyncResource.dataAtom, (ctx) => {
+    if (
+      ctx.get(fetchBoundariesAsyncResource.dataAtom) === null &&
+      ctx.get(clickCoordinatesAtom)
+    ) {
+      fetchBoundariesAsyncResource(ctx);
+    }
+  });
+
+  // Handle different resource states
+  if (loading > 0) {
+    return <div className="loading-message">{i18n.t('loading')}</div>;
   }
 
-  const { uiState, options } = boundarySelectorAtom.content;
-
-  switch (uiState) {
-    case 'loading':
-      return <div className="loading-message">{i18n.t('loading')}</div>;
-
-    case 'no-data':
-      return <div className="error-message">{i18n.t('no_data_received')}</div>;
-
-    case 'ready':
-      return options && options.length > 0 ? (
-        <Selector
-          // small={true}
-          options={options.map((option) => ({ ...option, value: String(option.value) }))}
-          stopPropagation={true}
-          onChange={(boundaryId: string) => {
-            boundaryMarkerAtom.selectBoundary.dispatch(boundaryId);
-          }}
-          onHover={(boundaryId: string) => {
-            boundaryMarkerAtom.hoverBoundary.dispatch(boundaryId);
-          }}
-        />
-      ) : (
-        <div className="error-message">{i18n.t('no_data_received')}</div>
-      );
-
-    default:
-      return null;
+  if (!data) {
+    return <div className="error-message">{i18n.t('no_data_received')}</div>;
   }
+
+  // Process boundary options
+  const options = constructOptionsFromBoundaries(data);
+
+  if (options.length === 0) {
+    return <div className="error-message">{i18n.t('no_data_received')}</div>;
+  }
+
+  return (
+    <Selector
+      options={options.map((option) => ({ ...option, value: String(option.value) }))}
+      stopPropagation={true}
+      onChange={(boundaryId: string) => {
+        selectBoundary(boundaryId);
+        onClose();
+      }}
+      onHover={(boundaryId: string) => {
+        hoverBoundary(boundaryId);
+      }}
+    />
+  );
 }

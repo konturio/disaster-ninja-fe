@@ -1,15 +1,6 @@
-import { createAtom } from '~utils/atoms/createPrimitives';
+import { atom } from '@reatom/framework';
 
-export const clickCoordinatesAtom = createAtom(
-  {
-    set: (coords: { lng: number; lat: number }) => coords,
-  },
-  ({ onAction }, state: null | { lat: number; lng: number } = null) => {
-    onAction('set', (coords) => {
-      state = coords;
-    });
-
-    return state;
-  },
+export const clickCoordinatesAtom = atom<{ lng: number; lat: number } | null>(
+  null,
   'clickCoordinatesAtom',
 );

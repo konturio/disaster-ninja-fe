@@ -6,7 +6,7 @@ import type { MapMouseEvent } from 'maplibre-gl';
  * Debug content provider that dumps all found features properties.
  */
 export class DebugMapPopoverProvider implements IMapPopoverContentProvider {
-  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null {
+  renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null {
     const features = mapEvent.target?.queryRenderedFeatures?.(mapEvent.point) || [];
 
     if (features.length === 0) {

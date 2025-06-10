@@ -1,8 +1,5 @@
 import React from 'react';
-import Markdown from 'markdown-to-jsx';
-import { parseLinksAsTags } from '~utils/markdown/parser';
-import { LinkRenderer } from '~components/LinkRenderer/LinkRenderer';
-import s from '~components/Overlays/Overlays.module.css';
+import { MarkdownContent } from '~components/Overlays';
 import type { IMapPopoverContentProvider } from '~core/map/types';
 import type { MapMouseEvent } from 'maplibre-gl';
 
@@ -13,7 +10,7 @@ export class GenericRendererPopoverProvider implements IMapPopoverContentProvide
     private tooltipType: string,
   ) {}
 
-  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null {
+  renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null {
     const allFeatures = mapEvent.target.queryRenderedFeatures(mapEvent.point);
     const thisLayersFeatures = allFeatures.filter((f) => f.source === this.sourceId);
 
@@ -26,12 +23,7 @@ export class GenericRendererPopoverProvider implements IMapPopoverContentProvide
     const content = featureProperties[this.paramName];
 
     if (this.tooltipType === 'markdown') {
-      // Simple markdown rendering - can be enhanced with proper markdown library later
-      return (
-        <Markdown options={{ overrides: { a: LinkRenderer } }} className={s.markdown}>
-          {parseLinksAsTags(content)}
-        </Markdown>
-      );
+      return <MarkdownContent content={content} />;
     }
 
     return <div>{content}</div>;

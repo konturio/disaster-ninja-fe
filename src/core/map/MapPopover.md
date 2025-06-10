@@ -23,7 +23,7 @@ graph TD
     end
 
     subgraph "Content Providers"
-        ContentProviders["IMapPopoverContentProvider[]<br/>(renderContent only)"]
+        ContentProviders["IMapPopoverContentProvider[]<br/>(renderContent + onClose)"]
         DebugProvider["DebugMapPopoverProvider<br/>(Auto-registered in debug mode)"]
         RendererProviders["Renderer Providers<br/>(GenericRenderer, BivariateRenderer, etc.)"]
     end
@@ -58,7 +58,7 @@ graph TD
 - **`createMapPopoverPlugin`**: Plugin for ConnectedMap integration via useApplicationMap architecture (priority 55)
 - **`MapPopoverService`**: Enhanced service API for popover display and positioning
 - **`MapPopoverProvider`**: React context provider for popover rendering and service access
-- **`MapPopoverContentRegistry`**: ID-based registry for managing multiple content providers
+- **`MapPopoverContentRegistry`**: ID-based registry for managing multiple content providers with close callback support
 - **`mapPopoverRegistry`**: Global singleton registry instance
 - **`DebugMapPopoverProvider`**: Auto-registered debug provider when `KONTUR_DEBUG` is enabled
 
@@ -670,3 +670,120 @@ interface MapPopoverProviderProps {
 - **Clear separation of concerns**: Container controls behavior, providers provide content
 - **Consistent patterns**: All renderers use same registration approach
 - **Type safety**: Full TypeScript support with proper interfaces
+
+## Content Provider Interface
+
+Content providers receive both map events and close callbacks for interactive content:
+
+```typescript
+interface IMapPopoverContentProvider {
+  /**
+   * Renders content for the map popover based on the click event.
+   * @param mapEvent - The original MapLibre mouse event
+   * @param onClose - Callback to close the popover (for interactive content)
+   * @returns React content to display, or null if this provider doesn't handle this event
+   */
+  renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null;
+}
+```
+
+### Example Provider Implementation
+
+```typescript
+class InteractiveTooltipProvider implements IMapPopoverContentProvider {
+  renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null {
+    const features = mapEvent.target.queryRenderedFeatures(mapEvent.point);
+    if (!features.length) return null;
+
+    return (
+      <div>
+        <h3>Feature Details</h3>
+        <p>Properties: {JSON.stringify(features[0].properties)}</p>
+        <button onClick={onClose}>Close</button>
+        <button onClick={() => this.handleAction(features[0], onClose)}>
+          Process & Close
+        </button>
+      </div>
+    );
+  }
+
+  private handleAction(feature: MapGeoJSONFeature, onClose: () => void) {
+    // Process feature action
+    console.log('Processing feature:', feature);
+    // Close popover after action
+    onClose();
+  }
+}
+```
+
+## Memory Safety
+
+**Critical Requirement**: All providers must be properly unregistered to prevent memory leaks.
+
+### Provider Lifecycle Management
+
+```typescript
+// ✅ Correct pattern - Renderers cleanup on unmount
+class BivariateRenderer {
+  private _bivariateProvider: IMapPopoverContentProvider | null = null;
+  private _mcdaProvider: IMapPopoverContentProvider | null = null;
+
+  willMount() {
+    // Register providers
+    this._bivariateProvider = new BivariateTooltipProvider();
+    mapPopoverRegistry.register(`bivariate-${this._sourceId}`, this._bivariateProvider);
+  }
+
+  willUnMount({ map }: { map: ApplicationMap }) {
+    // Clean up popover providers
+    if (this._bivariateProvider) {
+      mapPopoverRegistry.unregister(`bivariate-${this._sourceId}`);
+      this._bivariateProvider = null; // Clear reference
+    }
+    if (this._mcdaProvider) {
+      mapPopoverRegistry.unregister(`mcda-${this._sourceId}`);
+      this._mcdaProvider = null;
+    }
+  }
+}
+```
+
+### Close Callback Safety
+
+The `onClose` callback passed to providers is designed to prevent memory leaks:
+
+```typescript
+renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null {
+  // onClose is a stable function reference that doesn't capture provider state
+  // Providers can safely use it without creating memory leaks
+  return (
+    <div>
+      <button onClick={onClose}>Close Popover</button>
+      <SomeContent />
+    </div>
+  );
+}
+```
+
+### Registry Cleanup Methods
+
+```typescript
+interface IMapPopoverContentRegistry {
+  // Individual cleanup
+  unregister(id: string): void;
+
+  // Bulk cleanup for testing/reset scenarios
+  clear(): void;
+
+  // Diagnostic method
+  get providerCount(): number;
+}
+```
+
+**Memory Leak Prevention Checklist:**
+
+- ✅ Providers automatically removed on renderer unmount
+- ✅ Registry uses `Map.delete()` for clean removal
+- ✅ Close callback doesn't capture provider references
+- ✅ Error boundaries prevent one provider from affecting others
+- ✅ Clear references set to `null` after unregistration
