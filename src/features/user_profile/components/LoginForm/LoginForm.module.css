@@ -129,3 +129,10 @@
   justify-content: center;
   color: var(--error-strong);
 }
+
+.fieldError {
+  color: var(--error-strong);
+  font-size: 12px;
+  line-height: 16px;
+  margin-top: 4px;
+}

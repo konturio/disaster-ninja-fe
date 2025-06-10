@@ -15,4 +15,6 @@ Import `LoginForm`, `SettingsForm` from feature root
 
 `LoginForm` renders login UI allowing user to authenticate, calling authClientInstance with entered credentials
 
+Login errors stay visible for several seconds to ensure they can be read.
+
 `SettingsForm` renders form for editing user profile. Changes got synced with `/users/current_user` endpoint and `currentUserAtom`

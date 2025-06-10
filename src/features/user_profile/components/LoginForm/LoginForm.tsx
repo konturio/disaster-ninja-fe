@@ -8,6 +8,7 @@ import { testEmail } from '~utils/form/validators';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 import s from './LoginForm.module.css';
+import { usePersistentError } from './usePersistentError';
 import type { ChangeEvent } from 'react';
 
 const authInputClasses = { input: clsx(s.authInput) };
@@ -19,11 +20,12 @@ const registrationUrl = `${configRepo.get().keycloakUrl}/realms/${configRepo.get
 const resetUrl = `${configRepo.get().keycloakUrl}/realms/${configRepo.get().keycloakRealm}/login-actions/reset-credentials?client_id=account`;
 
 export function LoginForm() {
-  const [error, setError] = useState<{
+  const ERROR_VISIBLE_MS = 5000;
+  const { error, setPersistentError, clear } = usePersistentError<{
     email?: string;
     password?: string;
     general?: string;
-  }>({});
+  }>(ERROR_VISIBLE_MS);
   const [formData, setFormData] = useState<{
     email?: string;
     password?: string;
@@ -34,21 +36,21 @@ export function LoginForm() {
   const onEmailInputChange = useCallback(
     (ev: ChangeEvent<HTMLInputElement>) => {
       if (error.email) {
-        setError({ ...error, email: undefined });
+        clear();
       }
       setFormData({ ...formData, email: ev.target.value });
     },
-    [formData, error],
+    [formData, error, clear],
   );
 
   const onPasswordInputChange = useCallback(
     (ev: ChangeEvent<HTMLInputElement>) => {
       if (error.password) {
-        setError({ ...error, password: undefined });
+        clear();
       }
       setFormData({ ...formData, password: ev.target.value });
     },
-    [formData, error],
+    [formData, error, clear],
   );
 
   const onForgotPasswordClick = useCallback(
@@ -70,7 +72,7 @@ export function LoginForm() {
       err.password = i18n.t('login.error.password');
     }
     if (err.email || err.password) {
-      setError(err);
+      setPersistentError(err);
     } else {
       setLoading(true);
       const authResponse = await authClientInstance.authenticate(
@@ -81,9 +83,9 @@ export function LoginForm() {
       if (authResponse !== true) {
         dispatchMetricsEvent('login_failure');
         if (typeof authResponse === 'string') {
-          setError({ general: authResponse });
+          setPersistentError({ general: authResponse });
         } else {
-          setError({ general: i18n.t('login.error.connect') });
+          setPersistentError({ general: i18n.t('login.error.connect') });
         }
       } else {
         dispatchMetricsEvent('login_success');
@@ -102,6 +104,7 @@ export function LoginForm() {
 
       return () => {
         formRef?.current?.removeEventListener('keydown', keyDownListener);
+        clear();
       };
     }
   }, [formRef.current, formData]);
@@ -126,6 +129,7 @@ export function LoginForm() {
           onChange={onEmailInputChange}
           placeholder={i18n.t('login.email')}
         />
+        {error.email && <div className={s.fieldError}>{error.email}</div>}
         <Input
           error={error.password || ''}
           classes={authInputClasses}
@@ -135,6 +139,7 @@ export function LoginForm() {
           placeholder={i18n.t('login.password')}
           type="password"
         />
+        {error.password && <div className={s.fieldError}>{error.password}</div>}
       </div>
       {error.general && <div className={s.errorMessageContainer}>{error.general}</div>}
       <div className={clsx(s.link, s.forgotPasswordContainer)}>
