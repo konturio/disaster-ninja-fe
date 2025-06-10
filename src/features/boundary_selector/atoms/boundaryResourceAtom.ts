@@ -1,9 +1,4 @@
-import {
-  reatomResource,
-  withDataAtom,
-  withErrorAtom,
-  withAbort,
-} from '@reatom/framework';
+import { reatomResource, withDataAtom, withErrorAtom } from '@reatom/framework';
 import { getBoundaries } from '~core/api/boundaries';
 import { clickCoordinatesAtom } from './clickCoordinatesAtom';
 
@@ -15,4 +10,4 @@ export const fetchBoundariesAsyncResource = reatomResource(async (ctx) => {
   }
 
   return await getBoundaries([coordinates.lng, coordinates.lat], ctx.controller);
-}, 'fetchBoundariesAsyncResource').pipe(withDataAtom(null), withErrorAtom(), withAbort());
+}, 'fetchBoundariesAsyncResource').pipe(withDataAtom(null), withErrorAtom());
