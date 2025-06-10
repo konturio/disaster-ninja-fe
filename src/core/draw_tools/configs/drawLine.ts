@@ -15,6 +15,7 @@ export const drawLineDeckLayerConfig = {
     guides: {
       getLineWidth: 4,
       getLineColor: [60, 120, 20, 120],
+      lineWidthUnits: 'pixels',
     },
   },
 

@@ -30,6 +30,8 @@ flowchart TD
 - [combinedAtom.addFeature](./atoms/combinedAtom.ts#L93)
 - [drawnGeometryAtom.addFeature](./atoms/drawnGeometryAtom.ts#L19)
 
+All drawing guides use `lineWidthUnits: 'pixels'` to make lines visible on high-resolution mobile screens.
+
 ## v2 (planning)
 
 based on: @deck.gl-community/editable-layers (deck.gl v9+, maplibre v3+, webgl2)

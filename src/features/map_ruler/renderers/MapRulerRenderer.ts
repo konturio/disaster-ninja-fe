@@ -61,6 +61,7 @@ export class MapRulerRenderer extends LogicalLayerDefaultRenderer {
           guides: {
             getFillColor: () => [0xff, 0x66, 0x00, 0xff],
             getLineWidth: () => 2,
+            lineWidthUnits: 'pixels',
             stroked: false,
             pointRadiusMinPixels: 4,
             pointRadiusMaxPixels: 4,

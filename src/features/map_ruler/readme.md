@@ -23,6 +23,6 @@ This features renderer is a custom renderer ([read more about renderers](https:/
 On mount:
 
 1. DeckGl config is used to create new map layer. The point of this is to describe what to draw, which way and how to handle user interaction events. You can read more about [Deck Gl geojson layer props](https://deck.gl/docs/api-reference/layers/geojson-layer), [Composite layer props](https://deck.gl/docs/api-reference/core/composite-layer) to understand configs described in `MapRulerRenderer`. You can also read about [NebulaGl geojson layer](https://nebula.gl/docs/api-reference/layers/editable-geojson-layer) we're alterating and see it's [source code](https://github.com/uber/nebula.gl/blob/master/modules/layers/src/layers/editable-geojson-layer.ts) to see what methods we're changing
-
-2. Map layer being added on the map with a help of `layerByOrder` utility
-3. Map click and move listeners added on top of other following map listeners preventing the latter
+2. Lines are rendered with `lineWidthUnits` set to `pixels` to keep them visible on mobile devices
+3. Map layer being added on the map with a help of `layerByOrder` utility
+4. Map click and move listeners added on top of other following map listeners preventing the latter
