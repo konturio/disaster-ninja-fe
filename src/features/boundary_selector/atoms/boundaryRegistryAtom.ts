@@ -3,6 +3,7 @@ import { currentMapAtom } from '~core/shared_state';
 import { forceRun } from '~utils/atoms/forceRun';
 import { store } from '~core/store/store';
 import { v3toV2 } from '~utils/atoms/v3tov2';
+import { mapPopoverRegistry } from '~core/map';
 import { boundarySelectorToolbarControl } from '../control';
 import { BoundarySelectorRenderer } from '../renderers/BoundarySelectorRenderer';
 import {
@@ -10,11 +11,8 @@ import {
   BOUNDARY_SELECTOR_LAYER_ID,
   HOVERED_BOUNDARIES_SOURCE_ID,
 } from '../constants';
+import { boundarySelectorContentProvider } from '../components/BoundarySelectorContentProvider';
 import { highlightedGeometryAtom } from './highlightedGeometry';
-import {
-  activateBoundarySelectorAction,
-  deactivateBoundarySelectorAction,
-} from './boundaryActions';
 import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
 import type { LogicalLayerRenderer } from '~core/logical_layers/types/renderer';
 
@@ -131,14 +129,14 @@ boundarySelectorToolbarControl.onInit((controlCtx) => {
 boundarySelectorToolbarControl.onStateChange((controlCtx, state, prevState) => {
   switch (state) {
     case 'active':
-      activateBoundarySelectorAction(store.v3ctx);
+      mapPopoverRegistry.register('boundary-selector', boundarySelectorContentProvider);
       if (controlCtx.boundaryRegistryAtom)
         store.dispatch(controlCtx.boundaryRegistryAtom.start());
       break;
 
     default:
       if (prevState === 'active') {
-        deactivateBoundarySelectorAction(store.v3ctx);
+        mapPopoverRegistry.unregister('boundary-selector');
         if (controlCtx.boundaryRegistryAtom)
           store.dispatch(controlCtx.boundaryRegistryAtom.stop());
       }
