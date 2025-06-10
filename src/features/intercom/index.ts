@@ -27,6 +27,16 @@ export function updateUserData(data) {
   }
 }
 
+export function shutdownIntercom() {
+  const { intercomAppId } = configRepo.getIntercomSettings();
+  // remove session cookie
+  document.cookie = `intercom-session-${intercomAppId}= ; expires = Thu, 01 Jan 1970 00:00:00 GMT`;
+  if (typeof globalThis.Intercom === 'function') {
+    globalThis.Intercom('shutdown');
+  }
+  globalThis.intercomSettings = undefined;
+}
+
 function connectAndConfigureIntercom() {
   const { email, intercomAppId, intercomSelector, name, phone } =
     configRepo.getIntercomSettings();
