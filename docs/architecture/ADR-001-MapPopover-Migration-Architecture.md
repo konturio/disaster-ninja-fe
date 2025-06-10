@@ -133,17 +133,22 @@ interface MapPopoverOptions {
   className?: string;
 }
 
-// Content Provider: Autonomous domain logic
+// Content Provider: Autonomous domain logic with close capability
 interface IMapPopoverContentProvider {
-  // Provider gets raw map event, returns content or null
-  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null;
+  /**
+   * Renders content for the map popover based on the click event.
+   * @param mapEvent - The original MapLibre mouse event
+   * @param onClose - Callback to close the popover (for interactive content)
+   * @returns React content to display, or null if this provider doesn't handle this event
+   */
+  renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null;
 }
 
 // Registry: Simple provider coordination with ID-based registration
 interface IMapPopoverContentRegistry {
   register(id: string, provider: IMapPopoverContentProvider): void;
   unregister(id: string): void;
-  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null;
+  renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null;
 }
 ```
 
@@ -164,12 +169,12 @@ class MapPopoverContentRegistry implements IMapPopoverContentRegistry {
     this.providers.delete(id);
   }
 
-  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null {
+  renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null {
     const contentElements: React.ReactNode[] = [];
 
     for (const [id, provider] of this.providers) {
       try {
-        const providerContent = provider.renderContent(mapEvent);
+        const providerContent = provider.renderContent(mapEvent, onClose);
         if (providerContent) {
           // Use stable provider ID as React key
           contentElements.push(React.createElement('div', { key: id }, providerContent));
@@ -191,6 +196,70 @@ class MapPopoverContentRegistry implements IMapPopoverContentRegistry {
 }
 ```
 
+### Memory Safety and Cleanup
+
+**Critical Requirement**: All providers must be properly unregistered to prevent memory leaks.
+
+#### C.1> Provider Lifecycle Management
+
+```typescript
+// ✅ Correct pattern - Renderers cleanup on unmount
+class BivariateRenderer {
+  willUnMount({ map }: { map: ApplicationMap }) {
+    // Clean up popover providers
+    if (this._bivariateProvider) {
+      mapPopoverRegistry.unregister(`bivariate-${this._sourceId}`);
+      this._bivariateProvider = null; // Clear reference
+    }
+    if (this._mcdaProvider) {
+      mapPopoverRegistry.unregister(`mcda-${this._sourceId}`);
+      this._mcdaProvider = null;
+    }
+  }
+}
+```
+
+#### C.2> Close Callback Safety
+
+The `onClose` callback passed to providers is designed to prevent memory leaks:
+
+```typescript
+// Safe implementation - no closure retention
+renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null {
+  // onClose is a stable function reference that doesn't capture provider state
+  // Providers can safely use it without creating memory leaks
+  return (
+    <div>
+      <button onClick={onClose}>Close Popover</button>
+      <SomeContent />
+    </div>
+  );
+}
+```
+
+#### C.3> Registry Cleanup Methods
+
+```typescript
+interface IMapPopoverContentRegistry {
+  // Individual cleanup
+  unregister(id: string): void;
+
+  // Bulk cleanup for testing/reset scenarios
+  clear(): void;
+
+  // Diagnostic method
+  get providerCount(): number;
+}
+```
+
+**Memory Leak Prevention Checklist:**
+
+- ✅ Providers automatically removed on renderer unmount
+- ✅ Registry uses `Map.delete()` for clean removal
+- ✅ Close callback doesn't capture provider references
+- ✅ Error boundaries prevent one provider from affecting others
+- ✅ Clear references set to `null` after unregistration
+
 ### Integration Hook - Clean and Simple
 
 ```typescript
@@ -207,7 +276,7 @@ function useMapPopoverInteraction({
     if (!map) return;
 
     const handleMapClick = (event: MapMouseEvent) => {
-      const result = registry.renderContent(event);
+      const result = registry.renderContent(event, () => popoverService.close());
 
       if (result) {
         popoverService.show(event.point, result.contents, result.options);
@@ -260,7 +329,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     const { paramName, type } = tooltipConfig;
 
     return {
-      renderContent: (mapEvent: MapMouseEvent) => {
+      renderContent: (mapEvent: MapMouseEvent, onClose: () => void) => {
         const features = mapEvent.target
           .queryRenderedFeatures(mapEvent.point)
           .filter(f => f.source.includes(sourceId));
@@ -316,7 +385,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     const sourceId = this._sourceId;
 
     return {
-      renderContent: (mapEvent: MapMouseEvent) => {
+      renderContent: (mapEvent: MapMouseEvent, onClose: () => void) => {
         const features = mapEvent.target
           .queryRenderedFeatures(mapEvent.point)
           .filter(f => f.source.includes(sourceId));
@@ -348,7 +417,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
 
 ```typescript
 class GenericTooltipProvider implements IMapPopoverContentProvider {
-  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null {
+  renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null {
     const features = mapEvent.target.queryRenderedFeatures(mapEvent.point);
     const tooltipFeature = this.findTooltipFeature(features);
 
@@ -397,7 +466,7 @@ The migration strategy leverages existing MapPopover infrastructure and applies 
 ```typescript
 // 1. Define provider interface
 interface IMapPopoverContentProvider {
-  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null;
+  renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null;
 }
 
 // 2. Create registry to coordinate providers
@@ -478,10 +547,15 @@ export class ClickableFeaturesRenderer extends LogicalLayerDefaultRenderer {
 
   private createMCDAProvider(config: MCDAConfig) {
     return {
-      renderContent: (mapEvent) => {
+      renderContent: (mapEvent, onClose) => {
         const mcdaFeature = this.findMCDAFeature(mapEvent);
         return mcdaFeature ? <PopupMCDA feature={mcdaFeature} config={config} /> : null;
-      }
+      },
+      getPopoverOptions: () => ({
+        placement: 'top',
+        closeOnMove: true,
+        className: 'mcda-popup',
+      }),
     };
   }
 }
@@ -505,13 +579,18 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
 
   private createBivariateProvider() {
     return {
-      renderContent: (mapEvent) => {
+      renderContent: (mapEvent, onClose) => {
         const feature = this.findBivariateFeature(mapEvent);
         if (!feature) return null;
 
         const values = this.calculateBivariateValues(feature);
         return <MapHexTooltip feature={feature} values={values} />;
-      }
+      },
+      getPopoverOptions: () => ({
+        placement: 'top',
+        closeOnMove: true,
+        className: 'bivariate-popup',
+      }),
     };
   }
 }
@@ -525,7 +604,7 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
 class BoundaryToolProvider implements IMapPopoverContentProvider {
   private isToolActive = false;
 
-  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null {
+  renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null {
     if (!this.isToolActive) return null;
 
     return (

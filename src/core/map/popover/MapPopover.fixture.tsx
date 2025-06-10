@@ -89,27 +89,50 @@ function useMapInstance(containerRef: React.RefObject<HTMLDivElement>) {
 
 // Simple provider that shows basic feature info
 class SimpleFeatureProvider implements IMapPopoverContentProvider {
-  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null {
-    const features = mapEvent.target?.queryRenderedFeatures?.(mapEvent.point) || [];
+  private enabled = true;
 
-    if (features.length === 0) {
-      return (
-        <div>
-          <p>
-            Clicked at: {mapEvent.lngLat.lng.toFixed(5)}, {mapEvent.lngLat.lat.toFixed(5)}
-          </p>
-          <p>No features found at this location</p>
-        </div>
-      );
-    }
+  renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null {
+    if (!this.enabled) return null;
 
     return (
-      <div>
-        <h4>Simple Feature Info</h4>
-        <p>Found {features.length} feature(s)</p>
+      <div style={{ padding: '12px', backgroundColor: 'white', borderRadius: '4px' }}>
+        <h4>Simple Provider</h4>
         <p>
-          Coordinates: {mapEvent.lngLat.lng.toFixed(5)}, {mapEvent.lngLat.lat.toFixed(5)}
+          Click position: {mapEvent.point.x}, {mapEvent.point.y}
         </p>
+        <p>
+          Coordinates: {mapEvent.lngLat.lat.toFixed(4)}, {mapEvent.lngLat.lng.toFixed(4)}
+        </p>
+        <button onClick={onClose}>Close</button>
+      </div>
+    );
+  }
+
+  setEnabled(enabled: boolean) {
+    this.enabled = enabled;
+  }
+}
+
+class DebugProvider implements IMapPopoverContentProvider {
+  private counter = 0;
+
+  renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null {
+    this.counter++;
+    const features = mapEvent.target?.queryRenderedFeatures?.(mapEvent.point) || [];
+
+    return (
+      <div style={{ padding: '12px', backgroundColor: '#f0f0f0', borderRadius: '4px' }}>
+        <h4>Debug Provider (#{this.counter})</h4>
+        <p>Features found: {features.length}</p>
+        {features.length > 0 && (
+          <details>
+            <summary>Feature details</summary>
+            <pre style={{ fontSize: '10px', maxHeight: '200px', overflow: 'auto' }}>
+              {JSON.stringify(features[0].properties, null, 2)}
+            </pre>
+          </details>
+        )}
+        <button onClick={onClose}>Close Debug</button>
       </div>
     );
   }
@@ -185,7 +208,7 @@ function HotProjectCardDemo() {
   // Create hot project provider
   const hotProjectProvider = useMemo(
     () => ({
-      renderContent: (mapEvent: MapMouseEvent) => {
+      renderContent: (mapEvent: MapMouseEvent, onClose: () => void) => {
         if (!map) return null;
 
         const features =
