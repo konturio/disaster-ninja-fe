@@ -71,9 +71,10 @@ export interface IMapPopoverContentProvider {
   /**
    * Renders content for the map popover based on the click event.
    * @param mapEvent - The original MapLibre mouse event
+   * @param onClose - Callback to close the popover (for interactive content)
    * @returns React content to display, or null if this provider doesn't handle this event
    */
-  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null;
+  renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null;
 }
 
 /**
@@ -96,7 +97,8 @@ export interface IMapPopoverContentRegistry {
   /**
    * Attempts to render content using registered providers.
    * @param mapEvent - The original MapLibre mouse event
+   * @param onClose - Callback to close the popover (for interactive content)
    * @returns Aggregated content from all providers, or null if no provider can handle the event
    */
-  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null;
+  renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null;
 }

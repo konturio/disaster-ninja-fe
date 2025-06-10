@@ -1,7 +1,10 @@
 import { action, atom } from '@reatom/framework';
-import { getCameraForBbox } from '~utils/map/camera';
+import { getCameraForBbox, getCameraForGeometry } from '~utils/map/camera';
+import { configRepo } from '~core/config';
 import { currentMapAtom } from './currentMap';
 import type { Map } from 'maplibre-gl';
+import type { FeatureCollection } from '~utils/geoJSON/helpers';
+import type { Feature, GeoJsonProperties, Geometry } from 'geojson';
 
 export type CenterZoomPosition = {
   lat: number;
@@ -65,3 +68,25 @@ export const setCurrentMapBbox = action((ctx, bbox: Bbox) => {
   }
   currentMapPositionAtom(ctx, position);
 }, 'setCurrentMapBbox');
+
+export const focusOnGeometry = action(
+  (ctx, geometry: FeatureCollection | Feature<Geometry, GeoJsonProperties>) => {
+    const map = ctx.get(currentMapAtom.v3atom);
+    if (!map) return;
+
+    const geometryCamera = getCameraForGeometry(geometry, map);
+    if (
+      typeof geometryCamera?.zoom === 'number' &&
+      geometryCamera.center &&
+      'lat' in geometryCamera.center &&
+      'lng' in geometryCamera.center
+    ) {
+      const position: CenterZoomPosition = {
+        zoom: Math.min(geometryCamera.zoom, configRepo.get().autofocusZoom),
+        ...geometryCamera.center,
+      };
+      setCurrentMapPosition(ctx, position);
+    }
+  },
+  'focusOnGeometry',
+);

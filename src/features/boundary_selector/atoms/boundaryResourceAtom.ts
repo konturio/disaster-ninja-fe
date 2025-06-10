@@ -1,15 +1,18 @@
-import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
+import {
+  reatomResource,
+  withDataAtom,
+  withErrorAtom,
+  withAbort,
+} from '@reatom/framework';
 import { getBoundaries } from '~core/api/boundaries';
 import { clickCoordinatesAtom } from './clickCoordinatesAtom';
 
-export const boundaryResourceAtom = createAsyncAtom(
-  clickCoordinatesAtom,
-  async (params, abortController) => {
-    if (!params) return null;
-    const { lng, lat } = params;
-    const responseData = await getBoundaries([lng, lat], abortController);
-    if (!responseData) throw 'No data received';
-    return responseData;
-  },
-  'boundaryResourceAtom',
-);
+export const fetchBoundariesAsyncResource = reatomResource(async (ctx) => {
+  const coordinates = ctx.spy(clickCoordinatesAtom);
+
+  if (!coordinates) {
+    return null;
+  }
+
+  return await getBoundaries([coordinates.lng, coordinates.lat], ctx.controller);
+}, 'fetchBoundariesAsyncResource').pipe(withDataAtom(null), withErrorAtom(), withAbort());

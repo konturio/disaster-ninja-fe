@@ -54,7 +54,7 @@ export class BivariatePopoverProvider implements IMapPopoverContentProvider {
     private legend: BivariateLegend,
   ) {}
 
-  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null {
+  renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null {
     const features = mapEvent.target
       .queryRenderedFeatures(mapEvent.point)
       .filter((f) => f.source.includes(this.sourceId));
@@ -117,7 +117,7 @@ export class MCDAPopoverProvider implements IMapPopoverContentProvider {
     private style: MCDALayerStyle,
   ) {}
 
-  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null {
+  renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null {
     const features = mapEvent.target
       .queryRenderedFeatures(mapEvent.point)
       .filter((f) => f.source.includes(this.sourceId));

@@ -62,13 +62,17 @@ export function MapPopoverProvider({
     [],
   );
 
+  const close = useCallback(() => {
+    setGlobalPopover(null);
+  }, []);
+
   const showWithEvent = useCallback(
     (mapEvent: MapMouseEvent, options?: MapPopoverOptions): boolean => {
       if (!registry) {
         return false;
       }
 
-      const content = registry.renderContent(mapEvent);
+      const content = registry.renderContent(mapEvent, close);
       if (content) {
         const placement = options?.placement ?? 'top';
 
@@ -85,7 +89,7 @@ export function MapPopoverProvider({
       }
       return false;
     },
-    [registry],
+    [registry, close],
   );
 
   const updatePosition = useCallback((point: ScreenPoint, placement?: Placement) => {
@@ -105,10 +109,6 @@ export function MapPopoverProvider({
   const isOpen = useCallback(() => {
     return globalPopover?.isOpen || false;
   }, [globalPopover]);
-
-  const close = useCallback(() => {
-    setGlobalPopover(null);
-  }, []);
 
   const showWithId = useCallback(
     (
