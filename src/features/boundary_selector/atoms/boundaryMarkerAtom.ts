@@ -1,7 +1,11 @@
 import { createAtom } from '~utils/atoms';
-import { currentMapAtom } from '~core/shared_state';
 import { configRepo } from '~core/config';
-import { constructOptionsFromBoundaries } from '~utils/map/boundaries';
+import { mapPopoverRegistry } from '~core/map';
+import { currentMapAtom } from '~core/shared_state';
+import {
+  constructOptionsFromBoundaries,
+  type BoundaryOption,
+} from '~utils/map/boundaries';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { i18n } from '~core/localization';
 import { getCameraForGeometry } from '~utils/map/camera';
@@ -11,26 +15,29 @@ import { FeatureCollection } from '~utils/geoJSON/helpers';
 import { withoutUndefined } from '~utils/common/removeEmpty';
 import { setCurrentMapPosition } from '~core/shared_state/currentMapPosition';
 import { v3ActionToV2 } from '~utils/atoms/v3tov2';
-import { boundarySelectorControl } from '../control';
-import { createDropdownAsMarker } from '../utils/createDropdownAsMarker';
+import { boundarySelectorToolbarControl } from '../control';
+import { boundarySelectorContentProvider } from '../components/BoundarySelectorContentProvider';
 import { clickCoordinatesAtom } from './clickCoordinatesAtom';
 import { boundaryResourceAtom } from './boundaryResourceAtom';
 import { highlightedGeometryAtom } from './highlightedGeometry';
 import type { ApplicationMapMarker } from '~components/ConnectedMap/ConnectedMap';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import type { Feature, GeoJsonProperties, Geometry } from 'geojson';
-// prettier-ignore
-const LOADING_OPTION = { label: i18n.t('loading'), value: 'loading', disabled: true };
 
-const NO_DATA_OPTION = {
-  label: i18n.t('no_data_received'),
-  value: 'no_data_received',
-  disabled: true,
-};
+// Create empty geometry constant
+const EMPTY_GEOMETRY = new FeatureCollection([]);
 
 interface BoundaryMarkerAtomState {
   marker: null | ApplicationMapMarker;
   isEnabled: boolean;
+  content?: {
+    coordinates: {
+      lat: number;
+      lng: number;
+    };
+    uiState: 'loading' | 'no-data' | 'ready';
+    options?: BoundaryOption[];
+  };
 }
 
 export const boundaryMarkerAtom = createAtom(
@@ -40,9 +47,8 @@ export const boundaryMarkerAtom = createAtom(
     boundaryResourceAtom,
     start: () => null,
     stop: () => null,
-    _refreshMarker: (marker: ApplicationMapMarker, map: maplibregl.Map) => {
-      return { marker, map };
-    },
+    hoverBoundary: (boundaryId: string) => boundaryId,
+    selectBoundary: (boundaryId: string) => boundaryId,
   },
   (
     { get, onAction, schedule, onChange, create },
@@ -51,131 +57,121 @@ export const boundaryMarkerAtom = createAtom(
       isEnabled: false,
     },
   ) => {
-    onChange('currentMapAtom', (map) => {
-      if (map && state.isEnabled && state.marker) {
-        state.marker.addTo(map);
-      }
-    });
-
     onAction('start', () => {
-      const map = get('currentMapAtom');
-      if (map && state.marker) state.marker.addTo(map);
       state = { ...state, isEnabled: true };
+      // Register content provider when tool becomes active
+      mapPopoverRegistry.register('boundary-selector', boundarySelectorContentProvider);
     });
 
     onAction('stop', () => {
-      state.marker && state.marker.remove();
-      state = { ...state, isEnabled: false, marker: null };
+      // Unregister content provider when tool becomes inactive
+      mapPopoverRegistry.unregister('boundary-selector');
+      state = { ...state, isEnabled: false };
     });
 
-    onAction('_refreshMarker', ({ marker: newMarker, map }) => {
-      const previousMarker = state.marker;
-      state = { ...state, marker: newMarker };
+    onAction('hoverBoundary', (boundaryId) => {
+      const resource = get('boundaryResourceAtom');
+      const { data: featureCollection } = resource;
 
-      schedule(() => {
-        // The only way to update marker content?
-        previousMarker?.remove();
-        newMarker.addTo(map);
+      if (!featureCollection) return;
+
+      const boundaryGeometry =
+        findBoundaryGeometry(featureCollection, boundaryId) ?? EMPTY_GEOMETRY;
+
+      // Highlight boundary geometry on map
+      schedule((dispatch) => {
+        dispatch(highlightedGeometryAtom.set(boundaryGeometry));
       });
     });
 
-    // Marker creation
+    onAction('selectBoundary', (boundaryId) => {
+      const resource = get('boundaryResourceAtom');
+      const map = get('currentMapAtom');
+      const { data: featureCollection } = resource;
+
+      if (!featureCollection || !map) return;
+
+      const boundaryGeometry =
+        findBoundaryGeometry(featureCollection, boundaryId) ?? EMPTY_GEOMETRY;
+
+      const boundaryName = findBoundaryName(boundaryGeometry);
+      const boundaryCamera = findCameraPositionForBoundary(map, boundaryGeometry);
+
+      schedule((dispatch) => {
+        dispatch(
+          [
+            // 1) cleanup:
+            // Reset button state to default
+            boundarySelectorToolbarControl.setState('regular'),
+            // Clear highlightedGeometry
+            highlightedGeometryAtom.set(EMPTY_GEOMETRY),
+
+            // 2) focus:
+            // Load selected boundary as focused geometry
+            focusedGeometryAtom.setFocusedGeometry(
+              {
+                type: 'boundaries',
+                meta: { name: boundaryName || 'Boundary geometry' },
+              },
+              boundaryGeometry,
+            ),
+            // Adjust map view to fit new geometry
+            boundaryCamera &&
+              v3ActionToV2(
+                setCurrentMapPosition,
+                boundaryCamera,
+                'setCurrentMapPosition',
+              ),
+
+            // stop:
+            create('stop'),
+          ].filter(withoutUndefined),
+        );
+      });
+    });
+
+    // UI
     if (state.isEnabled) {
       onChange('boundaryResourceAtom', (resource) => {
         const { data: featureCollection, loading } = resource;
         const coordinates = get('clickCoordinatesAtom');
         const map = get('currentMapAtom');
+
         if (!coordinates || !map) {
           // User not select anything yet, or map not enabled
           return;
         }
 
-        // While data loading
+        // Process resource state into semantic UI states
         if (loading) {
-          const emptyGeometry = new FeatureCollection([]);
-          const selectOptions = [LOADING_OPTION];
-          schedule((dispatch) => {
-            dispatch([
-              // Create dropdown with "Loading..." option
-              create(
-                '_refreshMarker',
-                createDropdownAsMarker(coordinates, selectOptions),
-                map,
-              ),
-              // Clear previously highlighted geometry
-              highlightedGeometryAtom.set(emptyGeometry),
-            ]);
-          });
-        } else {
-          // Response received
-          let geometry = featureCollection;
-          if (!geometry) {
-            console.error(`Expected boundary geometry, but got ${geometry}`);
-            geometry = new FeatureCollection([]);
-          }
-          // Create dropdown with boundaries options
-          // prettier-ignore
-          const selectOptions = (
-            resource.data &&
-            constructOptionsFromBoundaries(resource.data)
-          ) ?? [NO_DATA_OPTION];
-
-          // Define what to do when user interact with boundaries options
-          const dropdownListeners = {
-            onHover: (boundaryId: string) => {
-              if (!featureCollection) return;
-              const boundaryGeometry =
-                findBoundaryGeometry(featureCollection, boundaryId) ??
-                new FeatureCollection([]);
-
-              // Highlight boundary geometry on map
-              store.dispatch(highlightedGeometryAtom.set(boundaryGeometry));
-            },
-            onSelect: (boundaryId: string) => {
-              if (!featureCollection) return;
-              const boundaryGeometry =
-                findBoundaryGeometry(featureCollection, boundaryId) ??
-                new FeatureCollection([]);
-
-              const boundaryName = findBoundaryName(boundaryGeometry);
-              const boundaryCamera = findCameraPositionForBoundary(map, boundaryGeometry);
-
-              store.dispatch(
-                [
-                  // Reset button state to default
-                  boundarySelectorControl.setState('regular'),
-                  // Clear highlightedGeometry
-                  highlightedGeometryAtom.set(new FeatureCollection([])),
-                  // Load selected boundary as focused geometry
-                  focusedGeometryAtom.setFocusedGeometry(
-                    {
-                      type: 'boundaries',
-                      meta: { name: boundaryName || 'Boundary geometry' },
-                    },
-                    boundaryGeometry,
-                  ),
-                  // Adjust map view to fit new geometry
-                  boundaryCamera &&
-                    v3ActionToV2(
-                      setCurrentMapPosition,
-                      boundaryCamera,
-                      'setCurrentMapPosition',
-                    ),
-                ].filter(withoutUndefined),
-              );
-            },
+          state = {
+            ...state,
+            content: { coordinates, uiState: 'loading' },
           };
-
-          // Create dropdown with boundaries options
+          // Clear previously highlighted geometry
           schedule((dispatch) => {
-            dispatch(
-              create(
-                '_refreshMarker',
-                createDropdownAsMarker(coordinates, selectOptions, dropdownListeners),
-                map,
-              ),
-            );
+            dispatch(highlightedGeometryAtom.set(EMPTY_GEOMETRY));
           });
+        } else if (!featureCollection) {
+          state = {
+            ...state,
+            content: { coordinates, uiState: 'no-data' },
+          };
+        } else {
+          // Create dropdown with boundaries options
+          const options = constructOptionsFromBoundaries(featureCollection);
+
+          if (options.length > 0) {
+            state = {
+              ...state,
+              content: { coordinates, uiState: 'ready', options },
+            };
+          } else {
+            state = {
+              ...state,
+              content: { coordinates, uiState: 'no-data' },
+            };
+          }
         }
       });
     }
@@ -210,11 +206,11 @@ const findCameraPositionForBoundary = (
   }
 };
 
-boundarySelectorControl.onInit((ctx) => {
+boundarySelectorToolbarControl.onInit((ctx) => {
   return forceRun(boundaryMarkerAtom);
 });
 
-boundarySelectorControl.onStateChange((ctx, state) => {
+boundarySelectorToolbarControl.onStateChange((ctx, state) => {
   if (state === 'active') {
     store.dispatch(boundaryMarkerAtom.start());
   } else {

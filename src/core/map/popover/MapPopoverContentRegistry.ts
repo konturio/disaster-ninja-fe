@@ -23,12 +23,12 @@ export class MapPopoverContentRegistry implements IMapPopoverContentRegistry {
       try {
         const providerContent = provider.renderContent(mapEvent);
         if (providerContent) {
-          // Use stable provider ID as React key
-          contentElements.push(React.createElement('div', { key: id }, providerContent));
+          contentElements.push(
+            React.createElement('div', { key: id, title: id }, providerContent),
+          );
         }
       } catch (error) {
         console.error(`Error in MapPopover provider "${id}":`, error);
-        // Continue to next provider on error
       }
     }
 
@@ -37,7 +37,6 @@ export class MapPopoverContentRegistry implements IMapPopoverContentRegistry {
       return null;
     }
 
-    // Return aggregated content as React fragment
     return React.createElement(React.Fragment, {}, ...contentElements);
   }
 
