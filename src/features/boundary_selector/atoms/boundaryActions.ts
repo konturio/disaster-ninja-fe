@@ -3,12 +3,12 @@ import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { FeatureCollection } from '~utils/geoJSON/helpers';
 import { focusOnGeometry } from '~core/shared_state/currentMapPosition';
 import { store } from '~core/store/store';
+import { getLocalizedFeatureName, boundarySelector } from '~utils/map/boundaries';
+import { configRepo } from '~core/config';
 import { boundarySelectorToolbarControl } from '../control';
 import { fetchBoundariesAsyncResource } from './boundaryResourceAtom';
 import { highlightedGeometryAtom } from './highlightedGeometry';
-import type { Feature, GeoJsonProperties, Geometry } from 'geojson';
 
-// Create empty geometry constant
 const EMPTY_GEOMETRY = new FeatureCollection([]);
 
 export const hoverBoundaryAction = action((ctx, boundaryId: string) => {
@@ -17,7 +17,7 @@ export const hoverBoundaryAction = action((ctx, boundaryId: string) => {
   if (!featureCollection) return;
 
   const boundaryGeometry =
-    findBoundaryGeometry(featureCollection, boundaryId) ?? EMPTY_GEOMETRY;
+    boundarySelector(featureCollection)(boundaryId) ?? EMPTY_GEOMETRY;
 
   highlightedGeometryAtom(ctx, boundaryGeometry);
 }, 'hoverBoundaryAction');
@@ -27,9 +27,15 @@ export const selectBoundaryAction = action((ctx, boundaryId: string) => {
 
   if (!featureCollection) return;
 
-  const boundaryGeometry =
-    findBoundaryGeometry(featureCollection, boundaryId) ?? EMPTY_GEOMETRY;
-  const boundaryName = findBoundaryName(boundaryGeometry);
+  const boundaryGeometryFc =
+    boundarySelector(featureCollection)(boundaryId) ?? EMPTY_GEOMETRY;
+  let boundaryName: string | undefined;
+  if (boundaryGeometryFc.features.length > 0) {
+    const boundaryFeature = boundaryGeometryFc.features[0];
+    const preferredLanguage =
+      configRepo.get().user?.language || configRepo.get().defaultLanguage;
+    boundaryName = getLocalizedFeatureName(boundaryFeature, preferredLanguage);
+  }
 
   store.dispatch([
     boundarySelectorToolbarControl.setState('regular'),
@@ -38,22 +44,10 @@ export const selectBoundaryAction = action((ctx, boundaryId: string) => {
         type: 'boundaries',
         meta: { name: boundaryName || 'Boundary geometry' },
       },
-      boundaryGeometry,
+      boundaryGeometryFc,
     ),
   ]);
 
-  focusOnGeometry(ctx, boundaryGeometry);
+  focusOnGeometry(ctx, boundaryGeometryFc);
   highlightedGeometryAtom(ctx, EMPTY_GEOMETRY);
 }, 'selectBoundaryAction');
-
-function findBoundaryName(
-  featureCollection: FeatureCollection | Feature<Geometry, GeoJsonProperties>,
-) {
-  return (
-    'properties' in featureCollection && (featureCollection.properties?.name as string)
-  );
-}
-
-function findBoundaryGeometry(featureCollection: FeatureCollection, boundaryId: string) {
-  return featureCollection.features.find((boundary) => boundary.id === boundaryId);
-}
