@@ -91,25 +91,6 @@ export const currentEditedLayerFeatures = createAtom(
       });
     });
 
-    /** Executed when clicking save features button on Edit features panel */
-    onAction('save', () => {
-      const stateSnapshot = state ? [...state] : null;
-      schedule(async (dispatch, ctx) => {
-        if (ctx.layerId && stateSnapshot) {
-          try {
-            await saveFeaturesToLayer(ctx.layerId as string, stateSnapshot);
-            notificationServiceInstance.info({ title: 'Features was saved' }, 3);
-            dispatch(editableLayersListResource.refetch());
-          } catch (e) {
-            notificationServiceInstance.error({
-              title: 'Failed to save features',
-            });
-            console.error(e);
-          }
-        }
-      });
-    });
-
     /** Executed when clicking save button in draw tools */
     onAction('saveFeatures', (features) => {
       schedule(async (dispatch, ctx) => {
