@@ -50,7 +50,6 @@ export const openDrawToolsInFeatureEditMode = createAtom(
               drawModeLogicalLayerAtom.enable(),
               toolboxAtom.setSettings({
                 availableModes: ['DrawPolygonMode', 'DrawLineMode', 'DrawPointMode'],
-                finishButtonText: i18n.t('draw_tools.save_features'),
                 // finishButtonCallback: onFinishDrawing,
               }),
               activeDrawModeAtom.setDrawMode(drawModes.ModifyMode),
