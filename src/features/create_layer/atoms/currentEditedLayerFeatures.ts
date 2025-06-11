@@ -5,6 +5,7 @@ import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import { drawnGeometryAtom } from '~core/draw_tools/atoms/drawnGeometryAtom';
 import { saveFeaturesToLayer } from '../api/layers';
 import { editableLayersListResource } from './editableLayersListResource';
+import { editableLayerControllerAtom } from './editableLayerController';
 
 export const currentEditedLayerFeatures = createAtom(
   {
@@ -122,6 +123,8 @@ export const currentEditedLayerFeatures = createAtom(
               title: 'Failed to save features',
             });
             console.error(e);
+          } finally {
+            dispatch(editableLayerControllerAtom.reset());
           }
         }
       });
