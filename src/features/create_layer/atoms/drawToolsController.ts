@@ -37,6 +37,9 @@ export const openDrawToolsInFeatureEditMode = createAtom(
               customLayerDrawToolsControl.setState('active'),
             ]);
 
+            // draw tools are not using the empty collection provided as the parameter.
+            // They'll use features which are set inside currentEditedLayerFeatures.readFeaturesFromLayer(layerId)
+            // TODO: This is BAD, needs refactoring
             const result = await drawTools.edit(new FeatureCollection([]));
             const features = result?.features;
 
