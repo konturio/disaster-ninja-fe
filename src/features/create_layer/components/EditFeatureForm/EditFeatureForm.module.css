@@ -8,14 +8,4 @@
   & .formParam {
     width: 100%;
   }
-
-  & .buttonsContainer {
-    display: flex;
-    gap: var(--unit);
-    width: 100%;
-
-    & .saveBtn {
-      width: 100%;
-    }
-  }
 }

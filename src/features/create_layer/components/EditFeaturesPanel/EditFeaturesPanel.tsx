@@ -5,7 +5,6 @@ import { Panel } from '@konturio/ui-kit';
 import { i18n } from '~core/localization';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { EditTargets } from '../../constants';
-import { currentEditedLayerFeatures } from '../../atoms/currentEditedLayerFeatures';
 import { currentSelectedFeature } from '../../atoms/currentSelectedFeature';
 import { editTargetAtom } from '../../atoms/editTarget';
 import {
@@ -30,12 +29,6 @@ export function EditFeaturesPanel() {
     createLayerController.setState('regular');
     disableEditing();
   }, [disableEditing]);
-
-  const saveFeatures = useAction(currentEditedLayerFeatures.save);
-  const onSave = useCallback(() => {
-    saveFeatures();
-    onPanelClose();
-  }, [onPanelClose, saveFeatures]);
 
   const changeProperty = useCallback(
     (key, val) => {
@@ -64,7 +57,6 @@ export function EditFeaturesPanel() {
             fieldsSettings={settings}
             geometry={selectedFeature.geometry}
             changeProperty={changeProperty}
-            onSave={onSave}
           />
         ) : (
           <EditFeaturePlaceholder />
