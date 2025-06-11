@@ -1,5 +1,3 @@
-import { i18n } from '~core/localization';
-import { store } from '~core/store/store';
 import { drawnGeometryAtom } from '~core/draw_tools/atoms/drawnGeometryAtom';
 import { activeDrawModeAtom } from '~core/draw_tools/atoms/activeDrawMode';
 import { drawModes } from '~core/draw_tools/constants';
@@ -10,26 +8,9 @@ import { customLayerDrawToolsControl } from '~features/create_layer/drawToolsCon
 import { drawTools } from '~core/draw_tools';
 import { FeatureCollection } from '~utils/geoJSON/helpers';
 import { notificationServiceInstance } from '~core/notificationServiceInstance';
-import { createLayerController } from '~features/create_layer/control';
 import { EditTargets } from '../constants';
 import { editTargetAtom } from './editTarget';
 import { currentEditedLayerFeatures } from './currentEditedLayerFeatures';
-
-// /* When saving success - close darwtools panel and edit feature form */
-// function onFinishDrawing() {
-//   return new Promise<boolean>((res, rej) => {
-//     currentEditedLayerFeatures.save.dispatch({
-//       onSuccess: () => {
-//         store.dispatch([
-//           createLayerController.setState('regular'),
-//           editTargetAtom.set({ type: EditTargets.none }),
-//         ]);
-//         res(true);
-//       },
-//       onError: rej,
-//     });
-//   });
-// }
 
 /* Enable / Disable draw tools panel */
 export const openDrawToolsInFeatureEditMode = createAtom(
@@ -50,7 +31,6 @@ export const openDrawToolsInFeatureEditMode = createAtom(
               drawModeLogicalLayerAtom.enable(),
               toolboxAtom.setSettings({
                 availableModes: ['DrawPolygonMode', 'DrawLineMode', 'DrawPointMode'],
-                // finishButtonCallback: onFinishDrawing,
               }),
               activeDrawModeAtom.setDrawMode(drawModes.ModifyMode),
               currentEditedLayerFeatures.readFeaturesFromLayer(layerId),
