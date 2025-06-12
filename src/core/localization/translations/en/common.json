@@ -227,6 +227,7 @@
     "open_timeline_button": "Timeline"
   },
   "create_layer": {
+    "save_and_draw": "Save and draw",
     "edit_layer": "Edit Layer",
     "edit_features": "Edit Features",
     "delete_layer": "Delete Layer",
@@ -279,8 +280,7 @@
     "finish_drawing": "Finish Drawing",
     "caption": "Click on the map to begin drawing",
     "no_geometry_error": "No drawn geometry to download",
-    "overlap_error": "Polygon should not overlap itself",
-    "save_features": "Save features"
+    "overlap_error": "Polygon should not overlap itself"
   },
   "boundary_selector": {
     "title": "Focus to administrative boundary"

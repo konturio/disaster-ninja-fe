@@ -1,16 +1,11 @@
 import { notificationServiceInstance } from '~core/notificationServiceInstance';
-import { apiClient } from '~core/apiClientInstance';
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { deepCopy } from '~core/logical_layers/utils/deepCopy';
-import { FeatureCollection } from '~utils/geoJSON/helpers';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import { drawnGeometryAtom } from '~core/draw_tools/atoms/drawnGeometryAtom';
+import { saveFeaturesToLayer } from '../api/layers';
 import { editableLayersListResource } from './editableLayersListResource';
-
-interface SafeCallbacks {
-  onSuccess: () => void;
-  onError: () => void;
-}
+import { editableLayerControllerAtom } from './editableLayerController';
 
 export const currentEditedLayerFeatures = createAtom(
   {
@@ -20,7 +15,8 @@ export const currentEditedLayerFeatures = createAtom(
     removeFeature: drawnGeometryAtom.removeByIndexes,
     drawnGeometryAtom,
     reset: () => null,
-    save: (safeCallbacks?: SafeCallbacks) => safeCallbacks,
+    save: () => null,
+    saveFeatures: (features?: GeoJSON.Feature[]) => features,
     setFeatureProperty: (featureIdx: number, properties: GeoJSON.GeoJsonProperties) => ({
       featureIdx,
       properties,
@@ -95,32 +91,25 @@ export const currentEditedLayerFeatures = createAtom(
       });
     });
 
-    onAction('save', (safeCallbacks) => {
-      const stateSnapshot = state ? [...state] : null;
+    /** Executed when clicking save button in draw tools */
+    onAction('saveFeatures', (features) => {
       schedule(async (dispatch, ctx) => {
-        if (ctx.layerId && stateSnapshot) {
+        if (ctx.layerId && features) {
           try {
-            await apiClient.put<unknown>(
-              `/layers/${ctx.layerId}/items/`,
-              new FeatureCollection(stateSnapshot),
-              {
-                authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
-              },
-            );
+            await saveFeaturesToLayer(ctx.layerId as string, features);
             notificationServiceInstance.info({ title: 'Features was saved' }, 3);
-            if (safeCallbacks) safeCallbacks.onSuccess();
             dispatch(editableLayersListResource.refetch());
           } catch (e) {
-            if (safeCallbacks) safeCallbacks.onError();
             notificationServiceInstance.error({
               title: 'Failed to save features',
             });
             console.error(e);
+          } finally {
+            dispatch(editableLayerControllerAtom.reset());
           }
         }
       });
     });
-
     return state;
   },
 );

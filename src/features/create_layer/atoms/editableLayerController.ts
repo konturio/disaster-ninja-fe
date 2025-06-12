@@ -1,9 +1,10 @@
 import { configRepo } from '~core/config';
-import { apiClient } from '~core/apiClientInstance';
 import { createAtom } from '~utils/atoms';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
-import { EditTargets, TEMPORARY_USER_LAYER_LEGEND } from '../constants';
-import { createLayerController } from '../control';
+import { notificationServiceInstance } from '~core/notificationServiceInstance';
+import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
+import { createLayer, deleteLayer, updateLayer } from '../api/layers';
+import { EditTargets, DEFAULT_USER_LAYER_LEGEND } from '../constants';
 import { createLayerEditorFormAtom } from './layerEditorForm';
 import { createLayerEditorFormFieldAtom } from './layerEditorFormField';
 import { editableLayerSettingsAtom } from './editableLayerSettings';
@@ -89,11 +90,11 @@ export const editableLayerControllerAtom = createAtom(
         state = { ...state, loading: true };
 
         const data = {
-          id: dataState.id,
+          id: dataState.id!,
           name: dataState.name,
           legend: {
             name: dataState.name,
-            ...TEMPORARY_USER_LAYER_LEGEND,
+            ...DEFAULT_USER_LAYER_LEGEND,
           },
           featureProperties: dataState.fields.reduce(
             (acc, fldAtom: LayerEditorFormFieldAtomType) => {
@@ -114,17 +115,21 @@ export const editableLayerControllerAtom = createAtom(
           try {
             let responseData: EditableLayers | null;
             if (data.id) {
-              responseData = await apiClient.put<EditableLayers>(
-                `/layers/${data.id}`,
-                data,
+              responseData = await updateLayer(data);
+              notificationServiceInstance.success(
                 {
-                  authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
+                  title: `Your layer “${dataState.name}” has been updated.`,
                 },
+                2,
               );
             } else {
-              responseData = await apiClient.post<EditableLayers>(`/layers`, data, {
-                authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
-              });
+              responseData = await createLayer(data);
+              notificationServiceInstance.success(
+                {
+                  title: `Your layer “${dataState.name}” has been added to Layers panel. You can start drawing.`,
+                },
+                2,
+              );
             }
 
             if (responseData) {
@@ -134,6 +139,7 @@ export const editableLayerControllerAtom = createAtom(
                   error: null,
                   data: state?.data ?? null,
                 }),
+                enabledLayersAtom.set(responseData.id),
                 editableLayersListResource.refetch(),
                 editTargetAtom.set({
                   type: EditTargets.features,
@@ -160,9 +166,7 @@ export const editableLayerControllerAtom = createAtom(
         const layer = registeredLayers.get(layerId)!;
         schedule(async (dispatch) => {
           try {
-            await apiClient.delete<unknown>(`/layers/${layerId}`, {
-              authRequirement: apiClient.AUTH_REQUIREMENT.MUST,
-            });
+            await deleteLayer(layerId);
             dispatch([
               create('_update', {
                 loading: false,
@@ -205,15 +209,3 @@ export const editableLayerControllerAtom = createAtom(
   },
   'editableLayerControllerAtom',
 );
-
-createLayerController.onStateChange((ctx, state) => {
-  if (state === 'active') {
-    editableLayerControllerAtom.createNewLayer.dispatch();
-  } else {
-    editableLayerControllerAtom.reset.dispatch();
-  }
-});
-
-createLayerController.onRemove(() => {
-  editableLayerControllerAtom.reset.dispatch();
-});

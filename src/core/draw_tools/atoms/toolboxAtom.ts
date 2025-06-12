@@ -15,7 +15,6 @@ import type { Action } from '@reatom/core-v2';
 
 interface DrawToolBoxSettings {
   availableModes?: DrawModeType[];
-  finishButtonText?: string;
   finishButtonCallback?: () => void;
 }
 

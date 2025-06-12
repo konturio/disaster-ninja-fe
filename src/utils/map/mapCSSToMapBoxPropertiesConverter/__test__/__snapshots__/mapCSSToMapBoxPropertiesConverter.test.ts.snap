@@ -37,6 +37,11 @@ exports[`Convert mapCSS style to mapBox layers 1`] = `
     "type": "line",
   },
   {
+    "filter": [
+      "==",
+      "$type",
+      "Polygon",
+    ],
     "paint": {
       "fill-color": "rgb(255, 255, 255)",
       "fill-opacity": 0.3,
@@ -44,6 +49,11 @@ exports[`Convert mapCSS style to mapBox layers 1`] = `
     "type": "fill",
   },
   {
+    "filter": [
+      "==",
+      "$type",
+      "Point",
+    ],
     "layout": {
       "icon-image": "airport",
       "icon-size": 12,
