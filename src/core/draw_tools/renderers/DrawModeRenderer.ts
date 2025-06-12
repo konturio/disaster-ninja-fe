@@ -94,6 +94,14 @@ export class DrawModeRenderer extends LogicalLayerDefaultRenderer<CombinedAtom> 
 
   willHide(args: NotNullableMap & CommonHookArgs): void {
     this._removeAllDeckLayers(args.map);
+    this._removeClickListener?.();
+    this._removeClickListener = null;
+    this._removeMousemoveListener?.();
+    this._removeMousemoveListener = null;
+  }
+
+  willUnhide(args: NotNullableMap & CommonHookArgs): void {
+    this.addClickListener();
   }
 
   setupExtension(extentionAtom: CombinedAtom): void {

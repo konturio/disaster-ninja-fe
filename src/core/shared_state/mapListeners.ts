@@ -7,6 +7,9 @@ type MapListenersAtomState = {
   click: { listener: MapListener; priority: number }[];
   mousemove: { listener: MapListener; priority: number }[];
   mouseleave: { listener: MapListener; priority: number }[];
+  move: { listener: MapListener; priority: number }[];
+  movestart: { listener: MapListener; priority: number }[];
+  moveend: { listener: MapListener; priority: number }[];
 };
 type MapEvent = keyof MapListenersAtomState;
 
@@ -14,6 +17,9 @@ const defaultListeners = {
   click: [],
   mousemove: [],
   mouseleave: [],
+  move: [],
+  movestart: [],
+  moveend: [],
 };
 
 export function registerMapListener(
