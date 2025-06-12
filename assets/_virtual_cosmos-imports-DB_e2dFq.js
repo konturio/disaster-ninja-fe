@@ -1,4 +1,4 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-DGRC5lY-.js","./index-Cw_V3qfB.js"])))=>i.map(i=>d[i]);
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-DgEUp4qD.js","./index-BrjtaA3o.js"])))=>i.map(i=>d[i]);
 var __defProp = Object.defineProperty;
 var __typeError = (msg) => {
   throw TypeError(msg);
@@ -10,7 +10,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value2) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value2);
 var __privateSet = (obj, member, value2, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value2) : member.set(obj, value2), value2);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, e as extendWithValue, R as React, c as createValue, i as isEqual, r as reactExports, a as requireReact, b as requireReactDom, d as React$1, g as getDefaultExportFromCjs, f as clientExports, _ as __vitePreload } from "./index-Cw_V3qfB.js";
+import { u as useFixtureState, e as extendWithValue, R as React, c as createValue, i as isEqual, r as reactExports, a as requireReact, b as requireReactDom, d as React$1, g as getDefaultExportFromCjs, f as clientExports, _ as __vitePreload } from "./index-BrjtaA3o.js";
 function useCurrentInputValue(inputName, defaultValue) {
   const [fixtureState] = useFixtureState("inputs");
   const inputFs = fixtureState && fixtureState[inputName];
@@ -10752,12 +10752,12 @@ const multivariate$8 = { "multivariate_analysis": "Multivariate Analysis", "crea
 const map_popup = { "value": "Value", "range": "Range", "coefficient": "Coefficient", "normalized_value": "Normalized value" };
 const search$8 = { "search_location": "Search location", "info_block": "You can search for 📍 locations", "info_block_with_mcda": "You can search for 📍 locations or ask ✨ AI your question like “Where is dead wood”", "input_placeholder": "Search", "input_placeholder_mcda": "Search or ask AI", "locations_no_result": "No locations found", "mcda_loading_message": "AI is generating an analysis for you", "mcda_no_result": "No AI suggestion", "mcda_error_message": "AI engine did not respond. Please try again later", "mcda_create_analysis": "Create analysis", "upload_analysis": "“{{name}}” Multi-Criteria Decision Analysis has been created" };
 const event_list$8 = { "warning_title": "Cannot filter by map view", "warning_description": "Map is not ready yet, try later", "bbox_filter_button": "Filter by map view", "analytics": { "affected_people": { "tooltip": "Affected people", "value": "No humanitarian impact" }, "settled_area_tooltip": "Settled area", "loss_tooltip": "Estimated loss" }, "no_event_in_feed": "The disaster was not found in the current disaster feed", "no_selected_disaster": "No disaster selected", "chose_disaster": "Choose disaster", "no_historical_disasters": "No historical disasters in this area", "no_feed_disasters": "No disasters in this feed", "no_feed_disasters_matching_your_filters": "No disasters matching your filters", "no_disasters": "No disasters", "severity_unknown": "Unknown", "severity_termination": "Termination", "severity_minor": "Minor", "severity_moderate": "Moderate", "severity_severe": "Severe", "severity_extreme": "Extreme", "open_timeline_button": "Timeline" };
-const create_layer$8 = { "edit_layer": "Edit Layer", "edit_features": "Edit Features", "delete_layer": "Delete Layer", "create_layer": "Create Layer", "saving_layer": "Saving layer...", "field_name": "Field name", "layer_name": "Layer name", "marker_icon": "Marker icon", "type": "Type", "select": "Select", "short_text": "Short Text", "long_text": "Long Text", "link": "Link", "image": "Image", "fields": "Fields", "add_field": "Add field", "location": "Location", "edit_feature_placeholder": "Select some feature for start edit feature properties" };
+const create_layer$8 = { "save_and_draw": "Save and draw", "edit_layer": "Edit Layer", "edit_features": "Edit Features", "delete_layer": "Delete Layer", "create_layer": "Create Layer", "saving_layer": "Saving layer...", "field_name": "Field name", "layer_name": "Layer name", "marker_icon": "Marker icon", "type": "Type", "select": "Select", "short_text": "Short Text", "long_text": "Long Text", "link": "Link", "image": "Image", "fields": "Fields", "add_field": "Add field", "location": "Location", "edit_feature_placeholder": "Select some feature for start edit feature properties" };
 const analytics_panel$8 = { "header_title": "Analytics", "error_loading": "Failed receiving data about selected area. It may be too large.", "info_short": "Calculations are made for selected area" };
 const advanced_analytics_panel$8 = { "header_title": "Advanced analytics", "error": "Error while fetching advanced analytics data" };
 const advanced_analytics_empty$8 = { "not_found": "Sorry, the requested disaster was not found", "error": "An error occurred", "analytics_for_selected": "Analytics for selected area", "will_be_provided": "will be provided here", "no_analytics": "No analytics for the selected area" };
 const llm_analytics$8 = { "header": "AI insights", "placeholder": { "select_area": "Select area (<icon1 />,<icon2 />,<icon3 />) you want to explore to get AI Insights.", "you_can_also": "You can also:", "fill_bio": "<icon /> <lnk>Fill out analysis objectives</lnk> to personalize AI analysis", "select_and_save_as_reference_area": "<icon /> Select an area and save it as a reference to compare with another one", "learn_more": "<lnk><icon/> Learn more about AI Insights</lnk>" } };
-const draw_tools$8 = { "area": "Polygon", "line": "Line", "point": "Point", "finish_drawing": "Finish Drawing", "caption": "Click on the map to begin drawing", "no_geometry_error": "No drawn geometry to download", "overlap_error": "Polygon should not overlap itself", "save_features": "Save features" };
+const draw_tools$8 = { "area": "Polygon", "line": "Line", "point": "Point", "finish_drawing": "Finish Drawing", "caption": "Click on the map to begin drawing", "no_geometry_error": "No drawn geometry to download", "overlap_error": "Polygon should not overlap itself" };
 const boundary_selector$8 = { "title": "Focus to administrative boundary" };
 const geometry_uploader$8 = { "title": "Focus to uploaded geometry", "error": "Error while reading uploaded file" };
 const focus_geometry$8 = { "title": "Focus to freehand geometry" };
@@ -38160,7 +38160,7 @@ const style = {
   container,
   closeButton
 };
-const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-DGRC5lY-.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
+const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-DgEUp4qD.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
 const BivariateGreetingsContainer = ({
   className
 }) => {
