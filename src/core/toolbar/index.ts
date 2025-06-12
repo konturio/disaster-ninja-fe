@@ -10,7 +10,10 @@ import {
   CREATE_MULTIVARIATE_CONTROL_ID,
   UPLOAD_MULTIVARIATE_CONTROL_ID,
 } from '~features/multivariate_layer/constants';
-import { CUSTOM_LAYER_DRAW_TOOLS_CONTROL } from '~features/create_layer/constants';
+import {
+  CREATE_LAYER_CONTROL_ID,
+  CUSTOM_LAYER_DRAW_TOOLS_CONTROL,
+} from '~features/create_layer/constants';
 import type {
   ControlID,
   ControlState,
@@ -61,7 +64,7 @@ class ToolbarImpl implements Toolbar {
           UPLOAD_MCDA_CONTROL_ID,
           CREATE_MULTIVARIATE_CONTROL_ID,
           UPLOAD_MULTIVARIATE_CONTROL_ID,
-          'EditableLayer',
+          CREATE_LAYER_CONTROL_ID,
           CUSTOM_LAYER_DRAW_TOOLS_CONTROL,
         ],
       },
