@@ -287,7 +287,7 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     if (!ev || !ev.lngLat) return;
     const thisLayersFeatures = ev.target
       .queryRenderedFeatures(ev.point)
-      .filter((f) => f.source.includes(this._sourceId));
+      .filter((f) => f.source === this._sourceId);
     if (thisLayersFeatures.length === 0) return;
     const featureWithLink = thisLayersFeatures.find(
       (feature) => feature.properties?.[linkProperty] !== undefined,

@@ -57,7 +57,7 @@ export class BivariatePopoverProvider implements IMapPopoverContentProvider {
   renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null {
     const features = mapEvent.target
       .queryRenderedFeatures(mapEvent.point)
-      .filter((f) => f.source.includes(this.sourceId));
+      .filter((f) => f.source === this.sourceId);
 
     if (!features.length || !this.legend || !features[0].geometry) return null;
 
@@ -120,7 +120,7 @@ export class MCDAPopoverProvider implements IMapPopoverContentProvider {
   renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null {
     const features = mapEvent.target
       .queryRenderedFeatures(mapEvent.point)
-      .filter((f) => f.source.includes(this.sourceId));
+      .filter((f) => f.source === this.sourceId);
 
     // Don't show popup when click in empty place
     if (!features.length || !features[0].geometry) return null;

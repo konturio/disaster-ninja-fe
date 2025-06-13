@@ -13,7 +13,7 @@ function filterFeatures(sourceId: string, ev: maplibregl.MapMouseEvent) {
     ev.target
       .queryRenderedFeatures(ev.point)
       /* Filter out features not from this logical layer */
-      .filter((f) => f.source.includes(sourceId))
+      .filter((f) => f.source === sourceId)
       // Filter out invisible (transparent) features
       .filter(isFeatureVisible)
       // Feature id required for feature state work
