@@ -16,6 +16,7 @@ export const modifyDeckLayerConfig = {
       getFillColor: [30, 60, 20, 120],
       getLineWidth: 2,
       getLineColor: [20, 20, 10, 140],
+      lineWidthUnits: 'pixels',
     },
     geojson: {
       getFillColor: (a) => {
