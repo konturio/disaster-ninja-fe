@@ -29,7 +29,7 @@ export const currentEventResourceAtom = createAsyncAtom(
           },
         },
       );
-      if (responseData === undefined) throw 'No data received';
+      if (responseData === undefined) throw new Error(i18n.t('no_data_received'));
       return responseData;
     }
     return null;
