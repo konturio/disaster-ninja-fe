@@ -2,6 +2,10 @@
 
 This feature designed to collect user sensor data and send it to remote endpoint
 
+## UI
+
+The toolbar contains **Record sensors** button. Once recording starts the button label changes to **Stop sensor recording**, so pressing it will stop recording.
+
 ## Working logic
 
 The main controller is `LiveSensor`.
