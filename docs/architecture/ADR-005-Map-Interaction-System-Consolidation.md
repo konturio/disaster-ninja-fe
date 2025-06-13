@@ -78,456 +78,261 @@ Implement **Unified Map Interaction Architecture** that consolidates all four sy
 
 ### Target Architecture
 
+A Reatom-native, action-based architecture where interactions are managed as a side effect of state changes within the Reatom ecosystem. This approach eliminates custom hooks and services in favor of idiomatic Reatom patterns.
+
 ```mermaid
 graph TD
-    A[Map Click Event] --> B[UnifiedInteractionService]
-    B --> C[Priority Coordinator]
-    C --> D[Provider Registry]
+    subgraph "Map Instance (map.on('click'))"
+        direction LR
+        A[Map Click Event] -->|dispatches| B(mapClicked Action)
+    end
 
-    D --> E[Tool Providers]
-    D --> F[Content Providers]
-    D --> G[UI Providers]
+    subgraph "Reatom Core"
+        direction TB
+        B --> C{Interaction Coordinator Action}
+        C -->|priority 10| D[Tool Action: MapRuler]
+        C -->|priority 60| E[Content Action: Tooltip]
+    end
 
-    E --> H[Map Ruler, Draw Tools, Boundary Selector]
-    F --> I[Feature Tooltips, Bivariate, MCDA]
-    G --> J[Unified Popover Presentation]
+    subgraph "Reatom State"
+        direction LR
+        D --> F(Ruler Points Atom)
+        E --> G(Popover Content Atom)
+    end
 
-    style B fill:#ccffcc
-    style D fill:#ccffcc
-    style J fill:#ccffcc
+    subgraph "React UI"
+        direction TB
+        F -- useAtom --> H[MapRuler Component]
+        G -- useAtom --> I[Popover Component]
+    end
+
+    style C fill:#ccffcc
 ```
 
 ### Core Architecture Components
 
-#### 1. Unified Interaction Service
+#### 1. Core State and Actions
+
+At the heart of the system are a few core atoms and actions that form the foundation for all interactions.
 
 ```typescript
-interface UnifiedInteractionService {
-  // Single entry point for all map interactions
-  handleMapClick(event: MapMouseEvent): void;
+// src/core/map/interaction/atoms.ts
+import { atom, action } from '@reatom/framework';
+import type { Map as MapLibreMap, MapMouseEvent } from 'maplibre-gl';
 
-  // Provider management
-  registerProvider(provider: IMapInteractionProvider, priority?: number): () => void;
-  unregisterProvider(provider: IMapInteractionProvider): void;
+// Atom to hold the map instance, provided by ConnectedMap.
+// Allows any other atom/action to access the map instance via ctx.get().
+export const mapInstanceAtom = atom<MapLibreMap | null>(null, 'map.instanceAtom');
 
-  // State management
-  isBlocked(): boolean;
-  getCurrentProvider(): IMapInteractionProvider | null;
+// A single action that all raw map clicks are funneled into.
+// This is the primary trigger for the entire interaction system.
+export const mapClicked = action<MapMouseEvent>('map.clicked');
+```
+
+#### 2. Declarative Interaction Handler
+
+An `InteractionHandler` is a plain configuration object. It declaratively links a feature's enabling state (`enabledAtom`) to its execution logic (`action`). This makes the system modular and easy to extend.
+
+```typescript
+// src/core/map/interaction/types.ts
+import { Action, Atom } from '@reatom/framework';
+import type { MapMouseEvent } from 'maplibre-gl';
+
+export interface InteractionHandler {
+  // Unique identifier
+  id: string;
+  // Execution priority (lower is higher)
+  priority: number;
+  // If true, stops processing after this handler
+  exclusive: boolean;
+  // Atom that holds the boolean enabled state of the feature
+  enabledAtom: Atom<boolean>;
+  // Action to execute when the handler is enabled and a click occurs
+  action: Action<[MapMouseEvent], any>;
 }
 ```
 
-#### 2. Provider Interface
+#### 3. The Coordinator
+
+A central `action` that listens for `mapClicked` events. It iterates through a static list of registered `InteractionHandler` configurations, checks their `enabledAtom`, and executes the appropriate `action`.
 
 ```typescript
-interface IMapInteractionProvider {
-  // Unique identifier for debugging and management
-  readonly id: string;
-  readonly priority: number;
+// src/core/map/interaction/coordinator.ts
+import { action } from '@reatom/framework';
+import { mapClicked } from './atoms';
+import { mapRulerHandler } from 'src/features/map_ruler/interaction';
+import { bivariateTooltipHandler } from 'src/features/bivariate_manager/interaction';
+// ... import other handlers as they are created
 
-  // Interaction handling
-  canHandle(event: MapMouseEvent): boolean;
-  handle(event: MapMouseEvent): InteractionResult;
+// Handlers are imported and sorted once to create a prioritized list.
+const INTERACTION_HANDLERS = [mapRulerHandler, bivariateTooltipHandler].sort(
+  (a, b) => a.priority - b.priority,
+);
 
-  // Lifecycle
-  activate?(): void;
-  deactivate?(): void;
-}
+export const coordinateInteractions = action((ctx) => {
+  // ctx.onCall subscribes this action's logic to another action.
+  // It will run every time mapClicked is dispatched.
+  ctx.onCall(mapClicked, (clickEvent) => {
+    for (const handler of INTERACTION_HANDLERS) {
+      // Check if the handler is active by reading its state atom.
+      if (ctx.get(handler.enabledAtom)) {
+        // If enabled, dispatch the handler's specific action.
+        handler.action(ctx, clickEvent);
 
-enum InteractionResult {
-  HANDLED_EXCLUSIVE = 'handled_exclusive', // Block further processing
-  HANDLED_CONTINUE = 'handled_continue', // Allow further processing
-  NOT_HANDLED = 'not_handled', // Pass to next provider
-}
-```
-
-#### 3. Priority Coordination
-
-```typescript
-class PriorityCoordinator {
-  private providers = new Map<IMapInteractionProvider, number>();
-
-  handleEvent(event: MapMouseEvent): void {
-    const sortedProviders = this.getSortedProviders();
-
-    for (const provider of sortedProviders) {
-      if (!provider.canHandle(event)) continue;
-
-      const result = provider.handle(event);
-
-      if (result === InteractionResult.HANDLED_EXCLUSIVE) {
-        break; // Stop processing
-      }
-
-      if (result === InteractionResult.HANDLED_CONTINUE) {
-        continue; // Allow other providers to also handle
+        if (handler.exclusive) {
+          break; // Stop processing for exclusive tools.
+        }
       }
     }
-  }
-
-  private getSortedProviders(): IMapInteractionProvider[] {
-    return Array.from(this.providers.keys()).sort((a, b) => a.priority - b.priority);
-  }
-}
+  });
+}, 'map.coordinateInteractions');
 ```
 
-## Implementation Plan
+## Reatom-centric Implementation
 
-### Phase 1: Infrastructure
+### Phase 1: Feature Handler Implementation
 
-#### Core Service Implementation
+Each interactive feature becomes a self-contained module that exports its state, logic, and handler configuration.
+
+#### Example: Map Ruler
 
 ```typescript
-// src/core/map/interaction/UnifiedInteractionService.ts
-class UnifiedInteractionService {
-  private coordinator = new PriorityCoordinator();
-  private activeProviders = new Set<IMapInteractionProvider>();
+// src/features/map_ruler/interaction.ts
+import { atom, action } from '@reatom/framework';
+import type { MapMouseEvent } from 'maplibre-gl';
+import type { InteractionHandler } from 'src/core/map/interaction/types';
+import { rulerPointsAtom } from './atoms'; // An atom to store LngLat points
 
-  constructor(private map: Map) {
-    this.setupEventListeners();
-  }
+// Public atom to toggle the ruler tool from any component.
+export const mapRulerEnabledAtom = atom(false, 'mapRuler.enabledAtom');
 
-  private setupEventListeners() {
-    this.map.on('click', this.handleMapClick.bind(this));
-  }
+// The action containing the feature's specific logic.
+const handleMapRulerClick = action<MapMouseEvent>((ctx, event) => {
+  const points = ctx.get(rulerPointsAtom);
+  // Add new point to the points atom.
+  ctx.set(rulerPointsAtom, [...points, event.lngLat]);
+}, 'mapRuler.handleClick');
 
-  handleMapClick(event: MapMouseEvent): void {
-    this.coordinator.handleEvent(event);
-  }
-
-  registerProvider(provider: IMapInteractionProvider, priority = 50): () => void {
-    this.coordinator.register(provider, priority);
-    this.activeProviders.add(provider);
-
-    return () => {
-      this.coordinator.unregister(provider);
-      this.activeProviders.delete(provider);
-    };
-  }
-}
+// The handler config, exported for the coordinator.
+export const mapRulerHandler: InteractionHandler = {
+  id: 'map-ruler',
+  priority: 10,
+  exclusive: true,
+  enabledAtom: mapRulerEnabledAtom,
+  action: handleMapRulerClick,
+};
 ```
 
-#### Provider Base Classes
+#### Example: Bivariate Tooltip
 
 ```typescript
-// Tool providers (exclusive interactions)
-abstract class ToolProvider implements IMapInteractionProvider {
-  abstract readonly id: string;
-  readonly priority = 10; // Higher priority than content providers
+// src/features/bivariate_manager/interaction.ts
+import { atom, action } from '@reatom/framework';
+import { mapInstanceAtom } from 'src/core/map/interaction/atoms';
+import { popoverContentAtom, popoverPositionAtom } from 'src/core/map/popover/atoms';
 
-  private isActive = false;
+// The tooltip is always "enabled" when the bivariate layer is visible.
+export const bivariateTooltipEnabledAtom = atom(
+  (ctx) => ctx.spy(bivariateLayerAtom)?.isVisible, // Fictional dependency
+  'bivariate.tooltipEnabledAtom',
+);
 
-  canHandle(event: MapMouseEvent): boolean {
-    return this.isActive;
-  }
+const handleBivariateClick = action<MapMouseEvent>((ctx, event) => {
+  const map = ctx.get(mapInstanceAtom);
+  const features = map?.queryRenderedFeatures(event.point, {
+    layers: ['bivariate-layer-id'],
+  });
+  const feature = features?.[0];
 
-  handle(event: MapMouseEvent): InteractionResult {
-    this.handleToolClick(event);
-    return InteractionResult.HANDLED_EXCLUSIVE; // Block other interactions
-  }
-
-  activate() {
-    this.isActive = true;
-  }
-
-  deactivate() {
-    this.isActive = false;
-  }
-
-  protected abstract handleToolClick(event: MapMouseEvent): void;
-}
-
-// Content providers (cooperative interactions)
-abstract class ContentProvider implements IMapInteractionProvider {
-  abstract readonly id: string;
-  readonly priority = 50; // Lower priority, cooperative
-
-  handle(event: MapMouseEvent): InteractionResult {
-    const content = this.generateContent(event);
-    if (content) {
-      this.showContent(content, event);
-      return InteractionResult.HANDLED_CONTINUE; // Allow others to also show content
-    }
-    return InteractionResult.NOT_HANDLED;
-  }
-
-  protected abstract generateContent(event: MapMouseEvent): React.ReactNode | null;
-  protected abstract showContent(content: React.ReactNode, event: MapMouseEvent): void;
-}
-```
-
-### Phase 2: Tool Provider Migration
-
-#### Map Ruler Provider
-
-```typescript
-// src/features/map_ruler/MapRulerProvider.ts
-class MapRulerProvider extends ToolProvider {
-  readonly id = 'map-ruler';
-
-  protected handleToolClick(event: MapMouseEvent): void {
-    // Existing map ruler logic
-    this.addRulerPoint(event.lngLat);
-  }
-
-  // Integrate with existing toolbar control
-  static createWithToolbarIntegration(): MapRulerProvider {
-    const provider = new MapRulerProvider();
-
-    mapRulerToolbar.onStateChange((active) => {
-      if (active) provider.activate();
-      else provider.deactivate();
+  if (feature) {
+    ctx.set(popoverPositionAtom, event.lngLat);
+    ctx.set(popoverContentAtom, {
+      component: 'BivariateTooltip',
+      props: { feature },
     });
-
-    return provider;
   }
+}, 'bivariate.handleClick');
+
+export const bivariateTooltipHandler: InteractionHandler = {
+  id: 'bivariate-tooltip',
+  priority: 60,
+  exclusive: false,
+  enabledAtom: bivariateTooltipEnabledAtom,
+  action: handleBivariateClick,
+};
+```
+
+### Phase 2: Connecting to React
+
+UI components interact with the system using standard Reatom hooks. They do not need to know about the interaction system itself, only the state atoms they care about.
+
+```typescript
+// src/features/map_ruler/MapRulerToggle.tsx
+import { useAtom } from '@reatom/npm-react';
+import { mapRulerEnabledAtom } from './interaction';
+
+export function MapRulerToggle() {
+  const [isEnabled, toggle] = useAtom(mapRulerEnabledAtom);
+  // `useAtom` with a boolean atom returns a tuple with a `toggle` function.
+  return <button onClick={toggle}> {isEnabled ? 'Disable' : 'Enable'} Ruler</button>
 }
 ```
 
-#### Draw Tools Provider
+### Phase 3: Legacy System Removal
 
-```typescript
-// src/core/draw_tools/DrawToolsProvider.ts
-class DrawToolsProvider extends ToolProvider {
-  readonly id = 'draw-tools';
+This architecture entirely replaces the previous systems.
 
-  protected handleToolClick(event: MapMouseEvent): void {
-    // Existing draw tools logic
-    this.handleDrawClick(event);
-  }
-}
-```
-
-#### Boundary Selector Provider
-
-```typescript
-// src/features/boundary_selector/BoundarySelectorProvider.ts
-class BoundarySelectorProvider extends ToolProvider {
-  readonly id = 'boundary-selector';
-
-  protected handleToolClick(event: MapMouseEvent): void {
-    // Replace marker dropdown with popover
-    const popoverService = getMapPopoverService();
-
-    popoverService.showWithContent(
-      CoordinateConverter.mapToPage(event.point, this.map.getContainer()),
-      <BoundarySelector coordinates={event.lngLat} onSelect={this.handleBoundarySelect} />
-    );
-  }
-
-  private handleBoundarySelect = (boundary: Boundary) => {
-    focusedGeometryService.setFocusedGeometry(boundary);
-    this.deactivate();
-  };
-}
-```
-
-### Phase 3: Content Provider Migration
-
-#### Generic Feature Provider
-
-```typescript
-// src/core/logical_layers/renderers/GenericFeatureProvider.ts
-class GenericFeatureProvider extends ContentProvider {
-  readonly id = 'generic-features';
-
-  canHandle(event: MapMouseEvent): boolean {
-    const features = event.target.queryRenderedFeatures(event.point);
-    return features.length > 0;
-  }
-
-  protected generateContent(event: MapMouseEvent): React.ReactNode | null {
-    const features = event.target.queryRenderedFeatures(event.point);
-    if (features.length === 0) return null;
-
-    // Use existing tooltip generation logic
-    return this.createFeatureTooltip(features);
-  }
-
-  protected showContent(content: React.ReactNode, event: MapMouseEvent): void {
-    const popoverService = getMapPopoverService();
-    popoverService.showWithContent(
-      CoordinateConverter.mapToPage(event.point, event.target.getContainer()),
-      content,
-    );
-  }
-}
-```
-
-#### Bivariate Analysis Provider
-
-```typescript
-// src/features/bivariate_manager/BivariateContentProvider.ts
-class BivariateContentProvider extends ContentProvider {
-  readonly id = 'bivariate-analysis';
-
-  canHandle(event: MapMouseEvent): boolean {
-    // Only active when bivariate layer is visible
-    return this.isBivariateLayerActive();
-  }
-
-  protected generateContent(event: MapMouseEvent): React.ReactNode | null {
-    const features = event.target.queryRenderedFeatures(event.point);
-    const bivariateFeature = features.find(f => f.source === 'bivariate-layer');
-
-    if (!bivariateFeature) return null;
-
-    return <MapHexTooltip feature={bivariateFeature} />;
-  }
-
-  protected showContent(content: React.ReactNode, event: MapMouseEvent): void {
-    const popoverService = getMapPopoverService();
-    popoverService.showWithContent(
-      CoordinateConverter.mapToPage(event.point, event.target.getContainer()),
-      content,
-      { placement: 'top', className: 'bivariate-tooltip' }
-    );
-  }
-}
-```
-
-### Phase 4: Legacy System Removal
-
-#### Remove Global Tooltip Atom
-
-```typescript
-// ❌ REMOVE: src/core/logical_layers/atoms/currentTooltipAtom.ts
-// ❌ REMOVE: Global tooltip state management
-// ✅ REPLACE: With GenericFeatureProvider
-```
-
-#### Remove Direct MapLibre Popup Usage
-
-```typescript
-// ❌ REMOVE: Direct popup.addTo(map) calls in renderers
-// ✅ REPLACE: With content providers that use unified popover service
-```
-
-#### Remove Marker-Based Dropdown
-
-```typescript
-// ❌ REMOVE: ApplicationMapMarker for boundary selector
-// ✅ REPLACE: With BoundarySelectorProvider using popover
-```
+- **`mapListeners.ts`**: Fully replaced by the `coordinateInteractions` action.
+- **Global Tooltip Atom**: Replaced by feature-specific atoms like `popoverContentAtom`.
+- **Direct Popup Usage**: Replaced by actions that update popover state atoms.
+- **Custom Hooks/Context**: No longer necessary, replaced by standard Reatom patterns.
 
 ## Integration with ConnectedMap
 
-### Unified Service Integration
+Integration is minimal. The `ConnectedMap` component is only responsible for creating the map instance and activating the interaction coordinator.
 
 ```typescript
 // src/components/ConnectedMap/ConnectedMap.tsx
-function ConnectedMapWithUnifiedInteractions() {
-  const mapRef = useRef<ApplicationMap>();
-  const interactionService = useRef<UnifiedInteractionService>();
+import { useReatomContext } from '@reatom/npm-react';
+import { useEffect } from 'react';
+import { mapInstanceAtom, mapClicked } from 'src/core/map/interaction/atoms';
+import { coordinateInteractions } from 'src/core/map/interaction/coordinator';
+
+function ConnectedMap() {
+  const mapContainerRef = useRef<HTMLDivElement>(null);
+  const ctx = useReatomContext();
 
   useEffect(() => {
-    if (!mapRef.current) return;
+    if (!mapContainerRef.current) return;
+    const map = new ApplicationMap({ container: mapContainerRef.current });
 
-    // Initialize unified service
-    interactionService.current = new UnifiedInteractionService(mapRef.current);
+    // Provide the map instance and activate the interaction listener
+    mapInstanceAtom(ctx, map);
+    coordinateInteractions(ctx);
 
-    // Register all providers
-    const unregisterFns = [
-      // Tool providers (high priority)
-      interactionService.current.registerProvider(MapRulerProvider.createWithToolbarIntegration(), 1),
-      interactionService.current.registerProvider(new DrawToolsProvider(), 10),
-      interactionService.current.registerProvider(new BoundarySelectorProvider(), 50),
-
-      // Content providers (lower priority, cooperative)
-      interactionService.current.registerProvider(new GenericFeatureProvider(), 60),
-      interactionService.current.registerProvider(new BivariateContentProvider(), 60),
-      interactionService.current.registerProvider(new MCDAContentProvider(), 60),
-    ];
+    const clickCallback = (event: MapMouseEvent) => {
+      mapClicked(ctx, event);
+    };
+    map.on('click', clickCallback);
 
     return () => {
-      unregisterFns.forEach(fn => fn());
-      interactionService.current?.destroy();
+      map.off('click', clickCallback);
+      mapInstanceAtom(ctx, null);
+      map.remove();
     };
-  }, []);
+  }, [ctx]);
 
   return (
-    <MapPopoverProvider registry={globalRegistry}>
-      <div ref={mapRef} className="map-container" />
-    </MapPopoverProvider>
+    // PopoverProvider and other global components would go here
+    <div ref={mapContainerRef} className="map-container" />
   );
 }
 ```
 
-## Migration Strategy
+## Performance & Memory
 
-### Backward Compatibility
-
-```typescript
-// Temporary compatibility layer
-namespace LegacyInteractions {
-  /** @deprecated Use UnifiedInteractionService with providers */
-  export function registerMapListener(
-    type: 'click',
-    handler: Function,
-    priority: number,
-  ) {
-    console.warn('registerMapListener deprecated - use UnifiedInteractionService');
-    // Delegate to unified service
-  }
-
-  /** @deprecated Use ContentProvider pattern */
-  export function setCurrentTooltip(content: React.ReactNode) {
-    console.warn('currentTooltipAtom deprecated - use ContentProvider');
-    // Delegate to unified service
-  }
-}
-```
-
-## Performance Considerations
-
-### Event Processing Optimization
-
-```typescript
-class OptimizedPriorityCoordinator {
-  private sortedProviders: IMapInteractionProvider[] = [];
-  private needsSort = false;
-
-  register(provider: IMapInteractionProvider, priority: number) {
-    this.providers.set(provider, priority);
-    this.needsSort = true; // Lazy sorting
-  }
-
-  handleEvent(event: MapMouseEvent): void {
-    if (this.needsSort) {
-      this.sortProviders();
-      this.needsSort = false;
-    }
-
-    // Early exit optimization
-    for (const provider of this.sortedProviders) {
-      if (!provider.canHandle(event)) continue;
-
-      const result = provider.handle(event);
-      if (result === InteractionResult.HANDLED_EXCLUSIVE) {
-        break;
-      }
-    }
-  }
-}
-```
-
-### Memory Management
-
-```typescript
-class UnifiedInteractionService {
-  destroy() {
-    // Clean up all event listeners
-    this.map.off('click', this.handleMapClick);
-
-    // Deactivate all providers
-    this.activeProviders.forEach((provider) => {
-      provider.deactivate?.();
-    });
-
-    this.activeProviders.clear();
-    this.coordinator.clear();
-  }
-}
-```
+- **Performance**: Reatom's granular dependency tracking ensures that only the necessary atoms are recomputed and components re-rendered on state changes.
+- **Memory Management**: By setting `mapInstanceAtom` to `null` on unmount, we allow Reatom's garbage collection to clean up atoms and listeners that are no longer connected to the component tree, preventing memory leaks.
 
 ## Related Documentation
 
