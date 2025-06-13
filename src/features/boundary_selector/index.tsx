@@ -1,7 +1,6 @@
-import { boundarySelectorControl } from './control';
-import './atoms/boundaryMarkerAtom';
+import { boundarySelectorToolbarControl } from './control';
 import './atoms/boundaryRegistryAtom';
 
 export function initBoundarySelector() {
-  boundarySelectorControl.init();
+  boundarySelectorToolbarControl.init();
 }
