@@ -4,6 +4,7 @@ export const GA4_EVENTS = [
   'login_success',
   'login_failure',
   'sign_up',
+  'google_login',
 
   // Profile management events
   'profile_save',
