@@ -177,27 +177,25 @@ export class AppMetrics implements Metric {
 
       if (Object.values(this.watchList).every(Boolean)) {
         // watchList completed
-        if (name !== EVENT_MAP_IDLE) {
-          if (KONTUR_METRICS_DEBUG) {
-            console.warn('metrics waitForMapFullyRendered', this.watchList);
-          }
-          waitForMapFullyRendered(globalThis?.KONTUR_MAP, { timeout: 30000 })
-            .then(() => {
-              const timing = performance.now();
-              this.report('ready', timing);
-              const eventReadyEvent = new Event('event_ready_for_screenshot');
-              globalThis.dispatchEvent(eventReadyEvent);
-            })
-            .catch((error) => {
-              console.error('Map render detection failed:', error);
-            })
-            .finally(() => {
-              this.cleanup();
-              this.sendReports();
-            });
-
-          globalThis?.KONTUR_MAP?.triggerRepaint();
+        if (KONTUR_METRICS_DEBUG) {
+          console.warn('metrics waitForMapFullyRendered', this.watchList);
         }
+        waitForMapFullyRendered(globalThis?.KONTUR_MAP, { timeout: 30000 })
+          .then(() => {
+            const timing = performance.now();
+            this.report('ready', timing);
+            const eventReadyEvent = new Event('event_ready_for_screenshot');
+            globalThis.dispatchEvent(eventReadyEvent);
+          })
+          .catch((error) => {
+            console.error('Map render detection failed:', error);
+          })
+          .finally(() => {
+            this.cleanup();
+            this.sendReports();
+          });
+
+        globalThis?.KONTUR_MAP?.triggerRepaint();
       }
       this.report(name, timing);
     }
