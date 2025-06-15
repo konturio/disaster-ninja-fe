@@ -16,6 +16,7 @@ export const drawPolyDeckLayerConfig = {
       getFillColor: [40, 150, 20, 70],
       getLineWidth: 3,
       getLineColor: [60, 120, 20, 120],
+      lineWidthUnits: 'pixels',
     },
   },
   modeConfig: {
