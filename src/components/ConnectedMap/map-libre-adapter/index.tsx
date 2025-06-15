@@ -260,30 +260,6 @@ function MapboxMap(
     });
   }, [isochroneStyle, map, mapLoaded]);
 
-  /* Deck GL cursor updates */
-  useEffect(() => {
-    if (!map || !mapLoaded) return;
-    const deck = (map as any).__deck;
-    if (!deck || !deck.props.layers || !deck.props.layers.length) return;
-    /**
-     * ! FIXME This cause "this.state is null" error
-     * in nebula geojson editable layer, when layer not ready yet (awaiting state)
-     * TASK: #6921
-     * Delete try catch wrapper after this merged:
-     * https://github.com/uber/nebula.gl/pull/628
-     **/
-    const editableLayer = deck.props.layers[0];
-    deck.setProps({
-      getCursor: (...args) => {
-        try {
-          return editableLayer.getCursor(...args);
-        } catch (error) {
-          console.error(error);
-        }
-      },
-    });
-  }, [map, mapLoaded]);
-
   return <div className={className} ref={mapEl} />;
 }
 
