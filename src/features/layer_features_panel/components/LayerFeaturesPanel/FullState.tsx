@@ -2,21 +2,25 @@ import { Virtuoso } from 'react-virtuoso';
 import { useMemo } from 'react';
 import { InfoErrorOutline16 } from '@konturio/default-icons';
 import { Text } from '@konturio/ui-kit';
-import { LayerFeaturesCard } from '../LayerFeaturesCard';
+import { UniLayoutRenderer } from '~components/Uni/Layout/UniLayoutRenderer';
 import s from './LayerFeaturesPanel.module.css';
-import type { FeatureCardCfg } from '../CardElements';
+import type { Feature } from 'geojson';
+
+export interface FullStateProps {
+  featuresList: Feature[];
+  currentFeatureId: number | null;
+  listInfoText?: string;
+  onClick: (id: number, feature: Feature) => void;
+  layout: any;
+}
 
 export function FullState({
   featuresList,
   currentFeatureId,
   listInfoText,
   onClick,
-}: {
-  featuresList: FeatureCardCfg[];
-  currentFeatureId: number | null;
-  listInfoText?: string;
-  onClick: (id: number, feature: FeatureCardCfg) => void;
-}) {
+  layout,
+}: FullStateProps) {
   const currentFeatureIndex = useMemo(() => {
     if (!currentFeatureId) return 0;
     if (featuresList === null || featuresList.length === 0) return 0;
@@ -37,12 +41,9 @@ export function FullState({
           data={featuresList}
           initialTopMostItemIndex={currentFeatureIndex}
           itemContent={(index, feature) => (
-            <LayerFeaturesCard
-              key={feature.id}
-              feature={feature}
-              isActive={index === currentFeatureId}
-              onClick={() => onClick(index, feature)}
-            />
+            <div key={index} onClick={() => onClick(index, feature)}>
+              <UniLayoutRenderer node={layout} data={{ ...feature, active: index === currentFeatureId }} />
+            </div>
           )}
         />
         <div className={s.height100vh}></div>
