@@ -27,7 +27,17 @@ export interface StageConfigLegacy {
 }
 
 export async function getStageConfig(): Promise<StageConfig> {
-  const response = await fetch(`${import.meta.env?.BASE_URL}config/appconfig.json`);
+  let response: Response;
+  try {
+    response = await fetch(`${import.meta.env?.BASE_URL}config/appconfig.json`);
+  } catch (e) {
+    throw new Error(`Failed to load stage config: ${String(e)}`);
+  }
+  if (!response.ok) {
+    throw new Error(
+      `Failed to load stage config: ${response.status} ${response.statusText}`,
+    );
+  }
   const c = (await response.json()) as StageConfigLegacy;
   // TODO - reformat configs to new case
   return {
