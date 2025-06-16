@@ -1,5 +1,6 @@
 import { expect, test, describe } from 'vitest';
 import { URLDataInSearchEncoder } from './dataInURLEncoder';
+import { urlEncoder } from './encoder';
 
 describe('Decode search query components', () => {
   test('With custom transformers', () => {
@@ -91,4 +92,9 @@ test('Work without losses', () => {
   });
 
   expect(codec.decode(codec.encode(data))).toStrictEqual(data);
+});
+
+test('Coordinates with absolute value < 0.001 are converted to 0.000', () => {
+  const data = urlEncoder.encode({ map: [2, -0.0001, 0.00004] });
+  expect(data).toBe('map=3.000/0.000/0.000');
 });

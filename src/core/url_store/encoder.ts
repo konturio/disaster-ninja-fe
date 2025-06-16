@@ -20,11 +20,14 @@ export const urlEncoder = new URLDataInSearchEncoder({
       encode: (position: MapPosition): string => {
         const [zoom, lat, lng] = position;
         const precision = Math.max(3, Math.ceil(Math.log(zoom) / Math.LN2));
+        const formatCoordinate = (n: number) => {
+          const fixedPointNumber = Number(n.toFixed(precision));
+          return (fixedPointNumber === -0 ? 0 : fixedPointNumber).toFixed(precision);
+        };
         return [
           (zoom + URL_ZOOM_OFFSET).toFixed(3),
-          // Add + 0 to normalize -0/+0 before formatting
-          (lat + 0).toFixed(precision),
-          (lng + 0).toFixed(precision),
+          formatCoordinate(lat),
+          formatCoordinate(lng),
         ].join('/');
       },
     },
