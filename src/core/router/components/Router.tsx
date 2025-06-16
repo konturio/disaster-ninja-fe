@@ -92,6 +92,7 @@ function initRouter() {
       basename: configRepo.get().baseUrl,
     },
   );
+  const routeHasMatches = router.state.matches.length >= 2;
 
   let initialRedirect: string | false = false;
   const justLoggedIn = sessionStorage.getItem(JUST_LOGGED_IN_KEY) === 'true';
@@ -108,7 +109,7 @@ function initRouter() {
       }
     }
     initialRedirect = redirectRoute?.slug ?? defaultRoute;
-  } else if (router.state.matches.length < 2) {
+  } else if (!routeHasMatches) {
     // if we are on root /, redirect to the default child route
     // router.state.matches[0] is Layout route, router.state.matches[1] etc are the actual app pages
     initialRedirect = defaultRoute;
@@ -132,7 +133,7 @@ function initRouter() {
     !justLoggedIn &&
     isAuthenticated &&
     !isMapFeatureEnabled &&
-    router.state.matches.length < MIN_ROUTE_MATCHES
+    !routeHasMatches
   ) {
     const pricingRoute = availableRoutes.routes.find((r) => r.id === 'pricing');
     if (pricingRoute) {
