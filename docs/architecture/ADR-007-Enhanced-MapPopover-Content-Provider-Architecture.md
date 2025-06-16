@@ -16,13 +16,13 @@
 
 ## Executive Summary
 
-This ADR proposes enhancing the MapPopover content provider architecture with **shared resource optimization**, **exclusive interaction modes**, and **priority-based rendering** to address performance bottlenecks and tool integration conflicts. The core pattern shifts from independent provider queries to coordinated resource sharing through registry-mediated context distribution.
+This ADR proposes enhancing the MapPopover content provider architecture with **shared resource coordination**, **exclusive interaction modes**, and **priority-based conflict resolution** to address tool integration conflicts and rendering inconsistencies. The core pattern shifts from independent provider execution to coordinated interaction management through a mediator that handles resource sharing, conflict management, and rendering priority.
 
 ## System Architecture
 
-### Core Pattern: Registry-Mediated Context Distribution
+### Core Pattern: Interaction Mediator
 
-The architecture implements a **coordinator pattern** where the registry acts as a mediator, providing shared resources and managing provider interactions through context objects.
+The architecture implements a **mediator pattern** where the `MapPopoverInteractionMediator` coordinates provider execution, manages resource sharing, and resolves interaction conflicts through context distribution.
 
 ```mermaid
 ---
@@ -30,92 +30,117 @@ config:
   layout: elk
 ---
 graph TD
-    subgraph "Enhanced Registry Architecture"
-        A["Map Click Event"] --> B["MapPopoverContentRegistry"]
-        B --> C["Context Builder"]
-        C --> D["Resource Manager"]
+    subgraph "Interaction Mediator Architecture"
+        A["Map Click Event"] --> B["MapPopoverInteractionMediator"]
 
-        D --> E["Memoized Feature Query"]
-        D --> F["Tool State Tracker"]
-        D --> G["Priority Controller"]
+        B --> C{Exclusive Tool Active?}
+        C -->|Yes| D["Execute Exclusive Provider Only"]
+        C -->|No| E["Execute Priority Chain"]
 
-        B --> H{Exclusive Mode?}
-        H -->|Yes| I["Single Provider Render"]
-        H -->|No| J["Priority Chain Render"]
+        E --> F["Iterate Pre-Sorted Providers"]
+        F --> G["Provider Context Distribution"]
 
-        J --> K["Sort by Priority"]
-        K --> L["Provider Execution"]
-        L --> M["Content Aggregation"]
+        G --> H["Shared Resource Access"]
+        H --> I["getFeatures()"]
+        H --> J["toolState"]
+        H --> K["providerMetadata"]
 
-        I --> N["Context Distribution"]
+        D --> L["Single Provider Content"]
+        G --> M["Aggregated Content"]
+
+        L --> N["Unified Popover Result"]
         M --> N
-        N --> O["Unified Popover Content"]
 
-        classDef coordinator stroke:#00aa00,stroke-width:3px
-        classDef resource stroke:#0066cc,stroke-width:2px
-        class B,C coordinator
-        class D,E,F,G resource
+        classDef mediator stroke:#00aa00,stroke-width:3px
+        classDef exclusive stroke:#ff6600,stroke-width:2px
+        classDef shared stroke:#0066cc,stroke-width:2px
+
+        class B mediator
+        class D,L exclusive
+        class I,J,K shared
+    end
+
+    subgraph "Legend"
+        P["🟢 Mediator: Coordinates provider execution"]
+        Q["🟠 Exclusive: Tool-based single provider mode"]
+        R["🔵 Shared: Resource distribution to providers"]
     end
 ```
 
 ### Component Architecture
 
-**Registry**: [`MapPopoverContentRegistry.ts:1-50`](../src/core/map/popover/MapPopoverContentRegistry.ts#L1-L50)
+**Interaction Mediator**: [`MapPopoverInteractionMediator.ts:1-50`](../src/core/map/popover/MapPopoverInteractionMediator.ts#L1-L50)
 
-- Coordinates provider execution
-- Manages shared resource distribution
-- Implements exclusive mode logic
+- Coordinates provider execution based on tool state and priority
+- Distributes shared resources through context objects
+- Resolves conflicts through exclusive mode and priority ordering
 
-**Provider Context**: Shared resource interface
+**Provider Context**: Resource distribution interface
 
-- Memoized feature getter
-- Tool state information
-- Priority metadata
+- `getFeatures()`: Shared feature query results (eliminates duplicate queries)
+- `toolState`: Current active tool and exclusive mode status
+- `providerInfo`: Priority metadata and execution context
 
-**Providers**: Content generators implementing `IMapPopoverContentProvider`
+**Content Providers**: Domain-specific interaction handlers implementing `IMapPopoverContentProvider`
 
-- Domain-specific rendering logic
-- Resource consumption through context
-- Priority and exclusivity declarations
+- Consume context resources instead of direct map queries
+- Declare priority and exclusivity requirements for conflict resolution
+- Generate popover content for specific use cases (layers, tools, etc.)
 
 ### Key Architectural Patterns
 
 #### 1. Shared Resource Pattern
 
-Instead of each provider independently querying features, the registry provides a memoized getter:
+Providers consume shared resources through context instead of independent queries:
 
 ```typescript
-interface IMapPopoverProviderContext {
-  getFeatures: () => MapGeoJSONFeature[]; // Memoized query result
-  toolState: ToolStateInfo;
-  providerInfo: ProviderMetadata;
+// Provider implementation using shared context
+renderContent(context: IMapPopoverProviderContext): React.ReactNode | null {
+  const features = context.getFeatures(); // Shared result, not new query
+  const relevantFeatures = features.filter(f => f.source === this.sourceId);
+
+  if (!relevantFeatures.length) return null;
+  return <LayerTooltip feature={relevantFeatures[0]} />;
 }
 ```
 
 #### 2. Exclusive Interaction Pattern
 
-Providers can declare exclusive mode to prevent conflicts during tool operations:
+Tools can claim exclusive interaction control to prevent conflicts:
 
 ```typescript
-interface IMapPopoverContentProvider {
-  readonly isExclusive: boolean;
-  readonly priority: number;
-  readonly toolId?: string;
+// Boundary selector tool example
+class BoundarySelectorProvider implements IMapPopoverContentProvider {
+  readonly isExclusive = true;
+  readonly priority = ProviderPriority.HIGH;
+  readonly toolId = 'boundary-selector';
+
+  renderContent(context: IMapPopoverProviderContext): React.ReactNode | null {
+    // Only renders when tool is active and in exclusive mode
+    if (!context.toolState.isExclusiveMode || context.toolState.activeToolId !== this.toolId) {
+      return null;
+    }
+
+    return <BoundarySelector coordinates={context.mapEvent.lngLat} />;
+  }
 }
 ```
 
-#### 3. Priority Chain Pattern
+#### 3. Priority-Based Conflict Resolution
 
-Non-exclusive providers execute in priority order with early termination:
+Providers execute in pre-sorted priority order with same-priority tie-breaking:
 
 ```typescript
 enum ProviderPriority {
-  CRITICAL = 1000, // System alerts
-  HIGH = 500, // Active tools
-  NORMAL = 100, // Default interactions
-  LOW = 50, // Background info
-  DEBUG = 1, // Development
+  CRITICAL = 1000, // System alerts, error states
+  HIGH = 500, // Active tools (drawing, selection)
+  NORMAL = 100, // Layer interactions, tooltips
+  LOW = 50, // Background info, debug data
+  DEBUG = 1, // Development diagnostics
 }
+
+// Same priority resolution: registration order determines execution order
+// Earlier registered provider executes first when priorities are equal
 ```
 
 ## Implementation Analysis
@@ -148,27 +173,52 @@ const context = {
 
 ### Source Filtering Enhancement
 
-**Security Fix**: Changed from `f.source.includes(sourceId)` to `f.source === sourceId`
+**Correctness Fix**: Changed from `f.source.includes(sourceId)` to `f.source === sourceId`
 
-- Prevents substring collision security issues
-- Exact matching improves filtering reliability
+- Prevents substring collision bugs (e.g., "layer-1" matching "layer-10")
+- Exact matching improves filtering reliability and prevents unintended feature matches
 
 ### Control Mechanisms
 
 **Exclusive Mode Control**:
-**Location**: [`EnhancedMapPopoverContentRegistry.ts:45-65`](../src/core/map/popover/MapPopoverContentRegistry.ts#L45-L65)
+**Location**: [`MapPopoverInteractionMediator.ts:45-65`](../src/core/map/popover/MapPopoverInteractionMediator.ts#L45-L65)
 
 ```typescript
 setExclusiveMode(providerId: string, toolId?: string): void {
   this.exclusiveProviderId = providerId;
   this.activeToolId = toolId;
+  // When exclusive mode is active, only the specified provider executes
+}
+
+// Tool state reaction - mediator listens to external tool state changes
+onToolStateChange(toolId: string, isActive: boolean): void {
+  if (isActive) {
+    const exclusiveProvider = this.findProviderByToolId(toolId);
+    if (exclusiveProvider?.isExclusive) {
+      this.setExclusiveMode(exclusiveProvider.id, toolId);
+    }
+  } else {
+    this.clearExclusiveMode();
+  }
 }
 ```
 
-**Priority-Based Execution**:
-**Location**: [`EnhancedMapPopoverContentRegistry.ts:85-110`](../src/core/map/popover/MapPopoverContentRegistry.ts#L85-L110)
+**Error Isolation and Recovery**:
+**Location**: [`MapPopoverInteractionMediator.ts:85-110`](../src/core/map/popover/MapPopoverInteractionMediator.ts#L85-L110)
 
-Providers execute in pre-sorted priority order with error isolation.
+```typescript
+// Provider execution with error boundaries
+for (const providerId of this.orderedProviderIds) {
+  try {
+    const content = provider.renderContent(context);
+    if (content) contentElements.push(content);
+  } catch (error) {
+    console.error(`Provider "${providerId}" failed:`, error);
+    // Continue to next provider - failure isolation
+    // Optional: Add fallback content for critical providers
+  }
+}
+```
 
 ### Integration Points
 
@@ -205,10 +255,10 @@ mapPopoverRegistry.register(`bivariate-${sourceId}`, this._provider);
 mapPopoverRegistry.unregister(`bivariate-${sourceId}`);
 ```
 
-**Performance Characteristics**:
+**Interaction Patterns**:
 
-- **Before**: N providers × 1 feature query each = N queries per click
-- **After**: 1 shared query + N provider executions = 1 query per click
+- **Before**: Each provider queries features independently, causing duplication
+- **After**: Single feature query shared through context distribution
 
 ## State Management Integration
 
@@ -241,8 +291,8 @@ mapPopoverRegistry.unregister(`bivariate-${sourceId}`);
 
 ❌ **Duplicate Feature Queries**: Each provider independently calls `queryRenderedFeatures()`
 ❌ **Source Filtering Inconsistency**: Mix of `includes()` and `===` for source matching
-❌ **No Tool Coordination**: Tools and layer interactions compete simultaneously
-❌ **Priority Conflicts**: No defined rendering order for competing providers
+❌ **No Tool Coordination**: Boundary selector tool shows dropdown while layer tooltips also render, creating competing popovers
+❌ **Priority Conflicts**: No defined rendering order - drawing tool popover might appear alongside layer information
 
 ### Pattern Violations
 
@@ -262,26 +312,26 @@ const features = context.getFeatures(); // Shared memoized result
 
 ### Impact Analysis
 
-**Performance Impact**: Redundant map queries in multi-provider scenarios
-**UX Impact**: Conflicting popovers when tools are active
-**Maintenance Impact**: Inconsistent source filtering creates debugging complexity
+**UX Impact**: Conflicting popovers create confusing user experience during tool operations
+**Maintenance Impact**: Inconsistent source filtering creates debugging complexity across providers
+**Architectural Impact**: No clear interaction model for tool vs layer content coordination
 
 ### Resolution Strategy
 
-✅ **Shared Resource Pattern**: Eliminate duplicate queries through memoization
-✅ **Exclusive Mode Pattern**: Tool-based interaction exclusivity
+✅ **Shared Resource Pattern**: Eliminate duplicate queries through context distribution
+✅ **Exclusive Mode Pattern**: Tool-based interaction exclusivity prevents popover conflicts
 ✅ **Exact Source Matching**: Consistent `===` filtering across all providers
-✅ **Priority System**: Pre-sorted provider execution order
+✅ **Priority System**: Pre-sorted provider execution with same-priority tie-breaking
 
 ## System Boundaries
 
-### Managed by Enhanced Registry
+### Managed by Interaction Mediator
 
-✅ **Provider Coordination**: Registration, priority, exclusive mode
-✅ **Resource Sharing**: Feature query memoization and distribution
-✅ **Tool State**: Exclusive mode activation and deactivation
-✅ **Error Isolation**: Provider failure containment
-✅ **Content Aggregation**: Multi-provider content assembly
+✅ **Provider Coordination**: Registration with priority-based ordering
+✅ **Resource Sharing**: Feature query result distribution through context
+✅ **Conflict Resolution**: Exclusive mode for tool interactions
+✅ **Error Isolation**: Provider failure containment with fallback strategies
+✅ **Content Aggregation**: Multi-provider content assembly and rendering
 
 ### Outside System Scope
 
