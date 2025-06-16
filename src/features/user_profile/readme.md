@@ -18,4 +18,4 @@ Import `LoginForm`, `SettingsForm` from feature root
 `SettingsForm` renders form for editing user profile. Changes are synced with `/users/current_user` endpoint and `currentUserAtom`
 
 Successful login stores `justLoggedIn` flag in `sessionStorage` and reloads the page.
-If the router reads `justLoggedIn` flag, it redirects the user to the first available route from `DEFAULT_POST_LOGIN_REDIRECTS` array.
+If the router reads `justLoggedIn` flag, it redirects the user to the first available route from `DEFAULT_POST_LOGIN_ROUTES` array.
