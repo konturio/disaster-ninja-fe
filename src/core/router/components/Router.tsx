@@ -18,7 +18,8 @@ import { getAbsoluteRoute } from '../getAbsoluteRoute';
 import { NAVIGATE_EVENT } from '../goTo';
 import { currentLocationAtom } from '../atoms/currentLocation';
 import { isAuthenticated, isMapFeatureEnabled } from '../routes';
-import { DEFAULT_POST_LOGIN_REDIRECTS } from '../constants';
+import { DEFAULT_POST_LOGIN_ROUTES, JUST_LOGGED_IN_KEY } from '../constants';
+import type { AppRoute } from '../types';
 
 export const routerInstance = initRouter();
 
@@ -94,14 +95,16 @@ function initRouter() {
 
   let initialRedirect: string | false = false;
   const MIN_ROUTE_MATCHES = 2; // index 0 is Layout, index 1 is the first page
-  const justLoggedIn = globalThis.sessionStorage.getItem('justLoggedIn') === 'true';
+  const justLoggedIn = sessionStorage.getItem(JUST_LOGGED_IN_KEY) === 'true';
   if (justLoggedIn) {
-    globalThis.sessionStorage.removeItem('justLoggedIn');
-    let redirectRoute: (typeof availableRoutes.routes)[number] | undefined;
-    for (const id of DEFAULT_POST_LOGIN_REDIRECTS) {
-      const candidate = availableRoutes.routes.find((r) => r.id === id && !r.disabled);
-      if (candidate) {
-        redirectRoute = candidate;
+    sessionStorage.removeItem(JUST_LOGGED_IN_KEY);
+    let redirectRoute: AppRoute | undefined;
+    for (const potentialRedirectId of DEFAULT_POST_LOGIN_ROUTES) {
+      const matchingRoute = availableRoutes.routes.find(
+        (r) => r.id === potentialRedirectId && !r.disabled,
+      );
+      if (matchingRoute) {
+        redirectRoute = matchingRoute;
         break;
       }
     }

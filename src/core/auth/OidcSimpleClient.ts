@@ -6,6 +6,7 @@ import { createApiError } from '~core/api_client/errors';
 import { autoParseBody } from '~core/api_client/utils';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import { localStorage } from '~utils/storage';
+import { JUST_LOGGED_IN_KEY } from '~core/router/constants';
 import {
   LOCALSTORAGE_AUTH_KEY,
   SESSION_STATE,
@@ -480,7 +481,7 @@ export class OidcSimpleClient {
       const loginOk = await this.login(user, password);
       if (loginOk) {
         // reload to init with authenticated config and profile
-        globalThis.sessionStorage.setItem('justLoggedIn', 'true');
+        sessionStorage.setItem(JUST_LOGGED_IN_KEY, 'true');
         location.reload();
       }
       return true;
