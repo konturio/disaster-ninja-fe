@@ -18,6 +18,7 @@ import { getAbsoluteRoute } from '../getAbsoluteRoute';
 import { NAVIGATE_EVENT } from '../goTo';
 import { currentLocationAtom } from '../atoms/currentLocation';
 import { isAuthenticated, isMapFeatureEnabled } from '../routes';
+import { DEFAULT_POST_LOGIN_REDIRECTS } from '../constants';
 
 export const routerInstance = initRouter();
 
@@ -96,9 +97,8 @@ function initRouter() {
   const justLoggedIn = globalThis.sessionStorage.getItem('justLoggedIn') === 'true';
   if (justLoggedIn) {
     globalThis.sessionStorage.removeItem('justLoggedIn');
-    const loginRedirectOrder = ['map', 'pricing', 'profile'];
     let redirectRoute: (typeof availableRoutes.routes)[number] | undefined;
-    for (const id of loginRedirectOrder) {
+    for (const id of DEFAULT_POST_LOGIN_REDIRECTS) {
       const candidate = availableRoutes.routes.find((r) => r.id === id && !r.disabled);
       if (candidate) {
         redirectRoute = candidate;
