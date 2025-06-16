@@ -22,7 +22,10 @@ export const urlEncoder = new URLDataInSearchEncoder({
         const precision = Math.max(3, Math.ceil(Math.log(zoom) / Math.LN2));
         const formatCoordinate = (n: number) => {
           const fixedPointNumber = Number(n.toFixed(precision));
-          return (fixedPointNumber === -0 ? 0 : fixedPointNumber).toFixed(precision);
+          // convert -0 to 0 if needed
+          return (Object.is(fixedPointNumber, -0) ? 0 : fixedPointNumber).toFixed(
+            precision,
+          );
         };
         return [
           (zoom + URL_ZOOM_OFFSET).toFixed(3),
