@@ -94,7 +94,6 @@ function initRouter() {
   );
 
   let initialRedirect: string | false = false;
-  const MIN_ROUTE_MATCHES = 2; // index 0 is Layout, index 1 is the first page
   const justLoggedIn = sessionStorage.getItem(JUST_LOGGED_IN_KEY) === 'true';
   if (justLoggedIn) {
     sessionStorage.removeItem(JUST_LOGGED_IN_KEY);
@@ -109,9 +108,9 @@ function initRouter() {
       }
     }
     initialRedirect = redirectRoute?.slug ?? defaultRoute;
-  } else if (router.state.matches.length < MIN_ROUTE_MATCHES) {
+  } else if (router.state.matches.length < 2) {
     // if we are on root /, redirect to the default child route
-    // router.state.matches[0] is Layout route, router.state.matches[1] etc will be actual app pages
+    // router.state.matches[0] is Layout route, router.state.matches[1] etc are the actual app pages
     initialRedirect = defaultRoute;
   }
 
