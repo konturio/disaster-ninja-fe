@@ -157,7 +157,12 @@ export class MapCanvas extends HelperBase {
       `Get viewport from application url ${args[0]?.url() || ''} and check that map data is defined and that zoom, latitude and longitude are not NaN`,
   )
   async getViewportFromUrl(page: Page = this.page) {
-    const mapData = page.url().split('map=')[1].split('&')[0];
+    const urlObj = new URL(page.url());
+    const searchMap = urlObj.searchParams.get('map');
+    // slice(1) simply removes the leading # character so that only the parameters string to be understood by URLSearchParams is left
+    const hashMap = new URLSearchParams(urlObj.hash.slice(1)).get('map');
+    const mapData = searchMap || hashMap;
+
     expect(mapData, `Check that map data (${mapData}) is defined`).toBeDefined();
 
     const [zoom, latitude, longitude] = mapData!.split('/').map(Number);
@@ -167,8 +172,8 @@ export class MapCanvas extends HelperBase {
 
     return {
       zoomInteger: Math.trunc(zoom),
-      latitudeInteger: Math.trunc(latitude),
-      longitudeInteger: Math.trunc(longitude),
+      latitudeInteger: Math.trunc(latitude) === -0 ? 0 : Math.trunc(latitude),
+      longitudeInteger: Math.trunc(longitude) === -0 ? 0 : Math.trunc(longitude),
     };
   }
 

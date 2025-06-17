@@ -10,7 +10,7 @@
   },
   {
     "name": "atlas",
-    "linkShown": "https://atlas.kontur.io",
+    "linkShown": "atlas.kontur.io",
     "url": "https://atlas.kontur.io",
     "linkValidation": {
       "shouldOpen": false

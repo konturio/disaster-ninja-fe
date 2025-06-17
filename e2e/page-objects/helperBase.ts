@@ -129,6 +129,11 @@ export class HelperBase {
       .waitFor({ state: 'visible', timeout: 20000 });
   }
 
+  /**
+   * This method closes atlas banner from intercom
+   * @param project - object with details about project to open like name, url, title, etc.
+   */
+
   async closeAtlasBanner(project: Project) {
     if (project.hasAtlasBanner) {
       await this.page.waitForSelector('[title="Intercom live chat banner"]');

@@ -11,12 +11,13 @@ const linkToSurveyProd = 'https://www.kontur.io/book-a-demo/';
 
 // Create a loop to loop over all the projects and create a test for everyone
 for (const project of projects) {
-  test(`As Guest, I can log in to ${project.title}, check that this profile is mine, and log out`, async ({
+  test(`As User with no rights, I can log in to ${project.title}, check that this profile is mine, and log out`, async ({
     pageManager,
     context,
   }) => {
     await pageManager.atBrowser.openProject(project);
     await pageManager.atNavigationMenu.clickButtonToOpenPage('Login');
+    await pageManager.atNavigationMenu.checkThereIsNoTextInNavigationMenu('Profile');
     await pageManager.atLoginPage.typeLoginPasswordAndLogin(
       process.env.EMAIL!,
       process.env.PASSWORD!,
@@ -32,10 +33,37 @@ for (const project of projects) {
         buttonName: 'Book a demo',
         expectedUrlPart: linkToSurveyProd,
       });
-      await pageManager.atNavigationMenu.clickButtonToOpenPage('Profile');
+    } else {
+      await pageManager.atMap.waitForTextBeingVisible('Toolbar');
     }
+    await pageManager.atNavigationMenu.clickButtonToOpenPage('Profile');
     await pageManager.atProfilePage.checkLogoutBtnProfileTitleAndEmail(
       process.env.EMAIL!,
+    );
+    await pageManager.atProfilePage.clickLogout();
+    pageManager.atBrowser.checkCampaignIsAutotest();
+    await pageManager.atProfilePage.checkLogoutBtnAndProfileAbsence();
+    await pageManager.atLoginPage.checkLoginAndSignupPresence();
+  });
+}
+
+for (const project of projects) {
+  test(`As User with pro rights, I can log in to ${project.title}, check that this profile is mine, and log out`, async ({
+    pageManager,
+  }) => {
+    await pageManager.atBrowser.openProject(project);
+    await pageManager.atNavigationMenu.checkThereIsNoTextInNavigationMenu('Profile');
+    await pageManager.atNavigationMenu.clickButtonToOpenPage('Login');
+    await pageManager.atLoginPage.typeLoginPasswordAndLogin(
+      process.env.EMAIL_PRO!,
+      process.env.PASSWORD_PRO!,
+      { shouldSuccess: true, project },
+    );
+    pageManager.atBrowser.checkCampaignIsAutotest();
+    await pageManager.atMap.waitForTextBeingVisible('Toolbar');
+    await pageManager.atNavigationMenu.clickButtonToOpenPage('Profile');
+    await pageManager.atProfilePage.checkLogoutBtnProfileTitleAndEmail(
+      process.env.EMAIL_PRO!,
     );
     await pageManager.atProfilePage.clickLogout();
     pageManager.atBrowser.checkCampaignIsAutotest();

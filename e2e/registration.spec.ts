@@ -89,7 +89,9 @@ for (const [countryCode, fullPhone] of testedPhoneByCountry) {
       });
 
       await pageManager.atBrowser.openProject(project, { skipCookieBanner: true });
+      await pageManager.atNavigationMenu.checkThereIsNoTextInNavigationMenu('Profile');
       await pageManager.atNavigationMenu.clickButtonToOpenPage('Login');
+      await pageManager.atNavigationMenu.checkThereIsNoTextInNavigationMenu('Profile');
       await pageManager.atLoginPage.typeLoginPasswordAndLogin(email, password, {
         project,
         shouldSuccess: true,
@@ -104,9 +106,10 @@ for (const [countryCode, fullPhone] of testedPhoneByCountry) {
           buttonName: 'Book a demo',
           expectedUrlPart: 'book-a-demo',
         });
-        await pageManager.atNavigationMenu.clickButtonToOpenPage('Profile');
+      } else {
+        await pageManager.atMap.waitForTextBeingVisible('Toolbar');
       }
-
+      await pageManager.atNavigationMenu.clickButtonToOpenPage('Profile');
       await pageManager.atProfilePage.checkLogoutBtnProfileTitleAndEmail(email);
 
       const fullNameAfterRegistration =

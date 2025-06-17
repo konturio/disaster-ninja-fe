@@ -11,10 +11,6 @@ for (const project of projects) {
     pageManager,
     context,
   }) => {
-    test.fixme(
-      true,
-      'Fix https://kontur.fibery.io/Tasks/Task/Privacy-page-links-are-not-clickable-anymore-21599 to activate this test',
-    );
     await pageManager.atBrowser.openProject(project);
     await pageManager.atNavigationMenu.clickButtonToOpenPage('Privacy');
     await pageManager.atBrowser.waitForUrlToMatchPattern(/privacy/);

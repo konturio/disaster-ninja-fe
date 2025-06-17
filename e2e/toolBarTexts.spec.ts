@@ -62,7 +62,7 @@ for (const project of projects) {
       );
     } else {
       await expect(
-        await pageManager.atToolBar.getButtonByText('Measure distance'),
+        pageManager.atToolBar.getButtonByText('Measure distance'),
       ).not.toBeVisible();
     }
   });

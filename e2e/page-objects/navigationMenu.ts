@@ -14,25 +14,34 @@ export class NavigationMenu extends HelperBase {
       `Click the '${args[0]}' button in the navigation menu to open the corresponding page. The button is hovered before clicking, and a delay is added to emulate user behavior.`,
   )
   async clickButtonToOpenPage(buttonName: string, operablePage: Page = this.page) {
-    const button = operablePage
-      .getByTestId('side-bar')
-      .getByText(buttonName, { exact: true });
+    const sideBar = operablePage.getByTestId('side-bar');
+    const button = sideBar.locator('button', { hasText: buttonName }).first();
     await button.hover();
     // Delay is needed to emulate a real user click
     await button.click({ delay: 500 });
+    // Wait for animation of button to happen
+    await operablePage.waitForTimeout(500);
+    await expect(
+      button,
+      `Expect button element with text "${buttonName}" to be visible after click`,
+    ).toBeVisible();
+    await expect(
+      button,
+      `Expect button "${buttonName}" to be marked in CSS as active after clicking it`,
+    ).toHaveClass(/active/);
   }
 
   /**
    * This method checks that there is no map at navigation menu
    */
   @step(
-    () =>
-      `Verify that there is no "Map" in the navigation menu. Ensure that the sidebar is visible, and the "Map" element is not displayed.`,
+    (args) =>
+      `Verify that there is no '${args[0]}' text in the navigation menu. Ensure that the sidebar is visible, and the element with '${args[0]}' text is not displayed.`,
   )
-  async checkThereIsNoMap() {
+  async checkThereIsNoTextInNavigationMenu(text: string) {
     const sidebar = this.page.getByTestId('side-bar');
     await expect(sidebar).toBeVisible();
-    const mapElement = sidebar.getByText('Map', { exact: true });
+    const mapElement = sidebar.getByText(text, { exact: true });
     await expect(mapElement).not.toBeVisible();
   }
 }
