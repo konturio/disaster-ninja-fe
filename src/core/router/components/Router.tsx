@@ -18,6 +18,8 @@ import { getAbsoluteRoute } from '../getAbsoluteRoute';
 import { NAVIGATE_EVENT } from '../goTo';
 import { currentLocationAtom } from '../atoms/currentLocation';
 import { isAuthenticated, isMapFeatureEnabled } from '../routes';
+import { DEFAULT_POST_LOGIN_ROUTES, JUST_LOGGED_IN_KEY } from '../constants';
+import type { AppRoute } from '../types';
 
 export const routerInstance = initRouter();
 
@@ -90,12 +92,26 @@ function initRouter() {
       basename: configRepo.get().baseUrl,
     },
   );
+  const routeHasMatches = router.state.matches.length >= 2;
 
   let initialRedirect: string | false = false;
-
-  if (router.state.matches.length < 2) {
-    // if we are on root /, redirect to default child route
-    // router.state.matches[0] is Layout route, router.state.matches[1] etc will be actual app pages
+  const justLoggedIn = sessionStorage.getItem(JUST_LOGGED_IN_KEY) === 'true';
+  if (justLoggedIn) {
+    sessionStorage.removeItem(JUST_LOGGED_IN_KEY);
+    let redirectRoute: AppRoute | undefined;
+    for (const potentialRedirectId of DEFAULT_POST_LOGIN_ROUTES) {
+      const matchingRoute = availableRoutes.routes.find(
+        (r) => r.id === potentialRedirectId && !r.disabled,
+      );
+      if (matchingRoute) {
+        redirectRoute = matchingRoute;
+        break;
+      }
+    }
+    initialRedirect = redirectRoute?.slug ?? defaultRoute;
+  } else if (!routeHasMatches) {
+    // if we are on root /, redirect to the default child route
+    // router.state.matches[0] is Layout route, router.state.matches[1] etc are the actual app pages
     initialRedirect = defaultRoute;
   }
 
@@ -112,7 +128,13 @@ function initRouter() {
   // if landing redirect is not needed
   // check if user is logged in and doesn't have access to map (means no subscription)
   // and redirect to pricing page
-  if (initialRedirect === false && isAuthenticated && !isMapFeatureEnabled) {
+  if (
+    initialRedirect === false &&
+    !justLoggedIn &&
+    isAuthenticated &&
+    !isMapFeatureEnabled &&
+    !routeHasMatches
+  ) {
     const pricingRoute = availableRoutes.routes.find((r) => r.id === 'pricing');
     if (pricingRoute) {
       initialRedirect = pricingRoute.slug;
