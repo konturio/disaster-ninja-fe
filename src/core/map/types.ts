@@ -1,5 +1,6 @@
 import type { MapMouseEvent, MapGeoJSONFeature } from 'maplibre-gl';
 import type { Placement } from '@floating-ui/react';
+import type { IMap } from './providers/IMapProvider';
 
 export interface ScreenPoint {
   x: number;
@@ -102,3 +103,6 @@ export interface IMapPopoverContentRegistry {
    */
   renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null;
 }
+
+// Plugin type - can optionally return a cleanup function for unregistering listeners or freeing resources
+export type MapPlugin<TMap extends IMap = IMap> = (map: TMap) => void | (() => void);

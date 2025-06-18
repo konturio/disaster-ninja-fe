@@ -26,9 +26,7 @@ export function useMapLayers<TMap extends IMap>(
         if (previouslyAdded) {
           map.setLayoutProperty(layer.id, 'visibility', 'visible');
         } else {
-          const beforeLayer = layersOnTop.find(
-            (id) => map.getLayer(id) !== undefined && !layersOnTop.includes(layer.id),
-          );
+          const beforeLayer = layersOnTop.find((id) => map.getLayer(id) !== undefined);
 
           map.addLayer(layer, beforeLayer);
         }

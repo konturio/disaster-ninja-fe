@@ -1,6 +1,9 @@
 import React, { createContext, useContext, useState, useCallback, useMemo } from 'react';
 import { Popover, PopoverContent } from '~components/Overlays/Popover';
-import { mapEventToPageCoords } from '../utils/maplibreCoordinateUtils';
+import {
+  mapContainerToPageCoords,
+  getMapContainerRect,
+} from '../utils/maplibreCoordinateUtils';
 import type { Placement } from '@floating-ui/react';
 import type {
   ScreenPoint,
@@ -76,7 +79,8 @@ export function MapPopoverProvider({
       if (content) {
         const placement = options?.placement ?? 'top';
 
-        const pagePoint = mapEventToPageCoords(mapEvent);
+        const containerRect = getMapContainerRect(mapEvent.target);
+        const pagePoint = mapContainerToPageCoords(mapEvent.point, containerRect);
 
         setGlobalPopover({
           id: 'global',

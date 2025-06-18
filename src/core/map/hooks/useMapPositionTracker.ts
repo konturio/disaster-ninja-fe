@@ -1,6 +1,6 @@
 import { useEffect, useRef, useCallback, useMemo } from 'react';
 import { throttle } from '@github/mini-throttle';
-import { geographicToPageCoords } from '../utils/maplibreCoordinateUtils';
+import { geographicToPageCoords, wrapLongitude } from '../utils/maplibreCoordinateUtils';
 import { isValidLngLatArray } from '../utils/coordinateValidation';
 import type { Map } from 'maplibre-gl';
 import type { ScreenPoint, MapPositionTracker } from '../types';
@@ -66,8 +66,12 @@ export function useMapPositionTracker(
     (lngLat: [number, number]) => {
       if (!map) return;
 
-      if (!isValidLngLatArray(lngLat)) {
-        console.error(`Invalid coordinates for tracking: [${lngLat[0]}, ${lngLat[1]}]`);
+      const wrappedLngLat: [number, number] = [wrapLongitude(lngLat[0]), lngLat[1]];
+
+      if (!isValidLngLatArray(wrappedLngLat)) {
+        console.error(
+          `Invalid coordinates for tracking: [${wrappedLngLat[0]}, ${wrappedLngLat[1]}]`,
+        );
         return;
       }
 
@@ -75,7 +79,7 @@ export function useMapPositionTracker(
         map.off('move', handleMapMove);
       }
 
-      currentLngLatRef.current = lngLat;
+      currentLngLatRef.current = wrappedLngLat;
       map.on('move', handleMapMove);
 
       handleMapMove();

@@ -30,6 +30,6 @@ export function useMapPositionTracking<TMap extends IMap>(
       map.on('moveend', handleMove);
       return () => map.off('moveend', handleMove);
     },
-    [debounceMs, trackUserOnly],
+    [onPositionChange, debounceMs, trackUserOnly],
   );
 }

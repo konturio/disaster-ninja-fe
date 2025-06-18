@@ -7,5 +7,10 @@ import { MapPopoverContentRegistry } from './MapPopoverContentRegistry';
  * This provides a centralized coordination point for all map popup/tooltip
  * interactions while maintaining separation of concerns - each renderer
  * manages its own provider lifecycle.
+ *
+ * Storing the instance on globalThis keeps it truly singleton across HMR reloads
  */
-export const mapPopoverRegistry = new MapPopoverContentRegistry();
+const g = globalThis as any;
+export const mapPopoverRegistry: MapPopoverContentRegistry =
+  g.__kontur_mapPopoverRegistry ??
+  (g.__kontur_mapPopoverRegistry = new MapPopoverContentRegistry());

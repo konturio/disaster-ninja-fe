@@ -9,7 +9,6 @@ import type {
   MapPopoverService,
   ScreenPoint,
   MapPopoverPositionCalculator,
-  IMapPopoverContentRegistry,
 } from '../types';
 import type { Map, MapMouseEvent } from 'maplibre-gl';
 
@@ -18,7 +17,6 @@ const defaultPositionCalculator = new DefaultMapPopoverPositionCalculator();
 export interface UseMapPopoverMaplibreIntegrationOptions {
   map: Map | null;
   popoverService: MapPopoverService;
-  registry?: IMapPopoverContentRegistry;
   positionCalculator?: MapPopoverPositionCalculator;
   enabled?: boolean;
   trackingDebounceMs?: number;
@@ -33,7 +31,6 @@ export function useMapPopoverMaplibreIntegration(
   const {
     map,
     popoverService,
-    registry,
     positionCalculator = defaultPositionCalculator,
     enabled = true,
     trackingDebounceMs = 16,
@@ -83,17 +80,15 @@ export function useMapPopoverMaplibreIntegration(
       }
 
       try {
-        if (registry) {
-          const hasContent = popoverService.showWithEvent(event);
-          if (hasContent) {
-            positionTracker.startTracking([event.lngLat.lng, event.lngLat.lat]);
-          }
+        const hasContent = popoverService.showWithEvent(event);
+        if (hasContent) {
+          positionTracker.startTracking([event.lngLat.lng, event.lngLat.lat]);
         }
       } catch (error) {
         console.error('Error rendering popover content:', error);
       }
     },
-    [map, popoverService, registry, positionTracker],
+    [map, popoverService, positionTracker],
   );
 
   // Direct click event binding when enabled

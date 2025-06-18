@@ -1,8 +1,9 @@
 import { useMapPopoverService } from '~core/map/popover/MapPopoverProvider';
 import { useMapEvents } from '../hooks/useMapEvents';
-import type { MapPlugin } from './MapPlugin';
+import type { MapPlugin } from '../types';
 import type { IMap } from '../providers/IMapProvider';
 import type { IMapPopoverContentRegistry } from '~core/map/types';
+import type { MapMouseEvent } from 'maplibre-gl';
 
 interface MapPopoverPluginOptions {
   priority?: number;
@@ -19,7 +20,7 @@ export function createMapPopoverPlugin(
     useMapEvents(map, [
       {
         event: 'click',
-        handler: (event: any) => {
+        handler: (event: MapMouseEvent) => {
           if (popoverService.isOpen()) {
             popoverService.close();
             return false;

@@ -1,4 +1,4 @@
-import React from 'react';
+import { useMemo, type FC } from 'react';
 import Markdown from 'markdown-to-jsx';
 import { parseLinksAsTags } from '~utils/markdown/parser';
 import { LinkRenderer } from '~components/LinkRenderer/LinkRenderer';
@@ -9,13 +9,13 @@ interface MarkdownContentProps {
   className?: string;
 }
 
-export function MarkdownContent({ content, className }: MarkdownContentProps) {
+export const MarkdownContent: FC<MarkdownContentProps> = ({ content, className }) => {
   return (
     <Markdown
       options={{ overrides: { a: LinkRenderer } }}
       className={className || s.markdown}
     >
-      {parseLinksAsTags(content)}
+      {useMemo(() => parseLinksAsTags(content), [content])}
     </Markdown>
   );
-}
+};

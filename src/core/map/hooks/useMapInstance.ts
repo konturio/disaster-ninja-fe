@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from 'react';
+import { useEffect } from 'react';
 import { MapLibreAdapter } from '../providers/MapLibreProvider';
 import type { IMapProvider, IMap } from '../providers/IMapProvider';
 import type { Map as MapLibreMap } from 'maplibre-gl';

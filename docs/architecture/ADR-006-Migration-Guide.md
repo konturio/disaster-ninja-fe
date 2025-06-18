@@ -413,13 +413,13 @@ export function useMapPositionSync<TMap extends IMap>(map: TMap) {
 
 ### Phase 5: Plugin System
 
-**Create**: `src/core/map/plugins/MapPlugin.ts`
+**Update**: `src/core/map/types.ts` - Add MapPlugin type
 
 ```typescript
-import type { IMap } from '../providers/IMapProvider';
+import type { IMap } from './providers/IMapProvider';
 
-// Plugin is a hook function that can be called in React context
-export type MapPlugin<TMap extends IMap = IMap> = (map: TMap) => void;
+// Plugin type - can optionally return a cleanup function for unregistering listeners or freeing resources
+export type MapPlugin<TMap extends IMap = IMap> = (map: TMap) => void | (() => void);
 ```
 
 **Create**: `src/core/map/plugins/ReatomSyncPlugin.ts`
@@ -430,7 +430,7 @@ import { useMapPositionTracking } from '../hooks/useMapPositionTracking';
 import { useMapEffect } from '../hooks/useMapEffect';
 import { currentMapAtom } from '~core/shared_state/currentMap';
 import { currentMapPositionAtom } from '~core/shared_state/currentMapPosition';
-import type { MapPlugin } from './MapPlugin';
+import type { MapPlugin } from '../types';
 import type { IMap } from '../providers/IMapProvider';
 
 export function createReatomSyncPlugin(): MapPlugin {
@@ -462,7 +462,7 @@ export function createReatomSyncPlugin(): MapPlugin {
 ```typescript
 import { useMapEvents } from '../hooks/useMapEvents';
 import { useMapPopoverService } from '~core/map/popover/MapPopoverProvider';
-import type { MapPlugin } from './MapPlugin';
+import type { MapPlugin } from '../types';
 import type { IMap } from '../providers/IMapProvider';
 import type { IMapPopoverContentRegistry } from '~core/map/types';
 
@@ -540,7 +540,7 @@ import { useMemo } from 'react';
 import { useMapInstance } from './useMapInstance';
 import { useMapEvents } from './useMapEvents';
 import type { IMapProvider, IMap } from '../providers/IMapProvider';
-import type { MapPlugin } from '../plugins/MapPlugin';
+import type { MapPlugin } from '../types';
 import type { MapEventHandler } from './useMapEvents';
 
 interface UseApplicationMapConfig<TConfig> {
@@ -783,7 +783,7 @@ import { useMapInstance } from './useMapInstance';
 import { useMapEvents } from './useMapEvents';
 import { ReatomSyncPlugin } from '../plugins/ReatomSyncPlugin';
 import type { IMapProvider, IMap } from '../providers/IMapProvider';
-import type { MapPlugin } from '../plugins/MapPlugin';
+import type { MapPlugin } from '../types';
 import type { MapEventHandler } from './useMapEvents';
 
 interface UseApplicationMapConfig<TConfig> {
@@ -945,7 +945,7 @@ import { useMapInstanceSuspense } from './useMapInstanceSuspense';
 import { useMapEvents } from './useMapEvents';
 import { ReatomSyncPlugin } from '../plugins/ReatomSyncPlugin';
 import type { IMapProvider, IMap } from '../providers/IMapProvider';
-import type { MapPlugin } from '../plugins/MapPlugin';
+import type { MapPlugin } from '../types';
 import type { MapEventHandler } from './useMapEvents';
 
 interface UseApplicationMapSuspenseConfig<TConfig> {

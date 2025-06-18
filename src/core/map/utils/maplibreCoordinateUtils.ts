@@ -38,6 +38,13 @@ export function getMapContainerRect(map: Map): DOMRect {
 }
 
 /**
+ * Wraps a longitude value to the range [-180, 180].
+ */
+export function wrapLongitude(lng: number): number {
+  return ((((lng + 180) % 360) + 360) % 360) - 180;
+}
+
+/**
  * Projects geographic coordinates to screen coordinates using MapLibre GL.
  * Returns projected coordinates in the map's coordinate space.
  */
@@ -48,7 +55,10 @@ export function projectGeographicToScreen(
   const coords = Array.isArray(geographic)
     ? geographic
     : [geographic.lng, geographic.lat];
-  const projected = map.project(coords as [number, number]);
+
+  // Wrap longitude before projection
+  const wrappedCoords: [number, number] = [wrapLongitude(coords[0]), coords[1]];
+  const projected = map.project(wrappedCoords);
 
   return {
     x: projected.x,
@@ -115,9 +125,17 @@ export function geographicToPageCoords(
   config: ClampConfig = {},
 ): PagePoint {
   const containerRect = getMapContainerRect(map);
-  const projected = projectGeographicToScreen(map, geographic);
-  const clamped = clampToContainerBounds(projected, containerRect, config);
 
+  // Wrap longitude before processing
+  let wrappedGeographic: [number, number];
+  if (Array.isArray(geographic)) {
+    wrappedGeographic = [wrapLongitude(geographic[0]), geographic[1]];
+  } else {
+    wrappedGeographic = [wrapLongitude(geographic.lng), geographic.lat];
+  }
+
+  const projected = projectGeographicToScreen(map, wrappedGeographic);
+  const clamped = clampToContainerBounds(projected, containerRect, config);
   return mapContainerToPageCoords(clamped, containerRect);
 }
 
@@ -135,12 +153,4 @@ export function geographicToClampedContainerCoords(
   const clamped = clampToContainerBounds(projected, containerRect, config);
 
   return clamped as MapContainerPoint;
-}
-
-/**
- * Converts MapMouseEvent to page coordinates.
- */
-export function mapEventToPageCoords(mapEvent: MapMouseEvent): PagePoint {
-  const containerRect = getMapContainerRect(mapEvent.target);
-  return mapContainerToPageCoords(mapEvent.point, containerRect);
 }

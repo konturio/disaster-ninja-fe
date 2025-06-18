@@ -1,8 +1,8 @@
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
 import { useMapInstance } from './useMapInstance';
 import { useMapEvents } from './useMapEvents';
 import type { IMapProvider, IMap } from '../providers/IMapProvider';
-import type { MapPlugin } from '../plugins/MapPlugin';
+import type { MapPlugin } from '../types';
 import type { MapEventHandler } from './useMapEvents';
 
 interface UseApplicationMapConfig<TConfig> {
@@ -27,10 +27,22 @@ export function useApplicationMap<TConfig>({
 
   useMapEvents(map, events);
 
-  // Apply plugins - all are hook functions
-  for (const plugin of plugins) {
-    plugin(map);
-  }
+  // Apply plugins and handle cleanup functions
+  useEffect(() => {
+    const cleanupFunctions: (() => void)[] = [];
+
+    for (const plugin of plugins) {
+      const cleanup = plugin(map);
+      if (cleanup) {
+        cleanupFunctions.push(cleanup);
+      }
+    }
+
+    // Return cleanup function to run all plugin cleanups
+    return () => {
+      cleanupFunctions.forEach((cleanup) => cleanup());
+    };
+  }, [map, plugins]);
 
   return map;
 }
