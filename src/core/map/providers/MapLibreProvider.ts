@@ -64,7 +64,9 @@ export class MapLibreAdapter implements IMap {
   }
 
   removeLayer(layerId: string): void {
-    this.map.removeLayer(layerId);
+    if (this.map.getLayer(layerId)) {
+      this.map.removeLayer(layerId);
+    }
   }
 
   addSource(sourceId: string, source: any): void {
@@ -72,7 +74,9 @@ export class MapLibreAdapter implements IMap {
   }
 
   removeSource(sourceId: string): void {
-    this.map.removeSource(sourceId);
+    if (this.map.getSource(sourceId)) {
+      this.map.removeSource(sourceId);
+    }
   }
 
   getLayer(layerId: string): any {

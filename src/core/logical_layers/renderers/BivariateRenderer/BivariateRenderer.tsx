@@ -324,7 +324,14 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
 
     if (map.getLayer(this._layerId) !== undefined) {
       map.setLayoutProperty(this._layerId, 'visibility', 'none');
-      // Registry-based popovers handle their own cleanup when layer is hidden
+
+      // Unregister popover providers when layer is hidden to prevent dangling popovers
+      if (this._bivariateProvider) {
+        mapPopoverRegistry.unregister(`bivariate-${this._sourceId}`);
+      }
+      if (this._mcdaProvider) {
+        mapPopoverRegistry.unregister(`mcda-${this._sourceId}`);
+      }
     } else {
       console.warn(
         `Can't hide layer with ID: ${this._layerId}. Layer doesn't exist on the map`,
@@ -337,6 +344,17 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
 
     if (map.getLayer(this._layerId) !== undefined) {
       map.setLayoutProperty(this._layerId, 'visibility', 'visible');
+
+      // Re-register popover providers when layer becomes visible
+      if (this._bivariateProvider) {
+        mapPopoverRegistry.register(
+          `bivariate-${this._sourceId}`,
+          this._bivariateProvider,
+        );
+      }
+      if (this._mcdaProvider) {
+        mapPopoverRegistry.register(`mcda-${this._sourceId}`, this._mcdaProvider);
+      }
     } else {
       console.warn(
         `Cannot unhide layer with ID: ${this._layerId}. Layer doesn't exist on the map`,

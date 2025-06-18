@@ -1,5 +1,5 @@
 import { isFeatureVisible } from '../helpers/featureVisibilityCheck';
-import type { IMapPopoverContentProvider, MapPopoverOptions } from '~core/map/types';
+import type { IMapPopoverContentProvider } from '~core/map/types';
 import type { MapMouseEvent } from 'maplibre-gl';
 import type { LayerStyle } from '../../types/style';
 
@@ -24,7 +24,7 @@ export class ClickableFeaturesPopoverProvider implements IMapPopoverContentProvi
       .filter((f) => f.source === this.sourceId);
 
     // Don't show popup when click in empty place
-    if (!features.length || !features[0].geometry) return null;
+    if (!features.length) return null;
 
     const feature = features.find((f) => f.layer.id === this.clickableLayerId);
 

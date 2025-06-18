@@ -6,7 +6,7 @@ import { isNumber } from '~utils/common';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
 import { isFeatureVisible } from '../helpers/featureVisibilityCheck';
 import { generateMCDAPopupTable } from '../MCDARenderer/popup';
-import type { IMapPopoverContentProvider, MapPopoverOptions } from '~core/map/types';
+import type { IMapPopoverContentProvider } from '~core/map/types';
 import type { MapMouseEvent } from 'maplibre-gl';
 import type {
   BivariateLegend,
@@ -80,7 +80,7 @@ export class BivariatePopoverProvider implements IMapPopoverContentProvider {
       yDenominator,
     );
 
-    if (!xValue || !yValue) return null;
+    if (xValue == null || yValue == null) return null;
 
     const fillColor = feature.layer.paint?.['fill-color'];
     if (!fillColor) return null;
@@ -93,7 +93,9 @@ export class BivariatePopoverProvider implements IMapPopoverContentProvider {
       Number(xValue),
       Number(yValue),
     );
+
     const cellIndex = cells.findIndex((i) => i.label === cellLabel);
+    if (cellIndex === -1) return null;
 
     return (
       <MapHexTooltip

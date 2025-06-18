@@ -29,16 +29,7 @@ interface PopoverOptions {
 }
 
 function createBoundingRect(x: number, y: number): DOMRect {
-  return {
-    x,
-    y,
-    width: 0,
-    height: 0,
-    top: y,
-    left: x,
-    right: x,
-    bottom: y,
-  } as DOMRect;
+  return new DOMRect(x, y, 0, 0);
 }
 
 export function usePopover({

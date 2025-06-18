@@ -20,7 +20,6 @@ import { currentMapAtom } from '~core/shared_state/currentMap';
 import { currentMapPositionAtom } from '~core/shared_state/currentMapPosition';
 import { useMapPositionTracking } from '~core/map/hooks/useMapPositionTracking';
 import { useMapEffect } from '~core/map/hooks/useMapEffect';
-import { store } from '~core/store/store';
 import type { LayerSpecification, Map as MapLibreMap, MarkerOptions } from 'maplibre-gl';
 // temporary set generic map class to mapbox map
 // todo: change mapbox map declaration to generic map later
@@ -127,7 +126,6 @@ function MapInstance({ containerElement }: { containerElement: HTMLDivElement })
   useMapPopoverPriorityIntegration({
     map: map.underlying || map,
     popoverService,
-    registry: mapPopoverRegistry,
     priority: 55,
     enabled: true,
   });

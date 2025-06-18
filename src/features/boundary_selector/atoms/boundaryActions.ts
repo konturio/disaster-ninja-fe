@@ -2,7 +2,6 @@ import { action } from '@reatom/framework';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { FeatureCollection } from '~utils/geoJSON/helpers';
 import { focusOnGeometry } from '~core/shared_state/currentMapPosition';
-import { store } from '~core/store/store';
 import { getLocalizedFeatureName, boundarySelector } from '~utils/map/boundaries';
 import { configRepo } from '~core/config';
 import { boundarySelectorToolbarControl } from '../control';
@@ -37,17 +36,16 @@ export const selectBoundaryAction = action((ctx, boundaryId: string) => {
     boundaryName = getLocalizedFeatureName(boundaryFeature, preferredLanguage);
   }
 
-  store.dispatch([
-    boundarySelectorToolbarControl.setState('regular'),
-    focusedGeometryAtom.setFocusedGeometry(
-      {
+  ctx.schedule(() => {
+    boundarySelectorToolbarControl.setState('regular').v3action(ctx, 'regular');
+    focusedGeometryAtom.setFocusedGeometry.v3action(ctx, {
+      source: {
         type: 'boundaries',
         meta: { name: boundaryName || 'Boundary geometry' },
       },
-      boundaryGeometryFc,
-    ),
-  ]);
-
-  focusOnGeometry(ctx, boundaryGeometryFc);
-  highlightedGeometryAtom(ctx, EMPTY_GEOMETRY);
+      geometry: boundaryGeometryFc,
+    });
+    focusOnGeometry(ctx, boundaryGeometryFc);
+    highlightedGeometryAtom(ctx, EMPTY_GEOMETRY);
+  });
 }, 'selectBoundaryAction');

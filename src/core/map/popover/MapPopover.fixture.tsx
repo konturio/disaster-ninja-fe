@@ -153,11 +153,7 @@ function DefaultDemo() {
     }
   }, [map, registry, simpleProvider]);
 
-  useMapPopoverMaplibreIntegration({
-    map,
-    popoverService,
-    registry,
-  });
+  useMapPopoverMaplibreIntegration({ map, popoverService });
 
   return <div ref={mapRef} style={{ width: '100%', height: '100vh' }} />;
 }
@@ -179,11 +175,7 @@ function DebugProviderDemo() {
     }
   }, [map, registry, debugProvider]);
 
-  useMapPopoverMaplibreIntegration({
-    map,
-    popoverService,
-    registry,
-  });
+  useMapPopoverMaplibreIntegration({ map, popoverService });
 
   return <div ref={mapRef} style={{ width: '100%', height: '100vh' }} />;
 }
@@ -296,11 +288,7 @@ function HotProjectCardDemo() {
     };
   }, [map, registry, hotProjectProvider, debugProvider]);
 
-  useMapPopoverMaplibreIntegration({
-    map,
-    popoverService,
-    registry,
-  });
+  useMapPopoverMaplibreIntegration({ map, popoverService });
 
   return <div ref={mapRef} style={{ width: '100%', height: '100vh' }} />;
 }
