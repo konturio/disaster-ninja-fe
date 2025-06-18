@@ -73,7 +73,7 @@ graph TD
 
 **Location**: [`src/core/shared_state/mapListeners.ts`](../../src/core/shared_state/mapListeners.ts)
 
-The event registry uses a Reatom-based atom that can store listeners for six event types, all of which are processed by the orchestrator.
+The event registry uses a Reatom-based atom that can store listeners for six event types, only two of which are actually processed by the orchestrator.
 
 ```typescript
 export type MapListener = (event: MapLibre.MapMouseEvent, map?: MapLibre.Map) => boolean;
@@ -266,16 +266,16 @@ sequenceDiagram
 
 Based on a full codebase analysis, these are the current priority assignments:
 
-| System                    | Priority | Events                             | Location                                                                                                                                    | Stops Propagation? |
-| :------------------------ | :------- | :--------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------ | :----------------- |
-| **Map Ruler**             | 1        | `click`, `mousemove`               | [`MapRulerRenderer.ts:109`](../../src/features/map_ruler/renderers/MapRulerRenderer.ts#L109)                                                | ✅                 |
-| **Draw Tools**            | 10       | `click`, `mousemove`               | [`DrawModeRenderer.ts:181`](../../src/core/draw_tools/renderers/DrawModeRenderer.ts#L181)                                                   | ✅                 |
-| **Boundary Selector**     | 10       | `click`, `mousemove`               | [`clickCoordinatesAtom.ts:27`](../../src/features/boundary_selector/atoms/clickCoordinatesAtom.ts#L27)                                      | ✅                 |
-| **Map Popover**           | 55       | `click`, `move`                    | [`ConnectedMap.tsx`](../../src/components/ConnectedMap/ConnectedMap.tsx)                                                                    | ✅ / ❌            |
-| **Active Contributors**   | 60       | `click`, `mousemove`, `mouseleave` | [`GenericRenderer.ts:231`](../../src/core/logical_layers/renderers/GenericRenderer.ts#L231)                                                 | ❌                 |
-| **Generic Links**         | 60       | `click`                            | [`GenericRenderer.ts:248`](../../src/core/logical_layers/renderers/GenericRenderer.ts#L248)                                                 | ❌                 |
-| **Bivariate Tooltips**    | 60       | `click`, `mousemove`, `mouseleave` | [`BivariateRenderer.tsx:132`](../../src/core/logical_layers/renderers/BivariateRenderer/BivariateRenderer.tsx#L132)                         | ❌                 |
-| **Feature Hover Effects** | 60       | `click`, `mousemove`, `mouseleave` | [`ClickableFeaturesRenderer.tsx:118`](../../src/core/logical_layers/renderers/ClickableFeaturesRenderer/ClickableFeaturesRenderer.tsx#L118) | ❌                 |
+| System                    | Priority | Events                             | Location                                                                                                                                                                           | Stops Propagation? |
+| :------------------------ | :------- | :--------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :----------------- |
+| **Map Ruler**             | 1        | `click`, `mousemove`               | [`MapRulerRenderer.ts:109`](../../src/features/map_ruler/renderers/MapRulerRenderer.ts#L109)                                                                                       | ✅                 |
+| **Draw Tools**            | 10       | `click`, `mousemove`               | [`DrawModeRenderer.ts:181`](../../src/core/draw_tools/renderers/DrawModeRenderer.ts#L181)                                                                                          | ✅                 |
+| **Boundary Selector**     | 10       | `click`, `mousemove`               | [`clickCoordinatesAtom.ts:27`](../../src/features/boundary_selector/atoms/clickCoordinatesAtom.ts#L27)                                                                             | ✅                 |
+| **Map Popover**           | 55       | `click`                            | [`useMapPopoverPriorityIntegration.ts`](../../src/core/map/hooks/useMapPopoverPriorityIntegration.ts)<br/>[`ConnectedMap.tsx`](../../src/components/ConnectedMap/ConnectedMap.tsx) | ❌                 |
+| **Active Contributors**   | 60       | `click`, `mousemove`, `mouseleave` | [`GenericRenderer.ts:231`](../../src/core/logical_layers/renderers/GenericRenderer.ts#L231)                                                                                        | ❌                 |
+| **Generic Links**         | 60       | `click`                            | [`GenericRenderer.ts:248`](../../src/core/logical_layers/renderers/GenericRenderer.ts#L248)                                                                                        | ❌                 |
+| **Bivariate Tooltips**    | 60       | `click`, `mousemove`, `mouseleave` | [`BivariateRenderer.tsx:132`](../../src/core/logical_layers/renderers/BivariateRenderer/BivariateRenderer.tsx#L132)                                                                | ❌                 |
+| **Feature Hover Effects** | 60       | `click`, `mousemove`, `mouseleave` | [`ClickableFeaturesRenderer.tsx:118`](../../src/core/logical_layers/renderers/ClickableFeaturesRenderer/ClickableFeaturesRenderer.tsx#L118)                                        | ❌                 |
 
 _Note: `BivariateRenderer` and `ClickableFeaturesRenderer` now have their `mouseleave` listeners executed as `ConnectedMap` subscribes to this event._
 
@@ -380,13 +380,12 @@ The `BivariateRenderer` and `ClickableFeaturesRenderer` both register a listener
 
 - **`click`**: Primary interaction mechanism with full priority and propagation control.
 - **`mousemove`**: Used for hover effects and continuous tracking, also with full priority control.
-- **`mouseleave`**: Used for clearing hover states and ensuring visual consistency.
-- **`move`**: Used for continuous tracking and popover positioning.
-- **`movestart`**: Used for tracking map movement initiation.
-- **`moveend`**: Used for tracking map movement completion.
 
 ### Registered but Unsupported Events
 
 - **`mouseleave`**: The `mapListenersAtom` accepts these listeners, and several components register them. However, `ConnectedMap` does not have a handler for this event, so the listeners are **never executed**.
+- **`move`**: Listeners are registered, but `ConnectedMap` does not have a handler for this event, so the listeners are **never executed**.
+- **`movestart`**: Listeners are registered, but `ConnectedMap` does not have a handler for this event, so the listeners are **never executed**.
+- **`moveend`**: Listeners are registered, but `ConnectedMap` does not have a handler for this event, so the listeners are **never executed**.
 
 This investigation provides the foundational understanding needed for architectural decisions regarding the Map Event Management System and its integration patterns within the Disaster Ninja application.
