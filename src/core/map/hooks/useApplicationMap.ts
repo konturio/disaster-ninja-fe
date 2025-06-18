@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useMapInstance } from './useMapInstance';
 import { useMapEvents } from './useMapEvents';
+import type React from 'react';
 import type { IMapProvider, IMap } from '../providers/IMapProvider';
 import type { MapPlugin } from '../types';
 import type { MapEventHandler } from './useMapEvents';
@@ -14,14 +15,18 @@ interface UseApplicationMapConfig<TConfig> {
   plugins?: MapPlugin[];
 }
 
+const EMPTY_PLUGINS: MapPlugin[] = [];
+
 export function useApplicationMap<TConfig>({
   container,
   provider,
   config,
   mapId,
   events = [],
-  plugins = [],
+  plugins,
 }: UseApplicationMapConfig<TConfig>): IMap {
+  const stablePlugins = plugins ?? EMPTY_PLUGINS;
+
   // This will suspend until map is ready
   const map = useMapInstance<TConfig>(container, provider, config, mapId);
 
@@ -31,7 +36,7 @@ export function useApplicationMap<TConfig>({
   useEffect(() => {
     const cleanupFunctions: (() => void)[] = [];
 
-    for (const plugin of plugins) {
+    for (const plugin of stablePlugins) {
       const cleanup = plugin(map);
       if (cleanup) {
         cleanupFunctions.push(cleanup);
@@ -42,7 +47,7 @@ export function useApplicationMap<TConfig>({
     return () => {
       cleanupFunctions.forEach((cleanup) => cleanup());
     };
-  }, [map, plugins]);
+  }, [map, stablePlugins]);
 
   return map;
 }

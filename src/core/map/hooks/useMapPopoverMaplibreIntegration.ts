@@ -19,7 +19,7 @@ export interface UseMapPopoverMaplibreIntegrationOptions {
   popoverService: MapPopoverService;
   positionCalculator?: MapPopoverPositionCalculator;
   enabled?: boolean;
-  trackingDebounceMs?: number;
+  trackingThrottleMs?: number;
 }
 
 /**
@@ -33,7 +33,7 @@ export function useMapPopoverMaplibreIntegration(
     popoverService,
     positionCalculator = defaultPositionCalculator,
     enabled = true,
-    trackingDebounceMs = 16,
+    trackingThrottleMs = 16,
   } = options;
 
   const mapRef = useRef(map);
@@ -67,7 +67,7 @@ export function useMapPopoverMaplibreIntegration(
 
   const positionTracker = useMapPositionTracker(map, {
     onPositionChange: handlePositionChange,
-    debounceMs: trackingDebounceMs,
+    throttleMs: trackingThrottleMs,
   });
 
   const handleMapClick = useCallback(

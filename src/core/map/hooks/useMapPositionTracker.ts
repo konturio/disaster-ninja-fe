@@ -7,14 +7,14 @@ import type { ScreenPoint, MapPositionTracker } from '../types';
 
 interface UseMapPositionTrackerOptions {
   onPositionChange: (point: ScreenPoint) => void;
-  debounceMs?: number;
+  throttleMs?: number;
 }
 
 export function useMapPositionTracker(
   map: Map | null,
   options: UseMapPositionTrackerOptions,
 ): MapPositionTracker {
-  const { onPositionChange, debounceMs = 0 } = options;
+  const { onPositionChange, throttleMs = 0 } = options;
   const currentLngLatRef = useRef<[number, number] | null>(null);
   const rafIdRef = useRef<number>();
 
@@ -36,11 +36,11 @@ export function useMapPositionTracker(
       }
     };
 
-    if (debounceMs > 0) {
-      return throttle(rawUpdate, debounceMs);
+    if (throttleMs > 0) {
+      return throttle(rawUpdate, throttleMs);
     }
     return rawUpdate;
-  }, [map, onPositionChange, debounceMs]);
+  }, [map, onPositionChange, throttleMs]);
 
   const scheduleUpdate = useCallback(() => {
     if (rafIdRef.current) {
@@ -55,12 +55,12 @@ export function useMapPositionTracker(
   const handleMapMove = useCallback(() => {
     if (!map || !currentLngLatRef.current) return;
 
-    if (debounceMs > 0) {
+    if (throttleMs > 0) {
       throttledUpdatePosition();
     } else {
       scheduleUpdate();
     }
-  }, [map, debounceMs, throttledUpdatePosition, scheduleUpdate]);
+  }, [map, throttleMs, throttledUpdatePosition, scheduleUpdate]);
 
   const startTracking = useCallback(
     (lngLat: [number, number]) => {

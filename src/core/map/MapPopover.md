@@ -239,17 +239,17 @@ const throttledUpdatePosition = useMemo(() => {
   };
 
   // Strategy 1: Throttled updates for high-frequency events
-  if (debounceMs > 0) {
-    return throttle(rawUpdate, debounceMs);
+  if (throttleMs > 0) {
+    return throttle(rawUpdate, throttleMs);
   }
   // Strategy 2: RAF scheduling for smooth animations
   return rawUpdate;
-}, [map, onPositionChange, debounceMs]);
+}, [map, onPositionChange, throttleMs]);
 ```
 
 **Performance features:**
 
-- **Throttling**: Configurable `debounceMs` for high-frequency events (default: 16ms)
+- **Throttling**: Configurable `throttleMs` for high-frequency events (default: 16ms)
 - **RAF scheduling**: Uses `requestAnimationFrame` for smooth visual updates
 - **Reference stability**: Refs prevent callback recreation during tracking
 - **Cleanup management**: Cancels pending operations on unmount

@@ -152,7 +152,7 @@ function MapInstance({ containerElement }: { containerElement: HTMLDivElement })
   useMapPositionTracking(map, {
     onPositionChange: updatePosition,
     trackUserOnly: true,
-    debounceMs: 0,
+    throttleMs: 0,
   });
 
   // Global map access
@@ -178,7 +178,7 @@ function MapInstance({ containerElement }: { containerElement: HTMLDivElement })
     const mapContainer = mapInstance.getCanvasContainer();
     resizeObserver.observe(mapContainer);
 
-    return () => resizeObserver.unobserve(mapContainer);
+    return () => resizeObserver.disconnect();
   }, [map]);
 
   // Layers manager
