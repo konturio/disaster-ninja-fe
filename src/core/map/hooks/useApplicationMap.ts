@@ -1,4 +1,4 @@
-import { useMemo, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useMapInstance } from './useMapInstance';
 import { useMapEvents } from './useMapEvents';
 import type { IMapProvider, IMap } from '../providers/IMapProvider';

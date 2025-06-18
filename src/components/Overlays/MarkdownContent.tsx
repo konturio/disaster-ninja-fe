@@ -10,12 +10,14 @@ interface MarkdownContentProps {
 }
 
 export const MarkdownContent: FC<MarkdownContentProps> = ({ content, className }) => {
+  const parsed = useMemo(() => parseLinksAsTags(content), [content]);
+
   return (
     <Markdown
       options={{ overrides: { a: LinkRenderer } }}
       className={className || s.markdown}
     >
-      {useMemo(() => parseLinksAsTags(content), [content])}
+      {parsed}
     </Markdown>
   );
 };
