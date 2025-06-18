@@ -4,7 +4,6 @@ import { mapPopoverRegistry } from './popover/globalMapPopoverRegistry';
 
 export type * from './types';
 
-export { useMapPopoverPriorityIntegration } from './hooks/useMapPopoverPriorityIntegration';
 export { MapPopoverProvider, useMapPopoverService } from './popover/MapPopoverProvider';
 export { MapPopoverContentRegistry } from './popover/MapPopoverContentRegistry';
 export { mapPopoverRegistry } from './popover/globalMapPopoverRegistry';
@@ -30,23 +29,8 @@ export { isValidLngLat, isValidLngLatArray } from './utils/coordinateValidation'
 export { DefaultMapPopoverPositionCalculator } from './popover/MapPopoverPositionCalculator';
 export { useMapPopoverMaplibreIntegration } from './hooks/useMapPopoverMaplibreIntegration';
 
-// Provider layer
-export type { IMapProvider, IMap } from './providers/IMapProvider';
-export { MapLibreProvider, MapLibreAdapter } from './providers/MapLibreProvider';
-
-// Core hooks
-export { useMapInstance } from './hooks/useMapInstance';
-export { useMapEffect } from './hooks/useMapEffect';
-export { useMapEvents } from './hooks/useMapEvents';
-export { useMapPositionTracking } from './hooks/useMapPositionTracking';
-export type { MapEventHandler } from './hooks/useMapEvents';
-
-// Plugin system
-export type { MapPlugin } from './types';
-export { createMapPopoverPlugin } from './plugins/MapPopoverPlugin';
-
-// Application integration
-export { useApplicationMap } from './hooks/useApplicationMap';
+// Note: Provider layer, core hooks, plugin system, and application integration
+// abstractions removed per ADR-007 - replaced with direct MapLibre GL usage
 
 // Register debug provider if debug mode is enabled
 if (KONTUR_DEBUG) {

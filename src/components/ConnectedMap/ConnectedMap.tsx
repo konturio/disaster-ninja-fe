@@ -1,16 +1,10 @@
-import { useRef, useMemo, useEffect, Suspense, useState } from 'react';
+import { useRef, useMemo, useEffect, useCallback, Suspense, useState, memo } from 'react';
 import { useAtom, useAction } from '@reatom/react-v2';
 import { useAtom as useReatom3Atom } from '@reatom/npm-react';
+import { Map as MapLibreMap } from 'maplibre-gl';
+import { throttle } from '@github/mini-throttle';
 import { typedObjectEntries } from '~core/types/entry';
-import {
-  MapLibreProvider,
-  useApplicationMap,
-  mapPopoverRegistry,
-  useMapPopoverService,
-  MapPopoverProvider,
-  type MapEventHandler,
-} from '~core/map';
-import { useMapPopoverPriorityIntegration } from '~core/map/hooks/useMapPopoverPriorityIntegration';
+import { mapPopoverRegistry, useMapPopoverService, MapPopoverProvider } from '~core/map';
 import { mapListenersAtom } from '~core/shared_state';
 import { configRepo } from '~core/config';
 import { layersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
@@ -18,11 +12,9 @@ import { mapLibreParentsIds } from '~core/logical_layers/utils/layersOrder/mapLi
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { currentMapAtom } from '~core/shared_state/currentMap';
 import { currentMapPositionAtom } from '~core/shared_state/currentMapPosition';
-import { useMapPositionTracking } from '~core/map/hooks/useMapPositionTracking';
-import { useMapEffect } from '~core/map/hooks/useMapEffect';
-import type { LayerSpecification, Map as MapLibreMap } from 'maplibre-gl';
-// temporary set generic map class to mapbox map
-// todo: change mapbox map declaration to generic map later
+import { registerMapListener } from '~core/shared_state/mapListeners';
+import type { LayerSpecification } from 'maplibre-gl';
+
 export type ApplicationMap = MapLibreMap;
 export type ApplicationLayer = LayerSpecification;
 
@@ -32,173 +24,251 @@ const LAYERS_ON_TOP = [
   'selected-boundaries-layer',
 ];
 
+// Module-level singleton to prevent multiple map instances
+let globalMapInstance: MapLibreMap | null = null;
+
 // This component handles DOM mounting (normal React lifecycle)
 function MapContainer({ className }: { className?: string }) {
-  const [containerElement, setContainerElement] = useState<HTMLDivElement | null>(null);
-
-  return (
-    <div ref={setContainerElement} className={className}>
-      {containerElement && (
-        <Suspense fallback={null}>
-          <MapInstance containerElement={containerElement} />
-        </Suspense>
-      )}
-    </div>
-  );
-}
-
-// This component handles map loading (Suspense for async operations)
-function MapInstance({ containerElement }: { containerElement: HTMLDivElement }) {
-  const provider = useMemo(() => new MapLibreProvider(), []);
+  const [mapInstance, setMapInstance] = useState<MapLibreMap | null>(null);
   const mapBaseStyle = configRepo.get().mapBaseStyle;
+  const [currentPosition] = useReatom3Atom(currentMapPositionAtom, [], false);
 
-  // App state integration
-  const [mapListeners] = useAtom(mapListenersAtom);
+  // Reatom actions for map sync
   const setCurrentMap = useAction(currentMapAtom.setMap);
-  const resetCurrentMap = useAction(currentMapAtom.resetMap);
-  const [currentPosition, updatePosition] = useReatom3Atom(currentMapPositionAtom);
-  const popoverService = useMapPopoverService();
 
-  const events: MapEventHandler[] = useMemo(() => {
-    return typedObjectEntries(mapListeners).flatMap(([eventType, listeners]) =>
-      listeners.map(({ listener, priority }) => ({
-        event: eventType,
-        handler: (event: any) => {
-          const shouldContinue = listener(event, event.target);
-          return shouldContinue;
-        },
-        priority,
-      })),
-    );
-  }, [mapListeners]);
+  // Capture initial position once
+  const initialPosition = useRef(currentPosition);
+  if (!initialPosition.current && currentPosition) {
+    initialPosition.current = currentPosition;
+  }
 
-  // Clean map initialization with new architecture
-  const containerRef = useRef<HTMLDivElement>(containerElement);
-
-  // Include initial position in map config if available
+  // Create map config once
   const mapConfig = useMemo(() => {
     const config: any = {
       style: mapBaseStyle,
       attributionControl: false,
     };
 
-    // Apply URL position as initial map position
-    if (currentPosition) {
-      if ('bbox' in currentPosition) {
-        config.bounds = currentPosition.bbox;
+    // Apply URL position as initial map position ONLY
+    if (initialPosition.current) {
+      if ('bbox' in initialPosition.current) {
+        config.bounds = initialPosition.current.bbox;
       } else {
-        config.center = [currentPosition.lng, currentPosition.lat];
-        config.zoom = currentPosition.zoom;
+        config.center = [initialPosition.current.lng, initialPosition.current.lat];
+        config.zoom = initialPosition.current.zoom;
       }
     }
 
     return config;
-  }, [mapBaseStyle, currentPosition]);
+  }, []);
 
-  const map = useApplicationMap({
-    container: containerRef,
-    provider,
-    config: mapConfig,
-    mapId: 'main-map', // User-controlled map identity
-    events,
-    plugins: [],
-  });
-
-  // Integrate MapPopover with legacy priority system
-  useMapPopoverPriorityIntegration({
-    map: map.underlying || map,
-    popoverService,
-    priority: 55,
-    enabled: true,
-  });
-
-  // App-specific integrations using clean hook patterns
-
-  // Map instance sync
-  useMapEffect(
-    map,
-    (map) => {
-      setCurrentMap(map.underlying || map);
-      return () => resetCurrentMap();
-    },
-    [],
-  );
-
-  // Apply default extent only if no URL position was used during map creation
-  useMapEffect(
-    map,
-    (map) => {
-      const mapInstance = map.underlying;
-      if (!mapInstance) return;
-
-      // Only set default extent if no position was applied during map creation
-      if (!currentPosition) {
-        const extent = configRepo.get().extent;
-        if (extent) {
-          mapInstance.fitBounds(extent, { animate: false });
-          const center = mapInstance.getCenter();
-          updatePosition({
-            lat: center.lat,
-            lng: center.lng,
-            zoom: mapInstance.getZoom(),
-          });
+  // Create map instance directly when DOM node is ready
+  const handleRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (node && !mapInstance) {
+        // Return existing instance if available
+        if (globalMapInstance) {
+          console.warn('Reusing existing MapLibre map instance');
+          setMapInstance(globalMapInstance);
+          // Sync with Reatom atoms immediately
+          setCurrentMap(globalMapInstance);
+          return;
         }
+
+        const newMapInstance = new MapLibreMap({
+          container: node,
+          ...mapConfig,
+        });
+
+        // Store as global singleton
+        globalMapInstance = newMapInstance;
+
+        // Set up light for extrusion layers
+        newMapInstance.once('styledata', () => {
+          newMapInstance.setLight({ anchor: 'viewport', color: '#FFF', intensity: 1 });
+        });
+
+        // === ONE-TIME INITIALIZATION (moved from useEffect) ===
+
+        // Global map access
+        globalThis.KONTUR_MAP = newMapInstance;
+        newMapInstance.touchZoomRotate.disableRotation();
+        (newMapInstance as any).toJSON = () => '[Mapbox Object]';
+
+        // Auto-resize setup
+        const resizeObserver = new ResizeObserver(() => newMapInstance.resize());
+        const mapContainer = newMapInstance.getCanvasContainer();
+        resizeObserver.observe(mapContainer);
+
+        // Layers manager initialization - wait for map to load
+        newMapInstance.once('load', () => {
+          layersOrderManager.init(newMapInstance, mapLibreParentsIds, layersSettingsAtom);
+        });
+
+        // Apply default extent if no URL position was used
+        if (!initialPosition.current) {
+          const extent = configRepo.get().extent;
+          if (extent) {
+            newMapInstance.fitBounds(extent, { animate: false });
+          }
+        }
+
+        // Delayed resize for layout stability
+        setTimeout(() => {
+          requestAnimationFrame(() => newMapInstance.resize());
+        }, 1000);
+
+        // Sync with Reatom atoms immediately
+        setCurrentMap(newMapInstance);
+
+        // Store cleanup function for unmount
+        (newMapInstance as any)._cleanup = () => {
+          resizeObserver.disconnect();
+          layersOrderManager.destroy();
+          if (globalMapInstance === newMapInstance) {
+            globalMapInstance = null;
+          }
+          newMapInstance.remove();
+        };
+
+        setMapInstance(newMapInstance);
       }
     },
-    [], // Run once on map load
+    [mapInstance, mapConfig, initialPosition, setCurrentMap],
   );
 
-  // Position tracking
-  useMapPositionTracking(map, {
-    onPositionChange: updatePosition,
-    trackUserOnly: true,
-    throttleMs: 0,
-  });
+  return (
+    <div ref={handleRef} className={className}>
+      {mapInstance && <MapInstance map={mapInstance} />}
+    </div>
+  );
+}
 
-  // Global map access
+function MapInstance({ map }: { map: MapLibreMap }) {
+  const resetCurrentMap = useAction(currentMapAtom.resetMap);
+
   useEffect(() => {
-    const mapInstance = map.underlying;
-    if (mapInstance && !globalThis.KONTUR_MAP) {
-      globalThis.KONTUR_MAP = mapInstance;
-      mapInstance.touchZoomRotate.disableRotation();
-      (mapInstance as any).toJSON = () => '[Mapbox Object]';
+    return () => {
+      resetCurrentMap();
+      const cleanup = (map as any)._cleanup;
+      if (cleanup && typeof cleanup === 'function') {
+        cleanup();
+      }
+    };
+  }, [map, resetCurrentMap]);
 
-      setTimeout(() => {
-        requestAnimationFrame(() => mapInstance.resize());
-      }, 1000);
-    }
-  }, [map]);
+  return <MapIntegration map={map} />;
+}
 
-  // Auto-resize
+// handles all reactive state integration
+function MapIntegration({ map }: { map: MapLibreMap }) {
+  // App state integration
+  const [mapListeners] = useAtom(mapListenersAtom);
+  const [, updatePosition] = useReatom3Atom(currentMapPositionAtom, [], false);
+  const popoverService = useMapPopoverService();
+
+  // Apply mapListeners directly to map - single event loop with priorities
   useEffect(() => {
-    const mapInstance = map.underlying;
-    if (!mapInstance) return;
+    const handlers = new Map();
 
-    const resizeObserver = new ResizeObserver(() => mapInstance.resize());
-    const mapContainer = mapInstance.getCanvasContainer();
-    resizeObserver.observe(mapContainer);
+    typedObjectEntries(mapListeners).forEach(([eventType, listeners]) => {
+      // Sort by priority (higher priority = earlier execution)
+      const sortedListeners = listeners.sort((a, b) => b.priority - a.priority);
 
-    return () => resizeObserver.disconnect();
-  }, [map]);
+      const chainHandler = (event: any) => {
+        for (const { listener } of sortedListeners) {
+          const shouldContinue = listener(event, event.target);
+          if (!shouldContinue) break; // Priority chain stops
+        }
+      };
 
-  // Layers manager
+      map.on(eventType, chainHandler);
+      handlers.set(eventType, chainHandler);
+    });
+
+    return () => {
+      handlers.forEach((handler, eventType) => {
+        map.off(eventType, handler);
+      });
+    };
+  }, [map, mapListeners]);
+
+  // MapPopover integration via mapListenersAtom
   useEffect(() => {
-    const mapInstance = map.underlying;
-    if (!mapInstance) return;
+    // Register MapPopover listeners with standard priority
+    const unregisterClick = registerMapListener(
+      'click',
+      (event: any) => {
+        return popoverService.showWithEvent(event);
+      },
+      55,
+    );
 
-    layersOrderManager.init(mapInstance, mapLibreParentsIds, layersSettingsAtom);
-    return () => layersOrderManager.destroy();
-  }, [map]);
+    const unregisterMouseMove = registerMapListener(
+      'mousemove',
+      (event: any) => {
+        // Handle hover logic if needed
+        return true; // Continue chain
+      },
+      55,
+    );
 
-  return null; // Map renders into the container via MapLibre
+    const unregisterMove = registerMapListener(
+      'move',
+      () => {
+        // Close popover on move (extracted from MapPopoverPlugin)
+        if (popoverService.isOpen()) {
+          // popoverService.close();
+        }
+        return true;
+      },
+      1, // High priority to close early
+    );
+
+    return () => {
+      unregisterClick();
+      unregisterMouseMove();
+      unregisterMove();
+    };
+  }, [popoverService]);
+
+  // Position tracking via mapListeners system - prevents infinite loops
+  useEffect(() => {
+    const throttledHandler = throttle(() => {
+      const center = map.getCenter();
+      updatePosition({
+        lat: center.lat,
+        lng: center.lng,
+        zoom: map.getZoom(),
+      });
+    }, 100);
+
+    const unregister = registerMapListener(
+      'moveend',
+      () => {
+        throttledHandler();
+        return true; // Continue chain
+      },
+      10, // Standard priority
+    );
+
+    return unregister;
+  }, []); // NO dependencies - register once only
+
+  return null; // This component only handles integration
 }
 
 export function ConnectedMap({ className }: { className?: string }) {
-  return (
-    <MapPopoverProvider registry={mapPopoverRegistry}>
-      <Suspense fallback={<div className={className}>Loading map...</div>}>
-        <MapContainer className={className} />
-      </Suspense>
-    </MapPopoverProvider>
+  const content = useMemo(
+    () => (
+      <MapPopoverProvider registry={mapPopoverRegistry}>
+        <Suspense fallback={<div className={className}>Loading map...</div>}>
+          <MapContainer className={className} />
+        </Suspense>
+      </MapPopoverProvider>
+    ),
+    [className],
   );
+
+  return content;
 }
