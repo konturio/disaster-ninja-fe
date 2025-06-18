@@ -4,7 +4,12 @@ import { useAtom as useReatom3Atom } from '@reatom/npm-react';
 import { Map as MapLibreMap } from 'maplibre-gl';
 import { throttle } from '@github/mini-throttle';
 import { typedObjectEntries } from '~core/types/entry';
-import { mapPopoverRegistry, useMapPopoverService, MapPopoverProvider } from '~core/map';
+import {
+  mapPopoverRegistry,
+  useMapPopoverService,
+  MapPopoverProvider,
+  useMapPopoverMaplibreIntegration,
+} from '~core/map';
 import { mapListenersAtom } from '~core/shared_state';
 import { configRepo } from '~core/config';
 import { layersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
@@ -193,44 +198,13 @@ function MapIntegration({ map }: { map: MapLibreMap }) {
     };
   }, [map, mapListeners]);
 
-  // MapPopover integration via mapListenersAtom
-  useEffect(() => {
-    // Register MapPopover listeners with standard priority
-    const unregisterClick = registerMapListener(
-      'click',
-      (event: any) => {
-        return popoverService.showWithEvent(event);
-      },
-      55,
-    );
-
-    const unregisterMouseMove = registerMapListener(
-      'mousemove',
-      (event: any) => {
-        // Handle hover logic if needed
-        return true; // Continue chain
-      },
-      55,
-    );
-
-    const unregisterMove = registerMapListener(
-      'move',
-      () => {
-        // Close popover on move (extracted from MapPopoverPlugin)
-        if (popoverService.isOpen()) {
-          // popoverService.close();
-        }
-        return true;
-      },
-      1, // High priority to close early
-    );
-
-    return () => {
-      unregisterClick();
-      unregisterMouseMove();
-      unregisterMove();
-    };
-  }, [popoverService]);
+  // MapPopover integration with proper position tracking
+  useMapPopoverMaplibreIntegration({
+    map,
+    popoverService,
+    enabled: true,
+    trackingThrottleMs: 16,
+  });
 
   // Position tracking via mapListeners system - prevents infinite loops
   useEffect(() => {
