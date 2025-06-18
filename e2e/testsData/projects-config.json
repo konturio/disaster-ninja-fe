@@ -32,7 +32,7 @@
     "url": "https://disaster.ninja/active?utm_campaign=autotests",
     "title": "Disaster Ninja",
     "hasCookieBanner": true,
-    "hasAtlasBanner": true,
+    "hasAtlasBanner": false,
     "authUrl": "https://keycloak01.kontur.io/realms/kontur/protocol/openid-connect/token"
   },
   {
@@ -41,7 +41,7 @@
     "url": "https://test-apps-ninja02.konturlabs.com/active?app=58851b50-9574-4aec-a3a6-425fa18dcb54&utm_campaign=autotests",
     "title": "Disaster Ninja",
     "hasCookieBanner": true,
-    "hasAtlasBanner": true,
+    "hasAtlasBanner": false,
     "authUrl": "https://dev-keycloak.k8s-01.konturlabs.com/realms/dev/protocol/openid-connect/token"
   },
   {
@@ -50,7 +50,7 @@
     "url": "https://test-apps-ninja01.konturlabs.com/active?app=58851b50-9574-4aec-a3a6-425fa18dcb54&utm_campaign=autotests",
     "title": "Disaster Ninja",
     "hasCookieBanner": true,
-    "hasAtlasBanner": true,
+    "hasAtlasBanner": false,
     "authUrl": "https://keycloak01.konturlabs.com/realms/test/protocol/openid-connect/token"
   },
   {
@@ -59,7 +59,7 @@
     "url": "https://maps.kontur.io/active?utm_campaign=autotests",
     "title": "Smart City",
     "hasCookieBanner": true,
-    "hasAtlasBanner": true,
+    "hasAtlasBanner": false,
     "authUrl": "https://keycloak01.kontur.io/realms/kontur/protocol/openid-connect/token"
   },
   {
@@ -68,7 +68,7 @@
     "url": "https://test-apps-ninja02.konturlabs.com/active?app=634f23f5-f898-4098-a8bd-09eb7c1e1ae5&utm_campaign=autotests",
     "title": "Smart City",
     "hasCookieBanner": true,
-    "hasAtlasBanner": true,
+    "hasAtlasBanner": false,
     "authUrl": "https://dev-keycloak.k8s-01.konturlabs.com/realms/dev/protocol/openid-connect/token"
   },
   {
@@ -77,7 +77,7 @@
     "url": "https://test-apps-ninja01.konturlabs.com/active?app=634f23f5-f898-4098-a8bd-09eb7c1e1ae5&utm_campaign=autotests",
     "title": "Smart City",
     "hasCookieBanner": true,
-    "hasAtlasBanner": true,
+    "hasAtlasBanner": false,
     "authUrl": "https://keycloak01.konturlabs.com/realms/test/protocol/openid-connect/token"
   },
   {
