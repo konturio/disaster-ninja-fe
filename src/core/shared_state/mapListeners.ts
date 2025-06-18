@@ -3,24 +3,26 @@ import type * as MapLibre from 'maplibre-gl';
 
 // listener that returns `true` allows next listener to run. If returns `false`, no listeners will be executed after
 export type MapListener = (event: MapLibre.MapMouseEvent, map?: MapLibre.Map) => boolean;
+
+const MAP_EVENTS = [
+  'click',
+  'mousemove',
+  'mouseleave',
+  'move',
+  'movestart',
+  'moveend',
+] as const;
+
 type MapListenersAtomState = {
-  click: { listener: MapListener; priority: number }[];
-  mousemove: { listener: MapListener; priority: number }[];
-  mouseleave: { listener: MapListener; priority: number }[];
-  move: { listener: MapListener; priority: number }[];
-  movestart: { listener: MapListener; priority: number }[];
-  moveend: { listener: MapListener; priority: number }[];
+  [K in (typeof MAP_EVENTS)[number]]: { listener: MapListener; priority: number }[];
 };
+
 type MapEvent = keyof MapListenersAtomState;
 
-const defaultListeners = {
-  click: [],
-  mousemove: [],
-  mouseleave: [],
-  move: [],
-  movestart: [],
-  moveend: [],
-};
+const defaultListeners: MapListenersAtomState = MAP_EVENTS.reduce(
+  (acc, event) => ({ ...acc, [event]: [] }),
+  {} as MapListenersAtomState,
+);
 
 export function registerMapListener(
   eventType: MapEvent,

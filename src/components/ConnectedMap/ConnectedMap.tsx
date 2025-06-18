@@ -1,7 +1,7 @@
 import { useRef, useMemo, useEffect, Suspense, useState } from 'react';
-import { Marker } from 'maplibre-gl';
 import { useAtom, useAction } from '@reatom/react-v2';
 import { useAtom as useReatom3Atom } from '@reatom/npm-react';
+import { typedObjectEntries } from '~core/types/entry';
 import {
   MapLibreProvider,
   useApplicationMap,
@@ -20,20 +20,11 @@ import { currentMapAtom } from '~core/shared_state/currentMap';
 import { currentMapPositionAtom } from '~core/shared_state/currentMapPosition';
 import { useMapPositionTracking } from '~core/map/hooks/useMapPositionTracking';
 import { useMapEffect } from '~core/map/hooks/useMapEffect';
-import type { LayerSpecification, Map as MapLibreMap, MarkerOptions } from 'maplibre-gl';
+import type { LayerSpecification, Map as MapLibreMap } from 'maplibre-gl';
 // temporary set generic map class to mapbox map
 // todo: change mapbox map declaration to generic map later
 export type ApplicationMap = MapLibreMap;
 export type ApplicationLayer = LayerSpecification;
-
-export class ApplicationMapMarker extends Marker {
-  public readonly id: string;
-
-  public constructor(id: string, element?: HTMLElement, options?: MarkerOptions) {
-    super({ ...options, element });
-    this.id = id;
-  }
-}
 
 const LAYERS_ON_TOP = [
   'editable-layer',
@@ -68,27 +59,18 @@ function MapInstance({ containerElement }: { containerElement: HTMLDivElement })
   const [currentPosition, updatePosition] = useReatom3Atom(currentMapPositionAtom);
   const popoverService = useMapPopoverService();
 
-  const events: MapEventHandler[] = useMemo(
-    () => [
-      ...mapListeners.click.map(({ listener, priority }) => ({
-        event: 'click' as const,
+  const events: MapEventHandler[] = useMemo(() => {
+    return typedObjectEntries(mapListeners).flatMap(([eventType, listeners]) =>
+      listeners.map(({ listener, priority }) => ({
+        event: eventType,
         handler: (event: any) => {
           const shouldContinue = listener(event, event.target);
           return shouldContinue;
         },
         priority,
       })),
-      ...mapListeners.mousemove.map(({ listener, priority }) => ({
-        event: 'mousemove' as const,
-        handler: (event: any) => {
-          const shouldContinue = listener(event, event.target);
-          return shouldContinue;
-        },
-        priority,
-      })),
-    ],
-    [mapListeners],
-  );
+    );
+  }, [mapListeners]);
 
   // Clean map initialization with new architecture
   const containerRef = useRef<HTMLDivElement>(containerElement);
