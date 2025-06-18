@@ -38,7 +38,6 @@ export { MapLibreProvider, MapLibreAdapter } from './providers/MapLibreProvider'
 export { useMapInstance } from './hooks/useMapInstance';
 export { useMapEffect } from './hooks/useMapEffect';
 export { useMapEvents } from './hooks/useMapEvents';
-export { useMapLayers } from './hooks/useMapLayers';
 export { useMapPositionTracking } from './hooks/useMapPositionTracking';
 export type { MapEventHandler } from './hooks/useMapEvents';
 
