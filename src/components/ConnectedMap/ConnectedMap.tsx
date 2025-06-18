@@ -7,6 +7,7 @@ import {
   useApplicationMap,
   mapPopoverRegistry,
   useMapPopoverService,
+  MapPopoverProvider,
   type MapEventHandler,
 } from '~core/map';
 import { useMapPopoverPriorityIntegration } from '~core/map/hooks/useMapPopoverPriorityIntegration';
@@ -15,7 +16,6 @@ import { configRepo } from '~core/config';
 import { layersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
 import { mapLibreParentsIds } from '~core/logical_layers/utils/layersOrder/mapLibreParentsIds';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
-import { MapPopoverProvider } from '~core/map';
 import { currentMapAtom } from '~core/shared_state/currentMap';
 import { currentMapPositionAtom } from '~core/shared_state/currentMapPosition';
 import { useMapPositionTracking } from '~core/map/hooks/useMapPositionTracking';
