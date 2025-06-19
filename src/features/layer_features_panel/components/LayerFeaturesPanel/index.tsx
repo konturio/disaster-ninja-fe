@@ -23,6 +23,10 @@ import { AppFeature } from '~core/app/types';
 import { PanelSettingsRow } from '~components/PanelSettingsRow/PanelSettingsRow';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import {
+  UniLayoutContext,
+  useUniLayoutContextValue,
+} from '~components/Uni/Layout/UniLayoutContext';
+import {
   featuresPanelLayerId,
   currentFeatureIdAtom,
   layerFeaturesCollectionAtom,
@@ -37,16 +41,16 @@ import {
   OAM_HEADER,
   OAM_LAYER_ID,
 } from '../../constants';
+import { layerLayouts } from '../../layouts';
+import { layerFeaturesFormats } from '../../layouts/formats';
 import { FullState } from './FullState';
 import { ShortState } from './ShortState';
 import s from './LayerFeaturesPanel.module.css';
 import { EmptyState } from './EmptyState';
-import { UniLayoutContext, useUniLayoutContextValue } from '~components/Uni/Layout/UniLayoutContext';
-import { layerLayouts } from '../../layouts';
-import { layerFeaturesFormats } from '../../layouts/formats';
 import type { SheetRef } from 'react-modal-sheet';
 import type { LayerFeaturesPanelConfig } from '../../types/layerFeaturesPanel';
 import type { Feature } from 'geojson';
+import type { LayerFeature, LayerFeatureProperties } from '../../types/layerFeature';
 
 export function LayerFeaturesPanel() {
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
@@ -56,15 +60,12 @@ export function LayerFeaturesPanel() {
   const sheetRef = useRef<SheetRef>(null);
 
   const onCurrentChange = useCallback(
-    (id: number, feature: Feature) => {
+    (id: number, feature: LayerFeature) => {
       setCurrentFeatureIdAtom(id);
       scheduledAutoFocus.setFalse.dispatch();
-      const bbox =
-        (feature as any).bbox ||
-        (feature.properties as any)?.bbox ||
-        (feature.properties as any)?.aoiBBOX;
+      const bbox = feature.bbox ?? feature.properties.bbox ?? feature.properties.aoiBBOX;
       if (bbox) {
-        setMapBbox(bbox as Bbox);
+        setMapBbox(bbox);
       }
     },
     [setCurrentFeatureIdAtom, setMapBbox],
@@ -81,8 +82,9 @@ export function LayerFeaturesPanel() {
   const resetBboxFilter = useAction(resetGeometryForLayerFeatures);
 
   const [{ data: featuresList, loading }] = useAtom(layerFeaturesCollectionAtom);
+  const typedFeaturesList = featuresList as LayerFeature[] | null;
 
-  const layout = layerLayouts[featuresPanelLayerId ?? ''];
+  const layout = featuresPanelLayerId ? layerLayouts[featuresPanelLayerId] : undefined;
   const layoutContextValue = useUniLayoutContextValue({
     layout,
     customFormatsRegistry: layerFeaturesFormats,
@@ -127,37 +129,46 @@ export function LayerFeaturesPanel() {
     if (loading) {
       return <LoadingSpinner message={i18n.t('loading')} marginTop="none" />;
     }
-    if (featuresList === null || featuresList.length === 0) {
+    if (typedFeaturesList === null || typedFeaturesList.length === 0) {
       return <EmptyState />;
     }
-    const content = {
-      full: (
-        <FullState
-          featuresList={featuresList}
-          currentFeatureId={currentFeatureId}
-          onClick={onCurrentChange}
-          listInfoText={
-            featuresPanelLayerId === HOT_PROJECTS_LAYER_ID
-              ? i18n.t('layer_features_panel.listInfo')
-              : undefined
-          }
-          layout={layout}
-        />
-      ),
-      short: (
-        <ShortState
-          openFullState={openFullState}
-          feature={currentFeatureId !== null ? featuresList[currentFeatureId] : undefined}
-          layout={layout}
-        />
-      ),
-      closed: null,
-    }[panelState];
+    const content =
+      layout &&
+      {
+        full: (
+          <FullState
+            featuresList={typedFeaturesList}
+            currentFeatureId={currentFeatureId}
+            onClick={onCurrentChange}
+            listInfoText={
+              featuresPanelLayerId === HOT_PROJECTS_LAYER_ID
+                ? i18n.t('layer_features_panel.listInfo')
+                : undefined
+            }
+            layout={layout}
+          />
+        ),
+        short: (
+          <ShortState
+            openFullState={openFullState}
+            feature={
+              currentFeatureId !== null ? typedFeaturesList[currentFeatureId] : undefined
+            }
+            layout={layout}
+          />
+        ),
+        closed: null,
+      }[panelState];
 
-    return <UniLayoutContext.Provider value={layoutContextValue}>{content}</UniLayoutContext.Provider>;
+    if (!layout) return null;
+    return (
+      <UniLayoutContext.Provider value={layoutContextValue}>
+        {content}
+      </UniLayoutContext.Provider>
+    );
   }, [
     currentFeatureId,
-    featuresList,
+    typedFeaturesList,
     loading,
     onCurrentChange,
     openFullState,

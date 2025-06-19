@@ -51,5 +51,5 @@ This feature enables Layer Features panel. The panel displays a list of features
   - The Selected area is not empty.
   - The associated layer is enabled (if the layer is required to be enabled).
 
-2. [layerFeaturesCollectionAtom](./atoms/layerFeaturesCollectionAtom.ts) exposes fetched features
-3. [LayerFeaturesPanel](./components/LayerFeaturesPanel/index.tsx) renders features using the UniLayout template.
+1. [layerFeaturesCollectionAtom](./atoms/layerFeaturesCollectionAtom.ts) exposes fetched features
+2. [LayerFeaturesPanel](./components/LayerFeaturesPanel/index.tsx) renders features using the UniLayout template.
