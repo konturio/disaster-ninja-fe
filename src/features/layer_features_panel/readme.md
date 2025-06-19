@@ -49,24 +49,8 @@ This feature enables Layer Features panel. The panel displays a list of features
   - `sortOrder` - `asc`/`desc` order in which items are sorted
   - `showBboxFilterToggle` - if true, a "Filter by window view" toggle button is displayed at the top of the panel
 
-2. Create a function to transform Feature properties to `FeatureCardCfg` interface.
-3. Add a new case inside `transformFeaturesToPanelData` for the associated layer id, return the result of the function there:
-
-```ts
-function transformFeaturesToPanelData(featuresList: object): FeatureCardCfg[] {
-  switch (featuresPanelLayerId) {
-    case HOT_PROJECTS_LAYER_ID:
-      return getHotProjectsPanelData(featuresList);
-    case ACAPS_LAYER_ID:
-    case ACAPS_SIMPLE_LAYER_ID:
-      return getAcapsPanelData(featuresList);
-    /* Add the case with new the layer here */
-    default:
-      console.error(`Layer Features panel: unsupported layerId: ${featuresPanelLayerId}`);
-      return [];
-  }
-}
-```
+2. Define a UniLayout JSON description for the layer inside `src/features/layer_features_panel/layouts`.
+3. Add the layout to `layerLayouts` map.
 
 ### Bbox filter
 
@@ -82,5 +66,5 @@ When Bbox filter button is turned on, current bounding box coordinates are used 
   - The Selected area/Bbox filter is not empty (if `requiresGeometry === true`).
   - The associated layer is enabled (if `requiresEnabledLayer === true`).
 
-2. [layerFeaturesCollectionAtom](./atoms/layerFeaturesCollectionAtom.ts) transforms the data from `fetchLayerFeaturesResource` into an array of items (`FeatureCardCfg[]`)
-3. [LayerFeaturesPanel](./components/LayerFeaturesPanel/index.tsx) component renders a list of items based on data from `layerFeaturesCollectionAtom`.
+1. [layerFeaturesCollectionAtom](./atoms/layerFeaturesCollectionAtom.ts) exposes fetched features
+2. [LayerFeaturesPanel](./components/LayerFeaturesPanel/index.tsx) renders features using the UniLayout template.
