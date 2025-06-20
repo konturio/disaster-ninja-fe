@@ -1,23 +1,19 @@
-import { useRef, useMemo, useEffect, useCallback, Suspense, useState, memo } from 'react';
-import { useAtom, useAction } from '@reatom/react-v2';
-import { useAtom as useReatom3Atom } from '@reatom/npm-react';
+import { useRef, useMemo, useEffect, useCallback, Suspense, useState } from 'react';
+import { useAction } from '@reatom/react-v2';
+import { useAtom } from '@reatom/npm-react';
 import { Map as MapLibreMap } from 'maplibre-gl';
-import { throttle } from '@github/mini-throttle';
-import { typedObjectEntries } from '~core/types/entry';
 import {
   mapPopoverRegistry,
   useMapPopoverService,
   MapPopoverProvider,
   useMapPopoverMaplibreIntegration,
 } from '~core/map';
-import { mapListenersAtom } from '~core/shared_state';
 import { configRepo } from '~core/config';
 import { layersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
 import { mapLibreParentsIds } from '~core/logical_layers/utils/layersOrder/mapLibreParentsIds';
 import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { currentMapAtom } from '~core/shared_state/currentMap';
 import { currentMapPositionAtom } from '~core/shared_state/currentMapPosition';
-import { registerMapListener } from '~core/shared_state/mapListeners';
 import type { LayerSpecification } from 'maplibre-gl';
 
 export type ApplicationMap = MapLibreMap;
@@ -36,7 +32,7 @@ let globalMapInstance: MapLibreMap | null = null;
 function MapContainer({ className }: { className?: string }) {
   const [mapInstance, setMapInstance] = useState<MapLibreMap | null>(null);
   const mapBaseStyle = configRepo.get().mapBaseStyle;
-  const [currentPosition] = useReatom3Atom(currentMapPositionAtom, [], false);
+  const [currentPosition] = useAtom(currentMapPositionAtom, [], false);
 
   // Reatom actions for map sync
   const setCurrentMap = useAction(currentMapAtom.setMap);
@@ -92,8 +88,6 @@ function MapContainer({ className }: { className?: string }) {
         newMapInstance.once('styledata', () => {
           newMapInstance.setLight({ anchor: 'viewport', color: '#FFF', intensity: 1 });
         });
-
-        // === ONE-TIME INITIALIZATION (moved from useEffect) ===
 
         // Global map access
         globalThis.KONTUR_MAP = newMapInstance;
@@ -167,36 +161,7 @@ function MapInstance({ map }: { map: MapLibreMap }) {
 
 // handles all reactive state integration
 function MapIntegration({ map }: { map: MapLibreMap }) {
-  // App state integration
-  const [mapListeners] = useAtom(mapListenersAtom);
-  const [, updatePosition] = useReatom3Atom(currentMapPositionAtom, [], false);
   const popoverService = useMapPopoverService();
-
-  // Apply mapListeners directly to map - single event loop with priorities
-  useEffect(() => {
-    const handlers = new Map();
-
-    typedObjectEntries(mapListeners).forEach(([eventType, listeners]) => {
-      // Sort by priority (higher priority = earlier execution)
-      const sortedListeners = listeners.sort((a, b) => b.priority - a.priority);
-
-      const chainHandler = (event: any) => {
-        for (const { listener } of sortedListeners) {
-          const shouldContinue = listener(event, event.target);
-          if (!shouldContinue) break; // Priority chain stops
-        }
-      };
-
-      map.on(eventType, chainHandler);
-      handlers.set(eventType, chainHandler);
-    });
-
-    return () => {
-      handlers.forEach((handler, eventType) => {
-        map.off(eventType, handler);
-      });
-    };
-  }, [map, mapListeners]);
 
   // MapPopover integration with proper position tracking
   useMapPopoverMaplibreIntegration({
@@ -205,29 +170,6 @@ function MapIntegration({ map }: { map: MapLibreMap }) {
     enabled: true,
     trackingThrottleMs: 16,
   });
-
-  // Position tracking via mapListeners system - prevents infinite loops
-  useEffect(() => {
-    const throttledHandler = throttle(() => {
-      const center = map.getCenter();
-      updatePosition({
-        lat: center.lat,
-        lng: center.lng,
-        zoom: map.getZoom(),
-      });
-    }, 100);
-
-    const unregister = registerMapListener(
-      'moveend',
-      () => {
-        throttledHandler();
-        return true; // Continue chain
-      },
-      10, // Standard priority
-    );
-
-    return unregister;
-  }, []); // NO dependencies - register once only
 
   return null; // This component only handles integration
 }
