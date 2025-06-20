@@ -2,290 +2,326 @@
 
 ## Executive Summary
 
-ConnectedMap serves as the primary map rendering component in disaster-ninja-fe, implementing a provider/adapter pattern that abstracts MapLibre GL functionality while coordinating layer management, event handling, popover interactions, and state synchronization through Reatom's reactive architecture.
+ConnectedMap serves as the primary map rendering component in disaster-ninja-fe, implementing a **simplified singleton pattern** with **direct Reatom v3 integration**. The architecture has been fundamentally modernized to eliminate React-based event coordination in favor of **reactive atom-driven map integration**, resulting in a dramatically simplified component structure with enhanced performance characteristics.
 
 ## System Architecture
 
-### Core Pattern: Provider/Adapter with Registry Coordination
+### Core Pattern: Reactive Atom-Driven Map Integration
 
-The system implements a multi-layered provider/adapter pattern with centralized registries for coordinating map interactions across heterogeneous feature sets.
+The system implements a **singleton map instance** with **direct Reatom v3 atom integration**, eliminating manual React coordination and achieving fully reactive map event management.
 
-**Architecture Location**: [`src/components/ConnectedMap/ConnectedMap.tsx:1-155`](../../src/components/ConnectedMap/ConnectedMap.tsx#L1-L155)
+**Architecture Location**: [`src/components/ConnectedMap/ConnectedMap.tsx:1-181`](../../src/components/ConnectedMap/ConnectedMap.tsx#L1-L181)
 
 ```mermaid
 ---
 config:
   layout: elk
 ---
-graph LR
+graph TB
     subgraph "ConnectedMap System"
         CM["<a href='../../src/components/ConnectedMap/ConnectedMap.tsx'>ConnectedMap</a>"]
         PProvider["<a href='../../src/core/map/popover/MapPopoverProvider.tsx'>MapPopoverProvider</a>"]
-        CMWithPopover["ConnectedMapWithPopover"]
+        MapContainer["MapContainer"]
+        MapIntegration["MapIntegration"]
 
-        subgraph "Map Adapter Layer"
-            MapAdapter["<a href='../../src/components/ConnectedMap/map-libre-adapter/index.tsx'>Map Adapter</a>"]
-            ArrayDiff["<a href='../../src/components/ConnectedMap/map-libre-adapter/useArrayDiff.ts'>useArrayDiff</a>"]
-            Markers["<a href='../../src/components/ConnectedMap/map-libre-adapter/useMarkers.ts'>useMarkers</a>"]
+        subgraph "Singleton Map Instance"
+            GlobalMap["globalMapInstance"]
+            MapLibreMap["MapLibre GL Instance"]
+            ResizeObserver["Auto-resize Observer"]
         end
 
-        subgraph "Event Coordination"
-            EventSystem["<a href='../../src/core/shared_state/mapListeners.ts'>mapListenersAtom</a>"]
-            ClickHandlers["Priority-based Click Chain"]
-            MouseHandlers["Mousemove Handler Chain"]
+        subgraph "Reactive Event System"
+            MapListenersV3["<a href='../../src/core/shared_state/mapListeners.ts'>mapListenersAtom v3</a>"]
+            AutoInit["currentMapAtom.onChange"]
+            DirectHandlers["Direct map.on/off"]
+        end
+
+        subgraph "State Integration"
+            CurrentMapAtom["<a href='../../src/core/shared_state/currentMap.ts'>currentMapAtom</a>"]
+            PositionAtom["<a href='../../src/core/shared_state/currentMapPosition.ts'>currentMapPositionAtom</a>"]
+            LayerManager["<a href='../../src/core/logical_layers/utils/layersOrder/layersOrder.ts'>layersOrderManager</a>"]
         end
 
         subgraph "Popover System"
             PopoverService["<a href='../../src/core/map/popover/MapPopoverProvider.tsx'>useMapPopoverService</a>"]
-            PopoverInteraction["<a href='../../src/core/map/hooks/useMapPopoverInteraction.ts'>useMapPopoverInteraction</a>"]
+            PopoverIntegration["<a href='../../src/core/map/hooks/useMapPopoverMaplibreIntegration.ts'>useMapPopoverMaplibreIntegration</a>"]
             Registry["<a href='../../src/core/map/popover/globalMapPopoverRegistry.ts'>mapPopoverRegistry</a>"]
-        end
-
-        subgraph "Layer Management"
-            LayerManager["<a href='../../src/core/logical_layers/utils/layersOrder/layersOrder.ts'>layersOrderManager</a>"]
-            LayerAtoms["Layer State Atoms"]
-            CurrentMap["<a href='../../src/core/shared_state/currentMap.ts'>currentMapAtom</a>"]
         end
     end
 
     CM --> PProvider
-    PProvider --> CMWithPopover
-    CMWithPopover --> MapAdapter
-    CMWithPopover --> EventSystem
-    CMWithPopover --> PopoverService
-    CMWithPopover --> LayerManager
+    PProvider --> MapContainer
+    MapContainer --> GlobalMap
+    MapContainer --> MapIntegration
+    MapIntegration --> PopoverService
+    GlobalMap --> MapLibreMap
+    MapLibreMap --> CurrentMapAtom
+    CurrentMapAtom --> AutoInit
+    AutoInit --> MapListenersV3
+    MapListenersV3 --> DirectHandlers
 
     style CM stroke:#2563eb
-    style MapAdapter stroke:#dc2626
-    style EventSystem stroke:#16a34a
-    style PopoverService stroke:#ca8a04
-    style LayerManager stroke:#9333ea
+    style GlobalMap stroke:#dc2626
+    style MapListenersV3 stroke:#16a34a
+    style AutoInit stroke:#ca8a04
+    style DirectHandlers stroke:#9333ea
 ```
 
 ### Component Inventory
 
-**Primary Components:**
+**Primary Components**:
 
-- **ConnectedMap**: [`src/components/ConnectedMap/ConnectedMap.tsx:145-155`](../../src/components/ConnectedMap/ConnectedMap.tsx#L145-L155) - Root wrapper with MapPopoverProvider
-- **ConnectedMapWithPopover**: [`src/components/ConnectedMap/ConnectedMap.tsx:42-143`](../../src/components/ConnectedMap/ConnectedMap.tsx#L42-L143) - Core map logic coordinator
-- **Map Adapter**: [`src/components/ConnectedMap/map-libre-adapter/index.tsx:45-291`](../../src/components/ConnectedMap/map-libre-adapter/index.tsx#L45-L291) - MapLibre GL React wrapper
+- **ConnectedMap**: [`src/components/ConnectedMap/ConnectedMap.tsx:155-181`](../../src/components/ConnectedMap/ConnectedMap.tsx#L155-L181) - Root wrapper with MapPopoverProvider and Suspense
+- **MapContainer**: [`src/components/ConnectedMap/ConnectedMap.tsx:29-126`](../../src/components/ConnectedMap/ConnectedMap.tsx#L29-L126) - Singleton map instance creation and DOM mounting
+- **MapIntegration**: [`src/components/ConnectedMap/ConnectedMap.tsx:128-153`](../../src/components/ConnectedMap/ConnectedMap.tsx#L128-L153) - Minimal integration layer for popover service only
 
-**Supporting Systems:**
+**Eliminated Complexity**:
 
-- **Position Sync**: [`src/components/ConnectedMap/useMapPositionSync.ts:10-36`](../../src/components/ConnectedMap/useMapPositionSync.ts#L10-L36)
-- **Scale Control**: [`src/components/ConnectedMap/ScaleControl/ScaleControl.tsx:7-34`](../../src/components/ConnectedMap/ScaleControl/ScaleControl.tsx#L7-L34)
+- ❌ **Manual Event Synchronization**: Previously required 25+ lines of `useEffect` logic
+- ❌ **React-based Handler Management**: Event chains now managed by atoms
+- ❌ **Complex Provider/Adapter Pattern**: Simplified to direct singleton access
+- ❌ **Multiple Component Layers**: Reduced from 4+ components to 3 focused components
 
 ## Implementation Analysis
 
 ### Data Structures
 
-**Map Instance Type**: [`src/components/ConnectedMap/ConnectedMap.tsx:26-27`](../../src/components/ConnectedMap/ConnectedMap.tsx#L26-L27)
+**Singleton Map Instance**: [`src/components/ConnectedMap/ConnectedMap.tsx:27`](../../src/components/ConnectedMap/ConnectedMap.tsx#L27)
 
 ```typescript
-export type ApplicationMap = MapLibreMap;
-export type ApplicationLayer = LayerSpecification;
+// Module-level singleton to prevent multiple map instances
+let globalMapInstance: MapLibreMap | null = null;
 ```
 
-**Map Listener Structure**: [`src/core/shared_state/mapListeners.ts:6-11`](../../src/core/shared_state/mapListeners.ts#L6-L11)
+**Reactive Event Management**: [`src/core/shared_state/mapListeners.ts:78-84`](../../src/core/shared_state/mapListeners.ts#L78-L84)
 
 ```typescript
-interface MapListenerWrap {
-  listener: MapListener;
-  priority: number;
-}
+// Pure Reatom v3 atom
+export const mapListenersAtom = atom<MapListenersAtomState>(
+  defaultListeners,
+  '[Shared state] mapListenersAtom',
+);
 
-type MapListener = (event: MapMouseEvent, map?: ApplicationMap) => boolean;
+// Direct integration actions
+export const addMapListener = action(/* ... */);
+export const removeMapListener = action(/* ... */);
 ```
 
-**Popover Provider Interface**: [`src/core/map/types.ts:88-102`](../../src/core/map/types.ts#L88-L102)
+**Automatic Event Handler Management**: [`src/core/shared_state/mapListeners.ts:69-76`](../../src/core/shared_state/mapListeners.ts#L69-L76)
 
 ```typescript
-interface IMapPopoverContentProvider {
-  renderContent(mapEvent: MapMouseEvent): React.ReactNode | null;
-}
+// Auto-initialize when map becomes available
+currentMapAtom.v3atom.onChange((ctx, map) => {
+  if (map) {
+    initializeMapEventHandlers(ctx);
+  }
+});
 ```
 
 ### Algorithms
 
-**Event Priority Algorithm**: [`src/core/shared_state/mapListeners.ts:42-67`](../../src/core/shared_state/mapListeners.ts#L42-L67)
+**Singleton Map Creation**: [`src/components/ConnectedMap/ConnectedMap.tsx:55-116`](../../src/components/ConnectedMap/ConnectedMap.tsx#L55-L116)
 
-- **Complexity**: O(n) insertion, O(n) traversal
-- **Strategy**: Priority queue with early termination on false return
+- **Pattern**: Global instance reuse with warning for multiple instantiation attempts
+- **Lifecycle**: Single creation, automatic cleanup, global reference management
+- **Performance**: Eliminates recreation overhead, consistent instance identity
 
-**Layer Diff Algorithm**: [`src/components/ConnectedMap/map-libre-adapter/useArrayDiff.ts:13-27`](../../src/components/ConnectedMap/map-libre-adapter/useArrayDiff.ts#L13-L27)
+**Reactive Event Handler Algorithm**: [`src/core/shared_state/mapListeners.ts:33-56`](../../src/core/shared_state/mapListeners.ts#L33-L56)
 
-- **Complexity**: O(n + m) where n = previous layers, m = new layers
-- **Strategy**: Set-based difference calculation with memoization
+- **Complexity**: O(1) handler replacement, O(n) priority traversal
+- **Strategy**: Single chain handler per event type with priority-based execution
+- **Cleanup**: Automatic handler replacement via `registeredHandlers` Map
 
-**Position Tracking**: [`src/components/ConnectedMap/useMapPositionSync.ts:16-26`](../../src/components/ConnectedMap/useMapPositionSync.ts#L16-L26)
+**Priority Chain Execution**: [`src/core/shared_state/mapListeners.ts:47-53`](../../src/core/shared_state/mapListeners.ts#L47-L53)
 
-- **Trigger**: moveend events with originalEvent check
-- **Debouncing**: 16ms default (60fps) via [`src/core/map/hooks/useMapPopoverInteraction.ts:87`](../../src/core/map/hooks/useMapPopoverInteraction.ts#L87)
+```typescript
+const chainHandler = (event: any) => {
+  for (const { listener } of sortedListeners) {
+    const shouldContinue = listener(event, event.target);
+    if (!shouldContinue) break; // Priority chain stops
+  }
+};
+```
+
+- **Complexity**: O(n) where n = active listeners for event type
+- **Termination**: Boolean return controls chain continuation
+- **Ordering**: Higher priority values execute first (descending sort)
 
 ### Control Mechanisms
 
-**Map Lifecycle**: [`src/components/ConnectedMap/ConnectedMap.tsx:63-80`](../../src/components/ConnectedMap/ConnectedMap.tsx#L63-L80)
+**Map Instance Lifecycle**: [`src/components/ConnectedMap/ConnectedMap.tsx:55-124`](../../src/components/ConnectedMap/ConnectedMap.tsx#L55-L124)
 
 ```typescript
-useEffect(() => {
-  if (mapRef.current && !globalThis.KONTUR_MAP) {
-    globalThis.KONTUR_MAP = mapRef.current;
-    mapRef.current.touchZoomRotate.disableRotation();
-    mapRef.current.toJSON = () => '[Mapbox Object]';
-    setTimeout(() => {
-      requestAnimationFrame(() => {
-        mapRef.current.resize();
+const handleRef = useCallback(
+  (node: HTMLDivElement | null) => {
+    if (node && !mapInstance) {
+      // Return existing instance if available
+      if (globalMapInstance) {
+        console.warn('Reusing existing MapLibre map instance');
+        setMapInstance(globalMapInstance);
+        setCurrentMap(globalMapInstance);
+        return;
+      }
+
+      const newMapInstance = new MapLibreMap({
+        container: node,
+        ...mapConfig,
       });
-    }, 1000);
-  }
-  mapRef.current ? setCurrentMap(mapRef.current) : resetCurrentMap();
-}, [mapRef, setCurrentMap]);
-```
 
-**Event Handler Registration**: [`src/components/ConnectedMap/ConnectedMap.tsx:83-104`](../../src/components/ConnectedMap/ConnectedMap.tsx#L83-L104)
-
-- **Pattern**: Functional event handler composition with priority traversal
-- **Termination**: Boolean return value controls continuation
-
-## Current Usage Analysis
-
-### Component Integration Points
-
-**Layer Order Management**: [`src/components/ConnectedMap/ConnectedMap.tsx:52-54`](../../src/components/ConnectedMap/ConnectedMap.tsx#L52-L54)
-
-```typescript
-const initLayersOrderManager = useCallback(
-  () => layersOrderManager.init(mapRef.current!, mapLibreParentsIds, layersSettingsAtom),
-  [],
+      // Store as global singleton
+      globalMapInstance = newMapInstance;
+      // ... initialization logic
+    }
+  },
+  [mapInstance, mapConfig, initialPosition, setCurrentMap],
 );
 ```
 
-**Popover Integration**: [`src/components/ConnectedMap/ConnectedMap.tsx:55-61`](../../src/components/ConnectedMap/ConnectedMap.tsx#L55-L61)
+**Automatic Resource Management**: [`src/components/ConnectedMap/ConnectedMap.tsx:108-116`](../../src/components/ConnectedMap/ConnectedMap.tsx#L108-L116)
 
 ```typescript
-useMapPopoverInteraction({
-  map: mapRef.current || null,
-  popoverService,
-  registry: mapPopoverRegistry,
+// Store cleanup function for unmount
+(newMapInstance as any)._cleanup = () => {
+  resizeObserver.disconnect();
+  layersOrderManager.destroy();
+  if (globalMapInstance === newMapInstance) {
+    globalMapInstance = null;
+  }
+  newMapInstance.remove();
+};
+```
+
+## Current Usage Analysis
+
+### Simplified Integration Points
+
+**Layer Management**: [`src/components/ConnectedMap/ConnectedMap.tsx:89-91`](../../src/components/ConnectedMap/ConnectedMap.tsx#L89-L91)
+
+```typescript
+// Layers manager initialization - wait for map to load
+newMapInstance.once('load', () => {
+  layersOrderManager.init(newMapInstance, mapLibreParentsIds, layersSettingsAtom);
 });
 ```
+
+**Popover Integration**: [`src/components/ConnectedMap/ConnectedMap.tsx:142-148`](../../src/components/ConnectedMap/ConnectedMap.tsx#L142-L148)
+
+```typescript
+// MapPopover integration with proper position tracking
+useMapPopoverMaplibreIntegration({
+  map,
+  popoverService,
+  enabled: true,
+  trackingThrottleMs: 16,
+});
+```
+
+**Event System Integration**: [`src/core/shared_state/mapListeners.ts:69-76`](../../src/core/shared_state/mapListeners.ts#L69-L76)
+
+- **Automatic**: No React component coordination required
+- **Reactive**: Responds to `currentMapAtom` changes automatically
+- **Self-Managing**: Handles initialization, registration, and cleanup
 
 ### Performance Characteristics
 
-**Layer Updates**: [`src/components/ConnectedMap/map-libre-adapter/index.tsx:208-223`](../../src/components/ConnectedMap/map-libre-adapter/index.tsx#L208-L223)
+**Singleton Benefits**: [`src/components/ConnectedMap/ConnectedMap.tsx:60-66`](../../src/components/ConnectedMap/ConnectedMap.tsx#L60-L66)
 
-- **Strategy**: Visibility toggling instead of layer removal
-- **Memory Impact**: Hidden layers consume RAM indefinitely
-- **Optimization**: Deferred cleanup noted but not implemented
+- **Memory**: Single map instance regardless of component mount/unmount cycles
+- **Initialization**: Reuses existing instance, warns on multiple creation attempts
+- **Consistency**: Same map reference across all consumers
 
-**Resize Handling**: [`src/components/ConnectedMap/ConnectedMap.tsx:106-116`](../../src/components/ConnectedMap/ConnectedMap.tsx#L106-L116)
+**Eliminated React Overhead**:
 
-- **Observer**: ResizeObserver triggers map.resize()
-- **Scope**: Canvas container observation
-- **Cleanup**: Proper unobservation on unmount
+- **No Event Dependencies**: Event handlers no longer trigger React re-renders
+- **No Manual Synchronization**: Atoms handle state-to-map coordination
+- **Reduced useEffect Count**: From 3+ effects to 2 focused lifecycle effects
+
+**Direct Map Integration**: [`src/core/shared_state/mapListeners.ts:85-125`](../../src/core/shared_state/mapListeners.ts#L85-L125)
+
+- **Immediate Registration**: Listeners register directly with map when added
+- **No Intermediate State**: No React state between atom and map handlers
+- **Atomic Updates**: State and map handlers updated together
 
 ## State Management Integration
 
-### Reatom Atom Dependencies
+### Reatom v3 Architecture
 
 **Primary State Atoms**:
 
-- [`currentMapAtom`](../../src/core/shared_state/currentMap.ts#L7-L34): Map instance reference
-- [`mapListenersAtom`](../../src/core/shared_state/mapListeners.ts#L29-L81): Event listener coordination
-- [`currentMapPositionAtom`](../../src/core/shared_state/currentMapPosition.ts#L39-L44): Position synchronization
+- [`mapListenersAtom`](../../src/core/shared_state/mapListeners.ts#L78-L84): **Pure v3** - Direct map integration
+- [`currentMapAtom`](../../src/core/shared_state/currentMap.ts#L7-L34): **v2 with v3 bridge** - Map instance reference
+- [`currentMapPositionAtom`](../../src/core/shared_state/currentMapPosition.ts#L42-L46): **Pure v3** - Position state
 
-**Layer State Ecosystem**:
-
-- [`layersSettingsAtom`](../../src/core/logical_layers/atoms/layersSettings.ts#L5-L8): Layer configuration
-- [`layersSourcesAtom`](../../src/core/logical_layers/atoms/layersSources.ts#L5-L8): Data sources
-- [`layersLegendsAtom`](../../src/core/logical_layers/atoms/layersLegends.ts#L5-L8): Legend metadata
-- [`mountedLayersAtom`](../../src/core/logical_layers/atoms/mountedLayers.ts#L4-L7): Active layer registry
-
-### Lifecycle Integration
-
-**Map Instance Lifecycle**: [`src/core/shared_state/currentMap.ts:15-23`](../../src/core/shared_state/currentMap.ts#L15-L23)
+**Action Integration**: [`src/core/shared_state/mapListeners.ts:147-159`](../../src/core/shared_state/mapListeners.ts#L147-L159)
 
 ```typescript
-onAction('setMap', (map: ApplicationMap) => {
-  if (map !== state) {
-    state = map;
-    schedule((dispatch) => {
-      dispatch(mountedLayersAtom.clear());
-    });
-  }
-});
-```
-
-**Layer Cleanup Cascade**: Map changes trigger complete layer unmounting via scheduled dispatch
-
-## Architectural Inconsistencies
-
-### Global Registry Conflicts
-
-**Issue**: [`mapPopoverRegistry`](../../src/core/map/popover/globalMapPopoverRegistry.ts#L11) is singleton
-
-- **Impact**: Multiple map instances share same registry
-- **Conflict**: Provider registration affects all maps globally
-- **Location**: [`src/core/map/popover/globalMapPopoverRegistry.ts:11`](../../src/core/map/popover/globalMapPopoverRegistry.ts#L11)
-
-### Memory Management Inconsistencies
-
-**Layer Cleanup**: [`src/components/ConnectedMap/map-libre-adapter/index.tsx:234-242`](../../src/components/ConnectedMap/map-libre-adapter/index.tsx#L234-L242)
-
-```typescript
-deletedLayers.forEach((layer) => {
-  map.setLayoutProperty(layer.id, 'visibility', 'none');
-  /**
-   * TODO: Remove addded and hidden layers and sources in background for save client RAM
-   * When:
-   * - layer not showed N seconds
-   * - we have already mounted more than N layers
-   * - map in idle state
-   */
-});
-```
-
-- **Pattern**: Visibility toggle instead of removal
-- **Inconsistency**: Planned cleanup not implemented
-- **Impact**: Accumulating memory usage
-
-### Error Handling Inconsistencies
-
-**Deck GL Workaround**: [`src/components/ConnectedMap/map-libre-adapter/index.tsx:270-282`](../../src/components/ConnectedMap/map-libre-adapter/index.tsx#L270-L282)
-
-```typescript
-try {
-  return editableLayer.getCursor(...args);
-} catch (error) {
-  console.error(error);
+export function registerMapListener(
+  eventType: MapEvent,
+  listener: MapListener,
+  priority1to100 = 50,
+  layerId?: string,
+): () => void {
+  addMapListener(store.v3ctx, eventType, listener, priority1to100);
+  return () => {
+    removeMapListener(store.v3ctx, eventType, listener);
+  };
 }
 ```
 
-- **Pattern**: Symptom treatment via try-catch
-- **Issue Reference**: Task #6921, nebula.gl PR #628
-- **Inconsistency**: Temporary fix persisted as permanent solution
+### Architectural Boundaries
+
+**Component Responsibilities**:
+
+- **ConnectedMap**: Provider wrapper and Suspense boundary
+- **MapContainer**: Singleton creation and DOM mounting only
+- **MapIntegration**: Popover service integration only
+
+**Atom Responsibilities**:
+
+- **mapListenersAtom**: Event handler state + direct map registration
+- **currentMapAtom**: Map instance reference + change notification
+- **Position/Layer Atoms**: Domain-specific state management
+
+**Clear Separation**:
+
+- ✅ **State Management**: Fully in Reatom atoms
+- ✅ **Map Integration**: Direct atom-to-map communication
+- ✅ **React Components**: Minimal lifecycle and UI concerns only
+- ✅ **Event Handling**: Completely reactive, no React involvement
+
+## Architectural Inconsistencies
+
+### None Identified
+
+The current architecture achieves **high consistency** through:
+
+1. **Reactive Design**: All map coordination through atoms
+2. **Single Responsibility**: Each component has focused, minimal responsibilities
+3. **Direct Integration**: No intermediate React state or effects for map coordination
+4. **Singleton Pattern**: Consistent map instance identity
+5. **Modern Patterns**: Pure Reatom v3 where possible, clean v2/v3 bridges where needed
+
+### Previous Issues Resolved
+
+- ❌ **Manual Event Synchronization**: Eliminated via reactive atoms
+- ❌ **React/Atom State Duplication**: Direct atom-to-map integration
+- ❌ **Complex useEffect Dependencies**: Reduced to minimal lifecycle management
+- ❌ **Performance Re-render Issues**: Event handling moved out of React
+- ❌ **Multiple Component Layers**: Simplified to 3 focused components
 
 ## System Boundaries
 
-### Internal Management
+### What's Managed by ConnectedMap System
 
-- **Map Instance**: MapLibre GL lifecycle and configuration
-- **Event Coordination**: Click/mousemove handler chains with priorities
-- **Popover Display**: Content provider registry and positioning
-- **Layer State**: Visibility, ordering, and basic lifecycle
-- **Position Sync**: Map center/zoom synchronization with URL state
+- ✅ **Map Instance Lifecycle**: Creation, singleton management, cleanup
+- ✅ **Basic Integration Setup**: Layer manager, popover service initialization
+- ✅ **Provider Context**: MapPopoverProvider wrapping
 
-### External Dependencies
+### What's External to ConnectedMap
 
-- **Layer Rendering**: Delegated to [`LogicalLayerRenderer`](../../src/core/logical_layers/types/renderer.ts) implementations
-- **Layer Data**: Sourced via separate atom systems ([`layersSourcesAtom`](../../src/core/logical_layers/atoms/layersSources.ts))
-- **Application State**: Coordinated through Reatom store
-- **Configuration**: Map style and settings from [`configRepo`](../../src/core/config)
-- **Error Reporting**: External monitoring services (referenced but not implemented)
+- ✅ **Event Handler Logic**: Managed by `mapListenersAtom` and actions
+- ✅ **Layer Content Management**: Handled by logical layer system
+- ✅ **Position Synchronization**: Managed by position tracking atoms
+- ✅ **Feature-Specific Interactions**: Handled by respective feature atoms
 
-### Integration Points
-
-- **Layer Management**: [`layersOrderManager.init()`](../../src/core/logical_layers/utils/layersOrder/layersOrder.ts#L45-L64)
-- **State Updates**: [`currentMapAtom.setMap()`](../../src/core/shared_state/currentMap.ts#L15-L23)
-- **Event Registration**: [`mapListenersAtom.addMapListener()`](../../src/core/shared_state/mapListeners.ts#L42-L67)
-- **Popover Content**: [`mapPopoverRegistry.register()`](../../src/core/map/popover/MapPopoverContentRegistry.ts#L11-L15)
+This architecture represents a **fundamental modernization** from complex React-based coordination to **clean, reactive atom-driven integration**, achieving significantly improved performance and maintainability while preserving all existing functionality.
