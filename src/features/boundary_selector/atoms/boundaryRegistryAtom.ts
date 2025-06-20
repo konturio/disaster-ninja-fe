@@ -10,6 +10,7 @@ import {
   BOUNDARY_GEOMETRY_COLOR,
   BOUNDARY_SELECTOR_LAYER_ID,
   HOVERED_BOUNDARIES_SOURCE_ID,
+  BOUNDARY_SELECTOR_CONTROL_ID,
 } from '../constants';
 import { boundarySelectorContentProvider } from '../components/BoundarySelectorContentProvider';
 import { highlightedGeometryAtom } from './highlightedGeometry';
@@ -129,14 +130,17 @@ boundarySelectorToolbarControl.onInit((controlCtx) => {
 boundarySelectorToolbarControl.onStateChange((controlCtx, state, prevState) => {
   switch (state) {
     case 'active':
-      mapPopoverRegistry.register('boundary-selector', boundarySelectorContentProvider);
+      mapPopoverRegistry.register(
+        BOUNDARY_SELECTOR_CONTROL_ID,
+        boundarySelectorContentProvider,
+      );
       if (controlCtx.boundaryRegistryAtom)
         store.dispatch(controlCtx.boundaryRegistryAtom.start());
       break;
 
     default:
       if (prevState === 'active') {
-        mapPopoverRegistry.unregister('boundary-selector');
+        mapPopoverRegistry.unregister(BOUNDARY_SELECTOR_CONTROL_ID);
         if (controlCtx.boundaryRegistryAtom)
           store.dispatch(controlCtx.boundaryRegistryAtom.stop());
       }

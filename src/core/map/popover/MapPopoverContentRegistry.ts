@@ -51,12 +51,19 @@ export class MapPopoverContentRegistry implements IMapPopoverContentRegistry {
     }
   }
 
+  setCloseCallback(callback: (() => void) | null): void {
+    this.onCloseCallback = callback;
+  }
+
   setExclusiveMode(providerId: string, toolId?: string): void {
     this.exclusiveProviderId = providerId;
     this.currentToolState = {
       activeToolId: toolId,
       isExclusive: true,
     };
+    if (this.onCloseCallback) {
+      this.onCloseCallback();
+    }
   }
 
   clearExclusiveMode(): void {
@@ -72,44 +79,30 @@ export class MapPopoverContentRegistry implements IMapPopoverContentRegistry {
   }
 
   renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null {
-    // Clear memoized features for new render cycle
-    this.memoizedFeatures = null;
+    // Memoize features for this render cycle
+    this.memoizedFeatures = mapEvent.target.queryRenderedFeatures(mapEvent.point);
 
-    // Single feature query shared across all providers
-    const features = mapEvent.target.queryRenderedFeatures(mapEvent.point);
-    this.memoizedFeatures = features;
-
-    // Check for exclusive providers and auto-activate exclusive mode
-    for (const providerId of this.orderedProviderIds) {
-      const registration = this.providers.get(providerId);
-      if (registration?.isActive && registration.provider.isExclusive) {
-        const context = this.createProviderContext(
-          mapEvent,
-          onClose,
-          providerId,
-          registration,
-        );
-        const content = this.executeProvider(registration, context);
-        if (content) {
-          // Found exclusive provider with content - return only this
+    // Exclusive mode: execute only the exclusive provider or no one
+    if (this.currentToolState.isExclusive) {
+      if (this.exclusiveProviderId) {
+        const registration = this.providers.get(this.exclusiveProviderId);
+        if (registration) {
+          const context = this.createProviderContext(
+            mapEvent,
+            onClose,
+            this.exclusiveProviderId,
+            registration,
+          );
+          const content = this.executeProvider(registration, context);
+          // Clear memoized features after render cycle
           this.memoizedFeatures = null;
           return content;
         }
       }
-    }
-
-    // Explicit exclusive mode: execute only the explicit exclusive provider
-    if (this.currentToolState.isExclusive && this.exclusiveProviderId) {
-      const registration = this.providers.get(this.exclusiveProviderId);
-      if (registration?.isActive) {
-        const context = this.createProviderContext(
-          mapEvent,
-          onClose,
-          this.exclusiveProviderId,
-          registration,
-        );
-        return this.executeProvider(registration, context);
-      }
+      // In exclusive mode, but no matching provider found.
+      // Return null and do not process other providers.
+      this.memoizedFeatures = null;
+      return null;
     }
 
     // Normal mode: execute all providers in priority order
@@ -154,10 +147,6 @@ export class MapPopoverContentRegistry implements IMapPopoverContentRegistry {
     this.clearExclusiveMode();
     this.registrationCounter = 0;
     this.memoizedFeatures = null;
-  }
-
-  setCloseCallback(callback: (() => void) | null): void {
-    this.onCloseCallback = callback;
   }
 
   private sortProviders(): void {

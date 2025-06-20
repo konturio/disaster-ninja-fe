@@ -1,6 +1,6 @@
-# Map Popover System
+# MapPopover System
 
-Interactive popover system for displaying content on MapLibre GL map click events with automatic position tracking.
+A comprehensive popover system for MapLibre GL map interactions with enhanced provider coordination, priority management, and tool integration.
 
 ## Table of Contents
 
@@ -13,21 +13,25 @@ Interactive popover system for displaying content on MapLibre GL map click event
 - [Quick Start](#quick-start)
 - [API Reference](#api-reference)
 - [Usage Patterns](#usage-patterns)
+  - [Multi-Provider Setup](#multi-provider-setup)
+  - [Tool Integration](#tool-integration)
+  - [Interaction Locking](#interaction-locking)
+  - [Example: Toolbar Integration](#example-toolbar-integration)
+  - [Conditional Provider](#conditional-provider)
+  - [Custom Map Integration](#custom-map-integration)
 - [Configuration](#configuration)
 - [Best Practices](#best-practices)
 - [Troubleshooting](#troubleshooting)
 
 ## Overview
 
-The Map Popover system provides a registry-based approach for displaying contextual content when users click on map features. It automatically handles coordinate conversion, position tracking during viewport changes, and content aggregation from multiple providers.
+The MapPopover system provides:
 
-**Key Features:**
-
-- 🎯 **Click-based content display** with automatic positioning
-- 📍 **Geographic position tracking** that follows map viewport changes
-- 🔧 **Registry-based providers** for modular content management
-- ⚡ **Performance optimized** with throttling and RAF scheduling
-- 🛡️ **Type-safe** with full TypeScript support
+- **Coordinated Content Providers**: Multiple providers can contribute content with priority-based execution
+- **Tool Integration**: Exclusive modes for tools that need to override other interactions
+- **External Locking**: Allows external systems like the Toolbar to disable popovers for their own tools.
+- **Shared Resources**: Single feature query shared across all providers for performance
+- **Context-Rich Interface**: Providers receive shared context with features, tool state, and provider info
 
 ## Architecture
 
@@ -176,35 +180,30 @@ graph TD
 
 ## Quick Start
 
-### Basic Setup
+### Use MapPopover Service
 
 ```tsx
-import {
-  MapPopoverProvider,
-  useMapPopoverService,
-  useMapPopoverMaplibreIntegration,
-  mapPopoverRegistry,
-} from '~core/map';
+import { useMapPopoverService } from '~core/map';
 
-function MyMapApp() {
-  return (
-    <MapPopoverProvider registry={mapPopoverRegistry}>
-      <MapComponent />
-    </MapPopoverProvider>
-  );
-}
-
-function MapComponent() {
+function MyMapComponent() {
   const popoverService = useMapPopoverService();
 
-  // Enable popover system
-  useMapPopoverMaplibreIntegration({
-    maplibreInstance, // maplibreInstance must exist
-    popoverService,
-    enabled: true,
-  });
+  const handleMapClick = (mapEvent: MapMouseEvent) => {
+    // Show popover using registered providers
+    const wasShown = popoverService.showWithEvent(mapEvent);
 
-  return <div ref={mapRef} className="map" />;
+    if (!wasShown) {
+      console.log('No providers handled this click');
+    }
+  };
+
+  const showCustomContent = (point: ScreenPoint) => {
+    popoverService.showWithContent(point, <div>Custom content!</div>, {
+      placement: 'top',
+    });
+  };
+
+  return <div>Map component with popover integration</div>;
 }
 ```
 
@@ -212,11 +211,15 @@ function MapComponent() {
 
 ```tsx
 import { mapPopoverRegistry } from '~core/map';
+import { ProviderPriority } from '~core/map/types';
 
 // Create a provider
 class FeatureInfoProvider implements IMapPopoverContentProvider {
-  renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null {
-    const features = mapEvent.target.queryRenderedFeatures(mapEvent.point);
+  readonly priority = ProviderPriority.NORMAL;
+
+  renderContent(context: IMapPopoverProviderContext): React.ReactNode | null {
+    const features = context.getFeatures();
+    const { mapEvent, onClose } = context;
 
     if (!features.length) return null;
 
@@ -224,6 +227,9 @@ class FeatureInfoProvider implements IMapPopoverContentProvider {
       <div>
         <h4>Feature Details</h4>
         <p>Layer: {features[0].layer.id}</p>
+        <p>
+          Coordinates: {mapEvent.lngLat.lat.toFixed(4)}, {mapEvent.lngLat.lng.toFixed(4)}
+        </p>
         <button onClick={onClose}>Close</button>
       </div>
     );
@@ -238,6 +244,33 @@ function MyComponent() {
 
     return () => mapPopoverRegistry.unregister('feature-info');
   }, []);
+}
+```
+
+### Create Tool Provider (Exclusive Mode)
+
+```tsx
+class BoundarySelectProvider implements IMapPopoverContentProvider {
+  readonly priority = ProviderPriority.HIGH;
+  readonly isExclusive = true;
+  readonly toolId = 'boundary-selector';
+
+  renderContent(context: IMapPopoverProviderContext): React.ReactNode | null {
+    const { mapEvent, onClose, getProviderInfo } = context;
+    const info = getProviderInfo();
+
+    return (
+      <div>
+        <h4>Boundary Selector Tool</h4>
+        <p>Mode: {info.mode}</p>
+        <p>
+          Click to select boundary at {mapEvent.lngLat.lat.toFixed(4)},{' '}
+          {mapEvent.lngLat.lng.toFixed(4)}
+        </p>
+        <button onClick={onClose}>Cancel</button>
+      </div>
+    );
+  }
 }
 ```
 
@@ -309,190 +342,208 @@ interface MapPopoverOptions {
 
 ### Content Provider Interface
 
-Interface for creating content providers.
+Enhanced interface for creating content providers with context and priority support.
 
 ```typescript
 interface IMapPopoverContentProvider {
-  renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null;
+  /**
+   * Renders content for the map popover using shared context.
+   * @param context - Shared context with features, tool state, and provider info
+   * @returns React content to display, or null if this provider doesn't handle this event
+   */
+  renderContent(context: IMapPopoverProviderContext): React.ReactNode | null;
+
+  /**
+   * Provider execution priority - higher numbers execute first.
+   */
+  readonly priority: number;
+
+  /**
+   * Whether this provider requires exclusive execution (no other providers run).
+   */
+  readonly isExclusive?: boolean;
+
+  /**
+   * Tool identifier for exclusive mode coordination.
+   */
+  readonly toolId?: string;
 }
 ```
 
-**Parameters:**
+### Provider Context Interface
 
-- `mapEvent`: Complete MapLibre GL mouse event with coordinates and target
-- `onClose`: Callback function to close the popover
+Context object passed to providers with shared resources and metadata.
 
-**Returns:** React content to display, or `null` if provider can't handle the event
+```typescript
+interface IMapPopoverProviderContext {
+  getFeatures(): MapGeoJSONFeature[];
+  getToolState(): { activeToolId?: string; isExclusive: boolean };
+  getProviderInfo(): { priority: number; mode: 'exclusive' | 'shared'; id: string };
+  mapEvent: MapMouseEvent;
+  onClose: () => void;
+}
+```
+
+**Context Methods:**
+
+- `getFeatures()`: Get features from shared query (eliminates duplicate queries)
+- `getToolState()`: Get current tool state for coordination
+- `getProviderInfo()`: Get provider's priority, mode, and ID
+- `mapEvent`: Original MapLibre mouse event
+- `onClose`: Callback to close the popover
+
+### Priority Constants
+
+```typescript
+const ProviderPriority = {
+  CRITICAL: 1000, // System-critical content
+  HIGH: 100, // Tools and user interactions
+  NORMAL: 50, // Standard content providers
+  LOW: 10, // Background/auxiliary content
+  DEBUG: 1, // Debug and development content
+} as const;
+```
 
 ### Registry Interface
 
-Interface for managing content providers.
+Interface for managing content providers with coordination capabilities.
 
 ```typescript
 interface IMapPopoverContentRegistry {
   register(id: string, provider: IMapPopoverContentProvider): void;
   unregister(id: string): void;
   renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null;
+  /**
+   * Sets exclusive mode for a specific provider and tool.
+   * Also used by external systems (e.g., Toolbar) to lock popovers.
+   * @param providerId - ID of the provider to make exclusive, or a generic tool ID.
+   * @param toolId - Optional tool identifier.
+   */
+  setExclusiveMode(providerId: string, toolId?: string): void;
+  clearExclusiveMode(): void;
+  updateToolState(toolState: { activeToolId?: string; isExclusive: boolean }): void;
+  setCloseCallback(callback: (() => void) | null): void;
   clear(): void;
   readonly providerCount: number;
 }
 ```
 
-### Integration Hook
+## Usage Patterns
 
-Hook for connecting MapLibre GL events to the popover system.
+### Multi-Provider Setup
 
-```typescript
-function useMapPopoverMaplibreIntegration(options: {
-  map: Map; // MapLibre GL map instance
-  popoverService: MapPopoverService; // Service from useMapPopoverService()
-  enabled?: boolean; // Enable/disable integration (default: true)
-  trackingThrottleMs?: number; // Position update throttling (default: 16ms)
-  positionCalculator?: MapPopoverPositionCalculator; // Custom positioning logic
-}): void;
+```tsx
+// Register multiple providers with different priorities
+const setupProviders = () => {
+  // High priority tool
+  mapPopoverRegistry.register('boundary-tool', new BoundarySelectProvider());
+
+  // Normal content providers
+  mapPopoverRegistry.register('feature-info', new FeatureInfoProvider());
+  mapPopoverRegistry.register('layer-tooltip', new LayerTooltipProvider());
+
+  // Debug provider (lowest priority)
+  mapPopoverRegistry.register('debug', new DebugProvider());
+};
 ```
 
-## Usage Patterns
+### Tool Integration
+
+```tsx
+// Tool activation with automatic popover closure
+const activateBoundarySelector = () => {
+  // Registry automatically closes existing popovers when exclusive provider is registered
+  mapPopoverRegistry.register('boundary-selector', boundarySelectorProvider);
+
+  // Tool is now active - next map clicks will show only boundary selector
+};
+
+const deactivateBoundarySelector = () => {
+  mapPopoverRegistry.unregister('boundary-selector');
+  // Back to normal mode - all providers can respond to clicks
+};
+```
+
+### Interaction Locking
+
+To ensure a clean user experience, the popover system provides a generic **interaction locking** mechanism. This allows any part of the application to temporarily disable all popovers or grant exclusive access to a single tool.
+
+The lock is controlled by two methods on the `IMapPopoverContentRegistry`:
+
+- `setExclusiveMode(toolId: string)`: Activates the lock.
+  - Immediately closes any currently open popover.
+  - Prevents all popover providers from running, _except_ for one whose `toolId` matches the `toolId` passed to the function.
+- `clearExclusiveMode()`: Deactivates the lock and returns the system to normal operation.
+
+This is the standard architectural pattern for any tool or feature that needs to take temporary, exclusive control of map click interactions.
+
+### Example: Toolbar Integration
+
+The main application `Toolbar` is a primary consumer of the Interaction Locking mechanism.
+
+- **Trigger**: Activating a toolbar control with `borrowMapInteractions: true` (e.g., `MapRuler`).
+- **Action**: The `Toolbar` service calls `mapPopoverRegistry.setExclusiveMode(controlId)`.
+- **Effect**: The popover system is locked, preventing popovers while the ruler is active. When the tool is deactivated, the `Toolbar` calls `mapPopoverRegistry.clearExclusiveMode()`.
+
+**Flow Diagram (`MapRuler`)**
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Toolbar
+    participant MapRulerControl
+    participant PopoverRegistry as MapPopoverContentRegistry
+
+    User->>Toolbar: Clicks Map Ruler icon
+    Toolbar->>MapRulerControl: Set state to 'active'
+    Note over MapRulerControl: Has borrowMapInteractions: true
+    MapRulerControl->>PopoverRegistry: setExclusiveMode('MapRuler')
+    Note over PopoverRegistry: Lock is now active.
+
+    User->>Map: Clicks on map
+    Map->>PopoverRegistry: renderContent() called
+    PopoverRegistry-->>Map: returns null (locked)
+
+    User->>Toolbar: Clicks Map Ruler icon again
+    Toolbar->>MapRulerControl: Set state to 'regular'
+    MapRulerControl->>PopoverRegistry: clearExclusiveMode()
+    Note over PopoverRegistry: Lock is released.
+```
+
+### Conditional Provider
+
+```tsx
+class ConditionalProvider implements IMapPopoverContentProvider {
+  readonly priority = ProviderPriority.NORMAL;
+
+  renderContent(context: IMapPopoverProviderContext): React.ReactNode | null {
+    const features = context.getFeatures();
+    const toolState = context.getToolState();
+
+    // Only show when no exclusive tool is active
+    if (toolState.isExclusive) return null;
+
+    // Only show for buildings
+    const buildingFeatures = features.filter((f) => f.properties?.type === 'building');
+    if (!buildingFeatures.length) return null;
+
+    return <BuildingInfoCard feature={buildingFeatures[0]} onClose={context.onClose} />;
+  }
+}
+```
 
 ### Custom Map Integration
 
 For custom map implementations:
 
 ```tsx
-function CustomMap() {
-  const [map, setMap] = useState<Map | null>(null);
-  const popoverService = useMapPopoverService();
-
-  // Initialize map
-  useEffect(() => {
-    const mapInstance = new Map({
-      container: containerRef.current,
-      style: 'mapbox://styles/mapbox/streets-v11',
-    });
-    setMap(mapInstance);
-
-    return () => mapInstance.remove();
-  }, []);
-
-  // Integrate popover system
-  useMapPopoverMaplibreIntegration({
-    map,
-    popoverService,
-    enabled: true,
-  });
-
-  return (
-    <MapPopoverProvider registry={mapPopoverRegistry}>
-      <div ref={containerRef} className="map" />
-    </MapPopoverProvider>
-  );
-}
-```
-
-### Creating Content Providers
-
-#### Simple Feature Provider
-
-```tsx
-class FeatureTooltipProvider implements IMapPopoverContentProvider {
-  renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null {
-    const features = mapEvent.target.queryRenderedFeatures(mapEvent.point);
-
-    if (!features.length) return null;
-
-    const feature = features[0];
-
-    return (
-      <div className="feature-tooltip">
-        <h4>{feature.properties?.name || 'Unnamed Feature'}</h4>
-        <dl>
-          <dt>Layer:</dt>
-          <dd>{feature.layer.id}</dd>
-          <dt>Source:</dt>
-          <dd>{feature.source}</dd>
-        </dl>
-        <button onClick={onClose}>Close</button>
-      </div>
-    );
-  }
-}
-```
-
-#### Interactive Provider with Actions
-
-```tsx
-class FeatureActionsProvider implements IMapPopoverContentProvider {
-  constructor(private onEdit: (feature: MapGeoJSONFeature) => void) {}
-
-  renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null {
-    const features = mapEvent.target.queryRenderedFeatures(mapEvent.point);
-    const editableFeatures = features.filter((f) => f.layer.id.startsWith('editable-'));
-
-    if (!editableFeatures.length) return null;
-
-    return (
-      <div className="feature-actions">
-        <h4>Feature Actions</h4>
-        {editableFeatures.map((feature, i) => (
-          <div key={i}>
-            <p>{feature.properties?.name}</p>
-            <button onClick={() => this.handleEdit(feature, onClose)}>Edit</button>
-            <button onClick={() => this.handleDelete(feature, onClose)}>Delete</button>
-          </div>
-        ))}
-        <button onClick={onClose}>Cancel</button>
-      </div>
-    );
-  }
-
-  private handleEdit(feature: MapGeoJSONFeature, onClose: () => void) {
-    this.onEdit(feature);
-    onClose();
-  }
-
-  private handleDelete(feature: MapGeoJSONFeature, onClose: () => void) {
-    // Handle delete logic
-    onClose();
-  }
-}
-```
-
-### Provider Registration Patterns
-
-#### Component-based Registration
-
-```tsx
-function FeatureLayer({ layerId, enabled }: { layerId: string; enabled: boolean }) {
-  const provider = useMemo(() => new FeatureTooltipProvider(layerId), [layerId]);
-
-  useEffect(() => {
-    if (enabled) {
-      mapPopoverRegistry.register(`tooltip-${layerId}`, provider);
-      return () => mapPopoverRegistry.unregister(`tooltip-${layerId}`);
-    }
-  }, [enabled, layerId, provider]);
-
-  return null;
-}
-```
-
-#### Class-based Registration (for renderers)
-
-```tsx
-class LayerRenderer {
-  private tooltipProvider: IMapPopoverContentProvider | null = null;
-
-  mount() {
-    this.tooltipProvider = new LayerTooltipProvider(this.layerId);
-    mapPopoverRegistry.register(`tooltip-${this.layerId}`, this.tooltipProvider);
-  }
-
-  unmount() {
-    if (this.tooltipProvider) {
-      mapPopoverRegistry.unregister(`tooltip-${this.layerId}`);
-      this.tooltipProvider = null;
-    }
-  }
+function useMapPopoverMaplibreIntegration(options: {
+  map: Map;
+  popoverService: MapPopoverService;
+  enabled?: boolean;
+  trackingThrottleMs?: number;
+}): void {
+  // Integration implementation
 }
 ```
 
