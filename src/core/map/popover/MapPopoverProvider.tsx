@@ -5,6 +5,7 @@ import React, {
   useCallback,
   useMemo,
   useRef,
+  useEffect,
 } from 'react';
 import { Popover, PopoverContent } from '~components/Overlays/Popover';
 import {
@@ -62,6 +63,18 @@ export function MapPopoverProvider({
   const globalPopoverRef = useRef(globalPopover);
   globalPopoverRef.current = globalPopover;
 
+  const close = useCallback(() => {
+    setGlobalPopover(null);
+  }, []);
+
+  // Connect registry to close callback
+  useEffect(() => {
+    if (registry) {
+      registry.setCloseCallback(close);
+      return () => registry.setCloseCallback(null);
+    }
+  }, [registry, close]);
+
   const showWithContent = useCallback(
     (point: ScreenPoint, content: React.ReactNode, options?: MapPopoverOptions) => {
       const placement = options?.placement ?? 'top';
@@ -75,10 +88,6 @@ export function MapPopoverProvider({
     },
     [],
   );
-
-  const close = useCallback(() => {
-    setGlobalPopover(null);
-  }, []);
 
   const showWithEvent = useCallback(
     (mapEvent: MapMouseEvent, options?: MapPopoverOptions): boolean => {

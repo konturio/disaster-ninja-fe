@@ -3,15 +3,29 @@ import { Selector } from '@konturio/ui-kit';
 import { useAtom, useAction } from '@reatom/npm-react';
 import { i18n } from '~core/localization';
 import { constructOptionsFromBoundaries } from '~utils/map/boundaries';
+import { ProviderPriority } from '~core/map/types';
 import { clickCoordinatesAtom } from '../atoms/clickCoordinatesAtom';
 import { fetchBoundariesAsyncResource } from '../atoms/boundaryResourceAtom';
 import { hoverBoundaryAction, selectBoundaryAction } from '../atoms/boundaryActions';
 import { highlightedGeometryAtom } from '../atoms/highlightedGeometry';
-import type { IMapPopoverContentProvider, GeographicPoint } from '~core/map/types';
+import type {
+  IMapPopoverContentProvider,
+  IMapPopoverProviderContext,
+  GeographicPoint,
+} from '~core/map/types';
 
 export const boundarySelectorContentProvider: IMapPopoverContentProvider = {
-  renderContent(mapEvent, onClose: () => void) {
-    return <BoundarySelector onClose={onClose} mapCoordinates={mapEvent.lngLat} />;
+  priority: ProviderPriority.HIGH,
+  isExclusive: true,
+  toolId: 'boundary-selector',
+
+  renderContent(context: IMapPopoverProviderContext) {
+    return (
+      <BoundarySelector
+        onClose={context.onClose}
+        mapCoordinates={context.mapEvent.lngLat}
+      />
+    );
   },
 };
 

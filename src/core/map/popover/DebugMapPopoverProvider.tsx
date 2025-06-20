@@ -1,13 +1,16 @@
 import React from 'react';
-import type { IMapPopoverContentProvider } from '../types';
-import type { MapMouseEvent } from 'maplibre-gl';
+import { ProviderPriority } from '../types';
+import type { IMapPopoverContentProvider, IMapPopoverProviderContext } from '../types';
 
 /**
  * Debug content provider that dumps all found features properties.
  */
 export class DebugMapPopoverProvider implements IMapPopoverContentProvider {
-  renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null {
-    const features = mapEvent.target?.queryRenderedFeatures?.(mapEvent.point) || [];
+  readonly priority = ProviderPriority.DEBUG;
+
+  renderContent(context: IMapPopoverProviderContext): React.ReactNode | null {
+    const features = context.getFeatures();
+    const { mapEvent } = context;
 
     if (features.length === 0) {
       return (

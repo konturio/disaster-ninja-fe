@@ -59,22 +59,63 @@ export interface MapPopoverOptions {
   className?: string;
 }
 
+// Enhanced provider context for new architecture
+export interface IMapPopoverProviderContext {
+  getFeatures(): MapGeoJSONFeature[];
+  getToolState(): { activeToolId?: string; isExclusive: boolean };
+  getProviderInfo(): { priority: number; mode: 'exclusive' | 'shared'; id: string };
+  mapEvent: MapMouseEvent;
+  onClose: () => void;
+}
+
+// Provider priority constants
+export const ProviderPriority = {
+  CRITICAL: 1000, // System alerts, error states
+  HIGH: 500, // Active tools (boundary selector, drawing)
+  NORMAL: 100, // Layer interactions, tooltips
+  LOW: 50, // Background info, debug data
+  DEBUG: 1, // Development diagnostics
+} as const;
+
 /**
- * Content provider interface for autonomous map popover content generation.
- * Each provider handles its own domain logic and returns content for the map popover.
+ * Enhanced content provider interface with context and priority support.
+ * Providers receive shared resources through context to eliminate duplicate queries.
  */
 export interface IMapPopoverContentProvider {
   /**
-   * Renders content for the map popover based on the click event.
-   * @param mapEvent - The original MapLibre mouse event
-   * @param onClose - Callback to close the popover (for interactive content)
+   * Renders content for the map popover using shared context.
+   * @param context - Shared context with features, tool state, and provider info
    * @returns React content to display, or null if this provider doesn't handle this event
    */
-  renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null;
+  renderContent(context: IMapPopoverProviderContext): React.ReactNode | null;
+
+  /**
+   * Provider execution priority - higher numbers execute first.
+   */
+  readonly priority: number;
+
+  /**
+   * Whether this provider requires exclusive execution (no other providers run).
+   */
+  readonly isExclusive?: boolean;
+
+  /**
+   * Tool identifier for exclusive mode coordination.
+   */
+  readonly toolId?: string;
+}
+
+// Internal provider registration data
+export interface ProviderRegistration {
+  provider: IMapPopoverContentProvider;
+  priority: number;
+  registrationOrder: number;
+  isActive: boolean;
+  toolId?: string;
 }
 
 /**
- * Registry interface for coordinating multiple content providers.
+ * Enhanced registry interface with coordination capabilities.
  */
 export interface IMapPopoverContentRegistry {
   /**
@@ -91,10 +132,44 @@ export interface IMapPopoverContentRegistry {
   unregister(id: string): void;
 
   /**
-   * Attempts to render content using registered providers.
+   * Attempts to render content using registered providers with coordination.
    * @param mapEvent - The original MapLibre mouse event
    * @param onClose - Callback to close the popover (for interactive content)
-   * @returns Aggregated content from all providers, or null if no provider can handle the event
+   * @returns Coordinated content from providers, or null if no provider can handle the event
    */
   renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null;
+
+  /**
+   * Sets exclusive mode for a specific provider and tool.
+   * @param providerId - ID of the provider to make exclusive
+   * @param toolId - Optional tool identifier
+   */
+  setExclusiveMode(providerId: string, toolId?: string): void;
+
+  /**
+   * Clears exclusive mode, returning to normal priority-based execution.
+   */
+  clearExclusiveMode(): void;
+
+  /**
+   * Updates the current tool state for provider coordination.
+   * @param toolState - Current tool state
+   */
+  updateToolState(toolState: { activeToolId?: string; isExclusive: boolean }): void;
+
+  /**
+   * Gets the current number of registered providers.
+   */
+  readonly providerCount: number;
+
+  /**
+   * Clears all registered providers.
+   */
+  clear(): void;
+
+  /**
+   * Sets a callback to close existing popovers when exclusive tools are activated.
+   * @param callback - Function to call when popover should be closed, or null to remove
+   */
+  setCloseCallback(callback: (() => void) | null): void;
 }

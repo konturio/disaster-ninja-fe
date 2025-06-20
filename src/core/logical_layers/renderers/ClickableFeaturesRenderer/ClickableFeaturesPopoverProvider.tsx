@@ -1,6 +1,9 @@
+import { ProviderPriority } from '~core/map/types';
 import { isFeatureVisible } from '../helpers/featureVisibilityCheck';
-import type { IMapPopoverContentProvider } from '~core/map/types';
-import type { MapMouseEvent } from 'maplibre-gl';
+import type {
+  IMapPopoverContentProvider,
+  IMapPopoverProviderContext,
+} from '~core/map/types';
 import type { LayerStyle } from '../../types/style';
 
 /**
@@ -8,6 +11,8 @@ import type { LayerStyle } from '../../types/style';
  * Works with the abstract createPopupContent method to provide registry-based popups.
  */
 export class ClickableFeaturesPopoverProvider implements IMapPopoverContentProvider {
+  readonly priority = ProviderPriority.NORMAL;
+
   constructor(
     private sourceId: string,
     private clickableLayerId: string,
@@ -18,10 +23,8 @@ export class ClickableFeaturesPopoverProvider implements IMapPopoverContentProvi
     ) => React.ReactNode | null,
   ) {}
 
-  renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null {
-    const features = mapEvent.target
-      .queryRenderedFeatures(mapEvent.point)
-      .filter((f) => f.source === this.sourceId);
+  renderContent(context: IMapPopoverProviderContext): React.ReactNode | null {
+    const features = context.getFeatures().filter((f) => f.source === this.sourceId);
 
     // Don't show popup when click in empty place
     if (!features.length) return null;

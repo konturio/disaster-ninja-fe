@@ -4,10 +4,13 @@ import { invertClusters } from '~utils/bivariate';
 import { getCellLabelByValue } from '~utils/bivariate/bivariateLegendUtils';
 import { isNumber } from '~utils/common';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
+import { ProviderPriority } from '~core/map/types';
 import { isFeatureVisible } from '../helpers/featureVisibilityCheck';
 import { generateMCDAPopupTable } from '../MCDARenderer/popup';
-import type { IMapPopoverContentProvider } from '~core/map/types';
-import type { MapMouseEvent } from 'maplibre-gl';
+import type {
+  IMapPopoverContentProvider,
+  IMapPopoverProviderContext,
+} from '~core/map/types';
 import type {
   BivariateLegend,
   BivariateLegendStep,
@@ -49,15 +52,15 @@ function convertFillColorToString(fillColor: any): string {
  * Handles hexagon tooltip display with bivariate values and colors.
  */
 export class BivariatePopoverProvider implements IMapPopoverContentProvider {
+  readonly priority = ProviderPriority.NORMAL;
+
   constructor(
     private sourceId: string,
     private legend: BivariateLegend,
   ) {}
 
-  renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null {
-    const features = mapEvent.target
-      .queryRenderedFeatures(mapEvent.point)
-      .filter((f) => f.source === this.sourceId);
+  renderContent(context: IMapPopoverProviderContext): React.ReactNode | null {
+    const features = context.getFeatures().filter((f) => f.source === this.sourceId);
 
     if (!features.length || !this.legend || !features[0].geometry) return null;
 
@@ -114,15 +117,15 @@ export class BivariatePopoverProvider implements IMapPopoverContentProvider {
  * Handles MCDA calculation display and scoring information.
  */
 export class MCDAPopoverProvider implements IMapPopoverContentProvider {
+  readonly priority = ProviderPriority.NORMAL;
+
   constructor(
     private sourceId: string,
     private style: MCDALayerStyle,
   ) {}
 
-  renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null {
-    const features = mapEvent.target
-      .queryRenderedFeatures(mapEvent.point)
-      .filter((f) => f.source === this.sourceId);
+  renderContent(context: IMapPopoverProviderContext): React.ReactNode | null {
+    const features = context.getFeatures().filter((f) => f.source === this.sourceId);
 
     // Don't show popup when click in empty place
     if (!features.length || !features[0].geometry) return null;
