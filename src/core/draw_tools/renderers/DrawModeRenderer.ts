@@ -86,14 +86,16 @@ export class DrawModeRenderer extends LogicalLayerDefaultRenderer<CombinedAtom> 
   willUnMount(args: NotNullableMap & CommonHookArgs): void {
     this._setDrawingStarted(false);
     this._removeAllDeckLayers(args.map);
-    this._removeClickListener?.();
-    this._removeClickListener = null;
-    this._removeMousemoveListener?.();
-    this._removeMousemoveListener = null;
+    this._detachEventBlockers();
   }
 
   willHide(args: NotNullableMap & CommonHookArgs): void {
     this._removeAllDeckLayers(args.map);
+    this._detachEventBlockers();
+  }
+
+  willUnhide(args: NotNullableMap & CommonHookArgs): void {
+    this.addClickListener();
   }
 
   setupExtension(extentionAtom: CombinedAtom): void {
@@ -188,6 +190,13 @@ export class DrawModeRenderer extends LogicalLayerDefaultRenderer<CombinedAtom> 
   }
 
   // Private methods
+
+  private _detachEventBlockers(): void {
+    this._removeClickListener?.();
+    this._removeClickListener = null;
+    this._removeMousemoveListener?.();
+    this._removeMousemoveListener = null;
+  }
 
   _addDeckLayer(mode: DrawModeType): void {
     if (this.mountedDeckLayers[mode])

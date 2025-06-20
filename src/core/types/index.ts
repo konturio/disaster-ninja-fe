@@ -17,13 +17,6 @@ export type MapStyle = {
   layers: any[];
 };
 
-export type Marker = {
-  coordinates: [number, number];
-  wrapperClass?: string;
-  el: JSX.Element;
-  id: string;
-};
-
 export type Severity =
   | 'TERMINATION'
   | 'MINOR'
