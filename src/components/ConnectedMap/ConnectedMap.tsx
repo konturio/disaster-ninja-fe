@@ -28,13 +28,10 @@ const LAYERS_ON_TOP = [
 // Module-level singleton to prevent multiple map instances
 let globalMapInstance: MapLibreMap | null = null;
 
-// This component handles DOM mounting (normal React lifecycle)
 function MapContainer({ className }: { className?: string }) {
   const [mapInstance, setMapInstance] = useState<MapLibreMap | null>(null);
   const mapBaseStyle = configRepo.get().mapBaseStyle;
   const [currentPosition] = useAtom(currentMapPositionAtom, [], false);
-
-  // Reatom actions for map sync
   const setCurrentMap = useAction(currentMapAtom.setMap);
 
   // Capture initial position once
@@ -117,7 +114,6 @@ function MapContainer({ className }: { className?: string }) {
           requestAnimationFrame(() => newMapInstance.resize());
         }, 1000);
 
-        // Sync with Reatom atoms immediately
         setCurrentMap(newMapInstance);
 
         // Store cleanup function for unmount
@@ -138,13 +134,14 @@ function MapContainer({ className }: { className?: string }) {
 
   return (
     <div ref={handleRef} className={className}>
-      {mapInstance && <MapInstance map={mapInstance} />}
+      {mapInstance && <MapIntegration map={mapInstance} />}
     </div>
   );
 }
 
-function MapInstance({ map }: { map: MapLibreMap }) {
+function MapIntegration({ map }: { map: MapLibreMap }) {
   const resetCurrentMap = useAction(currentMapAtom.resetMap);
+  const popoverService = useMapPopoverService();
 
   useEffect(() => {
     return () => {
@@ -156,13 +153,6 @@ function MapInstance({ map }: { map: MapLibreMap }) {
     };
   }, [map, resetCurrentMap]);
 
-  return <MapIntegration map={map} />;
-}
-
-// handles all reactive state integration
-function MapIntegration({ map }: { map: MapLibreMap }) {
-  const popoverService = useMapPopoverService();
-
   // MapPopover integration with proper position tracking
   useMapPopoverMaplibreIntegration({
     map,
@@ -171,7 +161,7 @@ function MapIntegration({ map }: { map: MapLibreMap }) {
     trackingThrottleMs: 16,
   });
 
-  return null; // This component only handles integration
+  return null;
 }
 
 export function ConnectedMap({ className }: { className?: string }) {

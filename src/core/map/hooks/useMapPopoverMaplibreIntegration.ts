@@ -1,11 +1,9 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef, useMemo } from 'react';
 import { registerMapListener } from '~core/shared_state/mapListeners';
 import { DefaultMapPopoverPositionCalculator } from '../popover/MapPopoverPositionCalculator';
-import {
-  getMapContainerRect,
-  pageToMapContainerCoords,
-  geographicToPageCoords,
-} from '../utils/maplibreCoordinateUtils';
+import { pageToMapContainerCoords } from '../utils/maplibreCoordinateUtils';
+import { MapContainerRectManager } from '../utils/containerRectManager';
+import { createMapLibreProjection } from '../utils/projectionFunction';
 import { useMapPositionTracker } from './useMapPositionTracker';
 import type {
   MapPopoverService,
@@ -40,12 +38,27 @@ export function useMapPopoverMaplibreIntegration(
 
   const unregisterMoveRef = useRef<(() => void) | null>(null);
 
+  // Create managers once
+  const containerRectManager = useMemo(
+    () => new MapContainerRectManager(map.getContainer()),
+    [map],
+  );
+
+  const projectionFn = useMemo(() => createMapLibreProjection(map), [map]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      containerRectManager.dispose();
+    };
+  }, [containerRectManager]);
+
   const handlePositionChange = useCallback(
     (point: ScreenPoint) => {
       if (!popoverService.isOpen()) return;
 
       try {
-        const containerRect = getMapContainerRect(map);
+        const containerRect = containerRectManager.getRect(); // Cached access
         const containerPoint = pageToMapContainerCoords(point, containerRect);
 
         const { placement } = positionCalculator.calculate(
@@ -58,20 +71,14 @@ export function useMapPopoverMaplibreIntegration(
         console.error('Error updating popover position:', error);
       }
     },
-    [popoverService, positionCalculator],
+    [popoverService, positionCalculator, containerRectManager],
   );
-
-  const coordinateConverter = useCallback((coords: [number, number]) => {
-    return geographicToPageCoords(map, coords, {
-      edgePadding: 0,
-      clampToBounds: true,
-    });
-  }, []);
 
   const positionTracker = useMapPositionTracker({
     onPositionChange: handlePositionChange,
     throttleMs: trackingThrottleMs,
-    coordinateConverter,
+    projectionFn,
+    containerRectManager,
   });
 
   const unregisterMoveListener = useCallback(() => {

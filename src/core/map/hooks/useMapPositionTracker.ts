@@ -1,13 +1,20 @@
 import { useRef, useCallback, useMemo } from 'react';
 import { throttle } from '@github/mini-throttle';
-import { wrapLongitude } from '../utils/maplibreCoordinateUtils';
+import {
+  clampToContainerBounds,
+  mapContainerToPageCoords,
+  wrapLongitude,
+} from '../utils/maplibreCoordinateUtils';
 import { isValidLngLatArray } from '../utils/coordinateValidation';
 import type { ScreenPoint } from '../types';
+import type { IProjectionFunction } from '../utils/projectionFunction';
+import type { IContainerRectManager } from '../utils/containerRectManager';
 
 interface UseMapPositionTrackerOptions {
   onPositionChange: (point: ScreenPoint) => void;
   throttleMs?: number;
-  coordinateConverter: (coords: [number, number]) => ScreenPoint;
+  projectionFn: IProjectionFunction;
+  containerRectManager: IContainerRectManager;
 }
 
 interface MapPositionTracker {
@@ -19,7 +26,12 @@ interface MapPositionTracker {
 export function useMapPositionTracker(
   options: UseMapPositionTrackerOptions,
 ): MapPositionTracker {
-  const { onPositionChange, throttleMs = 0, coordinateConverter } = options;
+  const {
+    onPositionChange,
+    throttleMs = 0,
+    projectionFn,
+    containerRectManager,
+  } = options;
   const currentLngLatRef = useRef<[number, number] | null>(null);
   const rafIdRef = useRef<number>();
 
@@ -30,7 +42,15 @@ export function useMapPositionTracker(
       const [lng, lat] = currentLngLatRef.current;
 
       try {
-        const pagePoint = coordinateConverter([lng, lat]);
+        const containerRect = containerRectManager.getRect();
+
+        const projected = projectionFn([wrapLongitude(lng), lat]);
+
+        const clamped = clampToContainerBounds(projected, containerRect, {
+          clampToBounds: true,
+        });
+        const pagePoint = mapContainerToPageCoords(clamped, containerRect);
+
         onPositionChange({ x: pagePoint.x, y: pagePoint.y });
       } catch (error) {
         console.error('Error updating position:', error);
@@ -41,7 +61,7 @@ export function useMapPositionTracker(
       return throttle(rawUpdate, throttleMs);
     }
     return rawUpdate;
-  }, [onPositionChange, throttleMs, coordinateConverter]);
+  }, [onPositionChange, throttleMs, projectionFn, containerRectManager]);
 
   const scheduleUpdate = useCallback(() => {
     if (rafIdRef.current) {

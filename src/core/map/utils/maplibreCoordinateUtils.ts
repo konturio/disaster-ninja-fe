@@ -1,5 +1,4 @@
 import type { Map } from 'maplibre-gl';
-import type { MapMouseEvent } from 'maplibre-gl';
 import type { ScreenPoint, GeographicPoint } from '../types';
 
 /**
@@ -125,16 +124,21 @@ export function geographicToPageCoords(
   config: ClampConfig = {},
 ): PagePoint {
   const containerRect = getMapContainerRect(map);
+  const coords = Array.isArray(geographic)
+    ? geographic
+    : [geographic.lng, geographic.lat];
 
-  // Wrap longitude before processing
-  let wrappedGeographic: [number, number];
-  if (Array.isArray(geographic)) {
-    wrappedGeographic = [wrapLongitude(geographic[0]), geographic[1]];
-  } else {
-    wrappedGeographic = [wrapLongitude(geographic.lng), geographic.lat];
-  }
+  // Create projection function for this call
+  const projectionFn = (coords: [number, number]) => {
+    const wrappedCoords: [number, number] = [wrapLongitude(coords[0]), coords[1]];
+    const projected = map.project(wrappedCoords);
+    return { x: projected.x, y: projected.y };
+  };
 
-  const projected = projectGeographicToScreen(map, wrappedGeographic);
+  // Pure projection - no map dependency in the transformation pipeline
+  const projected = projectionFn([wrapLongitude(coords[0]), coords[1]]);
+
+  // Container-based operations
   const clamped = clampToContainerBounds(projected, containerRect, config);
   return mapContainerToPageCoords(clamped, containerRect);
 }
