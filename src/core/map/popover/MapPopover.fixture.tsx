@@ -22,69 +22,91 @@ import { hotData } from '~core/api/__mocks__/_hotSampleData';
 import type { IMapPopoverContentProvider } from '../types';
 import type { MapMouseEvent } from 'maplibre-gl';
 
-// Simple map initialization hook
-function useMapInstance(containerRef: React.RefObject<HTMLDivElement>) {
+// Map container component with ref callback pattern
+function MapContainer({
+  children,
+  onMapReady,
+}: {
+  children?: ((map: Map) => React.ReactNode) | React.ReactNode;
+  onMapReady?: (map: Map) => void;
+}) {
   const [map, setMap] = useState<Map | null>(null);
 
-  useLayoutEffect(() => {
-    if (!containerRef.current) return;
+  const handleRef = useCallback(
+    (node: HTMLDivElement | null) => {
+      if (node && !map) {
+        const mapInstance = new mapLibre.Map({
+          container: node,
+          style: 'https://demotiles.maplibre.org/styles/osm-bright-gl-style/style.json',
+          center: [11.4, 47.25],
+          zoom: 11,
+        });
 
-    const mapInstance = new mapLibre.Map({
-      container: containerRef.current,
-      style: 'https://demotiles.maplibre.org/styles/osm-bright-gl-style/style.json',
-      center: [11.4, 47.25],
-      zoom: 11,
-    });
-
-    mapInstance.on('load', () => {
-      // Add sample features for testing
-      mapInstance.addSource('sample-features', {
-        type: 'geojson',
-        data: {
-          type: 'FeatureCollection',
-          features: [
-            {
-              type: 'Feature',
-              properties: { name: 'Sample Point', type: 'Demo', value: 123 },
-              geometry: { type: 'Point', coordinates: [11.41, 47.25] },
+        mapInstance.on('load', () => {
+          // Add sample features for testing
+          mapInstance.addSource('sample-features', {
+            type: 'geojson',
+            data: {
+              type: 'FeatureCollection',
+              features: [
+                {
+                  type: 'Feature',
+                  properties: { name: 'Sample Point', type: 'Demo', value: 123 },
+                  geometry: { type: 'Point', coordinates: [11.41, 47.25] },
+                },
+                {
+                  type: 'Feature',
+                  properties: {
+                    name: 'Another Point',
+                    category: 'Important',
+                    value: 456,
+                  },
+                  geometry: { type: 'Point', coordinates: [11.4, 47.252] },
+                },
+              ],
             },
-            {
-              type: 'Feature',
-              properties: { name: 'Another Point', category: 'Important', value: 456 },
-              geometry: { type: 'Point', coordinates: [11.4, 47.252] },
+          });
+
+          mapInstance.addLayer({
+            id: 'sample-points',
+            type: 'circle',
+            source: 'sample-features',
+            paint: {
+              'circle-radius': 8,
+              'circle-color': '#ff4444',
+              'circle-stroke-color': '#ffffff',
+              'circle-stroke-width': 2,
             },
-          ],
-        },
-      });
+            metadata: {
+              tooltip: {
+                type: 'markdown',
+                paramName: 'name',
+              },
+            },
+          });
 
-      mapInstance.addLayer({
-        id: 'sample-points',
-        type: 'circle',
-        source: 'sample-features',
-        paint: {
-          'circle-radius': 8,
-          'circle-color': '#ff4444',
-          'circle-stroke-color': '#ffffff',
-          'circle-stroke-width': 2,
-        },
-        metadata: {
-          tooltip: {
-            type: 'markdown',
-            paramName: 'name',
-          },
-        },
-      });
+          setMap(mapInstance);
+          onMapReady?.(mapInstance);
+        });
+      }
+    },
+    [map, onMapReady],
+  );
 
-      setMap(mapInstance);
-    });
-
+  useEffect(() => {
     return () => {
-      mapInstance.remove();
-      setMap(null);
+      if (map) {
+        map.remove();
+        setMap(null);
+      }
     };
-  }, [containerRef]);
+  }, [map]);
 
-  return map;
+  return (
+    <div ref={handleRef} style={{ width: '100%', height: '100vh' }}>
+      {map && (typeof children === 'function' ? children(map) : children)}
+    </div>
+  );
 }
 
 // Simple provider that shows basic feature info
@@ -138,51 +160,45 @@ class DebugProvider implements IMapPopoverContentProvider {
   }
 }
 
-function DefaultDemo() {
-  const mapRef = useRef<HTMLDivElement>(null);
-  const map = useMapInstance(mapRef);
+function MapIntegration({ map }: { map: Map }) {
   const popoverService = useMapPopoverService();
   const registry = useMemo(() => new MapPopoverContentRegistry(), []);
-
   const simpleProvider = useMemo(() => new SimpleFeatureProvider(), []);
 
   useEffect(() => {
-    if (map) {
-      registry.register('simple', simpleProvider);
-      return () => registry.unregister('simple');
-    }
-  }, [map, registry, simpleProvider]);
+    registry.register('simple', simpleProvider);
+    return () => registry.unregister('simple');
+  }, [registry, simpleProvider]);
 
   useMapPopoverMaplibreIntegration({ map, popoverService });
 
-  return <div ref={mapRef} style={{ width: '100%', height: '100vh' }} />;
+  return null;
 }
 
-function DebugProviderDemo() {
-  const mapRef = useRef<HTMLDivElement>(null);
-  const map = useMapInstance(mapRef);
+function DefaultDemo() {
+  return <MapContainer>{(map: Map) => <MapIntegration map={map} />}</MapContainer>;
+}
+
+function DebugMapIntegration({ map }: { map: Map }) {
   const popoverService = useMapPopoverService();
   const registry = useMemo(() => new MapPopoverContentRegistry(), []);
-
   const debugProvider = useMemo(() => new DebugMapPopoverProvider(), []);
 
   useEffect(() => {
-    if (map && debugProvider) {
-      registry.register('debug', debugProvider);
-      return () => {
-        registry.unregister('debug');
-      };
-    }
-  }, [map, registry, debugProvider]);
+    registry.register('debug', debugProvider);
+    return () => registry.unregister('debug');
+  }, [registry, debugProvider]);
 
   useMapPopoverMaplibreIntegration({ map, popoverService });
 
-  return <div ref={mapRef} style={{ width: '100%', height: '100vh' }} />;
+  return null;
 }
 
-function HotProjectCardDemo() {
-  const mapRef = useRef<HTMLDivElement>(null);
-  const map = useMapInstance(mapRef);
+function DebugProviderDemo() {
+  return <MapContainer>{(map: Map) => <DebugMapIntegration map={map} />}</MapContainer>;
+}
+
+function HotProjectIntegration({ map }: { map: Map }) {
   const popoverService = useMapPopoverService();
   const registry = useMemo(() => new MapPopoverContentRegistry(), []);
 
@@ -201,8 +217,6 @@ function HotProjectCardDemo() {
   const hotProjectProvider = useMemo(
     () => ({
       renderContent: (mapEvent: MapMouseEvent, onClose: () => void) => {
-        if (!map) return null;
-
         const features =
           mapEvent.target
             ?.queryRenderedFeatures?.(mapEvent.point)
@@ -222,7 +236,7 @@ function HotProjectCardDemo() {
         );
       },
     }),
-    [map, uniLayoutContextValue],
+    [uniLayoutContextValue],
   );
 
   // Also add debug provider for better development experience
@@ -230,8 +244,6 @@ function HotProjectCardDemo() {
 
   // Map setup and provider registration
   useEffect(() => {
-    if (!map) return;
-
     // Check if source already exists before adding
     if (!map.getSource('hot-project-layers')) {
       // Add hot project data
@@ -290,7 +302,11 @@ function HotProjectCardDemo() {
 
   useMapPopoverMaplibreIntegration({ map, popoverService });
 
-  return <div ref={mapRef} style={{ width: '100%', height: '100vh' }} />;
+  return null;
+}
+
+function HotProjectCardDemo() {
+  return <MapContainer>{(map: Map) => <HotProjectIntegration map={map} />}</MapContainer>;
 }
 
 export default {

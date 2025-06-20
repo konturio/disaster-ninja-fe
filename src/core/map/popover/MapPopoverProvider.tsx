@@ -1,4 +1,11 @@
-import React, { createContext, useContext, useState, useCallback, useMemo } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useMemo,
+  useRef,
+} from 'react';
 import { Popover, PopoverContent } from '~components/Overlays/Popover';
 import {
   mapContainerToPageCoords,
@@ -50,6 +57,10 @@ export function MapPopoverProvider({
 }) {
   const [popovers, setPopovers] = useState<Map<string, PopoverState>>(new Map());
   const [globalPopover, setGlobalPopover] = useState<PopoverState | null>(null);
+
+  // Use ref for isOpen to prevent service recreation on state changes
+  const globalPopoverRef = useRef(globalPopover);
+  globalPopoverRef.current = globalPopover;
 
   const showWithContent = useCallback(
     (point: ScreenPoint, content: React.ReactNode, options?: MapPopoverOptions) => {
@@ -111,8 +122,8 @@ export function MapPopoverProvider({
   }, []);
 
   const isOpen = useCallback(() => {
-    return globalPopover?.isOpen || false;
-  }, [globalPopover]);
+    return globalPopoverRef.current?.isOpen || false;
+  }, []);
 
   const showWithId = useCallback(
     (

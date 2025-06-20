@@ -1,8 +1,10 @@
 import { useCallback, useEffect, useRef } from 'react';
+import { registerMapListener } from '~core/shared_state/mapListeners';
 import { DefaultMapPopoverPositionCalculator } from '../popover/MapPopoverPositionCalculator';
 import {
   getMapContainerRect,
   pageToMapContainerCoords,
+  geographicToPageCoords,
 } from '../utils/maplibreCoordinateUtils';
 import { useMapPositionTracker } from './useMapPositionTracker';
 import type {
@@ -15,7 +17,7 @@ import type { Map, MapMouseEvent } from 'maplibre-gl';
 const defaultPositionCalculator = new DefaultMapPopoverPositionCalculator();
 
 export interface UseMapPopoverMaplibreIntegrationOptions {
-  map: Map | null;
+  map: Map;
   popoverService: MapPopoverService;
   positionCalculator?: MapPopoverPositionCalculator;
   enabled?: boolean;
@@ -36,20 +38,14 @@ export function useMapPopoverMaplibreIntegration(
     trackingThrottleMs = 16,
   } = options;
 
-  const mapRef = useRef(map);
-  const popoverServiceRef = useRef(popoverService);
-  mapRef.current = map;
-  popoverServiceRef.current = popoverService;
+  const unregisterMoveRef = useRef<(() => void) | null>(null);
 
   const handlePositionChange = useCallback(
     (point: ScreenPoint) => {
-      const currentMap = mapRef.current;
-      const currentService = popoverServiceRef.current;
-
-      if (!currentMap || !currentService.isOpen()) return;
+      if (!popoverService.isOpen()) return;
 
       try {
-        const containerRect = getMapContainerRect(currentMap);
+        const containerRect = getMapContainerRect(map);
         const containerPoint = pageToMapContainerCoords(point, containerRect);
 
         const { placement } = positionCalculator.calculate(
@@ -57,55 +53,108 @@ export function useMapPopoverMaplibreIntegration(
           containerPoint.x,
           containerPoint.y,
         );
-        currentService.updatePosition(point, placement);
+        popoverService.updatePosition(point, placement);
       } catch (error) {
         console.error('Error updating popover position:', error);
       }
     },
-    [positionCalculator],
+    [popoverService, positionCalculator],
   );
 
-  const positionTracker = useMapPositionTracker(map, {
+  const coordinateConverter = useCallback((coords: [number, number]) => {
+    return geographicToPageCoords(map, coords, {
+      edgePadding: 0,
+      clampToBounds: true,
+    });
+  }, []);
+
+  const positionTracker = useMapPositionTracker({
     onPositionChange: handlePositionChange,
     throttleMs: trackingThrottleMs,
+    coordinateConverter,
   });
+
+  const unregisterMoveListener = useCallback(() => {
+    if (unregisterMoveRef.current) {
+      unregisterMoveRef.current();
+      unregisterMoveRef.current = null;
+    }
+  }, []);
+
+  const startTracking = useCallback(
+    (lngLat: [number, number]) => {
+      // Stop any existing tracking
+      unregisterMoveListener();
+
+      // Start position tracking
+      positionTracker.setCurrentPosition(lngLat);
+
+      // Register move listener for position updates
+      const handleMapMove = () => {
+        positionTracker.updatePosition();
+        return true; // Continue chain
+      };
+
+      unregisterMoveRef.current = registerMapListener('move', handleMapMove, 80);
+    },
+    [positionTracker, unregisterMoveListener],
+  );
+
+  const stopTracking = useCallback(() => {
+    // Unregister move listener
+    unregisterMoveListener();
+
+    // Clear position tracker
+    positionTracker.clearPosition();
+  }, [positionTracker, unregisterMoveListener]);
 
   const handleMapClick = useCallback(
     (event: MapMouseEvent) => {
-      if (!map) return;
+      const wasOpen = popoverService.isOpen();
 
-      if (popoverService.isOpen()) {
+      if (wasOpen) {
         popoverService.close();
-        positionTracker.stopTracking();
       }
 
       try {
         const hasContent = popoverService.showWithEvent(event);
+
         if (hasContent) {
-          positionTracker.startTracking([event.lngLat.lng, event.lngLat.lat]);
+          // Start tracking for new popover
+          startTracking([event.lngLat.lng, event.lngLat.lat]);
+        } else if (wasOpen) {
+          // Only stop tracking if we had a popover open but no new content
+          stopTracking();
         }
       } catch (error) {
         console.error('Error rendering popover content:', error);
+        // Stop tracking on error to prevent dangling listeners
+        if (wasOpen) {
+          stopTracking();
+        }
       }
+
+      return true; // Continue chain - allow other click listeners
     },
-    [map, popoverService, positionTracker],
+    [popoverService, startTracking],
   );
 
-  // Direct click event binding when enabled
+  // Register click event with priority system
   useEffect(() => {
-    if (!map || !enabled) return;
+    if (!enabled) return;
 
-    map.on('click', handleMapClick);
+    const unregisterClick = registerMapListener('click', handleMapClick, 55);
+
     return () => {
-      map.off('click', handleMapClick);
-      positionTracker.stopTracking();
+      unregisterClick();
+      stopTracking();
     };
-  }, [map, enabled, handleMapClick, positionTracker]);
+  }, [enabled, handleMapClick]);
 
   const close = useCallback(() => {
     popoverService.close();
-    positionTracker.stopTracking();
-  }, [popoverService, positionTracker]);
+    stopTracking();
+  }, [popoverService, stopTracking]);
 
   return {
     close,
