@@ -1,10 +1,16 @@
 import { typedObjectEntries } from '~core/types/entry';
 import { StackedProgressBar } from './Bar';
 import { SeverityIndicator } from './Severity';
+import { MappingProgress } from './MappingProgress';
 
 export default (
   <blockquote style={{ width: 390 }}>
     {[
+      <MappingProgress
+        percentValidated={30}
+        percentMapped={60}
+        caption="MappingProgress"
+      />,
       <StackedProgressBar
         value={[
           { title: '% processed', value: 57, color: 'green' },

@@ -23,6 +23,12 @@ import { AppFeature } from '~core/app/types';
 import { PanelSettingsRow } from '~components/PanelSettingsRow/PanelSettingsRow';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import {
+  UniLayoutContext,
+  useUniLayoutContextValue,
+} from '~components/Uni/Layout/UniLayoutContext';
+import { layerFeaturesFormats } from '~features/layer_features_panel/layouts/formats';
+import { layerFeatureLayouts } from '~features/layer_features_panel/layouts/layouts';
+import {
   featuresPanelLayerId,
   currentFeatureIdAtom,
   layerFeaturesCollectionAtom,
@@ -75,6 +81,14 @@ export function LayerFeaturesPanel() {
 
   const [{ data: featuresList, loading }] = useAtom(layerFeaturesCollectionAtom);
 
+  const layout = featuresPanelLayerId
+    ? layerFeatureLayouts[featuresPanelLayerId]
+    : undefined;
+  const layoutContextValue = useUniLayoutContextValue({
+    layout,
+    customFormatsRegistry: layerFeaturesFormats,
+  });
+
   const {
     panelState,
     panelControls,
@@ -117,7 +131,7 @@ export function LayerFeaturesPanel() {
     if (featuresList === null || featuresList.length === 0) {
       return <EmptyState />;
     }
-    return {
+    const content = {
       full: (
         <FullState
           featuresList={featuresList}
@@ -128,19 +142,29 @@ export function LayerFeaturesPanel() {
               ? i18n.t('layer_features_panel.listInfo')
               : undefined
           }
+          layout={layout}
         />
       ),
       short: (
         <ShortState
           openFullState={openFullState}
           feature={currentFeatureId !== null ? featuresList[currentFeatureId] : undefined}
+          layout={layout}
         />
       ),
       closed: null,
     }[panelState];
+
+    return (
+      <UniLayoutContext.Provider value={layoutContextValue}>
+        {content}
+      </UniLayoutContext.Provider>
+    );
   }, [
     currentFeatureId,
     featuresList,
+    layout,
+    layoutContextValue,
     loading,
     onCurrentChange,
     openFullState,

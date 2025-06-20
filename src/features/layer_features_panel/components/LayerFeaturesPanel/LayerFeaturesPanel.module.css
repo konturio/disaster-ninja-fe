@@ -51,6 +51,16 @@
   }
 }
 
+.temporaryDivider {
+  height: 1px;
+  width: 100%;
+  background-color: red;
+}
+
+.temporaryBox {
+  border: #555 2px solid;
+}
+
 /* Overrides hardcoded color in the lib */
 .backdrop {
   background-color: rgba(0, 0, 0, 0.3) !important;

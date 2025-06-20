@@ -2,6 +2,7 @@ import { Virtuoso } from 'react-virtuoso';
 import { useMemo } from 'react';
 import { InfoErrorOutline16 } from '@konturio/default-icons';
 import { Text } from '@konturio/ui-kit';
+import { UniLayoutRenderer } from '~components/Uni/Layout/UniLayoutRenderer';
 import { LayerFeaturesCard } from '../LayerFeaturesCard';
 import s from './LayerFeaturesPanel.module.css';
 import type { FeatureCardCfg } from '../CardElements';
@@ -11,11 +12,13 @@ export function FullState({
   currentFeatureId,
   listInfoText,
   onClick,
+  layout,
 }: {
   featuresList: FeatureCardCfg[];
   currentFeatureId: number | null;
   listInfoText?: string;
   onClick: (id: number, feature: FeatureCardCfg) => void;
+  layout: any;
 }) {
   const currentFeatureIndex = useMemo(() => {
     if (!currentFeatureId) return 0;
@@ -37,12 +40,23 @@ export function FullState({
           data={featuresList}
           initialTopMostItemIndex={currentFeatureIndex}
           itemContent={(index, feature) => (
-            <LayerFeaturesCard
-              key={feature.id}
-              feature={feature}
-              isActive={index === currentFeatureId}
+            <div
+              key={index}
               onClick={() => onClick(index, feature)}
-            />
+              className={s.temporaryBox}
+            >
+              <LayerFeaturesCard
+                key={feature.id}
+                feature={feature}
+                isActive={index === currentFeatureId}
+                onClick={() => onClick(index, feature)}
+              />
+              <div className={s.temporaryDivider} />
+              <UniLayoutRenderer
+                node={layout}
+                data={{ ...feature, active: index === currentFeatureId }}
+              />
+            </div>
           )}
         />
         <div className={s.height100vh}></div>

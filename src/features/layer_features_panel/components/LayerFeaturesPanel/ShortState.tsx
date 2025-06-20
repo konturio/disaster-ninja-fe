@@ -1,5 +1,6 @@
 import { Button, Text } from '@konturio/ui-kit';
 import { i18n } from '~core/localization';
+import { UniLayoutRenderer } from '~components/Uni/Layout/UniLayoutRenderer';
 import { LayerFeaturesCard } from '../LayerFeaturesCard';
 import s from './LayerFeaturesPanel.module.css';
 import type { FeatureCardCfg } from '../CardElements';
@@ -7,11 +8,19 @@ import type { FeatureCardCfg } from '../CardElements';
 export function ShortState({
   openFullState,
   feature,
+  layout,
 }: {
   openFullState: Parameters<typeof Button>[0]['onClick'];
   feature?: FeatureCardCfg;
+  layout: any;
 }) {
-  const featureInfo = feature && <LayerFeaturesCard feature={feature} isActive={true} />;
+  const featureInfo = feature && (
+    <div>
+      <LayerFeaturesCard feature={feature} isActive={true} />
+      <div className={s.temporaryDivider} />
+      <UniLayoutRenderer node={layout} data={{ ...feature, active: true }} />
+    </div>
+  );
 
   const panelContent = featureInfo || (
     <div className={s.noFeatures}>
