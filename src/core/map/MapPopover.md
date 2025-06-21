@@ -32,6 +32,7 @@ The MapPopover system provides:
 - **External Locking**: Allows external systems like the Toolbar to disable popovers for their own tools.
 - **Shared Resources**: Single feature query shared across all providers for performance
 - **Context-Rich Interface**: Providers receive shared context with features, tool state, and provider info
+- **Injectable Event Handling**: Decoupled from app-specific event systems with fallback to direct MapLibre events
 
 ## Architecture
 
@@ -177,6 +178,48 @@ graph TD
     style Manual fill:#fff3e0
     style Registry fill:#f3e5f5
 ```
+
+### Event Handler Abstraction
+
+The system uses **injectable event handlers** to decouple from app-specific dependencies:
+
+```mermaid
+graph TD
+    subgraph "Production Context"
+        ConnectedMap[ConnectedMap]
+        GlobalHandlers[Global Event Handlers]
+        Priority[Priority System]
+    end
+
+    subgraph "Testing Context"
+        Fixture[MapPopover.fixture]
+        DirectHandlers[Direct Event Handlers]
+        MapLibre[MapLibre Events]
+    end
+
+    subgraph "Hook"
+        Integration[useMapPopoverMaplibreIntegration]
+        DefaultFallback[Default Handlers]
+    end
+
+    ConnectedMap --> GlobalHandlers
+    GlobalHandlers --> Priority
+    Priority --> Integration
+
+    Fixture --> Integration
+    Integration --> DefaultFallback
+    DefaultFallback --> MapLibre
+
+    style Integration fill:#e1f5fe
+    style DefaultFallback fill:#fff3e0
+```
+
+**Benefits:**
+
+- ✅ **Decoupled**: No hard dependency on `registerMapListener`
+- ✅ **Testable**: Fixtures work without global state
+- ✅ **Flexible**: Injectable handlers for different contexts
+- ✅ **Safe**: All-or-nothing pattern prevents mixed event handling
 
 ## Quick Start
 
@@ -534,16 +577,63 @@ class ConditionalProvider implements IMapPopoverContentProvider {
 
 ### Custom Map Integration
 
-For custom map implementations:
+The integration hook supports two event handling patterns - **global priority system** (production) or **direct map events** (testing/fixtures):
 
 ```tsx
-function useMapPopoverMaplibreIntegration(options: {
+interface UseMapPopoverMaplibreIntegrationOptions {
   map: Map;
   popoverService: MapPopoverService;
   enabled?: boolean;
   trackingThrottleMs?: number;
-}): void {
-  // Integration implementation
+  positionCalculator?: MapPopoverPositionCalculator;
+
+  // Event handlers - provide BOTH or NEITHER
+  eventHandlers?: {
+    onClick: (handler: (event: MapMouseEvent) => boolean) => () => void;
+    onMove: (handler: () => boolean) => () => void;
+  };
+}
+```
+
+#### Production Usage (ConnectedMap)
+
+Uses global priority system with `registerMapListener`:
+
+```tsx
+// ConnectedMap automatically provides global event handlers
+function MapIntegration({ map }) {
+  const popoverService = useMapPopoverService();
+
+  const eventHandlers = useMemo(
+    () => ({
+      onClick: (handler) => registerMapListener('click', handler, 55),
+      onMove: (handler) => registerMapListener('move', handler, 80),
+    }),
+    [],
+  );
+
+  useMapPopoverMaplibreIntegration({
+    map,
+    popoverService,
+    eventHandlers, // Uses priority system
+  });
+}
+```
+
+#### Testing/Fixture Usage
+
+Uses direct MapLibre events without global dependencies:
+
+```tsx
+// Fixture - no eventHandlers = direct map.on/off
+function TestIntegration({ map }) {
+  const popoverService = useMapPopoverService();
+
+  useMapPopoverMaplibreIntegration({
+    map,
+    popoverService,
+    // No eventHandlers = uses direct map events
+  });
 }
 ```
 
@@ -622,6 +712,48 @@ function SpecializedMap() {
 ```
 
 ## Best Practices
+
+### Event Handler Injection
+
+**Production Apps:** Always provide both handlers for consistency:
+
+```tsx
+// ✅ ConnectedMap pattern
+const eventHandlers = useMemo(
+  () => ({
+    onClick: (handler) => registerMapListener('click', handler, 55),
+    onMove: (handler) => registerMapListener('move', handler, 80),
+  }),
+  [],
+);
+
+useMapPopoverMaplibreIntegration({
+  map,
+  popoverService,
+  eventHandlers, // Global priority system
+});
+```
+
+**Testing/Fixtures:** Omit handlers for direct events:
+
+```tsx
+// ✅ Fixture pattern
+useMapPopoverMaplibreIntegration({
+  map,
+  popoverService,
+  // No eventHandlers = direct map events
+});
+```
+
+**Avoid partial injection:**
+
+```tsx
+// ❌ Don't mix systems
+eventHandlers: {
+  onClick: globalHandler,
+  // Missing onMove causes inconsistent behavior
+}
+```
 
 ### Provider IDs
 
@@ -739,6 +871,37 @@ renderContent(mapEvent: MapMouseEvent) {
 useMapPopoverMaplibreIntegration({
   enabled: true, // ← Check this
   // ...
+});
+```
+
+**Check event handler configuration:**
+
+```tsx
+// ✅ Production - with global handlers
+useMapPopoverMaplibreIntegration({
+  map,
+  popoverService,
+  eventHandlers: {
+    onClick: (handler) => registerMapListener('click', handler, 55),
+    onMove: (handler) => registerMapListener('move', handler, 80),
+  },
+});
+
+// ✅ Testing - direct handlers (default)
+useMapPopoverMaplibreIntegration({
+  map,
+  popoverService,
+  // No eventHandlers = uses map.on/off directly
+});
+
+// ❌ Mixed - don't do this
+useMapPopoverMaplibreIntegration({
+  map,
+  popoverService,
+  eventHandlers: {
+    onClick: (handler) => registerMapListener('click', handler, 55),
+    // Missing onMove - will cause inconsistent behavior
+  },
 });
 ```
 

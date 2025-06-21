@@ -1,5 +1,5 @@
-import React, { useMemo, useState, useEffect, useCallback } from 'react';
-import mapLibre, { type Map } from 'maplibre-gl';
+import React, { useMemo, useEffect, useCallback } from 'react';
+import { type Map } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { MapPopoverProvider, useMapPopoverService } from './MapPopoverProvider';
 import { mapPopoverRegistry } from './globalMapPopoverRegistry';
@@ -14,91 +14,86 @@ import { hotProjectLayoutTemplate } from '~components/Uni/__mocks__/_hotLayout.j
 import { hotData } from '~core/api/__mocks__/_hotSampleData';
 import type { IMapPopoverContentProvider, IMapPopoverProviderContext } from '../types';
 import { ProviderPriority } from '../types';
+import {
+  MapLibreContainer,
+  MapOptions,
+} from '~components/ConnectedMap/MapLibreContainer';
 
 // Map container component with ref callback pattern
-function MapContainer({
+function FixtureMapContainer({
   children,
   onMapReady,
 }: {
   children?: ((map: Map) => React.ReactNode) | React.ReactNode;
   onMapReady?: (map: Map) => void;
 }) {
-  const [map, setMap] = useState<Map | null>(null);
-
-  const handleRef = useCallback(
-    (node: HTMLDivElement | null) => {
-      if (node && !map) {
-        const mapInstance = new mapLibre.Map({
-          container: node,
-          style: 'https://demotiles.maplibre.org/styles/osm-bright-gl-style/style.json',
-          center: [11.4, 47.25],
-          zoom: 11,
-        });
-
-        mapInstance.on('load', () => {
-          // Add sample features for testing
-          mapInstance.addSource('sample-features', {
-            type: 'geojson',
-            data: {
-              type: 'FeatureCollection',
-              features: [
-                {
-                  type: 'Feature',
-                  properties: { name: 'Sample Point', type: 'Demo', value: 123 },
-                  geometry: { type: 'Point', coordinates: [11.41, 47.25] },
-                },
-                {
-                  type: 'Feature',
-                  properties: {
-                    name: 'Another Point',
-                    category: 'Important',
-                    value: 456,
-                  },
-                  geometry: { type: 'Point', coordinates: [11.4, 47.252] },
-                },
-              ],
-            },
-          });
-
-          mapInstance.addLayer({
-            id: 'sample-points',
-            type: 'circle',
-            source: 'sample-features',
-            paint: {
-              'circle-radius': 8,
-              'circle-color': '#ff4444',
-              'circle-stroke-color': '#ffffff',
-              'circle-stroke-width': 2,
-            },
-            metadata: {
-              tooltip: {
-                type: 'markdown',
-                paramName: 'name',
+  const mapOptions: MapOptions = useMemo(
+    () => ({
+      getConfig: () => ({
+        style: 'https://demotiles.maplibre.org/styles/osm-bright-gl-style/style.json',
+        center: [11.4, 47.25],
+        zoom: 11,
+      }),
+      onMapCreated: (mapInstance) => {
+        // Add sample features for testing
+        mapInstance.addSource('sample-features', {
+          type: 'geojson',
+          data: {
+            type: 'FeatureCollection',
+            features: [
+              {
+                type: 'Feature',
+                properties: { name: 'Sample Point', type: 'Demo', value: 123 },
+                geometry: { type: 'Point', coordinates: [11.41, 47.25] },
               },
-            },
-          });
-
-          setMap(mapInstance);
-          onMapReady?.(mapInstance);
+              {
+                type: 'Feature',
+                properties: {
+                  name: 'Another Point',
+                  category: 'Important',
+                  value: 456,
+                },
+                geometry: { type: 'Point', coordinates: [11.4, 47.252] },
+              },
+            ],
+          },
         });
-      }
-    },
-    [map, onMapReady],
+
+        mapInstance.addLayer({
+          id: 'sample-points',
+          type: 'circle',
+          source: 'sample-features',
+          paint: {
+            'circle-radius': 8,
+            'circle-color': '#ff4444',
+            'circle-stroke-color': '#ffffff',
+            'circle-stroke-width': 2,
+          },
+          metadata: {
+            tooltip: {
+              type: 'markdown',
+              paramName: 'name',
+            },
+          },
+        });
+        onMapReady?.(mapInstance);
+      },
+      onMapDestroy: (mapInstance) => {
+        if (mapInstance.getLayer('sample-points')) {
+          mapInstance.removeLayer('sample-points');
+        }
+        if (mapInstance.getSource('sample-features')) {
+          mapInstance.removeSource('sample-features');
+        }
+      },
+    }),
+    [onMapReady],
   );
 
-  useEffect(() => {
-    return () => {
-      if (map) {
-        map.remove();
-        setMap(null);
-      }
-    };
-  }, [map]);
-
   return (
-    <div ref={handleRef} style={{ width: '100%', height: '100vh' }}>
-      {map && (typeof children === 'function' ? children(map) : children)}
-    </div>
+    <MapLibreContainer options={mapOptions} className="map-container">
+      {(map: Map) => (typeof children === 'function' ? children(map) : children)}
+    </MapLibreContainer>
   );
 }
 
@@ -161,9 +156,9 @@ function DefaultDemo() {
     [simpleProvider],
   );
   return (
-    <MapContainer>
+    <FixtureMapContainer>
       {(map: Map) => <MapIntegration map={map} providers={providers} />}
-    </MapContainer>
+    </FixtureMapContainer>
   );
 }
 
@@ -175,9 +170,9 @@ function DebugProviderDemo() {
   );
 
   return (
-    <MapContainer>
+    <FixtureMapContainer>
       {(map: Map) => <MapIntegration map={map} providers={providers} />}
-    </MapContainer>
+    </FixtureMapContainer>
   );
 }
 
@@ -285,7 +280,11 @@ function HotProjectIntegration({ map }: { map: Map }) {
 }
 
 function HotProjectCardDemo() {
-  return <MapContainer>{(map: Map) => <HotProjectIntegration map={map} />}</MapContainer>;
+  return (
+    <FixtureMapContainer>
+      {(map: Map) => <HotProjectIntegration map={map} />}
+    </FixtureMapContainer>
+  );
 }
 
 export default {

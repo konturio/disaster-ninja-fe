@@ -1,5 +1,5 @@
 import type { Map } from 'maplibre-gl';
-import type { ScreenPoint, GeographicPoint } from '../types';
+import type { ScreenPoint } from '../types';
 
 /**
  * Represents different coordinate spaces in the MapLibre GL system.
@@ -11,10 +11,6 @@ export interface MapContainerPoint extends ScreenPoint {
 
 export interface PagePoint extends ScreenPoint {
   readonly _page: unique symbol;
-}
-
-export interface ProjectedPoint extends ScreenPoint {
-  readonly _projected: unique symbol;
 }
 
 /**
@@ -41,28 +37,6 @@ export function getMapContainerRect(map: Map): DOMRect {
  */
 export function wrapLongitude(lng: number): number {
   return ((((lng + 180) % 360) + 360) % 360) - 180;
-}
-
-/**
- * Projects geographic coordinates to screen coordinates using MapLibre GL.
- * Returns projected coordinates in the map's coordinate space.
- */
-export function projectGeographicToScreen(
-  map: Map,
-  geographic: GeographicPoint | [number, number],
-): ProjectedPoint {
-  const coords = Array.isArray(geographic)
-    ? geographic
-    : [geographic.lng, geographic.lat];
-
-  // Wrap longitude before projection
-  const wrappedCoords: [number, number] = [wrapLongitude(coords[0]), coords[1]];
-  const projected = map.project(wrappedCoords);
-
-  return {
-    x: projected.x,
-    y: projected.y,
-  } as ProjectedPoint;
 }
 
 /**
@@ -112,49 +86,4 @@ export function pageToMapContainerCoords(
     x: pagePoint.x - containerRect.left,
     y: pagePoint.y - containerRect.top,
   } as MapContainerPoint;
-}
-
-/**
- * High-level utility: Geographic coordinates to page coordinates.
- * Combines MapLibre projection, clamping, and coordinate space conversion.
- */
-export function geographicToPageCoords(
-  map: Map,
-  geographic: GeographicPoint | [number, number],
-  config: ClampConfig = {},
-): PagePoint {
-  const containerRect = getMapContainerRect(map);
-  const coords = Array.isArray(geographic)
-    ? geographic
-    : [geographic.lng, geographic.lat];
-
-  // Create projection function for this call
-  const projectionFn = (coords: [number, number]) => {
-    const wrappedCoords: [number, number] = [wrapLongitude(coords[0]), coords[1]];
-    const projected = map.project(wrappedCoords);
-    return { x: projected.x, y: projected.y };
-  };
-
-  // Pure projection - no map dependency in the transformation pipeline
-  const projected = projectionFn([wrapLongitude(coords[0]), coords[1]]);
-
-  // Container-based operations
-  const clamped = clampToContainerBounds(projected, containerRect, config);
-  return mapContainerToPageCoords(clamped, containerRect);
-}
-
-/**
- * High-level utility: Geographic coordinates to clamped container coordinates.
- * Projects and clamps to container bounds without converting to page space.
- */
-export function geographicToClampedContainerCoords(
-  map: Map,
-  geographic: GeographicPoint | [number, number],
-  config: ClampConfig = {},
-): MapContainerPoint {
-  const containerRect = getMapContainerRect(map);
-  const projected = projectGeographicToScreen(map, geographic);
-  const clamped = clampToContainerBounds(projected, containerRect, config);
-
-  return clamped as MapContainerPoint;
 }

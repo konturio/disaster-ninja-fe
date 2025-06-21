@@ -13,11 +13,13 @@ import {
   useMapPopoverService,
 } from '~core/map/popover/MapPopoverProvider';
 import { useMapPopoverMaplibreIntegration } from '~core/map/hooks/useMapPopoverMaplibreIntegration';
+import { registerMapListener } from '~core/shared_state/mapListeners';
 import { MapLibreContainer } from './MapLibreContainer';
 import type {
   Map as MapLibreMap,
   MapOptions as MapLibreOptions,
   LayerSpecification,
+  MapMouseEvent,
 } from 'maplibre-gl';
 
 export type ApplicationMap = MapLibreMap;
@@ -103,12 +105,23 @@ export function ConnectedMap({ className }: { className?: string }) {
 function MapIntegration({ map }: { map: MapLibreMap }) {
   const popoverService = useMapPopoverService();
 
+  // Create global event handlers using priority system
+  const eventHandlers = useMemo(
+    () => ({
+      onClick: (handler: (event: MapMouseEvent) => boolean) =>
+        registerMapListener('click', handler, 55),
+      onMove: (handler: () => boolean) => registerMapListener('move', handler, 80),
+    }),
+    [],
+  );
+
   // MapPopover integration with proper position tracking
   useMapPopoverMaplibreIntegration({
     map,
     popoverService,
     enabled: true,
     trackingThrottleMs: 16,
+    eventHandlers,
   });
 
   return null;

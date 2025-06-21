@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useMemo } from 'react';
-import { registerMapListener } from '~core/shared_state/mapListeners';
 import { DefaultMapPopoverPositionCalculator } from '../popover/MapPopoverPositionCalculator';
 import { pageToMapContainerCoords } from '../utils/maplibreCoordinateUtils';
 import { MapContainerRectManager } from '../utils/containerRectManager';
@@ -20,6 +19,12 @@ export interface UseMapPopoverMaplibreIntegrationOptions {
   positionCalculator?: MapPopoverPositionCalculator;
   enabled?: boolean;
   trackingThrottleMs?: number;
+
+  // Must provide BOTH or NEITHER
+  eventHandlers?: {
+    onClick: (handler: (event: MapMouseEvent) => boolean) => () => void;
+    onMove: (handler: () => boolean) => () => void;
+  };
 }
 
 /**
@@ -34,6 +39,7 @@ export function useMapPopoverMaplibreIntegration(
     positionCalculator = defaultPositionCalculator,
     enabled = true,
     trackingThrottleMs = 16,
+    eventHandlers,
   } = options;
 
   const unregisterMoveRef = useRef<(() => void) | null>(null);
@@ -45,6 +51,31 @@ export function useMapPopoverMaplibreIntegration(
   );
 
   const projectionFn = useMemo(() => createMapLibreProjection(map), [map]);
+
+  // Create default handlers - stable reference
+  const defaultHandlers = useMemo(
+    () => ({
+      onClick: (handler: (event: MapMouseEvent) => boolean) => {
+        const clickHandler = (e: MapMouseEvent) => handler(e);
+        map.on('click', clickHandler);
+        return () => map.off('click', clickHandler);
+      },
+      onMove: (handler: () => boolean) => {
+        const moveHandler = () => handler();
+        map.on('move', moveHandler);
+        return () => map.off('move', moveHandler);
+      },
+    }),
+    [map],
+  );
+
+  // Only ref what actually changes between renders - handlers instability
+  const handlersRef = useRef(eventHandlers || defaultHandlers);
+  if (eventHandlers !== undefined && handlersRef.current !== eventHandlers) {
+    handlersRef.current = eventHandlers;
+  } else if (eventHandlers === undefined && handlersRef.current !== defaultHandlers) {
+    handlersRef.current = defaultHandlers;
+  }
 
   // Cleanup on unmount
   useEffect(() => {
@@ -58,7 +89,7 @@ export function useMapPopoverMaplibreIntegration(
       if (!popoverService.isOpen()) return;
 
       try {
-        const containerRect = containerRectManager.getRect(); // Cached access
+        const containerRect = containerRectManager.getRect();
         const containerPoint = pageToMapContainerCoords(point, containerRect);
 
         const { placement } = positionCalculator.calculate(
@@ -71,7 +102,9 @@ export function useMapPopoverMaplibreIntegration(
         console.error('Error updating popover position:', error);
       }
     },
-    [popoverService, positionCalculator, containerRectManager],
+    // popoverService & positionCalculator are stable - omit from deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [containerRectManager],
   );
 
   const positionTracker = useMapPositionTracker({
@@ -86,7 +119,7 @@ export function useMapPopoverMaplibreIntegration(
       unregisterMoveRef.current();
       unregisterMoveRef.current = null;
     }
-  }, []);
+  }, []); // No external dependencies
 
   const startTracking = useCallback(
     (lngLat: [number, number]) => {
@@ -102,9 +135,9 @@ export function useMapPopoverMaplibreIntegration(
         return true; // Continue chain
       };
 
-      unregisterMoveRef.current = registerMapListener('move', handleMapMove, 80);
+      unregisterMoveRef.current = handlersRef.current.onMove(handleMapMove);
     },
-    [positionTracker, unregisterMoveListener],
+    [positionTracker, unregisterMoveListener], // handlers via ref
   );
 
   const stopTracking = useCallback(() => {
@@ -143,25 +176,26 @@ export function useMapPopoverMaplibreIntegration(
 
       return true; // Continue chain - allow other click listeners
     },
-    [popoverService, startTracking],
+    // popoverService usually stable - omit from deps
+    [startTracking, stopTracking],
   );
 
-  // Register click event with priority system
+  // Register click event
   useEffect(() => {
     if (!enabled) return;
 
-    const unregisterClick = registerMapListener('click', handleMapClick, 55);
+    const unregisterClick = handlersRef.current.onClick(handleMapClick);
 
     return () => {
       unregisterClick();
       stopTracking();
     };
-  }, [enabled, handleMapClick]);
+  }, [enabled, handleMapClick, stopTracking]); // handlers via ref
 
   const close = useCallback(() => {
     popoverService.close();
     stopTracking();
-  }, [popoverService, stopTracking]);
+  }, [stopTracking]); // popoverService usually stable
 
   return {
     close,

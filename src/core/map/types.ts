@@ -32,19 +32,6 @@ export interface MapPopoverService {
   isOpen: () => boolean;
 }
 
-export interface MapPositionTracker {
-  startTracking: (lngLat: [number, number]) => void;
-  stopTracking: () => void;
-  cleanup: () => void;
-}
-
-export interface MapClickEvent<T = MapGeoJSONFeature> {
-  point: ScreenPoint;
-  lngLat: GeographicPoint;
-  features: T[];
-  originalEvent: MapMouseEvent;
-}
-
 export interface MapPopoverPositionCalculator {
   calculate: (
     containerRect: DOMRect,
