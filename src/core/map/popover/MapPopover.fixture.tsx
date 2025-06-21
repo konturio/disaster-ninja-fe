@@ -1,15 +1,8 @@
-import React, {
-  useRef,
-  useMemo,
-  useLayoutEffect,
-  useState,
-  useEffect,
-  useCallback,
-} from 'react';
+import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import mapLibre, { type Map } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { MapPopoverProvider, useMapPopoverService } from './MapPopoverProvider';
-import { MapPopoverContentRegistry } from './MapPopoverContentRegistry';
+import { mapPopoverRegistry } from './globalMapPopoverRegistry';
 import { DebugMapPopoverProvider } from './DebugMapPopoverProvider';
 import { useMapPopoverMaplibreIntegration } from '../hooks/useMapPopoverMaplibreIntegration';
 import {
@@ -19,8 +12,8 @@ import {
 import { UniLayoutRenderer } from '~components/Uni/Layout/UniLayoutRenderer';
 import { hotProjectLayoutTemplate } from '~components/Uni/__mocks__/_hotLayout.js';
 import { hotData } from '~core/api/__mocks__/_hotSampleData';
-import type { IMapPopoverContentProvider } from '../types';
-import type { MapMouseEvent } from 'maplibre-gl';
+import type { IMapPopoverContentProvider, IMapPopoverProviderContext } from '../types';
+import { ProviderPriority } from '../types';
 
 // Map container component with ref callback pattern
 function MapContainer({
@@ -111,10 +104,13 @@ function MapContainer({
 
 // Simple provider that shows basic feature info
 class SimpleFeatureProvider implements IMapPopoverContentProvider {
+  readonly priority = ProviderPriority.NORMAL;
   private enabled = true;
 
-  renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null {
+  renderContent(context: IMapPopoverProviderContext): React.ReactNode | null {
     if (!this.enabled) return null;
+
+    const { mapEvent, onClose } = context;
 
     return (
       <div style={{ padding: '12px', backgroundColor: 'white', borderRadius: '4px' }}>
@@ -135,40 +131,23 @@ class SimpleFeatureProvider implements IMapPopoverContentProvider {
   }
 }
 
-class DebugProvider implements IMapPopoverContentProvider {
-  private counter = 0;
-
-  renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null {
-    this.counter++;
-    const features = mapEvent.target?.queryRenderedFeatures?.(mapEvent.point) || [];
-
-    return (
-      <div style={{ padding: '12px', backgroundColor: '#f0f0f0', borderRadius: '4px' }}>
-        <h4>Debug Provider (#{this.counter})</h4>
-        <p>Features found: {features.length}</p>
-        {features.length > 0 && (
-          <details>
-            <summary>Feature details</summary>
-            <pre style={{ fontSize: '10px', maxHeight: '200px', overflow: 'auto' }}>
-              {JSON.stringify(features[0].properties, null, 2)}
-            </pre>
-          </details>
-        )}
-        <button onClick={onClose}>Close Debug</button>
-      </div>
-    );
-  }
-}
-
-function MapIntegration({ map }: { map: Map }) {
+function MapIntegration({
+  map,
+  providers,
+}: {
+  map: Map;
+  providers: { id: string; provider: IMapPopoverContentProvider }[];
+}) {
   const popoverService = useMapPopoverService();
-  const registry = useMemo(() => new MapPopoverContentRegistry(), []);
-  const simpleProvider = useMemo(() => new SimpleFeatureProvider(), []);
 
   useEffect(() => {
-    registry.register('simple', simpleProvider);
-    return () => registry.unregister('simple');
-  }, [registry, simpleProvider]);
+    providers.forEach(({ id, provider }) => {
+      mapPopoverRegistry.register(id, provider);
+    });
+    return () => {
+      providers.forEach(({ id }) => mapPopoverRegistry.unregister(id));
+    };
+  }, [providers]);
 
   useMapPopoverMaplibreIntegration({ map, popoverService });
 
@@ -176,32 +155,33 @@ function MapIntegration({ map }: { map: Map }) {
 }
 
 function DefaultDemo() {
-  return <MapContainer>{(map: Map) => <MapIntegration map={map} />}</MapContainer>;
-}
-
-function DebugMapIntegration({ map }: { map: Map }) {
-  const popoverService = useMapPopoverService();
-  const registry = useMemo(() => new MapPopoverContentRegistry(), []);
-  const debugProvider = useMemo(() => new DebugMapPopoverProvider(), []);
-
-  useEffect(() => {
-    registry.register('debug', debugProvider);
-    return () => registry.unregister('debug');
-  }, [registry, debugProvider]);
-
-  useMapPopoverMaplibreIntegration({ map, popoverService });
-
-  return null;
+  const simpleProvider = useMemo(() => new SimpleFeatureProvider(), []);
+  const providers = useMemo(
+    () => [{ id: 'simple', provider: simpleProvider }],
+    [simpleProvider],
+  );
+  return (
+    <MapContainer>
+      {(map: Map) => <MapIntegration map={map} providers={providers} />}
+    </MapContainer>
+  );
 }
 
 function DebugProviderDemo() {
-  return <MapContainer>{(map: Map) => <DebugMapIntegration map={map} />}</MapContainer>;
+  const debugProvider = useMemo(() => new DebugMapPopoverProvider(), []);
+  const providers = useMemo(
+    () => [{ id: 'debug', provider: debugProvider }],
+    [debugProvider],
+  );
+
+  return (
+    <MapContainer>
+      {(map: Map) => <MapIntegration map={map} providers={providers} />}
+    </MapContainer>
+  );
 }
 
 function HotProjectIntegration({ map }: { map: Map }) {
-  const popoverService = useMapPopoverService();
-  const registry = useMemo(() => new MapPopoverContentRegistry(), []);
-
   // Stable action handler
   const handleAction = useCallback((action: string, payload: any) => {
     alert(`Action: ${action}, Payload: ${JSON.stringify(payload)}`);
@@ -215,12 +195,12 @@ function HotProjectIntegration({ map }: { map: Map }) {
 
   // Create hot project provider
   const hotProjectProvider = useMemo(
-    () => ({
-      renderContent: (mapEvent: MapMouseEvent, onClose: () => void) => {
-        const features =
-          mapEvent.target
-            ?.queryRenderedFeatures?.(mapEvent.point)
-            ?.filter((f) => f.source === 'hot-project-layers') || [];
+    (): IMapPopoverContentProvider => ({
+      priority: ProviderPriority.HIGH,
+      renderContent: (context: IMapPopoverProviderContext) => {
+        const features = context
+          .getFeatures()
+          .filter((f) => f.source === 'hot-project-layers');
         if (features.length === 0) return null;
 
         const feature = features[0];
@@ -242,7 +222,15 @@ function HotProjectIntegration({ map }: { map: Map }) {
   // Also add debug provider for better development experience
   const debugProvider = useMemo(() => new DebugMapPopoverProvider(), []);
 
-  // Map setup and provider registration
+  const providers = useMemo(
+    () => [
+      { id: 'hot-project', provider: hotProjectProvider },
+      { id: 'debug', provider: debugProvider },
+    ],
+    [hotProjectProvider, debugProvider],
+  );
+
+  // Map setup
   useEffect(() => {
     // Check if source already exists before adding
     if (!map.getSource('hot-project-layers')) {
@@ -282,14 +270,7 @@ function HotProjectIntegration({ map }: { map: Map }) {
       });
     }
 
-    // Register both providers - hot project has priority, debug as fallback
-    registry.register('hot-project', hotProjectProvider);
-    registry.register('debug', debugProvider);
-
     return () => {
-      registry.unregister('hot-project');
-      registry.unregister('debug');
-
       // Clean up map layers and sources
       if (map.getLayer('hot-project-points')) {
         map.removeLayer('hot-project-points');
@@ -298,11 +279,9 @@ function HotProjectIntegration({ map }: { map: Map }) {
         map.removeSource('hot-project-layers');
       }
     };
-  }, [map, registry, hotProjectProvider, debugProvider]);
+  }, [map]);
 
-  useMapPopoverMaplibreIntegration({ map, popoverService });
-
-  return null;
+  return <MapIntegration map={map} providers={providers} />;
 }
 
 function HotProjectCardDemo() {
@@ -311,17 +290,17 @@ function HotProjectCardDemo() {
 
 export default {
   DefaultDemo: (
-    <MapPopoverProvider>
+    <MapPopoverProvider registry={mapPopoverRegistry}>
       <DefaultDemo />
     </MapPopoverProvider>
   ),
   DebugProviderDemo: (
-    <MapPopoverProvider>
+    <MapPopoverProvider registry={mapPopoverRegistry}>
       <DebugProviderDemo />
     </MapPopoverProvider>
   ),
   HotProjectCardDemo: (
-    <MapPopoverProvider>
+    <MapPopoverProvider registry={mapPopoverRegistry}>
       <HotProjectCardDemo />
     </MapPopoverProvider>
   ),

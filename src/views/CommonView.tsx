@@ -11,7 +11,6 @@ import type { AppRoute, AvailableRoutesAtom, CurrentRouteAtom } from '~core/rout
 import type { PropsWithChildren } from 'react';
 
 const { NotificationToast } = lazily(() => import('~features/toasts'));
-const { PopupTooltip } = lazily(() => import('~features/tooltip'));
 const { SideBar } = lazily(() => import('~features/side_bar'));
 
 const featureFlags = configRepo.get().features;
@@ -59,10 +58,6 @@ export function CommonView({
 
       <Suspense fallback={null}>
         {featureFlags[AppFeature.TOASTS] && <NotificationToast />}
-      </Suspense>
-
-      <Suspense fallback={null}>
-        {featureFlags[AppFeature.TOOLTIP] && <PopupTooltip />}
       </Suspense>
 
       {/* FIXME: Since this banner also blocks intercom in should check something more common */}

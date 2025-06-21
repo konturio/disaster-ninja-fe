@@ -1,4 +1,4 @@
-import { useMemo, Suspense, useRef } from 'react';
+import { useMemo } from 'react';
 import { useAtom } from '@reatom/npm-react';
 import { useAction } from '@reatom/react-v2';
 import { configRepo } from '~core/config';
@@ -13,7 +13,6 @@ import {
   useMapPopoverService,
 } from '~core/map/popover/MapPopoverProvider';
 import { useMapPopoverMaplibreIntegration } from '~core/map/hooks/useMapPopoverMaplibreIntegration';
-import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { MapLibreContainer } from './MapLibreContainer';
 import type {
   Map as MapLibreMap,
@@ -24,16 +23,9 @@ import type {
 export type ApplicationMap = MapLibreMap;
 export type ApplicationLayer = LayerSpecification;
 
-const LAYERS_ON_TOP = [
-  'editable-layer',
-  'hovered-boundaries-layer',
-  'selected-boundaries-layer',
-];
-// Global map instance to prevent multiple map creation
-let globalMapInstance: MapLibreMap | null = null;
-
-function MapContainer() {
-  const [initialPosition] = useAtom(currentMapPositionAtom, [], false); // do not subsctibe to atom
+export function ConnectedMap({ className }: { className?: string }) {
+  // do not subsctibe to atom, just read initial value
+  const [initialPosition] = useAtom(currentMapPositionAtom, [], false);
   const setCurrentMap = useAction(currentMapAtom.setMap);
 
   const options = useMemo(
@@ -57,14 +49,7 @@ function MapContainer() {
         return config as Omit<MapLibreOptions, 'container'>;
       },
 
-      onMapCreated: (map) => {
-        // Return existing instance if available
-        if (globalMapInstance) {
-          console.warn('Reusing existing MapLibre map instance');
-          setCurrentMap(globalMapInstance);
-          return;
-        }
-
+      onMapCreated: (map: MapLibreMap) => {
         // Apply default extent if no URL position was used
         if (!initialPosition) {
           const extent = configRepo.get().extent;
@@ -73,8 +58,6 @@ function MapContainer() {
           }
         }
 
-        // Store as global singleton
-        globalMapInstance = map;
         setCurrentMap(map);
 
         // Set up light for extrusion layers
@@ -94,43 +77,29 @@ function MapContainer() {
         map.once('load', () => {
           layersOrderManager.init(map, mapLibreParentsIds, layersSettingsAtom);
         });
-
-        // Store cleanup function for unmount
-        (map as any)._cleanup = () => {
-          layersOrderManager.destroy();
-          if (globalThis.KONTUR_MAP === map) {
-            globalThis.KONTUR_MAP = undefined;
-          }
-          if (globalMapInstance === map) {
-            globalMapInstance = null;
-          }
-        };
       },
 
-      onMapDestroy: (map) => {
-        // Use stored cleanup if available
-        const cleanup = (map as any)._cleanup;
-        if (cleanup && typeof cleanup === 'function') {
-          cleanup();
-        } else {
-          // Fallback cleanup
-          layersOrderManager.destroy();
-          if (globalMapInstance === map) {
-            globalMapInstance = null;
-          }
+      onMapDestroy: (map: MapLibreMap) => {
+        layersOrderManager.destroy();
+        if (globalThis.KONTUR_MAP === map) {
+          globalThis.KONTUR_MAP = undefined;
         }
       },
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 
   return (
-    <MapLibreContainer options={options}>
-      {(map) => <MapIntegration map={map} />}
-    </MapLibreContainer>
+    <MapPopoverProvider registry={mapPopoverRegistry}>
+      <MapLibreContainer options={options} className={className}>
+        {(map) => <MapIntegration map={map} />}
+      </MapLibreContainer>
+    </MapPopoverProvider>
   );
 }
 
+// should we repsect featureFlags[AppFeature.TOOLTIP] ?
 function MapIntegration({ map }: { map: MapLibreMap }) {
   const popoverService = useMapPopoverService();
 
@@ -143,14 +112,4 @@ function MapIntegration({ map }: { map: MapLibreMap }) {
   });
 
   return null;
-}
-
-export function ConnectedMap() {
-  return (
-    <MapPopoverProvider registry={mapPopoverRegistry}>
-      <Suspense fallback={<LoadingSpinner />}>
-        <MapContainer />
-      </Suspense>
-    </MapPopoverProvider>
-  );
 }

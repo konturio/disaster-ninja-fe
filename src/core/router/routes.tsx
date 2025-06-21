@@ -3,7 +3,6 @@ import {
   Alarm24,
   Info24,
   Map24,
-  Prefs24,
   User24,
   Reports16,
   Diamond24,
@@ -29,9 +28,6 @@ const { MapPage } = lazily(() => import('~views/Map/Map'));
 const { ReportsPage } = lazily(() => import('~views/Reports/Reports'));
 const { ReportPage } = lazily(() => import('~views/Report/Report'));
 const { ProfilePage } = lazily(() => import('~views/Profile/Profile'));
-const { BivariateManagerPage } = lazily(
-  () => import('~views/BivariateManager/BivariateManager'),
-);
 
 export const isAuthenticated = !!configRepo.get().user;
 export const isMapFeatureEnabled = configRepo.get().features[AppFeature.MAP];
@@ -185,14 +181,6 @@ export const routerConfig: AppRouterConfig = {
       requiredFeature: AppFeature.REPORTS,
       parentRouteId: 'reports',
       visibilityInNavigation: 'never',
-    },
-    {
-      id: 'bivariate-manager',
-      slug: 'bivariate-manager',
-      title: i18n.t('sidebar.biv_color_manager'),
-      icon: <Prefs24 />,
-      view: <BivariateManagerPage />,
-      requiredFeature: AppFeature.BIVARIATE_COLOR_MANAGER,
     },
     {
       id: 'profile',
