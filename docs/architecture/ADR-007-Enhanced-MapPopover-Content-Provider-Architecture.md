@@ -2,7 +2,7 @@
 
 ## Status
 
-**Proposed** - Complete refactor of current registry-based implementation
+**Implemented** - Refactor completed with matching codebase implementation for MapPopoverContentRegistry and related components
 
 ## Table of Contents
 
