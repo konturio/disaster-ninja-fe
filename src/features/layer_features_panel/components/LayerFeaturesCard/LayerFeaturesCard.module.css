@@ -8,6 +8,10 @@
   cursor: pointer;
 }
 
+.uniCard {
+  padding: 0;
+}
+
 .card:hover {
   background-color: var(--base-weak-up);
 }

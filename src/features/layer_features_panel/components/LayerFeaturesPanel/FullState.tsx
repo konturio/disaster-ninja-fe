@@ -2,7 +2,6 @@ import { Virtuoso } from 'react-virtuoso';
 import { useMemo } from 'react';
 import { InfoErrorOutline16 } from '@konturio/default-icons';
 import { Text } from '@konturio/ui-kit';
-import { UniLayoutRenderer } from '~components/Uni/Layout/UniLayoutRenderer';
 import { LayerFeaturesCard } from '../LayerFeaturesCard';
 import s from './LayerFeaturesPanel.module.css';
 import type { FeatureCardCfg } from '../CardElements';
@@ -40,23 +39,13 @@ export function FullState({
           data={featuresList}
           initialTopMostItemIndex={currentFeatureIndex}
           itemContent={(index, feature) => (
-            <div
-              key={index}
+            <LayerFeaturesCard
+              key={feature.id}
+              feature={feature}
+              isActive={index === currentFeatureId}
               onClick={() => onClick(index, feature)}
-              className={s.temporaryBox}
-            >
-              <LayerFeaturesCard
-                key={feature.id}
-                feature={feature}
-                isActive={index === currentFeatureId}
-                onClick={() => onClick(index, feature)}
-              />
-              <div className={s.temporaryDivider} />
-              <UniLayoutRenderer
-                node={layout}
-                data={{ ...feature, active: index === currentFeatureId }}
-              />
-            </div>
+              layout={layout}
+            />
           )}
         />
         <div className={s.height100vh}></div>
