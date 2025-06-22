@@ -52,6 +52,11 @@ export function ConnectedMap({ className }: { className?: string }) {
       },
 
       onMapCreated: (map: MapLibreMap) => {
+        // Global map access for debugging
+        if (!globalThis.KONTUR_MAP) {
+          globalThis.KONTUR_MAP = map;
+        }
+
         // Apply default extent if no URL position was used
         if (!initialPosition) {
           const extent = configRepo.get().extent;
@@ -66,11 +71,6 @@ export function ConnectedMap({ className }: { className?: string }) {
         map.once('styledata', () => {
           map.setLight({ anchor: 'viewport', color: '#FFF', intensity: 1 });
         });
-
-        // Global map access for debugging
-        if (!globalThis.KONTUR_MAP) {
-          globalThis.KONTUR_MAP = map;
-        }
 
         // Disable rotation
         map.touchZoomRotate.disableRotation();

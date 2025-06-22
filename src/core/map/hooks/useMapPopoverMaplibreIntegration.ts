@@ -56,20 +56,17 @@ export function useMapPopoverMaplibreIntegration(
   const defaultHandlers = useMemo(
     () => ({
       onClick: (handler: (event: MapMouseEvent) => boolean) => {
-        const clickHandler = (e: MapMouseEvent) => handler(e);
-        map.on('click', clickHandler);
-        return () => map.off('click', clickHandler);
+        map.on('click', handler);
+        return () => map.off('click', handler);
       },
       onMove: (handler: () => boolean) => {
-        const moveHandler = () => handler();
-        map.on('move', moveHandler);
-        return () => map.off('move', moveHandler);
+        map.on('move', handler);
+        return () => map.off('move', handler);
       },
     }),
     [map],
   );
 
-  // Only ref what actually changes between renders - handlers instability
   const handlersRef = useRef(eventHandlers || defaultHandlers);
   if (eventHandlers !== undefined && handlersRef.current !== eventHandlers) {
     handlersRef.current = eventHandlers;
@@ -102,7 +99,6 @@ export function useMapPopoverMaplibreIntegration(
         console.error('Error updating popover position:', error);
       }
     },
-    // popoverService & positionCalculator are stable - omit from deps
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [containerRectManager],
   );
@@ -119,7 +115,7 @@ export function useMapPopoverMaplibreIntegration(
       unregisterMoveRef.current();
       unregisterMoveRef.current = null;
     }
-  }, []); // No external dependencies
+  }, []);
 
   const startTracking = useCallback(
     (lngLat: [number, number]) => {
@@ -137,7 +133,7 @@ export function useMapPopoverMaplibreIntegration(
 
       unregisterMoveRef.current = handlersRef.current.onMove(handleMapMove);
     },
-    [positionTracker, unregisterMoveListener], // handlers via ref
+    [positionTracker, unregisterMoveListener],
   );
 
   const stopTracking = useCallback(() => {
@@ -176,26 +172,34 @@ export function useMapPopoverMaplibreIntegration(
 
       return true; // Continue chain - allow other click listeners
     },
-    // popoverService usually stable - omit from deps
-    [startTracking, stopTracking],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
   );
 
   // Register click event
-  useEffect(() => {
-    if (!enabled) return;
+  useEffect(
+    () => {
+      if (!enabled) return;
 
-    const unregisterClick = handlersRef.current.onClick(handleMapClick);
+      const unregisterClick = handlersRef.current.onClick(handleMapClick);
 
-    return () => {
-      unregisterClick();
+      return () => {
+        unregisterClick();
+        stopTracking();
+      };
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [enabled],
+  );
+
+  const close = useCallback(
+    () => {
+      popoverService.close();
       stopTracking();
-    };
-  }, [enabled, handleMapClick, stopTracking]); // handlers via ref
-
-  const close = useCallback(() => {
-    popoverService.close();
-    stopTracking();
-  }, [stopTracking]); // popoverService usually stable
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
 
   return {
     close,

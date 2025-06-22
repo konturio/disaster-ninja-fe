@@ -35,65 +35,72 @@ function FixtureMapContainer({
         zoom: 11,
       }),
       onMapCreated: (mapInstance) => {
-        // Add sample features for testing
-        mapInstance.addSource('sample-features', {
-          type: 'geojson',
-          data: {
-            type: 'FeatureCollection',
-            features: [
-              {
-                type: 'Feature',
-                properties: { name: 'Sample Point', type: 'Demo', value: 123 },
-                geometry: { type: 'Point', coordinates: [11.41, 47.25] },
-              },
-              {
-                type: 'Feature',
-                properties: {
-                  name: 'Another Point',
-                  category: 'Important',
-                  value: 456,
+        mapInstance.once('style.load', () => {
+          // Add sample features for testing
+          mapInstance.addSource('sample-features', {
+            type: 'geojson',
+            data: {
+              type: 'FeatureCollection',
+              features: [
+                {
+                  type: 'Feature',
+                  properties: { name: 'Sample Point', type: 'Demo', value: 123 },
+                  geometry: { type: 'Point', coordinates: [11.41, 47.25] },
                 },
-                geometry: { type: 'Point', coordinates: [11.4, 47.252] },
-              },
-            ],
-          },
-        });
-
-        mapInstance.addLayer({
-          id: 'sample-points',
-          type: 'circle',
-          source: 'sample-features',
-          paint: {
-            'circle-radius': 8,
-            'circle-color': '#ff4444',
-            'circle-stroke-color': '#ffffff',
-            'circle-stroke-width': 2,
-          },
-          metadata: {
-            tooltip: {
-              type: 'markdown',
-              paramName: 'name',
+                {
+                  type: 'Feature',
+                  properties: {
+                    name: 'Another Point',
+                    category: 'Important',
+                    value: 456,
+                  },
+                  geometry: { type: 'Point', coordinates: [11.4, 47.252] },
+                },
+              ],
             },
-          },
+          });
+
+          mapInstance.addLayer({
+            id: 'sample-points',
+            type: 'circle',
+            source: 'sample-features',
+            paint: {
+              'circle-radius': 8,
+              'circle-color': '#ff4444',
+              'circle-stroke-color': '#ffffff',
+              'circle-stroke-width': 2,
+            },
+            metadata: {
+              tooltip: {
+                type: 'markdown',
+                paramName: 'name',
+              },
+            },
+          });
         });
         onMapReady?.(mapInstance);
       },
       onMapDestroy: (mapInstance) => {
-        if (mapInstance.getLayer('sample-points')) {
-          mapInstance.removeLayer('sample-points');
-        }
-        if (mapInstance.getSource('sample-features')) {
-          mapInstance.removeSource('sample-features');
+        try {
+          if (mapInstance.style) {
+            mapInstance.removeLayer('sample-points');
+            mapInstance.removeSource('sample-features');
+          }
+        } catch (error) {
+          console.warn('Failed to cleanup map resources:', error);
         }
       },
     }),
-    [onMapReady],
+    [],
   );
-
+  const _st = `.map-container{flex-grow:1;}`;
   return (
-    <MapLibreContainer options={mapOptions} className="map-container">
-      {(map: Map) => (typeof children === 'function' ? children(map) : children)}
-    </MapLibreContainer>
+    <>
+      <style>{_st}</style>
+      <MapLibreContainer options={mapOptions} className="map-container">
+        {(map: Map) => (typeof children === 'function' ? children(map) : children)}
+      </MapLibreContainer>
+    </>
   );
 }
 
@@ -211,7 +218,7 @@ function HotProjectIntegration({ map }: { map: Map }) {
         );
       },
     }),
-    [uniLayoutContextValue],
+    [],
   );
 
   // Also add debug provider for better development experience
@@ -222,13 +229,12 @@ function HotProjectIntegration({ map }: { map: Map }) {
       { id: 'hot-project', provider: hotProjectProvider },
       { id: 'debug', provider: debugProvider },
     ],
-    [hotProjectProvider, debugProvider],
+    [],
   );
 
   // Map setup
   useEffect(() => {
-    // Check if source already exists before adding
-    if (!map.getSource('hot-project-layers')) {
+    map.once('style.load', () => {
       // Add hot project data
       map.addSource('hot-project-layers', {
         type: 'geojson',
@@ -248,10 +254,7 @@ function HotProjectIntegration({ map }: { map: Map }) {
           ],
         },
       });
-    }
 
-    // Check if layer already exists before adding
-    if (!map.getLayer('hot-project-points')) {
       map.addLayer({
         id: 'hot-project-points',
         type: 'circle',
@@ -263,15 +266,17 @@ function HotProjectIntegration({ map }: { map: Map }) {
           'circle-stroke-width': 2,
         },
       });
-    }
+    });
 
     return () => {
       // Clean up map layers and sources
-      if (map.getLayer('hot-project-points')) {
-        map.removeLayer('hot-project-points');
-      }
-      if (map.getSource('hot-project-layers')) {
-        map.removeSource('hot-project-layers');
+      try {
+        if (map.style) {
+          map.removeLayer('hot-project-points');
+          map.removeSource('hot-project-layers');
+        }
+      } catch (error) {
+        // Layer or source may not exist, ignore cleanup errors
       }
     };
   }, [map]);

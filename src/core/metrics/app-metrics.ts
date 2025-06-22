@@ -181,7 +181,7 @@ export class AppMetrics implements Metric {
           if (KONTUR_METRICS_DEBUG) {
             console.warn('metrics waitForMapFullyRendered', this.watchList);
           }
-          waitForMapFullyRendered(globalThis?.KONTUR_MAP, { timeout: 30000 })
+          waitForMapFullyRendered(() => globalThis?.KONTUR_MAP, { timeout: 30000 })
             .then(() => {
               const timing = performance.now();
               this.report('ready', timing);
