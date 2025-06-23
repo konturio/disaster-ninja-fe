@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useRef, useMemo } from 'react';
+import { type Map, type MapMouseEvent } from 'maplibre-gl';
 import { DefaultMapPopoverPositionCalculator } from '../popover/MapPopoverPositionCalculator';
-import { pageToMapContainerCoords } from '../utils/maplibreCoordinateUtils';
+import {
+  pageToMapContainerCoords,
+  wrapLongitude,
+} from '../utils/maplibreCoordinateUtils';
 import { MapContainerRectManager } from '../utils/containerRectManager';
 import { createMapLibreProjection } from '../utils/projectionFunction';
 import { useMapPositionTracker } from './useMapPositionTracker';
@@ -9,7 +13,6 @@ import type {
   ScreenPoint,
   MapPopoverPositionCalculator,
 } from '../types';
-import type { Map, MapMouseEvent } from 'maplibre-gl';
 
 const defaultPositionCalculator = new DefaultMapPopoverPositionCalculator();
 
@@ -153,8 +156,8 @@ export function useMapPopoverMaplibreIntegration(
       }
 
       try {
+        event.lngLat.lng = wrapLongitude(event.lngLat.lng);
         const hasContent = popoverService.showWithEvent(event);
-
         if (hasContent) {
           // Start tracking for new popover
           startTracking([event.lngLat.lng, event.lngLat.lat]);

@@ -16,7 +16,8 @@ export class MapPopoverContentRegistry implements IMapPopoverContentRegistry {
   };
   private exclusiveProviderId: string | null = null;
   private registrationCounter = 0;
-  private memoizedFeatures: MapGeoJSONFeature[] | null = null;
+  private currentMapEvent: MapMouseEvent | null = null;
+  private cachedFeatures: MapGeoJSONFeature[] | null = null;
   private onCloseCallback: (() => void) | null = null;
 
   register(id: string, provider: IMapPopoverContentProvider): void {
@@ -79,8 +80,9 @@ export class MapPopoverContentRegistry implements IMapPopoverContentRegistry {
   }
 
   renderContent(mapEvent: MapMouseEvent, onClose: () => void): React.ReactNode | null {
-    // Memoize features for this render cycle
-    this.memoizedFeatures = mapEvent.target.queryRenderedFeatures(mapEvent.point);
+    // Prepare lazy feature loading for this render cycle
+    this.currentMapEvent = mapEvent;
+    this.cachedFeatures = null;
 
     // Exclusive mode: execute only the exclusive provider or no one
     if (this.currentToolState.isExclusive) {
@@ -94,14 +96,14 @@ export class MapPopoverContentRegistry implements IMapPopoverContentRegistry {
             registration,
           );
           const content = this.executeProvider(registration, context);
-          // Clear memoized features after render cycle
-          this.memoizedFeatures = null;
+          // Clear render cycle state
+          this.clearRenderCycleState();
           return content;
         }
       }
       // In exclusive mode, but no matching provider found.
       // Return null and do not process other providers.
-      this.memoizedFeatures = null;
+      this.clearRenderCycleState();
       return null;
     }
 
@@ -130,8 +132,8 @@ export class MapPopoverContentRegistry implements IMapPopoverContentRegistry {
       }
     }
 
-    // Clear memoized features after render cycle
-    this.memoizedFeatures = null;
+    // Clear render cycle state
+    this.clearRenderCycleState();
 
     // Return null if no content (not empty array)
     if (contentElements.length === 0) {
@@ -150,7 +152,12 @@ export class MapPopoverContentRegistry implements IMapPopoverContentRegistry {
     this.orderedProviderIds = [];
     this.clearExclusiveMode();
     this.registrationCounter = 0;
-    this.memoizedFeatures = null;
+    this.clearRenderCycleState();
+  }
+
+  private clearRenderCycleState(): void {
+    this.currentMapEvent = null;
+    this.cachedFeatures = null;
   }
 
   private sortProviders(): void {
@@ -171,7 +178,14 @@ export class MapPopoverContentRegistry implements IMapPopoverContentRegistry {
     registration: ProviderRegistration,
   ): IMapPopoverProviderContext {
     return {
-      getFeatures: () => this.memoizedFeatures || [],
+      getFeatures: () => {
+        if (this.cachedFeatures === null && this.currentMapEvent) {
+          this.cachedFeatures = this.currentMapEvent.target.queryRenderedFeatures(
+            this.currentMapEvent.point,
+          );
+        }
+        return this.cachedFeatures || [];
+      },
       getToolState: () => ({ ...this.currentToolState }),
       getProviderInfo: () => ({
         priority: registration.priority,

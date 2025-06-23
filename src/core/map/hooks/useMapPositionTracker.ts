@@ -3,7 +3,6 @@ import { throttle } from '@github/mini-throttle';
 import {
   clampToContainerBounds,
   mapContainerToPageCoords,
-  wrapLongitude,
 } from '../utils/maplibreCoordinateUtils';
 import { isValidLngLatArray } from '../utils/coordinateValidation';
 import type { ScreenPoint } from '../types';
@@ -44,7 +43,7 @@ export function useMapPositionTracker(
       try {
         const containerRect = containerRectManager.getRect();
 
-        const projected = projectionFn([wrapLongitude(lng), lat]);
+        const projected = projectionFn([lng, lat]);
 
         const clamped = clampToContainerBounds(projected, containerRect, {
           clampToBounds: true,
@@ -85,16 +84,12 @@ export function useMapPositionTracker(
 
   const setCurrentPosition = useCallback(
     (lngLat: [number, number]) => {
-      const wrappedLngLat: [number, number] = [wrapLongitude(lngLat[0]), lngLat[1]];
-
-      if (!isValidLngLatArray(wrappedLngLat)) {
-        console.error(
-          `Invalid coordinates for tracking: [${wrappedLngLat[0]}, ${wrappedLngLat[1]}]`,
-        );
+      if (!isValidLngLatArray(lngLat)) {
+        console.error(`Invalid coordinates for tracking: [${lngLat[0]}, ${lngLat[1]}]`);
         return;
       }
 
-      currentLngLatRef.current = wrappedLngLat;
+      currentLngLatRef.current = lngLat;
 
       // Trigger initial position update
       updatePosition();
