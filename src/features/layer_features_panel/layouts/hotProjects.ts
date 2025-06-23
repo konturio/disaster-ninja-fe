@@ -58,7 +58,9 @@ export const hotProjectsLayout = {
     {
       type: 'Url',
       $value: 'projectId',
-      // pre-transform: 'https://tasks.hotosm.org/projects/{value}' -> projectUrl,
+      props: {
+        urlTemplate: 'https://tasks.hotosm.org/projects/{{value}}',
+      },
       label: 'Open in Tasking Manager',
     },
   ],
