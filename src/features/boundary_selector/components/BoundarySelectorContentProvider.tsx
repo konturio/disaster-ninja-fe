@@ -8,6 +8,7 @@ import { clickCoordinatesAtom } from '../atoms/clickCoordinatesAtom';
 import { fetchBoundariesAsyncResource } from '../atoms/boundaryResourceAtom';
 import { hoverBoundaryAction, selectBoundaryAction } from '../atoms/boundaryActions';
 import { highlightedGeometryAtom } from '../atoms/highlightedGeometry';
+import s from './BoundarySelector.module.css';
 import type {
   IMapPopoverContentProvider,
   IMapPopoverProviderContext,
@@ -87,6 +88,7 @@ function BoundarySelector({
 
   return (
     <Selector
+      className={s.BoundarySelector}
       options={options.map((option) => ({ ...option, value: String(option.value) }))}
       stopPropagation={true}
       onChange={(boundaryId: string) => {

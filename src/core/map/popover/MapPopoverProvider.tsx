@@ -195,7 +195,9 @@ export function MapPopoverProvider({
           virtualReference={globalPopover.screenPoint}
           placement={globalPopover.placement}
         >
-          <PopoverContent>{globalPopover.content}</PopoverContent>
+          <PopoverContent contentClassName={'mappopover-content'}>
+            {globalPopover.content}
+          </PopoverContent>
         </Popover>
       )}
       {Array.from(popovers.values()).map((popover) => (
@@ -206,7 +208,9 @@ export function MapPopoverProvider({
           virtualReference={popover.screenPoint}
           placement={popover.placement}
         >
-          <PopoverContent>{popover.content}</PopoverContent>
+          <PopoverContent contentClassName={'mappopover-content'}>
+            {popover.content}
+          </PopoverContent>
         </Popover>
       ))}
     </MapPopoverContext.Provider>

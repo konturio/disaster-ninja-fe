@@ -120,7 +120,11 @@ export class MapPopoverContentRegistry implements IMapPopoverContentRegistry {
         const content = this.executeProvider(registration, context);
         if (content) {
           contentElements.push(
-            React.createElement('div', { key: providerId, title: providerId }, content),
+            React.createElement(
+              'div',
+              { key: providerId, title: providerId, className: 'mappopover-provider' },
+              content,
+            ),
           );
         }
       }

@@ -238,10 +238,6 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     if (!isVisible) this.willHide({ map });
   }
 
-  onMapZoom = (ev: maplibregl.MapLibreEvent<MapLibreZoomEvent>) => {
-    // Registry-based popovers handle their own cleanup on zoom
-  };
-
   /* ========== Hooks ========== */
   willSourceUpdate({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
     if (state.source) {
@@ -261,7 +257,6 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
   }
 
   willMount({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
-    map.on('zoom', this.onMapZoom);
     if (state.source) {
       this._updateMap(
         map,
@@ -316,7 +311,6 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       );
     }
     this.cleanUpListeners();
-    map.off('zoom', this.onMapZoom);
   }
 
   willHide({ map }: { map: ApplicationMap }) {

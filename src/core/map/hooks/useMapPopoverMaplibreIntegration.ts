@@ -52,7 +52,7 @@ export function useMapPopoverMaplibreIntegration(
 
   const projectionFn = useMemo(() => createMapLibreProjection(map), [map]);
 
-  // Create default handlers - stable reference
+  // Create default handlers for adhoc integration
   const defaultHandlers = useMemo(
     () => ({
       onClick: (handler: (event: MapMouseEvent) => boolean) => {

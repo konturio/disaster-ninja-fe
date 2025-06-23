@@ -161,10 +161,6 @@ export abstract class ClickableFeaturesRenderer extends LogicalLayerDefaultRende
     if (!isVisible) this.willHide({ map });
   }
 
-  onMapZoom = (ev: maplibregl.MapLibreEvent<MapLibreZoomEvent>) => {
-    // Registry-based popovers handle their own cleanup on zoom
-  };
-
   /* ========== Hooks ========== */
   willSourceUpdate({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
     if (state.source) {
@@ -184,7 +180,6 @@ export abstract class ClickableFeaturesRenderer extends LogicalLayerDefaultRende
   }
 
   willMount({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
-    map.on('zoom', this.onMapZoom);
     if (state.source) {
       this._updateMap(
         map,
@@ -235,7 +230,6 @@ export abstract class ClickableFeaturesRenderer extends LogicalLayerDefaultRende
       );
     }
     this.cleanUpListeners();
-    map.off('zoom', this.onMapZoom);
   }
 
   willHide({ map }: { map: ApplicationMap }) {

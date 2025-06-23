@@ -175,8 +175,14 @@ export const PopoverTrigger = React.forwardRef<
 
 export const PopoverContent = React.forwardRef<
   HTMLDivElement,
-  React.HTMLProps<HTMLDivElement>
->(function PopoverContent({ style, ...props }, propRef) {
+  React.HTMLProps<HTMLDivElement> & {
+    containerClassName?: string;
+    contentClassName?: string;
+  }
+>(function PopoverContent(
+  { style, containerClassName, contentClassName, ...props },
+  propRef,
+) {
   const { context: floatingContext, arrowRef, ...context } = usePopoverContext();
   const ref = useMergeRefs([context.refs.setFloating, propRef]);
 
@@ -188,11 +194,15 @@ export const PopoverContent = React.forwardRef<
         <div
           ref={ref}
           style={{ ...context.floatingStyles, ...style }}
-          className={s.Popover}
+          className={`${s.Popover}${containerClassName ? ` ${containerClassName}` : ''}`}
           {...context.getFloatingProps(props)}
         >
           <PopoverClose />
-          <div className={s.PopoverContent}>{props.children}</div>
+          <div
+            className={`${s.PopoverContent}${contentClassName ? ` ${contentClassName}` : ''}`}
+          >
+            {props.children}
+          </div>
           <FloatingArrow
             ref={arrowRef}
             context={floatingContext}
