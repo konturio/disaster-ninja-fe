@@ -57,6 +57,7 @@ const fieldsRegistry: Record<string, FieldMeta> = {
   mappingTypes: {
     type: 'text',
     label: i18n.t('mapping_types'),
+    format: 'capitalized_list',
   },
   projectId: {
     type: 'number',

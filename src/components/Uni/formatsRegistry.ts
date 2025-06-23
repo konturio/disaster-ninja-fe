@@ -1,5 +1,5 @@
 import { i18n } from '~core/localization';
-import { isNumber } from '~utils/common';
+import { isNumber, toCapitalizedList } from '~utils/common';
 
 const language = i18n.instance.language || 'default';
 
@@ -129,5 +129,8 @@ export const formatsRegistry = {
   },
   distance_per_pixel(metersPerPixel?: number) {
     return isNumber(metersPerPixel) ? formatDistancePerPixel(metersPerPixel) : '';
+  },
+  capitalized_list(values?: string[]) {
+    return values ? toCapitalizedList(values) : '';
   },
 };
