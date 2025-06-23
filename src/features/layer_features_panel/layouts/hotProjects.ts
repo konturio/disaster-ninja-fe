@@ -6,21 +6,35 @@ export const hotProjectsLayout = {
     {
       type: 'Row',
       children: [
-        { type: 'Badge', $value: 'projectId' },
         {
           type: 'Badge',
-          $value: 'projectPriority',
-          props: { variant: 'projectPriority' },
+          $value: 'projectId',
+          props: {
+            format: 'project_id',
+          },
         },
         {
           type: 'Badge',
-          $value: 'status',
-          $if: 'status',
-          overrides: { value: { format: 'text' } },
+          $props: {
+            value: 'projectPriority',
+            variant: 'projectPriority',
+          },
+          props: {
+            format: 'priority_level',
+            mapping: {
+              low: 'neutral',
+              medium: 'info',
+              high: 'warning',
+              urgent: 'error',
+            },
+          },
         },
       ],
     },
-    { type: 'Title', $value: 'projectInfo.name' },
+    {
+      type: 'Title',
+      $value: 'projectInfo.name',
+    },
     {
       type: 'MappingProgress',
       $props: {
@@ -31,17 +45,20 @@ export const hotProjectsLayout = {
     {
       type: 'Field',
       $value: 'mappingTypes',
-      overrides: { value: { format: 'join_title' } },
+      showLabel: true,
     },
-    { type: 'Field', $value: 'created', overrides: { value: { format: 'date_time' } } },
+    {
+      type: 'Field',
+      $value: 'created',
+    },
     {
       type: 'Field',
       $value: 'lastUpdated',
-      overrides: { value: { format: 'date_time' } },
     },
     {
       type: 'Url',
-      $value: 'projectLink',
+      $value: 'projectId',
+      // pre-transform: 'https://tasks.hotosm.org/projects/{value}' -> projectUrl,
       label: 'Open in Tasking Manager',
     },
   ],

@@ -22,4 +22,14 @@ export const layerFeaturesFormats = {
   join_title(values?: string[]) {
     return values?.map(toTitleCase).join(', ') ?? '';
   },
+  project_id(value?: string | number) {
+    return value ? `#${value}` : '';
+  },
+  priority_level(value?: string) {
+    return value
+      ? i18n.t('layer_features_panel.priority', {
+          level: toTitleCase(value),
+        })
+      : '';
+  },
 };

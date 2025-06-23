@@ -1,4 +1,5 @@
 import clsx from 'clsx';
+import { useUniLayoutContext } from '../Layout/UniLayoutContext';
 import s from './Badge.module.css';
 
 type VariantType = 'error' | 'success' | 'warning' | 'info' | 'neutral';
@@ -18,6 +19,7 @@ interface BadgeProps {
   mapping?: Record<string, VariantType>;
   className?: string;
   style?: object;
+  format?: string;
 }
 
 export function Badge({
@@ -26,8 +28,16 @@ export function Badge({
   mapping,
   className = '',
   style = {},
+  format,
 }: BadgeProps) {
+  const context = useUniLayoutContext();
+
   if (value === undefined) return null;
+
+  const formattedValue =
+    format && context.formatsRegistry[format]
+      ? context.formatsRegistry[format](value)
+      : value;
 
   const key = ('' + value).toLowerCase();
   const computedVariant: VariantType = mapping?.[key] ?? variant;
@@ -36,7 +46,7 @@ export function Badge({
 
   return (
     <div className={clsx(s.badge, variantClass, className)} style={style}>
-      {value}
+      {formattedValue}
     </div>
   );
 }
