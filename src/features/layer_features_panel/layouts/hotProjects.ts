@@ -50,10 +50,12 @@ export const hotProjectsLayout = {
     {
       type: 'Field',
       $value: 'created',
+      format: 'date_timezone',
     },
     {
       type: 'Field',
       $value: 'lastUpdated',
+      format: 'date_timezone',
     },
     {
       type: 'Url',

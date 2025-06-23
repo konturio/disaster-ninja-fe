@@ -18,6 +18,13 @@ const dateMonthYearFormatter = new Intl.DateTimeFormat(language, {
   day: 'numeric',
 }).format;
 
+const dateWithTimezoneFormatter = new Intl.DateTimeFormat(language, {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+  timeZoneName: 'short',
+}).format;
+
 export const numberFormatter = new Intl.NumberFormat(language);
 
 export const number_f000_Formatter = new Intl.NumberFormat(language, {
@@ -84,6 +91,9 @@ export const formatsRegistry = {
   },
   date_month_year(date?: string) {
     return date ? dateMonthYearFormatter(new Date(date)) : '';
+  },
+  date_timezone(date?: string) {
+    return date ? dateWithTimezoneFormatter(new Date(date)) : '';
   },
   dates_interval(datesInterval: { dateStart?: string; dateEnd?: string }) {
     return formatDatesInterval(datesInterval.dateStart, datesInterval.dateEnd);
