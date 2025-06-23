@@ -30,7 +30,7 @@ export function LayerFeaturesCard({
         })}
       </div>
       <div
-        className={clsx(s.card, s.uniCard, isActive && s.selected)}
+        className={clsx(s.uniCard, isActive && s.selected)}
         onClick={onClick}
         tabIndex={0}
       >
