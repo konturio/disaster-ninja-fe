@@ -18,11 +18,7 @@ export interface IProjectionFunction {
  * Adjusts longitude to match map's reference frame when viewport crosses antimeridian.
  * Handles cases where map bounds span the 180°/-180° line.
  */
-function adjustLongitudeForMapBounds(lng: number, map: Map): number {
-  const bounds = map.getBounds();
-  const swLng = bounds.getSouthWest().lng;
-  const neLng = bounds.getNorthEast().lng;
-
+function adjustLongitudeForMapBounds(lng: number, swLng: number, neLng: number): number {
   // Check if map crosses antimeridian (bounds extend beyond ±180°)
   const crossesAntimeridian = neLng > 180 || swLng < -180 || swLng > neLng;
 
@@ -61,7 +57,11 @@ function adjustLongitudeForMapBounds(lng: number, map: Map): number {
  */
 export function createMapLibreProjection(map: Map): IProjectionFunction {
   return (coords: [number, number]) => {
-    const adjustedLng = adjustLongitudeForMapBounds(coords[0], map);
+    const bounds = map.getBounds();
+    const swLng = bounds.getSouthWest().lng;
+    const neLng = bounds.getNorthEast().lng;
+
+    const adjustedLng = adjustLongitudeForMapBounds(coords[0], swLng, neLng);
     const adjustedCoords: [number, number] = [adjustedLng, coords[1]];
     const projected = map.project(adjustedCoords);
 

@@ -2,6 +2,17 @@ import React from 'react';
 import { ProviderPriority } from '../types';
 import type { IMapPopoverContentProvider, IMapPopoverProviderContext } from '../types';
 
+// type: "Point" | "MultiPoint" | "LineString" | "MultiLineString" | "Polygon" | "MultiPolygon" | "GeometryCollection"
+const GeometryTypeIcon = {
+  Point: '📍',
+  MultiPoint: '[📍]',
+  LineString: '📏',
+  MultiLineString: '[📏]',
+  Polygon: '⭔',
+  MultiPolygon: '[⭔]',
+  GeometryCollection: '🗺️',
+};
+
 /**
  * Debug content provider that dumps all found features properties.
  */
@@ -12,27 +23,13 @@ export class DebugMapPopoverProvider implements IMapPopoverContentProvider {
     const features = context.getFeatures();
     const { mapEvent } = context;
 
-    if (features.length === 0) {
-      return (
-        <div>
-          <h4>Features Inspector: No features found</h4>
-          <p>
-            <strong>Coordinates:</strong> {mapEvent.lngLat.lng.toFixed(6)},{' '}
-            {mapEvent.lngLat.lat.toFixed(6)}
-          </p>
-          <p>
-            <strong>Screen Point:</strong> x: {mapEvent.point.x}, y: {mapEvent.point.y}
-          </p>
-        </div>
-      );
-    }
-
     return (
       <div>
         <h4>Features Inspector: Found {features.length} feature(s)</h4>
         <p>
           <strong>Coordinates:</strong> {mapEvent.lngLat.lng.toFixed(6)},{' '}
-          {mapEvent.lngLat.lat.toFixed(6)}
+          {mapEvent.lngLat.lat.toFixed(6)} <br />
+          <strong>Screen Point:</strong> x: {mapEvent.point.x}, y: {mapEvent.point.y}
         </p>
 
         {features.map((feature, index) => (
@@ -42,7 +39,12 @@ export class DebugMapPopoverProvider implements IMapPopoverContentProvider {
           >
             <details>
               <summary>
-                #{index + 1} <strong>Source Layer:</strong> {feature?.sourceLayer}
+                <b title={feature.geometry?.type}>
+                  {GeometryTypeIcon[feature.geometry?.type] ||
+                    feature.geometry?.type ||
+                    '?'}
+                </b>
+                <strong> Source Layer:</strong> {feature?.sourceLayer}
               </summary>
               <ul>
                 <li>
@@ -50,9 +52,6 @@ export class DebugMapPopoverProvider implements IMapPopoverContentProvider {
                 </li>
                 <li>
                   <strong>Source:</strong> {feature.source || 'unknown'}
-                </li>
-                <li>
-                  <strong>Geometry Type:</strong> {feature.geometry?.type || 'unknown'}
                 </li>
               </ul>
               <pre>{JSON.stringify(feature?.properties, null, 2)}</pre>
