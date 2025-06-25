@@ -67,7 +67,6 @@ export function createLogicalLayerAtom(
       layersMetaAtom,
       layersSourcesAtom,
       enabledLayersAtom,
-      mountedLayersAtom,
       hiddenLayersAtom,
       layersMenusAtom,
       layersEditorsAtom,
@@ -113,7 +112,7 @@ export function createLogicalLayerAtom(
       const layersMenus = get('layersMenusAtom').get(id) ?? null;
       const logError = annotatedError(state.id);
 
-      let mounted = get('mountedLayersAtom');
+      let mounted = getUnlistedState(mountedLayersAtom);
       // TODO: Temporary fix of reatom bug. Remove after migration to v3
       if (_lastUpdatedState_DO_NOT_USE_OR_YOU_WILL_BE_FIRED !== mounted) {
         if (configRepo.get().id === '8906feaf-fc18-4180-bb5f-ff545cf65100') {

@@ -19,11 +19,15 @@ store.v3ctx.subscribe((patches) => {
   patches?.forEach((patch) => {
     const atomName = patch.proto?.name;
     if (atomName) {
+      const { state, ...rest } = patch;
       dispatchMetricsEvent(atomName, patch?.state);
-      KONTUR_WARN && console.warn(atomName, patch);
+
+      // if (Object.hasOwn(state ?? {}, 'contextMenu')) return;
+
+      KONTUR_WARN && console.warn(atomName, state, { patch: rest });
       if (KONTUR_TRACE_TYPE) {
         if (atomName.includes(KONTUR_TRACE_TYPE)) {
-          console.trace('TRACE:', atomName, patch);
+          console.trace('TRACE:', atomName, state, { patch: rest });
         }
       }
     }

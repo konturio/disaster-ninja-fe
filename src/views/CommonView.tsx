@@ -6,6 +6,7 @@ import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import { CookieConsentBanner } from '~features/cookie_consent_banner';
 import { FullScreenLoader } from '~components/LoadingSpinner/LoadingSpinner';
 import { AppFeature } from '~core/app/types';
+import { KONTUR_DEBUG } from '~utils/debug';
 import s from './CommonView.module.css';
 import type { AppRoute, AvailableRoutesAtom, CurrentRouteAtom } from '~core/router';
 import type { PropsWithChildren } from 'react';
@@ -52,7 +53,13 @@ export function CommonView({
           )}
         </Suspense>
         <span id={`app-route-${routeId}`} style={{ display: 'contents' }}>
-          <Suspense fallback={<FullScreenLoader />}>{children}</Suspense>
+          <Suspense
+            fallback={
+              <FullScreenLoader message={KONTUR_DEBUG ? 'CommonView: ' + routeId : ''} />
+            }
+          >
+            {children}
+          </Suspense>
         </span>
       </div>
 
