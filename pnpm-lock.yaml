@@ -7,7 +7,7 @@ settings:
 overrides:
   '@loaders.gl/worker-utils': ^3.4.15
   '@loaders.gl/core': ^3.4.14
-  '@reatom/utils': ^3.11.0
+  '@reatom/core': 3.10.1
 
 patchedDependencies:
   '@reatom/core-v2@3.1.4':
@@ -1449,9 +1449,6 @@ packages:
   '@reatom/core@3.10.1':
     resolution: {integrity: sha512-A5vx+akCGkc+YCYhqPaAnR46uvqe70pQ2JB82JCLgOrj+YmnStIGkiaiWG43wn30qUjatXjejJmGkqQbjtri+A==}
 
-  '@reatom/core@3.9.1':
-    resolution: {integrity: sha512-Gc12tUzaSkehtUlEQnKkUMZZ2MEVkmdh0kEN5WHl4fLv6bzZgdZZuezUdNYzi/dY9uLN+mhmu7q0iKmzH20cFA==}
-
   '@reatom/effects@3.10.2':
     resolution: {integrity: sha512-5Nw9KQTTaZAQ3VQsDCzKiJCWLdN7Ck6apAWT3iM3xZHJwrWYBgT/MTVqAymya40hOJh2bRsaQecar73jUKxIUw==}
 
@@ -1501,6 +1498,9 @@ packages:
 
   '@reatom/utils@3.11.0':
     resolution: {integrity: sha512-e59Gd7WC6jp5yo3LGUnveZkntsfNUJlXVkPGl24I2dFomoOH1XEPGJtDCzQQu5Y8S0mVuAUj5VwbqA4f+x4Pew==}
+
+  '@reatom/utils@3.11.3':
+    resolution: {integrity: sha512-H2FQf9xra7Twf0PxS6L0DtuRRC79NfHRB3V/YhnhPHyUE/UFscXrin/I2eGj3FEKcgOfC2BWnzCOrkXjKWgECQ==}
 
   '@remix-run/router@1.21.0':
     resolution: {integrity: sha512-xfSkCAchbdG5PnbrKqFWwia4Bi61nH+wm8wLEqfHDyp7Y3dZzgqS2itV8i4gAq9pC2HsTpwyBC6Ds8VHZ96JlA==}
@@ -7426,25 +7426,23 @@ snapshots:
       '@reatom/effects': 3.11.3
       '@reatom/hooks': 3.6.1
       '@reatom/primitives': 3.11.0
-      '@reatom/utils': 3.11.0
+      '@reatom/utils': 3.11.3
 
   '@reatom/core-v2@3.1.4(patch_hash=cvif2474bcnojmuyn3echjb57a)':
     dependencies:
-      '@reatom/core': 3.9.1
+      '@reatom/core': 3.10.1
 
   '@reatom/core@3.10.1': {}
 
-  '@reatom/core@3.9.1': {}
-
   '@reatom/effects@3.10.2':
     dependencies:
-      '@reatom/core': 3.9.1
+      '@reatom/core': 3.10.1
       '@reatom/utils': 3.11.0
 
   '@reatom/effects@3.11.3':
     dependencies:
       '@reatom/core': 3.10.1
-      '@reatom/utils': 3.11.0
+      '@reatom/utils': 3.11.3
 
   '@reatom/framework@3.4.64':
     dependencies:
@@ -7455,11 +7453,11 @@ snapshots:
       '@reatom/lens': 3.12.0
       '@reatom/logger': 3.8.4
       '@reatom/primitives': 3.11.0
-      '@reatom/utils': 3.11.0
+      '@reatom/utils': 3.11.3
 
   '@reatom/hooks@3.6.0':
     dependencies:
-      '@reatom/core': 3.9.1
+      '@reatom/core': 3.10.1
       '@reatom/effects': 3.10.2
       '@reatom/utils': 3.11.0
 
@@ -7467,11 +7465,11 @@ snapshots:
     dependencies:
       '@reatom/core': 3.10.1
       '@reatom/effects': 3.11.3
-      '@reatom/utils': 3.11.0
+      '@reatom/utils': 3.11.3
 
   '@reatom/lens@3.11.6':
     dependencies:
-      '@reatom/core': 3.9.1
+      '@reatom/core': 3.10.1
       '@reatom/effects': 3.10.2
       '@reatom/hooks': 3.6.0
       '@reatom/primitives': 3.7.3
@@ -7483,16 +7481,16 @@ snapshots:
       '@reatom/effects': 3.11.3
       '@reatom/hooks': 3.6.1
       '@reatom/primitives': 3.11.0
-      '@reatom/utils': 3.11.0
+      '@reatom/utils': 3.11.3
 
   '@reatom/logger@3.8.4':
     dependencies:
       '@reatom/core': 3.10.1
-      '@reatom/utils': 3.11.0
+      '@reatom/utils': 3.11.3
 
   '@reatom/npm-react@3.10.6(react@18.3.1)':
     dependencies:
-      '@reatom/core': 3.9.1
+      '@reatom/core': 3.10.1
       '@reatom/effects': 3.10.2
       '@reatom/lens': 3.11.6
       '@reatom/utils': 3.11.0
@@ -7501,7 +7499,7 @@ snapshots:
 
   '@reatom/persist@3.4.1':
     dependencies:
-      '@reatom/core': 3.9.1
+      '@reatom/core': 3.10.1
       '@reatom/hooks': 3.6.0
       '@reatom/lens': 3.11.6
       '@reatom/utils': 3.11.0
@@ -7509,11 +7507,11 @@ snapshots:
   '@reatom/primitives@3.11.0':
     dependencies:
       '@reatom/core': 3.10.1
-      '@reatom/utils': 3.11.0
+      '@reatom/utils': 3.11.3
 
   '@reatom/primitives@3.7.3':
     dependencies:
-      '@reatom/core': 3.9.1
+      '@reatom/core': 3.10.1
       '@reatom/utils': 3.11.0
 
   '@reatom/react-v2@3.1.2(@reatom/core-v2@3.1.4(patch_hash=cvif2474bcnojmuyn3echjb57a))(react@18.3.1)':
@@ -7523,10 +7521,12 @@ snapshots:
 
   '@reatom/testing@3.4.9':
     dependencies:
-      '@reatom/core': 3.9.1
+      '@reatom/core': 3.10.1
       '@reatom/persist': 3.4.1
 
   '@reatom/utils@3.11.0': {}
+
+  '@reatom/utils@3.11.3': {}
 
   '@remix-run/router@1.21.0': {}
 

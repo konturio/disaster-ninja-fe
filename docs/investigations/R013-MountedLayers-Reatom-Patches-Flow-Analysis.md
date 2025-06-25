@@ -416,12 +416,12 @@ LayerAtom → depends on → mountedLayersAtom → triggers → LayerAtom recalc
 
 ## Implementation Fix Applied
 
-### Primary Fix: Circular Dependency Removal
+### Primary Fix: Circular Dependency Removal for Mount State
 
 **Date**: 2025-06-25
 **Scope**: Breaking the circular dependency cascade in logical layer atoms
 
-**Changes Applied:**
+**Changes Applied - Mount State:**
 
 **Location**: [`logicalLayerFabric.ts:66`](../../src/core/logical_layers/utils/logicalLayerFabric.ts#L66)
 
@@ -448,27 +448,72 @@ const logicalLayerAtom = createAtom({
 + let mounted = getUnlistedState(mountedLayersAtom); // ✅ Direct state access
 ```
 
-### Fix Impact Analysis
+### Secondary Fix: Circular Dependency Removal for Enabled State
+
+**Date**: 2025-06-25
+**Scope**: Breaking the circular dependency cascade for layer enable/disable operations
+
+**Changes Applied - Enabled State:**
+
+**Location**: [`logicalLayerFabric.ts:67`](../../src/core/logical_layers/utils/logicalLayerFabric.ts#L67)
+
+```diff
+const logicalLayerAtom = createAtom({
+  ...logicalLayerActions,
+  layersSettingsAtom,
+  layersLegendsAtom,
+  layersMetaAtom,
+  layersSourcesAtom,
+- enabledLayersAtom, // ❌ Removed dependency
+  hiddenLayersAtom,
+  layersMenusAtom,
+  layersEditorsAtom,
+  _patchState: (newState: Partial<LogicalLayerState>) => newState,
+}, /* ... */);
+```
+
+**Location**: [`logicalLayerFabric.ts:131`](../../src/core/logical_layers/utils/logicalLayerFabric.ts#L131)
+
+```diff
+- isEnabled: get('enabledLayersAtom').has(id), // ❌ Dependency-based access
++ isEnabled: getUnlistedState(enabledLayersAtom).has(id), // ✅ Direct state access
+```
+
+### Combined Fix Impact Analysis
 
 **Performance Improvement:**
 
-- **Before**: O(n) complexity per mount operation (where n = total layers)
-- **After**: O(1) complexity per mount operation
-- **Cascade Elimination**: Mounting Layer A no longer triggers recalculation of Layers B, C, D...
+- **Mount Operations**: O(n) → O(1) complexity per mount operation
+- **Enable/Disable Operations**: O(n) → O(1) complexity per enable operation
+- **Mutual Exclusion**: O(n²) → O(1) complexity for exclusive layer operations
+- **Cascade Elimination**: Operations on Layer A no longer trigger recalculation of Layers B, C, D...
 
 **Behavioral Preservation:**
 
 - ✅ Mount status reading unchanged
+- ✅ Enable status reading unchanged
 - ✅ Layer lifecycle identical
 - ✅ Registry integration maintained
 - ✅ Map integration preserved
+- ✅ Mutual exclusion logic preserved
 
 **Patch Flow Optimization:**
 
 ```
-Before: Layer A mounts → ALL layers recalculate → Multiple patch flows
-After:  Layer A mounts → Only Layer A processes → Single patch flow
+Before Mount: Layer A mounts → ALL layers recalculate → Multiple patch flows
+After Mount:  Layer A mounts → Only Layer A processes → Single patch flow
+
+Before Enable: Layer A enables → ALL layers recalculate → Multiple patch flows
+                + Mutual exclusion → Multiple enabledLayersAtom.delete() → MORE cascades
+After Enable:  Layer A enables → Only Layer A processes → Single patch flow
+                + Mutual exclusion → Clean targeted operations → No cascades
 ```
+
+**Architectural Impact:**
+
+- **Removed circular dependencies** between layer atoms and shared state atoms
+- **Preserved all functionality** while eliminating performance bottlenecks
+- **Established pattern** for future shared state atom integrations using `getUnlistedState`
 
 ## Further Recommendations
 

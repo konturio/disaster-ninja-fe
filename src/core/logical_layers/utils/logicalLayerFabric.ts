@@ -28,7 +28,6 @@ import type { LogicalLayerActions, LogicalLayerState } from '../types/logicalLay
 import type { LogicalLayerRenderer } from '../types/renderer';
 import type { AsyncState } from '../types/asyncState';
 import type { Action } from '@reatom/core-v2';
-import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 
 /**
  * Layer Atom responsibilities:
@@ -66,7 +65,6 @@ export function createLogicalLayerAtom(
       layersLegendsAtom,
       layersMetaAtom,
       layersSourcesAtom,
-      enabledLayersAtom,
       hiddenLayersAtom,
       layersMenusAtom,
       layersEditorsAtom,
@@ -93,7 +91,7 @@ export function createLogicalLayerAtom(
       },
     ) => {
       const actions: Action[] = [];
-      const map = customMap || getUnlistedState<ApplicationMap | null>(currentMapAtom);
+      const map = customMap || getUnlistedState(currentMapAtom);
 
       /**
        * ! Important Note! In you add new sub stores,
@@ -129,7 +127,7 @@ export function createLogicalLayerAtom(
           asyncLayerLegend,
           asyncLayerSource,
         ].some((s) => s.isLoading),
-        isEnabled: get('enabledLayersAtom').has(id),
+        isEnabled: getUnlistedState(enabledLayersAtom).has(id),
         isMounted: mounted.has(id),
         isVisible: !get('hiddenLayersAtom').has(id),
         isDownloadable:
@@ -358,7 +356,7 @@ export function createLogicalLayerAtom(
       // Update state only it have changes
       return newState;
     },
-    { id, decorators: [] },
+    { id: `logicalLayerAtom:${id}`, decorators: [] },
   );
 
   return logicalLayerAtom;
