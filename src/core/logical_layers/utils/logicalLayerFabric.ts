@@ -65,6 +65,8 @@ export function createLogicalLayerAtom(
       layersLegendsAtom,
       layersMetaAtom,
       layersSourcesAtom,
+      enabledLayersAtom,
+      mountedLayersAtom,
       hiddenLayersAtom,
       layersMenusAtom,
       layersEditorsAtom,
@@ -110,7 +112,7 @@ export function createLogicalLayerAtom(
       const layersMenus = get('layersMenusAtom').get(id) ?? null;
       const logError = annotatedError(state.id);
 
-      let mounted = getUnlistedState(mountedLayersAtom);
+      let mounted = get('mountedLayersAtom');
       // TODO: Temporary fix of reatom bug. Remove after migration to v3
       if (_lastUpdatedState_DO_NOT_USE_OR_YOU_WILL_BE_FIRED !== mounted) {
         if (configRepo.get().id === '8906feaf-fc18-4180-bb5f-ff545cf65100') {
@@ -127,7 +129,7 @@ export function createLogicalLayerAtom(
           asyncLayerLegend,
           asyncLayerSource,
         ].some((s) => s.isLoading),
-        isEnabled: getUnlistedState(enabledLayersAtom).has(id),
+        isEnabled: get('enabledLayersAtom').has(id),
         isMounted: mounted.has(id),
         isVisible: !get('hiddenLayersAtom').has(id),
         isDownloadable:
