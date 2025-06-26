@@ -7,7 +7,7 @@ export interface MapOptions {
   getConfig: () => Omit<MapLibreOptions, 'container'>;
   onMapCreated?: (map: MapLibreMap) => void;
   onMapDestroy?: (map: MapLibreMap) => void;
-  /** Auto-resize handling. Default: true. Set to false to disable */
+  /** Auto-resize map on container resize. Default: true. Set to false to disable */
   autoResize?: boolean;
 }
 
@@ -57,10 +57,8 @@ export function MapLibreContainer({
 
       let resizeCleanup: (() => void) | undefined;
 
-      // Handle auto-resize
       const autoResize = options.autoResize ?? true;
       if (autoResize) {
-        // Throttled resize handling
         const throttledResize = throttle(() => {
           map.getCanvas().style.width = '100%';
           map.getCanvas().style.height = '100%';
@@ -92,7 +90,6 @@ export function MapLibreContainer({
   useEffect(() => {
     return () => {
       if (mapInstance) {
-        // Cleanup resize handling
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const resizeCleanup = (mapInstance as any)._resizeCleanup;
         if (resizeCleanup && typeof resizeCleanup === 'function') {

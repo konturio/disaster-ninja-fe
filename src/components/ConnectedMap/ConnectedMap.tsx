@@ -119,7 +119,6 @@ function MapIntegration({ map }: { map: MapLibreMap }) {
   useMapPopoverMaplibreIntegration({
     map,
     popoverService,
-    enabled: true,
     trackingThrottleMs: 16,
     eventHandlers,
   });
