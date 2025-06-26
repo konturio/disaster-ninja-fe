@@ -356,7 +356,7 @@ export function createLogicalLayerAtom(
       // Update state only it have changes
       return newState;
     },
-    { id: `logicalLayerAtom:${id}`, decorators: [] },
+    { id, decorators: [] },
   );
 
   return logicalLayerAtom;
