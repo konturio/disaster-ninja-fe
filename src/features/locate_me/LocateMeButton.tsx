@@ -1,6 +1,6 @@
 import { Locate24 } from '@konturio/default-icons';
 import { Spinner } from '@konturio/ui-kit';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { i18n } from '~core/localization';
 import { currentNotificationAtom } from '~core/shared_state';
 import { setCurrentMapPosition } from '~core/shared_state/currentMapPosition';
@@ -16,12 +16,23 @@ export function LocateMeButton({
 }: WidgetProps) {
   const [isLocating, setIsLocating] = useState(false);
 
+  const watchIdRef = useRef<number>();
+
   const handleClick = useCallback(() => {
     setIsLocating(true);
-    navigator.geolocation.getCurrentPosition(
+    onClick();
+  }, [onClick]);
+
+  useEffect(() => {
+    if (!isLocating) return;
+
+    watchIdRef.current = navigator.geolocation.watchPosition(
       (location) => {
         const { latitude: lat, longitude: lng } = location.coords;
         setCurrentMapPosition(store.v3ctx, { lat, lng, zoom: LOCATE_ME_ZOOM });
+        if (watchIdRef.current !== undefined) {
+          navigator.geolocation.clearWatch(watchIdRef.current);
+        }
         setIsLocating(false);
       },
       (error) => {
@@ -30,11 +41,19 @@ export function LocateMeButton({
           { title: error.message || i18n.t('locate_me.get_location_error') },
           3,
         );
+        if (watchIdRef.current !== undefined) {
+          navigator.geolocation.clearWatch(watchIdRef.current);
+        }
         setIsLocating(false);
       },
     );
-    onClick();
-  }, [onClick]);
+
+    return () => {
+      if (watchIdRef.current !== undefined) {
+        navigator.geolocation.clearWatch(watchIdRef.current);
+      }
+    };
+  }, [isLocating]);
 
   return (
     <ControlComponent
