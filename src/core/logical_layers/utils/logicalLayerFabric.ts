@@ -1,4 +1,5 @@
 // https://beta.plectica.com/maps/I6JK50E2F/edit/4NE4TFESC
+import { deepEqual } from 'fast-equals';
 import { currentMapAtom } from '~core/shared_state/currentMap';
 import { createAtom } from '~utils/atoms';
 import { downloadObject } from '~utils/file/download';
@@ -29,6 +30,89 @@ import type { LogicalLayerRenderer } from '../types/renderer';
 import type { AsyncState } from '../types/asyncState';
 import type { Action } from '@reatom/core-v2';
 
+// Utility type to make readonly properties writable
+type Writable<T> = { -readonly [P in keyof T]: T[P] };
+
+/**
+ * Creates a layer-specific state atom that depends on shared atoms
+ * but only extracts data relevant to the specific layer.
+ * Uses deep equality to prevent unnecessary updates.
+ */
+function createLogicalLayerStateAtom(id: string) {
+  return createAtom(
+    {
+      layersSettingsAtom,
+      layersLegendsAtom,
+      layersMetaAtom,
+      layersSourcesAtom,
+      enabledLayersAtom,
+      mountedLayersAtom,
+      hiddenLayersAtom,
+      layersMenusAtom,
+      layersEditorsAtom,
+    },
+    ({ get }, prevState: Omit<LogicalLayerState, 'error'> | null = null) => {
+      const fallbackAsyncState: AsyncState<null> = {
+        isLoading: false,
+        data: null,
+        error: null,
+      };
+
+      const asyncLayerSettings = get('layersSettingsAtom').get(id) ?? fallbackAsyncState;
+      const asyncLayerMeta = get('layersMetaAtom').get(id) ?? fallbackAsyncState;
+      const asyncLayerLegend = get('layersLegendsAtom').get(id) ?? fallbackAsyncState;
+      const asyncLayerSource = get('layersSourcesAtom').get(id) ?? fallbackAsyncState;
+      const asyncLayerEditor = get('layersEditorsAtom').get(id) ?? fallbackAsyncState;
+      const layersMenus = get('layersMenusAtom').get(id) ?? null;
+
+      let mounted = get('mountedLayersAtom');
+      // TODO: Temporary fix of reatom bug. Remove after migration to v3
+      if (_lastUpdatedState_DO_NOT_USE_OR_YOU_WILL_BE_FIRED !== mounted) {
+        if (configRepo.get().id === '8906feaf-fc18-4180-bb5f-ff545cf65100') {
+          console.debug('Apply workaround');
+          mounted = _lastUpdatedState_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+        }
+      }
+
+      const newState = {
+        id,
+        isLoading: [
+          asyncLayerSettings,
+          asyncLayerMeta,
+          asyncLayerLegend,
+          asyncLayerSource,
+        ].some((s) => s.isLoading),
+        isEnabled: get('enabledLayersAtom').has(id),
+        isMounted: mounted.has(id),
+        isVisible: !get('hiddenLayersAtom').has(id),
+        isDownloadable:
+          asyncLayerSource.data?.source.type === 'geojson' ||
+          asyncLayerSource.data?.style?.type === 'mcda' ||
+          asyncLayerSource.data?.style?.type === 'multivariate',
+        isEditable:
+          (asyncLayerSource.data?.style?.type === 'mcda' ||
+            asyncLayerSource.data?.style?.type === 'multivariate') &&
+          !!asyncLayerSettings.data?.ownedByUser,
+        settings: deepFreeze(asyncLayerSettings.data),
+        meta: deepFreeze(asyncLayerMeta.data),
+        legend: deepFreeze(asyncLayerLegend.data),
+        source: deepFreeze(asyncLayerSource.data),
+        contextMenu: deepFreeze(layersMenus),
+        style: asyncLayerSource.data?.style ?? null,
+        editor: deepFreeze(asyncLayerEditor.data),
+      };
+
+      // Deep equality optimization
+      if (prevState && deepEqual(prevState, newState)) {
+        return prevState;
+      }
+
+      return newState;
+    },
+    `logicalLayerStateAtom-${id}`,
+  );
+}
+
 /**
  * Layer Atom responsibilities:
  * - select and compose layer state from different lists
@@ -58,18 +142,12 @@ export function createLogicalLayerAtom(
   customMap?: maplibregl.Map | null,
 ) {
   let hasBeenDestroyed = false;
+  const logicalLayerStateAtom = createLogicalLayerStateAtom(id);
+
   const logicalLayerAtom = createAtom(
     {
       ...logicalLayerActions,
-      layersSettingsAtom,
-      layersLegendsAtom,
-      layersMetaAtom,
-      layersSourcesAtom,
-      enabledLayersAtom,
-      mountedLayersAtom,
-      hiddenLayersAtom,
-      layersMenusAtom,
-      layersEditorsAtom,
+      logicalLayerStateAtom,
       _patchState: (newState: Partial<LogicalLayerState>) => newState,
     },
     (
@@ -94,59 +172,13 @@ export function createLogicalLayerAtom(
     ) => {
       const actions: Action[] = [];
       const map = customMap || getUnlistedState(currentMapAtom);
-
-      /**
-       * ! Important Note! In you add new sub stores,
-       * ! Don't forget clean up external states
-       */
-      const fallbackAsyncState: AsyncState<null> = {
-        isLoading: false,
-        data: null,
-        error: null,
-      };
-      const asyncLayerSettings = get('layersSettingsAtom').get(id) ?? fallbackAsyncState;
-      const asyncLayerMeta = get('layersMetaAtom').get(id) ?? fallbackAsyncState;
-      const asyncLayerLegend = get('layersLegendsAtom').get(id) ?? fallbackAsyncState;
-      const asyncLayerSource = get('layersSourcesAtom').get(id) ?? fallbackAsyncState;
-      const asyncLayerEditor = get('layersEditorsAtom').get(id) ?? fallbackAsyncState;
-      const layersMenus = get('layersMenusAtom').get(id) ?? null;
       const logError = annotatedError(state.id);
 
-      let mounted = get('mountedLayersAtom');
-      // TODO: Temporary fix of reatom bug. Remove after migration to v3
-      if (_lastUpdatedState_DO_NOT_USE_OR_YOU_WILL_BE_FIRED !== mounted) {
-        if (configRepo.get().id === '8906feaf-fc18-4180-bb5f-ff545cf65100') {
-          console.debug('Apply workaround');
-          mounted = _lastUpdatedState_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
-        }
-      }
-      const newState = {
-        id: state.id,
+      const computedState = get('logicalLayerStateAtom');
+
+      const newState: Writable<LogicalLayerState> = {
+        ...computedState,
         error: state.error,
-        isLoading: [
-          asyncLayerSettings,
-          asyncLayerMeta,
-          asyncLayerLegend,
-          asyncLayerSource,
-        ].some((s) => s.isLoading),
-        isEnabled: get('enabledLayersAtom').has(id),
-        isMounted: mounted.has(id),
-        isVisible: !get('hiddenLayersAtom').has(id),
-        isDownloadable:
-          asyncLayerSource.data?.source.type === 'geojson' ||
-          asyncLayerSource.data?.style?.type === 'mcda' ||
-          asyncLayerSource.data?.style?.type === 'multivariate',
-        isEditable:
-          (asyncLayerSource.data?.style?.type === 'mcda' ||
-            asyncLayerSource.data?.style?.type === 'multivariate') &&
-          !!asyncLayerSettings.data?.ownedByUser,
-        settings: deepFreeze(asyncLayerSettings.data),
-        meta: deepFreeze(asyncLayerMeta.data),
-        legend: deepFreeze(asyncLayerLegend.data),
-        source: deepFreeze(asyncLayerSource.data),
-        contextMenu: deepFreeze(layersMenus),
-        style: asyncLayerSource.data?.style ?? null,
-        editor: deepFreeze(asyncLayerEditor.data),
       };
 
       /* Init (lazy) */

@@ -116,6 +116,7 @@
     "dnd-core": "^16.0.1",
     "dot-object": "^2.1.5",
     "emoji-regex": "^10.4.0",
+    "fast-equals": "^5.2.2",
     "geojson-polygon-self-intersections": "^1.2.1",
     "gettext-parser": "^8.0.0",
     "hash-wasm": "^4.12.0",
