@@ -902,6 +902,17 @@ a {
     -webkit-user-drag: none;
   }
 
+  /* Ensure media fits within the viewport */
+  & img,
+  & iframe {
+    max-width: 100%;
+  }
+
+  & iframe {
+    width: 100%;
+    height: auto;
+  }
+
   /* button-like appearance inside Hx STRONG: # **[]()** */
   & :where(h1, h2, h3, h4, h5, h6) strong {
     & a {
