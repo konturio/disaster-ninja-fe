@@ -12,7 +12,7 @@
     box-shadow: var(--shadow-small);
     border-radius: 8px;
 
-    --faint-weak: none;
+    --faint-weak: #eceeef;
     --accent-weak: #0516260f;
     --base-weak-up: #0516260f;
 
