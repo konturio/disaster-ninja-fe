@@ -118,6 +118,7 @@ export type LegendStepStyle = {
   'casing-opacity'?: string;
   'casing-width'?: string;
   'fill-color'?: string;
+  'fill-opacity'?: string;
   color?: string;
   width?: string;
   offset?: string;

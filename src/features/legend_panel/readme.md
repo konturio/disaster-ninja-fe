@@ -25,3 +25,4 @@ import { FullAndShortStatesPanelWidget } from '~widgets/FullAndShortStatesPanelW
 
 `<PanelContent />` renders the list of layers based on `mountedLayersAtom`.
 Legends can either be bivariate [BivariateLegend](github.com/konturio/disaster-ninja-fe/blob/main/src/components/BivariateLegend/BivariateLegend.tsx) or "simple" [SimpleLegend](https://github.com/konturio/disaster-ninja-fe/blob/main/src/components/SimpleLegend/SimpleLegend.tsx).
+Simple legends respect a `fill-opacity` style property which controls the opacity of the icon fill. This is used for event shape layers like Alert Area or volcano forecasts.

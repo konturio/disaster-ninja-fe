@@ -53,6 +53,7 @@ export function HexIcon({
       <path
         d="M2.70577 5.36603L9 1.73205L15.2942 5.36602V12.634L9 16.268L2.70577 12.634V5.36603Z"
         fill={fill || styles['fill-color'] || 'white'}
+        fillOpacity={styles['fill-opacity'] || 1}
         stroke={fill || styles['fill-color'] || 'white'}
         strokeWidth="3"
       />
@@ -86,6 +87,7 @@ export function HexIcon({
       <path
         d="M9 6L11.5981 7.5V10.5L9 12L6.40192 10.5V7.5L9 6Z"
         fill={fill || styles['fill-color'] || 'white'}
+        fillOpacity={styles['fill-opacity'] || 1}
       />
     </svg>
   );

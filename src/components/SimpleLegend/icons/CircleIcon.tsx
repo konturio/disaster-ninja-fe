@@ -31,6 +31,7 @@ export function CircleIcon({
         cy="9"
         r="7"
         fill={fill || styles['fill-color'] || styles['circle-color'] || 'none'}
+        fillOpacity={styles['fill-opacity'] || 1}
         stroke={
           stroke ||
           styles['circle-stroke-color'] ||

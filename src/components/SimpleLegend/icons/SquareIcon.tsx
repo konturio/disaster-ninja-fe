@@ -32,6 +32,7 @@ export function SquareIcon({
         width="12"
         height="12"
         fill={fill || styles['fill-color'] || 'none'}
+        fillOpacity={styles['fill-opacity'] || 1}
         stroke={stroke || styles.color || '#000000'}
         strokeWidth={styles.width || 3}
       />
