@@ -25,8 +25,8 @@ export const currentProfileAtom = createAtom(
         const user = await getCurrentUser();
         if (!user) throw new Error(i18n.t('no_data_received'));
         dispatch(pageStatusAtom.set('ready'));
-        state = user;
-        dispatch(currentUserAtom.setUser(user));
+        state = { ...configRepo.get().initialUser, ...user };
+        dispatch(currentUserAtom.setUser(state));
       });
     });
 
@@ -47,7 +47,7 @@ export const currentProfileAtom = createAtom(
 
     onChange('currentUserAtom', async (newUser, prevUser) => {
       const { loading, defaultLayers, ...newState } = newUser;
-      state = newState;
+      state = { ...configRepo.get().initialUser, ...newState };
     });
 
     return state;

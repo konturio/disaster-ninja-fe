@@ -9,7 +9,7 @@ export const currentUserAtom = createAtom(
   ({ onAction }, state: CurrentUser = configRepo.get().initialUser) => {
     onAction('setUser', (usr) => {
       if (usr) {
-        state = usr;
+        state = { ...configRepo.get().initialUser, ...usr };
       } else {
         state = configRepo.get().initialUser;
       }

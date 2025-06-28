@@ -19,3 +19,10 @@ Import `LoginForm`, `SettingsForm` from feature root
 
 Successful login stores `justLoggedIn` flag in `sessionStorage` and reloads the page.
 If the router reads `justLoggedIn` flag, it redirects the user to the first available route from `DEFAULT_POST_LOGIN_ROUTES` array.
+
+### Default settings
+
+When a newly registered user opens the profile page, missing profile fields are
+automatically populated with defaults from the application configuration. Those
+defaults include `language` (`en`), metric units, the Kontur theme, `JOSM` as the
+OSM editor and `Kontur Public` disaster feed.
