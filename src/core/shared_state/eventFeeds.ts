@@ -7,7 +7,7 @@ import {
 import { i18n } from '~core/localization';
 import { currentEventFeedAtom } from './currentEventFeed';
 
-const defaultFeeds: EventFeed[] = [getDefaultFeedObject(configRepo.get().defaultFeed)];
+const defaultFeeds: EventFeed[] = [getDefaultFeedObject(configRepo.getUserDefaultFeed())];
 
 export const eventFeedsAtom = createAtom(
   {
@@ -19,7 +19,7 @@ export const eventFeedsAtom = createAtom(
     if (!loading && !error) {
       if (data) {
         console.assert(
-          data.map((d) => d.feed).includes(configRepo.get().defaultFeed),
+          data.map((d) => d.feed).includes(configRepo.getUserDefaultFeed()),
           'default feed not included in response',
         );
         state = { data, loading };

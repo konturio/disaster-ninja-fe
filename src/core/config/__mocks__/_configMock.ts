@@ -353,5 +353,7 @@ const _configDataMock = {
 
 // @ts-ignore
 configRepo.get = () => _configDataMock;
+// @ts-ignore
+configRepo.getUserDefaultFeed = () => _configDataMock.initialUser.defaultFeed;
 
 export { configRepo };
