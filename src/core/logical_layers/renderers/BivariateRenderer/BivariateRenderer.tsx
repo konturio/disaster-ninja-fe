@@ -31,7 +31,6 @@ import type { MCDALayerStyle } from '../stylesConfigs/mcda/types';
 import type {
   LayerSpecification,
   LineLayerSpecification,
-  MapLibreZoomEvent,
   VectorSourceSpecification,
 } from 'maplibre-gl';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';

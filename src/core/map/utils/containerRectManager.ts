@@ -26,10 +26,12 @@ export interface IContainerRectManager {
 }
 
 /**
- * Container rect manager for MapLibre GL map containers.
- * Provides cached access to container bounds with automatic invalidation.
+ * Performance-optimized DOMRect observer that:
+ * - Minimizes layout thrashing via smart caching
+ * - Uses ResizeObserver for efficient change detection
+ * - Provides synchronous but efficient notifications
  */
-export class MapContainerRectManager implements IContainerRectManager {
+export class ContainerRectManager implements IContainerRectManager {
   private cachedRect: DOMRect | null = null;
   private container: HTMLElement;
   private resizeObserver: ResizeObserver;

@@ -36,18 +36,23 @@ export class MapPopoverContentRegistry implements IMapPopoverContentRegistry {
     this.providers.set(id, registration);
     this.sortProviders();
 
-    // Close existing popover when exclusive tool is registered
-    if (provider.isExclusive && this.onCloseCallback) {
-      this.onCloseCallback();
+    // Set exclusive mode when exclusive provider is registered
+    if (provider.isExclusive) {
+      this.setExclusiveMode(id, provider.toolId);
     }
   }
 
   unregister(id: string): void {
+    const isExclusive = this.providers.get(id)?.provider.isExclusive || false;
+
     this.providers.delete(id);
     this.sortProviders();
 
-    // Clear exclusive mode if the exclusive provider was removed
-    if (this.exclusiveProviderId === id) {
+    // Close popover and clear exclusive mode if removing an exclusive provider
+    if (isExclusive) {
+      if (this.onCloseCallback) {
+        this.onCloseCallback();
+      }
       this.clearExclusiveMode();
     }
   }

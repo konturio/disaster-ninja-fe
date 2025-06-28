@@ -5,7 +5,7 @@ import {
   pageToMapContainerCoords,
   wrapLongitude,
 } from '../utils/maplibreCoordinateUtils';
-import { MapContainerRectManager } from '../utils/containerRectManager';
+import { ContainerRectManager } from '../utils/containerRectManager';
 import { createMapLibreProjection } from '../utils/projectionFunction';
 import { useMapPositionTracker } from './useMapPositionTracker';
 import type {
@@ -49,7 +49,7 @@ export function useMapPopoverMaplibreIntegration(
 
   // Create managers once
   const containerRectManager = useMemo(
-    () => new MapContainerRectManager(map.getContainer()),
+    () => new ContainerRectManager(map.getContainer()),
     [map],
   );
 

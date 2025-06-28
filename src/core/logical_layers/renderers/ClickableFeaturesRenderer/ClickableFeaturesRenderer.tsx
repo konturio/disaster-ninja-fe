@@ -9,11 +9,7 @@ import { SOURCE_LAYER_BIVARIATE } from '../BivariateRenderer/constants';
 import { createFeatureStateHandlers } from '../helpers/activeAndHoverFeatureStates';
 import { H3_HOVER_LAYER } from '../BivariateRenderer/constants';
 import { ClickableFeaturesPopoverProvider } from './ClickableFeaturesPopoverProvider';
-import type {
-  LineLayerSpecification,
-  MapLibreZoomEvent,
-  VectorSourceSpecification,
-} from 'maplibre-gl';
+import type { LineLayerSpecification, VectorSourceSpecification } from 'maplibre-gl';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import type { LayerLegend } from '~core/logical_layers/types/legends';
 import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
