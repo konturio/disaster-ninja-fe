@@ -30,7 +30,7 @@ msgstr "Вийти"
 msgid "Save"
 msgstr "Зберегти"
 
-#: cancel mcda##btn_cancel
+#: cancel
 msgid "Cancel"
 msgstr "Скасувати"
 
@@ -49,6 +49,11 @@ msgstr "Катастрофа"
 #: loading
 msgid "Loading..."
 msgstr "Завантаження..."
+
+#: preparing_data
+#, fuzzy
+msgid "Preparing data"
+msgstr "Збираємо дані"
 
 #: loading_events
 msgid "Loading disasters"
@@ -78,6 +83,11 @@ msgstr "Презентація легенди"
 msgid "Layers"
 msgstr "Шари"
 
+#: layer
+#, fuzzy
+msgid "Layer"
+msgstr "Шари"
+
 #: toolbar##map_ruler
 msgid "Measure distance"
 msgstr "Виміряти відстань"
@@ -94,7 +104,7 @@ msgstr "Панель інструментів"
 msgid "Download"
 msgstr "Завантажити"
 
-#: toolbar##delete
+#: toolbar##delete layer_actions##tooltips##delete
 msgid "Delete"
 msgstr "Видалити"
 
@@ -168,6 +178,19 @@ msgstr "Оновлено"
 
 #: started
 msgid "Started"
+msgstr ""
+
+#: created
+#, fuzzy
+msgid "Created"
+msgstr "Створити"
+
+#: mapping_types
+msgid "Mapping types"
+msgstr ""
+
+#: osm_gaps
+msgid "OSM gaps"
 msgstr ""
 
 #: no_data_received
@@ -352,10 +375,6 @@ msgstr ""
 
 #: mcda##error_analysis_name_cannot_be_empty
 msgid "Analysis name cannot be empty"
-msgstr ""
-
-#: mcda##error_bad_layer_data
-msgid "Invalid MCDA layer data"
 msgstr ""
 
 #: mcda##error_invalid_file
@@ -545,6 +564,16 @@ msgstr ""
 msgid "Good"
 msgstr ""
 
+#: multivariate##multivariate_analysis
+#, fuzzy
+msgid "Multivariate Analysis"
+msgstr "Створити аналіз"
+
+#: multivariate##create_analysis_layer
+#, fuzzy
+msgid "Create analysis layer"
+msgstr "Створити аналіз"
+
 #: multivariate##upload_analysis_layer
 msgid "Upload analysis layer"
 msgstr ""
@@ -553,9 +582,47 @@ msgstr ""
 msgid "Score {{level}}"
 msgstr ""
 
-#: multivariate##popup##base_header
-msgid "Base {{level}}"
+#: multivariate##popup##compare_header
+msgid "Compare {{level}}"
 msgstr ""
+
+#: multivariate##score
+msgid "Score"
+msgstr ""
+
+#: multivariate##compare
+msgid "Compare"
+msgstr ""
+
+#: multivariate##hide_area
+#, fuzzy
+msgid "Hide area"
+msgstr "Приховати"
+
+#: multivariate##labels
+msgid "Labels"
+msgstr ""
+
+#: multivariate##3d
+msgid "3D"
+msgstr ""
+
+#: map_popup##value
+msgid "Value"
+msgstr ""
+
+#: map_popup##range
+msgid "Range"
+msgstr ""
+
+#: map_popup##coefficient
+msgid "Coefficient"
+msgstr ""
+
+#: map_popup##normalized_value
+#, fuzzy
+msgid "Normalized value"
+msgstr "Нормалізовано за"
 
 #: search##search_location
 msgid "Search location"
@@ -682,6 +749,10 @@ msgstr "Екстримальний"
 #: event_list##open_timeline_button episode
 msgid "Timeline"
 msgstr "Відкрити темпоральну шкалу"
+
+#: create_layer##save_and_draw
+msgid "Save and draw"
+msgstr ""
 
 #: create_layer##edit_layer
 msgid "Edit Layer"
@@ -851,10 +922,6 @@ msgstr "Немає геометрії для завантаження"
 #: draw_tools##overlap_error
 msgid "Polygon should not overlap itself"
 msgstr "Полігон не має перетинати сам себе"
-
-#: draw_tools##save_features
-msgid "Save features"
-msgstr "Зберегти об'єкти"
 
 #: boundary_selector##title
 msgid "Focus to administrative boundary"
@@ -1213,119 +1280,14 @@ msgstr ""
 msgid "User guide"
 msgstr ""
 
-#: about##title
-msgid "Welcome to Disaster Ninja!"
-msgstr "Вітаємо на Disaster Ninja!"
-
-#: about##intro
-msgid ""
-"Do you want to be notified about ongoing disasters? Are you interested in "
-"instant population data and other analytics for any region in the world? "
-"Disaster Ninja showcases some of <2>Kontur</2>’s capabilities in addressing "
-"these needs.<br/><br/>We initially designed it as a decision support tool "
-"for humanitarian mappers. Now it has grown in functionality and use cases. "
-"Whether you work in disaster management, build a smart city, or perform "
-"research on climate change, Disaster Ninja can help you to:"
+#: modes##external##upload_imagery
+msgid "Upload imagery"
 msgstr ""
-"Ви хочете отримувати повідомлення про катастрофи? Вас цікавлять миттєві дані "
-"про населення та інша аналітика для будь-якого регіону світу? Disaster Ninja "
-"від <2>Kontur</2> може задовольнити ці потреби.<br/><br/> Ми розробили це як "
-"інструмент підтримки прийняття рішень для гуманітарних картографів. Тепер "
-"його функціональність зросла. Незалежно від того, чи працюєте ви в сфері "
-"боротьби зі стихійними лихами, будуєте розумне місто чи проводите "
-"дослідження щодо зміни клімату, Disaster Ninja може вам допомогти:"
 
-#: about##l1
-msgid "1. Stay up to date with the latest hazard events globally."
-msgstr "1. Будьте в курсі останніх катастроф у всьому світі."
-
-#: about##p1
-msgid ""
-"The Disasters panel continually refreshes to inform you about ongoing "
-"events. It consumes data from the <2>Kontur Event Feed</2>, which you can "
-"also access via an API."
-msgstr ""
-"Панель Катастроф постійно оновлюється, щоб інформувати вас про поточні "
-"події. Дані отримані з каналу подій <2>Kontur</2>, до якого також можна "
-"отримати доступ через API."
-
-#: about##l2
-msgid "2. Focus on your area of interest."
-msgstr "2. Фокусуйтеся на вашій сфері інтересів."
-
-#: about##p2
-msgid ""
-"The Drawing Tools panel allows you to draw or upload your own geometry on "
-"the map. You can also focus on a disaster-exposed area or an administrative "
-"unit — a country, city, or region."
-msgstr ""
-"Панель \"Інструменти малювання\" дозволяє малювати або завантажувати власну "
-"геометрію на карту. Ви також можете фокусуватися на області, що постраждала "
-"від стихійного лиха, або на адміністративній одиниці — країна, район чи "
-"місто."
-
-#: about##l3
-msgid "3. Get analytics for the focused area."
-msgstr "3. Отримайте аналітику для вибраної області."
-
-#: about##p3
-msgid ""
-"The Analytics panel shows the number of people living in that area per "
-"<2>Kontur Population</2> and estimated mapping gaps in OpenStreetMap. "
-"Kontur’s customers have access to hundreds of other indicators through "
-"Advanced Analytics."
-msgstr ""
-"Панель Аналітика показує кількість людей, які проживають у цьому регіоні на "
-"основі <2>населення Kontur</2> і потенційні прогалини картографування в "
-"OpenStreetMap. Клієнти Kontur мають доступ до сотень інших показників за "
-"допомогою Детальної Аналітики."
-
-#: about##l4
-msgid "4. Explore data on the map and make conclusions."
-msgstr "4. Досліджуйте дані на карті та робіть висновки."
-
-#: about##p4
-msgid ""
-"The Layers panel gives you various options to display two indicators "
-"simultaneously on a bivariate map, e.g., population density and distance to "
-"the nearest fire station. Use the color legend to assess which areas require "
-"attention. <br/>Hint: in general, green indicates low risk / few gaps, red — "
-"high risk / many gaps."
-msgstr ""
-"Панель \"Шари\" надає різні параметри для одночасного відображення двох "
-"індикаторів на карті, наприклад, щільність населення та відстань до "
-"найближчої пожежної частини. Використовуйте легенду кольорів, щоб визначити, "
-"які області потребують уваги. <br/>Підказка: загалом зелений колір означає "
-"низький ризик / мало прогалин, червоний — високий ризик / багато прогалин."
-
-#: about##p5
-msgid ""
-"In addition, you can switch to Reports in the left panel to access data on "
-"potential errors and inconsistencies in OpenStreetMap and help fix them by "
-"mapping the respective area with the JOSM editor."
-msgstr ""
-"Крім того, ви можете перейти до звітів на лівій панелі, щоб отримати доступ "
-"до даних про потенційні помилки та невідповідності в даних OpenStreetMap і "
-"допомогти їх виправити, наприклад за допомогою редактора JOSM."
-
-#: about##goToMap
-msgid "Go to the map now"
-msgstr "Перейти до мапи"
-
-#: about##p6
-msgid ""
-"We hope you find this tool valuable. Use the chatbox on Disaster Ninja for "
-"any questions about the functionality, and we will be happy to guide you. "
-"You can also contact us by email at <1>hello@kontur.io</1> if you have "
-"feedback or suggestions on improving the tool.<br/><br/>Disaster Ninja is an "
-"open-source project. Find the code in <8>Kontur’s GitHub account</8>."
-msgstr ""
-"Ми сподіваємося, що цей інструмент буде корисний. Використовуйте вікно чату "
-"на Disaster Ninja, щоб задати будь-які запитання щодо функціональності, і ми "
-"з радістю допоможемо вам. Ви також можете зв’язатися з нами електронною "
-"поштою <1>hello@kontur.io</1> якщо у вас є відгуки чи пропозиції щодо "
-"вдосконалення інструменту.<br/><br/> Disaster Ninja є проєктом з відкритим "
-"кодом. Дивіться код в обліковому записі GitHub <8>Kontur</8>."
+#: modes##external##imagery_catalog
+#, fuzzy
+msgid "Imagery catalog"
+msgstr "Зображення"
 
 #: profile##interfaceTheme
 msgid "Theme"
@@ -1518,7 +1480,9 @@ msgstr ""
 #: profile##reference_area##tooltip_text
 msgid ""
 "1.Select an area of interest on the map using the Admin Boundary or Draw "
-"Geometry tool. <br/> 2. Click the 'Save as Reference' button on the toolbar."
+"Geometry tool.\n"
+"\n"
+" 2. Click the 'Save as Reference' button on the toolbar."
 msgstr ""
 
 #: profile##reference_area##accessing_location
@@ -1630,3 +1594,117 @@ msgstr ""
 #: reference_area##selected_area_saved_as_reference_area
 msgid "Selected area has been saved as reference area in your profile"
 msgstr ""
+
+#: oam_auth##login_button
+msgid "Login with Google"
+msgstr ""
+
+#~ msgid "Save features"
+#~ msgstr "Зберегти об'єкти"
+
+#~ msgid "Welcome to Disaster Ninja!"
+#~ msgstr "Вітаємо на Disaster Ninja!"
+
+#~ msgid ""
+#~ "Do you want to be notified about ongoing disasters? Are you interested in "
+#~ "instant population data and other analytics for any region in the world? "
+#~ "Disaster Ninja showcases some of <2>Kontur</2>’s capabilities in "
+#~ "addressing these needs.<br/><br/>We initially designed it as a decision "
+#~ "support tool for humanitarian mappers. Now it has grown in functionality "
+#~ "and use cases. Whether you work in disaster management, build a smart "
+#~ "city, or perform research on climate change, Disaster Ninja can help you "
+#~ "to:"
+#~ msgstr ""
+#~ "Ви хочете отримувати повідомлення про катастрофи? Вас цікавлять миттєві "
+#~ "дані про населення та інша аналітика для будь-якого регіону світу? "
+#~ "Disaster Ninja від <2>Kontur</2> може задовольнити ці потреби.<br/><br/> "
+#~ "Ми розробили це як інструмент підтримки прийняття рішень для гуманітарних "
+#~ "картографів. Тепер його функціональність зросла. Незалежно від того, чи "
+#~ "працюєте ви в сфері боротьби зі стихійними лихами, будуєте розумне місто "
+#~ "чи проводите дослідження щодо зміни клімату, Disaster Ninja може вам "
+#~ "допомогти:"
+
+#~ msgid "1. Stay up to date with the latest hazard events globally."
+#~ msgstr "1. Будьте в курсі останніх катастроф у всьому світі."
+
+#~ msgid ""
+#~ "The Disasters panel continually refreshes to inform you about ongoing "
+#~ "events. It consumes data from the <2>Kontur Event Feed</2>, which you can "
+#~ "also access via an API."
+#~ msgstr ""
+#~ "Панель Катастроф постійно оновлюється, щоб інформувати вас про поточні "
+#~ "події. Дані отримані з каналу подій <2>Kontur</2>, до якого також можна "
+#~ "отримати доступ через API."
+
+#~ msgid "2. Focus on your area of interest."
+#~ msgstr "2. Фокусуйтеся на вашій сфері інтересів."
+
+#~ msgid ""
+#~ "The Drawing Tools panel allows you to draw or upload your own geometry on "
+#~ "the map. You can also focus on a disaster-exposed area or an "
+#~ "administrative unit — a country, city, or region."
+#~ msgstr ""
+#~ "Панель \"Інструменти малювання\" дозволяє малювати або завантажувати "
+#~ "власну геометрію на карту. Ви також можете фокусуватися на області, що "
+#~ "постраждала від стихійного лиха, або на адміністративній одиниці — "
+#~ "країна, район чи місто."
+
+#~ msgid "3. Get analytics for the focused area."
+#~ msgstr "3. Отримайте аналітику для вибраної області."
+
+#~ msgid ""
+#~ "The Analytics panel shows the number of people living in that area per "
+#~ "<2>Kontur Population</2> and estimated mapping gaps in OpenStreetMap. "
+#~ "Kontur’s customers have access to hundreds of other indicators through "
+#~ "Advanced Analytics."
+#~ msgstr ""
+#~ "Панель Аналітика показує кількість людей, які проживають у цьому регіоні "
+#~ "на основі <2>населення Kontur</2> і потенційні прогалини картографування "
+#~ "в OpenStreetMap. Клієнти Kontur мають доступ до сотень інших показників "
+#~ "за допомогою Детальної Аналітики."
+
+#~ msgid "4. Explore data on the map and make conclusions."
+#~ msgstr "4. Досліджуйте дані на карті та робіть висновки."
+
+#~ msgid ""
+#~ "The Layers panel gives you various options to display two indicators "
+#~ "simultaneously on a bivariate map, e.g., population density and distance "
+#~ "to the nearest fire station. Use the color legend to assess which areas "
+#~ "require attention. <br/>Hint: in general, green indicates low risk / few "
+#~ "gaps, red — high risk / many gaps."
+#~ msgstr ""
+#~ "Панель \"Шари\" надає різні параметри для одночасного відображення двох "
+#~ "індикаторів на карті, наприклад, щільність населення та відстань до "
+#~ "найближчої пожежної частини. Використовуйте легенду кольорів, щоб "
+#~ "визначити, які області потребують уваги. <br/>Підказка: загалом зелений "
+#~ "колір означає низький ризик / мало прогалин, червоний — високий ризик / "
+#~ "багато прогалин."
+
+#~ msgid ""
+#~ "In addition, you can switch to Reports in the left panel to access data "
+#~ "on potential errors and inconsistencies in OpenStreetMap and help fix "
+#~ "them by mapping the respective area with the JOSM editor."
+#~ msgstr ""
+#~ "Крім того, ви можете перейти до звітів на лівій панелі, щоб отримати "
+#~ "доступ до даних про потенційні помилки та невідповідності в даних "
+#~ "OpenStreetMap і допомогти їх виправити, наприклад за допомогою редактора "
+#~ "JOSM."
+
+#~ msgid "Go to the map now"
+#~ msgstr "Перейти до мапи"
+
+#~ msgid ""
+#~ "We hope you find this tool valuable. Use the chatbox on Disaster Ninja "
+#~ "for any questions about the functionality, and we will be happy to guide "
+#~ "you. You can also contact us by email at <1>hello@kontur.io</1> if you "
+#~ "have feedback or suggestions on improving the tool.<br/><br/>Disaster "
+#~ "Ninja is an open-source project. Find the code in <8>Kontur’s GitHub "
+#~ "account</8>."
+#~ msgstr ""
+#~ "Ми сподіваємося, що цей інструмент буде корисний. Використовуйте вікно "
+#~ "чату на Disaster Ninja, щоб задати будь-які запитання щодо "
+#~ "функціональності, і ми з радістю допоможемо вам. Ви також можете "
+#~ "зв’язатися з нами електронною поштою <1>hello@kontur.io</1> якщо у вас є "
+#~ "відгуки чи пропозиції щодо вдосконалення інструменту.<br/><br/> Disaster "
+#~ "Ninja є проєктом з відкритим кодом. Дивіться код в обліковому записі "
+#~ "GitHub <8>Kontur</8>."

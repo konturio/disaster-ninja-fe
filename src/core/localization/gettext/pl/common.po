@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"mime-version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
@@ -31,7 +31,6 @@ msgid "Save"
 msgstr ""
 
 #: cancel
-#: mcda##btn_cancel
 msgid "Cancel"
 msgstr ""
 
@@ -51,12 +50,15 @@ msgstr ""
 msgid "Loading..."
 msgstr ""
 
+#: preparing_data
+msgid "Preparing data"
+msgstr ""
+
 #: loading_events
 msgid "Loading disasters"
 msgstr ""
 
-#: legend
-#: mcda##legend_title
+#: legend mcda##legend_title
 msgid "Legend"
 msgstr ""
 
@@ -76,17 +78,19 @@ msgstr ""
 msgid "Legend presentation"
 msgstr ""
 
-#: layers
-#: bivariate##color_manager##layers_filter
+#: layers bivariate##color_manager##layers_filter
 msgid "Layers"
+msgstr ""
+
+#: layer
+msgid "Layer"
 msgstr ""
 
 #: toolbar##map_ruler
 msgid "Measure distance"
 msgstr ""
 
-#: toolbar##locate_me
-#: locate_me##feature_title
+#: toolbar##locate_me locate_me##feature_title
 msgid "Locate me"
 msgstr ""
 
@@ -94,12 +98,11 @@ msgstr ""
 msgid "Toolbar"
 msgstr ""
 
-#: toolbar##download
-#: layer_actions##tooltips##download
+#: toolbar##download layer_actions##tooltips##download
 msgid "Download"
 msgstr ""
 
-#: toolbar##delete
+#: toolbar##delete layer_actions##tooltips##delete
 msgid "Delete"
 msgstr ""
 
@@ -131,8 +134,7 @@ msgstr ""
 msgid "Tools"
 msgstr ""
 
-#: toolbar##selected_area_label
-#: focus_geometry_layer##settings##name
+#: toolbar##selected_area_label focus_geometry_layer##settings##name
 msgid "Selected area"
 msgstr ""
 
@@ -148,8 +150,7 @@ msgstr ""
 msgid "Edit"
 msgstr ""
 
-#: layer_actions##tooltips##hide
-#: mcda##layer_editor##outliers_options##hide
+#: layer_actions##tooltips##hide mcda##layer_editor##outliers_options##hide
 msgid "Hide"
 msgstr ""
 
@@ -175,6 +176,18 @@ msgstr ""
 
 #: started
 msgid "Started"
+msgstr ""
+
+#: created
+msgid "Created"
+msgstr ""
+
+#: mapping_types
+msgid "Mapping types"
+msgstr ""
+
+#: osm_gaps
+msgid "OSM gaps"
 msgstr ""
 
 #: no_data_received
@@ -223,8 +236,7 @@ msgstr ""
 msgid "Not found"
 msgstr ""
 
-#: errors##unknown
-#: event_list##severity_unknown
+#: errors##unknown event_list##severity_unknown
 msgid "Unknown"
 msgstr ""
 
@@ -276,8 +288,7 @@ msgstr ""
 msgid "Imagery"
 msgstr ""
 
-#: groups##map
-#: modes##map
+#: groups##map modes##map
 msgid "Map"
 msgstr ""
 
@@ -325,8 +336,7 @@ msgstr ""
 msgid "Filter Denominator"
 msgstr ""
 
-#: mcda##title
-#: mcda##modal_title
+#: mcda##title mcda##modal_title
 msgid "Multi-criteria decision analysis"
 msgstr ""
 
@@ -362,10 +372,6 @@ msgstr ""
 msgid "Analysis name cannot be empty"
 msgstr ""
 
-#: mcda##error_bad_layer_data
-msgid "Invalid MCDA layer data"
-msgstr ""
-
 #: mcda##error_invalid_file
 msgid "Invalid MCDA file format"
 msgstr ""
@@ -388,8 +394,7 @@ msgid ""
 "see its values."
 msgstr ""
 
-#: mcda##layer_editor##save_changes
-#: profile##saveButton
+#: mcda##layer_editor##save_changes profile##saveButton
 msgid "Save changes"
 msgstr ""
 
@@ -502,7 +507,8 @@ msgid "Range must be a valid number"
 msgstr ""
 
 #: mcda##layer_editor##tips##range
-msgid "The values that will be considered the worst and the best in your analysis."
+msgid ""
+"The values that will be considered the worst and the best in your analysis."
 msgstr ""
 
 #: mcda##layer_editor##tips##sentiment
@@ -515,9 +521,9 @@ msgstr ""
 
 #: mcda##layer_editor##tips##weight
 msgid ""
-"By default, all layers contribute equally to the analysis through a "
-"weighted average. Adjusting the increased weight of a layer (2, 3, etc.) "
-"allows you to assign additional importance to it in the analysis."
+"By default, all layers contribute equally to the analysis through a weighted "
+"average. Adjusting the increased weight of a layer (2, 3, etc.) allows you "
+"to assign additional importance to it in the analysis."
 msgstr ""
 
 #: mcda##layer_editor##tips##transform
@@ -553,6 +559,14 @@ msgstr ""
 msgid "Good"
 msgstr ""
 
+#: multivariate##multivariate_analysis
+msgid "Multivariate Analysis"
+msgstr ""
+
+#: multivariate##create_analysis_layer
+msgid "Create analysis layer"
+msgstr ""
+
 #: multivariate##upload_analysis_layer
 msgid "Upload analysis layer"
 msgstr ""
@@ -561,8 +575,44 @@ msgstr ""
 msgid "Score {{level}}"
 msgstr ""
 
-#: multivariate##popup##base_header
-msgid "Base {{level}}"
+#: multivariate##popup##compare_header
+msgid "Compare {{level}}"
+msgstr ""
+
+#: multivariate##score
+msgid "Score"
+msgstr ""
+
+#: multivariate##compare
+msgid "Compare"
+msgstr ""
+
+#: multivariate##hide_area
+msgid "Hide area"
+msgstr ""
+
+#: multivariate##labels
+msgid "Labels"
+msgstr ""
+
+#: multivariate##3d
+msgid "3D"
+msgstr ""
+
+#: map_popup##value
+msgid "Value"
+msgstr ""
+
+#: map_popup##range
+msgid "Range"
+msgstr ""
+
+#: map_popup##coefficient
+msgid "Coefficient"
+msgstr ""
+
+#: map_popup##normalized_value
+msgid "Normalized value"
 msgstr ""
 
 #: search##search_location
@@ -575,8 +625,8 @@ msgstr ""
 
 #: search##info_block_with_mcda
 msgid ""
-"You can search for 📍 locations or ask ✨ AI your question like “Where is "
-"dead wood”"
+"You can search for 📍 locations or ask ✨ AI your question like “Where is dead "
+"wood”"
 msgstr ""
 
 #: search##input_placeholder
@@ -687,9 +737,12 @@ msgstr ""
 msgid "Extreme"
 msgstr ""
 
-#: event_list##open_timeline_button
-#: episode
+#: event_list##open_timeline_button episode
 msgid "Timeline"
+msgstr ""
+
+#: create_layer##save_and_draw
+msgid "Save and draw"
 msgstr ""
 
 #: create_layer##edit_layer
@@ -784,8 +837,7 @@ msgstr ""
 msgid "Error while fetching advanced analytics data"
 msgstr ""
 
-#: advanced_analytics_empty##not_found
-#: current_event##not_found_request
+#: advanced_analytics_empty##not_found current_event##not_found_request
 msgid "Sorry, the requested disaster was not found"
 msgstr ""
 
@@ -820,7 +872,8 @@ msgid "You can also:"
 msgstr ""
 
 #: llm_analytics##placeholder##fill_bio
-msgid "<icon /> <lnk>Fill out analysis objectives</lnk> to personalize AI analysis"
+msgid ""
+"<icon /> <lnk>Fill out analysis objectives</lnk> to personalize AI analysis"
 msgstr ""
 
 #: llm_analytics##placeholder##select_and_save_as_reference_area
@@ -861,10 +914,6 @@ msgstr ""
 msgid "Polygon should not overlap itself"
 msgstr ""
 
-#: draw_tools##save_features
-msgid "Save features"
-msgstr ""
-
 #: boundary_selector##title
 msgid "Focus to administrative boundary"
 msgstr ""
@@ -881,8 +930,7 @@ msgstr ""
 msgid "Focus to freehand geometry"
 msgstr ""
 
-#: reference_area_layer##settings##name
-#: profile##reference_area##title
+#: reference_area_layer##settings##name profile##reference_area##title
 msgid "Reference area"
 msgstr ""
 
@@ -975,8 +1023,8 @@ msgstr ""
 
 #: bivariate##matrix##loading_error
 msgid ""
-"Unfortunately, we cannot display the matrix. Try refreshing the page or "
-"come back later."
+"Unfortunately, we cannot display the matrix. Try refreshing the page or come "
+"back later."
 msgstr ""
 
 #: bivariate##legend##high
@@ -1043,8 +1091,7 @@ msgstr ""
 msgid "Application logo"
 msgstr ""
 
-#: login##email
-#: profile##email
+#: login##email profile##email
 msgid "Email"
 msgstr ""
 
@@ -1213,86 +1260,12 @@ msgstr ""
 msgid "User guide"
 msgstr ""
 
-#: about##title
-msgid "Welcome to Disaster Ninja!"
+#: modes##external##upload_imagery
+msgid "Upload imagery"
 msgstr ""
 
-#: about##intro
-msgid ""
-"Do you want to be notified about ongoing disasters? Are you interested in "
-"instant population data and other analytics for any region in the world? "
-"Disaster Ninja showcases some of <2>Kontur</2>’s capabilities in addressing "
-"these needs.<br/><br/>We initially designed it as a decision support tool "
-"for humanitarian mappers. Now it has grown in functionality and use cases. "
-"Whether you work in disaster management, build a smart city, or perform "
-"research on climate change, Disaster Ninja can help you to:"
-msgstr ""
-
-#: about##l1
-msgid "1. Stay up to date with the latest hazard events globally."
-msgstr ""
-
-#: about##p1
-msgid ""
-"The Disasters panel continually refreshes to inform you about ongoing "
-"events. It consumes data from the <2>Kontur Event Feed</2>, which you can "
-"also access via an API."
-msgstr ""
-
-#: about##l2
-msgid "2. Focus on your area of interest."
-msgstr ""
-
-#: about##p2
-msgid ""
-"The Drawing Tools panel allows you to draw or upload your own geometry on "
-"the map. You can also focus on a disaster-exposed area or an administrative "
-"unit — a country, city, or region."
-msgstr ""
-
-#: about##l3
-msgid "3. Get analytics for the focused area."
-msgstr ""
-
-#: about##p3
-msgid ""
-"The Analytics panel shows the number of people living in that area per "
-"<2>Kontur Population</2> and estimated mapping gaps in OpenStreetMap. "
-"Kontur’s customers have access to hundreds of other indicators through "
-"Advanced Analytics."
-msgstr ""
-
-#: about##l4
-msgid "4. Explore data on the map and make conclusions."
-msgstr ""
-
-#: about##p4
-msgid ""
-"The Layers panel gives you various options to display two indicators "
-"simultaneously on a bivariate map, e.g., population density and distance to "
-"the nearest fire station. Use the color legend to assess which areas "
-"require attention. <br/>Hint: in general, green indicates low risk / few "
-"gaps, red — high risk / many gaps."
-msgstr ""
-
-#: about##p5
-msgid ""
-"In addition, you can switch to Reports in the left panel to access data on "
-"potential errors and inconsistencies in OpenStreetMap and help fix them by "
-"mapping the respective area with the JOSM editor."
-msgstr ""
-
-#: about##goToMap
-msgid "Go to the map now"
-msgstr ""
-
-#: about##p6
-msgid ""
-"We hope you find this tool valuable. Use the chatbox on Disaster Ninja for "
-"any questions about the functionality, and we will be happy to guide you. "
-"You can also contact us by email at <1>hello@kontur.io</1> if you have "
-"feedback or suggestions on improving the tool.<br/><br/>Disaster Ninja is "
-"an open-source project. Find the code in <8>Kontur’s GitHub account</8>."
+#: modes##external##imagery_catalog
+msgid "Imagery catalog"
 msgstr ""
 
 #: profile##interfaceTheme
@@ -1469,8 +1442,8 @@ msgstr ""
 
 #: profile##reference_area##to_replace_reference_area
 msgid ""
-"You can redefine your reference area on map. Select an area and click "
-"\"Save as reference area\" on toolbar.\n"
+"You can redefine your reference area on map. Select an area and click \"Save "
+"as reference area\" on toolbar.\n"
 msgstr ""
 
 #: profile##reference_area##description
@@ -1486,7 +1459,9 @@ msgstr ""
 #: profile##reference_area##tooltip_text
 msgid ""
 "1.Select an area of interest on the map using the Admin Boundary or Draw "
-"Geometry tool. <br/> 2. Click the 'Save as Reference' button on the toolbar."
+"Geometry tool.\n"
+"\n"
+" 2. Click the 'Save as Reference' button on the toolbar."
 msgstr ""
 
 #: profile##reference_area##accessing_location
@@ -1523,9 +1498,9 @@ msgstr ""
 
 #: cookie_banner##body
 msgid ""
-"We use absolutely necessary cookies to provide you personalized services "
-"and optional cookies to improve {{appName}} and your experience. You can "
-"manage cookie settings or withdraw consent to optional cookies at any time.\n"
+"We use absolutely necessary cookies to provide you personalized services and "
+"optional cookies to improve {{appName}} and your experience. You can manage "
+"cookie settings or withdraw consent to optional cookies at any time.\n"
 "For more information, please, check our [Privacy Policy](about/privacy)"
 msgstr ""
 
@@ -1591,4 +1566,8 @@ msgstr ""
 
 #: reference_area##selected_area_saved_as_reference_area
 msgid "Selected area has been saved as reference area in your profile"
+msgstr ""
+
+#: oam_auth##login_button
+msgid "Login with Google"
 msgstr ""
