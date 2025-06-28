@@ -8,7 +8,7 @@ import { PREFIX } from './constants';
 /* This method must redirect user to application. Used for JOSM links */
 function sendRequest(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, link: string) {
   e.preventDefault();
-  fetch(link, { method: 'GET' });
+  window.open(link, '_blank')?.focus();
 }
 
 const mdLinks = /(\w+)_\[([^\]]+)\]\((https?:\/\/[\w\d:./?=/#/\-&_]+)\)/gm;

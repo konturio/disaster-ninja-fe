@@ -85,3 +85,11 @@ There are 2 dynamic configs we receive from the back-end.
 `<ReportInfo />` is also subscribed on `reportResourceAtom` that provides `"Report Content"` based on `reportId`.
 Once `"Report Content"` received `tableAtom` transfroms the data from `.csv` format and provides actions for sorting and filtering.
 So `<ReportTable />` shows data and hooks with actions from `tableAtom`
+
+### Opening territories in JOSM
+
+Backend responses may contain links pointing to the JOSM remote control
+(`http://127.0.0.1:8111`). These are rendered with a JOSM icon in the table.
+To avoid mixed content errors in modern browsers, such links are opened in a new
+window using `window.open`.
+Ensure JOSM is running with remote control enabled to receive these requests.
