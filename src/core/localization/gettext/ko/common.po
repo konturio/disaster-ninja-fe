@@ -1512,8 +1512,7 @@ msgstr ""
 
 #: profile##languageOption##pl
 msgid "Polish"
-msgstr ""
-
+msgstr "폴란드어"
 #: profile##languageOption##uk
 msgid "Ukrainian"
 msgstr "우크라이나 인"
