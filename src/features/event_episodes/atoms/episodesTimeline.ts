@@ -18,7 +18,7 @@ export const episodesTimeline = createAtom(
     setData: (data: unknown) => data,
   },
   (
-    { onAction },
+    { onAction, schedule },
     state: EpisodesTimeline = {
       [timelineKey]: null,
       settings: {
@@ -28,6 +28,12 @@ export const episodesTimeline = createAtom(
     },
   ) => {
     onAction('setImperativeApi', (api) => (state = { ...state, [timelineKey]: api }));
+    onAction('resetZoom', () => {
+      const api = state[timelineKey] as { fit?: () => void } | null;
+      if (api?.fit) {
+        schedule(() => api.fit!());
+      }
+    });
     onAction(
       'patchSettings',
       (patch) =>

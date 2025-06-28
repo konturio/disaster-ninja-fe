@@ -41,6 +41,10 @@ Then it merges the episode geometry feature collection to single geometry, using
 **Behavior**
 The `autoClearCurrentEpisode` function subscribes to the `episodesResource` atom. When the `episodesResource` changes, the function checks if the current episode is associated with the selected disaster. If it is not, the function updates the `currentEpisodeAtom` with a null value, effectively clearing the current episode selection.
 
+### autoFitEpisodesTimeline
+
+`autoFitEpisodesTimeline` keeps the timeline view in sync with the loaded episodes. It listens to changes of `episodesResource` and the timeline itself and automatically triggers a zoom-to-fit via the timeline imperative API when episodes are loaded or the timeline component mounts.
+
 ## Controller
 
 ### eventEpisodesController
