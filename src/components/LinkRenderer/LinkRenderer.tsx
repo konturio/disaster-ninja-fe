@@ -9,8 +9,12 @@ type ElementWrapProps = React.DetailedHTMLProps<
 >;
 
 export const LinkRenderer = memo(function (props: ElementWrapProps) {
+  let href = props.href;
+  if (href && !/^[a-zA-Z]+:\/\//.test(href)) {
+    href = `https://${href}`;
+  }
   return (
-    <a href={props.href} target="_blank" rel="noreferrer" onClick={stopPropagation}>
+    <a href={href} target="_blank" rel="noreferrer" onClick={stopPropagation}>
       {props.children}
     </a>
   );
