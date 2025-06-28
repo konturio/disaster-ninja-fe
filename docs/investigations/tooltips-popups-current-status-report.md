@@ -243,8 +243,8 @@ Migration Path:
 
 These components use non-interactive, hover-triggered tooltips via `SimpleTooltip` or have been updated:
 
-- [ToolbarButton](../../src/features/toolbar/components/ToolbarButton/ToolbarButton.tsx) — Toolbar button hint
-- [ShortToolbarButton](../../src/features/toolbar/components/ShortToolbarButton/ShortToolbarButton.tsx) — Compact toolbar button hint
+- [ToolbarButton](../../src/features/toolbar/components/ToolbarButton/ToolbarButton.tsx) — Toolbar button (no tooltip in expanded state)
+- [ShortToolbarButton](../../src/features/toolbar/components/ShortToolbarButton/ShortToolbarButton.tsx) — Compact toolbar button with tooltip
 - [NavButton](../../src/features/side_bar/components/SideBar/NavButton.tsx) — Sidebar navigation labels
 - [ToggleButton](../../src/features/side_bar/components/SideBar/ToggleButton.tsx) — Sidebar toggle hint
 - [ReferenceAreaInfo](../../src/features/user_profile/components/SettingsForm/ReferenceAreaInfo/ReferenceAreaInfo.tsx) — Reference-area info

@@ -65,7 +65,7 @@ export class ToolBar extends HelperBase {
 
   @step(
     (args) =>
-      `Check that the following texts in toolbar are visible: ${args[0].join(', ')} and the following texts are hidden: ${args[1].join(', ')}. Check tooltips for visible texts.`,
+      `Check that the following texts in toolbar are visible: ${args[0].join(', ')} and the following texts are hidden: ${args[1].join(', ')}. Ensure no tooltips are shown for visible texts.`,
   )
   async checkTextsAndTooltipsInToolbar(visibleTexts: string[], hiddenTexts: string[]) {
     for (const text of visibleTexts) {
@@ -75,7 +75,7 @@ export class ToolBar extends HelperBase {
         `Expect element with text '${text}' to be visible on the map side of app`,
       ).toBeVisible();
       if (text !== 'Save as reference area')
-        await this.hoverElAndCheckTooltip(element, text);
+        await this.hoverElAndCheckNoTooltip(element, text);
     }
     await Promise.all(
       hiddenTexts.map(async (text) => {
@@ -103,6 +103,21 @@ export class ToolBar extends HelperBase {
     await tooltip.waitFor({ state: 'visible' });
     await this.page.getByText('Collapse').hover();
     await tooltip.waitFor({ state: 'hidden' });
+  }
+
+  /**
+   * Hover over element and verify that tooltip does not appear
+   * @param element - playwright locator for the element
+   * @param tooltipText - text of the tooltip
+   */
+  @step(
+    (args) =>
+      `Hover over the element and ensure tooltip with text '${args[1]}' does not appear`,
+  )
+  async hoverElAndCheckNoTooltip(element: Locator, tooltipText: string) {
+    await element.hover();
+    const tooltip = this.page.getByRole('tooltip', { name: tooltipText });
+    await expect(tooltip).not.toBeVisible();
   }
 
   /**
