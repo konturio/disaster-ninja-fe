@@ -36,6 +36,12 @@ export const currentEventGeometryAtom = createAtom(
       // Case resource didn't call for event because event id or feed id was absent
       else if (!loading && !error && data === null) {
         state = null;
+        schedule((dispatch) => {
+          const focusedGeometry = getUnlistedState(focusedGeometryAtom);
+          if (focusedGeometry?.source?.type === 'event') {
+            dispatch(focusedGeometryAtom.reset());
+          }
+        });
       }
 
       // Feature considered ready after loading event or getting error when event not found
