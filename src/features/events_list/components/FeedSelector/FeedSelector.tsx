@@ -44,7 +44,7 @@ export function FeedSelector() {
         label={i18n.t('feed')}
         items={mappedItems}
         onSelect={handleSelect}
-        value={currentFeed?.id || configRepo.get().defaultFeed}
+        value={currentFeed?.id || configRepo.getUserDefaultFeed()}
         type="inline"
         showSelectedIcon={false}
         className={s.feedsSelect}
