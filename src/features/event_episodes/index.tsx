@@ -8,5 +8,6 @@ export function EventEpisodes() {
   const [panelState] = useAtom(eventEpisodesModel.episodesPanelState);
   useAtom(episodeToFocusedGeometry);
   useAtom(episodesPanelStateHandler);
+  useAtom(eventEpisodesModel.autoCloseEpisodesPanel);
   return panelState.isOpen ? <EpisodesTimelinePanel /> : null;
 }
