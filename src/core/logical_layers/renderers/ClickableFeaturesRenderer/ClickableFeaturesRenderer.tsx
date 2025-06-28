@@ -24,6 +24,10 @@ export abstract class ClickableFeaturesRenderer extends LogicalLayerDefaultRende
   protected _layersOrderManager?: LayersOrderManager;
   protected _listenersCleaningTasks = new Set<() => void>();
   private _popoverProvider: ClickableFeaturesPopoverProvider | null = null;
+
+  private get popoverId(): string {
+    return `clickable-${this._sourceId}`;
+  }
   private cleanUpListeners = () => {
     this._listenersCleaningTasks.forEach((task) => task());
     this._listenersCleaningTasks.clear();
@@ -118,7 +122,7 @@ export abstract class ClickableFeaturesRenderer extends LogicalLayerDefaultRende
   // Register popover provider with registry
   registerPopoverProvider(style: LayerStyle) {
     if (this._popoverProvider) {
-      mapPopoverRegistry.unregister(`clickable-${this._sourceId}`);
+      mapPopoverRegistry.unregister(this.popoverId);
       this._popoverProvider = null;
     }
 
@@ -128,7 +132,7 @@ export abstract class ClickableFeaturesRenderer extends LogicalLayerDefaultRende
       style,
       this.createPopupContent.bind(this),
     );
-    mapPopoverRegistry.register(`clickable-${this._sourceId}`, this._popoverProvider);
+    mapPopoverRegistry.register(this.popoverId, this._popoverProvider);
   }
 
   protected async _updateMap(
@@ -212,7 +216,7 @@ export abstract class ClickableFeaturesRenderer extends LogicalLayerDefaultRende
 
     // Unregister popover provider
     if (this._popoverProvider) {
-      mapPopoverRegistry.unregister(`clickable-${this._sourceId}`);
+      mapPopoverRegistry.unregister(this.popoverId);
       this._popoverProvider = null;
     }
 
