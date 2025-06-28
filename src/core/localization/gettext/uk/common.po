@@ -1487,6 +1487,10 @@ msgstr "Білоруська"
 msgid "Russian"
 msgstr "Російська"
 
+#: profile##languageOption##pl
+msgid "Polish"
+msgstr "Польська"
+
 #: profile##languageOption##uk
 msgid "Ukrainian"
 msgstr "Українська"

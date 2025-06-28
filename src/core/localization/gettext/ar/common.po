@@ -1518,6 +1518,10 @@ msgstr ""
 msgid "Russian"
 msgstr ""
 
+#: profile##languageOption##pl
+msgid "Polish"
+msgstr "البولندية"
+
 #: profile##languageOption##uk
 msgid "Ukrainian"
 msgstr "الأوكرانية"

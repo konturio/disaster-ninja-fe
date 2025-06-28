@@ -1559,6 +1559,10 @@ msgstr ""
 msgid "Russian"
 msgstr ""
 
+#: profile##languageOption##pl
+msgid "Polish"
+msgstr "Polnisch"
+
 #: profile##languageOption##uk
 msgid "Ukrainian"
 msgstr "Ukrainisch"

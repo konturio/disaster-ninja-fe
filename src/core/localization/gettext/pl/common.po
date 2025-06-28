@@ -1457,7 +1457,7 @@ msgstr ""
 
 #: profile##languageOption##pl
 msgid "Polish"
-msgstr ""
+msgstr "Polski"
 
 #: profile##languageOption##uk
 msgid "Ukrainian"
