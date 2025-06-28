@@ -1,4 +1,5 @@
 import { Panel } from '@konturio/ui-kit';
+import clsx from 'clsx';
 import { useAction } from '@reatom/npm-react';
 import { constructOptionsFromBoundaries } from '~utils/map/boundaries';
 import { i18n } from '~core/localization';
@@ -12,7 +13,7 @@ const noBreadcrumbsOption = {
   value: 'zoom to world',
 };
 
-export function BreadcrumbsPanel() {
+export function BreadcrumbsPanel({ hasToolbar = true }: { hasToolbar?: boolean }) {
   const items = useBreadcrumbsItems();
   const breadcrumbItemClick = useAction(onBreadcrumbClick);
   const zoomToTheWorld = useAction(onZoomToWholeWorld);
@@ -23,7 +24,11 @@ export function BreadcrumbsPanel() {
   const clickHandler = items?.length ? breadcrumbItemClick : zoomToTheWorld;
 
   return (
-    <Panel resize="none" className={s.breadcrumbsPanel} contentClassName={s.content}>
+    <Panel
+      resize="none"
+      className={clsx(s.breadcrumbsPanel, !hasToolbar && s.noToolbar)}
+      contentClassName={s.content}
+    >
       <Breadcrumbs items={options} onClick={clickHandler} />
     </Panel>
   );

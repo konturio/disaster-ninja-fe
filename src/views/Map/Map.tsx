@@ -162,7 +162,9 @@ export function MapPage() {
           matrix={<></>}
           timeline={featureFlags[AppFeature.EPISODES_TIMELINE] && <EventEpisodes />}
           breadcrumbs={
-            featureFlags[AppFeature.ADMIN_BOUNDARY_BREADCRUMBS] && <BreadcrumbsPanel />
+            featureFlags[AppFeature.ADMIN_BOUNDARY_BREADCRUMBS] && (
+              <BreadcrumbsPanel hasToolbar={Boolean(featureFlags[AppFeature.TOOLBAR])} />
+            )
           }
           toolbar={featureFlags[AppFeature.TOOLBAR] && <Toolbar />}
           layerFeaturesPanel={
