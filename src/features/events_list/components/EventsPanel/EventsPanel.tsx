@@ -20,6 +20,7 @@ import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { sortedEventListAtom } from '~features/events_list/atoms/sortedEventList';
+import { currentEventResourceAtom } from '~core/shared_state/currentEventResource';
 import { configRepo } from '~core/config';
 import { AppFeature } from '~core/app/types';
 import { MIN_HEIGHT } from '../../constants';
@@ -70,6 +71,7 @@ export function EventsPanel({
 
   const [focusedGeometry] = useAtom(focusedGeometryAtom);
   const [{ data: eventsList, error, loading }] = useAtomV3(sortedEventListAtom);
+  const [{ data: unlistedEventData }] = useAtomV3(currentEventResourceAtom);
   const sheetRef = useRef<SheetRef>(null);
 
   const handleRefChange = useHeightResizer(
@@ -81,10 +83,19 @@ export function EventsPanel({
 
   useAutoCollapsePanel(isOpen, closePanel);
 
-  const currentEvent = useMemo(
+  const eventFromList = useMemo(
     () => findEventById(eventsList, currentEventId),
     [eventsList, currentEventId],
   );
+
+  const unlistedEvent = useMemo(() => {
+    if (!eventFromList && unlistedEventData && currentEventId) {
+      if (unlistedEventData.eventId === currentEventId) return unlistedEventData;
+    }
+    return null;
+  }, [eventFromList, unlistedEventData, currentEventId]);
+
+  const currentEvent = unlistedEvent ?? eventFromList;
 
   // Create a shared layout context for all event cards
   const layoutContextValue = useUniLayoutContextValue({
@@ -97,7 +108,8 @@ export function EventsPanel({
       if (state === 'closed') return null;
       if (loading)
         return <LoadingSpinner message={i18n.t('loading_events')} marginTop="none" />;
-      if (error) return <EventsPanelErrorMessage state={state} message={error} />;
+      if (error && !unlistedEvent)
+        return <EventsPanelErrorMessage state={state} message={error} />;
 
       // Wrap the entire panel content with a shared layout context
       return (
@@ -107,6 +119,7 @@ export function EventsPanel({
               eventsList={eventsList}
               currentEventId={currentEventId ?? null}
               renderEventCard={renderEventCard}
+              unlistedEvent={unlistedEvent}
             />
           ) : (
             <ShortState
@@ -126,6 +139,7 @@ export function EventsPanel({
       currentEventId,
       openFullState,
       currentEvent,
+      unlistedEvent,
     ],
   );
 

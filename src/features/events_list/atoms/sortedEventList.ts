@@ -1,6 +1,5 @@
 import { atom } from '@reatom/framework';
 import { isNumber } from '~utils/common';
-import { currentEventAtom } from '~core/shared_state/currentEvent';
 import { i18n } from '~core/localization';
 import { sortEventsBySingleProperty } from '../helpers/singlePropertySort';
 import { sortEventsByMcda } from '../helpers/eventsMcdaSort';
@@ -94,13 +93,6 @@ export const sortedEventListAtom = atom<SortedEventListAtom>((ctx) => {
       data = sortEvents(data, eventsSortingConfig);
     }
 
-    const currentEvent = currentEventAtom.getState();
-    if (currentEvent?.id) {
-      if (data.findIndex((d) => d.eventId === currentEvent?.id) === -1) {
-        // selected event is not in the sorted list, reset selection
-        currentEventAtom.setCurrentEventId.dispatch(null);
-      }
-    }
 
     if (!data.length) {
       error = i18n.t('event_list.no_feed_disasters_matching_your_filters');

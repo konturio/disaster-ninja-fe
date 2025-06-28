@@ -19,7 +19,7 @@ It can also contains a show timeline button, if the episodes timeline feature is
 
 ### CurrentEvent
 
-The `CurrentEvent` component displays details for the currently selected unlisted event. Unlisted event it is an event that is not in the list of events, nut it comes from the URL.
+When a disaster is opened via a direct link and is not included in the current feed, the events panel still shows its card. The unlisted event card is rendered above the filters inside the `FullState` component.
 
 ### FeedSelector
 
@@ -39,7 +39,7 @@ The `EventListSettingsRow` component is a container for the `FeedSelector` and `
 
 ### FullState
 
-The `FullState` component is the main component that displays the event list. It includes sub-components such as `CurrentEvent`, `FeedSelector`, and `BBoxFilter`. It also includes a `Virtuoso` component to efficiently render large lists of events.
+The `FullState` component is the main component that displays the event list. It includes the optional unlisted event card described above, as well as sub-components like `FeedSelector` and `BBoxFilter`. It also includes a `Virtuoso` component to efficiently render large lists of events.
 
 ### ShortState
 

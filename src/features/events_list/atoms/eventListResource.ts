@@ -3,7 +3,6 @@ import { AppFeature } from '~core/app/types';
 import { autoRefreshService } from '~core/autoRefreshServiceInstance';
 import { i18n } from '~core/localization';
 import { dispatchMetricsEventOnce } from '~core/metrics/dispatch';
-import { currentEventAtom } from '~core/shared_state/currentEvent';
 import { currentEventFeedAtom } from '~core/shared_state/currentEventFeed';
 import { combineAtoms } from '~utils/atoms';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
@@ -40,13 +39,7 @@ export const eventListResourceAtom = createAsyncAtom(
       throw new Error(i18n.t('event_list.no_disasters'));
     }
 
-    const currentEvent = currentEventAtom.getState();
-    if (currentEvent?.id) {
-      if (responseData.findIndex((d) => d.eventId === currentEvent?.id) === -1) {
-        // selected event is not in list, reset selection
-        currentEventAtom.setCurrentEventId.dispatch(null);
-      }
-    }
+
 
     return responseData;
   },

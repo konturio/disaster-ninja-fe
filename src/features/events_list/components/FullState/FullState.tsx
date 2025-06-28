@@ -9,10 +9,12 @@ export function FullState({
   eventsList,
   currentEventId,
   renderEventCard,
+  unlistedEvent,
 }: {
   eventsList: Event[] | null;
   currentEventId: string | null;
   renderEventCard: (event: Event, isActive: boolean) => JSX.Element;
+  unlistedEvent?: Event | null;
 }) {
   const virtuosoRef = useRef<VirtuosoHandle>(null);
 
@@ -27,25 +29,28 @@ export function FullState({
     [renderEventCard, currentEventId],
   );
 
-  if (!eventsList) return null;
+  const hasEvents = eventsList && eventsList.length > 0;
 
   return (
     <div className={s.panelBody}>
+      {unlistedEvent && renderEventCard(unlistedEvent, true)}
       <EventsPanelSettings />
-      <div className={s.scrollable}>
-        <Virtuoso
-          ref={virtuosoRef}
-          data={eventsList}
-          totalCount={eventsList.length}
-          initialTopMostItemIndex={{
-            index: currentEventIndex || 0,
-            align: 'center',
-            behavior: 'auto',
-          }}
-          itemContent={itemContent}
-        />
-        <div className={s.height100vh} />
-      </div>
+      {hasEvents && (
+        <div className={s.scrollable}>
+          <Virtuoso
+            ref={virtuosoRef}
+            data={eventsList}
+            totalCount={eventsList.length}
+            initialTopMostItemIndex={{
+              index: currentEventIndex || 0,
+              align: 'center',
+              behavior: 'auto',
+            }}
+            itemContent={itemContent}
+          />
+          <div className={s.height100vh} />
+        </div>
+      )}
     </div>
   );
 }
