@@ -41,6 +41,13 @@ Then it merges the episode geometry feature collection to single geometry, using
 **Behavior**
 The `autoClearCurrentEpisode` function subscribes to the `episodesResource` atom. When the `episodesResource` changes, the function checks if the current episode is associated with the selected disaster. If it is not, the function updates the `currentEpisodeAtom` with a null value, effectively clearing the current episode selection.
 
+### autoCloseEpisodesPanel
+
+`autoCloseEpisodesPanel` closes the EpisodesTimelinePanel when the selected event has only one or no episodes.
+
+**Behavior**
+The atom listens to `episodesResource`. Once the resource is loaded and the panel is open, if the number of episodes is less than two the atom dispatches the `close` action of `episodesPanelState`.
+
 ## Controller
 
 ### eventEpisodesController
