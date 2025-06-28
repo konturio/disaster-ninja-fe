@@ -34,10 +34,6 @@ for (const project of projects) {
   test(`As PRO User, I can click Locate me button at ${project.title} and get zoomed to my location`, async ({
     pageManager,
   }) => {
-    test.skip(
-      project.name === 'disaster-ninja',
-      'Fix https://kontur.fibery.io/Tasks/Task/Locate-me-is-not-working-if-it-has-been-pressed-before-the-event-is-zoomed-in-15482 issue to unblock this test for disaster-ninja',
-    );
     await testLocation(pageManager, project);
   });
 }

@@ -3,6 +3,7 @@ import { toolbar } from '~core/toolbar';
 import { i18n } from '~core/localization';
 import { store } from '~core/store/store';
 import { setCurrentMapPosition } from '~core/shared_state/currentMapPosition';
+import { scheduledAutoFocus } from '~core/shared_state/currentEvent';
 import {
   LOCATE_ME_CONTROL_ID,
   LOCATE_ME_CONTROL_NAME,
@@ -22,6 +23,7 @@ export const locateMeControl = toolbar.setupControl({
 
 locateMeControl.onStateChange((ctx, state) => {
   if (state === 'active') {
+    scheduledAutoFocus.setFalse.dispatch();
     const geolocation = navigator.geolocation;
     // Location dialogue should appear for the user
     geolocation.getCurrentPosition(successCb, errorCb);
