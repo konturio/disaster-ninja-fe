@@ -69,6 +69,7 @@ function sortByProjectId(a, b) {
 export function getHotProjectsPanelData(featuresListHOT: object) {
   const featuresList: FeatureCardCfg[] = Object.values(featuresListHOT).map((f) => {
     const { properties: p } = f;
+    const isArchived = (p.status ?? p.projectStatus)?.toUpperCase() === 'ARCHIVED';
     return {
       id: f.id,
       focus: p.aoiBBOX,
@@ -78,7 +79,7 @@ export function getHotProjectsPanelData(featuresListHOT: object) {
           type: 'label',
           items: [
             { value: '#' + p.projectId },
-            ...(p.status == 'ARCHIVED'
+            ...(isArchived
               ? [
                   {
                     value: 'Archived',

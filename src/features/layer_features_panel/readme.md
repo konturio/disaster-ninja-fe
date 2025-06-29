@@ -68,6 +68,8 @@ function transformFeaturesToPanelData(featuresList: object): FeatureCardCfg[] {
 }
 ```
 
+Archived HOT Tasking Manager projects are displayed with a grey `Archived` label next to the project number in the feature card.
+
 ### Bbox filter
 
 If `showBboxFilterToggle` is enabled, the Bbox filter toggle button (`BBoxFilterToggle` component) is displayed.
