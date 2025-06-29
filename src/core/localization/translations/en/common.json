@@ -33,7 +33,8 @@
     "record_sensors": "Record sensors",
     "tools_label": "Tools",
     "selected_area_label": "Selected area",
-    "upload_mcda": "Upload MCDA"
+    "upload_mcda": "Upload MCDA",
+    "zoom_to": "Zoom to"
   },
   "layer_actions": {
     "tooltips": {

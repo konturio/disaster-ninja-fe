@@ -43,6 +43,7 @@ export const AppFeature = {
   USE_3RDPARTY_ANALYTICS: 'use_3rdparty_analytics',
   LIVE_SENSOR: 'live_sensor',
   MCDA: 'mcda',
+  ZOOM_TO: 'zoom_to',
   TOOLBAR: 'toolbar',
   LAYER_FEATURES_PANEL: 'layer_features_panel',
   REFERENCE_AREA: 'reference_area',

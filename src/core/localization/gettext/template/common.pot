@@ -140,6 +140,10 @@ msgstr ""
 msgid "Upload MCDA"
 msgstr ""
 
+#: toolbar##zoom_to
+msgid "Zoom to"
+msgstr ""
+
 #: layer_actions##tooltips##erase
 msgid "Erase"
 msgstr ""

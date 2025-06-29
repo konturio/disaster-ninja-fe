@@ -4,6 +4,7 @@ import { i18n } from '~core/localization';
 import { MCDA_CONTROL_ID, UPLOAD_MCDA_CONTROL_ID } from '~features/mcda/constants';
 import { SENSOR_CONTROL_ID } from '~features/live_sensor/constants';
 import { SAVE_AS_REFERENCE_AREA_CONTROL_ID } from '~features/reference_area/constants';
+import { ZOOM_TO_CONTROL_ID } from '~features/zoom_to/constants';
 import { FOCUSED_GEOMETRY_EDITOR_CONTROL_ID } from '~widgets/FocusedGeometryEditor/constants';
 import { BOUNDARY_SELECTOR_CONTROL_ID } from '~features/boundary_selector/constants';
 import {
@@ -74,6 +75,7 @@ class ToolbarImpl implements Toolbar {
           BOUNDARY_SELECTOR_CONTROL_ID,
           'UploadFile',
           FOCUSED_GEOMETRY_EDITOR_CONTROL_ID,
+          ZOOM_TO_CONTROL_ID,
           SAVE_AS_REFERENCE_AREA_CONTROL_ID,
         ],
       },

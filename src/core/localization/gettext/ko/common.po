@@ -141,6 +141,10 @@ msgid "Selected area"
 msgstr "선택된 영역"
 
 #: toolbar##upload_mcda
+#: toolbar##zoom_to
+msgid "Zoom to"
+msgstr ""
+
 msgid "Upload MCDA"
 msgstr ""
 

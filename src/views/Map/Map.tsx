@@ -109,6 +109,11 @@ export function MapPage() {
         initLocateMe();
       });
     }
+    if (featureFlags[AppFeature.ZOOM_TO]) {
+      import('~features/zoom_to').then(({ initZoomTo }) => {
+        initZoomTo();
+      });
+    }
     if (featureFlags[AppFeature.LIVE_SENSOR]) {
       import('~features/live_sensor').then(({ initSensor }) => {
         initSensor();
