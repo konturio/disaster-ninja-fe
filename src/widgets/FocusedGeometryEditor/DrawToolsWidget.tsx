@@ -25,6 +25,7 @@ export function DrawToolsWidget({
           size={isMobile ? 'medium' : 'large'}
           onClick={onClick}
           disabled={state === 'disabled'}
+          hint={FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME}
         >
           {FOCUSED_GEOMETRY_EDITOR_CONTROL_NAME}
         </ControlComponent>
@@ -56,6 +57,7 @@ export function DrawToolsWidget({
                 onClick={tool.action}
                 active={tool.state === 'active'}
                 disabled={tool.state === 'disabled'}
+                hint={tool.name}
               >
                 {tool.name}
               </ControlComponent>
@@ -66,6 +68,7 @@ export function DrawToolsWidget({
             icon={<Close16 width={16} height={16} />}
             size="medium"
             onClick={onCancel}
+            hint={i18n.t('cancel')}
           >
             {i18n.t('cancel')}
           </ControlComponent>
@@ -76,6 +79,7 @@ export function DrawToolsWidget({
             size="medium"
             className={clsx(s.finishButton)}
             onClick={onFinish}
+            hint={i18n.t('save')}
           >
             {i18n.t('save')}
           </ControlComponent>

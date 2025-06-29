@@ -84,12 +84,14 @@ export const exampleControl =
     borrowMapInteractions: true,
     typeSettings: {
       name: 'Example Control',
-      hint: 'Hint for Example Control',
+      hint: 'Hint for Example Control', // text shown in the tooltip
       icon: 'ExampleIcon',
       preferredSize: 'medium',
     },
   };
 ```
+
+The `hint` value will be displayed as a tooltip when the user hovers over the control button.
 
 #### Step 2: Define Control Behavior
 

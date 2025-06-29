@@ -16,12 +16,12 @@
   },
   {
     "id": "MCDA",
-    "tooltipText": "Create MCDA",
+    "tooltipText": "Create multi-criteria decision analysis",
     "visibleButtonText": "Create MCDA"
   },
   {
     "id": "UploadMCDA",
-    "tooltipText": "Upload MCDA",
+    "tooltipText": "Upload multi-criteria decision analysis",
     "visibleButtonText": "Upload MCDA"
   },
   {

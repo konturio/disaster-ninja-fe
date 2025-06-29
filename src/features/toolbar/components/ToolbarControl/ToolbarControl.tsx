@@ -49,6 +49,10 @@ export function ToolbarControl({
       const size = isMobile
         ? (settings.typeSettings.mobilePreferredSize ?? 'medium')
         : settings.typeSettings.preferredSize;
+      const hint = resolveValue(
+        settings.typeSettings.hint ?? settings.typeSettings.name,
+        state,
+      );
 
       return (
         <ControlComponent
@@ -60,6 +64,7 @@ export function ToolbarControl({
           active={state === 'active'}
           disabled={state === 'disabled'}
           onClick={toggleState}
+          hint={hint}
         >
           {resolveValue(settings.typeSettings.name, state)}
         </ControlComponent>
