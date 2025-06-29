@@ -1,4 +1,4 @@
-export * from './MarkdownContent';
+export * from './StructuredMarkdownContent';
 export * from './MarkdownLink';
 export * from './MarkdownMedia';
 export * from './PagesDocument';

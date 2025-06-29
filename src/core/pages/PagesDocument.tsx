@@ -1,8 +1,7 @@
-import { useMemo } from 'react';
 import usePromise from 'react-promise-suspense';
 import { Article } from '~components/Layout';
 import { getAsset } from '~core/api/assets';
-import { MarkdownContent } from './MarkdownContent';
+import { StructuredMarkdownContent } from './StructuredMarkdownContent';
 import './pages.css';
 
 type PagesDocumentElement = {
@@ -55,7 +54,7 @@ function MarkdownElement({ data }: PagesDocumentElementProps) {
   // through their own stylesheets. See pages.css for the default styling
   return (
     <div className="app-pages-element-markdown">
-      <MarkdownContent content={data} />
+      <StructuredMarkdownContent content={data} />
     </div>
   );
 }

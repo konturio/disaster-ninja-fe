@@ -3,10 +3,6 @@ import { MarkdownLink } from './MarkdownLink';
 import { MarkdownMedia } from './MarkdownMedia';
 import { structureMarkdownContent } from './structuredMarkdown';
 
-type MarkdownContentProps = {
-  content: string;
-};
-
 const markdownOptions = {
   overrides: {
     a: MarkdownLink,
@@ -21,7 +17,7 @@ const markdownOptions = {
   wrapper: null,
 };
 
-export function MarkdownContent({ content }: MarkdownContentProps) {
+export function StructuredMarkdownContent({ content }: { content: string }) {
   const compiled = compiler(content, markdownOptions) as unknown as JSX.Element[];
   return structureMarkdownContent(compiled);
 }

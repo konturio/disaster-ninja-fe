@@ -33,14 +33,29 @@
   flex-direction: column;
   flex: 1;
   & textarea {
-    resize: vertical;
     font-size: 11px;
     line-height: 14px;
-    min-height: 50vh;
+    flex: 1;
+    overflow: auto;
     border: thin #eee solid;
   }
 }
 
 .error {
   border-color: red;
+}
+
+.debugger {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  flex: 1;
+  & .grid {
+    height: 50vh;
+    overflow: scroll;
+  }
+}
+.editors {
+  display: flex;
+  flex: 1;
 }

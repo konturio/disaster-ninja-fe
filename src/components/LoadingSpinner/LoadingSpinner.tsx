@@ -20,10 +20,10 @@ export function LoadingSpinner({
   );
 }
 
-export function FullScreenLoader() {
+export function FullScreenLoader({ message = '' }) {
   return (
     <div className={s.fullScreenLoader}>
-      <LoadingSpinner message={null} marginTop={'none'} />
+      <LoadingSpinner message={message} marginTop={'none'} />
     </div>
   );
 }

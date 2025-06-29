@@ -53,6 +53,16 @@
   padding: 0 var(--unit);
 }
 
+/* .mappopover-content > .mappopover-provider */
+:global(.mappopover-content) {
+  display: flex;
+  flex-direction: column;
+  gap: var(--unit);
+}
+:global(.mappopover-provider):not(:last-child) {
+  box-shadow: 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
 /* laptop viewport */
 @media screen and (max-width: 1530px) {
   .footer {
