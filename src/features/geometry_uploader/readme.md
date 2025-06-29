@@ -17,3 +17,9 @@ On button click function `askGeoJSONFile` executed. It shows error toast if erro
 Success callback passes the uploaded geometry to apps `focusedGeometryAtom` and focuses on on it.
 
 The implementation might look quirky, it's done this way to support Safari browsers.
+
+### Interactions with other tools
+
+The upload button becomes disabled while map ruler, boundary selector or focused
+geometry editing tools are active. It returns to regular state once those tools
+are deactivated.

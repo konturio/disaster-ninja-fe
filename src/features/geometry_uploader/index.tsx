@@ -1,5 +1,11 @@
 import { currentMapAtom } from '~core/shared_state';
 import { toolbar } from '~core/toolbar';
+import { mapRulerControl } from '~features/map_ruler';
+import { MAP_RULER_CONTROL_ID } from '~features/map_ruler/constants';
+import { boundarySelectorControl } from '~features/boundary_selector/control';
+import { BOUNDARY_SELECTOR_CONTROL_ID } from '~features/boundary_selector/constants';
+import { focusedGeometryControl } from '~widgets/FocusedGeometryEditor';
+import { FOCUSED_GEOMETRY_EDITOR_CONTROL_ID } from '~widgets/FocusedGeometryEditor/constants';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { configRepo } from '~core/config';
 import { i18n } from '~core/localization';
@@ -36,6 +42,26 @@ const fileUploaderControl = toolbar.setupControl({
       el?.addEventListener('click', uploadClickListener);
     },
   },
+});
+
+function updateFileUploaderState() {
+  const isMapRulerActive =
+    toolbar.getControlState(MAP_RULER_CONTROL_ID)?.getState() === 'active';
+  const isBoundarySelectorActive =
+    toolbar.getControlState(BOUNDARY_SELECTOR_CONTROL_ID)?.getState() === 'active';
+  const isGeometryEditorActive =
+    toolbar.getControlState(FOCUSED_GEOMETRY_EDITOR_CONTROL_ID)?.getState() === 'active';
+  const shouldDisable =
+    isMapRulerActive || isBoundarySelectorActive || isGeometryEditorActive;
+  store.dispatch(fileUploaderControl.setState(shouldDisable ? 'disabled' : 'regular'));
+}
+
+mapRulerControl.onStateChange(updateFileUploaderState);
+boundarySelectorControl.onStateChange(updateFileUploaderState);
+focusedGeometryControl.onStateChange(updateFileUploaderState);
+
+fileUploaderControl.onInit(() => {
+  updateFileUploaderState();
 });
 
 fileUploaderControl.onStateChange((ctx, state) => {
