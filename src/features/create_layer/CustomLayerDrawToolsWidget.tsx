@@ -46,6 +46,7 @@ export function CustomLayerDrawToolsWidget({
                 onClick={tool.action}
                 active={tool.state === 'active'}
                 disabled={tool.state === 'disabled'}
+                hint={tool.name}
               >
                 {tool.name}
               </ControlComponent>
@@ -56,6 +57,7 @@ export function CustomLayerDrawToolsWidget({
             icon={<Close16 width={16} height={16} />}
             size="medium"
             onClick={onCancel}
+            hint={i18n.t('cancel')}
           >
             {i18n.t('cancel')}
           </ControlComponent>
@@ -66,6 +68,7 @@ export function CustomLayerDrawToolsWidget({
             size="medium"
             className={clsx(s.finishButton)}
             onClick={onFinish}
+            hint={i18n.t('save')}
           >
             {i18n.t('save')}
           </ControlComponent>
