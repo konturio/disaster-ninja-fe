@@ -129,7 +129,6 @@ graph
     subgraph "Event System"
         Move["map.on('move')"]
         Throttle[Throttled Updates]
-        RAF[RAF Scheduling]
     end
 
     LngLat --> Project
@@ -139,8 +138,7 @@ graph
     Screen --> Popover
 
     Move --> Throttle
-    Throttle --> RAF
-    RAF --> Project
+    Throttle --> Project
 ```
 
 ### Integration Patterns
@@ -649,7 +647,7 @@ useMapPopoverMaplibreIntegration({
   popoverService,
   trackingThrottleMs: 16, // 60fps updates (default)
   // trackingThrottleMs: 50,  // 20fps for better performance
-  // trackingThrottleMs: 0,   // No throttling (use RAF)
+  // trackingThrottleMs: 0,   // No throttling
 });
 ```
 

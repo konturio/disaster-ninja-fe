@@ -86,7 +86,9 @@ export function useMapPopoverMaplibreIntegration(
 
   const handlePositionChange = useCallback(
     (point: ScreenPoint) => {
-      if (!popoverService.isOpen()) return;
+      if (!popoverService.isOpen()) {
+        return;
+      }
 
       try {
         const containerRect = containerRectManager.getRect();
@@ -97,6 +99,7 @@ export function useMapPopoverMaplibreIntegration(
           containerPoint.x,
           containerPoint.y,
         );
+
         popoverService.updatePosition(point, placement);
       } catch (error) {
         console.error('Error updating popover position:', error);
@@ -122,7 +125,7 @@ export function useMapPopoverMaplibreIntegration(
 
   const startTracking = useCallback(
     (lngLat: [number, number]) => {
-      // Stop any existing tracking
+      // Stop any existing move listener
       unregisterMoveListener();
 
       // Start position tracking
@@ -158,19 +161,18 @@ export function useMapPopoverMaplibreIntegration(
       try {
         event.lngLat.lng = wrapLongitude(event.lngLat.lng);
         const hasContent = popoverService.showWithEvent(event);
+
         if (hasContent) {
-          // Start tracking for new popover
+          // Start tracking for new popover (this handles cleanup of previous tracking)
           startTracking([event.lngLat.lng, event.lngLat.lat]);
         } else if (wasOpen) {
-          // Only stop tracking if we had a popover open but no new content
+          // Stop tracking when clicking empty area while popover was open
           stopTracking();
         }
       } catch (error) {
         console.error('Error rendering popover content:', error);
-        // Stop tracking on error to prevent dangling listeners
-        if (wasOpen) {
-          stopTracking();
-        }
+        // Always stop tracking on error
+        stopTracking();
       }
 
       return true; // Continue chain - allow other click listeners
