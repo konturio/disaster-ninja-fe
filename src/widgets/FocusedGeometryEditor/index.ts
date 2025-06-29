@@ -5,8 +5,14 @@ import { store } from '~core/store/store';
 import { FeatureCollection, isGeoJSONEmpty } from '~utils/geoJSON/helpers';
 import { FOCUSED_GEOMETRY_LOGICAL_LAYER_ID } from '~core/focused_geometry/constants';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
+import { currentMapAtom } from '~core/shared_state';
+import { setCurrentMapPosition } from '~core/shared_state/currentMapPosition';
+import { configRepo } from '~core/config';
+import { getCameraForGeometry } from '~utils/map/camera';
+import { v3ActionToV2 } from '~utils/atoms/v3tov2';
 import { FOCUSED_GEOMETRY_EDITOR_CONTROL_ID } from './constants';
 import { DrawToolsWidget } from './DrawToolsWidget';
+import type { CenterZoomPosition } from '~core/shared_state/currentMapPosition';
 
 export const focusedGeometryControl = toolbar.setupControl({
   id: FOCUSED_GEOMETRY_EDITOR_CONTROL_ID,
@@ -23,6 +29,25 @@ focusedGeometryControl.onStateChange(async (ctx, state, prevState) => {
       // Read focused geometry
       const focusedGeometry =
         focusedGeometryAtom.getState()?.geometry ?? new FeatureCollection([]);
+      const map = currentMapAtom.getState();
+      if (map && !isGeoJSONEmpty(focusedGeometry)) {
+        const camera = getCameraForGeometry(focusedGeometry, map);
+        if (
+          typeof camera?.zoom === 'number' &&
+          camera.center &&
+          'lat' in camera.center &&
+          'lng' in camera.center
+        ) {
+          const maxZoom = configRepo.get().autofocusZoom;
+          store.dispatch(
+            v3ActionToV2<CenterZoomPosition>(
+              setCurrentMapPosition,
+              { zoom: Math.min(camera.zoom || maxZoom, maxZoom), ...camera.center },
+              'setCurrentMapPosition',
+            ),
+          );
+        }
+      }
       store.dispatch(
         // Disable focused geometry layer
         enabledLayersAtom.delete(FOCUSED_GEOMETRY_LOGICAL_LAYER_ID),
