@@ -49,6 +49,7 @@ open `chrome://net-internals/#hsts`, go to section "Delete domain security polic
 ## Internationalization (i18n)
 
 ### Overview
+
 We use i18next for runtime translations with gettext (.po/.pot) for translation management. This setup allows developers to work with JSON files while providing standard gettext files for translators.
 
 ### Available Scripts
@@ -63,6 +64,7 @@ We use i18next for runtime translations with gettext (.po/.pot) for translation 
 ### Key Format Rules
 
 We use a structured approach for translation keys:
+
 ```javascript
 {
     "errors": {
@@ -82,6 +84,7 @@ We use a structured approach for translation keys:
 ### Implementation Guide
 
 1. Import translation functions:
+
 ```typescript
 import { i18n } from '~core/localization';
 // or for components with HTML
@@ -89,6 +92,7 @@ import { Trans } from 'react-i18next';
 ```
 
 2. Use in code:
+
 ```typescript
 // Simple strings
 const message = i18n.t('errors.default');
@@ -100,6 +104,7 @@ const message = i18n.t('errors.default');
 ```
 
 3. After adding new translations:
+
 ```bash
 pnpm run i18n:update    # Extract new keys
 pnpm run i18n:export    # Convert to .pot/.po
@@ -110,6 +115,7 @@ pnpm run i18n:export    # Convert to .pot/.po
 The following processes are automated:
 
 1. **Pre-commit**:
+
    - Validates JSON syntax for translation files
    - Automatically exports new translations to .pot
    - Adds generated .pot files to commit
@@ -285,3 +291,7 @@ Remove the `--ui` flag to run the tests in a headless mode.
 Use the `--headed` flag instead of the `--ui` flag to run the tests in a headed mode.
 
 > Check the `tests-examples/demo-todo-app.spec.ts` file for an example of how to write tests.
+
+## Multivariate Analysis Layer Configuration
+
+The configuration interface for multivariate analysis layers is defined by `MultivariateLayerConfig`. It combines MCDA-based dimensions with optional opacity, text and 3D settings. See [docs/mva-config-interface.md](docs/mva-config-interface.md) for a complete description of the available fields and helper functions.
