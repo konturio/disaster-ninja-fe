@@ -94,3 +94,9 @@ code {
     display: contents;
   }
 }
+
+/* Hide panels mode */
+body.panels-hidden #app-component-sidebar,
+body.panels-hidden .knt-panel:not(#toolbar) {
+  display: none !important;
+}

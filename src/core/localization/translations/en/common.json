@@ -33,7 +33,8 @@
     "record_sensors": "Record sensors",
     "tools_label": "Tools",
     "selected_area_label": "Selected area",
-    "upload_mcda": "Upload MCDA"
+    "upload_mcda": "Upload MCDA",
+    "hide_all_panels": "Hide all panels"
   },
   "layer_actions": {
     "tooltips": {
@@ -120,8 +121,8 @@
       "save_changes": "Save changes",
       "range": "Value range",
       "outliers": "Outliers",
-      "reverse_to_good_bad": "Reverse to Good \u2192 Bad",
-      "reverse_to_bad_good": "Reverse to Bad \u2192 Good",
+      "reverse_to_good_bad": "Reverse to Good → Bad",
+      "reverse_to_bad_good": "Reverse to Bad → Good",
       "weight": "Weight",
       "transform": "Transform",
       "transformation": "Transformation",

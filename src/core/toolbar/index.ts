@@ -14,6 +14,7 @@ import {
   CREATE_LAYER_CONTROL_ID,
   CUSTOM_LAYER_DRAW_TOOLS_CONTROL,
 } from '~features/create_layer/constants';
+import { HIDE_PANELS_CONTROL_ID } from '~features/hide_panels_button/constants';
 import type {
   ControlID,
   ControlState,
@@ -66,6 +67,7 @@ class ToolbarImpl implements Toolbar {
           UPLOAD_MULTIVARIATE_CONTROL_ID,
           CREATE_LAYER_CONTROL_ID,
           CUSTOM_LAYER_DRAW_TOOLS_CONTROL,
+          HIDE_PANELS_CONTROL_ID,
         ],
       },
       {
