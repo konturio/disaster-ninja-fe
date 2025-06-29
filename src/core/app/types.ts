@@ -40,6 +40,7 @@ export const AppFeature = {
   BIVARIATE_COLOR_MANAGER: 'bivariate_color_manager',
   EPISODES_TIMELINE: 'episodes_timeline',
   LOCATE_ME: 'locate_me',
+  RESET_NORTH: 'reset_north',
   USE_3RDPARTY_ANALYTICS: 'use_3rdparty_analytics',
   LIVE_SENSOR: 'live_sensor',
   MCDA: 'mcda',

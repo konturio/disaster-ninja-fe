@@ -85,6 +85,9 @@ msgstr "Виміряти відстань"
 #: toolbar##locate_me locate_me##feature_title
 msgid "Locate me"
 msgstr "Знайти мене"
+#: toolbar##reset_north reset_north##feature_title
+msgid "Reset north"
+msgstr ""
 
 #: toolbar##panel_title
 msgid "Toolbar"

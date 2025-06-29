@@ -55,6 +55,7 @@ class ToolbarImpl implements Toolbar {
       {
         name: i18n.t('toolbar.tools_label'),
         controls: [
+          'ResetNorth',
           'LocateMe',
           'MapRuler',
           'EditInOsm',

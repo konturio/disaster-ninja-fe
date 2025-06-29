@@ -109,6 +109,9 @@ export function MapPage() {
         initLocateMe();
       });
     }
+    if (featureFlags[AppFeature.RESET_NORTH]) {
+      import('~features/reset_north').then(({ initResetNorth }) => initResetNorth());
+    }
     if (featureFlags[AppFeature.LIVE_SENSOR]) {
       import('~features/live_sensor').then(({ initSensor }) => {
         initSensor();

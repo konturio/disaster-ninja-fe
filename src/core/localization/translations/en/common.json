@@ -22,6 +22,7 @@
   "toolbar": {
     "map_ruler": "Measure distance",
     "locate_me": "Locate me",
+    "reset_north": "Reset north",
     "panel_title": "Toolbar",
     "download": "Download",
     "delete": "Delete",
@@ -490,6 +491,9 @@
   "locate_me": {
     "get_location_error": "Error while getting location",
     "feature_title": "Locate me"
+  },
+  "reset_north": {
+    "feature_title": "Reset north"
   },
   "episode": "Timeline",
   "loading_episodes": "Loading Episodes",
