@@ -9,7 +9,7 @@ import type { LayerAtom } from '../types/logicalLayer';
  * */
 export type LogicalLayersHierarchy = Record<
   string,
-  { id: string; atom: LayerAtom; group?: string; category?: string }
+  { id: string; atom: LayerAtom; group?: string; category?: string; order?: number }
 >;
 export const logicalLayersHierarchyAtom = createAtom(
   {
@@ -28,6 +28,7 @@ export const logicalLayersHierarchyAtom = createAtom(
         atom: layer,
         group: settingsData?.group,
         category: settingsData?.category,
+        order: settingsData?.order,
       };
     });
 

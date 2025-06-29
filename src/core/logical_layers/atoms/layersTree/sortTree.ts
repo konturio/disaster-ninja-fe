@@ -35,7 +35,11 @@ function clusterSort(
   order.forEach((o) => {
     if (clusters[o]) {
       result = result.concat(
-        clusters[o].sort((a, b) => a[inClusterSortField] - b[inClusterSortField]),
+        clusters[o].sort((a, b) => {
+          const orderA = a[inClusterSortField] ?? Number.POSITIVE_INFINITY;
+          const orderB = b[inClusterSortField] ?? Number.POSITIVE_INFINITY;
+          return orderA - orderB;
+        }),
       );
     }
   });
