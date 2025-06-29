@@ -16,5 +16,5 @@ export const layersPanel: () => PanelFeatureInterface = () => ({
   panelIcon: <Layers24 />,
   header: i18n.t('layers'),
   minHeight: MIN_HEIGHT,
-  resize: 'vertical',
+  resize: 'none',
 });

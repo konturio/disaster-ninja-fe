@@ -14,5 +14,5 @@ export const advancedAnalyticsPanel = (): PanelFeatureInterface => ({
   ),
   header: i18n.t('advanced_analytics_panel.header_title'),
   minHeight: MIN_HEIGHT,
-  resize: 'vertical',
+  resize: 'none',
 });

@@ -56,9 +56,7 @@ Most Panel implementations use a shared pattern for state management:
   classes={panelClasses}
   isOpen={boolean}
   modal={{ onModalClick: closeFunction, showInModal: isMobile }}
-  resize={conditionalResize}
   contentClassName={styles}
-  contentContainerRef={resizeHandler}
   customControls={controlsArray}
   contentHeight={conditionalHeight}
   minContentHeight={conditionalMinHeight}
@@ -98,16 +96,8 @@ export const panelClasses = {
 
 ## Panel Integration Patterns
 
-### With Resizing Functionality
+> **Note**: Earlier versions supported draggable resizing of desktop panels via the `useHeightResizer` hook. This behavior has been removed, and all panels now have a fixed size controlled by CSS.
 
-```tsx
-const handleRefChange = useHeightResizer(
-  (isOpen) => !isOpen && setPanelState('closed'),
-  isOpen,
-  MIN_HEIGHT,
-  'panel_identifier',
-);
-```
 
 ### With Auto-collapse
 
@@ -141,15 +131,6 @@ export const layersPanel: () => PanelFeatureInterface = () => ({
   resize: 'vertical',
 });
 ```
-
-### Resizable Panels
-
-The following panels are configured to be vertically resizable, often using the `useHeightResizer` hook and the `resize='vertical'` prop:
-
-- [`FullAndShortStatesPanelWidget.tsx`](../../src/widgets/FullAndShortStatesPanelWidget/components/FullAndShortStatesPanelWidget.tsx)
-- [`LayerFeaturesPanel/index.tsx`](../../src/features/layer_features_panel/components/LayerFeaturesPanel/index.tsx)
-- [`EventsPanel.tsx`](../../src/features/events_list/components/EventsPanel/EventsPanel.tsx)
-- [`layers_panel/index.tsx`](../../src/features/layers_panel/index.tsx) (configured via `PanelFeatureInterface`)
 
 ### Mobile Modal Panels
 
@@ -191,7 +172,6 @@ const panelContent = useCallback(
 | Hook Name              | File Path                                 | Purpose                                                                |
 | ---------------------- | ----------------------------------------- | ---------------------------------------------------------------------- |
 | `useShortPanelState`   | `src/utils/hooks/useShortPanelState.ts`   | Manages panel state transitions between closed, short, and full states |
-| `useHeightResizer`     | `src/utils/hooks/useResizer.ts`           | Handles panel resizing with height constraints                         |
 | `useAutoCollapsePanel` | `src/utils/hooks/useAutoCollapsePanel.ts` | Automatically collapses panels based on external conditions            |
 | `useMediaQuery`        | `src/utils/hooks/useMediaQuery.ts`        | Provides responsive behavior based on screen size                      |
 
@@ -301,7 +281,6 @@ flowchart TD
 
     %% Hook details
     UtilityHooks --> ShortState["useShortPanelState<br/>(src/utils/hooks)"]:::utility
-    UtilityHooks --> HeightResizer["useHeightResizer<br/>(src/utils/hooks)"]:::utility
     UtilityHooks --> AutoCollapse["useAutoCollapsePanel<br/>(src/utils/hooks)"]:::utility
     UtilityHooks --> MediaQuery["useMediaQuery<br/>(src/utils/hooks)"]:::utility
 

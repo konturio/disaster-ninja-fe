@@ -7,7 +7,6 @@ import { Sheet } from 'react-modal-sheet';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import { panelClasses } from '~components/Panel';
-import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { scheduledAutoFocus } from '~core/shared_state/currentEvent';
 import { i18n } from '~core/localization';
@@ -87,12 +86,6 @@ export function LayerFeaturesPanel() {
   const isOpen = panelState !== 'closed';
   const isShort = panelState === 'short';
 
-  const handleRefChange = useHeightResizer(
-    (isOpen) => !isOpen && setPanelState('closed'),
-    isOpen,
-    FEATURESPANEL_MIN_HEIGHT,
-    'lf_list',
-  );
 
   useAutoCollapsePanel(isOpen, closePanel);
 
@@ -159,9 +152,8 @@ export function LayerFeaturesPanel() {
       className={clsx(s.featuresPanel, isOpen ? s.show : s.collapse, 'knt-panel')}
       classes={{ ...panelClasses, headerTitle: s.headerTitle, header: s.header }}
       isOpen={isOpen}
-      resize={isMobile || isShort ? 'none' : 'vertical'}
+      resize="none"
       contentClassName={s.panelBody}
-      contentContainerRef={handleRefChange}
       customControls={panelControls}
       contentHeight={isShort ? 'min-content' : 'unset'}
       minContentHeight={isShort ? 'min-content' : FEATURESPANEL_MIN_HEIGHT}

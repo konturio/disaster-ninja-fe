@@ -9,8 +9,10 @@
   display: flex;
   top: 0;
   right: 0;
+  bottom: 0;
   left: 0;
   gap: var(--unit);
   flex-flow: column nowrap;
   pointer-events: all;
+  overflow-y: auto;
 }

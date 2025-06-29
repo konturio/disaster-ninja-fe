@@ -35,6 +35,6 @@ export const analyticsPanel = (
     minHeight: MIN_HEIGHT,
     maxHeight: MAX_HEIGHT,
     skipAutoResize: true,
-    resize: 'vertical',
+    resize: 'none',
   };
 };

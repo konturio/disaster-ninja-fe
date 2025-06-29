@@ -4,7 +4,6 @@ import { useCallback, useRef } from 'react';
 import { Sheet } from 'react-modal-sheet';
 import { panelClasses as defaultPanelClasses } from '~components/Panel';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
-import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import s from './FullAndShortStatesPanelWidget.module.css';
@@ -64,16 +63,8 @@ export function FullAndShortStatesPanelWidget({
   const minHeight = getProperty('minHeight') || shortState?.minHeight || 0;
   const maxHeight = getProperty('maxHeight');
   const contentHeight = getProperty('contentheight');
-  const resize = isMobile ? 'none' : getProperty('resize');
   const sheetRef = useRef<SheetRef>(null);
 
-  const handleRefChange = useHeightResizer(
-    (isOpen) => !isOpen && setPanelState('closed'),
-    isOpen,
-    minHeight,
-    id || 'primary_and_secondary',
-    isShort ? shortState?.skipAutoResize : fullState?.skipAutoResize,
-  );
 
   useAutoCollapsePanel(isOpen, closePanel);
 
@@ -99,9 +90,8 @@ export function FullAndShortStatesPanelWidget({
       className={clsx(s.panel, 'knt-panel', !isOpen && s.collapse)}
       classes={getPanelClasses({ isOpen, isShort })}
       isOpen={isOpen}
-      resize={resize}
-      contentClassName={clsx(resize == 'vertical' && s.content)}
-      contentContainerRef={handleRefChange}
+      resize="none"
+      contentClassName={s.content}
       customControls={panelControls}
       contentHeight={contentHeight}
       minContentHeight={!isMobile ? minHeight : undefined}

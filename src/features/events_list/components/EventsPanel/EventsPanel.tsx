@@ -17,7 +17,6 @@ import { getEventName, isEventGeometry } from '~core/focused_geometry/utils';
 import { i18n } from '~core/localization';
 import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
-import { useHeightResizer } from '~utils/hooks/useResizer';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { sortedEventListAtom } from '~features/events_list/atoms/sortedEventList';
 import { configRepo } from '~core/config';
@@ -72,12 +71,6 @@ export function EventsPanel({
   const [{ data: eventsList, error, loading }] = useAtomV3(sortedEventListAtom);
   const sheetRef = useRef<SheetRef>(null);
 
-  const handleRefChange = useHeightResizer(
-    (isOpen) => !isOpen && closePanel(),
-    isOpen,
-    MIN_HEIGHT,
-    'event_list',
-  );
 
   useAutoCollapsePanel(isOpen, closePanel);
 
@@ -154,9 +147,8 @@ export function EventsPanel({
       className={clsx(s.eventsPanel, isOpen ? s.show : s.collapse, 'knt-panel')}
       classes={panelClasses}
       isOpen={isOpen}
-      resize={isMobile || isShort ? 'none' : 'vertical'}
+      resize="none"
       contentClassName={s.contentWrap}
-      contentContainerRef={handleRefChange}
       customControls={panelControls}
       contentHeight={isShort ? 'min-content' : undefined}
       minContentHeight={isShort ? 'min-content' : MIN_HEIGHT}

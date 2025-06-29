@@ -1,4 +1,4 @@
-It's a React context for managing resizable panel layouts, using a Resizer class that handles dynamic adjustments based on content and container size changes.
+This document describes a now-removed React context that once managed resizable panel layouts using a `Resizer` class. Panels are no longer resizable in the application.
 
 First, I'll look for potential issues. The ResizeObserver setup in runSizeAdjuster catches my eye. The contentObserver and containerObserver are declared with 'let' but are assigned inside conditional blocks. Wait, in the contentObserver case, they're using contentObserver! with a non-null assertion. That's risky because if the code runs before assignment, it could cause runtime errors. TypeScript might not catch that, so that's a problem.
 
