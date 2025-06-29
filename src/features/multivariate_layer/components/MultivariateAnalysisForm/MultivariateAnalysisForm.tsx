@@ -246,7 +246,15 @@ export function MultivariateAnalysisForm({
   const sortDropdownItems = useCallback(
     (items: SelectableItem[], search: string): SelectableItem[] => {
       if (search) {
+        sortByAlphabet(items, (item) => item.title);
         sortByWordOccurrence(items, (item) => item.title, search);
+        const exactIndex = items.findIndex(
+          (item) => item.title.toLowerCase() === search.toLowerCase(),
+        );
+        if (exactIndex > 0) {
+          const [exact] = items.splice(exactIndex, 1);
+          items.unshift(exact);
+        }
       }
       return items;
     },
