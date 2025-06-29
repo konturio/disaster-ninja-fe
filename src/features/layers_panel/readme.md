@@ -25,3 +25,7 @@ Tree data structure generated in [createTree](/src/core/logical_layers/atoms/lay
 Tree can contain `Category`, `Group` and `Layer` items.
 
 Additional settings for Categories will be merged from `layersCategoriesSettingsAtom` and for Groups from `layersGroupsSettingsAtom`
+
+### UX details
+
+- "Deselect" buttons for mutually exclusive groups and categories become disabled when none of their layers are active. This prevents confusing interactions when there is nothing to deselect.
