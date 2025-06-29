@@ -6,6 +6,10 @@ import { applyNewLayerStyle } from '~core/logical_layers/utils/applyNewLayerStyl
 import { mcdaLayerAtom } from './atoms/mcdaLayer';
 import { createMCDAConfig, editMCDAConfig } from './mcdaConfig';
 import { MCDA_CONTROL_ID, UPLOAD_MCDA_CONTROL_ID } from './constants';
+import { GEOMETRY_UPLOADER_CONTROL_ID } from '~features/geometry_uploader/constants';
+import { MAP_RULER_CONTROL_ID } from '~features/map_ruler/constants';
+import { BOUNDARY_SELECTOR_CONTROL_ID } from '~features/boundary_selector/constants';
+import { FOCUSED_GEOMETRY_EDITOR_CONTROL_ID } from '~widgets/FocusedGeometryEditor/constants';
 import { askMcdaJSONFile } from './utils/openMcdaFile';
 import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { LogicalLayerActions } from '~core/logical_layers/types/logicalLayer';
@@ -69,6 +73,27 @@ function uploadOnClick() {
 uploadMcdaControl.onStateChange((ctx, state) => {
   if (state === 'active') {
     store.dispatch(uploadMcdaControl.setState('regular'));
+  }
+});
+
+mcdaControl.onStateChange((ctx, state) => {
+  const uploaderState = toolbar.getControlState(GEOMETRY_UPLOADER_CONTROL_ID);
+  if (!uploaderState) return;
+
+  if (state === 'active') {
+    store.dispatch(uploaderState.set('disabled'));
+    return;
+  }
+
+  const mapRulerActive =
+    toolbar.getControlState(MAP_RULER_CONTROL_ID)?.getState() === 'active';
+  const boundaryActive =
+    toolbar.getControlState(BOUNDARY_SELECTOR_CONTROL_ID)?.getState() === 'active';
+  const focusedGeomActive =
+    toolbar.getControlState(FOCUSED_GEOMETRY_EDITOR_CONTROL_ID)?.getState() === 'active';
+
+  if (!mapRulerActive && !boundaryActive && !focusedGeomActive) {
+    store.dispatch(uploaderState.set('regular'));
   }
 });
 

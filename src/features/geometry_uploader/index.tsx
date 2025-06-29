@@ -22,6 +22,7 @@ const uploadClickListener = (e) => {
 
 const fileUploaderControl = toolbar.setupControl({
   id: GEOMETRY_UPLOADER_CONTROL_ID,
+  borrowMapInteractions: true,
   type: 'button',
   typeSettings: {
     name: GEOMETRY_UPLOADER_CONTROL_NAME,
