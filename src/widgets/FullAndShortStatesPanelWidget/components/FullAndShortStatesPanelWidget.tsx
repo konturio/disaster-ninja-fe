@@ -52,6 +52,7 @@ export function FullAndShortStatesPanelWidget({
     initialState,
     skipShortState: Boolean(!fullState || !shortState),
     isMobile: isMobile,
+    persistKey: id ? `panel-state-${id}` : undefined,
   });
 
   const getProperty = useCallback(
