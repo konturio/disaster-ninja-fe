@@ -1,5 +1,5 @@
 import type { FocusedGeometry } from './types';
-import type { Severity } from '~core/types';
+import type { Severity, EventType } from '~core/types';
 
 /**
  * Internal helper to safely access meta properties from focused geometry source
@@ -45,6 +45,14 @@ export function isEpisodeGeometry(focusedGeometry: FocusedGeometry | null): bool
  */
 export function getEventName(focusedGeometry: FocusedGeometry | null): string | null {
   return getSourceMetaProperty(focusedGeometry, 'event', 'eventName');
+}
+
+/**
+ * Safely get event type from focused geometry
+ * Handles pattern: focusedGeometry?.source?.type === 'event' ? focusedGeometry.source.meta.eventType : null
+ */
+export function getEventType(focusedGeometry: FocusedGeometry | null): EventType | null {
+  return getSourceMetaProperty<EventType>(focusedGeometry, 'event', 'eventType');
 }
 
 /**

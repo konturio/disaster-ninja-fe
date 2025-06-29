@@ -3,6 +3,10 @@ import { registerNewGeometryLayer } from '~core/logical_layers/utils/registerNew
 import { store } from '~core/store/store';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { applyNewGeometryLayerSource } from '~core/logical_layers/utils/applyNewGeometryLayerSource';
+import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
+import { layersLegendsAtom } from '~core/logical_layers/atoms/layersLegends';
+import { createAsyncWrapper } from '~utils/atoms/createAsyncWrapper';
+import { getEventName, getEventType } from '~core/focused_geometry/utils';
 import {
   FOCUSED_GEOMETRY_LOGICAL_LAYER_TRANSLATION_KEY,
   FOCUSED_GEOMETRY_COLOR,
@@ -21,6 +25,39 @@ export function initFocusedGeometryLayer() {
       FOCUSED_GEOMETRY_LOGICAL_LAYER_ID,
       focusedGeometry?.geometry ?? null,
     );
+    const eventName = getEventName(focusedGeometry);
+    const eventType = getEventType(focusedGeometry);
+    const name =
+      eventName && eventType
+        ? `${eventType}: ${eventName}`
+        : FOCUSED_GEOMETRY_LOGICAL_LAYER_TRANSLATION_KEY;
+    store.dispatch([
+      layersSettingsAtom.set(
+        FOCUSED_GEOMETRY_LOGICAL_LAYER_ID,
+        createAsyncWrapper({
+          name,
+          id: FOCUSED_GEOMETRY_LOGICAL_LAYER_ID,
+          boundaryRequiredForRetrieval: false,
+          ownedByUser: false,
+        }),
+      ),
+      layersLegendsAtom.set(
+        FOCUSED_GEOMETRY_LOGICAL_LAYER_ID,
+        createAsyncWrapper({
+          type: 'simple',
+          name,
+          steps: [
+            {
+              stepShape: 'circle',
+              stepName: name,
+              style: {
+                color: FOCUSED_GEOMETRY_COLOR,
+              },
+            },
+          ],
+        }),
+      ),
+    ]);
   });
 
   registerNewGeometryLayer(

@@ -19,3 +19,4 @@ import('~features/focused_geometry_layer').then(({ initFocusedGeometryLayer }) =
 
 1. create logical layer with it's own legend, and renderer
 2. create atom that watching on the focusedGeometry and set it geometry as geojson source for logical layer created on first step
+3. when focused geometry is an event, update layer name and legend to "<EventType>: <EventName>"
