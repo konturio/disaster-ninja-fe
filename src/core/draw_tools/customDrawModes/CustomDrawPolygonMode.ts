@@ -161,11 +161,10 @@ export class CustomDrawPolygonMode extends GeoJsonEditMode {
     switch (event.key) {
       case 'Enter':
         if (clickSequenceLength >= 2) {
-          const polygonCoords = [
-            ...clickSequence,
-            props.lastPointerMoveEvent.mapCoords,
-            clickSequence[0],
-          ];
+          const lastCoord =
+            props.lastPointerMoveEvent?.mapCoords ||
+            clickSequence[clickSequenceLength - 1];
+          const polygonCoords = [...clickSequence, lastCoord, clickSequence[0]];
           if (this.intersectionsTest(props, polygonCoords)) {
             this['resetClickSequence']();
             return;

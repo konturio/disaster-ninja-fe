@@ -12,9 +12,12 @@ export class LocalDrawLineStringMode extends DrawLineStringMode {
     if (key === 'Enter') {
       const clickSequence = this.getClickSequence();
       if (clickSequence.length > 1) {
+        const lastCoord =
+          props.lastPointerMoveEvent?.mapCoords ||
+          clickSequence[clickSequence.length - 1];
         const lineStringToAdd: LineString = {
           type: 'LineString',
-          coordinates: [...clickSequence, props.lastPointerMoveEvent.mapCoords],
+          coordinates: [...clickSequence, lastCoord],
         };
 
         this.resetClickSequence();
