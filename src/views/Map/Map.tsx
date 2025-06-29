@@ -109,6 +109,9 @@ export function MapPage() {
         initLocateMe();
       });
     }
+    import('~features/zoom_buttons').then(({ initZoomButtons }) => {
+      initZoomButtons();
+    });
     if (featureFlags[AppFeature.LIVE_SENSOR]) {
       import('~features/live_sensor').then(({ initSensor }) => {
         initSensor();

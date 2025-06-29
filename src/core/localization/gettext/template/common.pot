@@ -31,7 +31,6 @@ msgid "Save"
 msgstr ""
 
 #: cancel
-#: mcda##btn_cancel
 msgid "Cancel"
 msgstr ""
 
@@ -49,6 +48,10 @@ msgstr ""
 
 #: loading
 msgid "Loading..."
+msgstr ""
+
+#: preparing_data
+msgid "Preparing data"
 msgstr ""
 
 #: loading_events
@@ -81,6 +84,10 @@ msgstr ""
 msgid "Layers"
 msgstr ""
 
+#: layer
+msgid "Layer"
+msgstr ""
+
 #: toolbar##map_ruler
 msgid "Measure distance"
 msgstr ""
@@ -88,6 +95,14 @@ msgstr ""
 #: toolbar##locate_me
 #: locate_me##feature_title
 msgid "Locate me"
+msgstr ""
+
+#: toolbar##zoom_in
+msgid "Zoom in"
+msgstr ""
+
+#: toolbar##zoom_out
+msgid "Zoom out"
 msgstr ""
 
 #: toolbar##panel_title
@@ -100,6 +115,7 @@ msgid "Download"
 msgstr ""
 
 #: toolbar##delete
+#: layer_actions##tooltips##delete
 msgid "Delete"
 msgstr ""
 
@@ -175,6 +191,18 @@ msgstr ""
 
 #: started
 msgid "Started"
+msgstr ""
+
+#: created
+msgid "Created"
+msgstr ""
+
+#: mapping_types
+msgid "Mapping types"
+msgstr ""
+
+#: osm_gaps
+msgid "OSM gaps"
 msgstr ""
 
 #: no_data_received
@@ -360,10 +388,6 @@ msgstr ""
 
 #: mcda##error_analysis_name_cannot_be_empty
 msgid "Analysis name cannot be empty"
-msgstr ""
-
-#: mcda##error_bad_layer_data
-msgid "Invalid MCDA layer data"
 msgstr ""
 
 #: mcda##error_invalid_file
@@ -553,6 +577,14 @@ msgstr ""
 msgid "Good"
 msgstr ""
 
+#: multivariate##multivariate_analysis
+msgid "Multivariate Analysis"
+msgstr ""
+
+#: multivariate##create_analysis_layer
+msgid "Create analysis layer"
+msgstr ""
+
 #: multivariate##upload_analysis_layer
 msgid "Upload analysis layer"
 msgstr ""
@@ -561,8 +593,44 @@ msgstr ""
 msgid "Score {{level}}"
 msgstr ""
 
-#: multivariate##popup##base_header
-msgid "Base {{level}}"
+#: multivariate##popup##compare_header
+msgid "Compare {{level}}"
+msgstr ""
+
+#: multivariate##score
+msgid "Score"
+msgstr ""
+
+#: multivariate##compare
+msgid "Compare"
+msgstr ""
+
+#: multivariate##hide_area
+msgid "Hide area"
+msgstr ""
+
+#: multivariate##labels
+msgid "Labels"
+msgstr ""
+
+#: multivariate##3d
+msgid "3D"
+msgstr ""
+
+#: map_popup##value
+msgid "Value"
+msgstr ""
+
+#: map_popup##range
+msgid "Range"
+msgstr ""
+
+#: map_popup##coefficient
+msgid "Coefficient"
+msgstr ""
+
+#: map_popup##normalized_value
+msgid "Normalized value"
 msgstr ""
 
 #: search##search_location
@@ -690,6 +758,10 @@ msgstr ""
 #: event_list##open_timeline_button
 #: episode
 msgid "Timeline"
+msgstr ""
+
+#: create_layer##save_and_draw
+msgid "Save and draw"
 msgstr ""
 
 #: create_layer##edit_layer
@@ -859,10 +931,6 @@ msgstr ""
 
 #: draw_tools##overlap_error
 msgid "Polygon should not overlap itself"
-msgstr ""
-
-#: draw_tools##save_features
-msgid "Save features"
 msgstr ""
 
 #: boundary_selector##title
@@ -1213,86 +1281,12 @@ msgstr ""
 msgid "User guide"
 msgstr ""
 
-#: about##title
-msgid "Welcome to Disaster Ninja!"
+#: modes##external##upload_imagery
+msgid "Upload imagery"
 msgstr ""
 
-#: about##intro
-msgid ""
-"Do you want to be notified about ongoing disasters? Are you interested in "
-"instant population data and other analytics for any region in the world? "
-"Disaster Ninja showcases some of <2>Kontur</2>’s capabilities in addressing "
-"these needs.<br/><br/>We initially designed it as a decision support tool "
-"for humanitarian mappers. Now it has grown in functionality and use cases. "
-"Whether you work in disaster management, build a smart city, or perform "
-"research on climate change, Disaster Ninja can help you to:"
-msgstr ""
-
-#: about##l1
-msgid "1. Stay up to date with the latest hazard events globally."
-msgstr ""
-
-#: about##p1
-msgid ""
-"The Disasters panel continually refreshes to inform you about ongoing "
-"events. It consumes data from the <2>Kontur Event Feed</2>, which you can "
-"also access via an API."
-msgstr ""
-
-#: about##l2
-msgid "2. Focus on your area of interest."
-msgstr ""
-
-#: about##p2
-msgid ""
-"The Drawing Tools panel allows you to draw or upload your own geometry on "
-"the map. You can also focus on a disaster-exposed area or an administrative "
-"unit — a country, city, or region."
-msgstr ""
-
-#: about##l3
-msgid "3. Get analytics for the focused area."
-msgstr ""
-
-#: about##p3
-msgid ""
-"The Analytics panel shows the number of people living in that area per "
-"<2>Kontur Population</2> and estimated mapping gaps in OpenStreetMap. "
-"Kontur’s customers have access to hundreds of other indicators through "
-"Advanced Analytics."
-msgstr ""
-
-#: about##l4
-msgid "4. Explore data on the map and make conclusions."
-msgstr ""
-
-#: about##p4
-msgid ""
-"The Layers panel gives you various options to display two indicators "
-"simultaneously on a bivariate map, e.g., population density and distance to "
-"the nearest fire station. Use the color legend to assess which areas "
-"require attention. <br/>Hint: in general, green indicates low risk / few "
-"gaps, red — high risk / many gaps."
-msgstr ""
-
-#: about##p5
-msgid ""
-"In addition, you can switch to Reports in the left panel to access data on "
-"potential errors and inconsistencies in OpenStreetMap and help fix them by "
-"mapping the respective area with the JOSM editor."
-msgstr ""
-
-#: about##goToMap
-msgid "Go to the map now"
-msgstr ""
-
-#: about##p6
-msgid ""
-"We hope you find this tool valuable. Use the chatbox on Disaster Ninja for "
-"any questions about the functionality, and we will be happy to guide you. "
-"You can also contact us by email at <1>hello@kontur.io</1> if you have "
-"feedback or suggestions on improving the tool.<br/><br/>Disaster Ninja is "
-"an open-source project. Find the code in <8>Kontur’s GitHub account</8>."
+#: modes##external##imagery_catalog
+msgid "Imagery catalog"
 msgstr ""
 
 #: profile##interfaceTheme
@@ -1482,7 +1476,9 @@ msgstr ""
 #: profile##reference_area##tooltip_text
 msgid ""
 "1.Select an area of interest on the map using the Admin Boundary or Draw "
-"Geometry tool. <br/> 2. Click the 'Save as Reference' button on the toolbar."
+"Geometry tool.\n"
+"\n"
+" 2. Click the 'Save as Reference' button on the toolbar."
 msgstr ""
 
 #: profile##reference_area##accessing_location
@@ -1587,4 +1583,8 @@ msgstr ""
 
 #: reference_area##selected_area_saved_as_reference_area
 msgid "Selected area has been saved as reference area in your profile"
+msgstr ""
+
+#: oam_auth##login_button
+msgid "Login with Google"
 msgstr ""

@@ -22,6 +22,8 @@
   "toolbar": {
     "map_ruler": "Measure distance",
     "locate_me": "Locate me",
+    "zoom_in": "Zoom in",
+    "zoom_out": "Zoom out",
     "panel_title": "Toolbar",
     "download": "Download",
     "delete": "Delete",

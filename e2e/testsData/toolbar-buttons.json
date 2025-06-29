@@ -1,5 +1,15 @@
 [
   {
+    "id": "ZoomIn",
+    "tooltipText": "Zoom in",
+    "visibleButtonText": "Zoom in"
+  },
+  {
+    "id": "ZoomOut",
+    "tooltipText": "Zoom out",
+    "visibleButtonText": "Zoom out"
+  },
+  {
     "id": "LocateMe",
     "tooltipText": "Locate me",
     "visibleButtonText": "Locate me"

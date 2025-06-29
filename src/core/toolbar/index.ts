@@ -14,6 +14,10 @@ import {
   CREATE_LAYER_CONTROL_ID,
   CUSTOM_LAYER_DRAW_TOOLS_CONTROL,
 } from '~features/create_layer/constants';
+import {
+  ZOOM_IN_CONTROL_ID,
+  ZOOM_OUT_CONTROL_ID,
+} from '~features/zoom_buttons/constants';
 import type {
   ControlID,
   ControlState,
@@ -55,6 +59,8 @@ class ToolbarImpl implements Toolbar {
       {
         name: i18n.t('toolbar.tools_label'),
         controls: [
+          ZOOM_IN_CONTROL_ID,
+          ZOOM_OUT_CONTROL_ID,
           'LocateMe',
           'MapRuler',
           'EditInOsm',
