@@ -12,6 +12,7 @@ import s from './styles.module.css';
 export function Search() {
   const { isOpen, closePanel, openFullState } = useShortPanelState({
     skipShortState: true,
+    persistKey: 'panel-state-search',
   });
   useAutoCollapsePanel(isOpen, closePanel);
 

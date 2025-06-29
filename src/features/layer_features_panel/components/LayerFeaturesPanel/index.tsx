@@ -82,7 +82,7 @@ export function LayerFeaturesPanel() {
     togglePanel,
     closePanel,
     setPanelState,
-  } = useShortPanelState({ isMobile });
+  } = useShortPanelState({ isMobile, persistKey: 'panel-state-layer-features' });
 
   const isOpen = panelState !== 'closed';
   const isShort = panelState === 'short';

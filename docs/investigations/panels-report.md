@@ -44,6 +44,8 @@ Most Panel implementations use a shared pattern for state management:
 - **State Types**: `'closed'`, `'short'`, and `'full'`
 - **Hooks**: `useShortPanelState()` provides standardized panel state handling
 - **Responsive Behavior**: Different content rendering based on panel state
+- **Persistence**: When a `persistKey` is provided to `useShortPanelState`, panel
+  state is stored in `localStorage` and restored on reload
 
 #### Common Props
 

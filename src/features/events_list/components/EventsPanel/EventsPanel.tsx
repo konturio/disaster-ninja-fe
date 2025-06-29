@@ -66,7 +66,7 @@ export function EventsPanel({
     togglePanel,
     isOpen,
     isShort,
-  } = useShortPanelState({ isMobile });
+  } = useShortPanelState({ isMobile, persistKey: 'panel-state-events' });
 
   const [focusedGeometry] = useAtom(focusedGeometryAtom);
   const [{ data: eventsList, error, loading }] = useAtomV3(sortedEventListAtom);

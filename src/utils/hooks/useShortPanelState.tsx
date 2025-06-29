@@ -1,5 +1,6 @@
 import { ChevronDown24, ChevronUp24 } from '@konturio/default-icons';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { localStorage } from '~utils/storage';
 
 export type PanelState = 'full' | 'short' | 'closed';
 
@@ -7,13 +8,29 @@ interface UseShortPanelStateProps {
   initialState?: PanelState | null;
   skipShortState?: boolean;
   isMobile?: boolean;
+  persistKey?: string;
 }
 
 export const useShortPanelState = (props?: UseShortPanelStateProps) => {
   const initialState = props?.initialState ?? 'full';
   const skipShortState = props?.skipShortState ?? false;
   const isMobile = props?.isMobile ?? false;
-  const [panelState, setPanelState] = useState<PanelState>(initialState);
+  const persistKey = props?.persistKey;
+  const [panelState, setPanelState] = useState<PanelState>(() => {
+    if (persistKey) {
+      const stored = localStorage.getItem(persistKey) as PanelState | null;
+      if (stored === 'full' || stored === 'short' || stored === 'closed') {
+        return stored;
+      }
+    }
+    return initialState;
+  });
+
+  useEffect(() => {
+    if (persistKey) {
+      localStorage.setItem(persistKey, panelState);
+    }
+  }, [persistKey, panelState]);
 
   const panelControls = useMemo(() => {
     if (isMobile) {
