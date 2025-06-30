@@ -8,6 +8,10 @@ import { eventSampleData } from '~core/api/__mocks__/_eventsSampleData';
 import { hotData } from '~core/api/__mocks__/_hotSampleData';
 import { hotProjectLayoutTemplate } from './__mocks__/_hotLayout.js';
 import { complexDataLayout, complexDataSamples } from './__mocks__/_complexLayout';
+import {
+  conditionalDataSamples,
+  conditionalLayout,
+} from './__mocks__/_conditionalLayout';
 import style from './__mocks__/fixture.module.css';
 
 const useJsonState = (initialValue: any): [string, (value: string) => void] => {
@@ -125,4 +129,5 @@ export default {
   'Event Card': createLayoutDebugger(eventCardLayoutTemplate, eventSampleData),
   'HOT Project Card': createLayoutDebugger(hotProjectLayoutTemplate, hotData),
   'Complex Demo': createLayoutDebugger(complexDataLayout, complexDataSamples),
+  'Conditional Demo': createLayoutDebugger(conditionalLayout, conditionalDataSamples),
 };
