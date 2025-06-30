@@ -43,20 +43,26 @@ export const hotProjectsLayout = {
       },
     },
     {
-      type: 'Field',
-      $value: 'mappingTypes',
-      showLabel: true,
+      type: 'PropertiesTable',
+      children: [
+        {
+          type: 'Field',
+          $value: 'mappingTypes',
+          showLabel: true,
+        },
+        {
+          type: 'Field',
+          $value: 'created',
+          format: 'date_timezone',
+        },
+        {
+          type: 'Field',
+          $value: 'lastUpdated',
+          format: 'date_timezone',
+        },
+      ],
     },
-    {
-      type: 'Field',
-      $value: 'created',
-      format: 'date_timezone',
-    },
-    {
-      type: 'Field',
-      $value: 'lastUpdated',
-      format: 'date_timezone',
-    },
+
     {
       type: 'Url',
       $value: 'projectId',
