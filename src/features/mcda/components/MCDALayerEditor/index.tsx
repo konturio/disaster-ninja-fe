@@ -2,6 +2,7 @@ import { useAtom } from '@reatom/npm-react';
 import { useCallback, useMemo } from 'react';
 import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import { applyNewLayerStyle } from '~core/logical_layers/utils/applyNewLayerStyle';
+import { removeLayerFromConfig } from '~features/mcda/utils/removeLayerFromConfig';
 import s from './style.module.css';
 import { MCDALayerParameters } from './MCDALayerParameters/MCDALayerParameters';
 import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
@@ -34,12 +35,27 @@ export function MCDALayerEditor({ layerId }: LayerEditorProps) {
     [mcdaConfig],
   );
 
+  const onLayerDeleted = useCallback(
+    (deletedId: string) => {
+      if (mcdaConfig) {
+        const updated = removeLayerFromConfig(mcdaConfig, deletedId);
+        applyNewLayerStyle({ type: 'mcda', config: updated });
+      }
+    },
+    [mcdaConfig],
+  );
+
   if (!mcdaConfig) return null;
 
   return (
     <div className={s.editor}>
       {mcdaConfig.layers.map((layer) => (
-        <MCDALayerParameters key={layer.id} layer={layer} onLayerEdited={onLayerEdited} />
+        <MCDALayerParameters
+          key={layer.id}
+          layer={layer}
+          onLayerEdited={onLayerEdited}
+          onDeletePressed={() => onLayerDeleted(layer.id)}
+        />
       ))}
     </div>
   );

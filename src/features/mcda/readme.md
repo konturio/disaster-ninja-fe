@@ -16,6 +16,8 @@ To start using this feature user needs:
 In Toolbar user will see a MCDA button.
 By clicking it in activated prompt window user needs to enter JSON of next structure:
 
+Layers inside the analysis can be managed in the MCDA editor. Use the trash icon on a layer card to remove it from the analysis.
+
 ```json
 {
   "id": "MCDA",
