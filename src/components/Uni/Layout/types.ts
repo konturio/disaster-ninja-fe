@@ -1,7 +1,7 @@
 import type { FieldMeta } from '../fieldsRegistry';
 
 export type UniLayoutIfCondition = {
-  op: '==' | '!=' | '>' | '<' | '<=' | '>=';
+  op: '==' | '!==' | '>' | '<' | '<=' | '>=';
   value: any;
 };
 

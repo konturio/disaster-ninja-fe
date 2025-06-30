@@ -4,7 +4,7 @@ export function checkIfCondition(value: any, condition: UniLayoutIfCondition): b
   switch (condition.op) {
     case '==':
       return value === condition.value;
-    case '!=':
+    case '!==':
       return value !== condition.value;
     case '>':
       return value > condition.value;
