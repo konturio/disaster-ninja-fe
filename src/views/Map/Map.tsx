@@ -161,20 +161,58 @@ export function MapPage() {
           <Layout
             searchBar={
               featureFlags[AppFeature.SEARCH_BAR] &&
-              featureFlags[AppFeature.SEARCH_LOCATION] && <Search />
+              featureFlags[AppFeature.SEARCH_LOCATION] && (
+                <Suspense fallback={null}>
+                  <Search />
+                </Suspense>
+              )
             }
-            analytics={<Analytics />}
+            analytics={
+              <Suspense fallback={null}>
+                <Analytics />
+              </Suspense>
+            }
             // if EVENTS_LIST is enabled, we always have default feed
-            disasters={featureFlags[AppFeature.EVENTS_LIST] && <EventListPanel />}
-            layersAndLegends={<LayersAndLegends />}
-            matrix={<></>}
-            timeline={featureFlags[AppFeature.EPISODES_TIMELINE] && <EventEpisodes />}
-            breadcrumbs={
-              featureFlags[AppFeature.ADMIN_BOUNDARY_BREADCRUMBS] && <BreadcrumbsPanel />
+            disasters={
+              featureFlags[AppFeature.EVENTS_LIST] && (
+                <Suspense fallback={null}>
+                  <EventListPanel />
+                </Suspense>
+              )
             }
-            toolbar={featureFlags[AppFeature.TOOLBAR] && <Toolbar />}
+            layersAndLegends={
+              <Suspense fallback={null}>
+                <LayersAndLegends />
+              </Suspense>
+            }
+            matrix={<></>}
+            timeline={
+              featureFlags[AppFeature.EPISODES_TIMELINE] && (
+                <Suspense fallback={null}>
+                  <EventEpisodes />
+                </Suspense>
+              )
+            }
+            breadcrumbs={
+              featureFlags[AppFeature.ADMIN_BOUNDARY_BREADCRUMBS] && (
+                <Suspense fallback={null}>
+                  <BreadcrumbsPanel />
+                </Suspense>
+              )
+            }
+            toolbar={
+              featureFlags[AppFeature.TOOLBAR] && (
+                <Suspense fallback={null}>
+                  <Toolbar />
+                </Suspense>
+              )
+            }
             layerFeaturesPanel={
-              featureFlags[AppFeature.LAYER_FEATURES_PANEL] && <LayerFeaturesPanel />
+              featureFlags[AppFeature.LAYER_FEATURES_PANEL] && (
+                <Suspense fallback={null}>
+                  <LayerFeaturesPanel />
+                </Suspense>
+              )
             }
             footer={
               <div className={clsx(s.footer, s.clickThrough)}>
