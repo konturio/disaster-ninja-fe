@@ -1,6 +1,7 @@
 .table {
   display: flex;
   flex-direction: column;
+  margin: var(--half-unit) 0;
 }
 
 .table > div {
@@ -16,7 +17,7 @@
 }
 
 .table > div > div {
-  padding: 3px 0;
+  padding: 2px 0;
 
   &:last-of-type {
     max-width: 70%;
