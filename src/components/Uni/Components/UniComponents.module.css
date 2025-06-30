@@ -1,0 +1,11 @@
+.componentsGroup {
+  margin-bottom: 30px;
+}
+
+.componentsContainer {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  margin-left: 15px;
+  gap: 20px;
+}
