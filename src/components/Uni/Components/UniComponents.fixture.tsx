@@ -1,9 +1,9 @@
-import { typedObjectEntries } from '~core/types/entry';
 import { StackedProgressBar } from './Bar';
 import { SeverityIndicator } from './Severity';
 import { MappingProgress } from './MappingProgress';
 import s from './UniComponents.module.css';
 import { Text } from '@konturio/ui-kit';
+import { PropertiesTable } from './PropertiesTable';
 
 function ComponentsGroup({
   label,
@@ -52,6 +52,28 @@ export default (
     <ComponentsGroup label="SeverityIndicator">
       <SeverityIndicator value="MODERATE" />
       <SeverityIndicator value="UNKNOWN" />
+    </ComponentsGroup>
+    <ComponentsGroup label="PropertiesTable">
+      <PropertiesTable>
+        {[
+          <div>
+            <div>Property 1</div>
+            <div>Short value</div>
+          </div>,
+          <div>
+            <div>Propert 2</div>
+            <div>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis orci
+              quis dui elementum tempor.
+            </div>
+          </div>,
+          <div>
+            <div>
+              This property has no label, so the value takes all the available space.
+            </div>
+          </div>,
+        ]}
+      </PropertiesTable>
     </ComponentsGroup>
   </blockquote>
 );

@@ -42,21 +42,26 @@ export const hotProjectLayoutTemplate = {
       $value: 'projectInfo.shortDescription',
     },
     {
-      type: 'Field',
-      $value: 'mappingTypes',
-      showLabel: true,
-    },
-    {
-      type: 'Field',
-      $value: 'created',
-    },
-    {
-      type: 'Field',
-      $value: 'lastUpdated',
-    },
-    {
-      type: 'Text',
-      $value: 'mappingEditors',
+      type: 'PropertiesTable',
+      children: [
+        {
+          type: 'Field',
+          $value: 'mappingTypes',
+          showLabel: true,
+        },
+        {
+          type: 'Field',
+          $value: 'created',
+        },
+        {
+          type: 'Field',
+          $value: 'lastUpdated',
+        },
+        {
+          type: 'Field',
+          $value: 'mappingEditors',
+        },
+      ],
     },
     {
       type: 'Url',
