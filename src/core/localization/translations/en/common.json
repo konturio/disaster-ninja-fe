@@ -250,7 +250,8 @@
   "analytics_panel": {
     "header_title": "Analytics",
     "error_loading": "Failed receiving data about selected area. It may be too large.",
-    "info_short": "Calculations are made for selected area"
+    "info_short": "Calculations are made for selected area",
+    "download_csv": "Download CSV"
   },
   "advanced_analytics_panel": {
     "header_title": "Advanced analytics",

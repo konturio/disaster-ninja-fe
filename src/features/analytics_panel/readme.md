@@ -30,6 +30,10 @@ This component displays a message when no analytics data is available for the se
 
 This component is the main container for the analytics panel feature. It renders the `AnalyticsContainer` component inside a scrollable div.
 
+### DownloadCSVControl
+
+Provides a button that allows users to export the current analytics data as a CSV file.
+
 ## Constants
 
 `MIN_HEIGHT` and `MAX_HEIGHT`
