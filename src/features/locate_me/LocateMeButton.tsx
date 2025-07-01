@@ -1,6 +1,6 @@
 import { Locate24 } from '@konturio/default-icons';
-import { Spinner } from '@konturio/ui-kit';
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
 import { i18n } from '~core/localization';
 import { currentNotificationAtom } from '~core/shared_state';
 import { setCurrentMapPosition } from '~core/shared_state/currentMapPosition';
@@ -12,27 +12,21 @@ export function LocateMeButton({
   controlComponent: ControlComponent,
   onClick,
   state,
-  id,
 }: WidgetProps) {
   const [isLocating, setIsLocating] = useState(false);
 
-  const watchIdRef = useRef<number>();
-
   const handleClick = useCallback(() => {
     setIsLocating(true);
-    onClick();
-  }, [onClick]);
+  }, []);
 
   useEffect(() => {
     if (!isLocating) return;
 
-    watchIdRef.current = navigator.geolocation.watchPosition(
+    navigator.geolocation.getCurrentPosition(
       (location) => {
         const { latitude: lat, longitude: lng } = location.coords;
         setCurrentMapPosition(store.v3ctx, { lat, lng, zoom: LOCATE_ME_ZOOM });
-        if (watchIdRef.current !== undefined) {
-          navigator.geolocation.clearWatch(watchIdRef.current);
-        }
+        onClick?.();
         setIsLocating(false);
       },
       (error) => {
@@ -41,25 +35,17 @@ export function LocateMeButton({
           { title: error.message || i18n.t('locate_me.get_location_error') },
           3,
         );
-        if (watchIdRef.current !== undefined) {
-          navigator.geolocation.clearWatch(watchIdRef.current);
-        }
         setIsLocating(false);
       },
     );
-
-    return () => {
-      if (watchIdRef.current !== undefined) {
-        navigator.geolocation.clearWatch(watchIdRef.current);
-      }
-    };
-  }, [isLocating]);
+  }, [isLocating, onClick]);
 
   return (
     <ControlComponent
-      id={id}
       size="tiny"
-      icon={isLocating ? <Spinner size={16} /> : <Locate24 width={16} height={16} />}
+      icon={
+        isLocating ? <KonturSpinner size={16} /> : <Locate24 width={16} height={16} />
+      }
       onClick={handleClick}
       active={state === 'active'}
       disabled={state === 'disabled'}
