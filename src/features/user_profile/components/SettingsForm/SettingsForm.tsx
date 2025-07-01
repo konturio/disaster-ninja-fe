@@ -72,8 +72,8 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
   const [status, { set: setPageStatus }] = useAtom(pageStatusAtom);
   const [localSettings, setLocalSettings] = useState(userProfile);
 
-  function logout() {
-    onLogout();
+  async function logout() {
+    await onLogout();
     authClientInstance.logout();
   }
 

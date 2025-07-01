@@ -10,9 +10,10 @@ export async function onLogin() {
   }
 }
 
-export function onLogout() {
+export async function onLogout(): Promise<void> {
   shutdownIntercom();
-  configRepo.updateIntercomSettings({ name: '', email: '', phone: '' });
+  yandexMetrics.reset();
+  await configRepo.updateIntercomSettings({ name: '', email: '', phone: '' });
 }
 
 function externalLoginTasks(user: UserDto) {

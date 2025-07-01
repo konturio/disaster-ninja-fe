@@ -1,17 +1,14 @@
 /**
  * @vitest-environment happy-dom
  */
-import { expect, test, vi } from 'vitest';
-import { configRepo } from '~core/config';
-import { shutdownIntercom } from './index';
+vi.mock('~core/config', () => ({
+  configRepo: {
+    getIntercomSettings: vi.fn(() => ({ intercomAppId: 'abc' })),
+  },
+}));
 
-vi.mock('~core/config', () => {
-  return {
-    configRepo: {
-      getIntercomSettings: vi.fn(() => ({ intercomAppId: 'abc' })),
-    },
-  };
-});
+import { expect, test, vi } from 'vitest';
+import { shutdownIntercom } from './index';
 
 test('shutdownIntercom clears session and calls Intercom shutdown', () => {
   globalThis.Intercom = vi.fn();
