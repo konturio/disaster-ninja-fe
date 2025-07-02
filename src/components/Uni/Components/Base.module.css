@@ -1,6 +1,20 @@
-.titleText {
+.titleL2 {
   font-size: 1.2em;
   font-weight: 700;
+  line-height: 1.2;
+  flex: 1;
+}
+
+.titleL1 {
+  font-size: 1.5em;
+  font-weight: 700;
+  line-height: 1.2;
+  flex: 1;
+}
+
+.titleL3 {
+  font-size: 1em;
+  font-weight: 500;
   line-height: 1.2;
   flex: 1;
 }

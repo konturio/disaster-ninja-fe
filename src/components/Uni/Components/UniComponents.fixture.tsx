@@ -4,6 +4,7 @@ import { MappingProgress } from './MappingProgress';
 import s from './UniComponents.module.css';
 import { Text } from '@konturio/ui-kit';
 import { PropertiesTable } from './PropertiesTable';
+import { Title } from './Base';
 
 function ComponentsGroup({
   label,
@@ -74,6 +75,12 @@ export default (
           </div>,
         ]}
       </PropertiesTable>
+    </ComponentsGroup>
+    <ComponentsGroup label="Title">
+      <Title value="Title Level 1" level={1} />
+      <Title value="Title Level 2" level={2} />
+      <Title value="Title Level 3" level={3} />
+      <Title value="Title Default" />
     </ComponentsGroup>
   </blockquote>
 );
