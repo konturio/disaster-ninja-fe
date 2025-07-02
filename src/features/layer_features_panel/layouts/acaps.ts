@@ -85,6 +85,47 @@ export const acapsLayout = {
       ifCondition: { op: '==', value: 'Seasonal events calendar' },
       children: [
         { type: 'CardHeader', $value: 'indicator', props: { format: 'list' } },
+        { type: 'Text', $value: 'months', props: { format: 'list' } },
+        {
+          type: 'PropertiesTable',
+          children: [
+            {
+              type: 'Field',
+              $value: 'event_type',
+              overrides: { value: { label: 'event_type' } },
+            },
+            {
+              type: 'Field',
+              $value: 'source_name',
+              overrides: { value: { label: 'source_name' } },
+            },
+            {
+              type: 'Field',
+              $value: 'source_date',
+              overrides: { value: { label: 'source_date' } },
+            },
+            {
+              type: 'Field',
+              $value: 'label',
+              overrides: { value: { label: 'label' } },
+            },
+          ],
+        },
+        { type: 'Text', $value: 'comment' },
+        {
+          type: 'Url',
+          $value: 'source_link',
+          $if: 'source_link',
+        },
+      ],
+    },
+    // Information landscape dataset
+    {
+      type: 'Block',
+      $if: 'acaps_source_dataset',
+      ifCondition: { op: '==', value: 'Information landscape dataset' },
+      children: [
+        { type: 'CardHeader', $value: 'indicator', props: { format: 'list' } },
         { type: 'Text', $value: 'subindicator', props: { format: 'list' } },
         {
           type: 'PropertiesTable',
