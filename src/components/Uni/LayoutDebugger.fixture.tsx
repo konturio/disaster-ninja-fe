@@ -7,7 +7,6 @@ import { UniLayoutRenderer } from './Layout/UniLayoutRenderer';
 import { eventSampleData } from '~core/api/__mocks__/_eventsSampleData';
 import { hotData } from '~core/api/__mocks__/_hotSampleData';
 import { acapsSampleData } from '~core/api/__mocks__/_acapsSampleData';
-import { hotProjectLayoutTemplate } from './__mocks__/_hotLayout.js';
 import { complexDataLayout, complexDataSamples } from './__mocks__/_complexLayout';
 import {
   conditionalDataSamples,
@@ -15,6 +14,7 @@ import {
 } from './__mocks__/_conditionalLayout';
 import style from './__mocks__/fixture.module.css';
 import { acapsLayout } from '~features/layer_features_panel/layouts/acaps';
+import { hotProjectsLayout } from '~features/layer_features_panel/layouts/hotProjects';
 
 const useJsonState = (initialValue: any): [string, (value: string) => void] => {
   const [json, setJson] = useState(JSON.stringify(initialValue, null, 4));
@@ -129,7 +129,7 @@ const createLayoutDebugger = (initialLayout, initialData) => {
 
 export default {
   'Event Card': createLayoutDebugger(eventCardLayoutTemplate, eventSampleData),
-  'HOT Project Card': createLayoutDebugger(hotProjectLayoutTemplate, hotData),
+  'HOT Project Card': createLayoutDebugger(hotProjectsLayout, hotData),
   'Complex Demo': createLayoutDebugger(complexDataLayout, complexDataSamples),
   'Conditional Demo': createLayoutDebugger(conditionalLayout, conditionalDataSamples),
   'ACAPS Demo': createLayoutDebugger(acapsLayout, acapsSampleData),
