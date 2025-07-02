@@ -49,6 +49,7 @@ It requires feature `bivariate_manager` turned on.
 
    Then colorTheme is used to produce a legend. (`<BivariateLegend/>` component data)
 
-   Later on layer mount in BivariateRenderer method `_generateLayerFromLegend` is called to create an object with the rules for mapbox, it has case block with value intervals for every step. (it's core painting logic)
+The resulting legend is converted by `legendToMultivariateStyle` inside `BivariateRenderer` (now a thin wrapper over `MultivariateRenderer`).
+That class handles creating MapLibre layers with the proper style rules for every legend step.
 
-   For reference use [mapbox documentation](https://docs.mapbox.com/mapbox-gl-js/style-spec/expressions/)
+For reference use [mapbox documentation](https://docs.mapbox.com/mapbox-gl-js/style-spec/expressions/)
