@@ -9,10 +9,12 @@ import { Field } from './Components/Field';
 import { CardHeader } from './Components/CardHeader';
 import { IconButton } from './Components/IconButton';
 import { PropertiesTable } from './Components/PropertiesTable';
+import { Block } from './Components/Block';
 
 export const componentsRegistry = {
   Card,
   Row,
+  Block,
   CardHeader,
 
   Title,
