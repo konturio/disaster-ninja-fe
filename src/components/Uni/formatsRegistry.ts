@@ -133,4 +133,7 @@ export const formatsRegistry = {
   capitalized_list(values?: string[]) {
     return values ? toCapitalizedList(values) : '';
   },
+  list(values?: string[]) {
+    return values?.length ? values.join(', ') : '';
+  },
 };

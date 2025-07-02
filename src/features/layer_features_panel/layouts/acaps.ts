@@ -8,25 +8,6 @@ export const acapsLayout = {
     { type: 'Text', $value: 'country', overrides: { value: { format: 'join' } } },
     { type: 'Text', $value: 'adm1_eng_name', overrides: { value: { format: 'join' } } },
     //  risks list
-    /*
-    p.comment - title
-    p.risk_type - text
-    ['geographic_level', p.geographic_level],
-    ['impact', p.impact],
-    ['date_entered', p.source_date ?? ''],
-    ['last_risk_update', p.last_risk_update],
-    ['status', p.status],
-    ['exposure', p.exposure],
-    ['intensity', p.intensity],
-    ['probability', p.probability],
-    ['risk_level', p.risk_level],
-    p.source_link - type: 'external_link',
-    p.rationale - text
-    p.trigger - text
-    p.vulnerability - text
-    ['published', p.published ?? ''],
-    ['_internal_filter_date', p._internal_filter_date],
-    */
     {
       type: 'Block',
       $if: 'acaps_source_dataset',
@@ -95,6 +76,20 @@ export const acapsLayout = {
         { type: 'Text', $value: 'trigger' },
         { type: 'Title', value: 'vulnerability', props: { level: 3 } },
         { type: 'Text', $value: 'vulnerability' },
+      ],
+    },
+    // Seasonal events calendar
+    {
+      type: 'Block',
+      $if: 'acaps_source_dataset',
+      ifCondition: { op: '==', value: 'Seasonal events calendar' },
+      children: [
+        { type: 'CardHeader', $value: 'indicator', props: { format: 'list' } },
+        { type: 'Text', $value: 'subindicator', props: { format: 'list' } },
+        {
+          type: 'PropertiesTable',
+          children: [],
+        },
       ],
     },
     {
