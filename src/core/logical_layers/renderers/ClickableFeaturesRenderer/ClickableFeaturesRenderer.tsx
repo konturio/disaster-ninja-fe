@@ -69,8 +69,12 @@ export abstract class ClickableFeaturesRenderer extends LogicalLayerDefaultRende
   private createTileSource(
     map: ApplicationMap,
     layer: LayerTileSource,
-  ): VectorSourceSpecification {
-    /* Create source */
+  ): VectorSourceSpecification | null {
+    if (!layer.source?.urls?.length) {
+      console.error(`[${this.id} layer renderer]: no tile URLs provided for source`);
+      return null;
+    }
+
     const mapSource: VectorSourceSpecification = {
       type: 'vector',
       tiles: layer.source.urls.map((url) => adaptTileUrl(url)),
@@ -175,10 +179,8 @@ export abstract class ClickableFeaturesRenderer extends LogicalLayerDefaultRende
     style: LayerStyle | null,
   ) {
     if (layerData == null) return;
-    const tileSourceSpec: VectorSourceSpecification = this.createTileSource(
-      map,
-      layerData,
-    );
+    const tileSourceSpec = this.createTileSource(map, layerData);
+    if (!tileSourceSpec) return;
     await mapLoaded(map);
     if (map.getSource(this._sourceId) === undefined) {
       map.addSource(this._sourceId, tileSourceSpec);
