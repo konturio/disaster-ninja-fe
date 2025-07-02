@@ -13,12 +13,12 @@ export interface TitleProps extends TextProps {
 }
 
 export function Title({ value, className, level = 2, format }: TitleProps) {
+  const formattedValue = useFormattedValue(value, format);
+
   return (
-    <Text
-      value={value}
-      className={clsx(bs.titleL2, clsx(bs[`titleL${level}`]), className)}
-      format={format}
-    />
+    <div className={clsx(level ? bs[`titleL${level}`] : bs.titleL2, className)}>
+      {formattedValue}
+    </div>
   );
 }
 export function Text({ value, className, format }: TextProps) {

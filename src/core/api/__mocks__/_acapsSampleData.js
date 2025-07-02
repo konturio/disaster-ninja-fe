@@ -6,7 +6,8 @@ export const acapsSampleData = [
     status: 'Materialised',
     comment:
       'Brazil’s government agencies warned of droughts this week as the country faces its worst dry spell in 91 years, increasing fears of energy rationing, hitting hydroelectric power generation and agriculture while raising the risk of Amazon fires. several states could be affected: Minas Gerais, Goiás, Mato Grosso do Sul, São Paulo and Paraná. The alert pointed out that studies carried out by the Brazilian SNM foresee this tendency for the period June-July-August/2021.\n -   Unforeseen heavy rains continue to cause flooding in northeast and southern Brazil\n- Droughts in central and southern Brazil, because extension of La Niña period\n- Continued mobility limitations due to road destruction\n',
-    country: ['Brazil'],
+    country: ['Brazil', 'Venezuela'],
+    adm1_eng_name: ['Adm 1', 'Adm 2'],
     trigger:
       '-   Unforeseen heavy rains continue to cause flooding in northeast and southern Brazil\n- Droughts in central and southern Brazil, because extension of La Niña period\n- Continued mobility limitations due to road destruction\n',
     exposure: '250,000-500,000',
@@ -65,9 +66,9 @@ export const acapsSampleData = [
     iso3: ['COL'],
     comment:
       'Flooding caused by La Niña and heavy rain falls in Caribbean, Northern Pacific region, North and Central Andean regions and Central-Western region. Major rivers continue to rise. ',
-    country: ['Colombia'],
+    country: ['Colombia', 'Chile'],
     created: '2022-06-17',
-    indicator: ['ILI2 - Access to information'],
+    indicator: ['ILI2 - Access to information', 'ILI3 - Access to more information'],
     source_id: 'I00002',
     entry_type: 'Event',
     countrywide: true,
