@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useUniLayoutContext } from '../Layout/UniLayoutContext';
+import { useFormattedValue } from '../hooks/useFormattedValue';
 import s from './Badge.module.css';
 
 type VariantType = 'error' | 'success' | 'warning' | 'info' | 'neutral';
@@ -30,14 +30,9 @@ export function Badge({
   style = {},
   format,
 }: BadgeProps) {
-  const context = useUniLayoutContext();
+  const formattedValue = useFormattedValue(value, format);
 
   if (value === undefined) return null;
-
-  const formattedValue =
-    format && context.formatsRegistry[format]
-      ? context.formatsRegistry[format](value)
-      : value;
 
   const key = ('' + value).toLowerCase();
   const computedVariant: VariantType = mapping?.[key] ?? variant;

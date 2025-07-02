@@ -5,8 +5,8 @@ export const acapsLayout = {
   children: [
     // common
     { type: 'Badge', $value: 'acaps_source_dataset' },
-    { type: 'Text', $value: 'country', overrides: { value: { format: 'join' } } },
-    { type: 'Text', $value: 'adm1_eng_name', overrides: { value: { format: 'join' } } },
+    { type: 'Text', $value: 'country', props: { format: 'list' } },
+    { type: 'Text', $value: 'adm1_eng_name', props: { format: 'list' } },
     //  risks list
     {
       type: 'Block',
