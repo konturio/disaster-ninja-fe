@@ -90,6 +90,8 @@ export const acapsSampleData = [
     countrywide: true,
     source_date: '2022-09-01',
     source_link: 'https://www.globalr2p.org/countries/venezuela/',
+    additional_sources:
+      'https://www.expedientepublico.org/asi-fue-el-allanamiento-contra-el-periodico-de-guatemala-la-trama-por-silenciar-a-quienes-denuncian-la-corrupcion/',
     source_name: 'Global2p',
     adm1_eng_name: [
       'Amazonas',

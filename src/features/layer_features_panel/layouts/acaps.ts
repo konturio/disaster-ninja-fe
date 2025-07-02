@@ -32,11 +32,13 @@ export const acapsLayout = {
               type: 'Field',
               $value: 'source_date',
               overrides: { value: { label: 'date_entered' } },
+              format: 'date_month_year',
             },
             {
               type: 'Field',
               $value: 'last_risk_update',
               overrides: { value: { label: 'last_risk_update' } },
+              format: 'date',
             },
             {
               type: 'Field',
@@ -103,6 +105,7 @@ export const acapsLayout = {
               type: 'Field',
               $value: 'source_date',
               overrides: { value: { label: 'source_date' } },
+              format: 'date_month_year',
             },
             {
               type: 'Field',
@@ -129,8 +132,79 @@ export const acapsLayout = {
         { type: 'Text', $value: 'subindicator', props: { format: 'list' } },
         {
           type: 'PropertiesTable',
-          children: [],
+          children: [
+            {
+              type: 'Field',
+              $value: 'entry_type',
+              overrides: { value: { label: 'event_type' } },
+            },
+            {
+              type: 'Field',
+              $value: 'created',
+              overrides: { value: { label: 'created' } },
+              format: 'date_month_year',
+            },
+            {
+              type: 'Field',
+              $value: 'source_name',
+              overrides: { value: { label: 'source_name' } },
+            },
+            {
+              type: 'Field',
+              $value: 'source_date',
+              overrides: { value: { label: 'source_date' } },
+              format: 'date_month_year',
+            },
+          ],
         },
+        {
+          type: 'Url',
+          $value: 'source_link',
+          $if: 'source_link',
+        },
+        { type: 'Text', $value: 'comment' },
+      ],
+    },
+    // Protection risks monitor
+    {
+      type: 'Block',
+      $if: 'acaps_source_dataset',
+      ifCondition: { op: '==', value: 'Protection risks monitor' },
+      children: [
+        { type: 'CardHeader', $value: 'indicator', props: { format: 'list' } },
+        {
+          type: 'PropertiesTable',
+          children: [
+            {
+              type: 'Field',
+              $value: 'targeting_specific_population_groups',
+              overrides: { value: { label: 'targeting_specific_population_groups' } },
+              props: { format: 'list' },
+            },
+            {
+              type: 'Field',
+              $value: 'source_name',
+              overrides: { value: { label: 'source_name' } },
+            },
+            {
+              type: 'Field',
+              $value: 'source_date',
+              overrides: { value: { label: 'source_date' } },
+              format: 'date_month_year',
+            },
+          ],
+        },
+        {
+          type: 'Url',
+          $value: 'source_link',
+          $if: 'source_link',
+        },
+        {
+          type: 'Url',
+          $value: 'additional_sources',
+          $if: 'additional_sources',
+        },
+        { type: 'Text', $value: 'comment' },
       ],
     },
     {
@@ -140,11 +214,13 @@ export const acapsLayout = {
           type: 'Field',
           $value: 'published',
           overrides: { value: { label: 'published' } },
+          format: 'date_month_year',
         },
         {
           type: 'Field',
           $value: '_internal_filter_date',
           overrides: { value: { label: '_internal_filter_date' } },
+          format: 'date_month_year',
         },
       ],
     },
