@@ -62,7 +62,6 @@ export const hotProjectsLayout = {
         },
       ],
     },
-
     {
       type: 'Url',
       $value: 'projectId',
