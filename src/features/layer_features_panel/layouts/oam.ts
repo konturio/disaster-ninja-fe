@@ -21,6 +21,6 @@ export const oamLayout = {
       overrides: { value: { format: 'date_month_year', label: 'Uploaded at' } },
     },
     { type: 'Field', $value: 'provider', overrides: { value: { label: 'Provider' } } },
-    { type: 'Url', $value: 'uuid', label: 'Download' },
+    { type: 'Url', $value: 'uuid', label: 'Download', props: { icon: 'Download16' } },
   ],
 };
