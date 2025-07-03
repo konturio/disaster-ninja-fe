@@ -12,4 +12,5 @@
 .icon {
   vertical-align: middle;
   margin-right: var(--half-unit);
+  margin-top: -3px;
 }
