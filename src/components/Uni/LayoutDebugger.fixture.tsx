@@ -16,6 +16,8 @@ import style from './__mocks__/fixture.module.css';
 import { acapsLayout } from '~features/layer_features_panel/layouts/acaps';
 import { hotProjectsLayout } from '~features/layer_features_panel/layouts/hotProjects';
 import { layerFeaturesFormatsRegistry } from '~features/layer_features_panel/formats/layerFeaturesFormats';
+import { oamSampleData } from '~core/api/__mocks__/_oamSampleData';
+import { oamLayout } from '~features/layer_features_panel/layouts/oam';
 
 const useJsonState = (initialValue: any): [string, (value: string) => void] => {
   const [json, setJson] = useState(JSON.stringify(initialValue, null, 4));
@@ -134,4 +136,5 @@ export default {
   'Complex Demo': createLayoutDebugger(complexDataLayout, complexDataSamples),
   'Conditional Demo': createLayoutDebugger(conditionalLayout, conditionalDataSamples),
   'ACAPS Demo': createLayoutDebugger(acapsLayout, acapsSampleData),
+  'OAM Demo': createLayoutDebugger(oamLayout, oamSampleData),
 };

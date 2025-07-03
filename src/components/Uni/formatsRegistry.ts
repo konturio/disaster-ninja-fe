@@ -125,10 +125,12 @@ export const formatsRegistry = {
     return placeholder;
   },
   file_size(sizeInBytes?: number) {
-    return isNumber(sizeInBytes) ? formatFileSize(sizeInBytes) : '';
+    return isNumber(sizeInBytes) ? formatFileSize(sizeInBytes) : sizeInBytes;
   },
   distance_per_pixel(metersPerPixel?: number) {
-    return isNumber(metersPerPixel) ? formatDistancePerPixel(metersPerPixel) : '';
+    return isNumber(metersPerPixel)
+      ? formatDistancePerPixel(metersPerPixel)
+      : metersPerPixel;
   },
   capitalized_list(values?: string[]) {
     return values ? toCapitalizedList(values) : '';
