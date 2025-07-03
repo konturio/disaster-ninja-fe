@@ -243,6 +243,25 @@ Use the `--headed` flag instead of the `--ui` flag to run the tests in a headed 
 
 > Check the `tests-examples/demo-todo-app.spec.ts` file for an example of how to write tests.
 
+## Contributing Guidelines
+
+We welcome contributions from the community. To create a new feature:
+
+1. **Prepare the environment**
+   - Install dependencies with `pnpm install`.
+   - Run `npx playwright install` if you plan to run e2e tests.
+
+2. **Run the checks**
+   - `pnpm lint` – verify coding style and formatting.
+   - `pnpm test:unit` – execute unit tests.
+   - `pnpm coverage` – ensure coverage does not regress.
+
+3. **Follow style guidelines**
+   - Use Prettier and ESLint (configured via `lint-staged`) before committing.
+   - Commit messages must follow the Conventional Commits convention.
+
+When adding a feature, place its code in `src/features/<your-feature>` and include a `readme.md` describing it.
+
 ## Running Playwright e2e tests on a local environment
 
 1. Run the app in dev mode
