@@ -2,6 +2,7 @@ import { FOCUSED_GEOMETRY_LOGICAL_LAYER_ID } from '~core/focused_geometry/consta
 import { registerNewGeometryLayer } from '~core/logical_layers/utils/registerNewGeometryLayer';
 import { store } from '~core/store/store';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
+import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { applyNewGeometryLayerSource } from '~core/logical_layers/utils/applyNewGeometryLayerSource';
 import {
   FOCUSED_GEOMETRY_LOGICAL_LAYER_TRANSLATION_KEY,
@@ -21,6 +22,9 @@ export function initFocusedGeometryLayer() {
       FOCUSED_GEOMETRY_LOGICAL_LAYER_ID,
       focusedGeometry?.geometry ?? null,
     );
+    if (focusedGeometry?.geometry) {
+      store.dispatch(enabledLayersAtom.set(FOCUSED_GEOMETRY_LOGICAL_LAYER_ID));
+    }
   });
 
   registerNewGeometryLayer(
