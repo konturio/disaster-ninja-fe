@@ -10,7 +10,6 @@ import {
   useUniLayoutContextValue,
 } from '~components/Uni/Layout/UniLayoutContext';
 import { UniLayoutRenderer } from '~components/Uni/Layout/UniLayoutRenderer';
-import { hotProjectLayoutTemplate } from '~components/Uni/__mocks__/_hotLayout.js';
 import { hotData } from '~core/api/__mocks__/_hotSampleData';
 import type { IMapPopoverContentProvider, IMapPopoverProviderContext } from '../types';
 import { ProviderPriority } from '../types';
@@ -18,6 +17,7 @@ import {
   MapLibreContainer,
   MapOptions,
 } from '~components/ConnectedMap/MapLibreContainer';
+import { hotProjectsLayout } from '~features/layer_features_panel/layouts/hotProjects';
 
 // Map container component with ref callback pattern
 function FixtureMapContainer({
@@ -191,7 +191,7 @@ function HotProjectIntegration({ map }: { map: Map }) {
 
   // Stable layout context value
   const uniLayoutContextValue = useUniLayoutContextValue({
-    layout: hotProjectLayoutTemplate,
+    layout: hotProjectsLayout,
     actionHandler: handleAction,
   });
 
@@ -213,7 +213,7 @@ function HotProjectIntegration({ map }: { map: Map }) {
 
         return (
           <UniLayoutContext.Provider value={uniLayoutContextValue}>
-            <UniLayoutRenderer node={hotProjectLayoutTemplate} data={data} />
+            <UniLayoutRenderer node={hotProjectsLayout} data={data} />
           </UniLayoutContext.Provider>
         );
       },
