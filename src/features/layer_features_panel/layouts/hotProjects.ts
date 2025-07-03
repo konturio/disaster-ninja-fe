@@ -10,7 +10,7 @@ export const hotProjectsLayout = {
           type: 'Badge',
           $value: 'projectId',
           props: {
-            format: 'project_id',
+            format: 'hash_id',
           },
         },
         {

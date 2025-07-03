@@ -136,4 +136,7 @@ export const formatsRegistry = {
   list(values?: string[]) {
     return values?.length ? values.join(', ') : '';
   },
+  hash_id(value?: string | number) {
+    return value ? `#${value}` : '';
+  },
 };

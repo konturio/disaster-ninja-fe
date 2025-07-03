@@ -59,10 +59,6 @@ const fieldsRegistry: Record<string, FieldMeta> = {
     label: i18n.t('mapping_types'),
     format: 'capitalized_list',
   },
-  projectId: {
-    type: 'number',
-    text: (v) => `#${v}`,
-  },
 };
 
 // aliases
