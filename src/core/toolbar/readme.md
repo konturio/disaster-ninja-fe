@@ -91,8 +91,6 @@ export const exampleControl =
   };
 ```
 
-The `hint` value will be displayed as a tooltip when the user hovers over the control button.
-
 #### Step 2: Define Control Behavior
 
 Set up listeners for initialization and state changes to define the control's behavior.
