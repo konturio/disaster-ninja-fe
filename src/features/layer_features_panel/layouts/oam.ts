@@ -8,6 +8,8 @@ export const oamLayout = {
     {
       type: 'PropertiesTable',
       children: [
+        // TODO: improvement: implement date interval for acquisition? formatsRegistry.dates_interval()
+        // needs two bound values in one field component
         {
           type: 'Field',
           $value: 'acquisition_start',
