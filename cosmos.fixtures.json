@@ -73,6 +73,17 @@
       "rendererUrl": "renderer.html?fixtureId=%7B%22path%22%3A%22src%2Fcomponents%2FUni%2FLayoutDebugger.fixture.tsx%22%7D&locked=true"
     },
     {
+      "filePath": "src/core/map/popover/MapPopover.fixture.tsx",
+      "cleanPath": [
+        "src",
+        "core",
+        "map",
+        "popover",
+        "MapPopover"
+      ],
+      "rendererUrl": "renderer.html?fixtureId=%7B%22path%22%3A%22src%2Fcore%2Fmap%2Fpopover%2FMapPopover.fixture.tsx%22%7D&locked=true"
+    },
+    {
       "filePath": "src/core/pages/PagesDocument.fixture.tsx",
       "cleanPath": [
         "src",
