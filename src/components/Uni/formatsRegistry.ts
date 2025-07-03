@@ -124,13 +124,13 @@ export const formatsRegistry = {
     } catch (_) {}
     return placeholder;
   },
-  file_size(sizeInBytes?: number) {
-    return isNumber(sizeInBytes) ? formatFileSize(sizeInBytes) : sizeInBytes;
+  file_size(sizeInBytes?: any) {
+    return isNumber(sizeInBytes) ? formatFileSize(sizeInBytes) : String(sizeInBytes);
   },
-  distance_per_pixel(metersPerPixel?: number) {
+  distance_per_pixel(metersPerPixel?: any) {
     return isNumber(metersPerPixel)
       ? formatDistancePerPixel(metersPerPixel)
-      : metersPerPixel;
+      : String(metersPerPixel);
   },
   capitalized_list(values?: string[]) {
     return values ? toCapitalizedList(values) : '';
