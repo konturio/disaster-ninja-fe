@@ -1,9 +1,9 @@
 import { ExternalLink16 } from '@konturio/default-icons';
 import clsx from 'clsx';
 import { useCallback } from 'react';
-import { compileStringTemplate } from '~utils/template/stringTemplate';
 import { Icon } from '~components/Icon';
 import { formatsRegistry } from '../formatsRegistry';
+import { applyValueToTemplate } from '../helpers/applyValueToTemplate';
 import s from './Url.module.css';
 
 export interface UrlProps {
@@ -20,10 +20,8 @@ export interface UrlProps {
  */
 export function Url(props: UrlProps) {
   const { value = '#', label, newTab = true, className, urlTemplate } = props;
-  const compiledTemplate = urlTemplate ? compileStringTemplate(urlTemplate) : null;
-
-  const displayText = label || (value ? formatsRegistry.url_domain(value) : '');
-  const url = compiledTemplate ? compiledTemplate({ value }) : value;
+  const url = urlTemplate ? applyValueToTemplate(urlTemplate, value) : value;
+  const displayText = label || (url ? formatsRegistry.url_domain(url) : '');
 
   const LinkIcon = useCallback(
     () =>
