@@ -140,10 +140,6 @@ msgstr ""
 msgid "Upload MCDA"
 msgstr ""
 
-#: mcda##upload_button_hint
-msgid "Upload multi-criteria decision analysis"
-msgstr ""
-
 #: layer_actions##tooltips##erase
 msgid "Erase"
 msgstr ""
@@ -336,10 +332,6 @@ msgstr ""
 
 #: mcda##name
 msgid "Create MCDA"
-msgstr ""
-
-#: mcda##create_button_hint
-msgid "Create multi-criteria decision analysis"
 msgstr ""
 
 #: mcda##modal_input_name

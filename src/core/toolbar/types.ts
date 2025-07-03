@@ -46,7 +46,7 @@ export interface ControlComponentProps {
   icon: React.ReactElement;
   onClick?: () => void;
   children: React.ReactNode;
-  hint: string;
+  hint?: string;
   disabled?: boolean;
   active?: boolean;
   size: ButtonProps['size'];

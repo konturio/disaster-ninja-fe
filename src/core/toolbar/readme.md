@@ -84,7 +84,7 @@ export const exampleControl =
     borrowMapInteractions: true,
     typeSettings: {
       name: 'Example Control',
-      hint: 'Hint for Example Control', // text shown in the tooltip
+      hint: 'Hint for Example Control',
       icon: 'ExampleIcon',
       preferredSize: 'medium',
     },

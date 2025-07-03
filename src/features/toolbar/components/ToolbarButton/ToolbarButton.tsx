@@ -12,7 +12,7 @@ export interface ControlButttonProps {
   icon: React.ReactElement;
   onClick?: () => void;
   children: React.ReactNode;
-  hint: string;
+  hint?: string;
   disabled?: boolean;
   active?: boolean;
   variant?: ButtonProps['variant'];

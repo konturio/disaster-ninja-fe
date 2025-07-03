@@ -15,7 +15,7 @@ export const mcdaControl = toolbar.setupControl({
   type: 'button',
   typeSettings: {
     name: i18n.t('mcda.name'),
-    hint: i18n.t('mcda.create_button_hint'),
+    hint: i18n.t('mcda.create_mcda_hint'),
     icon: 'Layers24',
     preferredSize: 'large',
   },
@@ -45,7 +45,7 @@ export const uploadMcdaControl = toolbar.setupControl({
   type: 'button',
   typeSettings: {
     name: i18n.t('toolbar.upload_mcda'),
-    hint: i18n.t('mcda.upload_button_hint'),
+    hint: i18n.t('mcda.upload_mcda_hint'),
     icon: 'UploadAnalysis16',
     preferredSize: 'large',
     onRef: (el) => {

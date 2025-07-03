@@ -102,8 +102,8 @@
   "mcda": {
     "title": "Multi-criteria decision analysis",
     "name": "Create MCDA",
-    "create_button_hint": "Create multi-criteria decision analysis",
-    "upload_button_hint": "Upload multi-criteria decision analysis",
+    "create_mcda_hint": "Create multi-criteria decision analysis",
+    "upload_mcda_hint": "Upload multi-criteria decision analysis",
     "modal_title": "Multi-criteria decision analysis",
     "modal_input_name": "Analysis name",
     "modal_input_name_placeholder": "e.g., Climate change",
