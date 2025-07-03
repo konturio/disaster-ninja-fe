@@ -108,7 +108,6 @@ export default ({ mode }) => {
             'vendor-nebula': ['@nebula.gl/layers', '@nebula.gl/edit-modes'],
             'vendor-viz': ['recharts'],
             'vendor-reatom': [
-              // '@reatom/core',
               '@reatom/core-v2',
               '@reatom/framework',
               '@reatom/npm-react',

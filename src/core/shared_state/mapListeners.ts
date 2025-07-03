@@ -27,10 +27,8 @@ const defaultListeners: MapListenersAtomState = MAP_EVENTS.reduce(
   {} as MapListenersAtomState,
 );
 
-// Map to track registered handlers for cleanup
 const registeredHandlers = new Map<string, (event: any) => void>();
 
-// Helper function to update map event handlers
 function updateMapEventHandlers(
   ctx: Ctx,
   eventType: MapEvent,
@@ -86,7 +84,6 @@ currentMapAtom.v3atom.onChange((ctx, map) => {
   }
 });
 
-// Reatom v3 atom
 export const mapListenersAtom = atom<MapListenersAtomState>(
   defaultListeners,
   '[Shared state] mapListenersAtom',
@@ -123,10 +120,8 @@ export const addMapListener = action(
       }
     }
 
-    // Update atom state
     mapListenersAtom(ctx, { ...state, [eventType]: listenerCategory });
 
-    // Update map event handlers directly
     updateMapEventHandlers(ctx, eventType, listenerCategory);
   },
   'addMapListener',
@@ -137,10 +132,8 @@ export const removeMapListener = action(
     const state = ctx.get(mapListenersAtom);
     const filteredListeners = state[eventType].filter((l) => l.listener !== listener);
 
-    // Update atom state
     mapListenersAtom(ctx, { ...state, [eventType]: filteredListeners });
 
-    // Update map event handlers directly
     updateMapEventHandlers(ctx, eventType, filteredListeners);
   },
   'removeMapListener',

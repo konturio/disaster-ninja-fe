@@ -40,8 +40,6 @@ import type { LayerTileSource } from '~core/logical_layers/types/source';
 import type { LayersOrderManager } from '../../utils/layersOrder/layersOrder';
 import type { LayerStyle } from '../../types/style';
 
-// Helper functions moved to BivariatePopoverProviders.tsx
-
 export class BivariateRenderer extends LogicalLayerDefaultRenderer {
   public readonly id: string;
   protected _layerId?: string;
@@ -158,7 +156,6 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     }
   }
 
-  // Register bivariate popover provider with registry
   registerBivariateProvider(legend: BivariateLegend | null) {
     if (this._bivariateProvider) {
       mapPopoverRegistry.unregister(this.bivariatePopoverId);
@@ -211,7 +208,6 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     this._layerId = layerId;
   }
 
-  // Register MCDA popover provider with registry
   registerMCDAProvider(style: MCDALayerStyle | null) {
     if (this._mcdaProvider) {
       mapPopoverRegistry.unregister(this.mcdaPopoverId);
@@ -298,7 +294,6 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       );
     }
 
-    // Unregister popover providers
     if (this._bivariateProvider) {
       mapPopoverRegistry.unregister(this.bivariatePopoverId);
       this._bivariateProvider = null;
@@ -326,7 +321,6 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     if (map.getLayer(this._layerId) !== undefined) {
       map.setLayoutProperty(this._layerId, 'visibility', 'none');
 
-      // Unregister popover providers when layer is hidden to prevent dangling popovers
       if (this._bivariateProvider) {
         mapPopoverRegistry.unregister(this.bivariatePopoverId);
       }
@@ -346,7 +340,6 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     if (map.getLayer(this._layerId) !== undefined) {
       map.setLayoutProperty(this._layerId, 'visibility', 'visible');
 
-      // Re-register popover providers when layer becomes visible
       if (this._bivariateProvider) {
         mapPopoverRegistry.register(this.bivariatePopoverId, this._bivariateProvider);
       }

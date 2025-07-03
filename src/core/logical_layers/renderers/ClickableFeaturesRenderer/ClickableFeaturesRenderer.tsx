@@ -119,7 +119,6 @@ export abstract class ClickableFeaturesRenderer extends LogicalLayerDefaultRende
     this.resetFeatureStates = reset;
   }
 
-  // Register popover provider with registry
   registerPopoverProvider(style: LayerStyle) {
     if (this._popoverProvider) {
       mapPopoverRegistry.unregister(this.popoverId);
