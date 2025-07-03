@@ -23,7 +23,7 @@ The `CurrentEvent` component displays details for the currently selected unliste
 
 ### FeedSelector
 
-The `FeedSelector` component allows users to filter the event list by feed. It displays a list of available feeds and allows the user to select one or more to filter the event list. Will be displayed if feedSelector feature is enabled.
+The `FeedSelector` component allows users to filter the event list by feed. It displays a list of available feeds and allows the user to select one or more to filter the event list. When the component mounts, it selects the default feed from the user profile settings. Will be displayed if feedSelector feature is enabled.
 
 ### BBoxFilter
 
