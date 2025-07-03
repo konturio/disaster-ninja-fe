@@ -47,18 +47,20 @@ export const hotProjectsLayout = {
       children: [
         {
           type: 'Field',
+          $value: 'created',
+          format: 'date_timezone',
+          overrides: { value: { label: 'Creation date' } },
+        },
+        {
+          type: 'Field',
           $value: 'mappingTypes',
           showLabel: true,
         },
         {
           type: 'Field',
-          $value: 'created',
-          format: 'date_timezone',
-        },
-        {
-          type: 'Field',
           $value: 'lastUpdated',
           format: 'date_timezone',
+          overrides: { value: { label: 'Last contribution' } },
         },
       ],
     },
