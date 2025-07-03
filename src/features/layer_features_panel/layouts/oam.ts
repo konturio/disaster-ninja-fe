@@ -3,7 +3,7 @@ export const oamLayout = {
   $props: { active: 'active' },
   $context: 'properties',
   children: [
-    { type: 'Image', $props: { src: 'properties.thumbnail' } },
+    { type: 'Image', $value: 'properties.thumbnail' },
     { type: 'Title', $value: 'title' },
     {
       type: 'Field',

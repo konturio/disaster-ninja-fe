@@ -10,6 +10,7 @@ import { CardHeader } from './Components/CardHeader';
 import { IconButton } from './Components/IconButton';
 import { PropertiesTable } from './Components/PropertiesTable';
 import { Block } from './Components/Block';
+import { Image } from './Components/Image';
 
 export const componentsRegistry = {
   Card,
@@ -23,6 +24,7 @@ export const componentsRegistry = {
   IconButton,
   Url,
   Badge,
+  Image,
 
   MappingProgress,
   Severity: SeverityIndicator,
