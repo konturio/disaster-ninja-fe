@@ -1,15 +1,7 @@
 .card {
   border-bottom: 1px solid var(--faint-weak);
-  padding: var(--double-unit);
-  display: flex;
-  gap: var(--unit);
-  flex-direction: column;
   border-left: 4px solid transparent;
   cursor: pointer;
-}
-
-.uniCard {
-  border-top: 1px solid #000;
 }
 
 .card:hover {
