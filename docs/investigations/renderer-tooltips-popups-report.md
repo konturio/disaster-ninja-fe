@@ -1,13 +1,14 @@
 # Tooltip and Popup Implementations in Logical Layer Renderers
 
-This report provides a comprehensive analysis of the different tooltip and popup mechanisms found within the [`src/core/logical_layers/renderers`](../../src/core/logical_layers/renderers) directory.
+This report provides a comprehensive analysis of the different tooltip and popup mechanisms found within the [`src/core/logical_layers/renderers`](../../src/core/logical_layers/renderers) directory and related map interaction systems.
 
 ## Overview of Popup and Tooltip Mechanisms
 
-Within the [`src/core/logical_layers/renderers`](../../src/core/logical_layers/renderers) directory, there appear to be two main mechanisms for displaying contextual information on the map:
+Within the [`src/core/logical_layers/renderers`](../../src/core/logical_layers/renderers) directory and related map features, there appear to be **three main mechanisms** for displaying contextual information on the map:
 
 1.  A generic tooltip mechanism primarily used by [`GenericRenderer.ts`](../../src/core/logical_layers/renderers/GenericRenderer.ts), which utilizes a global state atom (`currentTooltipAtom`). This mechanism is suitable for simple, text-based content, often sourced directly from feature properties.
 2.  A more structured map popup mechanism built around the abstract [`ClickableFeaturesRenderer.tsx`](../../src/core/logical_layers/renderers/ClickableFeaturesRenderer/ClickableFeaturesRenderer.tsx), which uses MapLibre-specific Popup objects and React components for content. This framework allows for richer, interactive popup content and is extended by specific renderers like MCDA and Multivariate.
+3.  **A marker-based dropdown system** used by the [`boundary_selector`](../../src/features/boundary_selector) feature, which creates interactive dropdowns positioned on the map using MapLibre markers rather than popups.
 
 ## Detailed Breakdown by Implementation
 
@@ -187,6 +188,64 @@ graph TD
     BivariateRenderer -- Creates/Manages --> MapLibrePopupInstance
 ```
 
+### 6. Boundary Selector Marker-Based Dropdown ([`src/features/boundary_selector`](../../src/features/boundary_selector))
+
+- **Purpose:** To display an interactive dropdown list of administrative boundaries at a clicked location, allowing users to select and highlight specific boundary geometries for use as focused areas.
+- **Role in Popup Flow (Marker-Based UI):** This system creates a positioned UI element on the map that functions like a popover but uses MapLibre's marker system instead of popups or tooltips.
+- **Mechanism:**
+  - Uses [`clickCoordinatesAtom`](../../src/features/boundary_selector/atoms/clickCoordinatesAtom.ts) to capture map click coordinates and manage map interactivity.
+  - [`boundaryResourceAtom`](../../src/features/boundary_selector/atoms/boundaryResourceAtom.ts) fetches available boundaries from the API based on click coordinates.
+  - [`boundaryMarkerAtom`](../../src/features/boundary_selector/atoms/boundaryMarkerAtom.ts) orchestrates the entire interaction:
+    - Creates dropdown markers at click locations using [`createDropdownAsMarker`](../../src/features/boundary_selector/utils/createDropdownAsMarker.ts)
+    - Manages loading states with placeholder options ("Loading...", "No data received")
+    - Handles user interactions (hover to highlight geometry, select to set focused geometry)
+    - Updates the map view to fit selected boundaries
+  - [`createDropdownAsMarker`](../../src/features/boundary_selector/utils/createDropdownAsMarker.ts) converts a React `Selector` component from `@konturio/ui-kit` into a MapLibre marker using [`convertToAppMarker`](../../src/utils/map/markers.ts).
+  - [`getSelectorWithOptions`](../../src/features/boundary_selector/components/getSelectorWithOptions.tsx) creates the actual dropdown UI component with options and event handlers.
+  - The system includes geometry highlighting via [`highlightedGeometryAtom`](../../src/features/boundary_selector/atoms/highlightedGeometry.ts) and [`BoundarySelectorRenderer`](../../src/features/boundary_selector/renderers/BoundarySelectorRenderer.ts).
+- **Dependencies:**
+  - MapLibre GL JS (`ApplicationMapMarker` extends `maplibre-gl.Marker`)
+  - React and `react-dom/client` (for rendering the dropdown component into a DOM element via [`convertToAppMarker`](../../src/utils/map/markers.ts))
+  - `@konturio/ui-kit` (`Selector` component for the dropdown UI)
+  - Boundary API and related utilities ([`getBoundaries`](../../src/core/api/boundaries.ts), [`constructOptionsFromBoundaries`](../../src/utils/map/boundaries.ts))
+  - State management atoms (click coordinates, boundary data, highlighted geometry)
+  - Map positioning and geometry utilities
+- **Architecture/Dependency Description:** The boundary selector uses a different architectural pattern from the popup systems. Instead of managing content within popups, it creates persistent marker-based UI elements that remain on the map until dismissed. The `boundaryMarkerAtom` acts as a state machine that coordinates between user interactions, API calls, and map updates. The system converts React components to DOM elements via `createRoot` and positions them using MapLibre's marker system, providing a dropdown-like experience that's spatially anchored to specific map coordinates.
+
+#### Boundary Selector Marker-Based Dropdown Flow Diagram
+
+```mermaid
+---
+config:
+  layout: elk
+---
+graph TD
+    MapClickEvent["Map Click Event"] --> clickCoordinatesAtom["clickCoordinatesAtom (Captures Coordinates)"]
+    clickCoordinatesAtom --> boundaryResourceAtom["boundaryResourceAtom (API Call)"]
+    boundaryResourceAtom --> boundaryMarkerAtom["boundaryMarkerAtom (State Machine)"]
+
+    boundaryMarkerAtom --> LoadingState{Loading State?}
+    LoadingState -->|Yes| LoadingDropdown["Create Dropdown with 'Loading...' option"]
+    LoadingState -->|No| DataState{Data Available?}
+
+    DataState -->|Yes| BoundaryDropdown["Create Dropdown with Boundary Options"]
+    DataState -->|No| ErrorDropdown["Create Dropdown with 'No data' option"]
+
+    BoundaryDropdown --> createDropdownAsMarker["createDropdownAsMarker()"]
+    LoadingDropdown --> createDropdownAsMarker
+    ErrorDropdown --> createDropdownAsMarker
+
+    createDropdownAsMarker --> getSelectorWithOptions["getSelectorWithOptions() (React Selector)"]
+    getSelectorWithOptions --> convertToAppMarker["convertToAppMarker() (React → DOM → Marker)"]
+    convertToAppMarker --> ApplicationMapMarker["ApplicationMapMarker (Positioned on Map)"]
+
+    ApplicationMapMarker --> UserInteraction{User Interaction}
+    UserInteraction -->|Hover| highlightedGeometryAtom["highlightedGeometryAtom (Highlight Boundary)"]
+    UserInteraction -->|Select| FocusedGeometry["Set focusedGeometryAtom & Adjust Map View"]
+
+    highlightedGeometryAtom --> BoundarySelectorRenderer["BoundarySelectorRenderer (Renders Highlight Layer)"]
+```
+
 ## Overall System Diagram
 
 This diagram illustrates how the different renderer types interact with the map and the popup/tooltip mechanisms.
@@ -199,6 +258,7 @@ config:
 graph TD
     Map["MapLibre GL JS Map"] --> GenericRenderer["GenericRenderer"];
     Map --> ClickableFeaturesRendererAbstract["ClickableFeaturesRenderer (Abstract)"];
+    Map --> BoundarySelector["Boundary Selector Feature"];
 
     GenericRenderer -- Updates State --> currentTooltipAtom["currentTooltipAtom"];
     currentTooltipAtom -- Read by --> UIComponent["UI Component (Renders Generic Tooltip)"];
@@ -215,8 +275,15 @@ graph TD
     BivariateRenderer -- Calls --> MapHexTooltipComponent["MapHexTooltip.tsx (Renders Bivariate Popup Content)"];
     MapHexTooltipComponent --> PopupContent;
 
+    BoundarySelector --> BoundaryMarkerSystem["Boundary Marker System"];
+    BoundaryMarkerSystem -- Creates --> ApplicationMapMarker["ApplicationMapMarker (Dropdown UI)"];
+    BoundaryMarkerSystem -- Uses --> ReactSelector["@konturio/ui-kit Selector"];
+    ReactSelector -- Converted via --> convertToAppMarker["convertToAppMarker()"];
+    convertToAppMarker --> ApplicationMapMarker;
+
     UIComponent -- Renders --> GenericTooltipUI["Generic Tooltip UI"];
     MapLibrePopupInstance -- Renders --> MapLibrePopupUI["MapLibre Popup UI"];
+    ApplicationMapMarker -- Renders --> MarkerDropdownUI["Marker-Based Dropdown UI"];
 
     subgraph Popup Content Generation
         MCDAPopupUtils["MCDARenderer/popup.ts"] --> PopupMCDAComponent["PopupMCDA.tsx"];
@@ -240,10 +307,50 @@ Based on the investigation, several areas could be improved to align better with
 
     - **Suggestion:** Standardize the output of `createPopupContent` across all renderers that extend `ClickableFeaturesRenderer` to return a React element. The base class can then consistently handle the `createRoot` and `setDOMContent` steps.
 
-3.  **Generic Tooltip vs. MapLibre Popup:** The existence of two distinct mechanisms for displaying contextual information adds complexity. The `GenericRenderer` uses a global state atom, while `ClickableFeaturesRenderer` uses MapLibre's built-in popup. While `currentTooltipAtom` is suitable for simple tooltips, the `maplibre-gl.Popup` offers more control and is used for richer content. The choice between these two is currently tied to the renderer type.
+3.  **Three Distinct UI Presentation Mechanisms:** The existence of three distinct mechanisms for displaying contextual information adds complexity:
 
-    - **Suggestion:** Evaluate if the `currentTooltipAtom` mechanism is still necessary or if all contextual information display could be standardized under the `ClickableFeaturesRenderer` pattern, perhaps with different content components (`createPopupContent`) for simple vs. complex popups. This would align better with KISS by reducing the number of ways to achieve the same goal.
+- `GenericRenderer` uses a global state atom (`currentTooltipAtom`)
+- `ClickableFeaturesRenderer` uses MapLibre's built-in popup system
+- `boundary_selector` uses MapLibre's marker system for dropdown UI
 
-4.  **Coupling in Content Generation:** The Multivariate popup component reuses MCDA popup utilities and components. While this is a form of reuse, the direct dependency makes the Multivariate content generation closely coupled to the MCDA implementation details. This is acceptable to some degree as MCDA is a type of multivariate analysis, but careful consideration should be given to ensure this coupling doesn't hinder future changes or introduce unnecessary complexity.
+While each serves different use cases, the fragmentation creates maintenance overhead and inconsistent user experiences.
 
-Addressing these points could lead to a more maintainable, understandable, and less repetitive codebase for handling map-based popups and tooltips.
+    - **Suggestion:** **Migrate to Unified MapPopover System**: The codebase already has a unified `MapPopover` system (documented in migration plans) that could consolidate all three approaches:
+      - **Generic tooltips** → `MapPopover` with simple content components
+      - **Feature popups** → `MapPopover` with rich content components (MCDA, Multivariate, Bivariate)
+      - **Boundary selector dropdown** → `MapPopover` with `Selector` component content, using click-to-open behavior instead of marker positioning
+
+4.  **Boundary Selector as a Special Case:** The boundary selector's marker-based dropdown represents a unique interaction pattern that could be generalized for other similar use cases (e.g., context menus, tool selectors). However, its current implementation is tightly coupled to boundary-specific logic.
+
+    - **Suggestion:** **Extract Reusable Marker-Dropdown Pattern**: Create a generic `createInteractiveMarker` utility that can handle any React component as marker content, not just boundary selectors. This would make the pattern reusable while maintaining the boundary selector's specific behavior.
+
+5.  **Coupling in Content Generation:** The Multivariate popup component reuses MCDA popup utilities and components. While this is a form of reuse, the direct dependency makes the Multivariate content generation closely coupled to the MCDA implementation details. This is acceptable to some degree as MCDA is a type of multivariate analysis, but careful consideration should be given to ensure this coupling doesn't hinder future changes or introduce unnecessary complexity.
+
+## Migration Recommendations for Unified MapPopover System
+
+Based on the comprehensive analysis, the boundary selector should be included in the unified MapPopover migration strategy:
+
+**A.1>** **Priority Order for Migration:**
+
+1. Generic tooltips (`GenericRenderer` → `MapPopover`)
+2. Feature popups (`ClickableFeaturesRenderer` derivatives → `MapPopover`)
+3. **Boundary selector dropdown** (`boundary_selector` marker system → `MapPopover`)
+4. Bivariate popups (`BivariateRenderer` → `MapPopover`)
+
+**A.2>** **Boundary Selector Migration Approach:**
+
+- Replace marker-based dropdown with `MapPopover` containing `Selector` component
+- Use click coordinates for popover positioning instead of marker positioning
+- Maintain existing interaction patterns (hover to highlight, select to focus)
+- Preserve loading states and error handling within the popover content
+- Leverage existing `MapPopoverService` for show/hide/positioning logic
+
+**A.3>** **Benefits of Unified Migration:**
+
+- **Consistent UX**: All map-based contextual UI follows the same interaction patterns
+- **Reduced Code Complexity**: Single system to maintain instead of three separate approaches
+- **Better Performance**: Unified rendering pipeline and state management
+- **Enhanced Accessibility**: Consistent focus management and keyboard navigation
+- **Simplified Testing**: Single interaction system to test comprehensively
+
+Addressing these points would lead to a more maintainable, understandable, and less repetitive codebase for handling all map-based contextual information display.

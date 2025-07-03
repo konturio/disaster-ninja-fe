@@ -24,7 +24,7 @@ export function onActiveContributorsClick(map, sourceId) {
     if (!ev || !ev.lngLat) return;
     const thisLayersFeatures = ev.target
       .queryRenderedFeatures(ev.point)
-      .filter((f) => f.source.includes(sourceId));
+      .filter((f) => f.source === sourceId);
 
     if (thisLayersFeatures.length === 0) return;
     const featureWithLink = thisLayersFeatures.find(

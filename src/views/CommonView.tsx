@@ -6,12 +6,12 @@ import { OriginalLogo } from '~components/KonturLogo/KonturLogo';
 import { CookieConsentBanner } from '~features/cookie_consent_banner';
 import { FullScreenLoader } from '~components/LoadingSpinner/LoadingSpinner';
 import { AppFeature } from '~core/app/types';
+import { KONTUR_DEBUG } from '~utils/debug';
 import s from './CommonView.module.css';
 import type { AppRoute, AvailableRoutesAtom, CurrentRouteAtom } from '~core/router';
 import type { PropsWithChildren } from 'react';
 
 const { NotificationToast } = lazily(() => import('~features/toasts'));
-const { PopupTooltip } = lazily(() => import('~features/tooltip'));
 const { SideBar } = lazily(() => import('~features/side_bar'));
 
 const featureFlags = configRepo.get().features;
@@ -53,16 +53,18 @@ export function CommonView({
           )}
         </Suspense>
         <span id={`app-route-${routeId}`} style={{ display: 'contents' }}>
-          <Suspense fallback={<FullScreenLoader />}>{children}</Suspense>
+          <Suspense
+            fallback={
+              <FullScreenLoader message={KONTUR_DEBUG ? 'CommonView: ' + routeId : ''} />
+            }
+          >
+            {children}
+          </Suspense>
         </span>
       </div>
 
       <Suspense fallback={null}>
         {featureFlags[AppFeature.TOASTS] && <NotificationToast />}
-      </Suspense>
-
-      <Suspense fallback={null}>
-        {featureFlags[AppFeature.TOOLTIP] && <PopupTooltip />}
       </Suspense>
 
       {/* FIXME: Since this banner also blocks intercom in should check something more common */}

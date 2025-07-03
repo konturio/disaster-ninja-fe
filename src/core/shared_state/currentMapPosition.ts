@@ -1,7 +1,11 @@
 import { action, atom } from '@reatom/framework';
-import { getCameraForBbox } from '~utils/map/camera';
+import { throttle } from '@github/mini-throttle';
+import { getCameraForBbox, getCameraForGeometry } from '~utils/map/camera';
+import { configRepo } from '~core/config';
 import { currentMapAtom } from './currentMap';
 import type { Map } from 'maplibre-gl';
+import type { FeatureCollection } from '~utils/geoJSON/helpers';
+import type { Feature, GeoJsonProperties, Geometry } from 'geojson';
 
 export type CenterZoomPosition = {
   lat: number;
@@ -65,3 +69,58 @@ export const setCurrentMapBbox = action((ctx, bbox: Bbox) => {
   }
   currentMapPositionAtom(ctx, position);
 }, 'setCurrentMapBbox');
+
+export const focusOnGeometry = action(
+  (ctx, geometry: FeatureCollection | Feature<Geometry, GeoJsonProperties>) => {
+    const map = ctx.get(currentMapAtom.v3atom);
+    if (!map) return;
+
+    const geometryCamera = getCameraForGeometry(geometry, map);
+    if (
+      typeof geometryCamera?.zoom === 'number' &&
+      geometryCamera.center &&
+      'lat' in geometryCamera.center &&
+      'lng' in geometryCamera.center
+    ) {
+      const position: CenterZoomPosition = {
+        zoom: Math.min(geometryCamera.zoom, configRepo.get().autofocusZoom),
+        ...geometryCamera.center,
+      };
+      setCurrentMapPosition(ctx, position);
+    }
+  },
+  'focusOnGeometry',
+);
+
+// Auto-track position when map becomes available
+let positionTrackingCleanup: (() => void) | null = null;
+
+currentMapAtom.v3atom.onChange((ctx, map) => {
+  // Clean up previous tracking if exists
+  if (positionTrackingCleanup) {
+    positionTrackingCleanup();
+    positionTrackingCleanup = null;
+  }
+
+  if (map) {
+    // Set up position tracking
+    const throttledHandler = throttle(() => {
+      const center = map.getCenter();
+      currentMapPositionAtom(ctx, {
+        lat: center.lat,
+        lng: center.lng,
+        zoom: map.getZoom(),
+      });
+    }, 100);
+
+    const onMoveEnd = () => {
+      throttledHandler();
+    };
+
+    map.on('moveend', onMoveEnd);
+
+    positionTrackingCleanup = () => {
+      map.off('moveend', onMoveEnd);
+    };
+  }
+});

@@ -6,7 +6,9 @@
   "globalImports": [
     "node_modules/@konturio/default-theme/variables.css",
     "node_modules/@konturio/default-theme/defaults.css",
-    "node_modules/@konturio/default-theme/typography.css"
+    "node_modules/@konturio/default-theme/typography.css",
+    "src/global.css",
+    "src/styles/glass-theme.css"
   ],
   "hostname": "127.0.0.1",
   "vite": { "configPath": "cosmos.vite.config.ts" }

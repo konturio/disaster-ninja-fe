@@ -112,5 +112,11 @@ export const sortedEventListAtom = atom<SortedEventListAtom>((ctx) => {
       error,
     };
   }
-  return eventListResource;
+
+  // Always return consistent SortedEventListAtom shape
+  return {
+    data: eventListResource.data,
+    loading: eventListResource.loading,
+    error: eventListResource.error,
+  };
 }, 'sortedEventListAtom');

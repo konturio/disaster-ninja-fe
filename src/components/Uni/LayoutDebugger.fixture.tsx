@@ -95,7 +95,7 @@ const createLayoutDebugger = (initialLayout, initialData) => {
     });
 
     return (
-      <div>
+      <div className={style.debugger}>
         <UniLayoutContext.Provider value={contextValue}>
           <div className={style.grid}>
             {limitedData.map((item, index) => (
@@ -105,8 +105,7 @@ const createLayoutDebugger = (initialLayout, initialData) => {
             ))}
           </div>
         </UniLayoutContext.Provider>
-        <hr />
-        <div style={{ display: 'flex', gap: '1rem' }}>
+        <div className={style.editors}>
           <JsonEditor
             value={layoutJson}
             onChange={setLayoutJson}

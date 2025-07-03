@@ -1,23 +1,15 @@
-import { Popup as MapPopup } from 'maplibre-gl';
-import { createRoot } from 'react-dom/client';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import { layerByOrder } from '~core/logical_layers';
 import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
 import { mapLoaded } from '~utils/map/waitMapEvent';
 import { registerMapListener } from '~core/shared_state/mapListeners';
-import { bivariateHexagonPopupContentRoot } from '~components/MapHexTooltip/MapHexTooltip';
-import { dispatchMetricsEvent } from '~core/metrics/dispatch';
+import { mapPopoverRegistry } from '~core/map/popover/globalMapPopoverRegistry';
 import { setTileScheme } from '../setTileScheme';
 import { SOURCE_LAYER_BIVARIATE } from '../BivariateRenderer/constants';
 import { createFeatureStateHandlers } from '../helpers/activeAndHoverFeatureStates';
 import { H3_HOVER_LAYER } from '../BivariateRenderer/constants';
-import { isFeatureVisible } from '../helpers/featureVisibilityCheck';
-import type {
-  LineLayerSpecification,
-  MapLibreZoomEvent,
-  MapMouseEvent,
-  VectorSourceSpecification,
-} from 'maplibre-gl';
+import { ClickableFeaturesPopoverProvider } from './ClickableFeaturesPopoverProvider';
+import type { LineLayerSpecification, VectorSourceSpecification } from 'maplibre-gl';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
 import type { LayerLegend } from '~core/logical_layers/types/legends';
 import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
@@ -30,8 +22,12 @@ export abstract class ClickableFeaturesRenderer extends LogicalLayerDefaultRende
   protected _layerId?: string;
   protected _sourceId: string;
   protected _layersOrderManager?: LayersOrderManager;
-  protected _popup?: MapPopup | null;
   protected _listenersCleaningTasks = new Set<() => void>();
+  private _popoverProvider: ClickableFeaturesPopoverProvider | null = null;
+
+  private get popoverId(): string {
+    return `clickable-${this._sourceId}`;
+  }
   private cleanUpListeners = () => {
     this._listenersCleaningTasks.forEach((task) => task());
     this._listenersCleaningTasks.clear();
@@ -123,48 +119,19 @@ export abstract class ClickableFeaturesRenderer extends LogicalLayerDefaultRende
     this.resetFeatureStates = reset;
   }
 
-  addPopup(map: ApplicationMap, style: LayerStyle) {
-    const clickHandler = (ev: MapMouseEvent) => {
-      const features = ev.target
-        .queryRenderedFeatures(ev.point)
-        .filter((f) => f.source.includes(this._sourceId));
+  registerPopoverProvider(style: LayerStyle) {
+    if (this._popoverProvider) {
+      mapPopoverRegistry.unregister(this.popoverId);
+      this._popoverProvider = null;
+    }
 
-      // Don't show popup when click in empty place
-      if (!features.length || !features[0].geometry) return true;
-
-      const clickableLayerId = this.getClickableLayerId();
-      const feature = features.find((f) => f.layer.id === clickableLayerId);
-
-      // Don't show popup when click on feature that filtered by map style
-      if (!feature || !isFeatureVisible(feature)) return true;
-
-      // Show popup on click
-      const popupNode = document.createElement('div');
-      const popupContent = this.createPopupContent(feature, style);
-      createRoot(popupNode).render(popupContent);
-      dispatchMetricsEvent('mcda_popup');
-      this.cleanPopup();
-      this._popup = new MapPopup({
-        closeOnClick: true,
-        className: bivariateHexagonPopupContentRoot,
-        maxWidth: 'none',
-        focusAfterOpen: false,
-        offset: 15,
-      })
-        .setLngLat(ev.lngLat)
-        .setDOMContent(popupNode)
-        .addTo(map);
-
-      this._popup.once('close', () => {
-        this.resetFeatureStates?.();
-      });
-
-      return true;
-    };
-    this.cleanUpListeners();
-    // Click
-    const removeClickListener = registerMapListener('click', clickHandler, 60);
-    this._listenersCleaningTasks.add(removeClickListener);
+    this._popoverProvider = new ClickableFeaturesPopoverProvider(
+      this._sourceId,
+      this.getClickableLayerId(),
+      style,
+      this.createPopupContent.bind(this),
+    );
+    mapPopoverRegistry.register(this.popoverId, this._popoverProvider);
   }
 
   protected async _updateMap(
@@ -186,22 +153,11 @@ export abstract class ClickableFeaturesRenderer extends LogicalLayerDefaultRende
 
     if (style) {
       this.mountLayers(map, layerData, style);
-      this.addPopup(map, style);
+      this.registerPopoverProvider(style);
     }
 
     this.addHoverAndActiveFeatureState(map, style);
     if (!isVisible) this.willHide({ map });
-  }
-
-  onMapZoom = (ev: maplibregl.MapLibreEvent<MapLibreZoomEvent>) => {
-    this.cleanPopup();
-  };
-
-  cleanPopup() {
-    if (this._popup) {
-      this._popup.remove();
-      this._popup = null;
-    }
   }
 
   /* ========== Hooks ========== */
@@ -223,7 +179,6 @@ export abstract class ClickableFeaturesRenderer extends LogicalLayerDefaultRende
   }
 
   willMount({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
-    map.on('zoom', this.onMapZoom);
     if (state.source) {
       this._updateMap(
         map,
@@ -258,7 +213,12 @@ export abstract class ClickableFeaturesRenderer extends LogicalLayerDefaultRende
       );
     }
 
-    this.cleanPopup();
+    // Unregister popover provider
+    if (this._popoverProvider) {
+      mapPopoverRegistry.unregister(this.popoverId);
+      this._popoverProvider = null;
+    }
+
     this.resetFeatureStates?.();
 
     if (map.getSource(this._sourceId)) {
@@ -269,7 +229,6 @@ export abstract class ClickableFeaturesRenderer extends LogicalLayerDefaultRende
       );
     }
     this.cleanUpListeners();
-    map.off('zoom', this.onMapZoom);
   }
 
   willHide({ map }: { map: ApplicationMap }) {
@@ -277,7 +236,7 @@ export abstract class ClickableFeaturesRenderer extends LogicalLayerDefaultRende
 
     if (map.getLayer(this._layerId) !== undefined) {
       map.setLayoutProperty(this._layerId, 'visibility', 'none');
-      this.cleanPopup();
+      // Registry-based popovers handle their own cleanup when layer is hidden
     } else {
       console.warn(
         `Can't hide layer with ID: ${this._layerId}. Layer doesn't exist on the map`,
