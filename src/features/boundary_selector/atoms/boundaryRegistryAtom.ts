@@ -3,13 +3,16 @@ import { currentMapAtom } from '~core/shared_state';
 import { forceRun } from '~utils/atoms/forceRun';
 import { store } from '~core/store/store';
 import { v3toV2 } from '~utils/atoms/v3tov2';
-import { boundarySelectorControl } from '../control';
+import { mapPopoverRegistry } from '~core/map';
+import { boundarySelectorToolbarControl } from '../control';
 import { BoundarySelectorRenderer } from '../renderers/BoundarySelectorRenderer';
 import {
   BOUNDARY_GEOMETRY_COLOR,
   BOUNDARY_SELECTOR_LAYER_ID,
   HOVERED_BOUNDARIES_SOURCE_ID,
+  BOUNDARY_SELECTOR_CONTROL_ID,
 } from '../constants';
+import { boundarySelectorContentProvider } from '../components/BoundarySelectorContentProvider';
 import { highlightedGeometryAtom } from './highlightedGeometry';
 import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
 import type { LogicalLayerRenderer } from '~core/logical_layers/types/renderer';
@@ -53,7 +56,7 @@ export const createBoundaryRegistryAtom = (
 
   const startAction = action((ctx) => {
     const map = ctx.get(currentMapAtom.v3atom);
-    const highlightedGeometry = ctx.get(highlightedGeometryAtom.v3atom);
+    const highlightedGeometry = ctx.get(highlightedGeometryAtom);
 
     if (map === null) return;
     const state = ctx.get(logicalLayerStateAtom);
@@ -88,7 +91,7 @@ export const createBoundaryRegistryAtom = (
     }));
   }, 'boundary-stopAction');
 
-  highlightedGeometryAtom.v3atom.onChange((ctx, geometry) => {
+  highlightedGeometryAtom.onChange((ctx, geometry) => {
     const map = ctx.get(currentMapAtom.v3atom);
     if (map === null) return;
     const state = ctx.get(logicalLayerStateAtom);
@@ -108,7 +111,7 @@ export const createBoundaryRegistryAtom = (
   return v2Atom;
 };
 
-boundarySelectorControl.onInit((ctx) => {
+boundarySelectorToolbarControl.onInit((controlCtx) => {
   const renderer = new BoundarySelectorRenderer({
     layerId: BOUNDARY_SELECTOR_LAYER_ID,
     sourceId: HOVERED_BOUNDARIES_SOURCE_ID,
@@ -120,18 +123,26 @@ boundarySelectorControl.onInit((ctx) => {
     renderer,
   );
 
-  ctx.boundaryRegistryAtom = boundaryRegistryAtom;
+  controlCtx.boundaryRegistryAtom = boundaryRegistryAtom;
   return forceRun(boundaryRegistryAtom);
 });
 
-boundarySelectorControl.onStateChange((ctx, state, prevState) => {
+boundarySelectorToolbarControl.onStateChange((controlCtx, state, prevState) => {
   switch (state) {
     case 'active':
-      if (ctx.boundaryRegistryAtom) store.dispatch(ctx.boundaryRegistryAtom.start());
+      mapPopoverRegistry.register(
+        BOUNDARY_SELECTOR_CONTROL_ID,
+        boundarySelectorContentProvider,
+      );
+      if (controlCtx.boundaryRegistryAtom)
+        store.dispatch(controlCtx.boundaryRegistryAtom.start());
       break;
 
     default:
-      if (prevState === 'active' && ctx.boundaryRegistryAtom)
-        store.dispatch(ctx.boundaryRegistryAtom.stop());
+      if (prevState === 'active') {
+        mapPopoverRegistry.unregister(BOUNDARY_SELECTOR_CONTROL_ID);
+        if (controlCtx.boundaryRegistryAtom)
+          store.dispatch(controlCtx.boundaryRegistryAtom.stop());
+      }
   }
 });

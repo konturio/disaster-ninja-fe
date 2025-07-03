@@ -1,4 +1,5 @@
 import { URL_ZOOM_OFFSET } from '~core/constants';
+import { isValidLngLat } from '~core/map/utils/coordinateValidation';
 import { URLDataInSearchEncoder } from './dataInURLEncoder';
 
 type MapPosition = [zoom: number, lat: number, lng: number];
@@ -11,8 +12,7 @@ export const urlEncoder = new URLDataInSearchEncoder({
       decode: (str: string): MapPosition | undefined => {
         const position = str.split('/').map((s) => Number(s) + 0); // normalize -0/+0
         const [zoom, lat, lng] = position;
-        if (lat < -90 || lat > 90) return undefined;
-        if (lng < -180 || lng > 180) return undefined;
+        if (!isValidLngLat(lng, lat)) return undefined;
         if (zoom < 0 || zoom > 24) return undefined;
         position[0] = zoom - URL_ZOOM_OFFSET;
         return [zoom - URL_ZOOM_OFFSET, lat, lng];
