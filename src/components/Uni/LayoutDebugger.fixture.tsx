@@ -15,6 +15,7 @@ import {
 import style from './__mocks__/fixture.module.css';
 import { acapsLayout } from '~features/layer_features_panel/layouts/acaps';
 import { hotProjectsLayout } from '~features/layer_features_panel/layouts/hotProjects';
+import { layerFeaturesFormatsRegistry } from '~features/layer_features_panel/formats/layerFeaturesFormats';
 
 const useJsonState = (initialValue: any): [string, (value: string) => void] => {
   const [json, setJson] = useState(JSON.stringify(initialValue, null, 4));
@@ -92,6 +93,7 @@ const createLayoutDebugger = (initialLayout, initialData) => {
     const contextValue = useUniLayoutContextValue({
       layout,
       actionHandler: handleAction,
+      customFormatsRegistry: layerFeaturesFormatsRegistry,
     });
 
     return (

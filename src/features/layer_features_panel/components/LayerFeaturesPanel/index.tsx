@@ -27,7 +27,7 @@ import {
   useUniLayoutContextValue,
 } from '~components/Uni/Layout/UniLayoutContext';
 import { layerFeatureLayouts } from '~features/layer_features_panel/layouts/layouts';
-import { layerFeaturesFormats } from '~features/layer_features_panel/formats/layerFeaturesFormats';
+import { layerFeaturesFormatsRegistry } from '~features/layer_features_panel/formats/layerFeaturesFormats';
 import {
   featuresPanelLayerId,
   currentFeatureIdAtom,
@@ -86,7 +86,7 @@ export function LayerFeaturesPanel() {
     : undefined;
   const layoutContextValue = useUniLayoutContextValue({
     layout,
-    customFormatsRegistry: layerFeaturesFormats,
+    customFormatsRegistry: layerFeaturesFormatsRegistry,
   });
 
   const {
