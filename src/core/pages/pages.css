@@ -166,3 +166,9 @@
     }
   }
 }
+
+/* Normalize AI Insights heading sizes */
+#app-pages-docid-llm_analytics .app-pages-element-markdown :is(h1, h2) {
+  font-size: 1.17em;
+  line-height: 1.4;
+}
