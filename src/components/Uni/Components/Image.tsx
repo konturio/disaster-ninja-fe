@@ -13,7 +13,7 @@ export function Image({ value, className, urlTemplate }: ImageProps) {
 
   return (
     <div className={clsx(s.imageContainer, className)}>
-      <img src={url} className={s.imaged}></img>
+      <img src={url} className={s.image}></img>
     </div>
   );
 }
