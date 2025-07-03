@@ -26,8 +26,8 @@ import {
   UniLayoutContext,
   useUniLayoutContextValue,
 } from '~components/Uni/Layout/UniLayoutContext';
-import { layerFeaturesFormats } from '~features/layer_features_panel/layouts/formats';
 import { layerFeatureLayouts } from '~features/layer_features_panel/layouts/layouts';
+import { layerFeaturesFormats } from '~features/layer_features_panel/formats/layerFeaturesFormats';
 import {
   featuresPanelLayerId,
   currentFeatureIdAtom,
