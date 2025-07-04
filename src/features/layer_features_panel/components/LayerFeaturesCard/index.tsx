@@ -15,13 +15,11 @@ export function LayerFeaturesCard({
   layout: any;
 }) {
   return (
-    <>
-      <div className={clsx(s.layerFeaturesCard)} onClick={onClick} tabIndex={0}>
-        <UniLayoutRenderer
-          node={layout}
-          data={{ ...feature.properties, active: isActive }}
-        />
-      </div>
-    </>
+    <div className={clsx(s.layerFeaturesCard)} onClick={onClick} tabIndex={0}>
+      <UniLayoutRenderer
+        node={layout}
+        data={{ ...feature.properties, active: isActive }}
+      />
+    </div>
   );
 }
