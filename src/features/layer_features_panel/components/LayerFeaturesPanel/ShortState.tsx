@@ -14,9 +14,7 @@ export function ShortState({
   layout: any;
 }) {
   const featureInfo = feature && (
-    <div>
-      <LayerFeaturesCard feature={feature} isActive={true} layout={layout} />
-    </div>
+    <LayerFeaturesCard feature={feature} isActive={true} layout={layout} />
   );
 
   const panelContent = featureInfo || (
