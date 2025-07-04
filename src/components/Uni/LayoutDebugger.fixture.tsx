@@ -13,7 +13,7 @@ import {
   conditionalLayout,
 } from './__mocks__/_conditionalLayout';
 import style from './__mocks__/fixture.module.css';
-import { acapsLayout } from '~features/layer_features_panel/layouts/acaps';
+import { acapsLayout } from '~features/layer_features_panel/layouts/acapsLayout';
 import { hotProjectsLayout } from '~features/layer_features_panel/layouts/hotProjects';
 import { layerFeaturesFormatsRegistry } from '~features/layer_features_panel/formats/layerFeaturesFormats';
 import { oamSampleData } from '~core/api/__mocks__/_oamSampleData';

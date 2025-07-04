@@ -5,7 +5,7 @@ import {
   OAM_LAYER_ID,
 } from '../constants';
 import { hotProjectsLayout } from './hotProjects';
-import { acapsLayout } from './acaps';
+import { acapsLayout } from './acapsLayout';
 import { oamLayout } from './oam';
 import type { UniLayoutComponentNode } from '~components/Uni/Layout/types';
 
