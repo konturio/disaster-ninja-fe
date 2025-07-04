@@ -1,7 +1,7 @@
 .table {
   display: flex;
-  gap: var(--half-unit);
   flex-direction: column;
+  margin: var(--half-unit) 0;
 }
 
 .table > div {
@@ -16,8 +16,16 @@
   border-top: 1px solid var(--faint-weak);
 }
 
-.table > div > div:last-of-type {
-  max-width: 70%;
-  text-align: end;
-  word-wrap: break-word;
+.table > div > div {
+  padding: 2px 0;
+
+  &:last-of-type {
+    max-width: 70%;
+    text-align: end;
+    word-wrap: break-word;
+  }
+
+  &:only-child {
+    max-width: 100%;
+  }
 }

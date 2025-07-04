@@ -18,16 +18,23 @@ export default function FieldsRegistry() {
   const [sampleText] = useFixtureInput('Sample Text', 'Foo Bar ...');
   const [sampleNumber] = useFixtureInput('Sample Number', -32465.27542);
   const [sampleDate] = useFixtureInput('Sample Date', '2023-05-28T14:30:00Z');
+  const [sampleArray] = useFixtureInput('Sample Array', [
+    'Value 1',
+    'value 2',
+    'value_three',
+  ]);
 
   return (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem' }}>
       {Object.entries(fieldsRegistry).map(([fieldName, fieldMeta]) => {
         // Choose appropriate sample value based on field type
-        let sampleValue: string | number = sampleText;
+        let sampleValue: string | number | string[] = sampleText;
         if (fieldMeta.type === 'number') {
           sampleValue = sampleNumber;
         } else if (fieldMeta.type === 'date') {
           sampleValue = sampleDate;
+        } else if (fieldMeta.type === 'array') {
+          sampleValue = sampleArray;
         }
 
         return (

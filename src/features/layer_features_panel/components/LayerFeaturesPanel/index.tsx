@@ -23,6 +23,12 @@ import { AppFeature } from '~core/app/types';
 import { PanelSettingsRow } from '~components/PanelSettingsRow/PanelSettingsRow';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import {
+  UniLayoutContext,
+  useUniLayoutContextValue,
+} from '~components/Uni/Layout/UniLayoutContext';
+import { layerFeatureLayouts } from '~features/layer_features_panel/layouts/layouts';
+import { layerFeaturesFormatsRegistry } from '~features/layer_features_panel/formats/layerFeaturesFormats';
+import {
   featuresPanelLayerId,
   currentFeatureIdAtom,
   layerFeaturesCollectionAtom,
@@ -41,7 +47,7 @@ import { FullState } from './FullState';
 import { ShortState } from './ShortState';
 import s from './LayerFeaturesPanel.module.css';
 import { EmptyState } from './EmptyState';
-import type { FeatureCardCfg } from '../CardElements';
+import type { FeaturesPanelItem } from './types';
 import type { SheetRef } from 'react-modal-sheet';
 import type { LayerFeaturesPanelConfig } from '../../types/layerFeaturesPanel';
 
@@ -53,7 +59,7 @@ export function LayerFeaturesPanel() {
   const sheetRef = useRef<SheetRef>(null);
 
   const onCurrentChange = useCallback(
-    (id: number, feature: FeatureCardCfg) => {
+    (id: number, feature: FeaturesPanelItem) => {
       setCurrentFeatureIdAtom(id);
       scheduledAutoFocus.setFalse.dispatch();
       if (feature.focus) {
@@ -74,6 +80,14 @@ export function LayerFeaturesPanel() {
   const resetBboxFilter = useAction(resetGeometryForLayerFeatures);
 
   const [{ data: featuresList, loading }] = useAtom(layerFeaturesCollectionAtom);
+
+  const layout = featuresPanelLayerId
+    ? layerFeatureLayouts[featuresPanelLayerId]
+    : undefined;
+  const layoutContextValue = useUniLayoutContextValue({
+    layout,
+    customFormatsRegistry: layerFeaturesFormatsRegistry,
+  });
 
   const {
     panelState,
@@ -117,7 +131,7 @@ export function LayerFeaturesPanel() {
     if (featuresList === null || featuresList.length === 0) {
       return <EmptyState />;
     }
-    return {
+    const content = {
       full: (
         <FullState
           featuresList={featuresList}
@@ -128,19 +142,29 @@ export function LayerFeaturesPanel() {
               ? i18n.t('layer_features_panel.listInfo')
               : undefined
           }
+          layout={layout}
         />
       ),
       short: (
         <ShortState
           openFullState={openFullState}
           feature={currentFeatureId !== null ? featuresList[currentFeatureId] : undefined}
+          layout={layout}
         />
       ),
       closed: null,
     }[panelState];
+
+    return (
+      <UniLayoutContext.Provider value={layoutContextValue}>
+        {content}
+      </UniLayoutContext.Provider>
+    );
   }, [
     currentFeatureId,
     featuresList,
+    layout,
+    layoutContextValue,
     loading,
     onCurrentChange,
     openFullState,

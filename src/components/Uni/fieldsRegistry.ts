@@ -55,12 +55,9 @@ const fieldsRegistry: Record<string, FieldMeta> = {
   },
   // HOT
   mappingTypes: {
-    type: 'text',
+    type: 'array',
     label: i18n.t('mapping_types'),
-  },
-  projectId: {
-    type: 'number',
-    text: (v) => `#${v}`,
+    format: 'capitalized_list',
   },
 };
 
