@@ -15,11 +15,10 @@ export function getBBoxForLayerFeature(
 ): LngLatBoundsLike | undefined {
   switch (featuresPanelLayerId) {
     case HOT_PROJECTS_LAYER_ID:
+      // TODO: add getting bbox with property accessor?
       return feature.properties?.aoiBBOX;
     case OAM_LAYER_ID:
       return feature.properties?.bbox;
-    case ACAPS_LAYER_ID:
-    case ACAPS_SIMPLE_LAYER_ID:
     default:
       return getBboxForGeometry(feature.geometry);
   }

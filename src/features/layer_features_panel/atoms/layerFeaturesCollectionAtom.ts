@@ -8,6 +8,7 @@ import { i18n } from '~core/localization';
 import { getLayerFeatures } from '~core/api/layers';
 import { layerFeaturesFiltersAtom } from './layerFeaturesFiltersAtom';
 import { getBBoxForLayerFeature } from './helpers/getBBoxForFeature';
+import { sortFeaturesPanelItems } from './helpers/sortFeaturesPanelItems';
 import type { FeaturesPanelItem } from '../components/LayerFeaturesPanel/types';
 import type { LayerFeaturesPanelConfig } from '../types/layerFeaturesPanel';
 import type { Feature } from 'geojson';
@@ -32,6 +33,9 @@ export const layerFeaturesCollectionAtom = atom<{
   const transformedLaterFeatures = layerFeatures
     ? transformFeaturesToPanelData(layerFeatures)
     : null;
+  if (transformedLaterFeatures) {
+    sortFeaturesPanelItems(transformedLaterFeatures, featuresPanelLayerId);
+  }
   return { data: transformedLaterFeatures, loading };
 }, 'layerFeaturesCollectionAtom');
 
