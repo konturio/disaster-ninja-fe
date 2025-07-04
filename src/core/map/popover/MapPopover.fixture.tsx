@@ -17,7 +17,7 @@ import {
   MapLibreContainer,
   MapOptions,
 } from '~components/ConnectedMap/MapLibreContainer';
-import { hotProjectsLayout } from '~features/layer_features_panel/layouts/hotProjects';
+import { hotProjectsLayout } from '~features/layer_features_panel/layouts/hotProjectsLayout';
 
 // Map container component with ref callback pattern
 function FixtureMapContainer({

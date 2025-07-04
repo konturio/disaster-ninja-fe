@@ -14,10 +14,10 @@ import {
 } from './__mocks__/_conditionalLayout';
 import style from './__mocks__/fixture.module.css';
 import { acapsLayout } from '~features/layer_features_panel/layouts/acapsLayout';
-import { hotProjectsLayout } from '~features/layer_features_panel/layouts/hotProjects';
+import { hotProjectsLayout } from '~features/layer_features_panel/layouts/hotProjectsLayout';
 import { layerFeaturesFormatsRegistry } from '~features/layer_features_panel/formats/layerFeaturesFormats';
 import { oamSampleData } from '~core/api/__mocks__/_oamSampleData';
-import { oamLayout } from '~features/layer_features_panel/layouts/oam';
+import { oamLayout } from '~features/layer_features_panel/layouts/oamLayout';
 
 const useJsonState = (initialValue: any): [string, (value: string) => void] => {
   const [json, setJson] = useState(JSON.stringify(initialValue, null, 4));

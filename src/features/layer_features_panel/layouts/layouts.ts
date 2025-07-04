@@ -4,9 +4,9 @@ import {
   ACAPS_SIMPLE_LAYER_ID,
   OAM_LAYER_ID,
 } from '../constants';
-import { hotProjectsLayout } from './hotProjects';
+import { hotProjectsLayout } from './hotProjectsLayout';
 import { acapsLayout } from './acapsLayout';
-import { oamLayout } from './oam';
+import { oamLayout } from './oamLayout';
 import type { UniLayoutComponentNode } from '~components/Uni/Layout/types';
 
 export const layerFeatureLayouts: Record<string, UniLayoutComponentNode> = {
