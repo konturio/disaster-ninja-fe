@@ -13,7 +13,7 @@ describe('checkIfCondition()', () => {
   });
 
   // ==
-  it('== should return false for equal strings', () => {
+  it('== should return true for equal strings', () => {
     expect(
       checkIfCondition('ABC', {
         op: '==',
@@ -50,7 +50,7 @@ describe('checkIfCondition()', () => {
     ).toEqual(true);
   });
 
-  it('== should return false for equal values', () => {
+  it('!== should return false for equal values', () => {
     expect(
       checkIfCondition(123, {
         op: '!==',

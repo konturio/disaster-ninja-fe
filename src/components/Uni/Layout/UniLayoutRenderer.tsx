@@ -214,10 +214,7 @@ const LayoutRendererInternal = ({ node, data }: LayoutRendererProps) => {
 
   if (node.$if) {
     const ifBindingResult = resolveBinding(node.$if, boundData, context);
-    if (
-      node.ifCondition !== undefined &&
-      !checkIfCondition(ifBindingResult.value, node.ifCondition)
-    ) {
+    if (node.ifCondition && !checkIfCondition(ifBindingResult.value, node.ifCondition)) {
       return null;
     }
     if (!ifBindingResult.value) {

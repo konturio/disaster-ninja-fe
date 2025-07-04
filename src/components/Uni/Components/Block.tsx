@@ -11,7 +11,7 @@ export interface BlockProps {
 }
 
 /**
- * Row component for horizontal layouts
+ * Block component. Vertical layout
  */
 export function Block({ children, className, style }: BlockProps) {
   return (
