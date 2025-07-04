@@ -1,7 +1,7 @@
 import React, { useMemo, useCallback } from 'react';
 import { fieldsRegistry } from '../fieldsRegistry';
 import { formatsRegistry } from '../formatsRegistry';
-import { applyFormatter } from '../helpers/applyFormatToValue';
+import { applyFormatter } from '../helpers/applyFormater';
 import { defaultFormatter } from '../helpers/defaultFormatter';
 import { useUniLayoutCompiledAccessors } from './useUniLayoutCompiledAccessors';
 import type { FieldMeta } from '../fieldsRegistry';

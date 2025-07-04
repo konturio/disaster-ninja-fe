@@ -1,4 +1,4 @@
-import { applyFormatter } from '../helpers/applyFormatToValue';
+import { applyFormatter } from '../helpers/applyFormater';
 import { useUniLayoutContext } from '../Layout/UniLayoutContext';
 
 export const useFormattedValue = (value: unknown, format?: string) => {

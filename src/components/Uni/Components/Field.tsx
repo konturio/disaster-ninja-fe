@@ -2,7 +2,7 @@ import { SimpleTooltip } from '@konturio/floating';
 import clsx from 'clsx';
 import { Icon } from '~components/Icon';
 import { useUniLayoutContext } from '../Layout/UniLayoutContext';
-import { applyFormatter } from '../helpers/applyFormatToValue';
+import { applyFormatter } from '../helpers/applyFormater';
 import s from './Field.module.css';
 import type { FieldMeta } from '../fieldsRegistry';
 
