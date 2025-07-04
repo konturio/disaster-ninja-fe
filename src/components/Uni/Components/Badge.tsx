@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { useFormattedValue } from '../hooks/useFormattedValue';
 import s from './Badge.module.css';
 
-type VariantType = 'error' | 'success' | 'warning' | 'info' | 'neutral';
+type VariantType = 'error' | 'success' | 'warning' | 'info' | 'neutral' | 'faint';
 
 // Map variant names to CSS classes
 const Variants = {
@@ -11,6 +11,7 @@ const Variants = {
   warning: s.warning,
   info: s.info,
   neutral: s.neutral,
+  faint: s.faint,
 };
 
 interface BadgeProps {

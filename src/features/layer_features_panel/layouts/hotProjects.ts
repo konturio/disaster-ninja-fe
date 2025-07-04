@@ -15,6 +15,15 @@ export const hotProjectsLayout = {
         },
         {
           type: 'Badge',
+          $if: 'status',
+          ifCondition: { op: '==', value: 'ARCHIVED' },
+          props: {
+            value: 'Archived',
+            variant: 'faint',
+          },
+        },
+        {
+          type: 'Badge',
           $props: {
             value: 'projectPriority',
             variant: 'projectPriority',
