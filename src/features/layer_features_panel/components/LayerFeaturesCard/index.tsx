@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import { UniLayoutRenderer } from '~components/Uni/Layout/UniLayoutRenderer';
 import s from './LayerFeaturesCard.module.css';
-import type { FeatureCardCfg } from '../CardElements';
+import type { FeaturesPanelItem } from '../LayerFeaturesPanel/types';
 
 export function LayerFeaturesCard({
   feature,
@@ -9,7 +9,7 @@ export function LayerFeaturesCard({
   onClick,
   layout: layout,
 }: {
-  feature: FeatureCardCfg;
+  feature: FeaturesPanelItem;
   isActive: boolean;
   onClick?: () => void;
   layout: any;
@@ -21,7 +21,10 @@ export function LayerFeaturesCard({
         onClick={onClick}
         tabIndex={0}
       >
-        <UniLayoutRenderer node={layout} data={{ ...feature, active: isActive }} />
+        <UniLayoutRenderer
+          node={layout}
+          data={{ ...feature.properties, active: isActive }}
+        />
       </div>
     </>
   );

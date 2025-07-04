@@ -4,7 +4,7 @@ import { InfoErrorOutline16 } from '@konturio/default-icons';
 import { Text } from '@konturio/ui-kit';
 import { LayerFeaturesCard } from '../LayerFeaturesCard';
 import s from './LayerFeaturesPanel.module.css';
-import type { FeatureCardCfg } from '../CardElements';
+import type { FeaturesPanelItem } from './types';
 
 export function FullState({
   featuresList,
@@ -13,10 +13,10 @@ export function FullState({
   onClick,
   layout,
 }: {
-  featuresList: FeatureCardCfg[];
+  featuresList: FeaturesPanelItem[];
   currentFeatureId: number | null;
   listInfoText?: string;
-  onClick: (id: number, feature: FeatureCardCfg) => void;
+  onClick: (id: number, feature: FeaturesPanelItem) => void;
   layout: any;
 }) {
   const currentFeatureIndex = useMemo(() => {

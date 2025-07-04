@@ -47,7 +47,7 @@ import { FullState } from './FullState';
 import { ShortState } from './ShortState';
 import s from './LayerFeaturesPanel.module.css';
 import { EmptyState } from './EmptyState';
-import type { FeatureCardCfg } from '../CardElements';
+import type { FeaturesPanelItem } from './types';
 import type { SheetRef } from 'react-modal-sheet';
 import type { LayerFeaturesPanelConfig } from '../../types/layerFeaturesPanel';
 
@@ -59,7 +59,7 @@ export function LayerFeaturesPanel() {
   const sheetRef = useRef<SheetRef>(null);
 
   const onCurrentChange = useCallback(
-    (id: number, feature: FeatureCardCfg) => {
+    (id: number, feature: FeaturesPanelItem) => {
       setCurrentFeatureIdAtom(id);
       scheduledAutoFocus.setFalse.dispatch();
       if (feature.focus) {
