@@ -2,6 +2,7 @@ import { SimpleTooltip } from '@konturio/floating';
 import clsx from 'clsx';
 import { Icon } from '~components/Icon';
 import { useUniLayoutContext } from '../Layout/UniLayoutContext';
+import { applyFormatter } from '../helpers/applyFormatToValue';
 import s from './Field.module.css';
 import type { FieldMeta } from '../fieldsRegistry';
 
@@ -33,7 +34,7 @@ export function Field({
 
   const formattedValue =
     format && context.formatsRegistry[format]
-      ? context.formatsRegistry[format](value)
+      ? applyFormatter(value, context.formatsRegistry[format], format)
       : context.getFormattedValue(fieldMeta, value);
 
   const shouldShowLabel = showLabel && fieldMeta?.label;

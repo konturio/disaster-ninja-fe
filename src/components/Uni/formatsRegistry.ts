@@ -114,6 +114,7 @@ export const formatsRegistry = {
     return numberFormatter.format(value);
   },
   text(v: string) {
+    // TODO: why is "text" formatter different from defaultFormatter?
     // default format
     return '' + v;
   },

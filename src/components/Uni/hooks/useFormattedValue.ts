@@ -1,8 +1,10 @@
+import { applyFormatter } from '../helpers/applyFormatToValue';
 import { useUniLayoutContext } from '../Layout/UniLayoutContext';
 
 export const useFormattedValue = (value: unknown, format?: string) => {
   const context = useUniLayoutContext();
-  return format && context.formatsRegistry[format]
-    ? context.formatsRegistry[format](value)
-    : String(value);
+  if (format && context.formatsRegistry[format]) {
+    return applyFormatter(value, context.formatsRegistry[format], format);
+  }
+  return String(value);
 };

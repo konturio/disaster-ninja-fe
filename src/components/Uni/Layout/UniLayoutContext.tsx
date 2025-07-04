@@ -1,6 +1,8 @@
 import React, { useMemo, useCallback } from 'react';
 import { fieldsRegistry } from '../fieldsRegistry';
 import { formatsRegistry } from '../formatsRegistry';
+import { applyFormatter } from '../helpers/applyFormatToValue';
+import { defaultFormatter } from '../helpers/defaultFormatter';
 import { useUniLayoutCompiledAccessors } from './useUniLayoutCompiledAccessors';
 import type { FieldMeta } from '../fieldsRegistry';
 import type { UniLayoutContextType } from './types';
@@ -13,9 +15,6 @@ export const useUniLayoutContext = (): UniLayoutContextType => {
   }
   return context;
 };
-
-const defaultFormatter = (v: any): string =>
-  v !== null && v !== undefined ? String(v) : '';
 
 /**
  * Creates a layout context configuration hook that can be used with UniLayoutContext.Provider
@@ -56,7 +55,7 @@ export function useUniLayoutContextValue({
 
       const formatKey = fieldMeta?.format || 'text';
       const formatter = mergedFormatsRegistry[formatKey] || defaultFormatter;
-      const formattedValue = formatter(rawValue);
+      const formattedValue = applyFormatter(rawValue, formatter, formatKey);
 
       // Apply text transformation if available
       return fieldMeta?.text ? fieldMeta.text(formattedValue) : formattedValue;
