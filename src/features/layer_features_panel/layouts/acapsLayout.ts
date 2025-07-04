@@ -1,7 +1,6 @@
 export const acapsLayout = {
   type: 'Card',
   $props: { active: 'active' },
-  $context: 'properties',
   children: [
     // common
     { type: 'Badge', $value: 'acaps_source_dataset' },

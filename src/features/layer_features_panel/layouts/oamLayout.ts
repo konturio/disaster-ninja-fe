@@ -1,7 +1,6 @@
 export const oamLayout = {
   type: 'Card',
   $props: { active: 'active' },
-  $context: 'properties',
   children: [
     { type: 'Image', $value: 'properties.thumbnail' },
     { type: 'Title', $value: 'title' },

@@ -1,7 +1,6 @@
 export const hotProjectsLayout = {
   type: 'Card',
   $props: { active: 'active' },
-  $context: 'properties',
   children: [
     {
       type: 'Row',
