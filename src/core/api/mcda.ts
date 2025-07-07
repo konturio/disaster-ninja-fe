@@ -1,6 +1,5 @@
 import { apiClient } from '~core/apiClientInstance';
-import type { AxisTransformationWithPoints } from '~utils/bivariate';
-import type { AxisDTO } from '~core/resources/bivariateStatisticsResource/types';
+import type { AxisDTO, AxisTransformationWithPoints } from '~utils/bivariate';
 
 export function getBivariateAxes(minQuality: number, abortController?: AbortController) {
   if (minQuality < 0 || minQuality > 1) {
