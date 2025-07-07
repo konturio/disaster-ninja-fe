@@ -4,6 +4,7 @@ import { createAtom } from '~utils/atoms';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { removeEmpty } from '~utils/common';
 import { filterUnsupportedLayerTypes } from '~core/logical_layers/layerTypes';
+import { applyContextToId } from '~core/logical_layers/utils/contextualIds';
 import { getLayersInArea } from '~core/api/layers';
 import type { LayersInAreaAndEventLayerResourceParameters } from '~core/api/layers';
 import type { FocusedGeometry } from '~core/focused_geometry/types';
@@ -51,7 +52,12 @@ export const layersInAreaAndEventLayerResource = createAsyncAtom(
       layersInAreaAndEventLayerResourceParameters,
       abortController,
     );
-    return filterUnsupportedLayerTypes(layers || []);
+    const eventId = layersInAreaAndEventLayerResourceParameters.eventId;
+    return filterUnsupportedLayerTypes(layers || []).map((layer) => ({
+      ...layer,
+      id: applyContextToId(layer.id, eventId),
+      originalId: layer.id,
+    }));
   },
   'layersInAreaAndEventLayerResource',
 );

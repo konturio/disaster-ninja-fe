@@ -1,6 +1,7 @@
 import { createAtom } from '~utils/atoms/createPrimitives';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { focusedGeometryAtom } from '~core/focused_geometry/model';
+import { splitContextFromId } from '~core/logical_layers/utils/contextualIds';
 import { getEventId } from '~core/focused_geometry/utils';
 import { currentEventFeedAtom } from '~core/shared_state/currentEventFeed';
 import { layersGlobalResource } from '../layersGlobalResource';
@@ -65,9 +66,10 @@ export const areaLayersDetailsParamsAtom = createAtom(
       layersToRetrieveWithEventId,
     ] = mustBeRequested.reduce(
       (acc, layer) => {
-        acc[layer.boundaryRequiredForRetrieval ? 0 : 1].add(layer.id);
+        const { baseId } = splitContextFromId(layer.id);
+        acc[layer.boundaryRequiredForRetrieval ? 0 : 1].add(baseId);
         if (layer.eventIdRequiredForRetrieval) {
-          acc[2].add(layer.id);
+          acc[2].add(baseId);
         }
         return acc;
       },
