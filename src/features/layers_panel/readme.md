@@ -25,3 +25,5 @@ Tree data structure generated in [createTree](/src/core/logical_layers/atoms/lay
 Tree can contain `Category`, `Group` and `Layer` items.
 
 Additional settings for Categories will be merged from `layersCategoriesSettingsAtom` and for Groups from `layersGroupsSettingsAtom`
+
+Current open state of groups and categories is stored in `layersTreeOpenStateAtom`. It remembers user folding choices within a session so that collapsed subgroups remain collapsed when their parent group is toggled.
