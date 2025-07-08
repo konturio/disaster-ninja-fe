@@ -51,6 +51,10 @@ class ConfigRepository {
     return this.#config!;
   }
 
+  getUserDefaultFeed() {
+    return this.#config!.initialUser.defaultFeed ?? this.#config!.defaultFeed;
+  }
+
   /* -- Intercom staff -- */
 
   #readSessionIntercomSetting = (key: string) =>
