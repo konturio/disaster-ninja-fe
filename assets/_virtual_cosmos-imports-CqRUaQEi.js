@@ -1,4 +1,3 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["./BivariateGreetings-D0oSlFvK.js","./index-SGXhHdbZ.js"])))=>i.map(i=>d[i]);
 var __defProp = Object.defineProperty;
 var __typeError = (msg) => {
   throw TypeError(msg);
@@ -10,7 +9,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value2) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value2);
 var __privateSet = (obj, member, value2, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value2) : member.set(obj, value2), value2);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, e as extendWithValue, R as React, c as createValue, i as isEqual, r as reactExports, a as requireReact, b as requireReactDom, d as React$1, g as getDefaultExportFromCjs, _ as __vitePreload } from "./index-SGXhHdbZ.js";
+import { u as useFixtureState, e as extendWithValue, R as React, c as createValue, i as isEqual, r as reactExports, a as requireReact, b as requireReactDom, d as React$1, g as getDefaultExportFromCjs } from "./index-DBSuAQpq.js";
 function useCurrentInputValue(inputName, defaultValue) {
   const [fixtureState] = useFixtureState("inputs");
   const inputFs = fixtureState && fixtureState[inputName];
@@ -192,7 +191,7 @@ var i$2;
 !function(e) {
   e[e.MAX = 0] = "MAX", e[e.HIGH = 1] = "HIGH", e[e.MED = 2] = "MED", e[e.LOW = 3] = "LOW", e[e.MIN = 4] = "MIN";
 }(i$2 || (i$2 = {}));
-const l = ["allowFullScreen", "allowTransparency", "autoComplete", "autoFocus", "autoPlay", "cellPadding", "cellSpacing", "charSet", "classId", "colSpan", "contentEditable", "contextMenu", "crossOrigin", "encType", "formAction", "formEncType", "formMethod", "formNoValidate", "formTarget", "frameBorder", "hrefLang", "inputMode", "keyParams", "keyType", "marginHeight", "marginWidth", "maxLength", "mediaGroup", "minLength", "noValidate", "radioGroup", "readOnly", "rowSpan", "spellCheck", "srcDoc", "srcLang", "srcSet", "tabIndex", "useMap"].reduce((e, t2) => (e[t2.toLowerCase()] = t2, e), { class: "className", for: "htmlFor" }), o$1 = { amp: "&", apos: "'", gt: ">", lt: "<", nbsp: " ", quot: "“" }, a = ["style", "script"], c$1 = ["src", "href", "data", "formAction", "srcDoc", "action"], s$l = /([-A-Z0-9_:]+)(?:\s*=\s*(?:(?:"((?:\\.|[^"])*)")|(?:'((?:\\.|[^'])*)')|(?:\{((?:\\.|{[^}]*?}|[^}])*)\})))?/gi, d = /mailto:/i, u = /\n{2,}$/, p = /^(\s*>[\s\S]*?)(?=\n\n|$)/, f$1 = /^ *> ?/gm, h = /^(?:\[!([^\]]*)\]\n)?([\s\S]*)/, m$a = /^ {2,}\n/, g$1 = /^(?:( *[-*_])){3,} *(?:\n *)+\n/, y = /^(?: {1,3})?(`{3,}|~{3,}) *(\S+)? *([^\n]*?)?\n([\s\S]*?)(?:\1\n?|$)/, k = /^(?: {4}[^\n]+\n*)+(?:\n *)+\n?/, x = /^(`+)((?:\\`|(?!\1)`|[^`])+)\1/, b = /^(?:\n *)*\n/, v = /\r\n?/g, C = /^\[\^([^\]]+)](:(.*)((\n+ {4,}.*)|(\n(?!\[\^).+))*)/, $ = /^\[\^([^\]]+)]/, S = /\f/g, w = /^---[ \t]*\n(.|\n)*\n---[ \t]*\n/, E = /^\s*?\[(x|\s)\]/, z = /^ *(#{1,6}) *([^\n]+?)(?: +#*)?(?:\n *)*(?:\n|$)/, L = /^ *(#{1,6}) +([^\n]+?)(?: +#*)?(?:\n *)*(?:\n|$)/, A = /^([^\n]+)\n *(=|-){3,} *(?:\n *)+\n/, O = /^ *(?!<[a-z][^ >/]* ?\/>)<([a-z][^ >/]*) ?((?:[^>]*[^/])?)>\n?(\s*(?:<\1[^>]*?>[\s\S]*?<\/\1>|(?!<\1\b)[\s\S])*?)<\/\1>(?!<\/\1>)\n*/i, T = /&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-fA-F]{1,6});/gi, B = /^<!--[\s\S]*?(?:-->)/, M = /^(data|aria|x)-[a-z_][a-z\d_.-]*$/, R = /^ *<([a-z][a-z0-9:]*)(?:\s+((?:<.*?>|[^>])*))?\/?>(?!<\/\1>)(\s*\n)?/i, I = /^\{.*\}$/, D = /^(https?:\/\/[^\s<]+[^<.,:;"')\]\s])/, U = /^<([^ >]+@[^ >]+)>/, N = /^<([^ >]+:\/[^ >]+)>/, j = /-([a-z])?/gi, H = /^(\|.*)\n(?: *(\|? *[-:]+ *\|[-| :]*)\n((?:.*\|.*\n)*))?\n?/, P = /^\[([^\]]*)\]:\s+<?([^\s>]+)>?\s*("([^"]*)")?/, _ = /^!\[([^\]]*)\] ?\[([^\]]*)\]/, F = /^\[([^\]]*)\] ?\[([^\]]*)\]/, W = /(\n|^[-*]\s|^#|^ {2,}|^-{2,}|^>\s)/, G = /\t/g, Z = /(^ *\||\| *$)/g, q = /^ *:-+: *$/, Q = /^ *:-+ *$/, V = /^ *-+: *$/, X = "((?:\\[.*?\\][([].*?[)\\]]|<.*?>(?:.*?<.*?>)?|`.*?`|\\\\\\1|[\\s\\S])+?)", J = new RegExp(`^([*_])\\1${X}\\1\\1(?!\\1)`), K = new RegExp(`^([*_])${X}\\1(?!\\1)`), Y = new RegExp(`^(==)${X}\\1`), ee = new RegExp(`^(~~)${X}\\1`), te = /^\\([^0-9A-Za-z\s])/, ne = /\\([^0-9A-Za-z\s])/g, re = /^([\s\S](?:(?!  |[0-9]\.)[^=*_~\-\n<`\\\[!])*)/, ie = /^\n+/, le = /^([ \t]*)/, oe = /\\([^\\])/g, ae = /(?:^|\n)( *)$/, ce = "(?:\\d+\\.)", se = "(?:[*+-])";
+const l = ["allowFullScreen", "allowTransparency", "autoComplete", "autoFocus", "autoPlay", "cellPadding", "cellSpacing", "charSet", "classId", "colSpan", "contentEditable", "contextMenu", "crossOrigin", "encType", "formAction", "formEncType", "formMethod", "formNoValidate", "formTarget", "frameBorder", "hrefLang", "inputMode", "keyParams", "keyType", "marginHeight", "marginWidth", "maxLength", "mediaGroup", "minLength", "noValidate", "radioGroup", "readOnly", "rowSpan", "spellCheck", "srcDoc", "srcLang", "srcSet", "tabIndex", "useMap"].reduce((e, t2) => (e[t2.toLowerCase()] = t2, e), { class: "className", for: "htmlFor" }), o$1 = { amp: "&", apos: "'", gt: ">", lt: "<", nbsp: " ", quot: "“" }, a = ["style", "script"], c$1 = ["src", "href", "data", "formAction", "srcDoc", "action"], s$g = /([-A-Z0-9_:]+)(?:\s*=\s*(?:(?:"((?:\\.|[^"])*)")|(?:'((?:\\.|[^'])*)')|(?:\{((?:\\.|{[^}]*?}|[^}])*)\})))?/gi, d = /mailto:/i, u = /\n{2,}$/, p = /^(\s*>[\s\S]*?)(?=\n\n|$)/, f = /^ *> ?/gm, h = /^(?:\[!([^\]]*)\]\n)?([\s\S]*)/, m$9 = /^ {2,}\n/, g$1 = /^(?:( *[-*_])){3,} *(?:\n *)+\n/, y = /^(?: {1,3})?(`{3,}|~{3,}) *(\S+)? *([^\n]*?)?\n([\s\S]*?)(?:\1\n?|$)/, k = /^(?: {4}[^\n]+\n*)+(?:\n *)+\n?/, x = /^(`+)((?:\\`|(?!\1)`|[^`])+)\1/, b = /^(?:\n *)*\n/, v = /\r\n?/g, C = /^\[\^([^\]]+)](:(.*)((\n+ {4,}.*)|(\n(?!\[\^).+))*)/, $ = /^\[\^([^\]]+)]/, S = /\f/g, w = /^---[ \t]*\n(.|\n)*\n---[ \t]*\n/, E = /^\s*?\[(x|\s)\]/, z = /^ *(#{1,6}) *([^\n]+?)(?: +#*)?(?:\n *)*(?:\n|$)/, L = /^ *(#{1,6}) +([^\n]+?)(?: +#*)?(?:\n *)*(?:\n|$)/, A = /^([^\n]+)\n *(=|-){3,} *(?:\n *)+\n/, O = /^ *(?!<[a-z][^ >/]* ?\/>)<([a-z][^ >/]*) ?((?:[^>]*[^/])?)>\n?(\s*(?:<\1[^>]*?>[\s\S]*?<\/\1>|(?!<\1\b)[\s\S])*?)<\/\1>(?!<\/\1>)\n*/i, T = /&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-fA-F]{1,6});/gi, B = /^<!--[\s\S]*?(?:-->)/, M = /^(data|aria|x)-[a-z_][a-z\d_.-]*$/, R = /^ *<([a-z][a-z0-9:]*)(?:\s+((?:<.*?>|[^>])*))?\/?>(?!<\/\1>)(\s*\n)?/i, I = /^\{.*\}$/, D = /^(https?:\/\/[^\s<]+[^<.,:;"')\]\s])/, U = /^<([^ >]+@[^ >]+)>/, N = /^<([^ >]+:\/[^ >]+)>/, j = /-([a-z])?/gi, H = /^(\|.*)\n(?: *(\|? *[-:]+ *\|[-| :]*)\n((?:.*\|.*\n)*))?\n?/, P = /^\[([^\]]*)\]:\s+<?([^\s>]+)>?\s*("([^"]*)")?/, _ = /^!\[([^\]]*)\] ?\[([^\]]*)\]/, F = /^\[([^\]]*)\] ?\[([^\]]*)\]/, W = /(\n|^[-*]\s|^#|^ {2,}|^-{2,}|^>\s)/, G = /\t/g, Z = /(^ *\||\| *$)/g, q = /^ *:-+: *$/, Q = /^ *:-+ *$/, V = /^ *-+: *$/, X = "((?:\\[.*?\\][([].*?[)\\]]|<.*?>(?:.*?<.*?>)?|`.*?`|\\\\\\1|[\\s\\S])+?)", J = new RegExp(`^([*_])\\1${X}\\1\\1(?!\\1)`), K = new RegExp(`^([*_])${X}\\1(?!\\1)`), Y = new RegExp(`^(==)${X}\\1`), ee = new RegExp(`^(~~)${X}\\1`), te = /^\\([^0-9A-Za-z\s])/, ne = /\\([^0-9A-Za-z\s])/g, re = /^([\s\S](?:(?!  |[0-9]\.)[^=*_~\-\n<`\\\[!])*)/, ie = /^\n+/, le = /^([ \t]*)/, oe = /\\([^\\])/g, ae = /(?:^|\n)( *)$/, ce = "(?:\\d+\\.)", se = "(?:[*+-])";
 function de(e) {
   return "( *)(" + (1 === e ? ce : se) + ") +";
 }
@@ -372,7 +371,7 @@ function Xe(n2 = "", i2 = {}) {
     return i2.createElement(r2, { key: "outer" }, l2);
   }
   function q2(e, t2) {
-    const n3 = t2.match(s$l);
+    const n3 = t2.match(s$g);
     return n3 ? n3.reduce(function(t3, n4) {
       const r2 = n4.indexOf("=");
       if (-1 !== r2) {
@@ -425,12 +424,12 @@ function Xe(n2 = "", i2 = {}) {
   }
   i2.overrides = i2.overrides || {}, i2.sanitizer = i2.sanitizer || He, i2.slugify = i2.slugify || Le, i2.namedCodesToUnicode = i2.namedCodesToUnicode ? t({}, o$1, i2.namedCodesToUnicode) : o$1, i2.createElement = i2.createElement || reactExports.createElement;
   const Q2 = [], V2 = {}, X2 = { [r$2.blockQuote]: { match: De(p), order: 1, parse(e, t2, n3) {
-    const [, r2, i3] = e[0].replace(f$1, "").match(h);
+    const [, r2, i3] = e[0].replace(f, "").match(h);
     return { alert: r2, children: t2(i3, n3) };
   }, render(e, t2, n3) {
     const l2 = { key: n3.key };
     return e.alert && (l2.className = "markdown-alert-" + i2.slugify(e.alert.toLowerCase(), Le), e.children.unshift({ attrs: {}, children: [{ type: r$2.text, text: e.alert }], noInnerParse: true, type: r$2.htmlBlock, tag: "header" })), u2("blockquote", l2, t2(e.children, n3));
-  } }, [r$2.breakLine]: { match: Ue(m$a), order: 1, parse: Ze, render: (e, t2, n3) => u2("br", { key: n3.key }) }, [r$2.breakThematic]: { match: De(g$1), order: 1, parse: Ze, render: (e, t2, n3) => u2("hr", { key: n3.key }) }, [r$2.codeBlock]: { match: De(k), order: 0, parse: (e) => ({ lang: void 0, text: ze(e[0].replace(/^ {4}/gm, "")).replace(ne, "$1") }), render: (e, n3, r2) => u2("pre", { key: r2.key }, u2("code", t({}, e.attrs, { className: e.lang ? `lang-${e.lang}` : "" }), e.text)) }, [r$2.codeFenced]: { match: De(y), order: 0, parse: (e) => ({ attrs: q2("code", e[3] || ""), lang: e[2] || void 0, text: e[4], type: r$2.codeBlock }) }, [r$2.codeInline]: { match: Ie(x), order: 3, parse: (e) => ({ text: e[2].replace(ne, "$1") }), render: (e, t2, n3) => u2("code", { key: n3.key }, e.text) }, [r$2.footnote]: { match: De(C), order: 0, parse: (e) => (Q2.push({ footnote: e[2], identifier: e[1] }), {}), render: qe }, [r$2.footnoteReference]: { match: Re($), order: 1, parse: (e) => ({ target: `#${i2.slugify(e[1], Le)}`, text: e[1] }), render: (e, t2, n3) => u2("a", { key: n3.key, href: i2.sanitizer(e.target, "a", "href") }, u2("sup", { key: n3.key }, e.text)) }, [r$2.gfmTask]: { match: Re(E), order: 1, parse: (e) => ({ completed: "x" === e[1].toLowerCase() }), render: (e, t2, n3) => u2("input", { checked: e.completed, key: n3.key, readOnly: true, type: "checkbox" }) }, [r$2.heading]: { match: De(i2.enforceAtxHeadings ? L : z), order: 1, parse: (e, t2, n3) => ({ children: _e(t2, e[2], n3), id: i2.slugify(e[2], Le), level: e[1].length }), render: (e, t2, n3) => u2(`h${e.level}`, { id: e.id, key: n3.key }, t2(e.children, n3)) }, [r$2.headingSetext]: { match: De(A), order: 0, parse: (e, t2, n3) => ({ children: _e(t2, e[1], n3), level: "=" === e[2] ? 1 : 2, type: r$2.heading }) }, [r$2.htmlBlock]: { match: Ue(O), order: 1, parse(e, t2, n3) {
+  } }, [r$2.breakLine]: { match: Ue(m$9), order: 1, parse: Ze, render: (e, t2, n3) => u2("br", { key: n3.key }) }, [r$2.breakThematic]: { match: De(g$1), order: 1, parse: Ze, render: (e, t2, n3) => u2("hr", { key: n3.key }) }, [r$2.codeBlock]: { match: De(k), order: 0, parse: (e) => ({ lang: void 0, text: ze(e[0].replace(/^ {4}/gm, "")).replace(ne, "$1") }), render: (e, n3, r2) => u2("pre", { key: r2.key }, u2("code", t({}, e.attrs, { className: e.lang ? `lang-${e.lang}` : "" }), e.text)) }, [r$2.codeFenced]: { match: De(y), order: 0, parse: (e) => ({ attrs: q2("code", e[3] || ""), lang: e[2] || void 0, text: e[4], type: r$2.codeBlock }) }, [r$2.codeInline]: { match: Ie(x), order: 3, parse: (e) => ({ text: e[2].replace(ne, "$1") }), render: (e, t2, n3) => u2("code", { key: n3.key }, e.text) }, [r$2.footnote]: { match: De(C), order: 0, parse: (e) => (Q2.push({ footnote: e[2], identifier: e[1] }), {}), render: qe }, [r$2.footnoteReference]: { match: Re($), order: 1, parse: (e) => ({ target: `#${i2.slugify(e[1], Le)}`, text: e[1] }), render: (e, t2, n3) => u2("a", { key: n3.key, href: i2.sanitizer(e.target, "a", "href") }, u2("sup", { key: n3.key }, e.text)) }, [r$2.gfmTask]: { match: Re(E), order: 1, parse: (e) => ({ completed: "x" === e[1].toLowerCase() }), render: (e, t2, n3) => u2("input", { checked: e.completed, key: n3.key, readOnly: true, type: "checkbox" }) }, [r$2.heading]: { match: De(i2.enforceAtxHeadings ? L : z), order: 1, parse: (e, t2, n3) => ({ children: _e(t2, e[2], n3), id: i2.slugify(e[2], Le), level: e[1].length }), render: (e, t2, n3) => u2(`h${e.level}`, { id: e.id, key: n3.key }, t2(e.children, n3)) }, [r$2.headingSetext]: { match: De(A), order: 0, parse: (e, t2, n3) => ({ children: _e(t2, e[1], n3), level: "=" === e[2] ? 1 : 2, type: r$2.heading }) }, [r$2.htmlBlock]: { match: Ue(O), order: 1, parse(e, t2, n3) {
     const [, r2] = e[3].match(le), i3 = new RegExp(`^${r2}`, "gm"), l2 = e[3].replace(i3, ""), o2 = (c2 = l2, Ee.some((e2) => e2.test(c2)) ? We : _e);
     var c2;
     const s2 = e[1].toLowerCase(), d2 = -1 !== a.indexOf(s2), u3 = (d2 ? s2 : e[1]).trim(), p2 = { attrs: q2(u3, e[2]), noInnerParse: d2, tag: u3 };
@@ -1359,7 +1358,7 @@ const iconAfter = "_iconAfter_1231j_156";
 const primary = "_primary_1231j_163";
 const active = "_active_1231j_174";
 const invert = "_invert_1231j_180";
-const s$k = {
+const s$f = {
   button,
   buttonDark,
   buttonInner,
@@ -1380,13 +1379,13 @@ const s$k = {
 const Button = reactExports.forwardRef(({ children, className, active: active2, variant = "primary", size = "medium", dark = false, iconBefore: iconBefore2, iconAfter: iconAfter2, ...props }, ref) => {
   const hasContent = reactExports.Children.count(children) > 0;
   const hasIcon = iconBefore2 || iconAfter2;
-  return jsxRuntimeExports.jsx("button", { ref, className: clsx(s$k.button, {
-    [s$k.buttonDark]: dark
-  }, s$k[variant], s$k[size], {
-    [s$k.active]: active2,
-    [s$k.withContent]: hasContent,
-    [s$k.withIcon]: hasIcon
-  }, className), ...props, children: jsxRuntimeExports.jsxs("div", { className: clsx(s$k.buttonInner), children: [iconBefore2 && jsxRuntimeExports.jsx("div", { className: s$k.iconBefore, children: iconBefore2 }), hasContent && jsxRuntimeExports.jsx("span", { className: s$k.buttonContent, children }), iconAfter2 && jsxRuntimeExports.jsx("div", { className: s$k.iconAfter, children: iconAfter2 })] }) });
+  return jsxRuntimeExports.jsx("button", { ref, className: clsx(s$f.button, {
+    [s$f.buttonDark]: dark
+  }, s$f[variant], s$f[size], {
+    [s$f.active]: active2,
+    [s$f.withContent]: hasContent,
+    [s$f.withIcon]: hasIcon
+  }, className), ...props, children: jsxRuntimeExports.jsxs("div", { className: clsx(s$f.buttonInner), children: [iconBefore2 && jsxRuntimeExports.jsx("div", { className: s$f.iconBefore, children: iconBefore2 }), hasContent && jsxRuntimeExports.jsx("span", { className: s$f.buttonContent, children }), iconAfter2 && jsxRuntimeExports.jsx("div", { className: s$f.iconAfter, children: iconAfter2 })] }) });
 });
 Button.displayName = "Button";
 var reactDomExports = requireReactDom();
@@ -1471,14 +1470,14 @@ function getSideList(side, isStart, rtl) {
 }
 function getOppositeAxisPlacements(placement, flipAlignment, direction, rtl) {
   const alignment = getAlignment(placement);
-  let list2 = getSideList(getSide(placement), direction === "start", rtl);
+  let list = getSideList(getSide(placement), direction === "start", rtl);
   if (alignment) {
-    list2 = list2.map((side) => side + "-" + alignment);
+    list = list.map((side) => side + "-" + alignment);
     if (flipAlignment) {
-      list2 = list2.concat(list2.map(getOppositeAlignmentPlacement));
+      list = list.concat(list.map(getOppositeAlignmentPlacement));
     }
   }
-  return list2;
+  return list;
 }
 function getOppositePlacement(placement) {
   return placement.replace(/left|right|bottom|top/g, (side) => oppositeSideMap[side]);
@@ -2122,14 +2121,14 @@ function getParentNode(node) {
   if (getNodeName(node) === "html") {
     return node;
   }
-  const result2 = (
+  const result = (
     // Step into the shadow DOM of the parent of a slotted node.
     node.assignedSlot || // DOM Element detected.
     node.parentNode || // ShadowRoot detected.
     isShadowRoot(node) && node.host || // Fallback.
     getDocumentElement(node)
   );
-  return isShadowRoot(result2) ? result2.host : result2;
+  return isShadowRoot(result) ? result.host : result;
 }
 function getNearestOverflowAncestor(node) {
   const parentNode = getParentNode(node);
@@ -2141,10 +2140,10 @@ function getNearestOverflowAncestor(node) {
   }
   return getNearestOverflowAncestor(parentNode);
 }
-function getOverflowAncestors(node, list2, traverseIframes) {
+function getOverflowAncestors(node, list, traverseIframes) {
   var _node$ownerDocument2;
-  if (list2 === void 0) {
-    list2 = [];
+  if (list === void 0) {
+    list = [];
   }
   if (traverseIframes === void 0) {
     traverseIframes = true;
@@ -2154,9 +2153,9 @@ function getOverflowAncestors(node, list2, traverseIframes) {
   const win = getWindow(scrollableAncestor);
   if (isBody) {
     const frameElement = getFrameElement(win);
-    return list2.concat(win, win.visualViewport || [], isOverflowElement(scrollableAncestor) ? scrollableAncestor : [], frameElement && traverseIframes ? getOverflowAncestors(frameElement) : []);
+    return list.concat(win, win.visualViewport || [], isOverflowElement(scrollableAncestor) ? scrollableAncestor : [], frameElement && traverseIframes ? getOverflowAncestors(frameElement) : []);
   }
-  return list2.concat(scrollableAncestor, getOverflowAncestors(scrollableAncestor, [], traverseIframes));
+  return list.concat(scrollableAncestor, getOverflowAncestors(scrollableAncestor, [], traverseIframes));
 }
 function getFrameElement(win) {
   return win.parent && Object.getPrototypeOf(win.parent) ? win.frameElement : null;
@@ -2431,7 +2430,7 @@ function getClippingElementAncestors(element, cache) {
   if (cachedResult) {
     return cachedResult;
   }
-  let result2 = getOverflowAncestors(element, [], false).filter((el) => isElement(el) && getNodeName(el) !== "body");
+  let result = getOverflowAncestors(element, [], false).filter((el) => isElement(el) && getNodeName(el) !== "body");
   let currentContainingBlockComputedStyle = null;
   const elementIsFixed = getComputedStyle$1(element).position === "fixed";
   let currentNode = elementIsFixed ? getParentNode(element) : element;
@@ -2443,14 +2442,14 @@ function getClippingElementAncestors(element, cache) {
     }
     const shouldDropCurrentNode = elementIsFixed ? !currentNodeIsContaining && !currentContainingBlockComputedStyle : !currentNodeIsContaining && computedStyle.position === "static" && !!currentContainingBlockComputedStyle && ["absolute", "fixed"].includes(currentContainingBlockComputedStyle.position) || isOverflowElement(currentNode) && !currentNodeIsContaining && hasFixedPositionAncestor(element, currentNode);
     if (shouldDropCurrentNode) {
-      result2 = result2.filter((ancestor) => ancestor !== currentNode);
+      result = result.filter((ancestor) => ancestor !== currentNode);
     } else {
       currentContainingBlockComputedStyle = computedStyle;
     }
     currentNode = getParentNode(currentNode);
   }
-  cache.set(element, result2);
-  return result2;
+  cache.set(element, result);
+  return result;
 }
 function getClippingRect(_ref) {
   let {
@@ -2767,8 +2766,8 @@ var isInert = function isInert2(node, lookUp) {
   }
   var inertAtt = node === null || node === void 0 ? void 0 : (_node$getAttribute = node.getAttribute) === null || _node$getAttribute === void 0 ? void 0 : _node$getAttribute.call(node, "inert");
   var inert = inertAtt === "" || inertAtt === "true";
-  var result2 = inert || lookUp && node && isInert2(node.parentNode);
-  return result2;
+  var result = inert || lookUp && node && isInert2(node.parentNode);
+  return result;
 };
 var isContentEditable = function isContentEditable2(node) {
   var _node$getAttribute2;
@@ -3270,13 +3269,13 @@ const getTabbableOptions = () => ({
   )
 });
 function getTabbableIn(container2, dir) {
-  const list2 = tabbable(container2, getTabbableOptions());
-  const len = list2.length;
+  const list = tabbable(container2, getTabbableOptions());
+  const len = list.length;
   if (len === 0) return;
   const active2 = activeElement(getDocument$1(container2));
-  const index2 = list2.indexOf(active2);
+  const index2 = list.indexOf(active2);
   const nextIndex = index2 === -1 ? dir === 1 ? 0 : len - 1 : index2 + dir;
-  return list2[nextIndex];
+  return list[nextIndex];
 }
 function getNextTabbable(referenceElement) {
   return getTabbableIn(getDocument$1(referenceElement).body, 1) || referenceElement;
@@ -3312,7 +3311,7 @@ var isClient = typeof document !== "undefined";
 var noop$2 = function noop() {
 };
 var index = isClient ? reactExports.useLayoutEffect : noop$2;
-function deepEqual$1(a2, b2) {
+function deepEqual(a2, b2) {
   if (a2 === b2) {
     return true;
   }
@@ -3324,34 +3323,34 @@ function deepEqual$1(a2, b2) {
   }
   let length;
   let i2;
-  let keys2;
+  let keys;
   if (a2 && b2 && typeof a2 === "object") {
     if (Array.isArray(a2)) {
       length = a2.length;
       if (length !== b2.length) return false;
       for (i2 = length; i2-- !== 0; ) {
-        if (!deepEqual$1(a2[i2], b2[i2])) {
+        if (!deepEqual(a2[i2], b2[i2])) {
           return false;
         }
       }
       return true;
     }
-    keys2 = Object.keys(a2);
-    length = keys2.length;
+    keys = Object.keys(a2);
+    length = keys.length;
     if (length !== Object.keys(b2).length) {
       return false;
     }
     for (i2 = length; i2-- !== 0; ) {
-      if (!{}.hasOwnProperty.call(b2, keys2[i2])) {
+      if (!{}.hasOwnProperty.call(b2, keys[i2])) {
         return false;
       }
     }
     for (i2 = length; i2-- !== 0; ) {
-      const key = keys2[i2];
+      const key = keys[i2];
       if (key === "_owner" && a2.$$typeof) {
         continue;
       }
-      if (!deepEqual$1(a2[key], b2[key])) {
+      if (!deepEqual(a2[key], b2[key])) {
         return false;
       }
     }
@@ -3403,7 +3402,7 @@ function useFloating$1(options) {
     isPositioned: false
   });
   const [latestMiddleware, setLatestMiddleware] = reactExports.useState(middleware);
-  if (!deepEqual$1(latestMiddleware, middleware)) {
+  if (!deepEqual(latestMiddleware, middleware)) {
     setLatestMiddleware(middleware);
   }
   const [_reference, _setReference] = reactExports.useState(null);
@@ -3450,7 +3449,7 @@ function useFloating$1(options) {
         // setting it to `true` when `open === false` (must be specified).
         isPositioned: openRef.current !== false
       };
-      if (isMountedRef.current && !deepEqual$1(dataRef.current, fullData)) {
+      if (isMountedRef.current && !deepEqual(dataRef.current, fullData)) {
         dataRef.current = fullData;
         reactDomExports.flushSync(() => {
           setData(fullData);
@@ -3620,11 +3619,11 @@ const SafeReact = {
   ...React$1
 };
 let serverHandoffComplete = false;
-let count$1 = 0;
+let count = 0;
 const genId = () => (
   // Ensure the id is unique with multiple independent versions of Floating UI
   // on <React 18
-  "floating-ui-" + Math.random().toString(36).slice(2, 6) + count$1++
+  "floating-ui-" + Math.random().toString(36).slice(2, 6) + count++
 );
 function useFloatingId() {
   const [id, setId] = reactExports.useState(() => serverHandoffComplete ? genId() : void 0);
@@ -3782,11 +3781,11 @@ function getDelay(value2, prop, pointerType) {
     return value2;
   }
   if (typeof value2 === "function") {
-    const result2 = value2();
-    if (typeof result2 === "number") {
-      return result2;
+    const result = value2();
+    if (typeof result === "number") {
+      return result;
     }
-    return result2 == null ? void 0 : result2[prop];
+    return result == null ? void 0 : result[prop];
   }
   return value2 == null ? void 0 : value2[prop];
 }
@@ -3796,7 +3795,7 @@ function getRestMs(value2) {
   }
   return value2;
 }
-function useHover(context2, props) {
+function useHover(context, props) {
   if (props === void 0) {
     props = {};
   }
@@ -3806,7 +3805,7 @@ function useHover(context2, props) {
     dataRef,
     events,
     elements
-  } = context2;
+  } = context;
   const {
     enabled = true,
     delay = 0,
@@ -4015,7 +4014,7 @@ function useHover(context2, props) {
         }
       };
     }
-  }, [elements, enabled, context2, mouseOnly, move, closeWithDelay, cleanupMouseMoveHandler, clearPointerEvents, onOpenChange, open, openRef, tree, delayRef, handleCloseRef, dataRef, isClickLikeOpenEvent, restMsRef]);
+  }, [elements, enabled, context, mouseOnly, move, closeWithDelay, cleanupMouseMoveHandler, clearPointerEvents, onOpenChange, open, openRef, tree, delayRef, handleCloseRef, dataRef, isClickLikeOpenEvent, restMsRef]);
   index$1(() => {
     var _handleCloseRef$curre;
     if (!enabled) return;
@@ -4481,9 +4480,9 @@ const VisuallyHiddenDismiss = /* @__PURE__ */ reactExports.forwardRef(function V
 });
 function FloatingFocusManager(props) {
   const {
-    context: context2,
+    context,
     children,
-    disabled: disabled2 = false,
+    disabled = false,
     order: order2 = ["content"],
     guards: _guards = true,
     initialFocus = 0,
@@ -4504,7 +4503,7 @@ function FloatingFocusManager(props) {
       domReference,
       floating
     }
-  } = context2;
+  } = context;
   const getNodeId = useEffectEvent(() => {
     var _dataRef$current$floa;
     return (_dataRef$current$floa = dataRef.current.floatingContext) == null ? void 0 : _dataRef$current$floa.nodeId;
@@ -4546,7 +4545,7 @@ function FloatingFocusManager(props) {
     }).filter(Boolean).flat();
   });
   reactExports.useEffect(() => {
-    if (disabled2) return;
+    if (disabled) return;
     if (!modal) return;
     function onKeyDown(event) {
       if (event.key === "Tab") {
@@ -4574,9 +4573,9 @@ function FloatingFocusManager(props) {
     return () => {
       doc.removeEventListener("keydown", onKeyDown);
     };
-  }, [disabled2, domReference, floatingFocusElement, modal, orderRef, isUntrappedTypeableCombobox, getTabbableContent, getTabbableElements]);
+  }, [disabled, domReference, floatingFocusElement, modal, orderRef, isUntrappedTypeableCombobox, getTabbableContent, getTabbableElements]);
   reactExports.useEffect(() => {
-    if (disabled2) return;
+    if (disabled) return;
     if (!floating) return;
     function handleFocusIn(event) {
       const target = getTarget(event);
@@ -4590,9 +4589,9 @@ function FloatingFocusManager(props) {
     return () => {
       floating.removeEventListener("focusin", handleFocusIn);
     };
-  }, [disabled2, floating, getTabbableContent]);
+  }, [disabled, floating, getTabbableContent]);
   reactExports.useEffect(() => {
-    if (disabled2) return;
+    if (disabled) return;
     if (!closeOnFocusOut) return;
     function handlePointerDown() {
       isPointerDownRef.current = true;
@@ -4648,14 +4647,14 @@ function FloatingFocusManager(props) {
         floating.removeEventListener("focusout", handleFocusOutside);
       };
     }
-  }, [disabled2, domReference, floating, floatingFocusElement, modal, tree, portalContext, onOpenChange, closeOnFocusOut, restoreFocus, getTabbableContent, isUntrappedTypeableCombobox, getNodeId, orderRef, dataRef]);
+  }, [disabled, domReference, floating, floatingFocusElement, modal, tree, portalContext, onOpenChange, closeOnFocusOut, restoreFocus, getTabbableContent, isUntrappedTypeableCombobox, getNodeId, orderRef, dataRef]);
   const beforeGuardRef = reactExports.useRef(null);
   const afterGuardRef = reactExports.useRef(null);
   const mergedBeforeGuardRef = useLiteMergeRefs([beforeGuardRef, portalContext == null ? void 0 : portalContext.beforeInsideRef]);
   const mergedAfterGuardRef = useLiteMergeRefs([afterGuardRef, portalContext == null ? void 0 : portalContext.afterInsideRef]);
   reactExports.useEffect(() => {
     var _portalContext$portal, _ancestors$find;
-    if (disabled2) return;
+    if (disabled) return;
     if (!floating) return;
     const portalNodes = Array.from((portalContext == null || (_portalContext$portal = portalContext.portalNode) == null ? void 0 : _portalContext$portal.querySelectorAll("[" + createAttribute("portal") + "]")) || []);
     const ancestors = tree ? getNodeAncestors(tree.nodesRef.current, getNodeId()) : [];
@@ -4672,9 +4671,9 @@ function FloatingFocusManager(props) {
     return () => {
       cleanup2();
     };
-  }, [disabled2, domReference, floating, modal, orderRef, portalContext, isUntrappedTypeableCombobox, guards, useInert, tree, getNodeId, getInsideElements]);
+  }, [disabled, domReference, floating, modal, orderRef, portalContext, isUntrappedTypeableCombobox, guards, useInert, tree, getNodeId, getInsideElements]);
   index$1(() => {
-    if (disabled2 || !isHTMLElement(floatingFocusElement)) return;
+    if (disabled || !isHTMLElement(floatingFocusElement)) return;
     const doc = getDocument$1(floatingFocusElement);
     const previouslyFocusedElement = activeElement(doc);
     queueMicrotask(() => {
@@ -4688,9 +4687,9 @@ function FloatingFocusManager(props) {
         });
       }
     });
-  }, [disabled2, open, floatingFocusElement, ignoreInitialFocus, getTabbableElements, initialFocusRef]);
+  }, [disabled, open, floatingFocusElement, ignoreInitialFocus, getTabbableElements, initialFocusRef]);
   index$1(() => {
-    if (disabled2 || !floatingFocusElement) return;
+    if (disabled || !floatingFocusElement) return;
     const doc = getDocument$1(floatingFocusElement);
     const previouslyFocusedElement = activeElement(doc);
     addPreviouslyFocusedElement(previouslyFocusedElement);
@@ -4762,14 +4761,14 @@ function FloatingFocusManager(props) {
         fallbackEl.remove();
       });
     };
-  }, [disabled2, floating, floatingFocusElement, returnFocusRef, dataRef, events, tree, isInsidePortal, domReference, getNodeId]);
+  }, [disabled, floating, floatingFocusElement, returnFocusRef, dataRef, events, tree, isInsidePortal, domReference, getNodeId]);
   reactExports.useEffect(() => {
     queueMicrotask(() => {
       preventReturnFocusRef.current = false;
     });
-  }, [disabled2]);
+  }, [disabled]);
   index$1(() => {
-    if (disabled2) return;
+    if (disabled) return;
     if (!portalContext) return;
     portalContext.setFocusManagerState({
       modal,
@@ -4781,14 +4780,14 @@ function FloatingFocusManager(props) {
     return () => {
       portalContext.setFocusManagerState(null);
     };
-  }, [disabled2, portalContext, modal, open, onOpenChange, closeOnFocusOut, domReference]);
+  }, [disabled, portalContext, modal, open, onOpenChange, closeOnFocusOut, domReference]);
   index$1(() => {
-    if (disabled2) return;
+    if (disabled) return;
     if (!floatingFocusElement) return;
     handleTabIndex(floatingFocusElement, orderRef);
-  }, [disabled2, floatingFocusElement, orderRef]);
+  }, [disabled, floatingFocusElement, orderRef]);
   function renderDismissButton(location) {
-    if (disabled2 || !visuallyHiddenDismiss || !modal) {
+    if (disabled || !visuallyHiddenDismiss || !modal) {
       return null;
     }
     return /* @__PURE__ */ jsxRuntimeExports.jsx(VisuallyHiddenDismiss, {
@@ -4797,7 +4796,7 @@ function FloatingFocusManager(props) {
       children: typeof visuallyHiddenDismiss === "string" ? visuallyHiddenDismiss : "Dismiss"
     });
   }
-  const shouldRenderGuards = !disabled2 && guards && (modal ? !isUntrappedTypeableCombobox : true) && (isInsidePortal || modal);
+  const shouldRenderGuards = !disabled && guards && (modal ? !isUntrappedTypeableCombobox : true) && (isInsidePortal || modal);
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, {
     children: [shouldRenderGuards && /* @__PURE__ */ jsxRuntimeExports.jsx(FocusGuard, {
       "data-type": "inside",
@@ -4848,7 +4847,7 @@ function isAnchorTarget(event) {
 function isSpaceIgnored(element) {
   return isTypeableElement(element);
 }
-function useClick(context2, props) {
+function useClick(context, props) {
   if (props === void 0) {
     props = {};
   }
@@ -4859,7 +4858,7 @@ function useClick(context2, props) {
     elements: {
       domReference
     }
-  } = context2;
+  } = context;
   const {
     enabled = true,
     event: eventOption = "click",
@@ -4954,7 +4953,7 @@ const normalizeProp = (normalizable) => {
     outsidePress: typeof normalizable === "boolean" ? normalizable : (_normalizable$outside = normalizable == null ? void 0 : normalizable.outsidePress) != null ? _normalizable$outside : true
   };
 };
-function useDismiss(context2, props) {
+function useDismiss(context, props) {
   if (props === void 0) {
     props = {};
   }
@@ -4963,7 +4962,7 @@ function useDismiss(context2, props) {
     onOpenChange,
     elements,
     dataRef
-  } = context2;
+  } = context;
   const {
     enabled = true,
     escapeKey = true,
@@ -5060,13 +5059,13 @@ function useDismiss(context2, props) {
     }
     if (isHTMLElement(target) && floating) {
       const lastTraversableNode = isLastTraversableNode(target);
-      const style2 = getComputedStyle$1(target);
+      const style = getComputedStyle$1(target);
       const scrollRe = /auto|scroll/;
-      const isScrollableX = lastTraversableNode || scrollRe.test(style2.overflowX);
-      const isScrollableY = lastTraversableNode || scrollRe.test(style2.overflowY);
+      const isScrollableX = lastTraversableNode || scrollRe.test(style.overflowX);
+      const isScrollableY = lastTraversableNode || scrollRe.test(style.overflowY);
       const canScrollX = isScrollableX && target.clientWidth > 0 && target.scrollWidth > target.clientWidth;
       const canScrollY = isScrollableY && target.clientHeight > 0 && target.scrollHeight > target.clientHeight;
-      const isRTL2 = style2.direction === "rtl";
+      const isRTL2 = style.direction === "rtl";
       const pressedVerticalScrollbar = canScrollY && (isRTL2 ? event.offsetX <= target.offsetWidth - target.clientWidth : event.offsetX > target.clientWidth);
       const pressedHorizontalScrollbar = canScrollX && event.offsetY > target.clientHeight;
       if (pressedVerticalScrollbar || pressedHorizontalScrollbar) {
@@ -5319,7 +5318,7 @@ function useFloating(options) {
     ...position.elements,
     domReference
   }), [position.elements, domReference]);
-  const context2 = reactExports.useMemo(() => ({
+  const context = reactExports.useMemo(() => ({
     ...position,
     ...rootContext,
     refs,
@@ -5327,23 +5326,23 @@ function useFloating(options) {
     nodeId
   }), [position, refs, elements, nodeId, rootContext]);
   index$1(() => {
-    rootContext.dataRef.current.floatingContext = context2;
+    rootContext.dataRef.current.floatingContext = context;
     const node = tree == null ? void 0 : tree.nodesRef.current.find((node2) => node2.id === nodeId);
     if (node) {
-      node.context = context2;
+      node.context = context;
     }
   });
   return reactExports.useMemo(() => ({
     ...position,
-    context: context2,
+    context,
     refs,
     elements
-  }), [position, refs, elements, context2]);
+  }), [position, refs, elements, context]);
 }
 function isMacSafari() {
   return isMac() && isSafari();
 }
-function useFocus(context2, props) {
+function useFocus(context, props) {
   if (props === void 0) {
     props = {};
   }
@@ -5353,7 +5352,7 @@ function useFocus(context2, props) {
     events,
     dataRef,
     elements
-  } = context2;
+  } = context;
   const {
     enabled = true,
     visibleOnly = true
@@ -5531,7 +5530,7 @@ function useInteractions(propsList) {
   }), [getReferenceProps, getFloatingProps, getItemProps]);
 }
 const componentRoleToAriaRoleMap = /* @__PURE__ */ new Map([["select", "listbox"], ["combobox", "listbox"], ["label", false]]);
-function useRole(context2, props) {
+function useRole(context, props) {
   var _elements$domReferenc, _componentRoleToAriaR;
   if (props === void 0) {
     props = {};
@@ -5540,7 +5539,7 @@ function useRole(context2, props) {
     open,
     elements,
     floatingId: defaultFloatingId
-  } = context2;
+  } = context;
   const {
     enabled = true,
     role = "dialog"
@@ -5633,14 +5632,14 @@ function useRole(context2, props) {
 function createContext(rootName, defaultContext) {
   const Ctx = React.createContext(defaultContext);
   function Provider(props) {
-    const { children, ...context2 } = props;
-    const value2 = React.useMemo(() => context2, Object.values(context2));
+    const { children, ...context } = props;
+    const value2 = React.useMemo(() => context, Object.values(context));
     return jsxRuntimeExports.jsx(Ctx.Provider, { value: value2, children });
   }
   function useContext(childName) {
-    const context2 = React.useContext(Ctx);
-    if (context2) {
-      return context2;
+    const context = React.useContext(Ctx);
+    if (context) {
+      return context;
     }
     throw Error(`${childName} must be rendered inside of a ${rootName} component.`);
   }
@@ -5650,44 +5649,44 @@ function createContext(rootName, defaultContext) {
 }
 const [TooltipProvider, useTooltipContext] = createContext("Tooltip");
 const TooltipTrigger = reactExports.forwardRef(function TooltipTrigger2({ children, asChild = false, ...props }, propRef) {
-  const { context: context2 } = useTooltipContext("Tooltip");
+  const { context } = useTooltipContext("Tooltip");
   const childrenRef = (children == null ? void 0 : children.ref) ?? null;
-  const ref = useMergeRefs([context2.refs.setReference, propRef, childrenRef]);
+  const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef]);
   reactExports.useLayoutEffect(() => {
     if (propRef) {
-      context2.refs.setReference(propRef == null ? void 0 : propRef.current);
+      context.refs.setReference(propRef == null ? void 0 : propRef.current);
     }
   }, []);
   if (propRef)
     return null;
   if (asChild && reactExports.isValidElement(children)) {
-    return reactExports.cloneElement(children, context2.getReferenceProps({
+    return reactExports.cloneElement(children, context.getReferenceProps({
       ref,
       ...props,
       ...children.props
     }));
   }
-  return jsxRuntimeExports.jsx("div", { ref, ...context2.getReferenceProps(props), children });
+  return jsxRuntimeExports.jsx("div", { ref, ...context.getReferenceProps(props), children });
 });
 const tooltipContent$1 = "_tooltipContent_1k4lm_1";
 const bigger = "_bigger_1k4lm_12";
 const arrow$1 = "_arrow_1k4lm_24";
-const s$j = {
+const s$e = {
   tooltipContent: tooltipContent$1,
   bigger,
   "default": "_default_1k4lm_18",
   arrow: arrow$1
 };
 const TooltipContent = reactExports.forwardRef(function TooltipContent2(props, propRef) {
-  const { context: context2, arrowRef, size } = useTooltipContext("Tooltip");
-  const ref = useMergeRefs([context2.refs.setFloating, propRef]);
+  const { context, arrowRef, size } = useTooltipContext("Tooltip");
+  const ref = useMergeRefs([context.refs.setFloating, propRef]);
   const { children, ...rest } = props;
-  return jsxRuntimeExports.jsx(FloatingPortal, { children: context2.open && jsxRuntimeExports.jsxs("div", { className: clsx(s$j.tooltipContent, s$j[size ?? "default"]), ref, style: {
-    position: context2.strategy,
-    top: context2.y ?? 0,
-    left: context2.x ?? 0,
-    visibility: context2.x == null ? "hidden" : "visible"
-  }, ...context2.getFloatingProps(rest), children: [children, jsxRuntimeExports.jsx(FloatingArrow, { ref: arrowRef, context: context2.context, className: s$j.arrow, stroke: "transparent", strokeWidth: 2, height: 8, width: 16 })] }) });
+  return jsxRuntimeExports.jsx(FloatingPortal, { children: context.open && jsxRuntimeExports.jsxs("div", { className: clsx(s$e.tooltipContent, s$e[size ?? "default"]), ref, style: {
+    position: context.strategy,
+    top: context.y ?? 0,
+    left: context.x ?? 0,
+    visibility: context.x == null ? "hidden" : "visible"
+  }, ...context.getFloatingProps(rest), children: [children, jsxRuntimeExports.jsx(FloatingArrow, { ref: arrowRef, context: context.context, className: s$e.arrow, stroke: "transparent", strokeWidth: 2, height: 8, width: 16 })] }) });
 });
 const ARROW_HEIGHT = 8;
 function useTooltip({ initialOpen = false, placement = "bottom", offset: offsetValue = 0, open: controlledOpen, onOpenChange: setControlledOpen } = {}, arrowRef) {
@@ -5707,9 +5706,9 @@ function useTooltip({ initialOpen = false, placement = "bottom", offset: offsetV
       arrow$2({ element: arrowRef })
     ]
   });
-  const context2 = data.context;
-  const hover = useHover(context2);
-  const role = useRole(context2, { role: "tooltip" });
+  const context = data.context;
+  const hover = useHover(context);
+  const role = useRole(context, { role: "tooltip" });
   const interactions = useInteractions([hover, role]);
   return reactExports.useMemo(() => ({
     open,
@@ -5720,8 +5719,8 @@ function useTooltip({ initialOpen = false, placement = "bottom", offset: offsetV
 }
 function SimpleTooltip({ children, content, ...options }) {
   const arrowRef = reactExports.useRef(null);
-  const context2 = useTooltip(options, arrowRef);
-  return jsxRuntimeExports.jsxs(TooltipProvider, { context: context2, arrowRef, size: options.size, children: [jsxRuntimeExports.jsx(TooltipTrigger, { asChild: true, children }), context2.open && jsxRuntimeExports.jsx(TooltipContent, { children: content })] });
+  const context = useTooltip(options, arrowRef);
+  return jsxRuntimeExports.jsxs(TooltipProvider, { context, arrowRef, size: options.size, children: [jsxRuntimeExports.jsx(TooltipTrigger, { asChild: true, children }), context.open && jsxRuntimeExports.jsx(TooltipContent, { children: content })] });
 }
 const legendTitle = "_legendTitle_sgaz8_1";
 const grid$1 = "_grid_sgaz8_6";
@@ -5737,7 +5736,7 @@ const axisLabelY = "_axisLabelY_sgaz8_89";
 const arrowHeadX = "_arrowHeadX_sgaz8_107";
 const arrowHeadY = "_arrowHeadY_sgaz8_108";
 const arrowHeadY_angle0 = "_arrowHeadY_angle0_sgaz8_123";
-const styles$8 = {
+const styles$1 = {
   legendTitle,
   grid: grid$1,
   cell,
@@ -5797,32 +5796,32 @@ function Legend({ cells: cells2, size, axis: axis2, title: title2, showAxisLabel
   const gridCells = fillTemplate(TEMPLATE, {
     x: showSteps ? axis2.x.steps.map((step) => ({
       label: step.label || step.value.toFixed(1),
-      className: styles$8.xStepsCell
+      className: styles$1.xStepsCell
     })) : axis2.x.steps.map((step) => ({
       label: "",
-      className: styles$8.xStepsCellNoLabel
+      className: styles$1.xStepsCellNoLabel
     })),
     y: showSteps ? safeReverse(axis2.y.steps).map((step) => ({
       label: step.label || step.value.toFixed(1),
-      className: styles$8.yStepsCell
+      className: styles$1.yStepsCell
     })) : safeReverse(axis2.y.steps).map((step) => ({
       label: "",
-      className: styles$8.yStepsCellNoLabel
+      className: styles$1.yStepsCellNoLabel
     })),
     c: cells2.map((cell2, i2) => ({
       label: jsxRuntimeExports.jsx("span", { children: cell2.label }),
-      className: clsx(styles$8.cell, styles$8.colorCell),
+      className: clsx(styles$1.cell, styles$1.colorCell),
       style: { backgroundColor: cell2.color },
       ...onCellPointerOver && { onPointerOver: (e) => onCellPointerOver(e, cell2, i2) },
       ...onCellPointerLeave && { onPointerLeave: (e) => onCellPointerLeave(e, cell2, i2) }
     }))
   });
-  const xAxisLabel = () => renderXAxisLabel ? renderXAxisLabel(axis2.x, styles$8.axisLabelX) : jsxRuntimeExports.jsx("div", { className: styles$8.axisLabelX, children: axis2.x.label });
-  const yAxisLabel = () => renderYAxisLabel ? renderYAxisLabel(axis2.y, styles$8.axisLabelY) : jsxRuntimeExports.jsx("div", { className: styles$8.axisLabelY, children: axis2.y.label });
-  return jsxRuntimeExports.jsxs("div", { children: [title2 && jsxRuntimeExports.jsx("div", { className: styles$8.legendTitle, children: title2 }), jsxRuntimeExports.jsxs("div", { className: styles$8.grid, style: {
+  const xAxisLabel = () => renderXAxisLabel ? renderXAxisLabel(axis2.x, styles$1.axisLabelX) : jsxRuntimeExports.jsx("div", { className: styles$1.axisLabelX, children: axis2.x.label });
+  const yAxisLabel = () => renderYAxisLabel ? renderYAxisLabel(axis2.y, styles$1.axisLabelY) : jsxRuntimeExports.jsx("div", { className: styles$1.axisLabelY, children: axis2.y.label });
+  return jsxRuntimeExports.jsxs("div", { children: [title2 && jsxRuntimeExports.jsx("div", { className: styles$1.legendTitle, children: title2 }), jsxRuntimeExports.jsxs("div", { className: styles$1.grid, style: {
     gridTemplateColumns: `repeat(${size + 2}, auto)`,
     gridTemplateRows: `repeat(${size + 2}, auto)`
-  }, children: [showAxisLabels && axis2.x.label ? xAxisLabel() : null, showAxisLabels && axis2.y.label ? yAxisLabel() : null, jsxRuntimeExports.jsx("div", { className: styles$8.arrowX, children: showArrowHeads && jsxRuntimeExports.jsx(ArrowHead, { type: "horizontal", className: styles$8.arrowHeadX }) }), jsxRuntimeExports.jsx("div", { className: styles$8.arrowY, children: showArrowHeads && jsxRuntimeExports.jsx(ArrowHead, { type: "vertical", className: clsx({ [styles$8.arrowHeadY]: true, [styles$8.arrowHeadY_angle0]: !showAxisLabels }) }) }), gridCells.map((cell2) => jsxRuntimeExports.jsx("div", { style: Object.assign(getCellPositionStyle(cell2._position.x, cell2._position.y), cell2.style), className: clsx(cell2.className, styles$8.cell), onPointerOver: cell2.onPointerOver, onPointerLeave: cell2.onPointerLeave, children: cell2.label }, `${cell2._position.x}|${cell2._position.y}`))] })] });
+  }, children: [showAxisLabels && axis2.x.label ? xAxisLabel() : null, showAxisLabels && axis2.y.label ? yAxisLabel() : null, jsxRuntimeExports.jsx("div", { className: styles$1.arrowX, children: showArrowHeads && jsxRuntimeExports.jsx(ArrowHead, { type: "horizontal", className: styles$1.arrowHeadX }) }), jsxRuntimeExports.jsx("div", { className: styles$1.arrowY, children: showArrowHeads && jsxRuntimeExports.jsx(ArrowHead, { type: "vertical", className: clsx({ [styles$1.arrowHeadY]: true, [styles$1.arrowHeadY_angle0]: !showAxisLabels }) }) }), gridCells.map((cell2) => jsxRuntimeExports.jsx("div", { style: Object.assign(getCellPositionStyle(cell2._position.x, cell2._position.y), cell2.style), className: clsx(cell2.className, styles$1.cell), onPointerOver: cell2.onPointerOver, onPointerLeave: cell2.onPointerLeave, children: cell2.label }, `${cell2._position.x}|${cell2._position.y}`))] })] });
 }
 const NAVIGATE_EVENT = "KNT_NAVIGATE_TO";
 const goTo = (slug) => {
@@ -5841,10 +5840,7 @@ const impossibleValue = Symbol(), callSafely = function(fn) {
 function throwReatomError(condition, message) {
   if (condition) throw new Error(`Reatom error: ${message}`);
 }
-const isAtom$1 = (thing) => void 0 !== (thing == null ? void 0 : thing.__reatom), isAction$1 = (thing) => {
-  var _a2;
-  return true === ((_a2 = thing == null ? void 0 : thing.__reatom) == null ? void 0 : _a2.isAction);
-}, isConnected$1 = (cache) => cache.subs.size + cache.listeners.size > 0;
+const isAtom$1 = (thing) => void 0 !== (thing == null ? void 0 : thing.__reatom), isConnected$1 = (cache) => cache.subs.size + cache.listeners.size > 0;
 function assertFunction(thing) {
   throwReatomError("function" != typeof thing, `invalid "${typeof thing}", function expected`);
 }
@@ -5926,7 +5922,7 @@ const createCtx = ({ callLateEffect = callSafely, callNearEffect = callSafely, r
     let start = void 0 === CTX;
     start && (CTX = this);
     try {
-      var result2 = atomOrCb(read, actualize);
+      var result = atomOrCb(read, actualize);
       for (let i2 = 0; i2 < trLogs.length; i2++) {
         let { listeners, proto } = trLogs[i2];
         if (listeners.size > 0 && actualize(this, proto), trUpdates.length > 0) for (let commit of trUpdates.splice(0)) commit(this);
@@ -5948,13 +5944,13 @@ const createCtx = ({ callLateEffect = callSafely, callNearEffect = callSafely, r
     } finally {
       inTr = false, trError = null, trUpdates = [], trRollbacks = [], trLogs = [], trNearEffectsStart = 0, trLateEffectsStart = 0, start && (CTX = void 0);
     }
-    return walkLateEffects(), result2;
+    return walkLateEffects(), result;
   }, spy: void 0, schedule(cb, step = 1) {
     return assertFunction(cb), throwReatomError(!this, "missed context"), new Promise((res, rej) => {
       -1 === step ? inTr && trRollbacks.push(cb) : 0 === step ? inTr && trUpdates.push(() => cb(this)) : ((1 === step ? nearEffects : lateEffects).push(() => {
         try {
-          let result2 = cb(this);
-          return result2 instanceof Promise ? result2.then(res, rej) : res(result2), result2;
+          let result = cb(this);
+          return result instanceof Promise ? result.then(res, rej) : res(result), result;
         } catch (error2) {
           throw rej(error2), error2;
         }
@@ -5984,9 +5980,9 @@ function pipe() {
   return [].slice.call(arguments).reduce((acc, fn) => fn(acc), this);
 }
 function onChange(cb) {
-  var _a2;
+  var _a;
   const hook = (ctx, patch) => cb(ctx, patch.state);
-  return ((_a2 = this.__reatom).updateHooks ?? (_a2.updateHooks = /* @__PURE__ */ new Set())).add(hook), () => this.__reatom.updateHooks.delete(hook);
+  return ((_a = this.__reatom).updateHooks ?? (_a.updateHooks = /* @__PURE__ */ new Set())).add(hook), () => this.__reatom.updateHooks.delete(hook);
 }
 function onCall(cb) {
   return this.onChange((ctx, state) => {
@@ -6009,8 +6005,8 @@ const action = (fn, name) => {
     return state[state.length - 1].payload;
   }, actionAtom, { onCall });
 }, experimental_PLUGINS = [], __root = atom(void 0, "root").__reatom;
-function pushUnique(list2, el) {
-  list2.includes(el) || list2.push(el);
+function pushUnique(list, el) {
+  list.includes(el) || list.push(el);
 }
 function isString$1(thing) {
   return "string" == typeof thing;
@@ -6112,29 +6108,15 @@ let c = 0;
 function o(e = false, t2 = "boolean" + ++c) {
   return r(e, { toggle: (e2) => !e2, setTrue: () => true, setFalse: () => false, change: (e2, t3) => t3(e2), set: (e2, t3) => t3 }, t2);
 }
-let f = 0;
-function m$9(n2, r2, c2 = "primitive" + ++f) {
-  r2 ?? (r2 = { set: (e, t2) => t2, change: (e, t2) => t2(e) });
-  let { decorators: o2, ...u2 } = isString$1(c2) ? { id: c2 } : c2;
-  const a2 = createAtom$1(Object.keys(r2).reduce((e, t2) => (e[t2] = function() {
-    return [].slice.call(arguments);
-  }, e), {}), (e, t2 = n2) => {
-    for (const n3 in r2) e.onAction(n3, (e2) => {
-      t2 = r2[n3](t2, ...e2);
-    });
-    return t2;
-  }, u2);
-  return a2;
-}
 const noop$1 = () => {
 }, isObject = (thing) => "object" == typeof thing && null !== thing, isShallowEqual = (a2, b2, is = Object.is) => {
   if (Object.is(a2, b2)) return true;
   if (!isObject(a2) || !isObject(b2) || a2.__proto__ !== b2.__proto__ || a2 instanceof Error) return false;
   if (Symbol.iterator in a2) {
-    let equal2 = a2 instanceof Map ? (a3, b3) => is(a3[0], b3[0]) && is(a3[1], b3[1]) : is, aIter = a2[Symbol.iterator](), bIter = b2[Symbol.iterator]();
+    let equal = a2 instanceof Map ? (a3, b3) => is(a3[0], b3[0]) && is(a3[1], b3[1]) : is, aIter = a2[Symbol.iterator](), bIter = b2[Symbol.iterator]();
     for (; ; ) {
       let aNext = aIter.next(), bNext = bIter.next();
-      if (aNext.done || bNext.done || !equal2(aNext.value, bNext.value)) return aNext.done && bNext.done;
+      if (aNext.done || bNext.done || !equal(aNext.value, bNext.value)) return aNext.done && bNext.done;
     }
   }
   if (a2 instanceof Date) return a2.getTime() === b2.getTime();
@@ -6150,7 +6132,7 @@ const noop$1 = () => {
     return isShallowEqual(a3, b3, is);
   };
   return isShallowEqual(a2, b2, is);
-}, assign$1 = Object.assign, merge = function() {
+}, assign = Object.assign, merge = function() {
   return Object.assign({}, ...[].slice.call(arguments));
 };
 const { toString } = Object.prototype;
@@ -6161,7 +6143,7 @@ const toAbortError = (reason) => {
       var options = { cause: reason };
       reason = reason.message;
     } else reason = isObject(reason) ? toString.call(reason) : String(reason);
-    reason += ` [${++i}]`, "undefined" == typeof DOMException ? (reason = new Error(reason, options)).name = "AbortError" : reason = assign$1(new DOMException(reason, "AbortError"), options);
+    reason += ` [${++i}]`, "undefined" == typeof DOMException ? (reason = new Error(reason, options)).name = "AbortError" : reason = assign(new DOMException(reason, "AbortError"), options);
   }
   return reason;
 }, throwIfAborted = (controller) => {
@@ -6172,11 +6154,11 @@ const toAbortError = (reason) => {
 }, globalThis.setTimeout), MAX_SAFE_TIMEOUT = 2 ** 31 - 1;
 function _catch(body, recover) {
   try {
-    var result2 = body();
+    var result = body();
   } catch (e) {
     return recover(e);
   }
-  return result2 && result2.then ? result2.then(void 0, recover) : result2;
+  return result && result.then ? result.then(void 0, recover) : result;
 }
 class CauseContext extends WeakMap {
   has(cause) {
@@ -6239,15 +6221,15 @@ const abortCauseContext = new CauseContext(), getTopController = (patch) => abor
   return abortCauseContext.set(ctx.cause, controller), fn(ctx, ...[].slice.call(arguments, 3));
 }, "_spawn"), spawn = (ctx, fn, args = [], controller = new AbortController()) => _spawn(ctx, fn, controller, ...args);
 const getRootCause = (cause) => null === cause.cause ? cause : getRootCause(cause.cause), isSameCtx = (ctx1, ctx2) => getRootCause(ctx1.cause) === getRootCause(ctx2.cause), addOnConnect = (anAtom, cb) => {
-  var _a2;
-  return ((_a2 = anAtom.__reatom).connectHooks ?? (_a2.connectHooks = /* @__PURE__ */ new Set())).add(cb);
+  var _a;
+  return ((_a = anAtom.__reatom).connectHooks ?? (_a.connectHooks = /* @__PURE__ */ new Set())).add(cb);
 }, addOnDisconnect = (anAtom, cb) => {
-  var _a2;
-  return ((_a2 = anAtom.__reatom).disconnectHooks ?? (_a2.disconnectHooks = /* @__PURE__ */ new Set())).add(cb);
+  var _a;
+  return ((_a = anAtom.__reatom).disconnectHooks ?? (_a.disconnectHooks = /* @__PURE__ */ new Set())).add(cb);
 }, _onConnect = action((ctx, anAtom, fn, controller) => {
   ctx.cause.cause = getRootCause(ctx.cause), abortCauseContext.set(ctx.cause, controller);
-  const result2 = fn(withAbortableSchedule({ ...ctx, controller, isConnected: () => isConnected(ctx, anAtom) }));
-  return result2 instanceof Promise && controller.signal.addEventListener("abort", () => result2.catch(noop$1)), result2;
+  const result = fn(withAbortableSchedule({ ...ctx, controller, isConnected: () => isConnected(ctx, anAtom) }));
+  return result instanceof Promise && controller.signal.addEventListener("abort", () => result.catch(noop$1)), result;
 }, "_onConnect"), onConnect = (anAtom, cb) => {
   const connectHook = (ctx) => {
     const controller = new AbortController(), cleanup = _onConnect(ctx, anAtom, cb, controller);
@@ -6262,7 +6244,7 @@ const getRootCause = (cause) => null === cause.cause ? cause : getRootCause(caus
   return !!cache && cache.subs.size + cache.listeners.size > 0;
 }), initializations = atom(null, "initializations");
 initializations.__reatom.initState = () => /* @__PURE__ */ new WeakMap();
-const withAssign = (getProps) => (target) => assign$1(target, getProps(target, target.__reatom.name));
+const withAssign = (getProps) => (target) => assign(target, getProps(target, target.__reatom.name));
 const reatomMap = (initState = /* @__PURE__ */ new Map(), name) => {
   const atomInitState = initState instanceof Map ? initState : new Map(initState);
   return atom(atomInitState, name).pipe(withAssign((target, name$1) => {
@@ -6300,7 +6282,7 @@ const handleEffect = (anAsync, params, { shouldPending = true, shouldFulfill = t
     effect(...params).then(res, rej);
     ctx.controller.signal.addEventListener("abort", () => rej(toAbortError(ctx.controller.signal.reason)));
   }));
-  return assign$1(__thenReatomed(ctx, origin, (v2) => {
+  return assign(__thenReatomed(ctx, origin, (v2) => {
     if (shouldFulfill) anAsync.onFulfill(ctx, v2);
     if (shouldPending) pendingAtom(ctx, (s2) => --s2);
   }, (e) => {
@@ -6344,12 +6326,12 @@ const withCache = ({ ignoreAbort = true, length = 5, paramsLength, staleTime = 5
       if (oldestCached) cache.delete(oldestKey);
     };
     const planCleanup = (ctx, key, time = staleTime) => {
-      var _a2;
+      var _a;
       const clearTimeoutId = staleTime === Infinity ? NOOP_TIMEOUT_ID : setTimeout$1(() => {
-        var _a3;
-        if (((_a3 = cacheAtom.get(ctx, key)) == null ? void 0 : _a3.clearTimeoutId) === clearTimeoutId) cacheAtom.delete(ctx, key);
+        var _a2;
+        if (((_a2 = cacheAtom.get(ctx, key)) == null ? void 0 : _a2.clearTimeoutId) === clearTimeoutId) cacheAtom.delete(ctx, key);
       }, time);
-      (_a2 = clearTimeoutId.unref) == null ? void 0 : _a2.call(clearTimeoutId);
+      (_a = clearTimeoutId.unref) == null ? void 0 : _a.call(clearTimeoutId);
       ctx.schedule(() => clearTimeout(clearTimeoutId), -1);
       return clearTimeoutId;
     };
@@ -6417,8 +6399,8 @@ const withCache = ({ ignoreAbort = true, length = 5, paramsLength, staleTime = 5
       clearTimeout(cached.clearTimeoutId);
       cached.clearTimeoutId = planCleanup(ctx, key);
       const isSame = () => {
-        var _a2;
-        return ((_a2 = cacheAtom.get(ctx, key)) == null ? void 0 : _a2.clearTimeoutId) === cached.clearTimeoutId;
+        var _a;
+        return ((_a = cacheAtom.get(ctx, key)) == null ? void 0 : _a.clearTimeoutId) === cached.clearTimeoutId;
       };
       const { unstable_fn } = anAsync.__reatom;
       let res, rej;
@@ -6543,8 +6525,8 @@ const reatomResource = (asyncComputed, name = __count("asyncAtom")) => {
       ...params
     );
     promise.controller.signal.addEventListener("abort", () => {
-      var _a2;
-      if (!((_a2 = theReaction.cacheAtom) == null ? void 0 : _a2.options.ignoreAbort)) controller.abort(promise.controller.signal.reason);
+      var _a;
+      if (!((_a = theReaction.cacheAtom) == null ? void 0 : _a.options.ignoreAbort)) controller.abort(promise.controller.signal.reason);
     });
     const cached = pendingBefore === ctx.get(theAsync.pendingAtom);
     const fulfillCalls = ctx.get(theAsync.onFulfill);
@@ -6557,18 +6539,18 @@ const reatomResource = (asyncComputed, name = __count("asyncAtom")) => {
   onConnect(theAsync, (ctx) => ctx.subscribe(promiseAtom, noop$1));
   onConnect(promiseAtom, (ctx) => () => {
     ctx.get((read) => {
-      var _a2;
-      const state = (_a2 = read(promiseAtom.__reatom)) == null ? void 0 : _a2.state;
+      var _a;
+      const state = (_a = read(promiseAtom.__reatom)) == null ? void 0 : _a.state;
       state == null ? void 0 : state.controller.abort(ctx.controller.signal.reason);
       if (!resolved.has(state)) reset(ctx, promiseAtom.__reatom, ctx.controller.signal.reason);
     });
   });
   const theReaction = Object.assign((ctx) => ctx.get((read, actualize) => {
-    var _a2;
+    var _a;
     reset(ctx, promiseAtom.__reatom, toAbortError("force " + name));
     actualize(ctx, promiseAtom.__reatom, noop$1);
     const state = ctx.get(theAsync);
-    const payload = (_a2 = state[state.length - 1]) == null ? void 0 : _a2.payload;
+    const payload = (_a = state[state.length - 1]) == null ? void 0 : _a.payload;
     throwReatomError(!payload, "unexpectedly failed invalidation. Please, report the issue");
     return payload;
   }), theAsync, {
@@ -6591,8 +6573,8 @@ const reset = (ctx, proto, reason) => ctx.get((read, actualize) => {
     proto.computer = null;
     try {
       actualize(ctx, proto, (patchCtx, patch) => {
-        var _a2;
-        (_a2 = patch.state) == null ? void 0 : _a2.controller.abort(reason);
+        var _a;
+        (_a = patch.state) == null ? void 0 : _a.controller.abort(reason);
         patch.pubs = [];
         patch.state = void 0;
       });
@@ -6642,7 +6624,7 @@ const reatomAsync = (effect, options = {}) => {
   if (onRejectHook) onReject.onCall(onRejectHook);
   if (onSettleHook) onSettle.onCall(onSettleHook);
   onConnect(pendingAtom, (ctx) => ctx.subscribe(theAsync, noop$1));
-  return assign$1(theAsync, {
+  return assign(theAsync, {
     onFulfill,
     onReject,
     onSettle,
@@ -6712,11 +6694,11 @@ const createLogBatched = ({ debounce = 500, getTimeStamp = getTimeStampDefault, 
         console.log(`%c ${time}`, `padding-left: calc(50% - ${time.length / 2}em); font-size: 0.7rem;`), error2 && console.error(error2);
         let inGroup = false;
         Object.entries(changes).forEach(([k2, change], i2, arr) => {
-          var _a2;
-          const isAction2 = "payload" in change, style2 = (isAction2 ? "background: #ffff80; color: #151134;" : "background: #151134; color: white;") + "font-weight: 400; padding: 0.15em;  padding-right: 1ch;", name = k2.replace(/(\d)*\./, ""), head = name.replace(/\..*/, ""), nextK = (_a2 = arr[i2 + 1]) == null ? void 0 : _a2[0], nextName = nextK == null ? void 0 : nextK.replace(/(\d)*\./, ""), isGroup = nextName == null ? void 0 : nextName.startsWith(head);
-          shouldGroup && !inGroup && isGroup && isFewTransactions && (inGroup = true, console.groupCollapsed(`%c ${head}`, style2));
+          var _a;
+          const isAction2 = "payload" in change, style = (isAction2 ? "background: #ffff80; color: #151134;" : "background: #151134; color: white;") + "font-weight: 400; padding: 0.15em;  padding-right: 1ch;", name = k2.replace(/(\d)*\./, ""), head = name.replace(/\..*/, ""), nextK = (_a = arr[i2 + 1]) == null ? void 0 : _a[0], nextName = nextK == null ? void 0 : nextK.replace(/(\d)*\./, ""), isGroup = nextName == null ? void 0 : nextName.startsWith(head);
+          shouldGroup && !inGroup && isGroup && isFewTransactions && (inGroup = true, console.groupCollapsed(`%c ${head}`, style));
           const data = isAction2 ? change.payload : change.newState;
-          console.groupCollapsed(`%c ${name}`, style2), console.log(change), console.groupEnd(), isAction2 && !isShallowEqual(change.params, [data]) && log(...change.params), log(data), shouldGroup && !isGroup && inGroup && (inGroup = false, console.groupEnd());
+          console.groupCollapsed(`%c ${name}`, style), console.log(change), console.groupEnd(), isAction2 && !isShallowEqual(change.params, [data]) && log(...change.params), log(data), shouldGroup && !isGroup && inGroup && (inGroup = false, console.groupEnd());
         });
       }
       console.log("\n\n", "transactions:", queue), console.groupEnd(), queue = [];
@@ -6757,9 +6739,6 @@ const createLogBatched = ({ debounce = 500, getTimeStamp = getTimeStampDefault, 
   return () => {
     ctxUnsubscribe();
   };
-};
-const AppFeature = {
-  REFERENCE_AREA: "reference_area"
 };
 class ConfigRepository {
   constructor() {
@@ -6910,8 +6889,8 @@ store.v3ctx.subscribe((patches) => {
   const tag = `Reatom logged ${patches.length} transaction(s)`;
   WILL_LOG && console.groupCollapsed(tag);
   patches == null ? void 0 : patches.forEach((patch) => {
-    var _a2;
-    const atomName = (_a2 = patch.proto) == null ? void 0 : _a2.name;
+    var _a;
+    const atomName = (_a = patch.proto) == null ? void 0 : _a.name;
     if (atomName) {
       const { state, ...rest } = patch;
       dispatchMetricsEvent(atomName, patch == null ? void 0 : patch.state);
@@ -6931,53 +6910,14 @@ const addStoreInOptions = (options) => ({
 });
 const createAtom = (deps, reducer, options) => createAtom$1(deps, reducer, addStoreInOptions(options));
 const createBooleanAtom = (initState, options) => o(initState, addStoreInOptions(options));
-let count = 0;
-function createSetAtom(initState = /* @__PURE__ */ new Set(), options = `set${++count}`) {
-  return m$9(
-    initState,
-    {
-      set: (state, el) => {
-        if (state.has(el)) return state;
-        return new Set(state).add(el);
-      },
-      delete: (state, el) => {
-        const newState = state = new Set(state);
-        if (!newState.delete(el)) return state;
-        return newState;
-      },
-      clear: () => /* @__PURE__ */ new Set(),
-      change: (state, cb) => cb(new Set(state))
-    },
-    addStoreInOptions(options)
-  );
-}
-function createMapAtom(initState = /* @__PURE__ */ new Map(), options = `map${++count}`) {
-  return m$9(
-    initState,
-    {
-      set: (state, key, el) => {
-        if (state.get(key) === el) return state;
-        return new Map(state).set(key, el);
-      },
-      delete: (state, key) => {
-        const newState = state = new Map(state);
-        if (!newState.delete(key)) return state;
-        return newState;
-      },
-      clear: () => /* @__PURE__ */ new Map(),
-      change: (state, cb) => cb(new Map(state))
-    },
-    addStoreInOptions(options)
-  );
-}
 const JSON_MIME = "application/json";
 const CONTENT_TYPE_HEADER = "Content-Type";
 const FETCH_ERROR = Symbol();
 const CATCHER_FALLBACK = Symbol();
 function extractContentType(headers = {}) {
-  var _a2;
+  var _a;
   const normalizedHeaders = headers instanceof Array ? Object.fromEntries(headers) : headers;
-  return (_a2 = Object.entries(normalizedHeaders).find(([k2]) => k2.toLowerCase() === CONTENT_TYPE_HEADER.toLowerCase())) === null || _a2 === void 0 ? void 0 : _a2[1];
+  return (_a = Object.entries(normalizedHeaders).find(([k2]) => k2.toLowerCase() === CONTENT_TYPE_HEADER.toLowerCase())) === null || _a === void 0 ? void 0 : _a[1];
 }
 function isLikelyJsonMime(value2) {
   return /^application\/.*json.*/.test(value2);
@@ -7046,7 +6986,7 @@ const resolver = (wretch) => {
   const throwingPromise = _fetchReq.catch((error2) => {
     throw { [FETCH_ERROR]: error2 };
   }).then((response) => {
-    var _a2;
+    var _a;
     if (!response.ok) {
       const err = new WretchError();
       err["cause"] = referenceError;
@@ -7057,7 +6997,7 @@ const resolver = (wretch) => {
       if (response.type === "opaque") {
         throw err;
       }
-      const jsonErrorType = config2.errorType === "json" || ((_a2 = response.headers.get("Content-Type")) === null || _a2 === void 0 ? void 0 : _a2.split(";")[0]) === "application/json";
+      const jsonErrorType = config2.errorType === "json" || ((_a = response.headers.get("Content-Type")) === null || _a === void 0 ? void 0 : _a.split(";")[0]) === "application/json";
       const bodyPromise = !config2.errorType ? Promise.resolve(response.body) : jsonErrorType ? response.text() : response[config2.errorType]();
       return bodyPromise.then((body) => {
         err.message = typeof body === "string" ? body : response.statusText;
@@ -7323,34 +7263,8 @@ function isApiError(error2) {
 function getApiErrorKind(error2) {
   return isApiError(error2) ? error2.problem.kind : null;
 }
-const ABORT_ERROR_MESSAGE = "Abort error";
-const isAbortError = (e) => {
-  if (!e) return false;
-  if (typeof e === "string") {
-    return e === ABORT_ERROR_MESSAGE;
-  }
-  if (isApiError(e)) {
-    return e.problem.kind === "canceled";
-  } else if (e instanceof DOMException) {
-    return e.name === "AbortError";
-  }
-  return false;
-};
-async function abortable(abortController, promise) {
-  return new Promise((res, rej) => {
-    if (abortController.signal.aborted) {
-      rej(new DOMException("Aborted", "AbortError"));
-    }
-    const onAbort = () => {
-      abortController.signal.removeEventListener("abort", onAbort);
-      rej(new DOMException("Aborted", "AbortError"));
-    };
-    abortController.signal.addEventListener("abort", onAbort);
-    promise.then(res).catch(rej).finally(() => abortController.signal.removeEventListener("abort", onAbort));
-  });
-}
 function parseApiError(errorObj) {
-  var _a2;
+  var _a;
   if (errorObj == null ? void 0 : errorObj.json) {
     const errorData = errorObj == null ? void 0 : errorObj.json;
     if (errorData == null ? void 0 : errorData.message) return errorData.message;
@@ -7373,7 +7287,7 @@ function parseApiError(errorObj) {
     }
     return String(errorData);
   }
-  let res = ((_a2 = errorObj == null ? void 0 : errorObj.response) == null ? void 0 : _a2.statusText) ?? (errorObj == null ? void 0 : errorObj.message) ?? (errorObj == null ? void 0 : errorObj.text);
+  let res = ((_a = errorObj == null ? void 0 : errorObj.response) == null ? void 0 : _a.statusText) ?? (errorObj == null ? void 0 : errorObj.message) ?? (errorObj == null ? void 0 : errorObj.text);
   if (res == null ? void 0 : res.startsWith("<html>")) {
     const parser = new DOMParser();
     const doc = parser.parseFromString(res, "text/html");
@@ -7383,7 +7297,7 @@ function parseApiError(errorObj) {
   return res ?? "Unknown Error";
 }
 function createApiError(err) {
-  var _a2, _b;
+  var _a, _b;
   let errorMessage = "";
   let problem = { kind: "unknown", temporary: true };
   let status = 0;
@@ -7400,7 +7314,7 @@ function createApiError(err) {
     if (status === 400) {
       problem = { kind: "bad-request" };
     } else if (status === 401) {
-      problem = { kind: "unauthorized", data: (_a2 = err.json) == null ? void 0 : _a2.error };
+      problem = { kind: "unauthorized", data: (_a = err.json) == null ? void 0 : _a.error };
       if ((_b = err.json) == null ? void 0 : _b.message) {
         errorMessage = err.json.message;
       }
@@ -7500,7 +7414,7 @@ class ApiClient {
    * @throws {ApiClientError} On request failure or auth requirement not met
    */
   async call(method, path2, requestParams, requestConfig = {}) {
-    var _a2;
+    var _a;
     const RequestsWithBody = ["post", "put", "patch"];
     const requestId = Math.random().toString(36).substring(7);
     this.updateRequestPool(requestId, "pending");
@@ -7566,7 +7480,7 @@ class ApiClient {
       const retryConfig = {
         ...defaultRetryConfig,
         ...requestConfig.retry,
-        onErrorKinds: ((_a2 = requestConfig.retry) == null ? void 0 : _a2.onErrorKinds) ?? defaultRetryConfig.onErrorKinds
+        onErrorKinds: ((_a = requestConfig.retry) == null ? void 0 : _a.onErrorKinds) ?? defaultRetryConfig.onErrorKinds
       };
       if (retryConfig.attempts > 0) {
         const shouldRetry = retryConfig.onErrorKinds.includes(
@@ -7876,7 +7790,7 @@ function MarkdownMedia({
   );
 }
 function wrapContentInSection(content, idPrefix, classPrefix) {
-  const result2 = [];
+  const result = [];
   const stack2 = [];
   let keyCounter = 0;
   const parentCounters = /* @__PURE__ */ new Map();
@@ -7895,7 +7809,7 @@ function wrapContentInSection(content, idPrefix, classPrefix) {
         if (stack2.length > 0) {
           stack2[stack2.length - 1].content.push(wrappedContent);
         } else {
-          result2.push(wrappedContent);
+          result.push(wrappedContent);
         }
       }
     }
@@ -7916,7 +7830,7 @@ function wrapContentInSection(content, idPrefix, classPrefix) {
       if (stack2.length > 0 && level > stack2[stack2.length - 1].level) {
         stack2[stack2.length - 1].content.push(clonedElement);
       } else {
-        result2.push(clonedElement);
+        result.push(clonedElement);
       }
       stack2.push({ level, content: [], id: fullId });
     } else {
@@ -7926,7 +7840,7 @@ function wrapContentInSection(content, idPrefix, classPrefix) {
       if (stack2.length > 0) {
         stack2[stack2.length - 1].content.push(clonedElement);
       } else {
-        result2.push(clonedElement);
+        result.push(clonedElement);
       }
     }
   };
@@ -7936,7 +7850,7 @@ function wrapContentInSection(content, idPrefix, classPrefix) {
     }
   });
   wrapAndPushContent(0);
-  return result2;
+  return result;
 }
 function splitIntoSections(compiled) {
   const sections = [];
@@ -7988,18 +7902,18 @@ var hasRequiredFastDeepEqual;
 function requireFastDeepEqual() {
   if (hasRequiredFastDeepEqual) return fastDeepEqual;
   hasRequiredFastDeepEqual = 1;
-  var isArray2 = Array.isArray;
+  var isArray = Array.isArray;
   var keyList = Object.keys;
   var hasProp = Object.prototype.hasOwnProperty;
-  fastDeepEqual = function equal2(a2, b2) {
+  fastDeepEqual = function equal(a2, b2) {
     if (a2 === b2) return true;
     if (a2 && b2 && typeof a2 == "object" && typeof b2 == "object") {
-      var arrA = isArray2(a2), arrB = isArray2(b2), i2, length, key;
+      var arrA = isArray(a2), arrB = isArray(b2), i2, length, key;
       if (arrA && arrB) {
         length = a2.length;
         if (length != b2.length) return false;
         for (i2 = length; i2-- !== 0; )
-          if (!equal2(a2[i2], b2[i2])) return false;
+          if (!equal(a2[i2], b2[i2])) return false;
         return true;
       }
       if (arrA != arrB) return false;
@@ -8009,15 +7923,15 @@ function requireFastDeepEqual() {
       var regexpA = a2 instanceof RegExp, regexpB = b2 instanceof RegExp;
       if (regexpA != regexpB) return false;
       if (regexpA && regexpB) return a2.toString() == b2.toString();
-      var keys2 = keyList(a2);
-      length = keys2.length;
+      var keys = keyList(a2);
+      length = keys.length;
       if (length !== keyList(b2).length)
         return false;
       for (i2 = length; i2-- !== 0; )
-        if (!hasProp.call(b2, keys2[i2])) return false;
+        if (!hasProp.call(b2, keys[i2])) return false;
       for (i2 = length; i2-- !== 0; ) {
-        key = keys2[i2];
-        if (!equal2(a2[key], b2[key])) return false;
+        key = keys[i2];
+        if (!equal(a2[key], b2[key])) return false;
       }
       return true;
     }
@@ -8070,7 +7984,7 @@ function requireBuild() {
   var deepEqual2 = requireFastDeepEqual();
   var promiseCaches = [];
   var usePromise2 = function(promise, inputs, lifespan) {
-    var e_1, _a2;
+    var e_1, _a;
     if (lifespan === void 0) {
       lifespan = 0;
     }
@@ -8090,7 +8004,7 @@ function requireBuild() {
       e_1 = { error: e_1_1 };
     } finally {
       try {
-        if (promiseCaches_1_1 && !promiseCaches_1_1.done && (_a2 = promiseCaches_1.return)) _a2.call(promiseCaches_1);
+        if (promiseCaches_1_1 && !promiseCaches_1_1.done && (_a = promiseCaches_1.return)) _a.call(promiseCaches_1);
       } finally {
         if (e_1) throw e_1.error;
       }
@@ -8121,7 +8035,7 @@ function requireBuild() {
 var buildExports = requireBuild();
 const usePromise = /* @__PURE__ */ getDefaultExportFromCjs(buildExports);
 const article = "_article_b9f5o_1";
-const s$i = {
+const s$d = {
   article
 };
 function Article({
@@ -8129,7 +8043,7 @@ function Article({
   className = "",
   id = ""
 }) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("article", { className: `${s$i.article} ${className}`, id, children });
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("article", { className: `${s$d.article} ${className}`, id, children });
 }
 const isString = (obj) => typeof obj === "string";
 const defer = () => {
@@ -8186,18 +8100,18 @@ const setPath = (object, path2, newValue) => {
   }
   let e = path2[path2.length - 1];
   let p2 = path2.slice(0, path2.length - 1);
-  let last2 = getLastOfPath(object, p2, Object);
-  while (last2.obj === void 0 && p2.length) {
+  let last = getLastOfPath(object, p2, Object);
+  while (last.obj === void 0 && p2.length) {
     e = `${p2[p2.length - 1]}.${e}`;
     p2 = p2.slice(0, p2.length - 1);
-    last2 = getLastOfPath(object, p2, Object);
-    if (last2 && last2.obj && typeof last2.obj[`${last2.k}.${e}`] !== "undefined") {
-      last2.obj = void 0;
+    last = getLastOfPath(object, p2, Object);
+    if (last && last.obj && typeof last.obj[`${last.k}.${e}`] !== "undefined") {
+      last.obj = void 0;
     }
   }
-  last2.obj[`${last2.k}.${e}`] = newValue;
+  last.obj[`${last.k}.${e}`] = newValue;
 };
-const pushPath = (object, path2, newValue, concat2) => {
+const pushPath = (object, path2, newValue, concat) => {
   const {
     obj,
     k: k2
@@ -8480,13 +8394,13 @@ class ResourceStore extends EventEmitter {
         }
       }
     }
-    const result2 = getPath(this.data, path2);
-    if (!result2 && !ns && !key && lng.indexOf(".") > -1) {
+    const result = getPath(this.data, path2);
+    if (!result && !ns && !key && lng.indexOf(".") > -1) {
       lng = path2[0];
       ns = path2[1];
       key = path2.slice(2).join(".");
     }
-    if (result2 || !ignoreJSONStructure || !isString(key)) return result2;
+    if (result || !ignoreJSONStructure || !isString(key)) return result;
     return deepFind(this.data && this.data[lng] && this.data[lng][ns], key, keySeparator);
   }
   addResource(lng, ns, key, value2) {
@@ -8633,7 +8547,7 @@ class Translator extends EventEmitter {
       namespaces: isString(namespaces) ? [namespaces] : namespaces
     };
   }
-  translate(keys2, options, lastKey) {
+  translate(keys, options, lastKey) {
     if (typeof options !== "object" && this.options.overloadTranslationOptionHandler) {
       options = this.options.overloadTranslationOptionHandler(arguments);
     }
@@ -8641,14 +8555,14 @@ class Translator extends EventEmitter {
       ...options
     };
     if (!options) options = {};
-    if (keys2 === void 0 || keys2 === null) return "";
-    if (!Array.isArray(keys2)) keys2 = [String(keys2)];
+    if (keys === void 0 || keys === null) return "";
+    if (!Array.isArray(keys)) keys = [String(keys)];
     const returnDetails = options.returnDetails !== void 0 ? options.returnDetails : this.options.returnDetails;
     const keySeparator = options.keySeparator !== void 0 ? options.keySeparator : this.options.keySeparator;
     const {
       key,
       namespaces
-    } = this.extractFromKey(keys2[keys2.length - 1], options);
+    } = this.extractFromKey(keys[keys.length - 1], options);
     const namespace = namespaces[namespaces.length - 1];
     const lng = options.lng || this.language;
     const appendNamespaceToCIMode = options.appendNamespaceToCIMode || this.options.appendNamespaceToCIMode;
@@ -8679,7 +8593,7 @@ class Translator extends EventEmitter {
       }
       return key;
     }
-    const resolved2 = this.resolve(keys2, options);
+    const resolved2 = this.resolve(keys, options);
     let res = resolved2 && resolved2.res;
     const resUsedKey = resolved2 && resolved2.usedKey || key;
     const resExactUsedKey = resolved2 && resolved2.exactUsedKey || key;
@@ -8725,7 +8639,7 @@ class Translator extends EventEmitter {
       }
     } else if (handleAsObjectInI18nFormat && isString(joinArrays) && Array.isArray(res)) {
       res = res.join(joinArrays);
-      if (res) res = this.extendTranslation(res, keys2, options, lastKey);
+      if (res) res = this.extendTranslation(res, keys, options, lastKey);
     } else {
       let usedDefault = false;
       let usedKey = false;
@@ -8793,7 +8707,7 @@ class Translator extends EventEmitter {
           }
         }
       }
-      res = this.extendTranslation(res, keys2, options, resolved2, lastKey);
+      res = this.extendTranslation(res, keys, options, resolved2, lastKey);
       if (usedKey && res === key && this.options.appendNamespaceToMissingKey) res = `${namespace}:${key}`;
       if ((usedKey || usedDefault) && this.options.parseMissingKeyHandler) {
         if (this.options.compatibilityAPI !== "v1") {
@@ -8872,15 +8786,15 @@ class Translator extends EventEmitter {
     }
     return res;
   }
-  resolve(keys2) {
+  resolve(keys) {
     let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
     let found;
     let usedKey;
     let exactUsedKey;
     let usedLng;
     let usedNS;
-    if (isString(keys2)) keys2 = [keys2];
-    keys2.forEach((k2) => {
+    if (isString(keys)) keys = [keys];
+    keys.forEach((k2) => {
       if (this.isValidLookup(found)) return;
       const extracted = this.extractFromKey(k2, options);
       const key = extracted.key;
@@ -9674,7 +9588,7 @@ class Formatter {
       const lastIndex = formats.findIndex((f2) => f2.indexOf(")") > -1);
       formats[0] = [formats[0], ...formats.splice(1, lastIndex)].join(this.formatSeparator);
     }
-    const result2 = formats.reduce((mem, f2) => {
+    const result = formats.reduce((mem, f2) => {
       const {
         formatName,
         formatOptions
@@ -9698,7 +9612,7 @@ class Formatter {
       }
       return mem;
     }, value2);
-    return result2;
+    return result;
   }
 }
 const removePending = (q2, name) => {
@@ -10149,7 +10063,7 @@ class I18n extends EventEmitter {
         return _this;
       };
     });
-    const deferred2 = defer();
+    const deferred = defer();
     const load = () => {
       const finish = (err, t2) => {
         this.isInitializing = false;
@@ -10157,7 +10071,7 @@ class I18n extends EventEmitter {
         this.isInitialized = true;
         if (!this.options.isClone) this.logger.log("initialized", this.options);
         this.emit("initialized", this.options);
-        deferred2.resolve(t2);
+        deferred.resolve(t2);
         callback(err, t2);
       };
       if (this.languages && this.options.compatibilityAPI !== "v1" && !this.isInitialized) return finish(null, this.t.bind(this));
@@ -10168,7 +10082,7 @@ class I18n extends EventEmitter {
     } else {
       setTimeout(load, 0);
     }
-    return deferred2;
+    return deferred;
   }
   loadResources(language2) {
     let callback = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : noop3;
@@ -10205,7 +10119,7 @@ class I18n extends EventEmitter {
     }
   }
   reloadResources(lngs, ns, callback) {
-    const deferred2 = defer();
+    const deferred = defer();
     if (typeof lngs === "function") {
       callback = lngs;
       lngs = void 0;
@@ -10218,10 +10132,10 @@ class I18n extends EventEmitter {
     if (!ns) ns = this.options.ns;
     if (!callback) callback = noop3;
     this.services.backendConnector.reload(lngs, ns, (err) => {
-      deferred2.resolve();
+      deferred.resolve();
       callback(err);
     });
-    return deferred2;
+    return deferred;
   }
   use(module) {
     if (!module) throw new Error("You are passing an undefined module! Please check the object you are passing to i18next.use()");
@@ -10264,7 +10178,7 @@ class I18n extends EventEmitter {
   changeLanguage(lng, callback) {
     var _this2 = this;
     this.isLanguageChangingTo = lng;
-    const deferred2 = defer();
+    const deferred = defer();
     this.emit("languageChanging", lng);
     const setLngProps = (l2) => {
       this.language = l2;
@@ -10282,7 +10196,7 @@ class I18n extends EventEmitter {
       } else {
         this.isLanguageChangingTo = void 0;
       }
-      deferred2.resolve(function() {
+      deferred.resolve(function() {
         return _this2.t(...arguments);
       });
       if (callback) callback(err, function() {
@@ -10314,7 +10228,7 @@ class I18n extends EventEmitter {
     } else {
       setLng(lng);
     }
-    return deferred2;
+    return deferred;
   }
   getFixedT(lng, ns, keyPrefix) {
     var _this3 = this;
@@ -10389,7 +10303,7 @@ class I18n extends EventEmitter {
     return false;
   }
   loadNamespaces(ns, callback) {
-    const deferred2 = defer();
+    const deferred = defer();
     if (!this.options.ns) {
       if (callback) callback();
       return Promise.resolve();
@@ -10399,13 +10313,13 @@ class I18n extends EventEmitter {
       if (this.options.ns.indexOf(n2) < 0) this.options.ns.push(n2);
     });
     this.loadResources((err) => {
-      deferred2.resolve();
+      deferred.resolve();
       if (callback) callback(err);
     });
-    return deferred2;
+    return deferred;
   }
   loadLanguages(lngs, callback) {
-    const deferred2 = defer();
+    const deferred = defer();
     if (isString(lngs)) lngs = [lngs];
     const preloaded = this.options.preload || [];
     const newLngs = lngs.filter((lng) => preloaded.indexOf(lng) < 0 && this.services.languageUtils.isSupportedCode(lng));
@@ -10415,10 +10329,10 @@ class I18n extends EventEmitter {
     }
     this.options.preload = preloaded.concat(newLngs);
     this.loadResources((err) => {
-      deferred2.resolve();
+      deferred.resolve();
       if (callback) callback(err);
     });
-    return deferred2;
+    return deferred;
   }
   dir(lng) {
     if (!lng) lng = this.resolvedLanguage || (this.languages && this.languages.length > 0 ? this.languages[0] : this.language);
@@ -10527,7 +10441,7 @@ const htmlEntities = {
 };
 const unescapeHtmlEntity = (m2) => htmlEntities[m2];
 const unescape = (text2) => text2.replace(matchHtmlEntity, unescapeHtmlEntity);
-let defaultOptions$1 = {
+let defaultOptions = {
   bindI18n: "languageChanged",
   bindI18nStore: "",
   transEmptyNodeValue: "",
@@ -10538,8 +10452,8 @@ let defaultOptions$1 = {
   unescape
 };
 const setDefaults = (options = {}) => {
-  defaultOptions$1 = {
-    ...defaultOptions$1,
+  defaultOptions = {
+    ...defaultOptions,
     ...options
   };
 };
@@ -10679,7 +10593,7 @@ var querystring = {
   name: "querystring",
   // Deconstruct the options object and extract the lookupQuerystring property
   lookup(_ref) {
-    var _a2;
+    var _a;
     let {
       lookupQuerystring
     } = _ref;
@@ -10688,7 +10602,7 @@ var querystring = {
       let {
         search: search2
       } = window.location;
-      if (!window.location.search && ((_a2 = window.location.hash) == null ? void 0 : _a2.indexOf("?")) > -1) {
+      if (!window.location.search && ((_a = window.location.hash) == null ? void 0 : _a.indexOf("?")) > -1) {
         search2 = window.location.hash.substring(window.location.hash.indexOf("?"));
       }
       const query = search2.substring(1);
@@ -10824,7 +10738,7 @@ var path = {
   name: "path",
   // Deconstruct the options object and extract the lookupFromPathIndex property
   lookup(_ref) {
-    var _a2;
+    var _a;
     let {
       lookupFromPathIndex
     } = _ref;
@@ -10832,18 +10746,18 @@ var path = {
     const language2 = window.location.pathname.match(/\/([a-zA-Z-]*)/g);
     if (!Array.isArray(language2)) return void 0;
     const index2 = typeof lookupFromPathIndex === "number" ? lookupFromPathIndex : 0;
-    return (_a2 = language2[index2]) == null ? void 0 : _a2.replace("/", "");
+    return (_a = language2[index2]) == null ? void 0 : _a.replace("/", "");
   }
 };
 var subdomain = {
   name: "subdomain",
   lookup(_ref) {
-    var _a2, _b;
+    var _a, _b;
     let {
       lookupFromSubdomainIndex
     } = _ref;
     const internalLookupFromSubdomainIndex = typeof lookupFromSubdomainIndex === "number" ? lookupFromSubdomainIndex + 1 : 1;
-    const language2 = typeof window !== "undefined" && ((_b = (_a2 = window.location) == null ? void 0 : _a2.hostname) == null ? void 0 : _b.match(/^(\w{2,5})\.(([a-z0-9-]{1,63}\.[a-z]{2,6})|localhost)/i));
+    const language2 = typeof window !== "undefined" && ((_b = (_a = window.location) == null ? void 0 : _a.hostname) == null ? void 0 : _b.match(/^(\w{2,5})\.(([a-z0-9-]{1,63}\.[a-z]{2,6})|localhost)/i));
     if (!language2) return void 0;
     return language2[internalLookupFromSubdomainIndex];
   }
@@ -12185,17 +12099,17 @@ const priceWrap = "_priceWrap_11z70_1";
 const dollarSign = "_dollarSign_11z70_7";
 const amount = "_amount_11z70_15";
 const perMonth = "_perMonth_11z70_21";
-const s$h = {
+const s$c = {
   priceWrap,
   dollarSign,
   amount,
   perMonth
 };
 function Price({ amount: amount2, className }) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$h.priceWrap, className), children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$h.dollarSign, children: "$" }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$h.amount, children: amount2.toLocaleString("en-US") }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: s$h.perMonth, children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$c.priceWrap, className), children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$c.dollarSign, children: "$" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$c.amount, children: amount2.toLocaleString("en-US") }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: s$c.perMonth, children: [
       TranslationService.t("currency.usd"),
       " / mo*"
     ] })
@@ -12208,7 +12122,7 @@ const hidden = "_hidden_q8sg6_98";
 const buttonWrapper = "_buttonWrapper_q8sg6_124";
 const footerWrapper = "_footerWrapper_q8sg6_155";
 const paymentPlanButton = "_paymentPlanButton_q8sg6_191";
-const s$g = {
+const s$b = {
   planCard,
   initialPrice,
   price,
@@ -12298,13 +12212,13 @@ const config = {
 };
 const _plans = "# Educational\n\nFor students, hobbyists, and anyone testing the entry-level option before upgrading\n\n###### **edu**\n\n- Multi-criteria decision analyses\n- AI analytics\n- Favorite area of interest\n- Download analyses\n\n---\n\n# Professional\n\nFor GIS data analysts and managers who work with GIS on a daily basis\n\n###### **pro**\n\n- Multi-criteria decision analyses\n- AI analytics\n- Favorite area of interest\n- Download analyses\n- Customer support\n- Custom requests\n- Upload custom indicators for analytics\n\n---\n\n# Custom\n\n# Enterprise\n\nFor GIS data analysts and managers who work with GIS on a daily basis\nContact sales, book a demo or write to us at <info@kontur.io> for custom pricing and features\n\n###### **ent**\n\n- Multiple seats\n- Custom workflows\n- Custom features\n- Custom design\n- Training and onboarding\n- Support\n";
 const css = `
-.premium > .${s$g.planName}::before {
+.premium > .${s$b.planName}::before {
   content: '★';
   font-size: larger;
   padding-right: 4px;
 }
 
-.${s$g.planName} {
+.${s$b.planName} {
   font-family: var(--font-family);
   font-style: normal;
   font-weight: 600;
@@ -12349,9 +12263,9 @@ function Plans({ styling = "", markdown: markdown2 = _plans, isUserAuthorized = 
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: ss.pricingWrap, children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: styling }),
     /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: ss.pricingPlans, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: ss.plans, children: config.plans.map((plan, index2) => {
-      var _a2, _b, _c;
+      var _a, _b, _c;
       const planContent = structured[index2];
-      const planName = (_a2 = planContent.shift()) == null ? void 0 : _a2.props.children[0];
+      const planName = (_a = planContent.shift()) == null ? void 0 : _a.props.children[0];
       const highlightsBlock = planContent.pop();
       planContent.pop();
       const isCustom = !plan.billingCycles;
@@ -12359,23 +12273,23 @@ function Plans({ styling = "", markdown: markdown2 = _plans, isUserAuthorized = 
       const billingOption = (_b = plan.billingCycles) == null ? void 0 : _b.find(
         (option) => option.id === currentBillingCycleId
       );
-      const actionsBlock = /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: s$g.buttonWrapper, children: [
-        !isUserAuthorized && /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { className: clsx(s$g.paymentPlanButton, styleClass), children: "Sign in to subscribe" }),
+      const actionsBlock = /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: s$b.buttonWrapper, children: [
+        !isUserAuthorized && /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { className: clsx(s$b.paymentPlanButton, styleClass), children: "Sign in to subscribe" }),
         isUserAuthorized && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "[PAYPAL BUTTONS INJECTED HERE]" })
       ] });
       const priceBlock = !isCustom && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
         billingOption && /* @__PURE__ */ jsxRuntimeExports.jsx(
           "div",
           {
-            className: clsx(s$g.initialPrice, {
-              [s$g.hidden]: billingOption.id === "month"
+            className: clsx(s$b.initialPrice, {
+              [s$b.hidden]: billingOption.id === "month"
             }),
             children: `$${(_c = billingOption == null ? void 0 : billingOption.initialPricePerMonth) == null ? void 0 : _c.toLocaleString("en-US")} USD`
           }
         ),
-        billingOption && /* @__PURE__ */ jsxRuntimeExports.jsx(Price, { className: s$g.price, amount: billingOption.pricePerMonth })
+        billingOption && /* @__PURE__ */ jsxRuntimeExports.jsx(Price, { className: s$b.price, amount: billingOption.pricePerMonth })
       ] });
-      const footerBlock = !isCustom && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$g.footerWrapper, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      const footerBlock = !isCustom && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$b.footerWrapper, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
         PaymentPlanCardFooter,
         {
           planConfig: plan,
@@ -12384,8 +12298,8 @@ function Plans({ styling = "", markdown: markdown2 = _plans, isUserAuthorized = 
           billingOption
         }
       ) });
-      return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$g.planCard, styleClass), children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$g.planName, children: planName }),
+      return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$b.planCard, styleClass), children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$b.planName, children: planName }),
         priceBlock,
         planContent,
         actionsBlock,
@@ -13009,14 +12923,14 @@ const fieldsRegistry = {
 fieldsRegistry["lastUpdated"] = fieldsRegistry.updatedAt;
 function throttle(callback, wait2 = 0, { start = true, middle = true, once = false } = {}) {
   let innerStart = start;
-  let last2 = 0;
+  let last = 0;
   let timer;
   let cancelled = false;
   function fn(...args) {
     if (cancelled)
       return;
-    const delta = Date.now() - last2;
-    last2 = Date.now();
+    const delta = Date.now() - last;
+    last = Date.now();
     if (start && middle && delta >= wait2) {
       innerStart = true;
     }
@@ -13028,7 +12942,7 @@ function throttle(callback, wait2 = 0, { start = true, middle = true, once = fal
     } else if (middle && delta < wait2 || !middle) {
       clearTimeout(timer);
       timer = setTimeout(() => {
-        last2 = Date.now();
+        last = Date.now();
         callback.apply(this, args);
         if (once)
           fn.cancel();
@@ -13041,13 +12955,8 @@ function throttle(callback, wait2 = 0, { start = true, middle = true, once = fal
   };
   return fn;
 }
-const isErrorWithMessage = (e) => {
-  return e !== null && typeof e === "object" && "message" in e;
-};
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 const toCapitalizedList = (arr) => arr.map(capitalize).join(", ");
-const spacesToUnderscore = (str) => str.replace(/\s+/g, "_");
-const sumBy = (arr, prop) => arr.reduce((acc, item) => acc + item[prop], 0);
 function isNumber(value2) {
   return typeof value2 === "number" && isFinite(value2);
 }
@@ -13226,11 +13135,11 @@ function useUniLayoutCompiledAccessors(layoutDefinition) {
 }
 const UniLayoutContext = React.createContext(null);
 const useUniLayoutContext = () => {
-  const context2 = React.useContext(UniLayoutContext);
-  if (!context2) {
+  const context = React.useContext(UniLayoutContext);
+  if (!context) {
     throw new Error("useUniLayoutContext must be used within a UniLayout");
   }
-  return context2;
+  return context;
 };
 const defaultFormatter = (v2) => v2 !== null && v2 !== void 0 ? String(v2) : "";
 function useUniLayoutContextValue({
@@ -13282,27 +13191,27 @@ function useUniLayoutContextValue({
     ]
   );
 }
-const row$2 = "_row_6zanc_1";
-const s$f = {
-  row: row$2
+const row = "_row_6zanc_1";
+const s$a = {
+  row
 };
-function Row({ wrap = true, children, className, style: style2 }) {
+function Row({ wrap = true, children, className, style }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     "div",
     {
-      className: clsx(s$f.row, className),
-      style: { ...style2, flexWrap: wrap ? "wrap" : "nowrap" },
+      className: clsx(s$a.row, className),
+      style: { ...style, flexWrap: wrap ? "wrap" : "nowrap" },
       children
     }
   );
 }
 const card$1 = "_card_aste0_1";
-const selected$3 = "_selected_aste0_16";
+const selected = "_selected_aste0_16";
 const cardContent = "_cardContent_aste0_29";
 const clickable = "_clickable_aste0_35";
-const s$e = {
+const s$9 = {
   card: card$1,
-  selected: selected$3,
+  selected,
   cardContent,
   clickable
 };
@@ -13311,7 +13220,7 @@ function Card({
   active: active2,
   action: action2,
   className,
-  style: style2,
+  style,
   handleAction
 }) {
   const handleClick = React.useCallback(() => {
@@ -13322,15 +13231,15 @@ function Card({
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     "div",
     {
-      className: clsx(s$e.card, active2 && s$e.selected, action2 && s$e.clickable, className),
-      style: style2,
+      className: clsx(s$9.card, active2 && s$9.selected, action2 && s$9.clickable, className),
+      style,
       onClick: action2 ? handleClick : void 0,
-      children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$e.cardContent, children })
+      children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$9.cardContent, children })
     }
   );
 }
 const indicator$1 = "_indicator_h9oko_1";
-const s$d = {
+const s$8 = {
   indicator: indicator$1
 };
 const SEVERITY_CONFIG = {
@@ -13373,7 +13282,7 @@ function SeverityIndicatorImpl({ value: value2, className }) {
   }
   const pivot = SEVERITY_CONFIG[value2].level;
   const tooltip = SEVERITY_CONFIG[value2].text;
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(SimpleTooltip, { content: tooltip, placement: "top", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: clsx(s$d.indicator, className), children: COLORS.map((color, i2) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(SimpleTooltip, { content: tooltip, placement: "top", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: clsx(s$8.indicator, className), children: COLORS.map((color, i2) => /* @__PURE__ */ jsxRuntimeExports.jsx(
     "div",
     {
       style: {
@@ -13386,7 +13295,7 @@ function SeverityIndicatorImpl({ value: value2, className }) {
 const SeverityIndicator = reactExports.memo(SeverityIndicatorImpl);
 const url = "_url_1o8yo_1";
 const icon$2 = "_icon_1o8yo_12";
-const s$c = {
+const s$7 = {
   url,
   icon: icon$2
 };
@@ -13397,12 +13306,12 @@ function Url(props) {
     "a",
     {
       href: value2,
-      className: clsx(s$c.url, className),
+      className: clsx(s$7.url, className),
       target: newTab ? "_blank" : void 0,
       rel: newTab ? "noopener noreferrer" : void 0,
       children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: displayText }),
-        newTab && /* @__PURE__ */ jsxRuntimeExports.jsx(Memo$9, { className: s$c.icon })
+        newTab && /* @__PURE__ */ jsxRuntimeExports.jsx(Memo$9, { className: s$7.icon })
       ]
     }
   );
@@ -13427,7 +13336,7 @@ const success = "_success_108ln_17";
 const warning = "_warning_108ln_22";
 const info = "_info_108ln_27";
 const neutral = "_neutral_108ln_32";
-const s$b = {
+const s$6 = {
   badge,
   error: error$1,
   success,
@@ -13436,30 +13345,30 @@ const s$b = {
   neutral
 };
 const Variants = {
-  error: s$b.error,
-  success: s$b.success,
-  warning: s$b.warning,
-  info: s$b.info,
-  neutral: s$b.neutral
+  error: s$6.error,
+  success: s$6.success,
+  warning: s$6.warning,
+  info: s$6.info,
+  neutral: s$6.neutral
 };
 function Badge({
   value: value2,
   variant = "neutral",
   mapping,
   className = "",
-  style: style2 = {}
+  style = {}
 }) {
   if (value2 === void 0) return null;
   const key = ("" + value2).toLowerCase();
   const computedVariant = (mapping == null ? void 0 : mapping[key]) ?? variant;
   const variantClass = Variants[computedVariant.toLowerCase()] ?? "";
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: clsx(s$b.badge, variantClass, className), style: style2, children: value2 });
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: clsx(s$6.badge, variantClass, className), style, children: value2 });
 }
 const progress = "_progress_2aklk_1";
 const caption = "_caption_2aklk_9";
 const desc = "_desc_2aklk_13";
 const stack = "_stack_2aklk_19";
-const s$a = {
+const s$5 = {
   progress,
   caption,
   desc,
@@ -13470,19 +13379,19 @@ function StackedProgressBar({
   caption: caption2,
   className
 }) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$a.progress, className), children: [
-    caption2 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$a.caption, children: caption2 }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$a.stack, children: items.map(({ color, value: value2 }, i2) => {
-      const style2 = {};
-      if (color) style2["backgroundColor"] = color;
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$5.progress, className), children: [
+    caption2 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$5.caption, children: caption2 }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$5.stack, children: items.map(({ color, value: value2 }, i2) => {
+      const style = {};
+      if (color) style["backgroundColor"] = color;
       const clampedValue = Math.max(0, Math.min(100, value2));
-      style2["width"] = clampedValue + "%";
-      return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: style2 }, i2);
+      style["width"] = clampedValue + "%";
+      return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style }, i2);
     }).reverse() }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$a.desc, children: items.map(({ color, title: title2, value: value2 }, i2) => {
-      const style2 = {};
-      if (color) style2["color"] = color;
-      return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: style2, children: value2 + title2 }, i2);
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$5.desc, children: items.map(({ color, title: title2, value: value2 }, i2) => {
+      const style = {};
+      if (color) style["color"] = color;
+      return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style, children: value2 + title2 }, i2);
     }) })
   ] });
 }
@@ -13513,12 +13422,12 @@ const Icon = reactExports.forwardRef(({ icon: icon2, ...svgProps }, ref) => {
   return KonturIcon ? /* @__PURE__ */ jsxRuntimeExports.jsx(KonturIcon, { ref, ...svgProps }) : null;
 });
 Icon.displayName = "SvgIcon";
-const container$2 = "_container_1vcfi_6";
+const container = "_container_1vcfi_6";
 const icon$1 = "_icon_1vcfi_13";
 const value = "_value_1vcfi_18";
 const label = "_label_1vcfi_23";
-const s$9 = {
-  container: container$2,
+const s$4 = {
+  container,
   icon: icon$1,
   value,
   label
@@ -13530,16 +13439,16 @@ function Field({
   showLabel = true,
   format
 }) {
-  const context2 = useUniLayoutContext();
+  const context = useUniLayoutContext();
   if (value2 === void 0) return null;
   const fieldMeta = $meta == null ? void 0 : $meta.value;
-  const formattedValue = format && context2.formatsRegistry[format] ? context2.formatsRegistry[format](value2) : context2.getFormattedValue(fieldMeta, value2);
+  const formattedValue = format && context.formatsRegistry[format] ? context.formatsRegistry[format](value2) : context.getFormattedValue(fieldMeta, value2);
   const shouldShowLabel = showLabel && (fieldMeta == null ? void 0 : fieldMeta.label);
   const tooltip = fieldMeta == null ? void 0 : fieldMeta.tooltip;
-  const content = /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$9.container, className), children: [
-    (fieldMeta == null ? void 0 : fieldMeta.icon) && /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { icon: fieldMeta.icon, className: s$9.icon }),
-    shouldShowLabel && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$9.label, children: fieldMeta.label }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$9.value, children: formattedValue })
+  const content = /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$4.container, className), children: [
+    (fieldMeta == null ? void 0 : fieldMeta.icon) && /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { icon: fieldMeta.icon, className: s$4.icon }),
+    shouldShowLabel && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$4.label, children: fieldMeta.label }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$4.value, children: formattedValue })
   ] });
   if (tooltip) {
     return /* @__PURE__ */ jsxRuntimeExports.jsx(SimpleTooltip, { content: tooltip, placement: "top", children: content });
@@ -13552,7 +13461,7 @@ const image = "_image_tv12g_8";
 const icon = "_icon_tv12g_22";
 const title = "_title_tv12g_27";
 const subtitle = "_subtitle_tv12g_33";
-const s$8 = {
+const s$3 = {
   cardHeader,
   imageContainer,
   image,
@@ -13561,11 +13470,11 @@ const s$8 = {
   subtitle
 };
 function CardHeader({ image: image2, icon: icon2, value: value2, subtitle: subtitle2, className }) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$8.cardHeader, className), children: [
-    image2 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$8.imageContainer, children: /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: image2, alt: "", className: s$8.image }) }),
-    icon2 && /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { icon: icon2, className: s$8.icon }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$8.title, children: value2 }),
-    subtitle2 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$8.subtitle, children: subtitle2 })
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$3.cardHeader, className), children: [
+    image2 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$3.imageContainer, children: /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: image2, alt: "", className: s$3.image }) }),
+    icon2 && /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { icon: icon2, className: s$3.icon }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$3.title, children: value2 }),
+    subtitle2 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$3.subtitle, children: subtitle2 })
   ] });
 }
 function IconButton({
@@ -13577,9 +13486,9 @@ function IconButton({
   handleAction,
   ...props
 }) {
-  const context2 = useUniLayoutContext();
+  const context = useUniLayoutContext();
   const fieldMeta = $meta == null ? void 0 : $meta.value;
-  const formattedValue = context2.getFormattedValue(fieldMeta, value2);
+  const formattedValue = context.getFormattedValue(fieldMeta, value2);
   const tooltip = fieldMeta == null ? void 0 : fieldMeta.tooltip;
   const handler = reactExports.useCallback(() => {
     if (action2 && handleAction) {
@@ -13617,24 +13526,24 @@ const componentsRegistry = {
   Severity: SeverityIndicator
 };
 const ErrorComponent = ({ type, error: error2, severity = "error" }) => {
-  const style2 = {
+  const style = {
     color: "white",
     backgroundColor: severity === "error" ? "red" : "orange",
     fontSize: "12px"
   };
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: style2, children: error2 ? `Error in ${type}: ${error2}` : `Unknown Component: ${type}` });
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style, children: error2 ? `Error in ${type}: ${error2}` : `Unknown Component: ${type}` });
 };
 function isComponentNode(node) {
   return node && typeof node === "object" && (typeof node.type === "string" || node.$template);
 }
-function resolveBinding(dataPath, contextData, context2) {
-  const accessor = context2.precompiledAccessors[dataPath];
+function resolveBinding(dataPath, contextData, context) {
+  const accessor = context.precompiledAccessors[dataPath];
   if (!accessor) {
     return createBindingError(`No accessor for "${dataPath}"`);
   }
   try {
     const value2 = accessor(contextData);
-    const fieldMeta = context2.fieldsRegistry[dataPath] ?? context2.fieldsRegistry.default;
+    const fieldMeta = context.fieldsRegistry[dataPath] ?? context.fieldsRegistry.default;
     return { value: value2, fieldMeta };
   } catch (error2) {
     return createBindingError(`Execution failed for "${dataPath}": ${String(error2)}`);
@@ -13651,7 +13560,7 @@ function applyOverrides(fieldMeta, overrides = {}) {
   if (!overrides) return fieldMeta;
   return { ...fieldMeta, ...overrides };
 }
-function processNodeProps(node, data, context2) {
+function processNodeProps(node, data, context) {
   const {
     props: staticProps,
     $value: dataBindingPath,
@@ -13667,17 +13576,17 @@ function processNodeProps(node, data, context2) {
   const resolvedProps = { ...restNodeProps, ...staticProps };
   let boundData = data;
   if (contextBindingPath && typeof contextBindingPath === "string") {
-    const contextBindingResult = resolveBinding(contextBindingPath, data, context2);
+    const contextBindingResult = resolveBinding(contextBindingPath, data, context);
     boundData = contextBindingResult.value;
   }
   if (dataBindingPath && typeof dataBindingPath === "string") {
-    const dataBindingResult = resolveBinding(dataBindingPath, boundData, context2);
+    const dataBindingResult = resolveBinding(dataBindingPath, boundData, context);
     const fieldMeta = (overrides == null ? void 0 : overrides.value) ? applyOverrides(dataBindingResult.fieldMeta, overrides.value) : dataBindingResult.fieldMeta;
     resolvedProps.value = dataBindingResult.value;
     resolvedProps.$meta = { value: fieldMeta };
   } else if (!dataBindingPath && haveValue(boundData) && !("value" in resolvedProps)) {
     resolvedProps.value = boundData;
-    resolvedProps.$meta = { value: context2.fieldsRegistry.default };
+    resolvedProps.$meta = { value: context.fieldsRegistry.default };
   }
   if (propsBindings && typeof propsBindings === "object") {
     if (!resolvedProps.$meta) {
@@ -13687,15 +13596,15 @@ function processNodeProps(node, data, context2) {
       if (typeof propPath !== "string") {
         continue;
       }
-      const propBindingResult = resolveBinding(propPath, boundData, context2);
+      const propBindingResult = resolveBinding(propPath, boundData, context);
       const fieldMeta = (overrides == null ? void 0 : overrides[propName]) ? applyOverrides(propBindingResult.fieldMeta, overrides[propName]) : propBindingResult.fieldMeta;
       resolvedProps[propName] = propBindingResult.value;
       resolvedProps.$meta[propName] = fieldMeta;
     }
   }
-  if (context2.actionHandler) {
+  if (context.actionHandler) {
     resolvedProps.handleAction = (action2, actionData) => {
-      context2.actionHandler(action2, { ...boundData, ...actionData });
+      context.actionHandler(action2, { ...boundData, ...actionData });
     };
   }
   return { resolvedProps, boundData };
@@ -13713,7 +13622,7 @@ function renderChildren(children, data) {
   return null;
 }
 const LayoutRendererInternal = ({ node, data }) => {
-  const context2 = useUniLayoutContext();
+  const context = useUniLayoutContext();
   if (node === null || node === void 0 || typeof node === "boolean") {
     return null;
   }
@@ -13736,9 +13645,9 @@ const LayoutRendererInternal = ({ node, data }) => {
   if (!node || typeof node !== "object") {
     return null;
   }
-  const { resolvedProps, boundData } = processNodeProps(node, data, context2);
+  const { resolvedProps, boundData } = processNodeProps(node, data, context);
   if (node.$if) {
-    const ifBindingResult = resolveBinding(node.$if, boundData, context2);
+    const ifBindingResult = resolveBinding(node.$if, boundData, context);
     if (!ifBindingResult.value) {
       return null;
     }
@@ -14450,7 +14359,7 @@ const card = "_card_1wyj5_7";
 const tcard = "_tcard_1wyj5_28";
 const error = "_error_1wyj5_44";
 const editors = "_editors_1wyj5_58";
-const styles$7 = {
+const styles = {
   grid,
   card,
   tcard,
@@ -14488,7 +14397,7 @@ const JsonEditor = ({
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(
     "div",
     {
-      className: clsx(styles$7.tcard, { [styles$7.error]: hasError }, className),
+      className: clsx(styles.tcard, { [styles.error]: hasError }, className),
       style: { display: visible ? "flex" : "none" },
       children: [
         title2 && /* @__PURE__ */ jsxRuntimeExports.jsx("legend", { children: title2 }),
@@ -14522,9 +14431,9 @@ Payload: ${JSON.stringify(payload)}`);
       layout,
       actionHandler: handleAction
     });
-    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles$7.debugger, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(UniLayoutContext.Provider, { value: contextValue, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: styles$7.grid, children: limitedData.map((item, index2) => /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: styles$7.card, children: /* @__PURE__ */ jsxRuntimeExports.jsx(UniLayoutRenderer, { node: layout, data: item }) }, index2)) }) }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles$7.editors, children: [
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles.debugger, children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(UniLayoutContext.Provider, { value: contextValue, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: styles.grid, children: limitedData.map((item, index2) => /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: styles.card, children: /* @__PURE__ */ jsxRuntimeExports.jsx(UniLayoutRenderer, { node: layout, data: item }) }, index2)) }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles.editors, children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           JsonEditor,
           {
@@ -14592,7 +14501,7 @@ function FieldsRegistry() {
     } else if (fieldMeta.type === "date") {
       sampleValue = sampleDate;
     }
-    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles$7.card, children: [
+    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles.card, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: fieldName }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("dl", { children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx("dt", { children: "Type" }),
@@ -14650,7 +14559,7 @@ const Popover$1 = "_Popover_56jbh_25";
 const PopoverContent$1 = "_PopoverContent_56jbh_48";
 const PopoverClose$1 = "_PopoverClose_56jbh_56";
 const markdown = "_markdown_56jbh_62";
-const s$7 = {
+const s$2 = {
   tooltipContent,
   arrow,
   InfoPopoverTrigger,
@@ -14701,14 +14610,14 @@ function usePopover({
   if (virtualReference && !data.refs.reference.current) {
     data.refs.setReference(virtualRef);
   }
-  const context2 = data.context;
-  const click = useClick(context2, {
+  const context = data.context;
+  const click = useClick(context, {
     enabled: controlledOpen == null && !virtualReference
   });
-  const dismiss = useDismiss(context2, {
+  const dismiss = useDismiss(context, {
     enabled: !virtualReference
   });
-  const role = useRole(context2);
+  const role = useRole(context);
   const interactions = useInteractions([click, dismiss, role]);
   reactExports.useEffect(() => {
     if (virtualReference) {
@@ -14732,11 +14641,11 @@ function usePopover({
 }
 const PopoverContext = reactExports.createContext(null);
 const usePopoverContext = () => {
-  const context2 = reactExports.useContext(PopoverContext);
-  if (context2 == null) {
+  const context = reactExports.useContext(PopoverContext);
+  if (context == null) {
     throw new Error("Popover components must be wrapped in <Popover />");
   }
-  return context2;
+  return context;
 };
 function Popover({
   children,
@@ -14747,17 +14656,17 @@ function Popover({
   return /* @__PURE__ */ jsxRuntimeExports.jsx(PopoverContext.Provider, { value: popover, children });
 }
 const PopoverTrigger = reactExports.forwardRef(function PopoverTrigger2({ children, asChild = false, ...props }, propRef) {
-  const context2 = usePopoverContext();
+  const context = usePopoverContext();
   const childrenRef = children.ref;
-  const ref = useMergeRefs([context2.refs.setReference, propRef, childrenRef]);
+  const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef]);
   if (asChild && reactExports.isValidElement(children)) {
     return reactExports.cloneElement(
       children,
-      context2.getReferenceProps({
+      context.getReferenceProps({
         ref,
         ...props,
         ...children.props,
-        "data-state": context2.open ? "open" : "closed"
+        "data-state": context.open ? "open" : "closed"
       })
     );
   }
@@ -14766,29 +14675,29 @@ const PopoverTrigger = reactExports.forwardRef(function PopoverTrigger2({ childr
     {
       ref,
       type: "button",
-      "data-state": context2.open ? "open" : "closed",
-      ...context2.getReferenceProps(props),
+      "data-state": context.open ? "open" : "closed",
+      ...context.getReferenceProps(props),
       children
     }
   );
 });
-const PopoverContent = reactExports.forwardRef(function PopoverContent2({ style: style2, containerClassName, contentClassName, ...props }, propRef) {
-  const { context: floatingContext, arrowRef, ...context2 } = usePopoverContext();
-  const ref = useMergeRefs([context2.refs.setFloating, propRef]);
+const PopoverContent = reactExports.forwardRef(function PopoverContent2({ style, containerClassName, contentClassName, ...props }, propRef) {
+  const { context: floatingContext, arrowRef, ...context } = usePopoverContext();
+  const ref = useMergeRefs([context.refs.setFloating, propRef]);
   if (!floatingContext.open) return null;
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(FloatingPortal, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(FloatingFocusManager, { context: floatingContext, modal: context2.modal, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(FloatingPortal, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(FloatingFocusManager, { context: floatingContext, modal: context.modal, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
     "div",
     {
       ref,
-      style: { ...context2.floatingStyles, ...style2 },
-      className: `${s$7.Popover}${containerClassName ? ` ${containerClassName}` : ""}`,
-      ...context2.getFloatingProps(props),
+      style: { ...context.floatingStyles, ...style },
+      className: `${s$2.Popover}${containerClassName ? ` ${containerClassName}` : ""}`,
+      ...context.getFloatingProps(props),
       children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(PopoverClose, {}),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "div",
           {
-            className: `${s$7.PopoverContent}${contentClassName ? ` ${contentClassName}` : ""}`,
+            className: `${s$2.PopoverContent}${contentClassName ? ` ${contentClassName}` : ""}`,
             children: props.children
           }
         ),
@@ -14797,7 +14706,7 @@ const PopoverContent = reactExports.forwardRef(function PopoverContent2({ style:
           {
             ref: arrowRef,
             context: floatingContext,
-            className: s$7.PopoverArrow,
+            className: s$2.PopoverArrow,
             stroke: "transparent",
             strokeWidth: 1,
             height: 8,
@@ -14815,11 +14724,11 @@ const PopoverClose = reactExports.forwardRef(function PopoverClose2(props, ref) 
     {
       type: "button",
       ref,
-      className: s$7.PopoverClose,
+      className: s$2.PopoverClose,
       ...props,
       onClick: (event) => {
-        var _a2;
-        (_a2 = props.onClick) == null ? void 0 : _a2.call(props, event);
+        var _a;
+        (_a = props.onClick) == null ? void 0 : _a.call(props, event);
         setOpen(false);
       },
       children: props.children ?? /* @__PURE__ */ jsxRuntimeExports.jsx(Memo$22, {})
@@ -14838,21 +14747,21 @@ function Tooltip({
   const arrowRef = reactExports.useRef(null);
   const isOpen = controlledOpen ?? uncontrolledOpen;
   const setIsOpen = onOpenChange ?? setUncontrolledOpen;
-  const { x: x2, y: y2, strategy, refs, context: context2 } = useFloating({
+  const { x: x2, y: y2, strategy, refs, context } = useFloating({
     placement,
     open: isOpen,
     onOpenChange: setIsOpen,
     whileElementsMounted: autoUpdate,
     middleware: [offset(8), flip(), shift(), arrow$2({ element: arrowRef })]
   });
-  const hover = useHover(context2, {
+  const hover = useHover(context, {
     enabled: controlledOpen == null
   });
-  const focus = useFocus(context2, {
+  const focus = useFocus(context, {
     enabled: controlledOpen == null
   });
-  const dismiss = useDismiss(context2);
-  const role = useRole(context2, { role: "tooltip" });
+  const dismiss = useDismiss(context);
+  const role = useRole(context, { role: "tooltip" });
   const { getReferenceProps, getFloatingProps } = useInteractions([
     hover,
     focus,
@@ -14874,7 +14783,7 @@ function Tooltip({
     isOpen && /* @__PURE__ */ jsxRuntimeExports.jsx(FloatingPortal, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
       "div",
       {
-        className: s$7.tooltipContent,
+        className: s$2.tooltipContent,
         ref: refs.setFloating,
         style: {
           position: strategy,
@@ -14889,8 +14798,8 @@ function Tooltip({
             FloatingArrow,
             {
               ref: arrowRef,
-              context: context2,
-              className: s$7.arrow,
+              context,
+              className: s$2.arrow,
               stroke: "transparent",
               strokeWidth: 2,
               height: 8,
@@ -14941,7 +14850,7 @@ const linkWidthWrap = "_linkWidthWrap_qkwt3_1";
 const truncate = "_truncate_qkwt3_3";
 const tail = "_tail_qkwt3_4";
 const link = "_link_qkwt3_1";
-const s$6 = {
+const s$1 = {
   linkWidthWrap,
   truncate,
   tail,
@@ -14963,17 +14872,17 @@ function ShortLinkRenderer({
 }) {
   const passedLink = (linksArr == null ? void 0 : linksArr[0]) ?? href;
   const [leftPart, rightPart] = splitTail(passedLink, truncateAmount);
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$6.linkWidthWrap, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$6.linkOverflowWrap, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$1.linkWidthWrap, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$1.linkOverflowWrap, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
     "a",
     {
-      className: s$6.link,
+      className: s$1.link,
       target: "_blank",
       rel: "noreferrer",
       "data-truncate": rightPart,
       href,
       children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: s$6.truncate, style: { maxWidth: maxWidth || "unset" }, children: leftPart }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: s$6.tail, children: rightPart })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: s$1.truncate, style: { maxWidth: maxWidth || "unset" }, children: leftPart }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: s$1.tail, children: rightPart })
       ]
     }
   ) }) });
@@ -14991,7 +14900,7 @@ const MarkdownContent = reactExports.memo(function MarkdownContent2({
     Markdown,
     {
       options: { overrides: { a: LinkRenderer } },
-      className: clsx(s$7.markdown, className),
+      className: clsx(s$2.markdown, className),
       children: parsed
     }
   );
@@ -15006,7 +14915,7 @@ function InfoPopover({
     /* @__PURE__ */ jsxRuntimeExports.jsx(PopoverTrigger, { asChild: true, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
       "button",
       {
-        className: clsx(s$7.InfoPopoverTrigger, className),
+        className: clsx(s$2.InfoPopoverTrigger, className),
         type: "button",
         "aria-label": "More information",
         ...restProps,
@@ -15123,8 +15032,7 @@ const CORNER_POINTS_INDEXES = [
 ];
 const LOW = `↓${TranslationService.t("bivariate.legend.low")}`;
 const HIGH = `↑${TranslationService.t("bivariate.legend.high")}`;
-const MEDIUM = TranslationService.t("bivariate.legend.medium");
-const isTopSide = (index2) => Array.from(Array(BIVARIATE_LEGEND_SIZE), (_2, i2) => i2).includes(index2);
+TranslationService.t("bivariate.legend.medium");
 const isBottomSide = (index2) => {
   const bottomRowStartIndex = BIVARIATE_LEGEND_SIZE * BIVARIATE_LEGEND_SIZE - BIVARIATE_LEGEND_SIZE;
   return Array.from(
@@ -15135,214 +15043,14 @@ const isBottomSide = (index2) => {
 const isLeftSide = (index2) => Array.from(Array(BIVARIATE_LEGEND_SIZE), (_2, i2) => i2 * BIVARIATE_LEGEND_SIZE).includes(
   index2
 );
-const isRightSide = (index2) => Array.from(
-  Array(BIVARIATE_LEGEND_SIZE),
-  (_2, i2) => i2 * BIVARIATE_LEGEND_SIZE + (BIVARIATE_LEGEND_SIZE - 1)
-).includes(index2);
-function featureProp(name) {
-  return ["get", name];
-}
-function getVariable(name) {
-  return ["var", name];
-}
-function less(first2, second) {
-  return ["<", first2, second];
-}
-function lessOrEqual(first2, second) {
-  return ["<=", first2, second];
-}
-function greaterOrEqual(first2, second) {
-  return [">=", first2, second];
-}
-function notEqual(first2, second) {
-  return ["!=", first2, second];
-}
-function equal(first2, second) {
-  return ["==", first2, second];
-}
-function caseFn(condition, output) {
-  return [condition, output];
-}
-function switchFn(conditions, defaultCase) {
-  return ["case", ...conditions.flat(1), defaultCase];
-}
-function concat(first2, second) {
-  return ["concat", first2, second];
-}
-function addVariable(name, binding, expression) {
-  return ["let", name, binding, expression];
-}
-function allCondition(...conditionInputs) {
-  return ["all", ...conditionInputs];
-}
-function anyCondition(...conditionInputs) {
-  return ["any", ...conditionInputs];
-}
-const AT_CHAR_CODE = 64;
-const getCharByIndex = (i2) => String.fromCharCode(AT_CHAR_CODE + i2);
-const getConditionFunc = (currentIndex, totalBorders) => currentIndex === totalBorders - 1 ? lessOrEqual : less;
-function classResolver(xValue, yValue) {
-  return concat(
-    switchFn(
-      // cases for a, b, c ...
-      xValue.borders.map(
-        (border, i2, arr) => caseFn(
-          getConditionFunc(i2, arr.length)(xValue.propName, border),
-          getCharByIndex(i2)
-        )
-      ),
-      // default case required
-      getCharByIndex(xValue.borders.length)
-    ),
-    switchFn(
-      // cases for 1, 2, 3 ...
-      yValue.borders.map(
-        (border, i2, arr) => caseFn(getConditionFunc(i2, arr.length)(yValue.propName, border), i2)
-      ),
-      // default case required
-      yValue.borders.length
-    )
-  );
-}
-function colorResolver(variableName, colorMap, fallbackColor) {
-  return switchFn(
-    Object.entries(colorMap).map(
-      ([cls, color]) => (
-        // color cases
-        caseFn(equal(getVariable(variableName), cls), color)
-      )
-    ),
-    fallbackColor
-  );
-}
-function colorsMap(colors) {
-  return Object.fromEntries(colors.map(({ id, color }) => [id, color]));
-}
-function filterSetup$1(xAxis, yAxis) {
-  return anyCondition(
-    notEqual(["/", featureProp(xAxis.quotient[0]), featureProp(xAxis.quotient[1])], 0),
-    notEqual(["/", featureProp(yAxis.quotient[0]), featureProp(yAxis.quotient[1])], 0)
-  );
-}
-function colorSetup(xAxis, yAxis, colors) {
-  const xAxisProp = [
-    "/",
-    featureProp(xAxis.quotient[0]),
-    featureProp(xAxis.quotient[1])
-  ];
-  const yAxisProp = [
-    "/",
-    featureProp(yAxis.quotient[0]),
-    featureProp(yAxis.quotient[1])
-  ];
-  return addVariable(
-    "class",
-    classResolver(
-      {
-        propName: xAxisProp,
-        borders: xAxis.steps.reduce(
-          (acc, { value: value2 }) => (acc.push(value2), acc),
-          []
-        )
-      },
-      {
-        propName: yAxisProp,
-        borders: yAxis.steps.reduce(
-          (acc, { value: value2 }) => (acc.push(value2), acc),
-          []
-        )
-      }
-    ),
-    colorResolver("class", colors, "transparent")
-  );
-}
-function generateBivariateStyleForAxis({
-  x: x2,
-  y: y2,
-  colors,
-  source,
-  sourceLayer,
-  id = "bivariate"
-}) {
-  const style2 = {
-    id,
-    type: "fill",
-    layout: {},
-    filter: filterSetup$1(x2, y2),
-    paint: {
-      "fill-color": colorSetup(x2, y2, colorsMap(colors)),
-      "fill-opacity": 1,
-      "fill-antialias": false
-    }
-  };
-  if (source) {
-    style2.source = source;
-  }
-  {
-    style2["source-layer"] = sourceLayer;
-  }
-  return style2;
-}
-function clusterize(arr, key = "id") {
-  const clusterMap = arr.reduce(
-    (acc, item) => {
-      const clusterName = item[key].slice(0, 1);
-      if (acc[clusterName]) {
-        acc[clusterName].push(item);
-      } else {
-        acc[clusterName] = [item];
-      }
-      return acc;
-    },
-    {}
-  );
-  return Object.values(clusterMap);
-}
-function invertClusters(arr, key = "id") {
-  const clusters = [...clusterize(arr, key)].reverse();
-  return clusters.reduce((acc, cluster) => acc.concat(cluster), []);
-}
 const formatSentimentDirection = (input) => Array.isArray(input) ? toCapitalizedList(input) : capitalize(input);
-const formatCustomBivariateAxisLabel = (customLabel, quotients) => {
-  const units = formatBivariateAxisUnit(quotients);
-  return units ? `${customLabel} (${units})` : customLabel;
-};
-const formatBivariateAxisLabel = (quotients) => {
-  if (!quotients) return "";
-  const [numerator, denominator] = quotients;
-  if (!hasUnits(numerator.unit.id)) {
-    return `${numerator.label} to ${denominator.label}`;
-  }
-  if (denominator.name === "one") {
-    return `${numerator.label} (${numerator.unit.shortName})`;
-  }
-  if (!hasUnits(denominator.unit.id)) {
-    return `${numerator.label} to ${denominator.label} (${numerator.unit.shortName})`;
-  }
-  return `${numerator.label} to ${denominator.label} (${numerator.unit.shortName}/${denominator.unit.shortName})`;
-};
-const formatBivariateAxisUnit = (quotients) => {
-  if (!quotients) return null;
-  const [numerator, denominator] = quotients;
-  if (!hasUnits(numerator.unit.id)) {
-    return null;
-  }
-  if (denominator.name === "one") {
-    return numerator.unit.shortName;
-  }
-  if (!hasUnits(denominator.unit.id)) {
-    return numerator.unit.shortName;
-  }
-  return `${numerator.unit.shortName}/${denominator.unit.shortName}`;
-};
-const hasUnits = (unitId) => Boolean(unitId && unitId !== "other");
 const tooltipRoot = "_tooltipRoot_zjmcz_1";
 const tooltipRow = "_tooltipRow_zjmcz_11";
 const sentimentDirection = "_sentimentDirection_zjmcz_17";
 const sentimentLabel = "_sentimentLabel_zjmcz_21";
 const sentimentInfo = "_sentimentInfo_zjmcz_25";
 const indicator = "_indicator_zjmcz_29";
-const s$5 = {
+const s = {
   tooltipRoot,
   tooltipRow,
   sentimentDirection,
@@ -15354,10 +15062,10 @@ function CornerTooltipWrapper({ children, hints }) {
   const [activeCorner, setActiveCorner] = reactExports.useState(null);
   const referenceEl = reactExports.useRef(null);
   const handleShowTooltip = (e, _cell, i2) => {
-    var _a2;
+    var _a;
     if (hints && CORNER_POINTS_INDEXES.includes(i2)) {
       setActiveCorner(i2);
-      const divRef = ((_a2 = e.target) == null ? void 0 : _a2.tagName) == "SPAN" ? e.target.parentElement : e.target;
+      const divRef = ((_a = e.target) == null ? void 0 : _a.tagName) == "SPAN" ? e.target.parentElement : e.target;
       if (divRef instanceof HTMLElement) {
         referenceEl.current = divRef;
       }
@@ -15393,11 +15101,11 @@ const BivariateLegendCornerTooltip = ({
   hints,
   cellIndex
 }) => {
-  var _a2, _b, _c, _d, _e2, _f;
+  var _a, _b, _c, _d, _e2, _f;
   if (!hints) return null;
   const rows = [
     {
-      label: (_a2 = hints.x) == null ? void 0 : _a2.label,
+      label: (_a = hints.x) == null ? void 0 : _a.label,
       direction: (_c = (_b = hints.x) == null ? void 0 : _b.direction) == null ? void 0 : _c[isBottomSide(cellIndex) ? 0 : 1],
       indicator: isBottomSide(cellIndex) ? LOW : HIGH
     },
@@ -15407,14 +15115,14 @@ const BivariateLegendCornerTooltip = ({
       indicator: isLeftSide(cellIndex) ? LOW : HIGH
     }
   ];
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: clsx(s$5.tooltipRoot), children: rows.map(({ label: label2, direction, indicator: indicator2 }, i2) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$5.tooltipRow), children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: clsx(s$5.indicator), children: indicator2 }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: clsx(s$5.sentimentInfo), children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: clsx(s$5.sentimentLabel), children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: clsx(s.tooltipRoot), children: rows.map(({ label: label2, direction, indicator: indicator2 }, i2) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s.tooltipRow), children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: clsx(s.indicator), children: indicator2 }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: clsx(s.sentimentInfo), children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: clsx(s.sentimentLabel), children: [
         label2,
         " "
       ] }),
-      direction && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: clsx(s$5.sentimentDirection), children: formatSentimentDirection(direction) })
+      direction && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: clsx(s.sentimentDirection), children: formatSentimentDirection(direction) })
     ] })
   ] }, i2)) });
 };
@@ -15534,7118 +15242,6 @@ const fixture7 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProp
   __proto__: null,
   default: BivariateLegendFixture
 }, Symbol.toStringTag, { value: "Module" }));
-const useIsomorphicEffect = "undefined" != typeof document ? React.useLayoutEffect : React.useEffect, { __SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED: oldInternals, __CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE: newInternals } = React, getComponentDebugName = (type) => {
-  var _a2, _b, _c, _d, _e2;
-  let Component = ((_b = (_a2 = oldInternals == null ? void 0 : oldInternals.ReactCurrentOwner) == null ? void 0 : _a2.current) == null ? void 0 : _b.type) ?? ((_e2 = (_d = (_c = newInternals == null ? void 0 : newInternals.A) == null ? void 0 : _c.getOwner) == null ? void 0 : _d.call(_c)) == null ? void 0 : _e2.type), name = (Component == null ? void 0 : Component.displayName) ?? (Component == null ? void 0 : Component.name);
-  return name ? `Component.${name}.${type}` : `_${type}`;
-};
-let batch = (cb) => cb();
-const reatomContext = React.createContext(null), useCtx = () => {
-  let ctx = React.useContext(reatomContext);
-  return throwReatomError(!ctx, "ctx is not set, you probably forgot to specify the ctx provider"), ctx;
-};
-const useAction = (fn, deps = [], name) => {
-  throwReatomError("function" != typeof fn, 'invalid "fn"'), deps ?? (deps = []);
-  let ctx = useCtx();
-  deps.push(ctx), isAction$1(fn) && deps.push(fn);
-  let ref = React.useMemo(() => {
-    let theAction = isAction$1(fn) ? fn : action(function() {
-      return ref.fn(...[].slice.call(arguments));
-    }, getComponentDebugName("useAction"));
-    return { fn, cb: function() {
-      return batch(() => theAction(ctx, ...[].slice.call(arguments)));
-    } };
-  }, deps);
-  return useIsomorphicEffect(() => {
-    ref.fn = fn;
-  }), ref.cb;
-};
-class Hsluv {
-  constructor() {
-    this.hex = "#000000";
-    this.rgb_r = 0;
-    this.rgb_g = 0;
-    this.rgb_b = 0;
-    this.xyz_x = 0;
-    this.xyz_y = 0;
-    this.xyz_z = 0;
-    this.luv_l = 0;
-    this.luv_u = 0;
-    this.luv_v = 0;
-    this.lch_l = 0;
-    this.lch_c = 0;
-    this.lch_h = 0;
-    this.hsluv_h = 0;
-    this.hsluv_s = 0;
-    this.hsluv_l = 0;
-    this.hpluv_h = 0;
-    this.hpluv_p = 0;
-    this.hpluv_l = 0;
-    this.r0s = 0;
-    this.r0i = 0;
-    this.r1s = 0;
-    this.r1i = 0;
-    this.g0s = 0;
-    this.g0i = 0;
-    this.g1s = 0;
-    this.g1i = 0;
-    this.b0s = 0;
-    this.b0i = 0;
-    this.b1s = 0;
-    this.b1i = 0;
-  }
-  static fromLinear(c2) {
-    if (c2 <= 31308e-7) {
-      return 12.92 * c2;
-    } else {
-      return 1.055 * Math.pow(c2, 1 / 2.4) - 0.055;
-    }
-  }
-  static toLinear(c2) {
-    if (c2 > 0.04045) {
-      return Math.pow((c2 + 0.055) / 1.055, 2.4);
-    } else {
-      return c2 / 12.92;
-    }
-  }
-  static yToL(Y2) {
-    if (Y2 <= Hsluv.epsilon) {
-      return Y2 / Hsluv.refY * Hsluv.kappa;
-    } else {
-      return 116 * Math.pow(Y2 / Hsluv.refY, 1 / 3) - 16;
-    }
-  }
-  static lToY(L2) {
-    if (L2 <= 8) {
-      return Hsluv.refY * L2 / Hsluv.kappa;
-    } else {
-      return Hsluv.refY * Math.pow((L2 + 16) / 116, 3);
-    }
-  }
-  static rgbChannelToHex(chan) {
-    const c2 = Math.round(chan * 255);
-    const digit2 = c2 % 16;
-    const digit1 = (c2 - digit2) / 16 | 0;
-    return Hsluv.hexChars.charAt(digit1) + Hsluv.hexChars.charAt(digit2);
-  }
-  static hexToRgbChannel(hex, offset2) {
-    const digit1 = Hsluv.hexChars.indexOf(hex.charAt(offset2));
-    const digit2 = Hsluv.hexChars.indexOf(hex.charAt(offset2 + 1));
-    const n2 = digit1 * 16 + digit2;
-    return n2 / 255;
-  }
-  static distanceFromOriginAngle(slope, intercept, angle) {
-    const d2 = intercept / (Math.sin(angle) - slope * Math.cos(angle));
-    if (d2 < 0) {
-      return Infinity;
-    } else {
-      return d2;
-    }
-  }
-  static distanceFromOrigin(slope, intercept) {
-    return Math.abs(intercept) / Math.sqrt(Math.pow(slope, 2) + 1);
-  }
-  static min6(f1, f2, f3, f4, f5, f6) {
-    return Math.min(f1, Math.min(f2, Math.min(f3, Math.min(f4, Math.min(f5, f6)))));
-  }
-  rgbToHex() {
-    this.hex = "#";
-    this.hex += Hsluv.rgbChannelToHex(this.rgb_r);
-    this.hex += Hsluv.rgbChannelToHex(this.rgb_g);
-    this.hex += Hsluv.rgbChannelToHex(this.rgb_b);
-  }
-  hexToRgb() {
-    this.hex = this.hex.toLowerCase();
-    this.rgb_r = Hsluv.hexToRgbChannel(this.hex, 1);
-    this.rgb_g = Hsluv.hexToRgbChannel(this.hex, 3);
-    this.rgb_b = Hsluv.hexToRgbChannel(this.hex, 5);
-  }
-  xyzToRgb() {
-    this.rgb_r = Hsluv.fromLinear(Hsluv.m_r0 * this.xyz_x + Hsluv.m_r1 * this.xyz_y + Hsluv.m_r2 * this.xyz_z);
-    this.rgb_g = Hsluv.fromLinear(Hsluv.m_g0 * this.xyz_x + Hsluv.m_g1 * this.xyz_y + Hsluv.m_g2 * this.xyz_z);
-    this.rgb_b = Hsluv.fromLinear(Hsluv.m_b0 * this.xyz_x + Hsluv.m_b1 * this.xyz_y + Hsluv.m_b2 * this.xyz_z);
-  }
-  rgbToXyz() {
-    const lr = Hsluv.toLinear(this.rgb_r);
-    const lg = Hsluv.toLinear(this.rgb_g);
-    const lb = Hsluv.toLinear(this.rgb_b);
-    this.xyz_x = 0.41239079926595 * lr + 0.35758433938387 * lg + 0.18048078840183 * lb;
-    this.xyz_y = 0.21263900587151 * lr + 0.71516867876775 * lg + 0.072192315360733 * lb;
-    this.xyz_z = 0.019330818715591 * lr + 0.11919477979462 * lg + 0.95053215224966 * lb;
-  }
-  xyzToLuv() {
-    const divider = this.xyz_x + 15 * this.xyz_y + 3 * this.xyz_z;
-    let varU = 4 * this.xyz_x;
-    let varV = 9 * this.xyz_y;
-    if (divider !== 0) {
-      varU /= divider;
-      varV /= divider;
-    } else {
-      varU = NaN;
-      varV = NaN;
-    }
-    this.luv_l = Hsluv.yToL(this.xyz_y);
-    if (this.luv_l === 0) {
-      this.luv_u = 0;
-      this.luv_v = 0;
-    } else {
-      this.luv_u = 13 * this.luv_l * (varU - Hsluv.refU);
-      this.luv_v = 13 * this.luv_l * (varV - Hsluv.refV);
-    }
-  }
-  luvToXyz() {
-    if (this.luv_l === 0) {
-      this.xyz_x = 0;
-      this.xyz_y = 0;
-      this.xyz_z = 0;
-      return;
-    }
-    const varU = this.luv_u / (13 * this.luv_l) + Hsluv.refU;
-    const varV = this.luv_v / (13 * this.luv_l) + Hsluv.refV;
-    this.xyz_y = Hsluv.lToY(this.luv_l);
-    this.xyz_x = 0 - 9 * this.xyz_y * varU / ((varU - 4) * varV - varU * varV);
-    this.xyz_z = (9 * this.xyz_y - 15 * varV * this.xyz_y - varV * this.xyz_x) / (3 * varV);
-  }
-  luvToLch() {
-    this.lch_l = this.luv_l;
-    this.lch_c = Math.sqrt(this.luv_u * this.luv_u + this.luv_v * this.luv_v);
-    if (this.lch_c < 1e-8) {
-      this.lch_h = 0;
-    } else {
-      const hrad = Math.atan2(this.luv_v, this.luv_u);
-      this.lch_h = hrad * 180 / Math.PI;
-      if (this.lch_h < 0) {
-        this.lch_h = 360 + this.lch_h;
-      }
-    }
-  }
-  lchToLuv() {
-    const hrad = this.lch_h / 180 * Math.PI;
-    this.luv_l = this.lch_l;
-    this.luv_u = Math.cos(hrad) * this.lch_c;
-    this.luv_v = Math.sin(hrad) * this.lch_c;
-  }
-  calculateBoundingLines(l2) {
-    const sub1 = Math.pow(l2 + 16, 3) / 1560896;
-    const sub2 = sub1 > Hsluv.epsilon ? sub1 : l2 / Hsluv.kappa;
-    const s1r = sub2 * (284517 * Hsluv.m_r0 - 94839 * Hsluv.m_r2);
-    const s2r = sub2 * (838422 * Hsluv.m_r2 + 769860 * Hsluv.m_r1 + 731718 * Hsluv.m_r0);
-    const s3r = sub2 * (632260 * Hsluv.m_r2 - 126452 * Hsluv.m_r1);
-    const s1g = sub2 * (284517 * Hsluv.m_g0 - 94839 * Hsluv.m_g2);
-    const s2g = sub2 * (838422 * Hsluv.m_g2 + 769860 * Hsluv.m_g1 + 731718 * Hsluv.m_g0);
-    const s3g = sub2 * (632260 * Hsluv.m_g2 - 126452 * Hsluv.m_g1);
-    const s1b = sub2 * (284517 * Hsluv.m_b0 - 94839 * Hsluv.m_b2);
-    const s2b = sub2 * (838422 * Hsluv.m_b2 + 769860 * Hsluv.m_b1 + 731718 * Hsluv.m_b0);
-    const s3b = sub2 * (632260 * Hsluv.m_b2 - 126452 * Hsluv.m_b1);
-    this.r0s = s1r / s3r;
-    this.r0i = s2r * l2 / s3r;
-    this.r1s = s1r / (s3r + 126452);
-    this.r1i = (s2r - 769860) * l2 / (s3r + 126452);
-    this.g0s = s1g / s3g;
-    this.g0i = s2g * l2 / s3g;
-    this.g1s = s1g / (s3g + 126452);
-    this.g1i = (s2g - 769860) * l2 / (s3g + 126452);
-    this.b0s = s1b / s3b;
-    this.b0i = s2b * l2 / s3b;
-    this.b1s = s1b / (s3b + 126452);
-    this.b1i = (s2b - 769860) * l2 / (s3b + 126452);
-  }
-  calcMaxChromaHpluv() {
-    const r0 = Hsluv.distanceFromOrigin(this.r0s, this.r0i);
-    const r1 = Hsluv.distanceFromOrigin(this.r1s, this.r1i);
-    const g0 = Hsluv.distanceFromOrigin(this.g0s, this.g0i);
-    const g1 = Hsluv.distanceFromOrigin(this.g1s, this.g1i);
-    const b0 = Hsluv.distanceFromOrigin(this.b0s, this.b0i);
-    const b1 = Hsluv.distanceFromOrigin(this.b1s, this.b1i);
-    return Hsluv.min6(r0, r1, g0, g1, b0, b1);
-  }
-  calcMaxChromaHsluv(h2) {
-    const hueRad = h2 / 360 * Math.PI * 2;
-    const r0 = Hsluv.distanceFromOriginAngle(this.r0s, this.r0i, hueRad);
-    const r1 = Hsluv.distanceFromOriginAngle(this.r1s, this.r1i, hueRad);
-    const g0 = Hsluv.distanceFromOriginAngle(this.g0s, this.g0i, hueRad);
-    const g1 = Hsluv.distanceFromOriginAngle(this.g1s, this.g1i, hueRad);
-    const b0 = Hsluv.distanceFromOriginAngle(this.b0s, this.b0i, hueRad);
-    const b1 = Hsluv.distanceFromOriginAngle(this.b1s, this.b1i, hueRad);
-    return Hsluv.min6(r0, r1, g0, g1, b0, b1);
-  }
-  hsluvToLch() {
-    if (this.hsluv_l > 99.9999999) {
-      this.lch_l = 100;
-      this.lch_c = 0;
-    } else if (this.hsluv_l < 1e-8) {
-      this.lch_l = 0;
-      this.lch_c = 0;
-    } else {
-      this.lch_l = this.hsluv_l;
-      this.calculateBoundingLines(this.hsluv_l);
-      const max2 = this.calcMaxChromaHsluv(this.hsluv_h);
-      this.lch_c = max2 / 100 * this.hsluv_s;
-    }
-    this.lch_h = this.hsluv_h;
-  }
-  lchToHsluv() {
-    if (this.lch_l > 99.9999999) {
-      this.hsluv_s = 0;
-      this.hsluv_l = 100;
-    } else if (this.lch_l < 1e-8) {
-      this.hsluv_s = 0;
-      this.hsluv_l = 0;
-    } else {
-      this.calculateBoundingLines(this.lch_l);
-      const max2 = this.calcMaxChromaHsluv(this.lch_h);
-      this.hsluv_s = this.lch_c / max2 * 100;
-      this.hsluv_l = this.lch_l;
-    }
-    this.hsluv_h = this.lch_h;
-  }
-  hpluvToLch() {
-    if (this.hpluv_l > 99.9999999) {
-      this.lch_l = 100;
-      this.lch_c = 0;
-    } else if (this.hpluv_l < 1e-8) {
-      this.lch_l = 0;
-      this.lch_c = 0;
-    } else {
-      this.lch_l = this.hpluv_l;
-      this.calculateBoundingLines(this.hpluv_l);
-      const max2 = this.calcMaxChromaHpluv();
-      this.lch_c = max2 / 100 * this.hpluv_p;
-    }
-    this.lch_h = this.hpluv_h;
-  }
-  lchToHpluv() {
-    if (this.lch_l > 99.9999999) {
-      this.hpluv_p = 0;
-      this.hpluv_l = 100;
-    } else if (this.lch_l < 1e-8) {
-      this.hpluv_p = 0;
-      this.hpluv_l = 0;
-    } else {
-      this.calculateBoundingLines(this.lch_l);
-      const max2 = this.calcMaxChromaHpluv();
-      this.hpluv_p = this.lch_c / max2 * 100;
-      this.hpluv_l = this.lch_l;
-    }
-    this.hpluv_h = this.lch_h;
-  }
-  hsluvToRgb() {
-    this.hsluvToLch();
-    this.lchToLuv();
-    this.luvToXyz();
-    this.xyzToRgb();
-  }
-  hpluvToRgb() {
-    this.hpluvToLch();
-    this.lchToLuv();
-    this.luvToXyz();
-    this.xyzToRgb();
-  }
-  hsluvToHex() {
-    this.hsluvToRgb();
-    this.rgbToHex();
-  }
-  hpluvToHex() {
-    this.hpluvToRgb();
-    this.rgbToHex();
-  }
-  rgbToHsluv() {
-    this.rgbToXyz();
-    this.xyzToLuv();
-    this.luvToLch();
-    this.lchToHpluv();
-    this.lchToHsluv();
-  }
-  rgbToHpluv() {
-    this.rgbToXyz();
-    this.xyzToLuv();
-    this.luvToLch();
-    this.lchToHpluv();
-    this.lchToHpluv();
-  }
-  hexToHsluv() {
-    this.hexToRgb();
-    this.rgbToHsluv();
-  }
-  hexToHpluv() {
-    this.hexToRgb();
-    this.rgbToHpluv();
-  }
-}
-Hsluv.hexChars = "0123456789abcdef";
-Hsluv.refY = 1;
-Hsluv.refU = 0.19783000664283;
-Hsluv.refV = 0.46831999493879;
-Hsluv.kappa = 903.2962962;
-Hsluv.epsilon = 0.0088564516;
-Hsluv.m_r0 = 3.240969941904521;
-Hsluv.m_r1 = -1.537383177570093;
-Hsluv.m_r2 = -0.498610760293;
-Hsluv.m_g0 = -0.96924363628087;
-Hsluv.m_g1 = 1.87596750150772;
-Hsluv.m_g2 = 0.041555057407175;
-Hsluv.m_b0 = 0.055630079696993;
-Hsluv.m_b1 = -0.20397695888897;
-Hsluv.m_b2 = 1.056971514242878;
-function getMaxMCDAZoomLevel(config2, fallbackMaxZoom) {
-  return getMaxNumeratorZoomLevel(
-    config2.layers.map((axis2) => axis2.indicators),
-    fallbackMaxZoom
-  );
-}
-function getMaxNumeratorZoomLevel(indicators, fallbackMaxZoom) {
-  const maxIndicatorsZoom = Math.max(
-    ...indicators.map((indicators2) => {
-      var _a2;
-      return ((_a2 = indicators2[0]) == null ? void 0 : _a2.maxZoom) ?? -1;
-    })
-  );
-  if (maxIndicatorsZoom === -1) {
-    return fallbackMaxZoom;
-  }
-  return maxIndicatorsZoom;
-}
-const SOURCE_LAYER_BIVARIATE = "stats";
-const FALLBACK_BIVARIATE_MIN_ZOOM = 0;
-const FALLBACK_BIVARIATE_MAX_ZOOM = 9;
-const FEATURE_STATES = {
-  hover: "hover",
-  active: "active"
-};
-const H3_HOVER_LAYER = {
-  type: "line",
-  layout: {},
-  paint: {
-    "line-color": [
-      "case",
-      // prettier-ignore :active
-      ["==", ["feature-state", FEATURE_STATES.active], true],
-      "rgba(5, 22, 38, 1)",
-      // prettier-ignore :hover
-      ["==", ["feature-state", FEATURE_STATES.hover], true],
-      "rgba(5, 22, 38, 0.4)",
-      // not selected
-      "rgba(0, 0, 0, 0)"
-    ],
-    "line-width": 1
-  }
-};
-function adaptTileUrl(url2) {
-  const protocolRegexp = /https?:/;
-  if (protocolRegexp.test(url2)) {
-    url2 = window.location.protocol + url2.replace(protocolRegexp, "");
-  } else {
-    const baseUrl = configRepo.get().bivariateTilesServer ?? `${window.location.protocol}${window.location.host}${configRepo.get().baseUrl}`;
-    url2 = `${baseUrl}${url2}`;
-  }
-  url2 = url2.replace("{bbox}", "{bbox-epsg-3857}").replace("{proj}", "EPSG:3857").replace("{width}", "256").replace("{height}", "256").replace("{zoom}", "{z}").replace("{-y}", "{y}");
-  const domains = (url2.match(/{switch:(.*?)}/) || ["", ""])[1].split(",")[0];
-  url2 = url2.replace(/{switch:(.*?)}/, domains);
-  return url2;
-}
-function getDefaultBivariateTilesUrl() {
-  return `${adaptTileUrl(
-    configRepo.get().bivariateTilesRelativeUrl
-  )}{z}/{x}/{y}.mvt?indicatorsClass=${configRepo.get().bivariateTilesIndicatorsClass}`;
-}
-function interpolate360(start, end) {
-  return start + (((end - start) % 360 + 540) % 360 - 180) * 0.5;
-}
-function interpolateLinear(start, end) {
-  return (start + end) / 2;
-}
-function interpolateHsl(start, end) {
-  return [
-    interpolate360(start[0], end[0]),
-    interpolateLinear(start[1], end[1]),
-    interpolateLinear(start[2], end[2])
-  ];
-}
-function convertToRgbaWithOpacity(hexColor) {
-  if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(hexColor)) {
-    let clr = hexColor.substring(1).split("");
-    if (clr.length === 3) {
-      clr = [clr[0], clr[0], clr[1], clr[1], clr[2], clr[2]];
-    }
-    const hexNum = parseInt(`0x${clr.join("")}`, 0);
-    return `rgba(${[hexNum >> 16 & 255, hexNum >> 8 & 255, hexNum & 255].join(
-      ","
-    )},0.5)`;
-  }
-  throw new Error("Bad Hex");
-}
-function findColors(colors, crn) {
-  const corner1 = (Array.isArray(crn[0]) ? [...crn[0]] : [crn[0]]).sort();
-  const corner2 = (Array.isArray(crn[1]) ? [...crn[1]] : [crn[1]]).sort();
-  const mergedCorner = Array.from(new Set(corner1.concat(corner2)));
-  const combination = colors.combinations.find(({ corner: corner3 }) => {
-    if (mergedCorner.length !== corner3.length) return false;
-    for (let i2 = 0; i2 < mergedCorner.length; i2 += 1) {
-      if (mergedCorner[i2] !== corner3[i2]) {
-        return false;
-      }
-    }
-    return true;
-  });
-  return (combination == null ? void 0 : combination.color) ? { color: combination.color } : { color: colors.fallback, isFallbackColor: true };
-}
-function generateColorThemeAndBivariateStyle(xNumerator, xDenominator, yNumerator, yDenominator, stats, sourceLayer) {
-  var _a2, _b;
-  const { indicators, colors, axis: axis2 } = stats;
-  const xAxis = axis2.find(
-    (ax) => ax.quotient[0] === xNumerator && ax.quotient[1] === xDenominator
-  );
-  const yAxis = axis2.find(
-    (ax) => ax.quotient[0] === yNumerator && ax.quotient[1] === yDenominator
-  );
-  if (!xAxis || !yAxis) return;
-  const xAxisDirection = (_a2 = indicators.find((ind) => ind.name === xNumerator)) == null ? void 0 : _a2.direction;
-  const yAxisDirection = (_b = indicators.find((ind) => ind.name === yNumerator)) == null ? void 0 : _b.direction;
-  if (!xAxisDirection || !yAxisDirection) return;
-  const colorTheme = generateColorTheme(
-    colors,
-    xAxisDirection,
-    yAxisDirection
-  );
-  const maxZoom = getMaxNumeratorZoomLevel(
-    [xAxis.quotients ?? [], yAxis.quotients ?? []],
-    stats.meta.max_zoom || FALLBACK_BIVARIATE_MAX_ZOOM
-  );
-  const bivariateStyle = generateBivariateStyle(
-    xAxis,
-    yAxis,
-    colorTheme,
-    maxZoom,
-    sourceLayer
-  );
-  return [colorTheme, bivariateStyle];
-}
-const generateBivariateStyle = (xAxis, yAxis, colorTheme, maxZoomLevel, sourceLayer) => generateBivariateStyleForAxis({
-  id: `${xAxis.quotient.join("&")}|${yAxis.quotient.join("&")}`,
-  x: xAxis,
-  y: yAxis,
-  colors: colorTheme,
-  sourceLayer,
-  source: {
-    type: "vector",
-    tiles: [getDefaultBivariateTilesUrl()],
-    maxzoom: maxZoomLevel,
-    minzoom: 0
-  }
-});
-const generateColorTheme = (colors, xAxisDirection, yAxisDirection) => {
-  const conv = new Hsluv();
-  const corner00 = findColors(colors, [xAxisDirection[0], yAxisDirection[0]]);
-  const corner01 = findColors(colors, [xAxisDirection[0], yAxisDirection[1]]);
-  const corner10 = findColors(colors, [xAxisDirection[1], yAxisDirection[0]]);
-  const corner11 = findColors(colors, [xAxisDirection[1], yAxisDirection[1]]);
-  const cornerHsl = [corner00, corner01, corner10, corner11].map((c2) => {
-    conv.hex = c2.color;
-    conv.hexToHsluv();
-    return [conv.hsluv_h, conv.hsluv_s, conv.hsluv_l];
-  });
-  const midLeftHsl = interpolateHsl(cornerHsl[0], cornerHsl[1]);
-  const midBottomHsl = interpolateHsl(cornerHsl[0], cornerHsl[2]);
-  const midTopHsl = interpolateHsl(cornerHsl[1], cornerHsl[3]);
-  const midRightHsl = interpolateHsl(cornerHsl[2], cornerHsl[3]);
-  const midMidHsl = interpolateHsl(midBottomHsl, midTopHsl);
-  const [A2, B1, B2, B3, C2] = [
-    midLeftHsl,
-    midBottomHsl,
-    midMidHsl,
-    midTopHsl,
-    midRightHsl
-  ].map(([h2, s2, l2]) => {
-    conv.hsluv_h = h2;
-    conv.hsluv_s = s2;
-    conv.hsluv_l = l2;
-    conv.hsluvToHex();
-    return convertToRgbaWithOpacity(conv.hex);
-  });
-  const colorTheme = [
-    {
-      id: "A1",
-      color: convertToRgbaWithOpacity(corner00.color),
-      isFallbackColor: corner00.isFallbackColor
-    },
-    { id: "A2", color: A2 },
-    {
-      id: "A3",
-      color: convertToRgbaWithOpacity(corner01.color),
-      isFallbackColor: corner01.isFallbackColor
-    },
-    { id: "B1", color: B1 },
-    { id: "B2", color: B2 },
-    { id: "B3", color: B3 },
-    {
-      id: "C1",
-      color: convertToRgbaWithOpacity(corner10.color),
-      isFallbackColor: corner10.isFallbackColor
-    },
-    { id: "C2", color: C2 },
-    {
-      id: "C3",
-      color: convertToRgbaWithOpacity(corner11.color),
-      isFallbackColor: corner11.isFallbackColor
-    }
-  ];
-  return colorTheme;
-};
-function generateLayerStyleFromBivariateLegend(bl, sourceLayer) {
-  return generateBivariateStyleForAxis({
-    id: `${bl.axis.x.quotient.join("&")}|${bl.axis.y.quotient.join("&")}`,
-    x: bl.axis.x,
-    y: bl.axis.y,
-    colors: [...bl.steps].sort((stp1, stp2) => stp1.label > stp2.label ? 1 : -1).map((stp) => ({ id: stp.label, color: stp.color })),
-    sourceLayer
-  });
-}
-function createBivariateLegend(name, colorTheme, xNumerator, xDenominator, yNumerator, yDenominator, stats) {
-  const xAxis = stats.axis.find(
-    (ax) => ax.quotient[0] === xNumerator && ax.quotient[1] === xDenominator
-  );
-  const yAxis = stats.axis.find(
-    (ax) => ax.quotient[0] === yNumerator && ax.quotient[1] === yDenominator
-  );
-  if (!xAxis || !yAxis) return;
-  return fillBivariateLegend(name, xAxis, yAxis, colorTheme);
-}
-const fillBivariateLegend = (name, xAxis, yAxis, colorTheme) => ({
-  name,
-  axis: { x: xAxis, y: yAxis },
-  type: "bivariate",
-  steps: colorTheme.map(({ id, color, isFallbackColor }) => ({
-    label: id,
-    color,
-    isFallbackColor
-  }))
-});
-function createBivariateMeta(xNumerator, xDenominator, yNumerator, yDenominator, stats) {
-  var _a2, _b, _c, _d;
-  const xAxisNumeratorIndicator = stats.indicators.find((ind) => ind.name === xNumerator);
-  const yAxisNumeratorIndicator = stats.indicators.find((ind) => ind.name === yNumerator);
-  const xNumeratorLabel = xAxisNumeratorIndicator == null ? void 0 : xAxisNumeratorIndicator.label;
-  const yNumeratorLabel = yAxisNumeratorIndicator == null ? void 0 : yAxisNumeratorIndicator.label;
-  const xDenominatorLabel = (_a2 = stats.indicators.find(
-    (ind) => ind.name === xDenominator
-  )) == null ? void 0 : _a2.label;
-  const yDenominatorLabel = (_b = stats.indicators.find(
-    (ind) => ind.name === yDenominator
-  )) == null ? void 0 : _b.label;
-  let copyrights = [];
-  if ((_c = xAxisNumeratorIndicator == null ? void 0 : xAxisNumeratorIndicator.copyrights) == null ? void 0 : _c.length) {
-    copyrights = copyrights.concat(xAxisNumeratorIndicator.copyrights);
-  }
-  if ((_d = yAxisNumeratorIndicator == null ? void 0 : yAxisNumeratorIndicator.copyrights) == null ? void 0 : _d.length) {
-    copyrights = copyrights.concat(yAxisNumeratorIndicator.copyrights);
-  }
-  const description = `This map shows relation of ${xNumeratorLabel} (normalized by ${xDenominatorLabel}) to the base of ${yNumeratorLabel} (normalized by ${yDenominatorLabel}).`;
-  return {
-    description,
-    copyrights,
-    hints: {
-      x: {
-        label: xNumeratorLabel,
-        direction: xAxisNumeratorIndicator == null ? void 0 : xAxisNumeratorIndicator.direction
-      },
-      y: {
-        label: yNumeratorLabel,
-        direction: yAxisNumeratorIndicator == null ? void 0 : yAxisNumeratorIndicator.direction
-      }
-    }
-  };
-}
-const fitsLegendCriteria = (step, index2, totalSteps, targetValue) => index2 !== 0 && targetValue < step.value || index2 === totalSteps - 1 && targetValue <= step.value;
-function getCellLabelByValue(xSteps, ySteps, xValue, yValue) {
-  const charIndex = xSteps.findIndex(
-    (xStep, i2, arr) => fitsLegendCriteria(xStep, i2, arr.length, xValue)
-  );
-  const char = getCharByIndex(charIndex);
-  const number = ySteps.findIndex(
-    (yStep, i2, arr) => fitsLegendCriteria(yStep, i2, arr.length, yValue)
-  );
-  return char + number;
-}
-const layersLegendsAtom = createMapAtom(
-  /* @__PURE__ */ new Map(),
-  "layersLegends"
-);
-const layersSourcesAtom = createMapAtom(
-  /* @__PURE__ */ new Map(),
-  "layersSources"
-);
-const layersMetaAtom = createMapAtom(
-  /* @__PURE__ */ new Map(),
-  "layersMeta"
-);
-const layersSettingsAtom$1 = createMapAtom(
-  /* @__PURE__ */ new Map(),
-  "layersSettings"
-);
-const layersMenusAtom = createMapAtom(
-  /* @__PURE__ */ new Map(),
-  "layersMenus"
-);
-const createBatchedUpdateMap = () => ({
-  legend: [],
-  source: [],
-  meta: [],
-  settings: [],
-  menu: []
-});
-const wrapInAsyncState = ([id, data]) => [
-  id,
-  { data, isLoading: false, error: null }
-];
-function createUpdateLayerActions(updates) {
-  const batchedUpdates = updates.reduce((acc, { id, ...update }) => {
-    Object.keys(update).forEach((key) => {
-      acc[key].push([id, update[key]]);
-    });
-    return acc;
-  }, createBatchedUpdateMap());
-  const updateActions = [];
-  const cleanupActions = [];
-  if (batchedUpdates.legend.length) {
-    const update = batchedUpdates.legend.map(wrapInAsyncState);
-    updateActions.push(
-      layersLegendsAtom.change((state) => {
-        return new Map([...state, ...update]);
-      })
-    );
-  }
-  if (batchedUpdates.source.length) {
-    const update = batchedUpdates.source.map(wrapInAsyncState);
-    updateActions.push(
-      layersSourcesAtom.change((state) => {
-        return new Map([...state, ...update]);
-      })
-    );
-  }
-  if (batchedUpdates.meta.length) {
-    const update = batchedUpdates.meta.map(wrapInAsyncState);
-    updateActions.push(
-      layersMetaAtom.change((state) => {
-        return new Map([...state, ...update]);
-      })
-    );
-  }
-  if (batchedUpdates.settings.length) {
-    const update = batchedUpdates.settings.map(wrapInAsyncState);
-    updateActions.push(
-      layersSettingsAtom$1.change((state) => {
-        return new Map([...state, ...update]);
-      })
-    );
-  }
-  if (batchedUpdates.menu.length) {
-    const update = batchedUpdates.menu;
-    updateActions.push(
-      layersMenusAtom.change((state) => {
-        return new Map([...state, ...update]);
-      })
-    );
-  }
-  return [updateActions, cleanupActions];
-}
-class LogicalLayerDefaultRenderer {
-  constructor() {
-    __publicField(this, "errorSetter", (e) => {
-      console.warn(
-        "Hook for renderer errors not installed. You must add it in logical layer by setErrorState method"
-      );
-    });
-    /** Call it in renderer */
-    __publicField(this, "onError", (e) => {
-      if (e instanceof Error) {
-        this.errorSetter(e);
-      } else if (typeof e === "string") {
-        this.errorSetter(new Error(e));
-      } else {
-        this.errorSetter(new Error("unknown"));
-      }
-    });
-  }
-  /** Call it in logical layer atom */
-  setErrorState(cb) {
-    this.errorSetter = cb;
-  }
-  setupExtension(atom2) {
-    return;
-  }
-  willInit(args) {
-    return;
-  }
-  willMount(args) {
-    return;
-  }
-  willUnMount(args) {
-    return;
-  }
-  willHide(args) {
-    return;
-  }
-  willUnhide(args) {
-    return;
-  }
-  willLegendUpdate(args) {
-    return;
-  }
-  willSourceUpdate(args) {
-    return;
-  }
-  willDestroy(args) {
-    return;
-  }
-}
-const LAYER_BIVARIATE_PREFIX = "bivariate-layer-";
-const SOURCE_BIVARIATE_PREFIX = "bivariate-source-";
-const categoriesSettings = {
-  overlay: {
-    name: TranslationService.t("categories.overlays"),
-    openByDefault: true,
-    mutuallyExclusive: false,
-    order: 1
-  },
-  base: {
-    name: TranslationService.t("categories.basemap"),
-    openByDefault: false,
-    mutuallyExclusive: true,
-    order: 2
-  }
-};
-const groupSettings = {
-  layersInSelectedArea: {
-    name: TranslationService.t("groups.layers_in_selected_area"),
-    openByDefault: true,
-    mutuallyExclusive: false,
-    order: 0
-  },
-  user_layers: {
-    name: TranslationService.t("groups.your_layers"),
-    openByDefault: true,
-    mutuallyExclusive: false,
-    order: 1
-  },
-  bivariate: {
-    name: TranslationService.t("groups.kontur_analytics"),
-    openByDefault: true,
-    mutuallyExclusive: true,
-    order: 2
-  },
-  qa: {
-    name: TranslationService.t("groups.qa"),
-    openByDefault: true,
-    mutuallyExclusive: false,
-    order: 3
-  },
-  osmbasedmap: {
-    name: TranslationService.t("groups.osmbasedmap"),
-    openByDefault: false,
-    mutuallyExclusive: false,
-    order: 4
-  },
-  other: {
-    name: TranslationService.t("groups.other"),
-    openByDefault: false,
-    mutuallyExclusive: false,
-    order: 999
-  },
-  elevation: {
-    name: TranslationService.t("groups.elevation"),
-    openByDefault: true,
-    mutuallyExclusive: false
-  },
-  photo: {
-    name: TranslationService.t("groups.photo"),
-    openByDefault: true,
-    mutuallyExclusive: false
-  },
-  map: {
-    name: TranslationService.t("groups.map"),
-    openByDefault: true,
-    mutuallyExclusive: false
-  }
-};
-const layerTypesOrdered = [
-  "background",
-  "raster",
-  "hillshade",
-  "heatmap",
-  "fill",
-  "fill-extrusion",
-  "line",
-  "circle",
-  "symbol",
-  "custom"
-];
-class LayersOrderManager {
-  constructor() {
-    __publicField(this, "_baseMapFirstLayerIdx", null);
-    __publicField(this, "_map", null);
-    __publicField(this, "_layersSettings", null);
-    __publicField(this, "_layersParentsIds", null);
-    __publicField(this, "_unsubscribe", []);
-    __publicField(this, "_typesOrder", [...layerTypesOrdered]);
-    __publicField(this, "_awaitingTasks", /* @__PURE__ */ new Set());
-  }
-  init(map, mapLibreParentsIds2, layersSettingsAtom2) {
-    this._map = map;
-    this._unsubscribe.push(
-      layersSettingsAtom2.subscribe(
-        (layersSetting) => this._layersSettings = layersSetting
-      )
-    );
-    this._layersParentsIds = mapLibreParentsIds2;
-    this._baseMapFirstLayerIdx = (map.getStyle().layers ?? []).length - 1;
-    this._awaitingTasks.forEach((task) => {
-      this._awaitingTasks.delete(task);
-      task(map);
-    });
-  }
-  destroy() {
-    this._unsubscribe.forEach((fn) => fn());
-  }
-  getIdToMountOnTypesTop(type, id, cb) {
-    this._asyncWrap(type, id, cb, this._getIdToMountOnTypesTopSync.bind(this));
-  }
-  getIdToMountOnTypesBottom(type, id, cb) {
-    this._asyncWrap(type, id, cb, this._getIdToMountOnTypesBottomSync.bind(this));
-  }
-  _getIdToMountOnTypesTopSync(map, type, id) {
-    var _a2, _b, _c, _d;
-    const orderedLayers = this._getMountedOrderedLayers(map);
-    if (!(orderedLayers == null ? void 0 : orderedLayers.size)) return;
-    const mountedLayersOfGivenType = orderedLayers.get(type);
-    const givenLayerParentKey = (_a2 = this._layersParentsIds) == null ? void 0 : _a2.get(id);
-    const givenLayerSettings = (_c = (_b = this._layersSettings) == null ? void 0 : _b.get(givenLayerParentKey || "")) == null ? void 0 : _c.data;
-    if (!givenLayerSettings) {
-      console.warn("settings were not found for layer ", type, id);
-      return;
-    }
-    const givenCategory = givenLayerSettings.category;
-    const higherLayerOfGivenType = mountedLayersOfGivenType == null ? void 0 : mountedLayersOfGivenType.find((searchingLayer) => {
-      if (givenCategory === "base") return searchingLayer.category !== "base";
-      if (givenCategory === "overlay") return searchingLayer.category === void 0;
-    });
-    if (givenCategory && higherLayerOfGivenType) {
-      return higherLayerOfGivenType.layer.id;
-    }
-    if (!higherLayerOfGivenType || !givenCategory) {
-      const higherMountedType = this._typesOrder.slice(this._typesOrder.indexOf(type) + 1).find((higherType) => {
-        var _a3;
-        return (_a3 = orderedLayers.get(higherType)) == null ? void 0 : _a3.length;
-      });
-      if (!higherMountedType) return void 0;
-      const higherMountedLayer = (_d = orderedLayers.get(higherMountedType)) == null ? void 0 : _d[0].layer.id;
-      return higherMountedLayer;
-    }
-  }
-  _getIdToMountOnTypesBottomSync(map, type, id) {
-    var _a2, _b, _c, _d;
-    const orderedLayers = this._getMountedOrderedLayers(map);
-    if (!(orderedLayers == null ? void 0 : orderedLayers.size)) return;
-    const mountedLayersOfGivenType = orderedLayers.get(type);
-    const givenLayerParentKey = (_a2 = this._layersParentsIds) == null ? void 0 : _a2.get(id);
-    const givenLayerSettings = (_c = (_b = this._layersSettings) == null ? void 0 : _b.get(givenLayerParentKey || "")) == null ? void 0 : _c.data;
-    if (!givenLayerSettings) {
-      console.warn("settings were not found for layer ", type, id);
-      return;
-    }
-    const givenCategory = givenLayerSettings.category;
-    const firstLayerOfNextCategory = (() => {
-      if (givenCategory === "base") return mountedLayersOfGivenType == null ? void 0 : mountedLayersOfGivenType[0];
-      if (givenCategory === "overlay")
-        return mountedLayersOfGivenType == null ? void 0 : mountedLayersOfGivenType.find(
-          (searchingLayer) => searchingLayer.category === "overlay" || searchingLayer.category === void 0
-        );
-      if (givenCategory === void 0)
-        return mountedLayersOfGivenType == null ? void 0 : mountedLayersOfGivenType.find(
-          (searchingLayer) => searchingLayer.category === void 0
-        );
-    })();
-    if (firstLayerOfNextCategory) return firstLayerOfNextCategory.layer.id;
-    if (!(mountedLayersOfGivenType == null ? void 0 : mountedLayersOfGivenType.length) || !firstLayerOfNextCategory) {
-      const higherMountedType = this._typesOrder.slice(this._typesOrder.indexOf(type) + 1).find((higherType) => {
-        var _a3;
-        return (_a3 = orderedLayers.get(higherType)) == null ? void 0 : _a3.length;
-      });
-      if (!higherMountedType) return void 0;
-      const higherMountedLayer = (_d = orderedLayers.get(higherMountedType)) == null ? void 0 : _d[0].layer.id;
-      return higherMountedLayer;
-    }
-  }
-  _getMountedOrderedLayers(map) {
-    if (this._baseMapFirstLayerIdx === null) return;
-    const allLayers = map.getStyle().layers ?? [];
-    if (allLayers.length === 0) {
-      return void 0;
-    }
-    const customLayers = allLayers.slice(this._baseMapFirstLayerIdx + 1);
-    if (!customLayers.length) return void 0;
-    const mountedOrderedLayers = /* @__PURE__ */ new Map();
-    customLayers.forEach((layer2) => {
-      var _a2, _b, _c, _d;
-      const layerParentId = (_a2 = this._layersParentsIds) == null ? void 0 : _a2.get(layer2.id);
-      if (!layerParentId) return console.warn("id was not found for", layer2.id, layer2);
-      const orderedLayersUnderSameType = mountedOrderedLayers.get(layer2.type) || [];
-      orderedLayersUnderSameType.push({
-        layer: layer2,
-        category: (_d = (_c = (_b = this._layersSettings) == null ? void 0 : _b.get(layerParentId)) == null ? void 0 : _c.data) == null ? void 0 : _d.category
-      });
-      mountedOrderedLayers.set(layer2.type, orderedLayersUnderSameType);
-    });
-    return mountedOrderedLayers;
-  }
-  _asyncWrap(type, id, cb, syncFunction) {
-    const map = this._map;
-    if (map === null || this._baseMapFirstLayerIdx === null) {
-      this._awaitingTasks.add((map2) => {
-        cb(syncFunction(map2, type, id));
-      });
-    } else {
-      cb(syncFunction(map, type, id));
-    }
-  }
-}
-const layersOrderManager = new LayersOrderManager();
-const mapLibreParentsIds = /* @__PURE__ */ new Map();
-function layerByOrder(map, layersOrderManager$1 = layersOrderManager) {
-  function addAboveLayerWithSameType(maplibreLayer, uiLayerId) {
-    mapLibreParentsIds.set(maplibreLayer.id, uiLayerId);
-    layersOrderManager$1.getIdToMountOnTypesTop(
-      maplibreLayer.type,
-      maplibreLayer.id,
-      (id) => map.addLayer(maplibreLayer, id)
-    );
-  }
-  function addUnderLayerWithSameType(maplibreLayer, uiLayerId) {
-    mapLibreParentsIds.set(maplibreLayer.id, uiLayerId);
-    layersOrderManager$1.getIdToMountOnTypesBottom(
-      maplibreLayer.type,
-      maplibreLayer.id,
-      (id) => map.addLayer(maplibreLayer, id)
-    );
-  }
-  function addAboveAllExistingLayers(maplibreLayer, uiLayerId) {
-    mapLibreParentsIds.set(maplibreLayer.id, uiLayerId);
-    map.addLayer(maplibreLayer, void 0);
-  }
-  return {
-    addAboveLayerWithSameType,
-    addUnderLayerWithSameType,
-    addAboveAllExistingLayers
-  };
-}
-const waitMapEvent = (map, event) => new Promise((res, rej) => {
-  try {
-    map.on(event, res);
-  } catch (error2) {
-    rej(error2);
-  }
-});
-function mapLoaded(map) {
-  if (!map._loaded) {
-    return waitMapEvent(map, "load");
-  }
-  return;
-}
-const mountedLayersAtom = createMapAtom(
-  /* @__PURE__ */ new Map(),
-  "mountedLayers"
-);
-let _lastUpdatedState_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = mountedLayersAtom.getState();
-mountedLayersAtom.subscribe((s2) => {
-  _lastUpdatedState_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = s2;
-});
-const currentMapAtom = createAtom(
-  {
-    setMap: (map) => map,
-    resetMap: () => null
-  },
-  ({ onAction, schedule }, state = null) => {
-    onAction("setMap", (map) => {
-      if (map !== state) {
-        state = map;
-        schedule((dispatch) => {
-          dispatch(mountedLayersAtom.clear());
-        });
-      }
-    });
-    onAction("resetMap", () => {
-      state = null;
-      schedule((dispatch) => {
-        dispatch(mountedLayersAtom.clear());
-      });
-    });
-    return state;
-  },
-  "[Shared state] currentMapAtom"
-);
-const MAP_EVENTS = [
-  "click",
-  "mousemove",
-  "mouseleave",
-  "move",
-  "movestart",
-  "moveend"
-];
-const defaultListeners = MAP_EVENTS.reduce(
-  (acc, event) => ({ ...acc, [event]: [] }),
-  {}
-);
-const registeredHandlers = /* @__PURE__ */ new Map();
-function updateMapEventHandlers(ctx, eventType, listeners) {
-  const map = ctx.get(currentMapAtom.v3atom);
-  if (!map) return;
-  const existingHandler = registeredHandlers.get(eventType);
-  if (existingHandler) {
-    map.off(eventType, existingHandler);
-    registeredHandlers.delete(eventType);
-  }
-  if (listeners.length > 0) {
-    const sortedListeners = listeners.sort((a2, b2) => b2.priority - a2.priority);
-    const chainHandler = (event) => {
-      for (const { listener } of sortedListeners) {
-        const shouldContinue = listener(event, event.target);
-        if (!shouldContinue) break;
-      }
-    };
-    map.on(eventType, chainHandler);
-    registeredHandlers.set(eventType, chainHandler);
-  }
-}
-const initializeMapEventHandlers = action((ctx) => {
-  const map = ctx.get(currentMapAtom.v3atom);
-  if (!map) return;
-  const state = ctx.get(mapListenersAtom);
-  MAP_EVENTS.forEach((eventType) => {
-    const listeners = state[eventType];
-    if (listeners.length > 0) {
-      updateMapEventHandlers(ctx, eventType, listeners);
-    }
-  });
-}, "initializeMapEventHandlers");
-currentMapAtom.v3atom.onChange((ctx, map) => {
-  if (map) {
-    initializeMapEventHandlers(ctx);
-  }
-});
-const mapListenersAtom = atom(
-  defaultListeners,
-  "[Shared state] mapListenersAtom"
-);
-const addMapListener = action(
-  (ctx, eventType, listener, priority) => {
-    const state = ctx.get(mapListenersAtom);
-    const listenerCategory = [...state[eventType]];
-    if (!listenerCategory.length) {
-      listenerCategory.push({ listener, priority });
-    } else {
-      for (let i2 = 0; i2 < listenerCategory.length; i2++) {
-        const listenerWrap = listenerCategory[i2];
-        if (priority < listenerWrap.priority) {
-          listenerCategory.splice(i2, 0, { listener, priority });
-          break;
-        } else if (listenerWrap.priority === priority) {
-          listenerCategory.splice(i2 + 1, 0, { listener, priority });
-          break;
-        } else if (!listenerCategory[i2 + 1]) {
-          listenerCategory.push({ listener, priority });
-          break;
-        } else if (priority > listenerWrap.priority && priority < listenerCategory[i2 + 1].priority) {
-          listenerCategory.splice(i2 + 1, 0, { listener, priority });
-          break;
-        }
-      }
-    }
-    mapListenersAtom(ctx, { ...state, [eventType]: listenerCategory });
-    updateMapEventHandlers(ctx, eventType, listenerCategory);
-  },
-  "addMapListener"
-);
-const removeMapListener = action(
-  (ctx, eventType, listener) => {
-    const state = ctx.get(mapListenersAtom);
-    const filteredListeners = state[eventType].filter((l2) => l2.listener !== listener);
-    mapListenersAtom(ctx, { ...state, [eventType]: filteredListeners });
-    updateMapEventHandlers(ctx, eventType, filteredListeners);
-  },
-  "removeMapListener"
-);
-function registerMapListener(eventType, listener, priority1to100 = 50, layerId) {
-  addMapListener(store.v3ctx, eventType, listener, priority1to100);
-  return () => {
-    removeMapListener(store.v3ctx, eventType, listener);
-  };
-}
-class MapPopoverContentRegistry {
-  constructor() {
-    __publicField(this, "providers", /* @__PURE__ */ new Map());
-    __publicField(this, "orderedProviderIds", []);
-    __publicField(this, "currentToolState", {
-      activeToolId: void 0,
-      isExclusive: false
-    });
-    __publicField(this, "exclusiveProviderId", null);
-    __publicField(this, "registrationCounter", 0);
-    __publicField(this, "currentMapEvent", null);
-    __publicField(this, "cachedFeatures", null);
-    __publicField(this, "onCloseCallback", null);
-  }
-  register(id, provider) {
-    if (this.providers.has(id)) {
-      console.warn(`MapPopover provider "${id}" already registered, replacing`);
-    }
-    const registration = {
-      provider,
-      priority: provider.priority,
-      registrationOrder: this.registrationCounter++,
-      isActive: true,
-      toolId: provider.toolId
-    };
-    this.providers.set(id, registration);
-    this.sortProviders();
-    if (provider.isExclusive) {
-      this.setExclusiveMode(id, provider.toolId);
-    }
-  }
-  unregister(id) {
-    var _a2;
-    const isExclusive = ((_a2 = this.providers.get(id)) == null ? void 0 : _a2.provider.isExclusive) || false;
-    this.providers.delete(id);
-    this.sortProviders();
-    if (isExclusive) {
-      if (this.onCloseCallback) {
-        this.onCloseCallback();
-      }
-      this.clearExclusiveMode();
-    }
-  }
-  setCloseCallback(callback) {
-    this.onCloseCallback = callback;
-  }
-  setExclusiveMode(providerId, toolId) {
-    this.exclusiveProviderId = providerId;
-    this.currentToolState = {
-      activeToolId: toolId,
-      isExclusive: true
-    };
-    if (this.onCloseCallback) {
-      this.onCloseCallback();
-    }
-  }
-  clearExclusiveMode() {
-    this.exclusiveProviderId = null;
-    this.currentToolState = {
-      activeToolId: void 0,
-      isExclusive: false
-    };
-  }
-  updateToolState(toolState) {
-    this.currentToolState = { ...toolState };
-  }
-  renderContent(mapEvent, onClose) {
-    this.currentMapEvent = mapEvent;
-    this.cachedFeatures = null;
-    if (this.currentToolState.isExclusive) {
-      if (this.exclusiveProviderId) {
-        const registration = this.providers.get(this.exclusiveProviderId);
-        if (registration) {
-          const context2 = this.createProviderContext(
-            mapEvent,
-            onClose,
-            this.exclusiveProviderId,
-            registration
-          );
-          const content = this.executeProvider(registration, context2);
-          this.clearRenderCycleState();
-          return content;
-        }
-      }
-      this.clearRenderCycleState();
-      return null;
-    }
-    const contentElements = [];
-    for (const providerId of this.orderedProviderIds) {
-      const registration = this.providers.get(providerId);
-      if (registration == null ? void 0 : registration.isActive) {
-        const context2 = this.createProviderContext(
-          mapEvent,
-          onClose,
-          providerId,
-          registration
-        );
-        const content = this.executeProvider(registration, context2);
-        if (content) {
-          contentElements.push(
-            React.createElement(
-              "div",
-              { key: providerId, title: providerId, className: "mappopover-provider" },
-              content
-            )
-          );
-        }
-      }
-    }
-    this.clearRenderCycleState();
-    if (contentElements.length === 0) {
-      return null;
-    }
-    return React.createElement(React.Fragment, {}, ...contentElements);
-  }
-  get providerCount() {
-    return this.providers.size;
-  }
-  clear() {
-    this.providers.clear();
-    this.orderedProviderIds = [];
-    this.clearExclusiveMode();
-    this.registrationCounter = 0;
-    this.clearRenderCycleState();
-  }
-  clearRenderCycleState() {
-    this.currentMapEvent = null;
-    this.cachedFeatures = null;
-  }
-  sortProviders() {
-    this.orderedProviderIds = Array.from(this.providers.entries()).sort(([, a2], [, b2]) => {
-      if (a2.priority !== b2.priority) return b2.priority - a2.priority;
-      return a2.registrationOrder - b2.registrationOrder;
-    }).map(([id]) => id);
-  }
-  createProviderContext(mapEvent, onClose, providerId, registration) {
-    return {
-      getFeatures: () => {
-        if (this.cachedFeatures === null && this.currentMapEvent) {
-          this.cachedFeatures = this.currentMapEvent.target.queryRenderedFeatures(
-            this.currentMapEvent.point
-          );
-        }
-        return this.cachedFeatures || [];
-      },
-      getToolState: () => ({ ...this.currentToolState }),
-      getProviderInfo: () => ({
-        priority: registration.priority,
-        mode: this.currentToolState.isExclusive && this.exclusiveProviderId === providerId ? "exclusive" : "shared",
-        id: providerId
-      }),
-      mapEvent,
-      onClose
-    };
-  }
-  executeProvider(registration, context2) {
-    try {
-      return registration.provider.renderContent(context2);
-    } catch (error2) {
-      console.error(
-        `Error in MapPopover provider "${context2.getProviderInfo().id}":`,
-        error2
-      );
-      return null;
-    }
-  }
-}
-const g = globalThis;
-const mapPopoverRegistry = g.__kontur_mapPopoverRegistry ?? (g.__kontur_mapPopoverRegistry = new MapPopoverContentRegistry());
-const DEFAULT_GREEN = "rgba(90, 200, 127, 0.5)";
-const DEFAULT_RED = "rgba(228, 26, 28, 0.5)";
-const sentimentDefault = ["bad", "good"];
-const sentimentReversed = ["good", "bad"];
-var double = { exports: {} };
-double.exports;
-var hasRequiredDouble;
-function requireDouble() {
-  if (hasRequiredDouble) return double.exports;
-  hasRequiredDouble = 1;
-  (function(module) {
-    var hasTypedArrays = false;
-    if (typeof Float64Array !== "undefined") {
-      var DOUBLE_VIEW = new Float64Array(1), UINT_VIEW = new Uint32Array(DOUBLE_VIEW.buffer);
-      DOUBLE_VIEW[0] = 1;
-      hasTypedArrays = true;
-      if (UINT_VIEW[1] === 1072693248) {
-        let toDoubleLE = function(lo, hi) {
-          UINT_VIEW[0] = lo;
-          UINT_VIEW[1] = hi;
-          return DOUBLE_VIEW[0];
-        }, lowUintLE = function(n2) {
-          DOUBLE_VIEW[0] = n2;
-          return UINT_VIEW[0];
-        }, highUintLE = function(n2) {
-          DOUBLE_VIEW[0] = n2;
-          return UINT_VIEW[1];
-        };
-        module.exports = function doubleBitsLE(n2) {
-          DOUBLE_VIEW[0] = n2;
-          return [UINT_VIEW[0], UINT_VIEW[1]];
-        };
-        module.exports.pack = toDoubleLE;
-        module.exports.lo = lowUintLE;
-        module.exports.hi = highUintLE;
-      } else if (UINT_VIEW[0] === 1072693248) {
-        let toDoubleBE = function(lo, hi) {
-          UINT_VIEW[1] = lo;
-          UINT_VIEW[0] = hi;
-          return DOUBLE_VIEW[0];
-        }, lowUintBE = function(n2) {
-          DOUBLE_VIEW[0] = n2;
-          return UINT_VIEW[1];
-        }, highUintBE = function(n2) {
-          DOUBLE_VIEW[0] = n2;
-          return UINT_VIEW[0];
-        };
-        module.exports = function doubleBitsBE(n2) {
-          DOUBLE_VIEW[0] = n2;
-          return [UINT_VIEW[1], UINT_VIEW[0]];
-        };
-        module.exports.pack = toDoubleBE;
-        module.exports.lo = lowUintBE;
-        module.exports.hi = highUintBE;
-      } else {
-        hasTypedArrays = false;
-      }
-    }
-    if (!hasTypedArrays) {
-      let toDouble = function(lo, hi) {
-        buffer.writeUInt32LE(lo, 0, true);
-        buffer.writeUInt32LE(hi, 4, true);
-        return buffer.readDoubleLE(0, true);
-      }, lowUint = function(n2) {
-        buffer.writeDoubleLE(n2, 0, true);
-        return buffer.readUInt32LE(0, true);
-      }, highUint = function(n2) {
-        buffer.writeDoubleLE(n2, 0, true);
-        return buffer.readUInt32LE(4, true);
-      };
-      var buffer = new Buffer(8);
-      module.exports = function doubleBits(n2) {
-        buffer.writeDoubleLE(n2, 0, true);
-        return [buffer.readUInt32LE(0, true), buffer.readUInt32LE(4, true)];
-      };
-      module.exports.pack = toDouble;
-      module.exports.lo = lowUint;
-      module.exports.hi = highUint;
-    }
-    module.exports.sign = function(n2) {
-      return module.exports.hi(n2) >>> 31;
-    };
-    module.exports.exponent = function(n2) {
-      var b2 = module.exports.hi(n2);
-      return (b2 << 1 >>> 21) - 1023;
-    };
-    module.exports.fraction = function(n2) {
-      var lo = module.exports.lo(n2);
-      var hi = module.exports.hi(n2);
-      var b2 = hi & (1 << 20) - 1;
-      if (hi & 2146435072) {
-        b2 += 1 << 20;
-      }
-      return [lo, b2];
-    };
-    module.exports.denormalized = function(n2) {
-      var hi = module.exports.hi(n2);
-      return !(hi & 2146435072);
-    };
-  })(double);
-  return double.exports;
-}
-var nextafter_1;
-var hasRequiredNextafter;
-function requireNextafter() {
-  if (hasRequiredNextafter) return nextafter_1;
-  hasRequiredNextafter = 1;
-  var doubleBits = requireDouble();
-  var SMALLEST_DENORM = Math.pow(2, -1074);
-  var UINT_MAX = -1 >>> 0;
-  nextafter_1 = nextafter2;
-  function nextafter2(x2, y2) {
-    if (isNaN(x2) || isNaN(y2)) {
-      return NaN;
-    }
-    if (x2 === y2) {
-      return x2;
-    }
-    if (x2 === 0) {
-      if (y2 < 0) {
-        return -SMALLEST_DENORM;
-      } else {
-        return SMALLEST_DENORM;
-      }
-    }
-    var hi = doubleBits.hi(x2);
-    var lo = doubleBits.lo(x2);
-    if (y2 > x2 === x2 > 0) {
-      if (lo === UINT_MAX) {
-        hi += 1;
-        lo = 0;
-      } else {
-        lo += 1;
-      }
-    } else {
-      if (lo === 0) {
-        lo = UINT_MAX;
-        hi -= 1;
-      } else {
-        lo -= 1;
-      }
-    }
-    return doubleBits.pack(lo, hi);
-  }
-  return nextafter_1;
-}
-var nextafterExports = requireNextafter();
-const nextafter = /* @__PURE__ */ getDefaultExportFromCjs(nextafterExports);
-class MapMath {
-  constructor() {
-    __publicField(this, "add", (x2, y2) => ["+", x2, y2]);
-    __publicField(this, "sub", (x2, y2) => ["-", x2, y2]);
-    __publicField(this, "mult", (x2, y2) => ["*", x2, y2]);
-    __publicField(this, "div", (x2, y2) => ["/", x2, y2]);
-    __publicField(this, "log", (x2) => ["ln", x2]);
-    __publicField(this, "log10", (x2) => ["log10", x2]);
-    __publicField(this, "sqrt", (x2) => ["sqrt", x2]);
-    __publicField(this, "cbrt", (x2) => this.mult(this.sign(x2), ["^", this.abs(x2), 1 / 3]));
-    __publicField(this, "abs", (x2) => ["abs", x2]);
-    __publicField(this, "sign", (x2) => ["case", ["<", x2, 0], -1, 1]);
-    __publicField(this, "clamp", (x2, min2, max2) => [
-      "let",
-      "clampedX",
-      ["to-number", x2, Number.POSITIVE_INFINITY],
-      [
-        "case",
-        ["<", ["var", "clampedX"], min2],
-        min2,
-        [">", ["var", "clampedX"], max2],
-        max2,
-        ["var", "clampedX"]
-      ]
-    ]);
-    __publicField(this, "min", (v1, v2) => [
-      "let",
-      "v1",
-      ["to-number", v1, Number.POSITIVE_INFINITY],
-      "v2",
-      ["to-number", v2, Number.POSITIVE_INFINITY],
-      ["case", ["<", ["var", "v2"], ["var", "v1"]], ["var", "v2"], ["var", "v1"]]
-    ]);
-    __publicField(this, "max", (v1, v2) => [
-      "let",
-      "v1",
-      ["to-number", v1, Number.NEGATIVE_INFINITY],
-      "v2",
-      ["to-number", v2, Number.NEGATIVE_INFINITY],
-      ["case", [">", ["var", "v2"], ["var", "v1"]], ["var", "v2"], ["var", "v1"]]
-    ]);
-  }
-}
-class JsMath {
-  constructor() {
-    __publicField(this, "add", (x2, y2) => x2 + y2);
-    __publicField(this, "sub", (x2, y2) => x2 - y2);
-    __publicField(this, "mult", (x2, y2) => x2 * y2);
-    __publicField(this, "div", (x2, y2) => x2 / y2);
-    __publicField(this, "log", (x2) => Math.log(x2));
-    __publicField(this, "log10", (x2) => Math.log10(x2));
-    __publicField(this, "sqrt", (x2) => Math.sqrt(x2));
-    __publicField(this, "cbrt", (x2) => Math.cbrt(x2));
-    __publicField(this, "abs", (x2) => Math.abs(x2));
-    __publicField(this, "sign", (x2) => Math.sign(x2));
-    __publicField(this, "clamp", (x2, min2, max2) => {
-      if (x2 < min2) {
-        return min2;
-      }
-      if (x2 > max2) {
-        return max2;
-      }
-      return x2;
-    });
-    __publicField(this, "min", (v1, v2) => Math.min(v1, v2));
-    __publicField(this, "max", (v1, v2) => Math.max(v1, v2));
-  }
-}
-const equalSentiments = (a2, b2) => a2.length === b2.length && a2.every((x2, i2) => x2 === b2[i2]);
-const nextFloatValueInDirection = (value2, direction, transformation) => {
-  const deltaAdjustmentFunctions = {
-    cube_root: (x2) => Math.cbrt(x2),
-    square_root: (x2) => Math.sqrt(x2),
-    log: (x2) => 10 * x2,
-    log_epsilon: (x2) => 10 * x2
-  };
-  const sign = Math.sign(direction - value2);
-  const nextNumber = nextafter(value2, direction);
-  const delta = Math.abs(value2 - nextNumber);
-  if (delta < 1 && transformation && deltaAdjustmentFunctions[transformation]) {
-    let adjustedDelta = deltaAdjustmentFunctions[transformation](delta);
-    if (adjustedDelta > 1) {
-      adjustedDelta = 0.1;
-    }
-    return value2 + sign * adjustedDelta;
-  }
-  return nextNumber;
-};
-class Calculations {
-  constructor(operations) {
-    __publicField(this, "math");
-    this.math = operations;
-  }
-  rate({ num, den }) {
-    return this.math.div(num, den);
-  }
-  normalize({ x: x2, min: min2, max: max2 }) {
-    return this.math.div(this.math.sub(x2, min2), this.math.sub(max2, min2));
-  }
-  transform({
-    x: x2,
-    min: min2,
-    max: max2,
-    datasetMin,
-    transformation
-  }) {
-    switch (transformation) {
-      case "no":
-        return {
-          tX: x2,
-          tMin: min2,
-          tMax: max2
-        };
-      /* square_root: sign(x)√(|x|) */
-      case "square_root":
-        return {
-          tX: this.math.mult(this.math.sign(x2), this.math.sqrt(this.math.abs(x2))),
-          tMin: this.math.mult(this.math.sign(min2), this.math.sqrt(this.math.abs(min2))),
-          tMax: this.math.mult(this.math.sign(max2), this.math.sqrt(this.math.abs(max2)))
-        };
-      /* cube_root:  ∛x */
-      case "cube_root":
-        return {
-          tX: this.math.cbrt(x2),
-          tMin: this.math.cbrt(min2),
-          tMax: this.math.cbrt(max2)
-        };
-      /* log(x - datasetMin + 1) */
-      case "log":
-        if (datasetMin === void 0) {
-          throw new Error("Could not find required data for given transformation");
-        }
-        return {
-          tX: this.math.log10(this.math.add(this.math.sub(x2, datasetMin), 1)),
-          tMin: this.math.log10(this.math.add(this.math.sub(min2, datasetMin), 1)),
-          tMax: this.math.log10(this.math.add(this.math.sub(max2, datasetMin), 1))
-        };
-      /* log(x - datasetMin + ε) */
-      case "log_epsilon":
-        if (datasetMin === void 0) {
-          throw new Error("Could not find required data for given transformation");
-        }
-        return {
-          tX: this.math.log10(
-            this.math.add(this.math.sub(x2, datasetMin), Number.EPSILON)
-          ),
-          tMin: this.math.log10(
-            this.math.add(this.math.sub(min2, datasetMin), Number.EPSILON)
-          ),
-          tMax: this.math.log10(
-            this.math.add(this.math.sub(max2, datasetMin), Number.EPSILON)
-          )
-        };
-    }
-  }
-  invert(x2) {
-    return this.math.sub(1, x2);
-  }
-  scale(x2, coefficient) {
-    return this.math.mult(x2, coefficient);
-  }
-  clamp(x2, min2, max2) {
-    return this.math.clamp(x2, min2, max2);
-  }
-  min(v1, v2) {
-    return this.math.min(v1, v2);
-  }
-  max(v1, v2) {
-    return this.math.max(v1, v2);
-  }
-}
-const inStyleCalculations = new Calculations(new MapMath());
-const inViewCalculations = new Calculations(new JsMath());
-const calculateLayerPipeline = (operations, getValue) => ({
-  axis: axis2,
-  range,
-  coefficient,
-  sentiment,
-  transformationFunction,
-  transformation,
-  normalization,
-  outliers,
-  datasetStats
-}) => {
-  const [num, den] = axis2;
-  let min2 = range[0];
-  const max2 = range[1];
-  if (min2 === max2) {
-    min2 = nextFloatValueInDirection(
-      min2,
-      Number.NEGATIVE_INFINITY,
-      (transformation == null ? void 0 : transformation.transformation) ?? transformationFunction
-    );
-  }
-  const datasetMin = datasetStats == null ? void 0 : datasetStats.minValue;
-  const inverted = equalSentiments(sentiment, sentimentReversed);
-  if (!inverted)
-    console.assert(
-      equalSentiments(sentiment, sentimentDefault),
-      "Not inverted equals default"
-    );
-  const values = getValue({ num, den });
-  const rate = operations.rate(values);
-  const clamped = outliers === "clamp" ? operations.clamp(rate, min2, max2) : rate;
-  let { tX, tMin, tMax } = operations.transform({
-    x: clamped,
-    min: min2,
-    max: max2,
-    datasetMin,
-    transformation: (transformation == null ? void 0 : transformation.transformation) ?? transformationFunction
-  });
-  if ((transformation == null ? void 0 : transformation.transformation) && (transformation == null ? void 0 : transformation.transformation) !== "no" && isNumber(transformation.lowerBound) && isNumber(transformation.upperBound)) {
-    let lowerBound = transformation.lowerBound;
-    const upperBound = transformation.upperBound;
-    if (lowerBound === upperBound) {
-      lowerBound = nextFloatValueInDirection(lowerBound, Number.NEGATIVE_INFINITY);
-    }
-    tMin = operations.max(tMin, lowerBound);
-    tMax = operations.min(tMax, upperBound);
-    if (outliers !== "unmodified") {
-      tX = operations.clamp(tX, tMin, tMax);
-    }
-  }
-  const normalized = normalization === "max-min" ? operations.normalize({ x: tX, min: tMin, max: tMax }) : tX;
-  const orientated = inverted ? operations.invert(normalized) : normalized;
-  const scaled = operations.scale(orientated, coefficient);
-  return scaled;
-};
-const SOURCE_LAYER_MCDA = "stats";
-const calculateMCDALayer = calculateLayerPipeline(inStyleCalculations, (axis2) => ({
-  num: ["get", axis2.num],
-  den: ["get", axis2.den]
-}));
-function filterSetup(layers2) {
-  const conditions = [
-    anyCondition(
-      ...layers2.map(
-        ({ axis: axis2 }) => notEqual(["/", featureProp(axis2[0]), featureProp(axis2[1])], 0)
-      )
-    )
-  ];
-  layers2.forEach(({ axis: axis2, range, outliers }) => {
-    if (outliers === "hide") {
-      conditions.push(
-        greaterOrEqual(["/", featureProp(axis2[0]), featureProp(axis2[1])], range[0]),
-        lessOrEqual(["/", featureProp(axis2[0]), featureProp(axis2[1])], range[1])
-      );
-    }
-  });
-  layers2.forEach(({ axis: axis2, range }) => {
-    conditions.push(
-      // this checks for 0 in denominator (0 in denominator makes the result === Infinity)
-      notEqual(featureProp(axis2[1]), 0)
-    );
-  });
-  if (conditions.length > 1) {
-    return allCondition(...conditions);
-  }
-  return conditions[0];
-}
-function linearNormalization(layers2) {
-  if (layers2.length === 1) {
-    return ["/", calculateMCDALayer(layers2.at(0)), layers2.at(0).coefficient];
-  } else {
-    return ["/", ["+", ...layers2.map(calculateMCDALayer)], sumBy(layers2, "coefficient")];
-  }
-}
-function sentimentPaint({
-  colorsConfig,
-  mcdaResult,
-  absoluteMin,
-  absoluteMax
-}) {
-  if (colorsConfig.type !== "sentiments") {
-    console.error(`Expected sentiments color config, but got ${colorsConfig.type}`);
-    return void 0;
-  }
-  const { good = DEFAULT_GREEN, bad = DEFAULT_RED } = colorsConfig.parameters;
-  const midpoints = Array.isArray(colorsConfig.parameters.midpoints) ? colorsConfig.parameters.midpoints : [];
-  const colorPoints = [
-    { value: absoluteMin, color: bad },
-    ...midpoints,
-    { value: absoluteMax, color: good }
-  ];
-  return {
-    "fill-color": [
-      "let",
-      "mcdaResult",
-      mcdaResult,
-      [
-        "case",
-        [
-          "all",
-          [">=", ["var", "mcdaResult"], absoluteMin],
-          ["<=", ["var", "mcdaResult"], absoluteMax]
-        ],
-        [
-          "interpolate-hcl",
-          ["linear"],
-          ["var", "mcdaResult"],
-          ...colorPoints.flatMap((point) => [point.value, point.color])
-        ],
-        // paint all values below absoluteMin (0 by default) same as absoluteMin
-        ["<", ["var", "mcdaResult"], absoluteMin],
-        bad,
-        // paint all values above absoluteMax (1 by default) same as absoluteMax
-        [">", ["var", "mcdaResult"], absoluteMax],
-        good,
-        // Default color value. We get here in case of incorrect values (null, NaN etc)
-        // Transparent features don't show popups on click
-        "transparent"
-      ]
-    ],
-    "fill-opacity": 1,
-    "fill-antialias": false
-  };
-}
-function expressionsPaint({
-  colorsConfig,
-  mcdaResult,
-  absoluteMax,
-  absoluteMin
-}) {
-  return Object.entries(colorsConfig.parameters).reduce(
-    (acc, [paintProp, expression]) => {
-      acc[paintProp] = Array.isArray(expression) ? [
-        "let",
-        "mcdaResult",
-        ["to-number", mcdaResult, -9999],
-        // falsy values become -9999,
-        "absoluteMax",
-        ["to-number", absoluteMax, -9999],
-        // falsy values become -9999,
-        "absoluteMin",
-        ["to-number", absoluteMin, -9999],
-        // falsy values become -9999,
-        ...expression
-      ] : expression;
-      return acc;
-    },
-    {}
-  );
-}
-function generateLayerPaint(props) {
-  switch (props.colorsConfig.type) {
-    case "sentiments":
-      return sentimentPaint(props);
-    case "mapLibreExpression":
-      return expressionsPaint(props);
-  }
-}
-function createMCDAStyle(config2) {
-  const [absoluteMin = 0, absoluteMax = 1] = config2.layers.reduce(
-    (acc, l2) => {
-      const range = l2.normalization === "no" ? l2.range : [0, 1];
-      if (acc.length === 0) return [...range];
-      acc[0] = Math.min(acc[0], range[0]);
-      acc[1] = Math.min(acc[1], range[1]);
-      return acc;
-    },
-    []
-  );
-  const mcdaResult = linearNormalization(config2.layers);
-  const layerStyle = {
-    id: config2.id,
-    type: "fill",
-    layout: {},
-    filter: filterSetup(config2.layers),
-    // TODO - MCDA should have separate from bivariate renderer
-    paint: generateLayerPaint({
-      colorsConfig: config2.colors,
-      mcdaResult,
-      absoluteMin,
-      absoluteMax
-    }),
-    source: config2.id + "_source",
-    // this id is replaced inside the Renderer
-    "source-layer": SOURCE_LAYER_MCDA
-  };
-  return layerStyle;
-}
-TranslationService.t(
-  "multivariate.multivariate_analysis"
-);
-const DEFAULT_MULTIBIVARIATE_STEPS = [
-  {
-    value: 0
-  },
-  {
-    value: 0.33
-  },
-  {
-    value: 0.67
-  },
-  {
-    value: 1
-  }
-];
-const DEFAULT_MULTIBIVARIATE_COLORS = [
-  {
-    id: "A1",
-    color: "rgba(232, 232, 157, 0.5)"
-  },
-  {
-    id: "A2",
-    color: "rgba(229, 154, 55, 0.5)"
-  },
-  {
-    id: "A3",
-    color: "rgba(228, 26, 28, 0.5)"
-  },
-  {
-    id: "B1",
-    color: "rgba(203, 240, 211, 0.5)"
-  },
-  {
-    id: "B2",
-    color: "rgba(228, 185, 129, 0.5)"
-  },
-  {
-    id: "B3",
-    color: "rgba(228, 127, 129, 0.5)"
-  },
-  {
-    id: "C1",
-    color: "rgba(135, 198, 144, 0.5)"
-  },
-  {
-    id: "C2",
-    color: "rgba(109, 179, 92, 0.5)"
-  },
-  {
-    id: "C3",
-    color: "rgba(102, 154, 112, 0.5)"
-  }
-];
-function generateBivariateColorsAndStyleForMultivariateLayer(config2, sourceLayer) {
-  var _a2, _b, _c, _d;
-  if (!config2.base || !config2.score) {
-    console.error("Both base and annex are required for bivariate style", config2);
-    throw Error("Both base and annex are required for bivariate style");
-  }
-  const colors = ((_a2 = config2.colors) == null ? void 0 : _a2.type) === "bivariate" ? (_b = config2.colors) == null ? void 0 : _b.colors : DEFAULT_MULTIBIVARIATE_COLORS;
-  if (!colors) {
-    console.error("Proper color theme not found. Using default colors.");
-  }
-  const bivariateStyle = createBivariateMultivariateStyle({
-    score: config2.score.config,
-    base: config2.base.config,
-    baseSteps: ((_c = config2.stepOverrides) == null ? void 0 : _c.baseSteps) ?? DEFAULT_MULTIBIVARIATE_STEPS,
-    scoreSteps: ((_d = config2.stepOverrides) == null ? void 0 : _d.scoreSteps) ?? DEFAULT_MULTIBIVARIATE_STEPS,
-    colors,
-    sourceLayer
-  });
-  return [colors, bivariateStyle];
-}
-function setupColorClasses(baseValue, annexValue, baseSteps, annexSteps, colors) {
-  return addVariable(
-    "baseValue",
-    baseValue,
-    addVariable(
-      "annexValue",
-      annexValue,
-      addVariable(
-        "class",
-        classResolver(
-          {
-            propName: getVariable("annexValue"),
-            borders: annexSteps.reduce(
-              (acc, { value: value2 }) => (acc.push(value2), acc),
-              []
-            )
-          },
-          {
-            propName: getVariable("baseValue"),
-            borders: baseSteps.reduce(
-              (acc, { value: value2 }) => (acc.push(value2), acc),
-              []
-            )
-          }
-        ),
-        colorResolver("class", colors, "transparent")
-      )
-    )
-  );
-}
-function createBivariateMultivariateStyle({
-  score,
-  base,
-  scoreSteps,
-  baseSteps,
-  colors,
-  sourceLayer,
-  id = "multivariate-bivariate"
-}) {
-  const annexValueExpression = linearNormalization(score.layers);
-  const baseValueExpression = linearNormalization(base.layers);
-  const filter = filterSetup([...score.layers, ...base.layers]);
-  const style2 = {
-    id,
-    type: "fill",
-    layout: {},
-    filter,
-    paint: {
-      "fill-color": setupColorClasses(
-        baseValueExpression,
-        annexValueExpression,
-        baseSteps,
-        scoreSteps,
-        colorsMap(colors)
-      ),
-      "fill-opacity": 1,
-      "fill-antialias": false
-    },
-    source: id + "_source"
-    // this id is replaced inside the Renderer, do we need it here just as a placeholder?
-  };
-  {
-    style2["source-layer"] = sourceLayer;
-  }
-  return style2;
-}
-function multivariateDimensionToScore(axis2) {
-  return linearNormalization(axis2.config.layers);
-}
-const DEFAULT_OPACITY_STEPS = [
-  { minScore: 0.66, opacity: 1 },
-  { minScore: 0.33, opacity: 0.55 },
-  { minScore: 0, opacity: 0.2 }
-];
-function createOpacityStepsExpression(opacityMCDA, opacitySteps = DEFAULT_OPACITY_STEPS) {
-  const opacityScore = multivariateDimensionToScore(opacityMCDA);
-  const conditions = [];
-  for (let i2 = 0; i2 < opacitySteps.length - 1; i2 += 1) {
-    conditions.push(
-      [">=", opacityScore, opacitySteps[i2].minScore],
-      opacitySteps[i2].opacity
-    );
-  }
-  conditions.push(opacitySteps[opacitySteps.length - 1].opacity);
-  return ["case", ...conditions];
-}
-const styleConfigs = {
-  mcda: (config2) => {
-    return new Array(createMCDAStyle(config2));
-  },
-  multivariate: (config2) => {
-    let multivariateStyle;
-    if (config2.base) {
-      const colorsAndStyle = generateBivariateColorsAndStyleForMultivariateLayer(
-        config2,
-        SOURCE_LAYER_BIVARIATE
-      );
-      multivariateStyle = colorsAndStyle[1];
-    } else {
-      multivariateStyle = createMCDAStyle(config2.score.config);
-    }
-    if (config2.opacity !== void 0) {
-      const opacity = !isNumber(config2.opacity) ? createOpacityStepsExpression(config2.opacity) : config2.opacity;
-      multivariateStyle = {
-        ...multivariateStyle,
-        paint: { ...multivariateStyle.paint, "fill-opacity": opacity }
-      };
-    }
-    return Array(multivariateStyle);
-  }
-};
-function setTileScheme(rawUrl, mapSource) {
-  const isTMS = rawUrl.includes("{-y}");
-  if (isTMS) {
-    mapSource.scheme = "tms";
-  }
-}
-function fillColorEmptyOrTransparent(feature) {
-  var _a2;
-  const fillColor = (_a2 = feature.layer.paint) == null ? void 0 : _a2["fill-color"];
-  return fillColor ? fillColor.a === 0 : true;
-}
-function isFeatureVisible(feature) {
-  if (fillColorEmptyOrTransparent(feature)) return false;
-  return true;
-}
-function featureHaveId(feature) {
-  return haveValue(feature.id);
-}
-function filterFeatures(sourceId, ev) {
-  return ev.target.queryRenderedFeatures(ev.point).filter((f2) => f2.source === sourceId).filter(isFeatureVisible).filter(featureHaveId);
-}
-function createFeatureStateHandlers(ctx) {
-  const activeFeatures = /* @__PURE__ */ new Set();
-  const hoveredFeatures = /* @__PURE__ */ new Set();
-  const setFeatureState = (featureId, newState) => {
-    const source = ctx.map.getSource(ctx.sourceId);
-    if (!source) {
-      console.error("map - no source for", ctx.sourceId);
-      return;
-    }
-    ctx.map.setFeatureState(
-      { source: ctx.sourceId, id: featureId, sourceLayer: ctx.sourceLayer },
-      newState
-    );
-  };
-  return {
-    onClick: (ev) => {
-      activeFeatures.forEach((featureId) => {
-        setFeatureState(featureId, { active: false });
-      });
-      activeFeatures.clear();
-      const features = filterFeatures(ctx.sourceId, ev);
-      if (!features.length) {
-        return true;
-      }
-      features.forEach((feature) => {
-        setFeatureState(feature.id, { active: true });
-        activeFeatures.add(feature.id);
-      });
-      return true;
-    },
-    onMouseMove: (ev) => {
-      hoveredFeatures.forEach((featureId) => {
-        setFeatureState(featureId, { hover: false });
-      });
-      hoveredFeatures.clear();
-      const features = filterFeatures(ctx.sourceId, ev);
-      if (!features.length) {
-        return true;
-      }
-      features.forEach((feature) => {
-        setFeatureState(feature.id, { hover: true });
-        hoveredFeatures.add(feature.id);
-      });
-      return true;
-    },
-    onMouseLeave: (ev) => {
-      hoveredFeatures.forEach((featureId) => {
-        setFeatureState(featureId, { hover: false });
-      });
-      hoveredFeatures.clear();
-      return true;
-    },
-    reset: () => {
-      activeFeatures.forEach((featureId) => {
-        setFeatureState(featureId, { active: false });
-      });
-      activeFeatures.clear();
-      hoveredFeatures.forEach((featureId) => {
-        setFeatureState(featureId, { hover: false });
-      });
-      hoveredFeatures.clear();
-    }
-  };
-}
-const hexagon = "_hexagon_1g4ry_1";
-const s$4 = {
-  hexagon
-};
-const Hexagon = ({ color, children }) => {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$4.hexagon, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { background: color }, children }) });
-};
-const tootipRoot = "_tootipRoot_blnig_1";
-const labels = "_labels_blnig_5";
-const column$2 = "_column_blnig_11";
-const s$3 = {
-  tootipRoot,
-  labels,
-  column: column$2
-};
-const getXIndicatorLabelByindex = (index2) => {
-  if (isBottomSide(index2)) return LOW;
-  if (isTopSide(index2)) return HIGH;
-  return MEDIUM;
-};
-const getYIndicatorLabelByindex = (index2) => {
-  if (isLeftSide(index2)) return LOW;
-  if (isRightSide(index2)) return HIGH;
-  return MEDIUM;
-};
-const MapHexTooltip = ({
-  hexagonColor,
-  axis: axis2,
-  cellIndex,
-  cellLabel,
-  values
-}) => {
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: s$3.tootipRoot, children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Hexagon, { color: hexagonColor, children: cellLabel }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: s$3.labels, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: s$3.column, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: axis2.x.label || formatBivariateAxisLabel(axis2.x.quotients) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: axis2.y.label || formatBivariateAxisLabel(axis2.y.quotients) })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: s$3.column, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: values.x }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: values.y })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: s$3.column, children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: getXIndicatorLabelByindex(cellIndex) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: getYIndicatorLabelByindex(cellIndex) })
-      ] })
-    ] })
-  ] });
-};
-const ProviderPriority = {
-  // System alerts, error states
-  HIGH: 500,
-  // Active tools (boundary selector, drawing)
-  NORMAL: 100,
-  // Background info, debug data
-  DEBUG: 1
-  // Development diagnostics
-};
-function roundNumberToPrecision(value2, decimals, removeTrailingZeros = false, exponentialDecimals) {
-  const precisionThreshold = Math.pow(10, -decimals);
-  if (Math.abs(value2) < precisionThreshold && Math.abs(value2) > 0) {
-    return value2.toExponential(
-      isNumber(exponentialDecimals) ? exponentialDecimals : decimals
-    );
-  } else {
-    return removeTrailingZeros ? Number.parseFloat(value2.toFixed(decimals)).toString() : value2.toFixed(decimals);
-  }
-}
-const result = "_result_1t561_1";
-const tableBody = "_tableBody_1t561_6";
-const list = "_list_1t561_10";
-const entryName = "_entryName_1t561_18";
-const s$2 = {
-  result,
-  tableBody,
-  list,
-  entryName
-};
-function OneLayerPopup({
-  layer: layer2,
-  normalized,
-  resultMCDA
-}) {
-  const key = `${layer2.axis[0]}-${layer2.axis[1]}`;
-  const { numLabel, denLabel, resultLabel } = reactExports.useMemo(() => {
-    var _a2;
-    const [numLabel2, denLabel2] = layer2.axis.map(
-      (ax) => capitalize(ax.replaceAll("_", " "))
-    );
-    const resultLabel2 = layer2.normalization === "no" && ((_a2 = layer2.transformation) == null ? void 0 : _a2.transformation) === "no" ? `${numLabel2} / ${denLabel2}` : TranslationService.t("map_popup.normalized_value");
-    return { numLabel: numLabel2, denLabel: denLabel2, resultLabel: resultLabel2 };
-  }, [layer2]);
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: s$2.list, children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: s$2.entryName, children: [
-        numLabel,
-        ":"
-      ] }),
-      " ",
-      roundNumberToPrecision(normalized[key].numValue, 3, false, 2)
-    ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: s$2.entryName, children: [
-        denLabel,
-        ":"
-      ] }),
-      " ",
-      roundNumberToPrecision(normalized[key].denValue, 3, false, 2)
-    ] }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("li", { children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: s$2.entryName, children: [
-        resultLabel,
-        ":"
-      ] }),
-      " ",
-      roundNumberToPrecision(resultMCDA, 2, true)
-    ] })
-  ] });
-}
-function MultiLayerPopup({ layers: layers2, normalized, resultMCDA }) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: TranslationService.t("layer") }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: TranslationService.t("map_popup.range") }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: TranslationService.t("map_popup.coefficient") }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: TranslationService.t("map_popup.value") }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("th", { children: TranslationService.t("map_popup.normalized_value") })
-    ] }) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("tbody", { className: s$2.tableBody, children: [
-      layers2.map(({ axis: axis2, range, coefficient }, index2) => {
-        const [min2, max2] = range;
-        const [num, den] = axis2;
-        return /* @__PURE__ */ jsxRuntimeExports.jsxs("tr", { children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("td", { children: [
-            num,
-            " / ",
-            den
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("td", { children: [
-            roundNumberToPrecision(min2, 2, true),
-            " -",
-            " ",
-            roundNumberToPrecision(max2, 2, true)
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: coefficient }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: roundNumberToPrecision(normalized[`${num}-${den}`].val, 3) }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("td", { children: roundNumberToPrecision(normalized[`${num}-${den}`].norm, 3) })
-        ] }, `${num}-${den}-${index2}`);
-      }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("td", { colSpan: 5, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("b", { className: s$2.result, children: [
-        "Result: ",
-        roundNumberToPrecision(resultMCDA, 2, true)
-      ] }) }) })
-    ] })
-  ] });
-}
-function PopupMCDA({ layers: layers2, normalized, resultMCDA }) {
-  return layers2.length === 1 ? /* @__PURE__ */ jsxRuntimeExports.jsx(
-    OneLayerPopup,
-    {
-      layer: layers2.at(0),
-      normalized,
-      resultMCDA
-    }
-  ) : /* @__PURE__ */ jsxRuntimeExports.jsx(MultiLayerPopup, { layers: layers2, normalized, resultMCDA });
-}
-function createTableWithCalculations(feature, layers2) {
-  const calculateLayer = calculateLayerPipeline(inViewCalculations, ({ num, den }) => {
-    var _a2, _b;
-    return {
-      num: (_a2 = feature.properties) == null ? void 0 : _a2[num],
-      den: (_b = feature.properties) == null ? void 0 : _b[den]
-    };
-  });
-  return layers2.reduce((acc, layer2) => {
-    var _a2, _b, _c, _d;
-    const [num, den] = layer2.axis;
-    const value2 = ((_a2 = feature.properties) == null ? void 0 : _a2[num]) / ((_b = feature.properties) == null ? void 0 : _b[den]);
-    acc[`${num}-${den}`] = {
-      val: value2,
-      norm: calculateLayer(layer2),
-      numValue: (_c = feature.properties) == null ? void 0 : _c[num],
-      denValue: (_d = feature.properties) == null ? void 0 : _d[den]
-    };
-    return acc;
-  }, {});
-}
-function calcMcdaIndex(layers2, normalized) {
-  const sumNormalized = sumBy(Object.values(normalized), "norm");
-  const coeffsSum = sumBy(layers2, "coefficient");
-  return sumNormalized / coeffsSum;
-}
-function generateMCDALayersTableAndScore(feature, layers2) {
-  const mcdaLayersTable = createTableWithCalculations(feature, layers2);
-  const resultMCDAScore = calcMcdaIndex(layers2, mcdaLayersTable);
-  return { mcdaLayersTable, resultMCDAScore };
-}
-function generateMCDAPopupTable(feature, layers2) {
-  const { mcdaLayersTable, resultMCDAScore } = generateMCDALayersTableAndScore(
-    feature,
-    layers2
-  );
-  return PopupMCDA({ layers: layers2, normalized: mcdaLayersTable, resultMCDA: resultMCDAScore });
-}
-function calcValueByNumeratorDenominator(properties, numerator, denominator) {
-  const numeratorValue = properties[numerator];
-  const denominatorValue = properties[denominator];
-  if (!isNumber(numeratorValue) || !isNumber(denominatorValue) || denominatorValue === 0) {
-    return null;
-  }
-  return numeratorValue / denominatorValue;
-}
-function convertFillColorToString(fillColor) {
-  if (Array.isArray(fillColor) && fillColor.length >= 3) {
-    const [r2, g2, b2, a2 = 1] = fillColor;
-    return `rgba(${Math.round(r2 * 255)}, ${Math.round(g2 * 255)}, ${Math.round(b2 * 255)}, ${a2})`;
-  }
-  return "rgba(128, 128, 128, 1)";
-}
-class BivariatePopoverProvider {
-  constructor(sourceId, legend2) {
-    __publicField(this, "priority", ProviderPriority.NORMAL);
-    this.sourceId = sourceId;
-    this.legend = legend2;
-  }
-  renderContent(context2) {
-    var _a2;
-    const features = context2.getFeatures().filter((f2) => f2.source === this.sourceId);
-    if (!features.length || !this.legend || !features[0].geometry) return null;
-    const [feature] = features;
-    if (!isFeatureVisible(feature) || !feature.properties) return null;
-    const [xNumerator, xDenominator] = this.legend.axis.x.quotient;
-    const [yNumerator, yDenominator] = this.legend.axis.y.quotient;
-    const xValue = calcValueByNumeratorDenominator(
-      feature.properties,
-      xNumerator,
-      xDenominator
-    );
-    const yValue = calcValueByNumeratorDenominator(
-      feature.properties,
-      yNumerator,
-      yDenominator
-    );
-    if (xValue == null || yValue == null) return null;
-    const fillColor = (_a2 = feature.layer.paint) == null ? void 0 : _a2["fill-color"];
-    if (!fillColor) return null;
-    const hexagonColor = convertFillColorToString(fillColor);
-    const cells2 = invertClusters(this.legend.steps, "label");
-    const cellLabel = getCellLabelByValue(
-      this.legend.axis.x.steps,
-      this.legend.axis.y.steps,
-      Number(xValue),
-      Number(yValue)
-    );
-    const cellIndex = cells2.findIndex((i2) => i2.label === cellLabel);
-    if (cellIndex === -1) return null;
-    return /* @__PURE__ */ jsxRuntimeExports.jsx(
-      MapHexTooltip,
-      {
-        cellLabel: cells2[cellIndex].label,
-        cellIndex,
-        axis: this.legend.axis,
-        values: { x: String(xValue), y: String(yValue) },
-        hexagonColor
-      }
-    );
-  }
-}
-class MCDAPopoverProvider {
-  constructor(sourceId, style2) {
-    __publicField(this, "priority", ProviderPriority.NORMAL);
-    this.sourceId = sourceId;
-    this.style = style2;
-  }
-  renderContent(context2) {
-    const features = context2.getFeatures().filter((f2) => f2.source === this.sourceId);
-    if (!features.length || !features[0].geometry) return null;
-    const [feature] = features;
-    if (!isFeatureVisible(feature)) return null;
-    dispatchMetricsEvent("mcda_popup");
-    return generateMCDAPopupTable(feature, this.style.config.layers);
-  }
-}
-function generateLayerFromLegend(legend2, sourceLayer) {
-  if (legend2.type === "bivariate") {
-    return generateLayerStyleFromBivariateLegend(legend2, sourceLayer);
-  }
-  throw new Error(`Unexpected legend type '${legend2.type}'`);
-}
-class BivariateRenderer extends LogicalLayerDefaultRenderer {
-  constructor({
-    id,
-    layersOrderManager: layersOrderManager2
-  }) {
-    super();
-    __publicField(this, "id");
-    __publicField(this, "_layerId");
-    __publicField(this, "_sourceId");
-    __publicField(this, "_layersOrderManager");
-    __publicField(this, "_listenersCleaningTasks", /* @__PURE__ */ new Set());
-    __publicField(this, "_bivariateProvider", null);
-    __publicField(this, "_mcdaProvider", null);
-    __publicField(this, "cleanUpListeners", () => {
-      this._listenersCleaningTasks.forEach((task) => task());
-      this._listenersCleaningTasks.clear();
-    });
-    /* Active and hover feature state */
-    __publicField(this, "_borderLayerId");
-    __publicField(this, "resetFeatureStates");
-    this.id = id;
-    this._layersOrderManager = layersOrderManager2;
-    this._sourceId = SOURCE_BIVARIATE_PREFIX + this.id;
-  }
-  get bivariatePopoverId() {
-    return `bivariate-${this._sourceId}`;
-  }
-  get mcdaPopoverId() {
-    return `mcda-${this._sourceId}`;
-  }
-  async addHoverAndActiveFeatureState(map, style2) {
-    await mapLoaded(map);
-    const sourceId = this._sourceId;
-    const borderLayerId = sourceId + "_border";
-    if (map.getLayer(borderLayerId)) {
-      return;
-    }
-    const borderLayerStyle = {
-      ...H3_HOVER_LAYER,
-      id: borderLayerId,
-      source: sourceId,
-      "source-layer": SOURCE_LAYER_BIVARIATE
-    };
-    layerByOrder(map, this._layersOrderManager).addAboveLayerWithSameType(
-      borderLayerStyle,
-      this.id
-    );
-    this._borderLayerId = borderLayerId;
-    const { onClick, onMouseMove, onMouseLeave, reset: reset2 } = createFeatureStateHandlers({
-      map,
-      sourceId,
-      sourceLayer: SOURCE_LAYER_BIVARIATE
-    });
-    this._listenersCleaningTasks.add(registerMapListener("click", onClick, 60));
-    this._listenersCleaningTasks.add(registerMapListener("mousemove", onMouseMove, 60));
-    this._listenersCleaningTasks.add(registerMapListener("mouseleave", onMouseLeave, 60));
-    this.resetFeatureStates = reset2;
-  }
-  async mountBivariateLayer(map, layer2, legend2) {
-    const maxZoom = getMaxNumeratorZoomLevel(
-      [(legend2 == null ? void 0 : legend2.axis.x.quotients) ?? [], (legend2 == null ? void 0 : legend2.axis.y.quotients) ?? []],
-      layer2.maxZoom || FALLBACK_BIVARIATE_MAX_ZOOM
-    );
-    const mapSource = {
-      type: "vector",
-      tiles: layer2.source.urls.map((url2) => adaptTileUrl(url2)),
-      minzoom: layer2.minZoom || FALLBACK_BIVARIATE_MIN_ZOOM,
-      maxzoom: maxZoom
-    };
-    setTileScheme(layer2.source.urls[0], mapSource);
-    await mapLoaded(map);
-    if (map.getSource(this._sourceId) === void 0) {
-      map.addSource(this._sourceId, mapSource);
-    }
-    if (legend2) {
-      const layerStyle = generateLayerFromLegend(legend2, SOURCE_LAYER_BIVARIATE);
-      const layerId = `${LAYER_BIVARIATE_PREFIX + this.id}`;
-      if (map.getLayer(layerId)) {
-        return;
-      }
-      const layer22 = { ...layerStyle, id: layerId, source: this._sourceId };
-      layerByOrder(map, this._layersOrderManager).addAboveLayerWithSameType(
-        layer22,
-        this.id
-      );
-      this._layerId = layer22.id;
-    } else {
-      throw new Error(`[Bivariate ${this.id}] Vector layers must have legend`);
-    }
-  }
-  registerBivariateProvider(legend2) {
-    if (this._bivariateProvider) {
-      mapPopoverRegistry.unregister(this.bivariatePopoverId);
-      this._bivariateProvider = null;
-    }
-    if (legend2) {
-      this._bivariateProvider = new BivariatePopoverProvider(this._sourceId, legend2);
-      mapPopoverRegistry.register(this.bivariatePopoverId, this._bivariateProvider);
-    }
-  }
-  async mountMCDALayer(map, layer2, style2) {
-    const minZoomLevel = isNumber(layer2.minZoom) ? layer2.minZoom : FALLBACK_BIVARIATE_MIN_ZOOM;
-    const maxZoomLevel = isNumber(layer2.maxZoom) ? layer2.maxZoom : getMaxMCDAZoomLevel(style2.config, FALLBACK_BIVARIATE_MAX_ZOOM);
-    const mapSource = {
-      type: "vector",
-      tiles: layer2.source.urls.map((url2) => adaptTileUrl(url2)),
-      minzoom: minZoomLevel,
-      maxzoom: maxZoomLevel
-    };
-    setTileScheme(layer2.source.urls[0], mapSource);
-    await mapLoaded(map);
-    if (map.getSource(this._sourceId) === void 0) {
-      map.addSource(this._sourceId, mapSource);
-    }
-    const layerId = `${LAYER_BIVARIATE_PREFIX + this.id}`;
-    if (map.getLayer(layerId)) {
-      return;
-    }
-    const layerStyle = styleConfigs.mcda(style2.config)[0];
-    const layerRes = { ...layerStyle, id: layerId, source: this._sourceId };
-    layerByOrder(map, this._layersOrderManager).addAboveLayerWithSameType(
-      layerRes,
-      this.id
-    );
-    this._layerId = layerId;
-  }
-  registerMCDAProvider(style2) {
-    if (this._mcdaProvider) {
-      mapPopoverRegistry.unregister(this.mcdaPopoverId);
-      this._mcdaProvider = null;
-    }
-    if (style2) {
-      this._mcdaProvider = new MCDAPopoverProvider(this._sourceId, style2);
-      mapPopoverRegistry.register(this.mcdaPopoverId, this._mcdaProvider);
-    }
-  }
-  _updateMap(map, layerData, legend2, isVisible, style2) {
-    if (layerData == null) return;
-    if ((style2 == null ? void 0 : style2.type) === "mcda") {
-      this.mountMCDALayer(map, layerData, style2);
-      this.registerMCDAProvider(style2);
-    } else {
-      this.mountBivariateLayer(map, layerData, legend2);
-      this.registerBivariateProvider(legend2);
-    }
-    this.addHoverAndActiveFeatureState(map, style2);
-    if (!isVisible) this.willHide({ map });
-  }
-  /* ========== Hooks ========== */
-  willSourceUpdate({ map, state }) {
-    if (state.source) {
-      console.debug(`[${this.id} layer renderer]: Source updated`);
-      this._updateMap(
-        map,
-        state.source,
-        state.legend,
-        state.isVisible,
-        state.style
-      );
-    } else {
-      console.debug(
-        `[${this.id} layer renderer]: Source not available, waiting for next update`
-      );
-    }
-  }
-  willMount({ map, state }) {
-    if (state.source) {
-      this._updateMap(
-        map,
-        state.source,
-        state.legend,
-        state.isVisible,
-        state.style
-      );
-    } else {
-      console.debug(
-        `[${this.id} layer renderer]: Source not available, waiting for next update`
-      );
-    }
-  }
-  willUnMount({ map }) {
-    var _a2;
-    if (this._layerId && map.getLayer(this._layerId)) {
-      map.removeLayer(this._layerId);
-      this._layerId = void 0;
-    } else {
-      console.warn(
-        `Can't remove layer with ID: ${this._layerId}. Layer does't exist in map`
-      );
-    }
-    if (this._borderLayerId && map.getLayer(this._borderLayerId)) {
-      map.removeLayer(this._borderLayerId);
-      this._borderLayerId = void 0;
-    } else {
-      console.warn(
-        `Can't remove layer with ID: ${this._borderLayerId}. Layer does't exist in map`
-      );
-    }
-    if (this._bivariateProvider) {
-      mapPopoverRegistry.unregister(this.bivariatePopoverId);
-      this._bivariateProvider = null;
-    }
-    if (this._mcdaProvider) {
-      mapPopoverRegistry.unregister(this.mcdaPopoverId);
-      this._mcdaProvider = null;
-    }
-    (_a2 = this.resetFeatureStates) == null ? void 0 : _a2.call(this);
-    if (map.getSource(this._sourceId)) {
-      map.removeSource(this._sourceId);
-    } else {
-      console.warn(
-        `Can't remove source with ID: ${this._sourceId}. Source does't exist in map`
-      );
-    }
-    this.cleanUpListeners();
-  }
-  willHide({ map }) {
-    if (this._layerId === void 0 || map === null) return;
-    if (map.getLayer(this._layerId) !== void 0) {
-      map.setLayoutProperty(this._layerId, "visibility", "none");
-      if (this._bivariateProvider) {
-        mapPopoverRegistry.unregister(this.bivariatePopoverId);
-      }
-      if (this._mcdaProvider) {
-        mapPopoverRegistry.unregister(this.mcdaPopoverId);
-      }
-    } else {
-      console.warn(
-        `Can't hide layer with ID: ${this._layerId}. Layer doesn't exist on the map`
-      );
-    }
-  }
-  willUnhide({ map }) {
-    if (this._layerId === void 0 || map === null) return;
-    if (map.getLayer(this._layerId) !== void 0) {
-      map.setLayoutProperty(this._layerId, "visibility", "visible");
-      if (this._bivariateProvider) {
-        mapPopoverRegistry.register(this.bivariatePopoverId, this._bivariateProvider);
-      }
-      if (this._mcdaProvider) {
-        mapPopoverRegistry.register(this.mcdaPopoverId, this._mcdaProvider);
-      }
-    } else {
-      console.warn(
-        `Cannot unhide layer with ID: ${this._layerId}. Layer doesn't exist on the map`
-      );
-    }
-  }
-  willDestroy({ map }) {
-    if (this._layerId === void 0 || this._borderLayerId === void 0 || map === null)
-      return;
-    if (map.getLayer(this._layerId) !== void 0 || map.getLayer(this._borderLayerId) !== void 0) {
-      this.willUnMount({ map });
-    }
-  }
-}
-const enabledLayersAtom$1 = createSetAtom(/* @__PURE__ */ new Set(), "enabledLayers");
-var getOwnPropertyNames = Object.getOwnPropertyNames, getOwnPropertySymbols = Object.getOwnPropertySymbols;
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-function combineComparators(comparatorA, comparatorB) {
-  return function isEqual2(a2, b2, state) {
-    return comparatorA(a2, b2, state) && comparatorB(a2, b2, state);
-  };
-}
-function createIsCircular(areItemsEqual) {
-  return function isCircular(a2, b2, state) {
-    if (!a2 || !b2 || typeof a2 !== "object" || typeof b2 !== "object") {
-      return areItemsEqual(a2, b2, state);
-    }
-    var cache = state.cache;
-    var cachedA = cache.get(a2);
-    var cachedB = cache.get(b2);
-    if (cachedA && cachedB) {
-      return cachedA === b2 && cachedB === a2;
-    }
-    cache.set(a2, b2);
-    cache.set(b2, a2);
-    var result2 = areItemsEqual(a2, b2, state);
-    cache.delete(a2);
-    cache.delete(b2);
-    return result2;
-  };
-}
-function getStrictProperties(object) {
-  return getOwnPropertyNames(object).concat(getOwnPropertySymbols(object));
-}
-var hasOwn = Object.hasOwn || function(object, property) {
-  return hasOwnProperty.call(object, property);
-};
-function sameValueZeroEqual(a2, b2) {
-  return a2 === b2 || !a2 && !b2 && a2 !== a2 && b2 !== b2;
-}
-var PREACT_VNODE = "__v";
-var PREACT_OWNER = "__o";
-var REACT_OWNER = "_owner";
-var getOwnPropertyDescriptor = Object.getOwnPropertyDescriptor, keys = Object.keys;
-function areArraysEqual(a2, b2, state) {
-  var index2 = a2.length;
-  if (b2.length !== index2) {
-    return false;
-  }
-  while (index2-- > 0) {
-    if (!state.equals(a2[index2], b2[index2], index2, index2, a2, b2, state)) {
-      return false;
-    }
-  }
-  return true;
-}
-function areDatesEqual(a2, b2) {
-  return sameValueZeroEqual(a2.getTime(), b2.getTime());
-}
-function areErrorsEqual(a2, b2) {
-  return a2.name === b2.name && a2.message === b2.message && a2.cause === b2.cause && a2.stack === b2.stack;
-}
-function areFunctionsEqual(a2, b2) {
-  return a2 === b2;
-}
-function areMapsEqual(a2, b2, state) {
-  var size = a2.size;
-  if (size !== b2.size) {
-    return false;
-  }
-  if (!size) {
-    return true;
-  }
-  var matchedIndices = new Array(size);
-  var aIterable = a2.entries();
-  var aResult;
-  var bResult;
-  var index2 = 0;
-  while (aResult = aIterable.next()) {
-    if (aResult.done) {
-      break;
-    }
-    var bIterable = b2.entries();
-    var hasMatch = false;
-    var matchIndex = 0;
-    while (bResult = bIterable.next()) {
-      if (bResult.done) {
-        break;
-      }
-      if (matchedIndices[matchIndex]) {
-        matchIndex++;
-        continue;
-      }
-      var aEntry = aResult.value;
-      var bEntry = bResult.value;
-      if (state.equals(aEntry[0], bEntry[0], index2, matchIndex, a2, b2, state) && state.equals(aEntry[1], bEntry[1], aEntry[0], bEntry[0], a2, b2, state)) {
-        hasMatch = matchedIndices[matchIndex] = true;
-        break;
-      }
-      matchIndex++;
-    }
-    if (!hasMatch) {
-      return false;
-    }
-    index2++;
-  }
-  return true;
-}
-var areNumbersEqual = sameValueZeroEqual;
-function areObjectsEqual(a2, b2, state) {
-  var properties = keys(a2);
-  var index2 = properties.length;
-  if (keys(b2).length !== index2) {
-    return false;
-  }
-  while (index2-- > 0) {
-    if (!isPropertyEqual(a2, b2, state, properties[index2])) {
-      return false;
-    }
-  }
-  return true;
-}
-function areObjectsEqualStrict(a2, b2, state) {
-  var properties = getStrictProperties(a2);
-  var index2 = properties.length;
-  if (getStrictProperties(b2).length !== index2) {
-    return false;
-  }
-  var property;
-  var descriptorA;
-  var descriptorB;
-  while (index2-- > 0) {
-    property = properties[index2];
-    if (!isPropertyEqual(a2, b2, state, property)) {
-      return false;
-    }
-    descriptorA = getOwnPropertyDescriptor(a2, property);
-    descriptorB = getOwnPropertyDescriptor(b2, property);
-    if ((descriptorA || descriptorB) && (!descriptorA || !descriptorB || descriptorA.configurable !== descriptorB.configurable || descriptorA.enumerable !== descriptorB.enumerable || descriptorA.writable !== descriptorB.writable)) {
-      return false;
-    }
-  }
-  return true;
-}
-function arePrimitiveWrappersEqual(a2, b2) {
-  return sameValueZeroEqual(a2.valueOf(), b2.valueOf());
-}
-function areRegExpsEqual(a2, b2) {
-  return a2.source === b2.source && a2.flags === b2.flags;
-}
-function areSetsEqual(a2, b2, state) {
-  var size = a2.size;
-  if (size !== b2.size) {
-    return false;
-  }
-  if (!size) {
-    return true;
-  }
-  var matchedIndices = new Array(size);
-  var aIterable = a2.values();
-  var aResult;
-  var bResult;
-  while (aResult = aIterable.next()) {
-    if (aResult.done) {
-      break;
-    }
-    var bIterable = b2.values();
-    var hasMatch = false;
-    var matchIndex = 0;
-    while (bResult = bIterable.next()) {
-      if (bResult.done) {
-        break;
-      }
-      if (!matchedIndices[matchIndex] && state.equals(aResult.value, bResult.value, aResult.value, bResult.value, a2, b2, state)) {
-        hasMatch = matchedIndices[matchIndex] = true;
-        break;
-      }
-      matchIndex++;
-    }
-    if (!hasMatch) {
-      return false;
-    }
-  }
-  return true;
-}
-function areTypedArraysEqual(a2, b2) {
-  var index2 = a2.length;
-  if (b2.length !== index2) {
-    return false;
-  }
-  while (index2-- > 0) {
-    if (a2[index2] !== b2[index2]) {
-      return false;
-    }
-  }
-  return true;
-}
-function areUrlsEqual(a2, b2) {
-  return a2.hostname === b2.hostname && a2.pathname === b2.pathname && a2.protocol === b2.protocol && a2.port === b2.port && a2.hash === b2.hash && a2.username === b2.username && a2.password === b2.password;
-}
-function isPropertyEqual(a2, b2, state, property) {
-  if ((property === REACT_OWNER || property === PREACT_OWNER || property === PREACT_VNODE) && (a2.$$typeof || b2.$$typeof)) {
-    return true;
-  }
-  return hasOwn(b2, property) && state.equals(a2[property], b2[property], property, property, a2, b2, state);
-}
-var ARGUMENTS_TAG = "[object Arguments]";
-var BOOLEAN_TAG = "[object Boolean]";
-var DATE_TAG = "[object Date]";
-var ERROR_TAG = "[object Error]";
-var MAP_TAG = "[object Map]";
-var NUMBER_TAG = "[object Number]";
-var OBJECT_TAG = "[object Object]";
-var REG_EXP_TAG = "[object RegExp]";
-var SET_TAG = "[object Set]";
-var STRING_TAG = "[object String]";
-var URL_TAG = "[object URL]";
-var isArray = Array.isArray;
-var isTypedArray = typeof ArrayBuffer === "function" && ArrayBuffer.isView ? ArrayBuffer.isView : null;
-var assign = Object.assign;
-var getTag = Object.prototype.toString.call.bind(Object.prototype.toString);
-function createEqualityComparator(_a2) {
-  var areArraysEqual2 = _a2.areArraysEqual, areDatesEqual2 = _a2.areDatesEqual, areErrorsEqual2 = _a2.areErrorsEqual, areFunctionsEqual2 = _a2.areFunctionsEqual, areMapsEqual2 = _a2.areMapsEqual, areNumbersEqual2 = _a2.areNumbersEqual, areObjectsEqual2 = _a2.areObjectsEqual, arePrimitiveWrappersEqual2 = _a2.arePrimitiveWrappersEqual, areRegExpsEqual2 = _a2.areRegExpsEqual, areSetsEqual2 = _a2.areSetsEqual, areTypedArraysEqual2 = _a2.areTypedArraysEqual, areUrlsEqual2 = _a2.areUrlsEqual;
-  return function comparator(a2, b2, state) {
-    if (a2 === b2) {
-      return true;
-    }
-    if (a2 == null || b2 == null) {
-      return false;
-    }
-    var type = typeof a2;
-    if (type !== typeof b2) {
-      return false;
-    }
-    if (type !== "object") {
-      if (type === "number") {
-        return areNumbersEqual2(a2, b2, state);
-      }
-      if (type === "function") {
-        return areFunctionsEqual2(a2, b2, state);
-      }
-      return false;
-    }
-    var constructor = a2.constructor;
-    if (constructor !== b2.constructor) {
-      return false;
-    }
-    if (constructor === Object) {
-      return areObjectsEqual2(a2, b2, state);
-    }
-    if (isArray(a2)) {
-      return areArraysEqual2(a2, b2, state);
-    }
-    if (isTypedArray != null && isTypedArray(a2)) {
-      return areTypedArraysEqual2(a2, b2, state);
-    }
-    if (constructor === Date) {
-      return areDatesEqual2(a2, b2, state);
-    }
-    if (constructor === RegExp) {
-      return areRegExpsEqual2(a2, b2, state);
-    }
-    if (constructor === Map) {
-      return areMapsEqual2(a2, b2, state);
-    }
-    if (constructor === Set) {
-      return areSetsEqual2(a2, b2, state);
-    }
-    var tag = getTag(a2);
-    if (tag === DATE_TAG) {
-      return areDatesEqual2(a2, b2, state);
-    }
-    if (tag === REG_EXP_TAG) {
-      return areRegExpsEqual2(a2, b2, state);
-    }
-    if (tag === MAP_TAG) {
-      return areMapsEqual2(a2, b2, state);
-    }
-    if (tag === SET_TAG) {
-      return areSetsEqual2(a2, b2, state);
-    }
-    if (tag === OBJECT_TAG) {
-      return typeof a2.then !== "function" && typeof b2.then !== "function" && areObjectsEqual2(a2, b2, state);
-    }
-    if (tag === URL_TAG) {
-      return areUrlsEqual2(a2, b2, state);
-    }
-    if (tag === ERROR_TAG) {
-      return areErrorsEqual2(a2, b2, state);
-    }
-    if (tag === ARGUMENTS_TAG) {
-      return areObjectsEqual2(a2, b2, state);
-    }
-    if (tag === BOOLEAN_TAG || tag === NUMBER_TAG || tag === STRING_TAG) {
-      return arePrimitiveWrappersEqual2(a2, b2, state);
-    }
-    return false;
-  };
-}
-function createEqualityComparatorConfig(_a2) {
-  var circular = _a2.circular, createCustomConfig = _a2.createCustomConfig, strict = _a2.strict;
-  var config2 = {
-    areArraysEqual: strict ? areObjectsEqualStrict : areArraysEqual,
-    areDatesEqual,
-    areErrorsEqual,
-    areFunctionsEqual,
-    areMapsEqual: strict ? combineComparators(areMapsEqual, areObjectsEqualStrict) : areMapsEqual,
-    areNumbersEqual,
-    areObjectsEqual: strict ? areObjectsEqualStrict : areObjectsEqual,
-    arePrimitiveWrappersEqual,
-    areRegExpsEqual,
-    areSetsEqual: strict ? combineComparators(areSetsEqual, areObjectsEqualStrict) : areSetsEqual,
-    areTypedArraysEqual: strict ? areObjectsEqualStrict : areTypedArraysEqual,
-    areUrlsEqual
-  };
-  if (createCustomConfig) {
-    config2 = assign({}, config2, createCustomConfig(config2));
-  }
-  if (circular) {
-    var areArraysEqual$1 = createIsCircular(config2.areArraysEqual);
-    var areMapsEqual$1 = createIsCircular(config2.areMapsEqual);
-    var areObjectsEqual$1 = createIsCircular(config2.areObjectsEqual);
-    var areSetsEqual$1 = createIsCircular(config2.areSetsEqual);
-    config2 = assign({}, config2, {
-      areArraysEqual: areArraysEqual$1,
-      areMapsEqual: areMapsEqual$1,
-      areObjectsEqual: areObjectsEqual$1,
-      areSetsEqual: areSetsEqual$1
-    });
-  }
-  return config2;
-}
-function createInternalEqualityComparator(compare) {
-  return function(a2, b2, _indexOrKeyA, _indexOrKeyB, _parentA, _parentB, state) {
-    return compare(a2, b2, state);
-  };
-}
-function createIsEqual(_a2) {
-  var circular = _a2.circular, comparator = _a2.comparator, createState = _a2.createState, equals = _a2.equals, strict = _a2.strict;
-  if (createState) {
-    return function isEqual2(a2, b2) {
-      var _a3 = createState(), _b = _a3.cache, cache = _b === void 0 ? circular ? /* @__PURE__ */ new WeakMap() : void 0 : _b, meta2 = _a3.meta;
-      return comparator(a2, b2, {
-        cache,
-        equals,
-        meta: meta2,
-        strict
-      });
-    };
-  }
-  if (circular) {
-    return function isEqual2(a2, b2) {
-      return comparator(a2, b2, {
-        cache: /* @__PURE__ */ new WeakMap(),
-        equals,
-        meta: void 0,
-        strict
-      });
-    };
-  }
-  var state = {
-    cache: void 0,
-    equals,
-    meta: void 0,
-    strict
-  };
-  return function isEqual2(a2, b2) {
-    return comparator(a2, b2, state);
-  };
-}
-var deepEqual = createCustomEqual();
-createCustomEqual({ strict: true });
-createCustomEqual({ circular: true });
-createCustomEqual({
-  circular: true,
-  strict: true
-});
-createCustomEqual({
-  createInternalComparator: function() {
-    return sameValueZeroEqual;
-  }
-});
-createCustomEqual({
-  strict: true,
-  createInternalComparator: function() {
-    return sameValueZeroEqual;
-  }
-});
-createCustomEqual({
-  circular: true,
-  createInternalComparator: function() {
-    return sameValueZeroEqual;
-  }
-});
-createCustomEqual({
-  circular: true,
-  createInternalComparator: function() {
-    return sameValueZeroEqual;
-  },
-  strict: true
-});
-function createCustomEqual(options) {
-  if (options === void 0) {
-    options = {};
-  }
-  var _a2 = options.circular, circular = _a2 === void 0 ? false : _a2, createCustomInternalComparator = options.createInternalComparator, createState = options.createState, _b = options.strict, strict = _b === void 0 ? false : _b;
-  var config2 = createEqualityComparatorConfig(options);
-  var comparator = createEqualityComparator(config2);
-  var equals = createCustomInternalComparator ? createCustomInternalComparator(comparator) : createInternalEqualityComparator(comparator);
-  return createIsEqual({ circular, comparator, createState, equals, strict });
-}
-function downloadObject(data, fileName, indentation) {
-  const file = new Blob([JSON.stringify(data, null, indentation)], { type: "json" });
-  const a2 = document.createElement("a");
-  const url2 = URL.createObjectURL(file);
-  a2.href = url2;
-  a2.download = fileName;
-  document.body.appendChild(a2);
-  a2.click();
-  clearTimeout(
-    setTimeout(function() {
-      document.body.removeChild(a2);
-      window.URL.revokeObjectURL(url2);
-    }, 0)
-  );
-}
-const FOCUSED_GEOMETRY_LOGICAL_LAYER_ID = "focused-geometry";
-const REFERENCE_AREA_LOGICAL_LAYER_ID = "reference-area";
-TranslationService.t(
-  "reference_area_layer.settings.name"
-);
-/*!
- * hash-wasm (https://www.npmjs.com/package/hash-wasm)
- * (c) Dani Biro
- * @license MIT
- */
-function __awaiter(thisArg, _arguments, P2, generator) {
-  function adopt(value2) {
-    return value2 instanceof P2 ? value2 : new P2(function(resolve) {
-      resolve(value2);
-    });
-  }
-  return new (P2 || (P2 = Promise))(function(resolve, reject) {
-    function fulfilled(value2) {
-      try {
-        step(generator.next(value2));
-      } catch (e) {
-        reject(e);
-      }
-    }
-    function rejected(value2) {
-      try {
-        step(generator["throw"](value2));
-      } catch (e) {
-        reject(e);
-      }
-    }
-    function step(result2) {
-      result2.done ? resolve(result2.value) : adopt(result2.value).then(fulfilled, rejected);
-    }
-    step((generator = generator.apply(thisArg, [])).next());
-  });
-}
-typeof SuppressedError === "function" ? SuppressedError : function(error2, suppressed, message) {
-  var e = new Error(message);
-  return e.name = "SuppressedError", e.error = error2, e.suppressed = suppressed, e;
-};
-class Mutex {
-  constructor() {
-    this.mutex = Promise.resolve();
-  }
-  lock() {
-    let begin = () => {
-    };
-    this.mutex = this.mutex.then(() => new Promise(begin));
-    return new Promise((res) => {
-      begin = res;
-    });
-  }
-  dispatch(fn) {
-    return __awaiter(this, void 0, void 0, function* () {
-      const unlock = yield this.lock();
-      try {
-        return yield Promise.resolve(fn());
-      } finally {
-        unlock();
-      }
-    });
-  }
-}
-var _a;
-function getGlobal() {
-  if (typeof globalThis !== "undefined")
-    return globalThis;
-  if (typeof self !== "undefined")
-    return self;
-  if (typeof window !== "undefined")
-    return window;
-  return global;
-}
-const globalObject = getGlobal();
-const nodeBuffer = (_a = globalObject.Buffer) !== null && _a !== void 0 ? _a : null;
-const textEncoder = globalObject.TextEncoder ? new globalObject.TextEncoder() : null;
-function hexCharCodesToInt(a2, b2) {
-  return (a2 & 15) + (a2 >> 6 | a2 >> 3 & 8) << 4 | (b2 & 15) + (b2 >> 6 | b2 >> 3 & 8);
-}
-function writeHexToUInt8(buf, str) {
-  const size = str.length >> 1;
-  for (let i2 = 0; i2 < size; i2++) {
-    const index2 = i2 << 1;
-    buf[i2] = hexCharCodesToInt(str.charCodeAt(index2), str.charCodeAt(index2 + 1));
-  }
-}
-function hexStringEqualsUInt8(str, buf) {
-  if (str.length !== buf.length * 2) {
-    return false;
-  }
-  for (let i2 = 0; i2 < buf.length; i2++) {
-    const strIndex = i2 << 1;
-    if (buf[i2] !== hexCharCodesToInt(str.charCodeAt(strIndex), str.charCodeAt(strIndex + 1))) {
-      return false;
-    }
-  }
-  return true;
-}
-const alpha = "a".charCodeAt(0) - 10;
-const digit = "0".charCodeAt(0);
-function getDigestHex(tmpBuffer, input, hashLength) {
-  let p2 = 0;
-  for (let i2 = 0; i2 < hashLength; i2++) {
-    let nibble = input[i2] >>> 4;
-    tmpBuffer[p2++] = nibble > 9 ? nibble + alpha : nibble + digit;
-    nibble = input[i2] & 15;
-    tmpBuffer[p2++] = nibble > 9 ? nibble + alpha : nibble + digit;
-  }
-  return String.fromCharCode.apply(null, tmpBuffer);
-}
-const getUInt8Buffer = nodeBuffer !== null ? (data) => {
-  if (typeof data === "string") {
-    const buf = nodeBuffer.from(data, "utf8");
-    return new Uint8Array(buf.buffer, buf.byteOffset, buf.length);
-  }
-  if (nodeBuffer.isBuffer(data)) {
-    return new Uint8Array(data.buffer, data.byteOffset, data.length);
-  }
-  if (ArrayBuffer.isView(data)) {
-    return new Uint8Array(data.buffer, data.byteOffset, data.byteLength);
-  }
-  throw new Error("Invalid data type!");
-} : (data) => {
-  if (typeof data === "string") {
-    return textEncoder.encode(data);
-  }
-  if (ArrayBuffer.isView(data)) {
-    return new Uint8Array(data.buffer, data.byteOffset, data.byteLength);
-  }
-  throw new Error("Invalid data type!");
-};
-const base64Chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-const base64Lookup = new Uint8Array(256);
-for (let i2 = 0; i2 < base64Chars.length; i2++) {
-  base64Lookup[base64Chars.charCodeAt(i2)] = i2;
-}
-function getDecodeBase64Length(data) {
-  let bufferLength = Math.floor(data.length * 0.75);
-  const len = data.length;
-  if (data[len - 1] === "=") {
-    bufferLength -= 1;
-    if (data[len - 2] === "=") {
-      bufferLength -= 1;
-    }
-  }
-  return bufferLength;
-}
-function decodeBase64(data) {
-  const bufferLength = getDecodeBase64Length(data);
-  const len = data.length;
-  const bytes = new Uint8Array(bufferLength);
-  let p2 = 0;
-  for (let i2 = 0; i2 < len; i2 += 4) {
-    const encoded1 = base64Lookup[data.charCodeAt(i2)];
-    const encoded2 = base64Lookup[data.charCodeAt(i2 + 1)];
-    const encoded3 = base64Lookup[data.charCodeAt(i2 + 2)];
-    const encoded4 = base64Lookup[data.charCodeAt(i2 + 3)];
-    bytes[p2] = encoded1 << 2 | encoded2 >> 4;
-    p2 += 1;
-    bytes[p2] = (encoded2 & 15) << 4 | encoded3 >> 2;
-    p2 += 1;
-    bytes[p2] = (encoded3 & 3) << 6 | encoded4 & 63;
-    p2 += 1;
-  }
-  return bytes;
-}
-const MAX_HEAP = 16 * 1024;
-const WASM_FUNC_HASH_LENGTH = 4;
-const wasmMutex = new Mutex();
-const wasmModuleCache = /* @__PURE__ */ new Map();
-function WASMInterface(binary, hashLength) {
-  return __awaiter(this, void 0, void 0, function* () {
-    let wasmInstance = null;
-    let memoryView = null;
-    let initialized = false;
-    if (typeof WebAssembly === "undefined") {
-      throw new Error("WebAssembly is not supported in this environment!");
-    }
-    const writeMemory = (data, offset2 = 0) => {
-      memoryView.set(data, offset2);
-    };
-    const getMemory = () => memoryView;
-    const getExports = () => wasmInstance.exports;
-    const setMemorySize = (totalSize) => {
-      wasmInstance.exports.Hash_SetMemorySize(totalSize);
-      const arrayOffset = wasmInstance.exports.Hash_GetBuffer();
-      const memoryBuffer = wasmInstance.exports.memory.buffer;
-      memoryView = new Uint8Array(memoryBuffer, arrayOffset, totalSize);
-    };
-    const getStateSize = () => {
-      const view = new DataView(wasmInstance.exports.memory.buffer);
-      const stateSize = view.getUint32(wasmInstance.exports.STATE_SIZE, true);
-      return stateSize;
-    };
-    const loadWASMPromise = wasmMutex.dispatch(() => __awaiter(this, void 0, void 0, function* () {
-      if (!wasmModuleCache.has(binary.name)) {
-        const asm = decodeBase64(binary.data);
-        const promise = WebAssembly.compile(asm);
-        wasmModuleCache.set(binary.name, promise);
-      }
-      const module = yield wasmModuleCache.get(binary.name);
-      wasmInstance = yield WebAssembly.instantiate(module, {
-        // env: {
-        //   emscripten_memcpy_big: (dest, src, num) => {
-        //     const memoryBuffer = wasmInstance.exports.memory.buffer;
-        //     const memView = new Uint8Array(memoryBuffer, 0);
-        //     memView.set(memView.subarray(src, src + num), dest);
-        //   },
-        //   print_memory: (offset, len) => {
-        //     const memoryBuffer = wasmInstance.exports.memory.buffer;
-        //     const memView = new Uint8Array(memoryBuffer, 0);
-        //     console.log('print_int32', memView.subarray(offset, offset + len));
-        //   },
-        // },
-      });
-    }));
-    const setupInterface = () => __awaiter(this, void 0, void 0, function* () {
-      if (!wasmInstance) {
-        yield loadWASMPromise;
-      }
-      const arrayOffset = wasmInstance.exports.Hash_GetBuffer();
-      const memoryBuffer = wasmInstance.exports.memory.buffer;
-      memoryView = new Uint8Array(memoryBuffer, arrayOffset, MAX_HEAP);
-    });
-    const init = (bits = null) => {
-      initialized = true;
-      wasmInstance.exports.Hash_Init(bits);
-    };
-    const updateUInt8Array = (data) => {
-      let read = 0;
-      while (read < data.length) {
-        const chunk = data.subarray(read, read + MAX_HEAP);
-        read += chunk.length;
-        memoryView.set(chunk);
-        wasmInstance.exports.Hash_Update(chunk.length);
-      }
-    };
-    const update = (data) => {
-      if (!initialized) {
-        throw new Error("update() called before init()");
-      }
-      const Uint8Buffer = getUInt8Buffer(data);
-      updateUInt8Array(Uint8Buffer);
-    };
-    const digestChars = new Uint8Array(hashLength * 2);
-    const digest = (outputType, padding = null) => {
-      if (!initialized) {
-        throw new Error("digest() called before init()");
-      }
-      initialized = false;
-      wasmInstance.exports.Hash_Final(padding);
-      if (outputType === "binary") {
-        return memoryView.slice(0, hashLength);
-      }
-      return getDigestHex(digestChars, memoryView, hashLength);
-    };
-    const save2 = () => {
-      if (!initialized) {
-        throw new Error("save() can only be called after init() and before digest()");
-      }
-      const stateOffset = wasmInstance.exports.Hash_GetState();
-      const stateLength = getStateSize();
-      const memoryBuffer = wasmInstance.exports.memory.buffer;
-      const internalState = new Uint8Array(memoryBuffer, stateOffset, stateLength);
-      const prefixedState = new Uint8Array(WASM_FUNC_HASH_LENGTH + stateLength);
-      writeHexToUInt8(prefixedState, binary.hash);
-      prefixedState.set(internalState, WASM_FUNC_HASH_LENGTH);
-      return prefixedState;
-    };
-    const load = (state) => {
-      if (!(state instanceof Uint8Array)) {
-        throw new Error("load() expects an Uint8Array generated by save()");
-      }
-      const stateOffset = wasmInstance.exports.Hash_GetState();
-      const stateLength = getStateSize();
-      const overallLength = WASM_FUNC_HASH_LENGTH + stateLength;
-      const memoryBuffer = wasmInstance.exports.memory.buffer;
-      if (state.length !== overallLength) {
-        throw new Error(`Bad state length (expected ${overallLength} bytes, got ${state.length})`);
-      }
-      if (!hexStringEqualsUInt8(binary.hash, state.subarray(0, WASM_FUNC_HASH_LENGTH))) {
-        throw new Error("This state was written by an incompatible hash implementation");
-      }
-      const internalState = state.subarray(WASM_FUNC_HASH_LENGTH);
-      new Uint8Array(memoryBuffer, stateOffset, stateLength).set(internalState);
-      initialized = true;
-    };
-    const isDataShort = (data) => {
-      if (typeof data === "string") {
-        return data.length < MAX_HEAP / 4;
-      }
-      return data.byteLength < MAX_HEAP;
-    };
-    let canSimplify = isDataShort;
-    switch (binary.name) {
-      case "argon2":
-      case "scrypt":
-        canSimplify = () => true;
-        break;
-      case "blake2b":
-      case "blake2s":
-        canSimplify = (data, initParam) => initParam <= 512 && isDataShort(data);
-        break;
-      case "blake3":
-        canSimplify = (data, initParam) => initParam === 0 && isDataShort(data);
-        break;
-      case "xxhash64":
-      // cannot simplify
-      case "xxhash3":
-      case "xxhash128":
-      case "crc64":
-        canSimplify = () => false;
-        break;
-    }
-    const calculate = (data, initParam = null, digestParam = null) => {
-      if (!canSimplify(data, initParam)) {
-        init(initParam);
-        update(data);
-        return digest("hex", digestParam);
-      }
-      const buffer = getUInt8Buffer(data);
-      memoryView.set(buffer);
-      wasmInstance.exports.Hash_Calculate(buffer.length, initParam, digestParam);
-      return getDigestHex(digestChars, memoryView, hashLength);
-    };
-    yield setupInterface();
-    return {
-      getMemory,
-      writeMemory,
-      getExports,
-      setMemorySize,
-      init,
-      update,
-      digest,
-      save: save2,
-      load,
-      calculate,
-      hashLength
-    };
-  });
-}
-function lockedCreate(mutex, binary, hashLength) {
-  return __awaiter(this, void 0, void 0, function* () {
-    const unlock = yield mutex.lock();
-    const wasm = yield WASMInterface(binary, hashLength);
-    unlock();
-    return wasm;
-  });
-}
-new Mutex();
-new Mutex();
-new Mutex();
-new Mutex();
-var name$g = "crc32";
-var data$g = "AGFzbQEAAAABEQRgAAF/YAF/AGAAAGACf38AAwgHAAEBAQIAAwUEAQECAgYOAn8BQZDJBQt/AEGACAsHcAgGbWVtb3J5AgAOSGFzaF9HZXRCdWZmZXIAAAlIYXNoX0luaXQAAgtIYXNoX1VwZGF0ZQADCkhhc2hfRmluYWwABA1IYXNoX0dldFN0YXRlAAUOSGFzaF9DYWxjdWxhdGUABgpTVEFURV9TSVpFAwEKkggHBQBBgAkLwwMBA39BgIkBIQFBACECA0AgAUEAQQBBAEEAQQBBAEEAQQAgAkEBcWsgAHEgAkEBdnMiA0EBcWsgAHEgA0EBdnMiA0EBcWsgAHEgA0EBdnMiA0EBcWsgAHEgA0EBdnMiA0EBcWsgAHEgA0EBdnMiA0EBcWsgAHEgA0EBdnMiA0EBcWsgAHEgA0EBdnMiA0EBcWsgAHEgA0EBdnM2AgAgAUEEaiEBIAJBAWoiAkGAAkcNAAtBACEAA0AgAEGEkQFqIABBhIkBaigCACICQf8BcUECdEGAiQFqKAIAIAJBCHZzIgI2AgAgAEGEmQFqIAJB/wFxQQJ0QYCJAWooAgAgAkEIdnMiAjYCACAAQYShAWogAkH/AXFBAnRBgIkBaigCACACQQh2cyICNgIAIABBhKkBaiACQf8BcUECdEGAiQFqKAIAIAJBCHZzIgI2AgAgAEGEsQFqIAJB/wFxQQJ0QYCJAWooAgAgAkEIdnMiAjYCACAAQYS5AWogAkH/AXFBAnRBgIkBaigCACACQQh2cyICNgIAIABBhMEBaiACQf8BcUECdEGAiQFqKAIAIAJBCHZzNgIAIABBBGoiAEH8B0cNAAsLJwACQEEAKAKAyQEgAEYNACAAEAFBACAANgKAyQELQQBBADYChMkBC4gDAQN/QQAoAoTJAUF/cyEBQYAJIQICQCAAQQhJDQBBgAkhAgNAIAJBBGooAgAiA0EOdkH8B3FBgJEBaigCACADQRZ2QfwHcUGAiQFqKAIAcyADQQZ2QfwHcUGAmQFqKAIAcyADQf8BcUECdEGAoQFqKAIAcyACKAIAIAFzIgFBFnZB/AdxQYCpAWooAgBzIAFBDnZB/AdxQYCxAWooAgBzIAFBBnZB/AdxQYC5AWooAgBzIAFB/wFxQQJ0QYDBAWooAgBzIQEgAkEIaiECIABBeGoiAEEHSw0ACwsCQCAARQ0AAkACQCAAQQFxDQAgACEDDAELIAFB/wFxIAItAABzQQJ0QYCJAWooAgAgAUEIdnMhASACQQFqIQIgAEF/aiEDCyAAQQFGDQADQCABQf8BcSACLQAAc0ECdEGAiQFqKAIAIAFBCHZzIgFB/wFxIAJBAWotAABzQQJ0QYCJAWooAgAgAUEIdnMhASACQQJqIQIgA0F+aiIDDQALC0EAIAFBf3M2AoTJAQsyAQF/QQBBACgChMkBIgBBGHQgAEGA/gNxQQh0ciAAQQh2QYD+A3EgAEEYdnJyNgKACQsGAEGEyQELWQACQEEAKAKAyQEgAUYNACABEAFBACABNgKAyQELQQBBADYChMkBIAAQA0EAQQAoAoTJASIBQRh0IAFBgP4DcUEIdHIgAUEIdkGA/gNxIAFBGHZycjYCgAkLCwsBAEGACAsEBAAAAA==";
-var hash$g = "d2eba587";
-var wasmJson$g = {
-  name: name$g,
-  data: data$g,
-  hash: hash$g
-};
-const mutex$h = new Mutex();
-let wasmCache$h = null;
-function validatePoly(poly) {
-  if (!Number.isInteger(poly) || poly < 0 || poly > 4294967295) {
-    return new Error("Polynomial must be a valid 32-bit long unsigned integer");
-  }
-  return null;
-}
-function crc32(data, polynomial = 3988292384) {
-  if (validatePoly(polynomial)) {
-    return Promise.reject(validatePoly(polynomial));
-  }
-  if (wasmCache$h === null) {
-    return lockedCreate(mutex$h, wasmJson$g, 4).then((wasm) => {
-      wasmCache$h = wasm;
-      return wasmCache$h.calculate(data, polynomial);
-    });
-  }
-  try {
-    const hash = wasmCache$h.calculate(data, polynomial);
-    return Promise.resolve(hash);
-  } catch (err) {
-    return Promise.reject(err);
-  }
-}
-new Mutex();
-new Mutex();
-new Mutex();
-new Mutex();
-new Mutex();
-new Mutex();
-new Mutex();
-new Mutex();
-new Mutex();
-new Mutex();
-new Mutex();
-new Mutex();
-new Mutex();
-new Mutex();
-new Mutex();
-new Mutex();
-new Mutex();
-const episodesPanelState = createAtom(
-  {
-    open: () => null,
-    close: () => null
-  },
-  ({ onAction }, state = { isOpen: false }) => {
-    onAction("open", () => state = { ...state, isOpen: true });
-    onAction("close", () => state = { ...state, isOpen: false });
-    return state;
-  },
-  "episodesPanelState"
-);
-const focusedGeometryAtom = createAtom(
-  {
-    setFocusedGeometry: (source, geometry) => ({ source, geometry }),
-    _update: (fGeometry) => fGeometry,
-    reset: () => null,
-    episodesPanelState
-  },
-  ({ onAction, schedule, create: create2 }, state = null) => {
-    onAction("setFocusedGeometry", ({ source, geometry }) => {
-      if (source && geometry) {
-        dispatchMetricsEvent("select_area");
-        schedule(async (dispatch, ctx) => {
-          const hash = await crc32(JSON.stringify({ geometry, source }));
-          if (!state || !ctx.hash || ctx.hash !== hash) {
-            ctx.hash = hash;
-            const geometryWithHash = { ...geometry, hash };
-            dispatch(create2("_update", { source, geometry: geometryWithHash }));
-          }
-        });
-      } else {
-        state = null;
-      }
-    });
-    onAction("reset", () => {
-      state = null;
-    });
-    onAction("_update", (fGeometry) => {
-      state = fGeometry;
-    });
-    return state;
-  },
-  "[Shared state] focusedGeometryAtom"
-);
-function updateReferenceArea(referenceAreaGeometry) {
-  const referenceAreaConfiguration = { referenceAreaGeometry };
-  return updateFeatureConfiguration(
-    AppFeature.REFERENCE_AREA,
-    referenceAreaConfiguration,
-    {
-      errorsConfig: { messages: TranslationService.t("reference_area.error_couldnt_save") }
-    }
-  );
-}
-function updateFeatureConfiguration(featureId, featureConfiguration, requestConfig) {
-  return apiClient.put(
-    `/features/${featureId}?appId=${configRepo.get().id}`,
-    featureConfiguration,
-    {
-      ...requestConfig,
-      authRequirement: apiClient.AUTH_REQUIREMENT.MUST
-    }
-  );
-}
-const referenceAreaAtom = atom(
-  getReferenceAreaFromConfigRepo(),
-  "[Shared state] referenceAreaAtom"
-);
-function getReferenceAreaFromConfigRepo() {
-  const features = configRepo.get().features;
-  const refAreaGeometry = features[AppFeature.REFERENCE_AREA] && typeof features[AppFeature.REFERENCE_AREA] === "object" ? (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    features[AppFeature.REFERENCE_AREA].referenceAreaGeometry
-  ) : null;
-  if ((refAreaGeometry == null ? void 0 : refAreaGeometry.type) === "FeatureCollection" || (refAreaGeometry == null ? void 0 : refAreaGeometry.type) === "Feature") {
-    return refAreaGeometry;
-  }
-  return null;
-}
-action(async (ctx, geometry) => {
-  if (geometry) {
-    dispatchMetricsEvent("ref_area");
-    const hash = geometry.hash ? geometry.hash : await crc32(JSON.stringify({ geometry }));
-    const referenceAreaOld = ctx.get(referenceAreaAtom);
-    if (!referenceAreaOld || !referenceAreaOld.hash || referenceAreaOld.hash !== hash) {
-      const geometryWithHash = { ...geometry, hash };
-      referenceAreaAtom(ctx, geometryWithHash);
-    }
-  } else {
-    referenceAreaAtom(ctx, null);
-  }
-}, "setReferenceArea");
-const resetReferenceArea = action(async (ctx) => {
-  await updateReferenceArea(null);
-  referenceAreaAtom(ctx, null);
-}, "resetReferenceArea");
-const hiddenLayersAtom = createSetAtom(/* @__PURE__ */ new Set(), "hiddenLayers");
-const layersEditorsAtom = createMapAtom(
-  /* @__PURE__ */ new Map(),
-  "layersLegends"
-);
-function deepFreeze(object) {
-  if (object && typeof object === "object") {
-    const propNames = Object.getOwnPropertyNames(object);
-    for (const name of propNames) {
-      const value2 = object[name];
-      deepFreeze(value2);
-    }
-    return Object.freeze(object);
-  }
-  return object;
-}
-const defaultSettings$1 = groupSettings;
-const settingsMock$1 = new Proxy(defaultSettings$1, {
-  get(target, prop, receiver) {
-    const originalValue = Reflect.get(target, prop, receiver);
-    if (originalValue) return originalValue;
-    return {
-      name: prop,
-      openByDefault: true,
-      mutuallyExclusive: false,
-      order: 100
-    };
-  },
-  set(target, prop, val, receiver) {
-    return Reflect.set(target, prop, val, receiver);
-  }
-});
-const layersGroupsSettingsAtom = createAtom(
-  {},
-  ({}, state = settingsMock$1) => {
-    return state;
-  },
-  "layersGroupsSettingsAtom"
-);
-const defaultSettings = categoriesSettings;
-const settingsMock = new Proxy(defaultSettings, {
-  get(target, prop, receiver) {
-    const originalValue = Reflect.get(target, prop, receiver);
-    if (originalValue) return originalValue;
-    return {
-      name: prop,
-      openByDefault: true,
-      mutuallyExclusive: false,
-      order: 100
-    };
-  },
-  set(target, prop, val, receiver) {
-    return Reflect.set(target, prop, val, receiver);
-  }
-});
-const layersCategoriesSettingsAtom = createAtom(
-  {},
-  ({}, state = settingsMock) => {
-    return state;
-  },
-  "layersCategoriesSettingsAtom"
-);
-const getMutualExcludedActions = (() => {
-  let groupsSettings = null;
-  layersGroupsSettingsAtom.subscribe((s2) => groupsSettings = s2);
-  let categorySettings = null;
-  layersCategoriesSettingsAtom.subscribe((s2) => categorySettings = s2);
-  let enabledLayers = null;
-  enabledLayersAtom$1.subscribe((s2) => enabledLayers = s2);
-  let layersSettings = null;
-  layersSettingsAtom$1.subscribe((s2) => layersSettings = s2);
-  return (state) => {
-    var _a2, _b, _c, _d;
-    if (!groupsSettings || !categorySettings || !enabledLayers || !layersSettings) {
-      return [];
-    }
-    const targetLayerCategory = (_a2 = state.settings) == null ? void 0 : _a2.category;
-    const targetLayerGroup = (_b = state.settings) == null ? void 0 : _b.group;
-    const isInMutuallyExclusiveCategory = targetLayerCategory && ((_c = categorySettings[targetLayerCategory]) == null ? void 0 : _c.mutuallyExclusive);
-    const isInMutuallyExclusiveGroup = targetLayerGroup && ((_d = groupsSettings[targetLayerGroup]) == null ? void 0 : _d.mutuallyExclusive);
-    if (!isInMutuallyExclusiveCategory && !isInMutuallyExclusiveGroup) {
-      return [];
-    }
-    const mutualExcludeIds = /* @__PURE__ */ new Set();
-    enabledLayers.forEach((enabledLayerId) => {
-      var _a3, _b2;
-      if (state.id === enabledLayerId) return;
-      const enabledLayerSettings = layersSettings.get(enabledLayerId);
-      if (!enabledLayerSettings) return;
-      if (isInMutuallyExclusiveCategory) {
-        if (((_a3 = enabledLayerSettings.data) == null ? void 0 : _a3.category) === targetLayerCategory) {
-          mutualExcludeIds.add(enabledLayerId);
-        }
-      } else if (isInMutuallyExclusiveGroup) {
-        if (((_b2 = enabledLayerSettings.data) == null ? void 0 : _b2.group) === targetLayerGroup) {
-          mutualExcludeIds.add(enabledLayerId);
-        }
-      }
-    });
-    return Array.from(mutualExcludeIds).map((id) => enabledLayersAtom$1.delete(id));
-  };
-})();
-function createLogicalLayerStateAtom(id) {
-  return createAtom(
-    {
-      layersSettingsAtom: layersSettingsAtom$1,
-      layersLegendsAtom,
-      layersMetaAtom,
-      layersSourcesAtom,
-      enabledLayersAtom: enabledLayersAtom$1,
-      mountedLayersAtom,
-      hiddenLayersAtom,
-      layersMenusAtom,
-      layersEditorsAtom
-    },
-    ({ get: get2 }, prevState = null) => {
-      var _a2, _b, _c, _d, _e2, _f, _g, _h, _i, _j, _k;
-      const fallbackAsyncState = {
-        isLoading: false,
-        data: null,
-        error: null
-      };
-      const asyncLayerSettings = get2("layersSettingsAtom").get(id) ?? fallbackAsyncState;
-      const asyncLayerMeta = get2("layersMetaAtom").get(id) ?? fallbackAsyncState;
-      const asyncLayerLegend = get2("layersLegendsAtom").get(id) ?? fallbackAsyncState;
-      const asyncLayerSource = get2("layersSourcesAtom").get(id) ?? fallbackAsyncState;
-      const asyncLayerEditor = get2("layersEditorsAtom").get(id) ?? fallbackAsyncState;
-      const layersMenus = get2("layersMenusAtom").get(id) ?? null;
-      let mounted = get2("mountedLayersAtom");
-      if (_lastUpdatedState_DO_NOT_USE_OR_YOU_WILL_BE_FIRED !== mounted) {
-        if (configRepo.get().id === "8906feaf-fc18-4180-bb5f-ff545cf65100") {
-          console.debug("Apply workaround");
-          mounted = _lastUpdatedState_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
-        }
-      }
-      const newState = {
-        id,
-        isLoading: [
-          asyncLayerSettings,
-          asyncLayerMeta,
-          asyncLayerLegend,
-          asyncLayerSource
-        ].some((s2) => s2.isLoading),
-        isEnabled: get2("enabledLayersAtom").has(id),
-        isMounted: mounted.has(id),
-        isVisible: !get2("hiddenLayersAtom").has(id),
-        isDownloadable: ((_a2 = asyncLayerSource.data) == null ? void 0 : _a2.source.type) === "geojson" || ((_c = (_b = asyncLayerSource.data) == null ? void 0 : _b.style) == null ? void 0 : _c.type) === "mcda" || ((_e2 = (_d = asyncLayerSource.data) == null ? void 0 : _d.style) == null ? void 0 : _e2.type) === "multivariate",
-        isEditable: (((_g = (_f = asyncLayerSource.data) == null ? void 0 : _f.style) == null ? void 0 : _g.type) === "mcda" || ((_i = (_h = asyncLayerSource.data) == null ? void 0 : _h.style) == null ? void 0 : _i.type) === "multivariate") && !!((_j = asyncLayerSettings.data) == null ? void 0 : _j.ownedByUser),
-        settings: deepFreeze(asyncLayerSettings.data),
-        meta: deepFreeze(asyncLayerMeta.data),
-        legend: deepFreeze(asyncLayerLegend.data),
-        source: deepFreeze(asyncLayerSource.data),
-        contextMenu: deepFreeze(layersMenus),
-        style: ((_k = asyncLayerSource.data) == null ? void 0 : _k.style) ?? null,
-        editor: deepFreeze(asyncLayerEditor.data)
-      };
-      if (prevState && deepEqual(prevState, newState)) {
-        return prevState;
-      }
-      return newState;
-    },
-    `logicalLayerStateAtom-${id}`
-  );
-}
-const logicalLayerActions = {
-  enable: () => null,
-  disable: () => null,
-  hide: () => null,
-  show: () => null,
-  download: () => null,
-  destroy: () => null,
-  clean: () => null
-};
-const annotatedError = (id) => (...e) => console.error(`[Logical layer: ${id}]:`, ...e);
-function createLogicalLayerAtom(id, renderer, registry, customMap) {
-  let hasBeenDestroyed = false;
-  const logicalLayerStateAtom = createLogicalLayerStateAtom(id);
-  const logicalLayerAtom = createAtom(
-    {
-      ...logicalLayerActions,
-      logicalLayerStateAtom,
-      _patchState: (newState) => newState
-    },
-    ({ get: get2, onAction, getUnlistedState, onInit, schedule, create: create2 }, state = {
-      id,
-      error: null,
-      isEnabled: false,
-      isLoading: false,
-      isMounted: false,
-      isEditable: false,
-      isVisible: true,
-      isDownloadable: false,
-      settings: null,
-      meta: null,
-      legend: null,
-      source: null,
-      contextMenu: null,
-      style: null,
-      editor: null
-    }) => {
-      const actions = [];
-      const map = customMap || getUnlistedState(currentMapAtom);
-      const logError = annotatedError(state.id);
-      const computedState = get2("logicalLayerStateAtom");
-      const newState = {
-        ...computedState,
-        error: state.error
-      };
-      onInit(() => {
-        try {
-          renderer.willInit({ map, state: { ...newState } });
-        } catch (e) {
-          logError(e);
-          newState.error = e;
-        }
-      });
-      onAction("enable", () => {
-        newState.isEnabled = true;
-        actions.push(enabledLayersAtom$1.set(id), ...getMutualExcludedActions(state));
-      });
-      onAction("disable", () => {
-        newState.isEnabled = false;
-        actions.push(enabledLayersAtom$1.delete(id));
-      });
-      onAction("hide", () => {
-        if (!map) return;
-        try {
-          renderer.willHide({ map, state: { ...newState } });
-          newState.isVisible = false;
-          actions.push(hiddenLayersAtom.set(id));
-        } catch (e) {
-          logError(e);
-          newState.error = e;
-        }
-      });
-      onAction("show", () => {
-        if (!map) return;
-        try {
-          renderer.willUnhide({ map, state: { ...newState } });
-          newState.isVisible = true;
-          actions.push(hiddenLayersAtom.delete(id));
-        } catch (e) {
-          logError(e);
-          newState.error = e;
-        }
-      });
-      onAction("download", () => {
-        var _a2, _b, _c, _d, _e2, _f;
-        try {
-          if (!state.isDownloadable) return;
-          if (!((_a2 = state.source) == null ? void 0 : _a2.source)) {
-            logError("Download failed, source unavailable");
-            return;
-          }
-          if (state.source.source.type === "geojson") {
-            downloadObject(
-              state.source.source.data,
-              `${((_b = state.settings) == null ? void 0 : _b.name) && spacesToUnderscore(state.settings.name) || state.id || "map layer"}_${(/* @__PURE__ */ new Date()).toISOString()}.geojson`
-            );
-          } else if (((_c = state.source.style) == null ? void 0 : _c.type) === "mcda") {
-            downloadObject(
-              state.source.style,
-              `${((_d = state.settings) == null ? void 0 : _d.name) || state.id || "MCDA"}-${(/* @__PURE__ */ new Date()).toISOString()}.json`,
-              2
-            );
-          } else if (((_e2 = state.source.style) == null ? void 0 : _e2.type) === "multivariate") {
-            downloadObject(
-              state.source.style,
-              `${((_f = state.settings) == null ? void 0 : _f.name) || state.id || "MVA"}-${(/* @__PURE__ */ new Date()).toISOString()}.json`,
-              2
-            );
-          } else {
-            logError("Only geojson layers, MCDA or MVA can be downloaded");
-          }
-        } catch (e) {
-          logError(e);
-          newState.error = e;
-        }
-      });
-      onAction("clean", () => {
-        if (id === FOCUSED_GEOMETRY_LOGICAL_LAYER_ID) {
-          schedule((dispatch) => dispatch(focusedGeometryAtom.reset()));
-        }
-        if (id === REFERENCE_AREA_LOGICAL_LAYER_ID) {
-          resetReferenceArea(store.v3ctx);
-        }
-      });
-      const syncNotFinished = !hasBeenDestroyed && newState.isEnabled !== newState.isMounted;
-      const mountStateNotApplied = state.isMounted !== newState.isMounted;
-      if (!mountStateNotApplied && syncNotFinished && !newState.isLoading) {
-        try {
-          if (!newState.isMounted) {
-            if (map) {
-              renderer.willMount({ map, state: { ...newState } });
-              newState.isMounted = true;
-              actions.push(mountedLayersAtom.set(id, logicalLayerAtom));
-            }
-          } else {
-            if (map) {
-              renderer.willUnMount({
-                map,
-                state: { ...newState }
-              });
-              newState.isMounted = false;
-              actions.push(mountedLayersAtom.delete(id));
-            }
-          }
-        } catch (e) {
-          logError(e);
-          newState.error = e;
-        }
-      }
-      if (state.isMounted && newState.isMounted) {
-        const legendHaveUpdate = state.legend !== newState.legend;
-        if (legendHaveUpdate) {
-          if (map)
-            try {
-              renderer.willLegendUpdate({
-                map,
-                state: { ...newState }
-              });
-            } catch (e) {
-              logError(e);
-              newState.error = e;
-            }
-        }
-        const sourceHaveUpdate = state.source !== newState.source;
-        if (sourceHaveUpdate) {
-          if (map)
-            try {
-              renderer.willSourceUpdate({
-                map,
-                state: { ...newState }
-              });
-            } catch (e) {
-              logError(e);
-              newState.error = e;
-            }
-        }
-      }
-      onAction("destroy", () => {
-        hasBeenDestroyed = true;
-        try {
-          renderer.willDestroy({ map, state: { ...newState } });
-          const layersRegistryState = getUnlistedState(registry);
-          if (layersRegistryState.has(state.id)) {
-            actions.push(
-              registry.unregister(state.id, {
-                notifyLayerAboutDestroy: false
-                // cancel layer.destroy() call from registry
-              })
-            );
-          }
-        } catch (e) {
-          logError(e);
-          newState.error = e;
-        }
-      });
-      onAction("_patchState", (patch) => {
-        Object.assign(newState, patch);
-      });
-      if (actions.length) {
-        schedule((dispatch) => {
-          dispatch(actions);
-          renderer.setErrorState((e) => {
-            logError(e);
-            dispatch(create2("_patchState", { error: e.message }));
-          });
-        });
-      }
-      return newState;
-    },
-    { id, decorators: [] }
-  );
-  return logicalLayerAtom;
-}
-const cleanUpActionsMap = /* @__PURE__ */ new WeakMap();
-const unsubscribes = /* @__PURE__ */ new WeakMap();
-const createLayersRegistryAtom = (id) => {
-  const atom2 = createAtom(
-    {
-      register: (r2) => Array.isArray(r2) ? r2 : [r2],
-      unregister: (id2, { notifyLayerAboutDestroy } = {}) => ({ ids: Array.isArray(id2) ? id2 : [id2], notifyLayerAboutDestroy }),
-      _delete: (id2) => Array.isArray(id2) ? id2 : [id2]
-    },
-    ({ onAction, create: create2, schedule }, state = /* @__PURE__ */ new Map()) => {
-      onAction("register", (requests) => {
-        const newState = new Map(state);
-        requests.forEach(({ id: id2, renderer, cleanUpActions, map }) => {
-          const layerAtom = createLogicalLayerAtom(id2, renderer, atom2, map);
-          newState.set(id2, layerAtom);
-          if (cleanUpActions) {
-            cleanUpActionsMap.set(layerAtom, cleanUpActions);
-          }
-          unsubscribes.set(
-            layerAtom,
-            layerAtom.subscribe(() => null)
-          );
-        });
-        state = newState;
-      });
-      onAction("unregister", ({ ids, notifyLayerAboutDestroy }) => {
-        ids.forEach((id2) => {
-          const layerAtom = state.get(id2);
-          if (layerAtom) {
-            schedule((dispatch) => {
-              const unsubscribe = unsubscribes.get(layerAtom);
-              unsubscribe();
-              const actions = [
-                ...cleanUpActionsMap.get(layerAtom) || [],
-                /* Not clear enabledLayersAtom, because it store only user choices,
-                 * and we want to store it even when layer unavailable */
-                mountedLayersAtom.delete(id2),
-                hiddenLayersAtom.delete(id2),
-                /**
-                 * notifyLayerAboutDestroy == false means that
-                 * this action called from inside layerAtom.destroy()
-                 * and not needed to cal it again
-                 */
-                notifyLayerAboutDestroy && layerAtom.destroy(),
-                /* Delete layer from registry in one transaction with other states */
-                create2("_delete", id2)
-              ].filter((i2) => Boolean(i2));
-              dispatch(actions);
-            });
-          } else {
-            console.error(`Attempt unregister not existing layer with id: ${id2}`);
-          }
-        });
-      });
-      onAction("_delete", (ids) => {
-        const newState = new Map(state);
-        ids.forEach((id2) => {
-          newState.delete(id2);
-        });
-        state = newState;
-      });
-      return state;
-    },
-    id
-  );
-  return atom2;
-};
-const layersRegistryAtom$1 = createLayersRegistryAtom("layersRegistryAtom");
-function v3toV2(v3atom, v3Actions, store$1 = store) {
-  const v2Atom = createAtom({}, () => {
-  }, { store: store$1, v3atom });
-  if (v3Actions) {
-    Object.entries(v3Actions).map((act) => actionV3ToV2(act, [v2Atom], store$1)).forEach(
-      ({ name, actionCreator }) => Object.assign(v2Atom, { [name]: actionCreator })
-    );
-  }
-  return v2Atom;
-}
-let actionIdCounter = 0;
-function actionV3ToV2([name, action$1], targets, store$1 = store) {
-  const type = action$1.__reatom.name ?? `name_${actionIdCounter++}`;
-  const actionCreator = function(payload) {
-    return {
-      payload,
-      type,
-      v3action: action$1,
-      targets
-    };
-  };
-  actionCreator.type = type;
-  actionCreator.dispatch = (...a2) => store$1.dispatch(actionCreator(...a2));
-  actionCreator.v3action = action(type);
-  return { name, actionCreator };
-}
-function isAtomLike(state) {
-  return "loading" in state || "error" in state;
-}
-function generateErrorMessage(e) {
-  if (isAbortError(e)) {
-    return ABORT_ERROR_MESSAGE;
-  } else {
-    return isErrorWithMessage(e) ? e.message : typeof e === "string" ? e : "Unknown";
-  }
-}
-function verboseLog(name, verbose) {
-  return (...args) => verbose && console.debug(`[${name}]:`, ...args);
-}
-const getUniqueId = /* @__PURE__ */ ((mem) => {
-  return (newId) => {
-    if (!mem.has(newId)) {
-      mem.add(newId);
-      return newId;
-    }
-    console.warn(`Atom with name ${newId} already exist. Full page reload recommended`);
-    const uniqId = newId + performance.now();
-    return getUniqueId(uniqId);
-  };
-})(/* @__PURE__ */ new Set());
-const defaultOptions = {
-  inheritState: false,
-  store,
-  auto: true,
-  verbose: false
-};
-function createAsyncAtom(depsAtom, fetcher, name, resourceAtomOptions = {}) {
-  const options = {
-    ...resourceAtomOptions,
-    auto: resourceAtomOptions.auto ?? defaultOptions.auto,
-    inheritState: resourceAtomOptions.inheritState ?? defaultOptions.inheritState,
-    store: resourceAtomOptions.store ?? defaultOptions.store,
-    verbose: resourceAtomOptions.verbose ?? defaultOptions.verbose
-  };
-  const debug = verboseLog(name, options.verbose);
-  const asyncAtomName = getUniqueId(name);
-  const asyncAtom = atom(
-    {
-      loading: false,
-      data: null,
-      error: null,
-      lastParams: null,
-      dirty: false
-    },
-    asyncAtomName
-  );
-  let abortController = null;
-  let deferredCancel;
-  const requestAction = action(async (ctx, params) => {
-    if (abortController) {
-      await cancelAction(ctx);
-    }
-    asyncAtom(ctx, (state) => ({
-      ...state,
-      error: null,
-      lastParams: params,
-      dirty: true,
-      // for unblock refetch
-      loading: true
-    }));
-    try {
-      abortController = new AbortController();
-      const data = await ctx.schedule(() => {
-        if (abortController) {
-          return abortable(abortController, fetcher(params, abortController));
-        } else {
-          throw Error("abortController was reset before it was used");
-        }
-      });
-      abortController.signal.throwIfAborted();
-      asyncAtom(ctx, (state) => ({ ...state, data, lastParams: params, loading: false }));
-    } catch (error2) {
-      asyncAtom(ctx, (state) => ({
-        ...state,
-        lastParams: params,
-        loading: false,
-        error: generateErrorMessage(error2)
-      }));
-      if (isAbortError(error2)) {
-        deferredCancel == null ? void 0 : deferredCancel.resolve();
-      }
-    } finally {
-      abortController = null;
-    }
-  }, `${asyncAtomName}.requestAction`);
-  const cancelAction = action(async (ctx) => {
-    if (abortController) {
-      deferredCancel = deferred();
-      await ctx.schedule(async () => {
-        abortController == null ? void 0 : abortController.abort();
-        return await deferredCancel.promise;
-      });
-    }
-  }, `${asyncAtomName}.cancelAction`);
-  const refetchAction = action((ctx) => {
-    const { lastParams, dirty, loading: loading2 } = ctx.get(asyncAtom);
-    if (dirty) {
-      !loading2 && requestAction(ctx, lastParams);
-    } else {
-      console.error(`[${name}]:`, "Do not call refetch before request");
-    }
-  }, `${asyncAtomName}.refetchAction`);
-  const actions = {
-    request: requestAction,
-    refetch: refetchAction,
-    cancel: cancelAction
-  };
-  if (depsAtom) {
-    const onChange2 = (ctx, depsAtomState) => {
-      debug("Deps atom changed");
-      if (isObject$1(depsAtomState)) {
-        if (options.inheritState) {
-          asyncAtom(ctx, (state) => ({
-            ...state,
-            loading: depsAtomState.loading || state.loading,
-            error: depsAtomState.error || state.error
-          }));
-        }
-        if (isAtomLike(depsAtomState)) {
-          if (!depsAtomState.loading && !depsAtomState.error && depsAtomState.dirty) {
-            requestAction(ctx, depsAtomState.data);
-          }
-        } else {
-          requestAction(ctx, depsAtomState);
-        }
-      } else {
-        if (depsAtomState !== null) {
-          requestAction(ctx, depsAtomState);
-        } else {
-          console.warn(
-            `Resource atom with name ${name} skips running as its dependency state ${depsAtom == null ? void 0 : depsAtom.id} is null`
-          );
-        }
-      }
-    };
-    depsAtom.subscribe((s2) => null);
-    if (options.auto) {
-      onChange2(options.store.v3ctx, options.store.getState(depsAtom));
-    }
-    depsAtom.v3atom.onChange(onChange2);
-    return v3toV2(asyncAtom, actions, options.store);
-  } else {
-    if (options.auto) {
-      requestAction(options.store.v3ctx, null);
-    }
-  }
-  return v3toV2(asyncAtom, actions, options.store);
-}
-function deferred() {
-  let resolve;
-  let reject;
-  const promise = new Promise((res, rej) => {
-    resolve = res;
-    reject = rej;
-  });
-  return {
-    promise,
-    // @ts-expect-error -- `resolve` is defined inside the promise.
-    resolve,
-    // @ts-expect-error -- `reject` is defined inside the promise.
-    reject
-  };
-}
-const IMPORTANT_BIVARIATE_LAYERS = [
-  ["count", "area_km2"],
-  ["building_count", "area_km2"],
-  ["highway_length", "area_km2"],
-  ["local_hours", "area_km2"],
-  ["avgmax_ts", "one"],
-  ["days_mintemp_above_25c_1c", "one"],
-  ["population", "area_km2"],
-  ["total_hours", "area_km2"],
-  ["view_count", "area_km2"]
-];
-function recursiveCopy(src) {
-  const target = Array.isArray(src) ? [] : {};
-  for (const prop in src) {
-    const value2 = src[prop];
-    if (value2 && typeof value2 === "object") {
-      target[prop] = recursiveCopy(value2);
-    } else {
-      target[prop] = value2;
-    }
-  }
-  return target;
-}
-const deepCopy = window.structuredClone ?? recursiveCopy;
-function isGeometryEmpty(geometry) {
-  var _a2, _b;
-  if (!geometry) return true;
-  if (geometry.type !== "GeometryCollection" && ((_a2 = geometry.coordinates) == null ? void 0 : _a2.length)) {
-    return false;
-  }
-  if (geometry.type === "GeometryCollection" && ((_b = geometry.geometries) == null ? void 0 : _b.length)) {
-    return false;
-  }
-  return true;
-}
-function isGeoJSONEmpty(geoJSON) {
-  var _a2;
-  if (!geoJSON) return true;
-  switch (geoJSON.type) {
-    case "FeatureCollection":
-      return !((_a2 = geoJSON.features) == null ? void 0 : _a2.length);
-    case "Feature":
-      return isGeometryEmpty(geoJSON.geometry);
-    default:
-      return isGeometryEmpty(geoJSON);
-  }
-}
-function cleanupGeometry(geom) {
-  var _a2;
-  const newGeom = deepCopy(geom);
-  if ("properties" in newGeom) {
-    newGeom.properties = {};
-  }
-  if ("features" in newGeom && ((_a2 = newGeom.features) == null ? void 0 : _a2.length)) {
-    newGeom.features = newGeom.features.map(
-      (feature) => cleanupGeometry(feature)
-    );
-  }
-  return newGeom;
-}
-function createBivariateQuery(geom) {
-  const body = {
-    importantLayers: IMPORTANT_BIVARIATE_LAYERS
-  };
-  if (geom && !isGeoJSONEmpty(geom)) {
-    body.geoJSON = cleanupGeometry(geom);
-  }
-  return body;
-}
-function parseGraphQLErrors(response) {
-  if (response.hasOwnProperty("errors") && Array.isArray(response["errors"])) {
-    return response["errors"].reduce((acc, errorObj) => {
-      if (errorObj.hasOwnProperty("message")) {
-        acc.push(errorObj["message"]);
-      }
-      return acc;
-    }, []).join("<br/>");
-  }
-}
-function axisDTOtoAxis(dto) {
-  var _a2;
-  return {
-    ...dto,
-    id: dto.quotient.join("|"),
-    label: dto.label ? formatCustomBivariateAxisLabel(dto.label, dto.quotients) : formatBivariateAxisLabel(dto.quotients),
-    transformation: {
-      ...dto.transformation,
-      transformation: ((_a2 = dto.transformation) == null ? void 0 : _a2.transformation) ?? "no"
-    }
-  };
-}
-const bivariateStatisticsDependencyAtom = v3toV2(
-  atom((ctx) => {
-    const focusedGeometry = ctx.spy(focusedGeometryAtom.v3atom);
-    return { focusedGeometry };
-  })
-);
-let worldStatsCache;
-const bivariateStatisticsResourceAtom$1 = createAsyncAtom(
-  bivariateStatisticsDependencyAtom,
-  async ({ focusedGeometry }, abortController) => {
-    if (!(focusedGeometry == null ? void 0 : focusedGeometry.geometry) && worldStatsCache) {
-      return worldStatsCache;
-    }
-    try {
-      const body = createBivariateQuery(focusedGeometry == null ? void 0 : focusedGeometry.geometry);
-      const responseData = await apiClient.post("/bivariate_matrix", body, {
-        signal: abortController.signal,
-        retry: { attempts: 2 }
-      });
-      if (!responseData) {
-        throw new Error(TranslationService.t("no_data_received"));
-      }
-      const { data } = responseData;
-      if (!data) {
-        const msg = parseGraphQLErrors(responseData);
-        throw new Error(msg || TranslationService.t("no_data_received"));
-      }
-      const statsDTO = data.polygonStatistic.bivariateStatistic;
-      if (!statsDTO || !Array.isArray(statsDTO == null ? void 0 : statsDTO.correlationRates)) {
-        throw new Error(TranslationService.t("wrong_data_received"));
-      }
-      const stat = {
-        ...statsDTO,
-        axis: statsDTO.axis.map((ax) => axisDTOtoAxis(ax))
-      };
-      if (isGeoJSONEmpty(focusedGeometry == null ? void 0 : focusedGeometry.geometry) && !worldStatsCache) {
-        worldStatsCache = stat;
-      }
-      return stat;
-    } catch (e) {
-      if (isApiError(e) && e.problem.kind === "canceled") {
-        return null;
-      }
-      throw e;
-    }
-  },
-  "bivariateStatisticsResource"
-);
-function extractAvailableNumeratorsWithDenominators(stat) {
-  const { correlationRates } = stat;
-  const x2 = [];
-  const y2 = [];
-  for (const correlationRate of correlationRates) {
-    const xQuotient = correlationRate.x.quotient;
-    const xParent = correlationRate.x.parent || xQuotient;
-    let xGroup = x2.find((g2) => g2.parent === JSON.stringify(xParent));
-    if (!xGroup) {
-      xGroup = {
-        parent: JSON.stringify(xParent),
-        quotients: [xQuotient],
-        selectedQuotient: xQuotient
-      };
-      x2.push(xGroup);
-    } else if (!xGroup.quotients.find((q2) => JSON.stringify(q2) === JSON.stringify(xQuotient))) {
-      xGroup.quotients.push(xQuotient);
-    }
-    const yQuotient = correlationRate.y.quotient;
-    const yParent = correlationRate.y.parent || yQuotient;
-    let yGroup = y2.find((g2) => g2.parent === JSON.stringify(yParent));
-    if (!yGroup) {
-      yGroup = {
-        parent: JSON.stringify(yParent),
-        quotients: [yQuotient],
-        selectedQuotient: yQuotient
-      };
-      y2.push(yGroup);
-    } else if (!yGroup.quotients.find((q2) => JSON.stringify(q2) === JSON.stringify(yQuotient))) {
-      yGroup.quotients.push(yQuotient);
-    }
-  }
-  for (const group of x2) {
-    const parent = group.quotients.find((q2) => JSON.stringify(q2) === group.parent);
-    if (parent) {
-      group.selectedQuotient = parent;
-    }
-  }
-  for (const group of y2) {
-    const parent = group.quotients.find((q2) => JSON.stringify(q2) === group.parent);
-    if (parent) {
-      group.selectedQuotient = parent;
-    }
-  }
-  return { x: x2, y: y2 };
-}
-const bivariateNumeratorsAtom = atom(
-  (ctx, state = { xGroups: [], yGroups: [] }) => {
-    const { data: stats, loading: loading2 } = ctx.spy(bivariateStatisticsResourceAtom$1.v3atom);
-    if (stats && !loading2) {
-      const numerators = extractAvailableNumeratorsWithDenominators(stats);
-      return { xGroups: numerators.x, yGroups: numerators.y };
-    }
-    return state;
-  },
-  "bivariateNumeratorsAtom"
-);
-const setNumeratorsAction = action((ctx, nums) => {
-  bivariateNumeratorsAtom(ctx, nums);
-}, "setNumeratorsAction");
-const onCalculateSelectedCell = (xGroups, yGroups, matrixSelection) => {
-  const xIndex = xGroups ? xGroups.findIndex(
-    (group) => group.selectedQuotient[0] === (matrixSelection == null ? void 0 : matrixSelection.xNumerator) && group.selectedQuotient[1] === (matrixSelection == null ? void 0 : matrixSelection.xDenominator)
-  ) : -1;
-  const yIndex = yGroups ? yGroups.findIndex(
-    (group) => group.selectedQuotient[0] === (matrixSelection == null ? void 0 : matrixSelection.yNumerator) && group.selectedQuotient[1] === (matrixSelection == null ? void 0 : matrixSelection.yDenominator)
-  ) : -1;
-  return { x: xIndex, y: yIndex };
-};
-const selectQuotientInGroupByNumDen = (groups2, numId, denId) => {
-  const newGroups = [...groups2];
-  let selectedQuotient;
-  const groupIndex = newGroups.findIndex(({ quotients }) => {
-    selectedQuotient = quotients.find(
-      (q2) => q2[0] === numId && q2[1] === denId
-    );
-    return selectedQuotient;
-  });
-  if (selectedQuotient) {
-    newGroups[groupIndex] = { ...newGroups[groupIndex], selectedQuotient };
-  }
-  return newGroups;
-};
-const DEFAULT_STATE = {
-  xNumerator: null,
-  xDenominator: null,
-  yNumerator: null,
-  yDenominator: null,
-  selectedCell: null,
-  selectCellCallback: null
-};
-function formatSelection(xNumerator, xDenominator, yNumerator, yDenominator) {
-  return { xNumerator, xDenominator, yNumerator, yDenominator };
-}
-const enabledLayersAtom = enabledLayersAtom$1.v3atom;
-const layersRegistryAtom = layersRegistryAtom$1.v3atom;
-const layersRegistryAtom_register = layersRegistryAtom$1.register.v3action;
-const layersSettingsAtom = layersSettingsAtom$1.v3atom;
-const bivariateStatisticsResourceAtom = bivariateStatisticsResourceAtom$1.v3atom;
-let bivariateLayerAtomId;
-const bivariateMatrixSelectionAtom = atom(
-  DEFAULT_STATE,
-  "bivariateMatrixSelectionAtom"
-);
-const calculateSelectedCellAction = action((ctx) => {
-  const { xGroups, yGroups } = ctx.get(bivariateNumeratorsAtom);
-  const state = ctx.get(bivariateMatrixSelectionAtom);
-  const nextSelectedCell = onCalculateSelectedCell(
-    xGroups,
-    yGroups,
-    formatSelection(
-      state.xNumerator,
-      state.xDenominator,
-      state.yNumerator,
-      state.yDenominator
-    )
-  );
-  const currentCell = state.selectedCell;
-  if (!currentCell || nextSelectedCell.x !== currentCell.x || nextSelectedCell.y !== currentCell.y) {
-    bivariateMatrixSelectionAtom(ctx, { ...state, selectedCell: nextSelectedCell });
-  }
-}, "calculateSelectedCellAction");
-const setSelectCellCallbackAction = action((ctx, selectCellCallback) => {
-  bivariateMatrixSelectionAtom(ctx, (state) => ({ ...state, selectCellCallback }));
-}, "setSelectCellCallbackAction");
-const callSelectCellCallbackAction = action((ctx, objWithXY) => {
-  var _a2, _b;
-  const { x: x2, y: y2 } = objWithXY;
-  (_b = (_a2 = ctx.get(bivariateMatrixSelectionAtom)) == null ? void 0 : _a2.selectCellCallback) == null ? void 0 : _b.call(_a2, x2, y2);
-}, "callSelectCellCallbackAction");
-const resetSelectionAction = action((ctx) => {
-  bivariateMatrixSelectionAtom(ctx, (state) => {
-    ctx.schedule(() => {
-      var _a2;
-      (_a2 = state == null ? void 0 : state.selectCellCallback) == null ? void 0 : _a2.call(state, -1, -1);
-    });
-    return {
-      ...state,
-      xNumerator: null,
-      xDenominator: null,
-      yNumerator: null,
-      yDenominator: null,
-      selectedCell: null
-    };
-  });
-}, "resetSelectionAction");
-action((ctx) => {
-  const layer2 = getEnabledBivariateLayer(ctx);
-  if (!layer2 || !(layer2 == null ? void 0 : layer2.legend)) {
-    resetSelectionAction(ctx);
-    return;
-  }
-  const axis2 = layer2.legend.axis;
-  if (axis2) {
-    const preselectionFormatted = formatSelection(
-      axis2.x.quotient[0] || null,
-      axis2.x.quotient[1] || null,
-      axis2.y.quotient[0] || null,
-      axis2.y.quotient[1] || null
-    );
-    const { xGroups, yGroups } = ctx.get(bivariateNumeratorsAtom);
-    const nextSelectedCell = onCalculateSelectedCell(
-      xGroups,
-      yGroups,
-      preselectionFormatted
-    );
-    if (nextSelectedCell.x >= 0 && nextSelectedCell.y >= 0) {
-      ctx.schedule(() => {
-        presetMatrixSelectionAction(ctx, preselectionFormatted);
-        callSelectCellCallbackAction(ctx, nextSelectedCell);
-      });
-      return;
-    }
-    let newXGroups = xGroups;
-    let newYGroups = yGroups;
-    if (nextSelectedCell.x === -1) {
-      newXGroups = selectQuotientInGroupByNumDen(
-        xGroups,
-        axis2.x.quotient[0],
-        axis2.x.quotient[1]
-      );
-    }
-    if (nextSelectedCell.y === -1) {
-      newYGroups = selectQuotientInGroupByNumDen(
-        yGroups,
-        axis2.y.quotient[0],
-        axis2.y.quotient[1]
-      );
-    }
-    const finishSelection = onCalculateSelectedCell(
-      newXGroups,
-      newYGroups,
-      preselectionFormatted
-    );
-    ctx.schedule(() => {
-      if (finishSelection.x >= 0 && finishSelection.y >= 0) {
-        setNumeratorsAction(ctx, { xGroups: newXGroups, yGroups: newYGroups });
-        presetMatrixSelectionAction(ctx, preselectionFormatted);
-        callSelectCellCallbackAction(ctx, finishSelection);
-      } else {
-        resetSelectionAction(ctx);
-      }
-    });
-  }
-}, "runPreselectionAction");
-const presetMatrixSelectionAction = action((ctx, selection) => {
-  bivariateMatrixSelectionAtom(ctx, (state) => ({ ...state, ...selection }));
-  calculateSelectedCellAction(ctx);
-}, "presetMatrixSelectionAction");
-const enableBivariateLayerAction = action((ctx, lId) => {
-  const registry = ctx.get(layersRegistryAtom);
-  const layer2 = registry.get(lId);
-  if (layer2) {
-    layer2.enable.v3action(ctx);
-  }
-}, "enableBivariateLayerAction");
-const disableBivariateLayerAction = action(
-  (ctx, bivariateLayerAtomId2) => {
-    const registry = ctx.get(layersRegistryAtom);
-    if (bivariateLayerAtomId2) {
-      const layerAtom = registry.get(bivariateLayerAtomId2);
-      layerAtom && layerAtom.destroy.v3action(ctx);
-    }
-  },
-  "disableBivariateLayerAction"
-);
-action(
-  (ctx, xNumerator, xDenominator, yNumerator, yDenominator) => {
-    bivariateMatrixSelectionAtom(ctx, (state) => ({
-      ...state,
-      xNumerator,
-      xDenominator,
-      yNumerator,
-      yDenominator
-    }));
-    calculateSelectedCellAction(ctx);
-    if (xNumerator === null || yNumerator === null) return;
-    const { xGroups, yGroups } = ctx.get(bivariateNumeratorsAtom);
-    const stats = ctx.get(bivariateStatisticsResourceAtom).data;
-    if (stats === null) return;
-    if (!xGroups || !yGroups || !xGroups.length || !yGroups.length) return;
-    if (!xDenominator || !yDenominator) return;
-    const res = generateColorThemeAndBivariateStyle(
-      xNumerator,
-      xDenominator,
-      yNumerator,
-      yDenominator,
-      stats,
-      SOURCE_LAYER_BIVARIATE
-    );
-    if (res) {
-      const [colorTheme, bivariateStyle] = res;
-      const legend2 = createBivariateLegend(
-        "Bivariate Layer",
-        colorTheme,
-        xNumerator,
-        xDenominator,
-        yNumerator,
-        yDenominator,
-        stats
-      );
-      if (legend2) {
-        const bivStyle = bivariateStyle;
-        const biSource = bivStyle.source;
-        const id = bivStyle.id;
-        const meta2 = createBivariateMeta(
-          xNumerator,
-          xDenominator,
-          yNumerator,
-          yDenominator,
-          stats
-        );
-        const source = biSource ? {
-          id,
-          maxZoom: biSource.maxzoom,
-          minZoom: biSource.minzoom,
-          source: {
-            type: biSource.type,
-            urls: biSource.tiles,
-            tileSize: 512,
-            apiKey: ""
-          }
-        } : void 0;
-        const [updateActions, cleanUpActions] = createUpdateLayerActions([
-          {
-            id,
-            legend: legend2,
-            meta: meta2,
-            source
-          }
-        ]);
-        const currentSettings = ctx.get(layersSettingsAtom);
-        if (!currentSettings.has(id)) {
-          updateActions.push(
-            ...createUpdateLayerActions([
-              {
-                id,
-                settings: {
-                  id,
-                  name: "Bivariate Layer",
-                  category: "overlay",
-                  group: "bivariate",
-                  ownedByUser: true
-                }
-              }
-            ]).flat()
-          );
-        }
-        if (updateActions.length) {
-          store.dispatch(updateActions);
-        }
-        const currentRegistry = ctx.get(layersRegistryAtom);
-        if (!currentRegistry.has(id)) {
-          disableBivariateLayerAction(ctx, bivariateLayerAtomId);
-          bivariateLayerAtomId = id;
-          layersRegistryAtom_register(ctx, [
-            {
-              id,
-              renderer: new BivariateRenderer({ id }),
-              cleanUpActions
-            }
-          ]);
-          enableBivariateLayerAction(ctx, id);
-        }
-      }
-    }
-  },
-  "setMatrixSelectionAction"
-);
-function getEnabledBivariateLayer(ctx) {
-  const enabledLayers = ctx.get(enabledLayersAtom);
-  const registry = ctx.get(layersRegistryAtom);
-  const layer2 = [...enabledLayers].map((layer22) => {
-    var _a2;
-    return (_a2 = registry.get(layer22)) == null ? void 0 : _a2.getState();
-  }).find((layer22) => {
-    var _a2;
-    return layer22 && layer22.isEnabled && ((_a2 = layer22.legend) == null ? void 0 : _a2.type) === "bivariate";
-  });
-  return layer2;
-}
-const BivariateMatrixContext = reactExports.createContext(null);
-const MATRIX_CELL_SIDE = 37;
-const MATRIX_SCALE = 0.7;
-const BIVARIATE_MATRIX_WIDTH_SHIFT = MATRIX_CELL_SIDE / Math.sqrt(2);
-const BIVARIATE_MATRIX_HEIGHT_SHIFT = MATRIX_CELL_SIDE / Math.sqrt(2);
-function useGridStyle(x2, y2, cellSize = 0) {
-  const memoizedGridStyle = reactExports.useMemo(
-    () => ({
-      display: "inline-grid",
-      "--cell-size": cellSize === 0 ? "initial" : `${cellSize}px`,
-      gridTemplateRows: `repeat(${y2}, ${cellSize === 0 ? "auto" : cellSize + "px"})`,
-      gridTemplateColumns: `repeat(${x2}, ${cellSize === 0 ? "auto" : cellSize + "px"})`
-    }),
-    [x2, y2, cellSize]
-  );
-  return memoizedGridStyle;
-}
-function generateCellStyles(maxCols, maxRows) {
-  const cellStyles = [];
-  for (let i2 = 0; i2 < maxCols; i2++) {
-    cellStyles[i2] = [];
-    for (let j2 = 0; j2 < maxRows; j2++) {
-      cellStyles[i2][j2] = {
-        gridColumn: `${i2} / ${i2 + 1}`,
-        gridRow: `${j2} / ${j2 + 1}`
-      };
-    }
-  }
-  return cellStyles;
-}
-function useBaseMatrixDimension(xHeadings, yHeadings) {
-  const memoizedBaseDimension = reactExports.useMemo(() => {
-    if (!xHeadings || !xHeadings.length || !yHeadings || !yHeadings.length) return 0;
-    let xLength = calculateStringWidth(xHeadings[0].label);
-    for (let i2 = 1; i2 < xHeadings.length; i2++) {
-      const iStrWidth = calculateStringWidth(xHeadings[i2].label);
-      const shift2 = i2 * BIVARIATE_MATRIX_HEIGHT_SHIFT;
-      if (iStrWidth > xLength + shift2) {
-        xLength = iStrWidth - shift2;
-      }
-    }
-    let yLength = calculateStringWidth(yHeadings[0].label);
-    for (let i2 = 1; i2 < yHeadings.length; i2++) {
-      const iStrWidth = calculateStringWidth(yHeadings[i2].label);
-      const shift2 = i2 * BIVARIATE_MATRIX_WIDTH_SHIFT;
-      if (iStrWidth > yLength + shift2) {
-        yLength = iStrWidth - shift2;
-      }
-    }
-    return xLength > yLength ? xLength : yLength;
-  }, [xHeadings, yHeadings]);
-  return memoizedBaseDimension;
-}
-const canvas = document.createElement("canvas");
-const context = canvas.getContext("2d") || {};
-context.font = "normal 13px Roboto";
-const QUOTIENT_ICON_SIZE = 30;
-const QUOTIENTS_DROPDOWN_SIZE = 90;
-function calculateStringWidth(str) {
-  return context.measureText(str).width + QUOTIENT_ICON_SIZE + QUOTIENTS_DROPDOWN_SIZE;
-}
-function calculateHeadingsStyle(baseDimension, vertical, index2) {
-  return vertical ? { height: `${baseDimension + index2 * BIVARIATE_MATRIX_HEIGHT_SHIFT}px` } : { width: `${baseDimension + index2 * BIVARIATE_MATRIX_WIDTH_SHIFT}px` };
-}
-const hoveredCell = "_hoveredCell_12w9a_1";
-const valueCell = "_valueCell_12w9a_5";
-const rotatedCell = "_rotatedCell_12w9a_18";
-const valueFill = "_valueFill_12w9a_27";
-const disabled = "_disabled_12w9a_38";
-const selectedCol = "_selectedCol_12w9a_42";
-const first = "_first_12w9a_47";
-const last = "_last_12w9a_51";
-const selectedRow = "_selectedRow_12w9a_55";
-const styles$6 = {
-  hoveredCell,
-  valueCell,
-  rotatedCell,
-  valueFill,
-  disabled,
-  selectedCol,
-  first,
-  last,
-  selectedRow
-};
-const BivariateMatrixCell = reactExports.forwardRef(
-  ({
-    value: value2,
-    x: x2,
-    y: y2,
-    className,
-    onMouseOver,
-    onMouseOut,
-    onClick,
-    disabled: disabled2 = false,
-    style: style2,
-    firstRow,
-    firstCol,
-    lastRow,
-    lastCol
-  }, ref) => {
-    const containerRef = reactExports.useRef(null);
-    let isHovered = false;
-    let isFromSelectedRow = false;
-    let isFromSelectedCol = false;
-    const baseClassNames = clsx(styles$6.valueCell, className, disabled2 && styles$6.disabled);
-    function generateClassNames() {
-      return `${baseClassNames} ${clsx({
-        [styles$6.hoveredCell]: isHovered,
-        [styles$6.selectedCol]: isFromSelectedCol,
-        [styles$6.selectedRow]: isFromSelectedRow,
-        [styles$6.first]: firstRow && isFromSelectedCol || firstCol && isFromSelectedRow,
-        [styles$6.last]: lastRow && isFromSelectedCol || lastCol && isFromSelectedRow
-      })}`;
-    }
-    reactExports.useImperativeHandle(ref, () => ({
-      setHovered: () => {
-        if (containerRef.current) {
-          isHovered = true;
-          containerRef.current.className = generateClassNames();
-        }
-      },
-      resetHovered: () => {
-        if (containerRef.current) {
-          isHovered = false;
-          containerRef.current.className = generateClassNames();
-        }
-      },
-      setSelectedCol: () => {
-        if (containerRef.current) {
-          isFromSelectedCol = true;
-          containerRef.current.className = generateClassNames();
-        }
-      },
-      resetSelectedCol: () => {
-        if (containerRef.current) {
-          isFromSelectedCol = false;
-          containerRef.current.className = generateClassNames();
-        }
-      },
-      setSelectedRow: () => {
-        if (containerRef.current) {
-          isFromSelectedRow = true;
-          containerRef.current.className = generateClassNames();
-        }
-      },
-      resetSelectedRow: () => {
-        if (containerRef.current) {
-          isFromSelectedRow = false;
-          containerRef.current.className = generateClassNames();
-        }
-      }
-    }));
-    return /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "div",
-      {
-        ref: containerRef,
-        className: baseClassNames,
-        style: style2,
-        onMouseOver: () => {
-          onMouseOver(x2, y2);
-        },
-        onClick: (e) => {
-          onClick(x2, y2, e);
-        },
-        onMouseOut,
-        children: !disabled2 && value2 !== void 0 ? /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-          Math.abs(value2) >= 0.1 && /* @__PURE__ */ jsxRuntimeExports.jsx(
-            "div",
-            {
-              className: styles$6.valueFill,
-              style: { transform: `scale(${Math.abs(value2)})` }
-            }
-          ),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: styles$6.rotatedCell, children: value2 == null ? void 0 : value2.toFixed(3) })
-        ] }) : null
-      }
-    );
-  }
-);
-BivariateMatrixCell.displayName = "BivariateMatrixCell";
-const matrixContainer = "_matrixContainer_i0ppr_14";
-const rotatedMatrix = "_rotatedMatrix_i0ppr_21";
-const styles$5 = {
-  matrixContainer,
-  rotatedMatrix
-};
-const horConnector = "_horConnector_zzmmn_1";
-const vertConnector = "_vertConnector_zzmmn_7";
-const connectorBody = "_connectorBody_zzmmn_13";
-const hovered$1 = "_hovered_zzmmn_28";
-const selected$2 = "_selected_zzmmn_33";
-const styles$4 = {
-  horConnector,
-  vertConnector,
-  connectorBody,
-  hovered: hovered$1,
-  selected: selected$2
-};
-const BivariateMatrixCellConnector = reactExports.forwardRef(
-  ({ type, style: style2 }, ref) => {
-    const containerRef = reactExports.useRef(null);
-    let isHovered = false;
-    let isSelected = false;
-    const baseClassNames = styles$4.connectorBody;
-    function generateClassNames() {
-      return `${baseClassNames} ${clsx({
-        [styles$4.hovered]: isHovered,
-        [styles$4.selected]: isSelected
-      })}`;
-    }
-    reactExports.useImperativeHandle(ref, () => ({
-      setHovered: () => {
-        if (containerRef.current) {
-          isHovered = true;
-          containerRef.current.className = generateClassNames();
-        }
-      },
-      resetHovered: () => {
-        if (containerRef.current) {
-          isHovered = false;
-          containerRef.current.className = generateClassNames();
-        }
-      },
-      setSelectedCol: () => {
-        if (type === "vertical" && containerRef.current) {
-          isSelected = true;
-          containerRef.current.className = generateClassNames();
-        }
-      },
-      resetSelectedCol: () => {
-        if (type === "vertical" && containerRef.current) {
-          isSelected = false;
-          containerRef.current.className = generateClassNames();
-        }
-      },
-      setSelectedRow: () => {
-        if (type === "horizontal" && containerRef.current) {
-          isSelected = true;
-          containerRef.current.className = generateClassNames();
-        }
-      },
-      resetSelectedRow: () => {
-        if (type === "horizontal" && containerRef.current) {
-          isSelected = false;
-          containerRef.current.className = generateClassNames();
-        }
-      }
-    }));
-    return /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "div",
-      {
-        className: type === "horizontal" ? styles$4.horConnector : styles$4.vertConnector,
-        style: style2,
-        children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: styles$4.connectorBody, ref: containerRef })
-      }
-    );
-  }
-);
-BivariateMatrixCellConnector.displayName = "BivariateMatrixCellConnector";
-const denominatorIcon = "_denominatorIcon_2n0u5_1";
-const styles$3 = {
-  denominatorIcon
-};
-const PopulationIcon = () => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-  "svg",
-  {
-    width: "24",
-    height: "24",
-    viewBox: "0 0 15 15",
-    fill: "none",
-    xmlns: "http://www.w3.org/2000/svg",
-    children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("g", { clipPath: "url(#clip0_4777_147920)", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "path",
-          {
-            fillRule: "evenodd",
-            clipRule: "evenodd",
-            d: "M4.59226 5.6715C4.57385 5.68982 4.55581 5.70848 4.53814 5.72748C4.27818 6.00698 4.09843 6.3591 4.03058 6.74363C4.30836 6.45062 4.50699 6.08183 4.59226 5.6715ZM10.3266 5.66248C10.4117 6.0808 10.6146 6.45633 10.8991 6.75295C10.8325 6.3648 10.6519 6.00926 10.3899 5.7275C10.3693 5.70537 10.3482 5.68368 10.3266 5.66248ZM10.927 7.12889C10.2881 7.58142 9.93487 8.39557 10.1356 9.23105L10.3024 9.92533L10.8712 7.55816C10.9059 7.41385 10.924 7.27018 10.927 7.12889ZM10.8167 12.0655L11.135 13.3906C11.2431 13.8401 11.6451 14.157 12.1074 14.157H12.8928C13.3551 14.157 13.7571 13.8401 13.8651 13.3906L14.8646 9.23105C15.0886 8.29843 14.6225 7.39238 13.8391 6.98624C14.3731 6.58123 14.718 5.93987 14.718 5.21796C14.718 3.99301 13.725 3 12.5001 3C12.1224 3 11.7669 3.09436 11.4556 3.26079C11.4174 3.85333 11.25 4.41104 10.9816 4.90556C11.0898 5.00751 11.1903 5.11726 11.2822 5.23375C11.2821 5.22849 11.2821 5.22323 11.2821 5.21796C11.2821 4.5453 11.8274 4 12.5001 4C13.1727 4 13.718 4.5453 13.718 5.21796C13.718 5.89062 13.1727 6.43592 12.5001 6.43592C12.2381 6.43592 11.9954 6.35321 11.7968 6.21249C11.9482 6.7042 11.975 7.24459 11.8435 7.79175C11.9191 7.77351 11.9983 7.7638 12.0803 7.7638H12.9199C13.5667 7.7638 14.0433 8.36854 13.8922 8.99743L12.8928 13.157L12.1074 13.157L11.3309 9.92533L10.8167 12.0655ZM4.10776 12.0505L3.78577 13.3906C3.67777 13.8401 3.27574 14.157 2.81344 14.157H2.02803C1.56574 14.157 1.16371 13.8401 1.0557 13.3906L0.0562696 9.23105C-0.167809 8.29845 0.298349 7.39241 1.08167 6.98626C0.547652 6.58125 0.202745 5.93988 0.202745 5.21796C0.202745 3.99301 1.19576 3 2.42071 3C2.80138 3 3.15965 3.0959 3.47268 3.26486C3.5114 3.85587 3.67872 4.41215 3.94647 4.90553C3.83535 5.01024 3.73236 5.12317 3.63841 5.24319C3.63858 5.2348 3.63867 5.22639 3.63867 5.21796C3.63867 4.5453 3.09337 4 2.42071 4C1.74804 4 1.20274 4.5453 1.20274 5.21796C1.20274 5.89062 1.74804 6.43592 2.42071 6.43592C2.68679 6.43592 2.93294 6.3506 3.1333 6.20582C2.98006 6.69932 2.95243 7.24213 3.0845 7.79178L3.08494 7.79363C3.00708 7.77418 2.92528 7.7638 2.84055 7.7638H2.00092C1.35413 7.7638 0.877492 8.36854 1.0286 8.99742L2.02803 13.157L2.81344 13.157L3.59353 9.91034L4.10776 12.0505ZM4.62199 9.91034L4.78521 9.23105C4.98518 8.39877 4.63543 7.58765 4.00112 7.13409C4.00445 7.2737 4.02258 7.41562 4.05683 7.55816L4.62199 9.91034Z",
-            fill: "black"
-          }
-        ),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(
-          "path",
-          {
-            fillRule: "evenodd",
-            clipRule: "evenodd",
-            d: "M9.46348 3C9.46348 4.10457 8.56805 5 7.46348 5C6.35891 5 5.46348 4.10457 5.46348 3C5.46348 1.89543 6.35891 1 7.46348 1C8.56805 1 9.46348 1.89543 9.46348 3ZM9.52339 5.18101C10.1023 4.63409 10.4635 3.85923 10.4635 3C10.4635 1.34315 9.12033 0 7.46348 0C5.80662 0 4.46348 1.34315 4.46348 3C4.46348 3.85922 4.8247 4.63408 5.40356 5.181C4.4317 5.4836 3.80296 6.50391 4.05627 7.55816L5.68205 14.3245C5.79005 14.774 6.19208 15.0909 6.65437 15.0909H8.27254C8.73483 15.0909 9.13686 14.774 9.24487 14.3245L10.8706 7.55816C11.1239 6.50392 10.4952 5.48363 9.52339 5.18101ZM6.00092 6.09091H8.92599C9.57278 6.09091 10.0494 6.69564 9.89832 7.32453L8.27254 14.0909H6.65437L5.0286 7.32453C4.87749 6.69564 5.35414 6.09091 6.00092 6.09091Z",
-            fill: "black"
-          }
-        )
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("defs", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("clipPath", { id: "clip0_4777_147920", children: /* @__PURE__ */ jsxRuntimeExports.jsx("rect", { width: "24", height: "24", fill: "white" }) }) })
-    ]
-  }
-);
-const AreaIcon = () => /* @__PURE__ */ jsxRuntimeExports.jsx(
-  "svg",
-  {
-    xmlns: "http://www.w3.org/2000/svg",
-    width: "24",
-    height: "24",
-    viewBox: "0 0 15 15",
-    fill: "none",
-    children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "path",
-      {
-        d: "M14.6012 12.1833C15.0887 12.6708 15.0887 13.4833 14.6012 13.9708L13.7346 14.8375C13.6262 14.9458 13.5179 15 13.3554 15C13.2471 15 13.0846 14.9458 12.9762 14.8375C12.7596 14.6208 12.7596 14.2958 12.9762 14.1333L13.4637 13.6458H3.33874C2.20124 13.6458 1.33457 12.725 1.33457 11.5875V1.4625L0.847072 1.95C0.630406 2.16667 0.305406 2.16667 0.142906 1.95C-0.0195943 1.73333 -0.073761 1.40833 0.142906 1.24583L1.00957 0.379167C1.49707 -0.108333 2.30957 -0.108333 2.79707 0.379167L3.66374 1.24583C3.88041 1.4625 3.88041 1.7875 3.66374 1.95C3.55541 2.05833 3.39291 2.05833 3.28457 2.05833C3.17624 2.05833 3.01374 2.00417 2.90541 1.89583L2.36374 1.35417V11.5875C2.36374 12.1292 2.79707 12.6167 3.39291 12.6167H13.5721L13.0304 12.075C12.8137 11.8583 12.8137 11.5333 13.0304 11.3708C13.2471 11.1542 13.5721 11.1542 13.7346 11.3708L14.6012 12.1833ZM13.4637 0H6.85541C6.58457 0 6.36791 0.216667 6.36791 0.4875C6.36791 0.758333 6.58457 0.975 6.85541 0.975H13.4096C13.6804 0.975 13.8971 1.19167 13.8971 1.4625V8.125C13.8971 8.39583 14.1137 8.6125 14.3846 8.6125C14.6554 8.6125 14.8721 8.39583 14.8721 8.125V1.51667C14.9804 0.704167 14.2762 0 13.4637 0ZM8.45541 9.72083C8.72624 9.72083 8.94291 9.50417 8.94291 9.23333V6.95833C8.94291 6.2 8.29291 5.55 7.53457 5.55C7.20957 5.55 6.88457 5.65833 6.66791 5.875C6.45124 5.65833 6.12624 5.55 5.80124 5.55C5.58457 5.55 5.42207 5.60417 5.25957 5.65833C5.15124 5.55 5.04291 5.49583 4.88041 5.49583C4.60957 5.49583 4.39291 5.7125 4.39291 5.98333V9.17917C4.39291 9.45 4.60957 9.66667 4.88041 9.66667C5.15124 9.66667 5.36791 9.45 5.36791 9.17917V6.95833C5.36791 6.74167 5.53041 6.57917 5.74707 6.57917C5.96374 6.57917 6.12624 6.74167 6.12624 6.95833V9.23333C6.12624 9.50417 6.34291 9.72083 6.61374 9.72083C6.88457 9.72083 7.10124 9.50417 7.10124 9.23333V6.95833C7.10124 6.74167 7.26374 6.57917 7.48041 6.57917C7.69707 6.57917 7.85957 6.74167 7.85957 6.95833V9.23333C7.91374 9.50417 8.18457 9.72083 8.45541 9.72083ZM10.7304 3.7625C10.0804 3.7625 9.53874 4.30417 9.53874 4.95417C9.53874 5.225 9.75541 5.44167 10.0262 5.44167C10.2971 5.44167 10.5137 5.225 10.5137 4.95417C10.5137 4.84583 10.5679 4.79167 10.6762 4.79167C10.7304 4.79167 10.8387 4.84583 10.8387 4.95417C10.8387 5.00833 10.7304 5.225 10.2429 5.76667C9.9179 6.09167 9.64707 6.3625 9.64707 6.3625C9.48457 6.525 9.4304 6.74167 9.53874 6.90417C9.59291 7.12083 9.80957 7.22917 10.0262 7.22917H11.3804C11.6512 7.22917 11.8679 7.0125 11.8679 6.74167C11.8679 6.47083 11.6512 6.25417 11.3804 6.25417H11.2721C11.7054 5.7125 11.9221 5.33333 11.9221 5.00833C11.9221 4.25 11.3804 3.7625 10.7304 3.7625Z",
-        fill: "black"
-      }
-    )
-  }
-);
-const BuildingsIcon = () => /* @__PURE__ */ jsxRuntimeExports.jsx(
-  "svg",
-  {
-    xmlns: "http://www.w3.org/2000/svg",
-    width: "24",
-    height: "24",
-    viewBox: "0 0 15 15",
-    fill: "none",
-    children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "path",
-      {
-        fillRule: "evenodd",
-        clipRule: "evenodd",
-        d: "M13.5938 15C14.112 15 14.5312 14.5807 14.5312 14.0625V7.5C14.5312 6.9818 14.112 6.5625 13.5938 6.5625H12.6562V0.9375C12.6562 0.419297 12.237 0 11.7188 0H5.15625C4.63805 0 4.21875 0.419297 4.21875 0.9375V2.8125H1.40625C0.888047 2.8125 0.46875 3.2318 0.46875 3.75V14.0625C0.46875 14.5807 0.888047 15 1.40625 15H13.5938ZM1.40625 3.75H4.21875V5.5H3.5C3.22386 5.5 3 5.72386 3 6C3 6.27614 3.22386 6.5 3.5 6.5H4.21875V8H3.5C3.22386 8 3 8.22386 3 8.5C3 8.77614 3.22386 9 3.5 9H4.21875V10.5H3.5C3.22386 10.5 3 10.7239 3 11C3 11.2761 3.22386 11.5 3.5 11.5H4.21875V14.0625H1.40625V3.75ZM5.15625 0.9375H11.7188V14.0625H8.90625V11.25H7.96875V14.0625H5.15625V0.9375ZM12.6562 7.5H13.5938V14.0625H12.6562V7.5ZM6 9.5C6 9.22386 6.22386 9 6.5 9H10.5C10.7761 9 11 9.22386 11 9.5C11 9.77614 10.7761 10 10.5 10H6.5C6.22386 10 6 9.77614 6 9.5ZM6.5 3C6.22386 3 6 3.22386 6 3.5C6 3.77614 6.22386 4 6.5 4H10.5C10.7761 4 11 3.77614 11 3.5C11 3.22386 10.7761 3 10.5 3H6.5ZM6 7.5C6 7.22386 6.22386 7 6.5 7H10.5C10.7761 7 11 7.22386 11 7.5C11 7.77614 10.7761 8 10.5 8H6.5C6.22386 8 6 7.77614 6 7.5ZM6.5 5C6.22386 5 6 5.22386 6 5.5C6 5.77614 6.22386 6 6.5 6H10.5C10.7761 6 11 5.77614 11 5.5C11 5.22386 10.7761 5 10.5 5H6.5Z",
-        fill: "black"
-      }
-    )
-  }
-);
-const PopulatedAreaIcon = () => /* @__PURE__ */ jsxRuntimeExports.jsx(
-  "svg",
-  {
-    width: "24",
-    height: "24",
-    viewBox: "0 0 15 15",
-    fill: "none",
-    xmlns: "http://www.w3.org/2000/svg",
-    children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "path",
-      {
-        fillRule: "evenodd",
-        clipRule: "evenodd",
-        d: "M14.4949 0.505013C14.7683 0.77838 14.7683 1.2216 14.4949 1.49496L1.49493 14.495C1.22156 14.7683 0.778343 14.7683 0.504977 14.495C0.23161 14.2216 0.23161 13.7784 0.504977 13.505L13.505 0.505013C13.7783 0.231646 14.2216 0.231646 14.4949 0.505013ZM14.495 6.50503C14.7683 6.77839 14.7683 7.22161 14.495 7.49497L7.49497 14.495C7.22161 14.7683 6.77839 14.7683 6.50503 14.495C6.23166 14.2216 6.23166 13.7784 6.50503 13.505L13.505 6.50503C13.7784 6.23166 14.2216 6.23166 14.495 6.50503ZM8.49498 1.49497C8.76834 1.22161 8.76834 0.778392 8.49498 0.505025C8.22161 0.231658 7.77839 0.231658 7.50503 0.505025L0.505025 7.50503C0.231658 7.77839 0.231658 8.22161 0.505025 8.49498C0.778392 8.76834 1.22161 8.76834 1.49497 8.49498L8.49498 1.49497ZM3.49497 0.505025C3.76834 0.778392 3.76834 1.22161 3.49497 1.49497L1.49497 3.49497C1.22161 3.76834 0.778392 3.76834 0.505025 3.49497C0.231658 3.22161 0.231658 2.77839 0.505025 2.50503L2.50503 0.505025C2.77839 0.231658 3.22161 0.231658 3.49497 0.505025ZM14.495 12.495C14.7684 12.2216 14.7684 11.7784 14.495 11.505C14.2217 11.2317 13.7784 11.2317 13.5051 11.505L11.5051 13.505C11.2317 13.7784 11.2317 14.2216 11.5051 14.495C11.7784 14.7683 12.2217 14.7683 12.495 14.495L14.495 12.495Z",
-        fill: "black"
-      }
-    )
-  }
-);
-const OneIcon = () => /* @__PURE__ */ jsxRuntimeExports.jsx(
-  "svg",
-  {
-    xmlns: "http://www.w3.org/2000/svg",
-    width: "24",
-    height: "24",
-    viewBox: "0 0 15 15",
-    fill: "none",
-    children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "path",
-      {
-        fillRule: "evenodd",
-        clipRule: "evenodd",
-        d: "M8.60002 4C8.60002 3.75732 8.45384 3.53854 8.22963 3.44567C8.00543 3.3528 7.74736 3.40413 7.57576 3.57573L5.57576 5.57573C5.34145 5.81005 5.34145 6.18995 5.57576 6.42426C5.81007 6.65857 6.18997 6.65857 6.42429 6.42426L7.40002 5.44852V10.4H6.50002C6.16865 10.4 5.90002 10.6686 5.90002 11C5.90002 11.3314 6.16865 11.6 6.50002 11.6H9.50002C9.8314 11.6 10.1 11.3314 10.1 11C10.1 10.6686 9.8314 10.4 9.50002 10.4H8.60002V4Z",
-        fill: "black"
-      }
-    )
-  }
-);
-const TotalRoadsIcon = () => /* @__PURE__ */ jsxRuntimeExports.jsx(
-  "svg",
-  {
-    xmlns: "http://www.w3.org/2000/svg",
-    width: "24",
-    height: "24",
-    viewBox: "0 0 15 15",
-    fill: "none",
-    children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "path",
-      {
-        fillRule: "evenodd",
-        clipRule: "evenodd",
-        d: "M2.31257 14.9513C2.38285 14.9835 2.45927 15.0001 2.53658 15C2.66433 14.9997 2.78777 14.9537 2.88462 14.8704C2.98148 14.7871 3.04538 14.672 3.0648 14.5457L5.20765 0.617136C5.22508 0.478692 5.1878 0.338912 5.10375 0.227531C5.0197 0.116151 4.89551 0.0419601 4.75759 0.0207426C4.61968 -0.00047491 4.47893 0.0329551 4.36529 0.113921C4.25164 0.194887 4.17407 0.316999 4.14908 0.454279L2.00622 14.3828C1.99447 14.4593 1.9994 14.5373 2.02067 14.6116C2.04193 14.686 2.07903 14.7548 2.12942 14.8134C2.17981 14.8721 2.24229 14.9191 2.31257 14.9513ZM12.9007 14.8704C12.9975 14.9537 13.121 14.9997 13.2487 15C13.326 15.0001 13.4025 14.9835 13.4727 14.9513C13.543 14.9191 13.6055 14.8721 13.6559 14.8134C13.7063 14.7548 13.7434 14.686 13.7646 14.6116C13.7859 14.5373 13.7908 14.4593 13.7791 14.3828L11.6362 0.454279C11.6112 0.316999 11.5337 0.194887 11.42 0.113921C11.3064 0.0329551 11.1656 -0.00047491 11.0277 0.0207426C10.8898 0.0419601 10.7656 0.116151 10.6816 0.227531C10.5975 0.338912 10.5602 0.478692 10.5777 0.617136L12.7205 14.5457C12.7399 14.672 12.8038 14.7871 12.9007 14.8704ZM8.5 10.5C8.5 10.2239 8.27614 10 8 10C7.72386 10 7.5 10.2239 7.5 10.5V14.5C7.5 14.7761 7.72386 15 8 15C8.27614 15 8.5 14.7761 8.5 14.5V10.5ZM8 4C8.27614 4 8.5 4.22386 8.5 4.5V7.5C8.5 7.77614 8.27614 8 8 8C7.72386 8 7.5 7.77614 7.5 7.5V4.5C7.5 4.22386 7.72386 4 8 4ZM8.5 1C8.5 0.723858 8.27614 0.5 8 0.5C7.72386 0.5 7.5 0.723858 7.5 1V2C7.5 2.27614 7.72386 2.5 8 2.5C8.27614 2.5 8.5 2.27614 8.5 2V1Z",
-        fill: "black"
-      }
-    )
-  }
-);
-const iconMapper = {
-  population: /* @__PURE__ */ jsxRuntimeExports.jsx(PopulationIcon, {}),
-  area_km2: /* @__PURE__ */ jsxRuntimeExports.jsx(AreaIcon, {}),
-  total_building_count: /* @__PURE__ */ jsxRuntimeExports.jsx(BuildingsIcon, {}),
-  populated_area_km2: /* @__PURE__ */ jsxRuntimeExports.jsx(PopulatedAreaIcon, {}),
-  one: /* @__PURE__ */ jsxRuntimeExports.jsx(OneIcon, {})
-};
-const tooltipTextMapper = {
-  population: TranslationService.t("bivariate.matrix.icon.population"),
-  area_km2: TranslationService.t("bivariate.matrix.icon.area_km2"),
-  total_building_count: TranslationService.t("bivariate.matrix.icon.total_building_count"),
-  populated_area_km2: TranslationService.t("bivariate.matrix.icon.populated_area_km2"),
-  one: TranslationService.t("bivariate.matrix.icon.one")
-};
-const DenominatorIcon = ({ iconId }) => {
-  const icon2 = iconMapper[iconId] || /* @__PURE__ */ jsxRuntimeExports.jsx(TotalRoadsIcon, {});
-  const tooltipText = tooltipTextMapper[iconId] || TranslationService.t("bivariate.matrix.icon.roads");
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(SimpleTooltip, { content: tooltipText, children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: styles$3.denominatorIcon, children: icon2 }) });
-};
-const createGlobalState = (initialState) => {
-  let globalState = initialState;
-  const listeners = /* @__PURE__ */ new Set();
-  const setGlobalState = (nextGlobalState) => {
-    globalState = nextGlobalState;
-    listeners.forEach((listener) => listener());
-  };
-  return () => {
-    const [state, setState] = reactExports.useState(globalState);
-    reactExports.useEffect(() => {
-      const listener = () => {
-        setState(globalState);
-      };
-      listeners.add(listener);
-      listener();
-      return () => {
-        listeners.delete(listener);
-      };
-    }, []);
-    return [state, setGlobalState];
-  };
-};
-const useHeadingGlobalState = createGlobalState({
-  headingId: ""
-});
-const denominators = "_denominators_1m5c6_1";
-const row$1 = "_row_1m5c6_5";
-const column$1 = "_column_1m5c6_9";
-const denominatorsContainer = "_denominatorsContainer_1m5c6_43";
-const quotientItem = "_quotientItem_1m5c6_79";
-const selected$1 = "_selected_1m5c6_85";
-const styles$2 = {
-  denominators,
-  row: row$1,
-  column: column$1,
-  denominatorsContainer,
-  quotientItem,
-  selected: selected$1
-};
-const QuotientItem = ({
-  numeratorId,
-  denominatorId,
-  numeratorLabel,
-  quality,
-  onSelectQuotient,
-  isSelected = false
-}) => {
-  const onClick = (ev) => {
-    ev.stopPropagation();
-    onSelectQuotient(numeratorId, denominatorId);
-  };
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
-    "div",
-    {
-      className: clsx(styles$2.quotientItem, isSelected && styles$2.selected),
-      onClick,
-      children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(DenominatorIcon, { iconId: denominatorId }),
-        sessionStorage.getItem("BIVARIATE_QA_MOD") && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "qualityLabel", children: quality !== null && quality !== void 0 ? quality : "&nbsp;" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "quotientLabel", children: numeratorLabel })
-      ]
-    }
-  );
-};
-const SCALING_BACK = 100 / 70;
-const MODAL_MARGIN = 5;
-const QuotientSelector = reactExports.memo(
-  ({
-    id,
-    quotients,
-    selectedQuotient,
-    onSelectQuotient,
-    type,
-    children
-  }) => {
-    const [headingState, setHeadingState] = useHeadingGlobalState();
-    const toggleVisibility = (e) => {
-      e.stopPropagation();
-      if (headingState.headingId === id) {
-        setHeadingState({ headingId: "", width: 0 });
-      } else {
-        const selectorPosition = e.currentTarget.getBoundingClientRect();
-        const wholeRowPosition = e.currentTarget.parentElement.parentElement.getBoundingClientRect();
-        const width = Math.ceil(
-          (selectorPosition.left - wholeRowPosition.left) * SCALING_BACK + MODAL_MARGIN
-        );
-        setHeadingState({ headingId: id, width });
-      }
-    };
-    const selectQuotient = reactExports.useCallback(
-      (numId, denId) => {
-        setHeadingState({ headingId: "" });
-        onSelectQuotient(numId, denId);
-      },
-      [setHeadingState, onSelectQuotient]
-    );
-    const [selected2, notSelected] = reactExports.useMemo(() => {
-      const selectedIndex = quotients.findIndex(
-        ({ id: id2 }) => id2[0] === selectedQuotient.id[0] && id2[1] === selectedQuotient.id[1]
-      );
-      if (selectedIndex >= 0) {
-        return [
-          quotients[selectedIndex],
-          quotients.filter((_2, i2) => i2 !== selectedIndex)
-        ];
-      }
-      return [null, quotients];
-    }, [quotients, selectedQuotient.id]);
-    const renderQuotientItem = ({ id: id2, label: numeratorLabel, quality }, isSelected) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-      QuotientItem,
-      {
-        onSelectQuotient: selectQuotient,
-        quality,
-        numeratorId: id2[0],
-        denominatorId: id2[1],
-        numeratorLabel,
-        isSelected
-      },
-      JSON.stringify(id2)
-    );
-    return /* @__PURE__ */ jsxRuntimeExports.jsxs(
-      "div",
-      {
-        className: clsx({
-          [styles$2.denominators]: true,
-          [styles$2.row]: type === "horizontal",
-          [styles$2.column]: type === "vertical"
-        }),
-        children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { onClick: toggleVisibility, children }),
-          headingState.headingId === id && /* @__PURE__ */ jsxRuntimeExports.jsxs(
-            "div",
-            {
-              className: styles$2.denominatorsContainer,
-              style: type === "horizontal" ? {
-                left: -headingState.width,
-                right: 0
-              } : {
-                top: -headingState.width,
-                bottom: 0
-              },
-              children: [
-                selected2 && renderQuotientItem(selected2, true),
-                notSelected.map((item) => renderQuotientItem(item, false))
-              ]
-            }
-          )
-        ]
-      }
-    );
-  }
-);
-QuotientSelector.displayName = "QuotientSelector";
-const axisRecord = "_axisRecord_1dbhd_8";
-const container$1 = "_container_1dbhd_13";
-const column = "_column_1dbhd_34";
-const row = "_row_1dbhd_43";
-const selected = "_selected_1dbhd_110";
-const corner = "_corner_1dbhd_142";
-const hovered = "_hovered_1dbhd_146";
-const verticalText = "_verticalText_1dbhd_173";
-const quotientsCountLabel = "_quotientsCountLabel_1dbhd_185";
-const styles$1 = {
-  axisRecord,
-  container: container$1,
-  column,
-  row,
-  selected,
-  corner,
-  hovered,
-  verticalText,
-  quotientsCountLabel
-};
-const getHeadingPositionStyle = (isColum, index2) => {
-  const styles2 = {
-    gridColumn: isColum ? `${index2 + 3} / ${index2 + 4}` : "1",
-    gridRow: isColum ? "1" : `${index2 + 3} / ${index2 + 4}`
-  };
-  return styles2;
-};
-const BivariateMatrixHeadingEntry = reactExports.forwardRef(
-  ({
-    index: index2,
-    type,
-    className,
-    selectedIndex = -1,
-    headerCell,
-    id,
-    onCellHover,
-    onCellClick,
-    onSelectQuotient,
-    baseDimension,
-    calculateHeadingsStyle: calculateHeadingsStyle2
-  }, ref) => {
-    const onMouseOver = () => {
-      onCellHover(index2);
-    };
-    const onMouseOut = () => {
-      onCellHover(null);
-    };
-    const onClick = (ev) => {
-      const target = ev.target;
-      if (target.tagName === "svg" || target.tagName === "path" || target.className && target.className.indexOf && target.className.indexOf("denominator") !== -1)
-        return;
-      onCellClick(index2, ev);
-    };
-    const selectQuotient = reactExports.useCallback(
-      (numId, denId) => {
-        onSelectQuotient(index2, numId, denId);
-      },
-      [onSelectQuotient, index2]
-    );
-    const numberOfAdditionalQuotientsInGroup = headerCell.quotients.length > 1 ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles$1.quotientsCountLabel, children: [
-      "+",
-      headerCell.quotients.length - 1,
-      " layers",
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Memo$20, {})
-    ] }) : null;
-    const containerRef = reactExports.useRef(null);
-    let isHovered = false;
-    let isSelected = false;
-    const isHorizontal = type === "horizontal";
-    const isVertical = type === "vertical";
-    const baseClassNames = clsx({
-      [className || ""]: className,
-      [styles$1.axisRecord]: true,
-      [styles$1.column]: isVertical,
-      [styles$1.row]: isHorizontal,
-      [styles$1.verticalText]: isVertical,
-      horizontal: isHorizontal,
-      vertical: isVertical
-    });
-    function generateClassNames() {
-      return `${baseClassNames} ${clsx({
-        [styles$1.hovered]: isHovered,
-        [styles$1.selected]: isSelected
-      })}`;
-    }
-    reactExports.useImperativeHandle(ref, () => ({
-      setHovered: () => {
-        if (containerRef.current) {
-          isHovered = true;
-          containerRef.current.className = generateClassNames();
-        }
-      },
-      resetHovered: () => {
-        if (containerRef.current) {
-          isHovered = false;
-          containerRef.current.className = generateClassNames();
-        }
-      },
-      setSelectedCol: () => {
-        if (isVertical && containerRef.current) {
-          isSelected = true;
-          containerRef.current.className = generateClassNames();
-        }
-      },
-      resetSelectedCol: () => {
-        if (isVertical && containerRef.current) {
-          isSelected = false;
-          containerRef.current.className = generateClassNames();
-        }
-      },
-      setSelectedRow: () => {
-        if (isHorizontal && containerRef.current) {
-          isSelected = true;
-          containerRef.current.className = generateClassNames();
-        }
-      },
-      resetSelectedRow: () => {
-        if (isHorizontal && containerRef.current) {
-          isSelected = false;
-          containerRef.current.className = generateClassNames();
-        }
-      }
-    }));
-    return /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "div",
-      {
-        ref: containerRef,
-        onMouseEnter: onMouseOver,
-        onMouseOut,
-        onClick,
-        style: getHeadingPositionStyle(type === "vertical", index2),
-        className: baseClassNames,
-        children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
-          "div",
-          {
-            style: calculateHeadingsStyle2(baseDimension, isVertical, index2),
-            className: styles$1.container,
-            children: [
-              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: styles$1.corner }),
-              /* @__PURE__ */ jsxRuntimeExports.jsx(DenominatorIcon, { iconId: headerCell.selectedQuotient.id[1] }),
-              sessionStorage.getItem("BIVARIATE_QA_MOD") && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "qualityLabel", children: headerCell.quality ? headerCell.quality : "&nbsp;" }),
-              headerCell.label,
-              numberOfAdditionalQuotientsInGroup && /* @__PURE__ */ jsxRuntimeExports.jsx(
-                QuotientSelector,
-                {
-                  id: `quotient_${id}`,
-                  onSelectQuotient: selectQuotient,
-                  selectedQuotient: headerCell.selectedQuotient,
-                  quotients: headerCell.quotients,
-                  type,
-                  children: numberOfAdditionalQuotientsInGroup
-                }
-              )
-            ]
-          }
-        )
-      }
-    );
-  }
-);
-BivariateMatrixHeadingEntry.displayName = "BivariateMatrixHeadingEntry";
-const axisCaptionRoot = "_axisCaptionRoot_1yhrg_1";
-const axisCaptionAnchor = "_axisCaptionAnchor_1yhrg_6";
-const axisCaptionBody = "_axisCaptionBody_1yhrg_10";
-const tooltipHover = "_tooltipHover_1yhrg_24";
-const axisCaptionText = "_axisCaptionText_1yhrg_33";
-const s$1 = {
-  axisCaptionRoot,
-  axisCaptionAnchor,
-  axisCaptionBody,
-  tooltipHover,
-  axisCaptionText
-};
-const AXIS_CAPTIONS_TOOTIP_TEXT = /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: s$1.axisCaptionText, children: [
-  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: TranslationService.t("bivariate.matrix.caption.tooltip.p1") }),
-  /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: TranslationService.t("bivariate.matrix.caption.tooltip.li1") }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: TranslationService.t("bivariate.matrix.caption.tooltip.li2") })
-  ] }),
-  /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-  /* @__PURE__ */ jsxRuntimeExports.jsx("b", { children: TranslationService.t("bivariate.matrix.caption.tooltip.b") }),
-  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: TranslationService.t("bivariate.matrix.caption.tooltip.p2") }),
-  /* @__PURE__ */ jsxRuntimeExports.jsx("p", { children: TranslationService.t("bivariate.matrix.caption.tooltip.p3") })
-] });
-const AxisCaptions = ({ baseDimension = 0 }) => {
-  const rootRef = reactExports.useRef(null);
-  reactExports.useLayoutEffect(() => {
-    var _a2;
-    (_a2 = rootRef.current) == null ? void 0 : _a2.scrollIntoView({ block: "center" });
-  }, []);
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$1.axisCaptionRoot, ref: rootRef, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$1.axisCaptionAnchor, style: { left: -baseDimension }, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: s$1.axisCaptionBody, children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx(LongArrow, { position: "left" }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(SimpleTooltip, { content: AXIS_CAPTIONS_TOOTIP_TEXT, children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: s$1.tooltipHover, children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: TranslationService.t("bivariate.matrix.caption.base_axis") }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Memo$11, {}),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: TranslationService.t("bivariate.matrix.caption.annex_axis") })
-    ] }) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(LongArrow, { position: "right" })
-  ] }) }) });
-};
-const LongArrow = ({ position = "left" }) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-  "svg",
-  {
-    xmlns: "http://www.w3.org/2000/svg",
-    width: "6",
-    height: "22",
-    viewBox: "0 0 6 22",
-    fill: "none",
-    transform: position === "left" ? "rotate(90)" : "rotate(-90)",
-    children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "path",
-        {
-          d: "M3 1V20.5",
-          stroke: "currentColor",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      ),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "path",
-        {
-          d: "M1 18L3 21.5L5 18",
-          stroke: "currentColor",
-          strokeLinecap: "round",
-          strokeLinejoin: "round"
-        }
-      )
-    ]
-  }
-);
-const CELL_INDEX_X_OFFSET = 3;
-const CELL_INDEX_Y_OFFSET = 3;
-const MATRIX_CORNERS_OVERFLOW = 15;
-const BivariateMatrixControl = ({
-  matrix,
-  xHeadings,
-  yHeadings,
-  onSelectCell,
-  selectedCell,
-  cellSize = 0,
-  onSelectQuotient
-}) => {
-  const containerRef = reactExports.useRef(null);
-  const bivariateMatrixContext = reactExports.useContext(BivariateMatrixContext);
-  const cellRowReferences = [];
-  const cellColumnReferences = [];
-  let hoveredColIndex = -1;
-  let hoveredRowIndex = -1;
-  const selectedColIndex = reactExports.useRef((selectedCell == null ? void 0 : selectedCell.x) ?? -1);
-  const selectedRowIndex = reactExports.useRef((selectedCell == null ? void 0 : selectedCell.y) ?? -1);
-  const setSelectCellCallback = useAction(setSelectCellCallbackAction);
-  const setCellReference = (ref, rowIndex, colIndex) => {
-    if (rowIndex >= 0) {
-      if (!cellRowReferences[rowIndex]) {
-        cellRowReferences[rowIndex] = [];
-      }
-      cellRowReferences[rowIndex].push(ref);
-    }
-    if (colIndex >= 0) {
-      if (!cellColumnReferences[colIndex]) {
-        cellColumnReferences[colIndex] = [];
-      }
-      cellColumnReferences[colIndex].push(ref);
-    }
-  };
-  const onMouseOver = (x2, y2) => {
-    if (hoveredColIndex !== x2) {
-      hoveredColIndex = x2;
-      if (hoveredColIndex !== -1) {
-        const columns = cellColumnReferences[hoveredColIndex];
-        if (columns) {
-          columns.forEach((clmn) => {
-            clmn == null ? void 0 : clmn.setHovered();
-          });
-        }
-      }
-    }
-    if (hoveredRowIndex !== y2) {
-      hoveredRowIndex = y2;
-      if (hoveredRowIndex !== -1) {
-        const rows = cellRowReferences[hoveredRowIndex];
-        if (rows) {
-          rows.forEach((rw) => {
-            rw == null ? void 0 : rw.setHovered();
-          });
-        }
-      }
-    }
-  };
-  const onMouseOut = () => {
-    if (hoveredColIndex !== -1) {
-      const columns = cellColumnReferences[hoveredColIndex];
-      if (columns) {
-        columns.forEach((clmn) => {
-          clmn == null ? void 0 : clmn.resetHovered();
-        });
-      }
-      hoveredColIndex = -1;
-    }
-    if (hoveredRowIndex !== -1) {
-      const rows = cellRowReferences[hoveredRowIndex];
-      if (rows) {
-        rows.forEach((rw) => {
-          rw == null ? void 0 : rw.resetHovered();
-        });
-      }
-      hoveredRowIndex = -1;
-    }
-  };
-  const onCellHoverX = (cellIndex) => {
-    onMouseOut();
-    if (cellIndex) {
-      onMouseOver(cellIndex, hoveredRowIndex);
-    }
-  };
-  const onCellHoverY = (cellIndex) => {
-    onMouseOut();
-    if (cellIndex) {
-      onMouseOver(hoveredColIndex, cellIndex);
-    }
-  };
-  const onResetSelected = () => {
-    if (selectedColIndex.current !== -1) {
-      const columns = cellColumnReferences[selectedColIndex.current];
-      if (columns) {
-        columns.forEach((clmn) => {
-          clmn == null ? void 0 : clmn.resetSelectedCol();
-        });
-      }
-      selectedColIndex.current = -1;
-    }
-    if (selectedRowIndex.current !== -1) {
-      const rows = cellRowReferences[selectedRowIndex.current];
-      if (rows) {
-        rows.forEach((rw) => {
-          rw == null ? void 0 : rw.resetSelectedRow();
-        });
-      }
-      selectedRowIndex.current = -1;
-    }
-  };
-  const onInnerSelect = (x2, y2, e) => {
-    onResetSelected();
-    onSelectRowCol(x2, y2);
-    onSelectCell(x2, y2, e);
-  };
-  const onOuterSelect = (x2, y2) => {
-    onResetSelected();
-    onSelectRowCol(x2, y2);
-  };
-  const onSelectRowCol = (x2, y2) => {
-    if (x2 !== -1 && selectedColIndex.current !== x2) {
-      selectedColIndex.current = x2;
-      const columns = cellColumnReferences[selectedColIndex.current];
-      if (columns) {
-        columns.forEach((clmn) => {
-          clmn == null ? void 0 : clmn.setSelectedCol();
-        });
-      }
-    }
-    if (y2 !== -1 && selectedRowIndex.current !== y2) {
-      selectedRowIndex.current = y2;
-      const rows = cellRowReferences[selectedRowIndex.current];
-      if (rows) {
-        rows.forEach((rw) => {
-          rw == null ? void 0 : rw.setSelectedRow();
-        });
-      }
-    }
-  };
-  const onCellSelectX = (cellIndex, e) => {
-    onInnerSelect(cellIndex, selectedRowIndex.current, e);
-  };
-  const onCellSelectY = (cellIndex, e) => {
-    onInnerSelect(selectedColIndex.current, cellIndex, e);
-  };
-  const selectQuotientX = reactExports.useCallback(
-    (index2, numId, denId, e) => {
-      onSelectQuotient(false, index2, numId, denId, e);
-    },
-    [onSelectQuotient]
-  );
-  const selectQuotientY = reactExports.useCallback(
-    (index2, numId, denId, e) => {
-      onSelectQuotient(true, index2, numId, denId, e);
-    },
-    [onSelectQuotient]
-  );
-  const baseDimension = useBaseMatrixDimension(xHeadings, yHeadings);
-  const rotatedMatrixWrapperSide = Math.sqrt(
-    Math.pow(xHeadings.length * MATRIX_CELL_SIDE, 2) + Math.pow(yHeadings.length * MATRIX_CELL_SIDE, 2)
-  ) * MATRIX_SCALE + MATRIX_CORNERS_OVERFLOW;
-  reactExports.useEffect(() => {
-    bivariateMatrixContext == null ? void 0 : bivariateMatrixContext.onMatrixPositionRecalculated(
-      baseDimension,
-      rotatedMatrixWrapperSide
-    );
-    if (containerRef.current) containerRef.current.style.visibility = "visible";
-  }, [baseDimension]);
-  const gridStyle = useGridStyle(xHeadings.length + 1, yHeadings.length + 1, cellSize);
-  const matrixContainerStyles = reactExports.useMemo(
-    () => ({
-      width: rotatedMatrixWrapperSide,
-      height: rotatedMatrixWrapperSide
-    }),
-    [rotatedMatrixWrapperSide]
-  );
-  const cellStyles = reactExports.useMemo(() => {
-    return generateCellStyles(
-      xHeadings.length + CELL_INDEX_X_OFFSET,
-      yHeadings.length + CELL_INDEX_Y_OFFSET
-    );
-  }, [xHeadings, yHeadings]);
-  reactExports.useEffect(() => {
-    setSelectCellCallback(onOuterSelect.bind(void 0));
-    if (selectedCell && (selectedCell.x !== -1 || selectedCell.y !== -1)) {
-      onOuterSelect(selectedCell.x, selectedCell.y);
-    }
-  }, [matrix]);
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(
-    "div",
-    {
-      ref: containerRef,
-      className: styles$5.matrixContainer,
-      style: matrixContainerStyles,
-      children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: gridStyle, className: styles$5.rotatedMatrix, children: [
-        matrix.map((_row, rowIndex) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-          BivariateMatrixCellConnector,
-          {
-            type: "horizontal",
-            style: cellStyles[-1 + CELL_INDEX_X_OFFSET][rowIndex + CELL_INDEX_Y_OFFSET],
-            ref: (rf) => setCellReference(rf, rowIndex, -1)
-          },
-          `${rowIndex}_row_connector`
-        )),
-        matrix[0].map((_col, colIndex) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-          BivariateMatrixCellConnector,
-          {
-            type: "vertical",
-            style: cellStyles[colIndex + CELL_INDEX_X_OFFSET][-1 + CELL_INDEX_Y_OFFSET],
-            ref: (rf) => setCellReference(rf, -1, colIndex)
-          },
-          `${colIndex}_col_connector`
-        )),
-        matrix.map(
-          (row2, rowIndex) => row2.map((val, colIndex) => {
-            return /* @__PURE__ */ jsxRuntimeExports.jsx(
-              BivariateMatrixCell,
-              {
-                x: colIndex,
-                y: rowIndex,
-                onClick: onInnerSelect,
-                onMouseOver,
-                onMouseOut,
-                style: cellStyles[colIndex + CELL_INDEX_X_OFFSET][rowIndex + CELL_INDEX_Y_OFFSET],
-                ref: (rf) => setCellReference(rf, rowIndex, colIndex),
-                value: val === null ? void 0 : val,
-                disabled: val === null,
-                firstRow: rowIndex === 0,
-                firstCol: colIndex === 0,
-                lastRow: rowIndex === matrix.length - 1,
-                lastCol: colIndex === row2.length - 1
-              },
-              `matrix_cell_${colIndex}_${rowIndex}`
-            );
-          })
-        ),
-        [...yHeadings].reverse().map((entry, index2) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-          BivariateMatrixHeadingEntry,
-          {
-            id: `hor_${yHeadings.length - 1 - index2}`,
-            index: yHeadings.length - 1 - index2,
-            type: "horizontal",
-            selectedIndex: selectedCell == null ? void 0 : selectedCell.y,
-            headerCell: entry,
-            onCellHover: onCellHoverY,
-            onCellClick: onCellSelectY,
-            onSelectQuotient: selectQuotientY,
-            baseDimension,
-            calculateHeadingsStyle,
-            ref: (rf) => setCellReference(rf, yHeadings.length - 1 - index2, -1)
-          },
-          `hor_${yHeadings.length - 1 - index2}`
-        )),
-        /* @__PURE__ */ jsxRuntimeExports.jsx(AxisCaptions, { baseDimension }),
-        xHeadings.map((entry, index2) => /* @__PURE__ */ jsxRuntimeExports.jsx(
-          BivariateMatrixHeadingEntry,
-          {
-            id: `vert_${index2}`,
-            index: index2,
-            type: "vertical",
-            selectedIndex: selectedCell == null ? void 0 : selectedCell.x,
-            headerCell: entry,
-            onCellHover: onCellHoverX,
-            onCellClick: onCellSelectX,
-            onSelectQuotient: selectQuotientX,
-            baseDimension,
-            calculateHeadingsStyle,
-            ref: (rf) => setCellReference(rf, -1, index2)
-          },
-          `vert_${index2}`
-        ))
-      ] })
-    }
-  );
-};
-BivariateMatrixControl.displayName = "BivariateMatrixControl";
-const BivariateMatrixControlComponent = reactExports.memo(
-  BivariateMatrixControl,
-  (oldProps, newProps) => oldProps.matrix === newProps.matrix
-);
-const mock = {
-  xGroups: [
-    {
-      parent: '["count","area_km2"]',
-      quotients: [["count", "area_km2"]],
-      selectedQuotient: ["count", "area_km2"]
-    },
-    {
-      parent: '["local_hours","area_km2"]',
-      quotients: [
-        ["count", "populated_area_km2"],
-        ["population_prev", "populated_area_km2"],
-        ["gdp", "populated_area_km2"],
-        ["population_prev", "area_km2"],
-        ["gdp", "area_km2"],
-        ["mandays_maxtemp_over_32c_1c", "populated_area_km2"],
-        ["building_count", "populated_area_km2"],
-        ["mandays_maxtemp_over_32c_1c", "area_km2"],
-        ["osm_users", "area_km2"],
-        ["total_hours", "populated_area_km2"],
-        ["covid19_confirmed", "populated_area_km2"],
-        ["covid19_confirmed", "area_km2"],
-        ["osm_users", "populated_area_km2"],
-        ["local_hours", "area_km2"],
-        ["local_hours", "populated_area_km2"]
-      ],
-      selectedQuotient: ["local_hours", "area_km2"]
-    },
-    {
-      parent: '["building_count","area_km2"]',
-      quotients: [["building_count", "area_km2"]],
-      selectedQuotient: ["building_count", "area_km2"]
-    },
-    {
-      parent: '["total_hours","area_km2"]',
-      quotients: [["total_hours", "area_km2"]],
-      selectedQuotient: ["total_hours", "area_km2"]
-    },
-    {
-      parent: '["highway_length","area_km2"]',
-      quotients: [
-        ["total_road_length", "area_km2"],
-        ["highway_length", "area_km2"]
-      ],
-      selectedQuotient: ["highway_length", "area_km2"]
-    },
-    {
-      parent: '["view_count","area_km2"]',
-      quotients: [
-        ["view_count", "populated_area_km2"],
-        ["view_count_bf2402", "populated_area_km2"],
-        ["view_count", "area_km2"],
-        ["view_count_bf2402", "area_km2"]
-      ],
-      selectedQuotient: ["view_count", "area_km2"]
-    },
-    {
-      parent: '["highway_length","populated_area_km2"]',
-      quotients: [["highway_length", "populated_area_km2"]],
-      selectedQuotient: ["highway_length", "populated_area_km2"]
-    },
-    {
-      parent: '["total_road_length","populated_area_km2"]',
-      quotients: [["total_road_length", "populated_area_km2"]],
-      selectedQuotient: ["total_road_length", "populated_area_km2"]
-    },
-    {
-      parent: '["man_distance_to_hospital","area_km2"]',
-      quotients: [["man_distance_to_hospital", "area_km2"]],
-      selectedQuotient: ["man_distance_to_hospital", "area_km2"]
-    },
-    {
-      parent: '["unknown_forest","total_building_count"]',
-      quotients: [
-        ["total_road_length", "total_building_count"],
-        ["unknown_forest", "total_building_count"]
-      ],
-      selectedQuotient: ["unknown_forest", "total_building_count"]
-    },
-    {
-      parent: '["forest","total_building_count"]',
-      quotients: [
-        ["highway_length", "total_building_count"],
-        ["forest", "total_building_count"]
-      ],
-      selectedQuotient: ["forest", "total_building_count"]
-    },
-    {
-      parent: '["man_distance_to_hospital","populated_area_km2"]',
-      quotients: [["man_distance_to_hospital", "populated_area_km2"]],
-      selectedQuotient: ["man_distance_to_hospital", "populated_area_km2"]
-    },
-    {
-      parent: '["man_distance_to_fire_brigade","area_km2"]',
-      quotients: [["man_distance_to_fire_brigade", "area_km2"]],
-      selectedQuotient: ["man_distance_to_fire_brigade", "area_km2"]
-    },
-    {
-      parent: '["osm_users","population"]',
-      quotients: [["osm_users", "population"]],
-      selectedQuotient: ["osm_users", "population"]
-    },
-    {
-      parent: '["unknown_forest","population"]',
-      quotients: [
-        ["total_road_length", "population"],
-        ["unknown_forest", "population"]
-      ],
-      selectedQuotient: ["unknown_forest", "population"]
-    },
-    {
-      parent: '["count","total_building_count"]',
-      quotients: [["count", "total_building_count"]],
-      selectedQuotient: ["count", "total_building_count"]
-    },
-    {
-      parent: '["highway_length","population"]',
-      quotients: [
-        ["forest", "population"],
-        ["highway_length", "population"]
-      ],
-      selectedQuotient: ["highway_length", "population"]
-    },
-    {
-      parent: '["man_distance_to_fire_brigade","populated_area_km2"]',
-      quotients: [["man_distance_to_fire_brigade", "populated_area_km2"]],
-      selectedQuotient: ["man_distance_to_fire_brigade", "populated_area_km2"]
-    }
-  ],
-  yGroups: [
-    {
-      parent: '["local_hours","area_km2"]',
-      quotients: [
-        ["population", "populated_area_km2"],
-        ["total_building_count", "populated_area_km2"],
-        ["count", "populated_area_km2"],
-        ["population_prev", "populated_area_km2"],
-        ["total_building_count", "area_km2"],
-        ["gdp", "populated_area_km2"],
-        ["mandays_maxtemp_over_32c_1c", "populated_area_km2"],
-        ["population_prev", "area_km2"],
-        ["gdp", "area_km2"],
-        ["building_count", "populated_area_km2"],
-        ["mandays_maxtemp_over_32c_1c", "area_km2"],
-        ["total_hours", "populated_area_km2"],
-        ["osm_users", "area_km2"],
-        ["covid19_confirmed", "populated_area_km2"],
-        ["osm_users", "populated_area_km2"],
-        ["covid19_confirmed", "area_km2"],
-        ["local_hours", "populated_area_km2"],
-        ["local_hours", "area_km2"]
-      ],
-      selectedQuotient: ["local_hours", "area_km2"]
-    },
-    {
-      parent: '["population","area_km2"]',
-      quotients: [["population", "area_km2"]],
-      selectedQuotient: ["population", "area_km2"]
-    },
-    {
-      parent: '["count","area_km2"]',
-      quotients: [["count", "area_km2"]],
-      selectedQuotient: ["count", "area_km2"]
-    },
-    {
-      parent: '["building_count","area_km2"]',
-      quotients: [["building_count", "area_km2"]],
-      selectedQuotient: ["building_count", "area_km2"]
-    },
-    {
-      parent: '["total_hours","area_km2"]',
-      quotients: [["total_hours", "area_km2"]],
-      selectedQuotient: ["total_hours", "area_km2"]
-    },
-    {
-      parent: '["highway_length","area_km2"]',
-      quotients: [
-        ["total_road_length", "area_km2"],
-        ["highway_length", "area_km2"]
-      ],
-      selectedQuotient: ["highway_length", "area_km2"]
-    },
-    {
-      parent: '["view_count","area_km2"]',
-      quotients: [
-        ["view_count", "populated_area_km2"],
-        ["view_count_bf2402", "populated_area_km2"],
-        ["view_count", "area_km2"],
-        ["view_count_bf2402", "area_km2"]
-      ],
-      selectedQuotient: ["view_count", "area_km2"]
-    },
-    {
-      parent: '["highway_length","populated_area_km2"]',
-      quotients: [["highway_length", "populated_area_km2"]],
-      selectedQuotient: ["highway_length", "populated_area_km2"]
-    },
-    {
-      parent: '["total_road_length","populated_area_km2"]',
-      quotients: [["total_road_length", "populated_area_km2"]],
-      selectedQuotient: ["total_road_length", "populated_area_km2"]
-    },
-    {
-      parent: '["man_distance_to_hospital","area_km2"]',
-      quotients: [["man_distance_to_hospital", "area_km2"]],
-      selectedQuotient: ["man_distance_to_hospital", "area_km2"]
-    },
-    {
-      parent: '["unknown_forest","total_building_count"]',
-      quotients: [
-        ["total_road_length", "total_building_count"],
-        ["unknown_forest", "total_building_count"]
-      ],
-      selectedQuotient: ["unknown_forest", "total_building_count"]
-    },
-    {
-      parent: '["forest","total_building_count"]',
-      quotients: [
-        ["highway_length", "total_building_count"],
-        ["forest", "total_building_count"]
-      ],
-      selectedQuotient: ["forest", "total_building_count"]
-    },
-    {
-      parent: '["populated_area_km2","area_km2"]',
-      quotients: [["populated_area_km2", "area_km2"]],
-      selectedQuotient: ["populated_area_km2", "area_km2"]
-    },
-    {
-      parent: '["count","population"]',
-      quotients: [
-        ["populated_area_km2", "population"],
-        ["count", "population"]
-      ],
-      selectedQuotient: ["count", "population"]
-    },
-    {
-      parent: '["populated_area_km2","total_building_count"]',
-      quotients: [["populated_area_km2", "total_building_count"]],
-      selectedQuotient: ["populated_area_km2", "total_building_count"]
-    },
-    {
-      parent: '["man_distance_to_hospital","populated_area_km2"]',
-      quotients: [["man_distance_to_hospital", "populated_area_km2"]],
-      selectedQuotient: ["man_distance_to_hospital", "populated_area_km2"]
-    },
-    {
-      parent: '["man_distance_to_fire_brigade","area_km2"]',
-      quotients: [["man_distance_to_fire_brigade", "area_km2"]],
-      selectedQuotient: ["man_distance_to_fire_brigade", "area_km2"]
-    },
-    {
-      parent: '["osm_users","population"]',
-      quotients: [["osm_users", "population"]],
-      selectedQuotient: ["osm_users", "population"]
-    },
-    {
-      parent: '["unknown_forest","population"]',
-      quotients: [
-        ["total_road_length", "population"],
-        ["unknown_forest", "population"]
-      ],
-      selectedQuotient: ["unknown_forest", "population"]
-    },
-    {
-      parent: '["forest","population"]',
-      quotients: [
-        ["highway_length", "population"],
-        ["forest", "population"]
-      ],
-      selectedQuotient: ["forest", "population"]
-    },
-    {
-      parent: '["avg_elevation","one"]',
-      quotients: [["avg_elevation", "one"]],
-      selectedQuotient: ["avg_elevation", "one"]
-    },
-    {
-      parent: '["man_distance_to_fire_brigade","populated_area_km2"]',
-      quotients: [["man_distance_to_fire_brigade", "populated_area_km2"]],
-      selectedQuotient: ["man_distance_to_fire_brigade", "populated_area_km2"]
-    }
-  ],
-  matrix: [
-    [
-      0.6330778143702572,
-      null,
-      0.5428354424212366,
-      0.8125028273732107,
-      0.41794744630059005,
-      0.49075709882519214,
-      0.26266841211785613,
-      0.17540431775688137,
-      0.2817357956135096,
-      -0.08277918866628682,
-      -0.07354014808858399,
-      0.19952042019781102,
-      0.2900699030570146,
-      -0.09959194444606909,
-      -0.05653224901990311,
-      -0.08121946780800145,
-      -0.06293349539553206,
-      0.210717984018573
-    ],
-    [
-      0.7671266114613431,
-      0.4624540160877126,
-      0.7461271344307278,
-      0.6236796022803118,
-      0.4651837775930101,
-      0.6983788201180583,
-      0.3282268564011803,
-      0.23940172696613696,
-      0.6102526069773476,
-      -0.06854993994184201,
-      -0.06300652330464818,
-      0.5425853155901724,
-      0.5357120339754239,
-      -0.12569275885753226,
-      -0.05722122475056985,
-      -0.044124976285712575,
-      -0.07252302728830883,
-      0.46170009422253117
-    ],
-    [
-      null,
-      0.6330778143702572,
-      0.9448400352897224,
-      0.8088667700993942,
-      0.5478619819586914,
-      0.7272525499712613,
-      0.39403434829318645,
-      0.27693369264722456,
-      0.4212553882513244,
-      -0.09219840214177631,
-      -0.08214624778695,
-      0.3334796387999488,
-      0.3381396079397914,
-      -0.11599438338517783,
-      -0.0603311321070773,
-      null,
-      -0.0709735871498622,
-      0.24799941442360907
-    ],
-    [
-      0.9448400352897224,
-      0.5428354424212366,
-      null,
-      0.676324490987385,
-      0.495437368648744,
-      0.6083458288157841,
-      0.3469868158515808,
-      0.2430950316469889,
-      0.4310608323815133,
-      -0.09512147612349764,
-      -0.08309756332167413,
-      0.3452068134908724,
-      0.33210650851954204,
-      -0.1245886065474142,
-      -0.059708735955503585,
-      -0.14339940649431673,
-      -0.07375589630648925,
-      0.24325119232100342
-    ],
-    [
-      0.8088667700993942,
-      0.8125028273732107,
-      0.676324490987385,
-      null,
-      0.5189347708683577,
-      0.6884534708417488,
-      0.33187782018548295,
-      0.2219184858913333,
-      0.35395740401150805,
-      -0.09412791983951108,
-      -0.0863908043684727,
-      0.26082399416277346,
-      0.349163057602413,
-      -0.0749918701328735,
-      -0.06355840786694379,
-      -0.06179508212619175,
-      -0.06748437844937322,
-      0.25841056419208985
-    ],
-    [
-      0.5478619819586914,
-      0.41794744630059005,
-      0.495437368648744,
-      0.5189347708683577,
-      null,
-      0.38324804690465736,
-      null,
-      0.414339823397522,
-      0.3069414868687711,
-      -0.10644082342648567,
-      -0.10931575987231072,
-      0.2754560009958487,
-      0.2569523390521722,
-      -0.11051731563471724,
-      -0.08226769814606767,
-      604231582566239e-18,
-      null,
-      0.20899371630213479
-    ],
-    [
-      0.7272525499712613,
-      0.49075709882519214,
-      0.6083458288157841,
-      0.6884534708417488,
-      0.38324804690465736,
-      null,
-      0.30947144087595235,
-      0.22699474527609945,
-      0.2830320630422097,
-      -0.04226615774405834,
-      -0.037742340113614686,
-      0.23762065170375052,
-      0.23266705566189747,
-      -0.05154149468310855,
-      -0.02870286844834339,
-      -0.031190214624625075,
-      -0.03390072345440923,
-      0.18581115270615528
-    ],
-    [
-      0.39403434829318645,
-      0.26266841211785613,
-      0.3469868158515808,
-      0.33187782018548295,
-      null,
-      0.30947144087595235,
-      null,
-      0.9304780288243525,
-      0.13914319427120514,
-      0.3291875622555688,
-      0.3720654440390036,
-      0.1934927693146689,
-      0.10623582254983449,
-      7285286560751833e-19,
-      0.19378449287322094,
-      0.32680720759696696,
-      null,
-      0.16809925893975913
-    ],
-    [
-      0.27693369264722456,
-      0.17540431775688137,
-      0.2430950316469889,
-      0.2219184858913333,
-      0.414339823397522,
-      0.22699474527609945,
-      0.9304780288243525,
-      null,
-      0.09020847847993732,
-      0.42400942691094484,
-      0.5064709774524677,
-      0.1712970613845418,
-      0.06714970974071707,
-      0.01180306783229655,
-      0.2255650150706005,
-      0.3599655140069753,
-      0.30252787549965515,
-      0.15970052255248204
-    ],
-    [
-      0.4212553882513244,
-      0.2817357956135096,
-      0.4310608323815133,
-      0.35395740401150805,
-      0.3069414868687711,
-      0.2830320630422097,
-      0.13914319427120514,
-      0.09020847847993732,
-      null,
-      -0.06649666693010343,
-      -0.06343156740380441,
-      null,
-      0.6841527486069171,
-      -0.13779469419376966,
-      -0.0635847915251171,
-      -0.026485710953304663,
-      -0.08026301675299034,
-      0.6178257434320957
-    ],
-    [
-      -0.09219840214177631,
-      -0.08277918866628682,
-      -0.09512147612349764,
-      -0.09412791983951108,
-      -0.10644082342648567,
-      -0.04226615774405834,
-      0.3291875622555688,
-      0.42400942691094484,
-      -0.06649666693010343,
-      null,
-      0.7678796845524921,
-      0.012760506344240884,
-      -0.054701981754940544,
-      0.1344540319549378,
-      null,
-      0.5631324180563558,
-      0.3071029030398512,
-      0.04014411156301263
-    ],
-    [
-      -0.08214624778695,
-      -0.07354014808858399,
-      -0.08309756332167413,
-      -0.0863908043684727,
-      -0.10931575987231072,
-      -0.037742340113614686,
-      0.3720654440390036,
-      0.5064709774524677,
-      -0.06343156740380441,
-      0.7678796845524921,
-      null,
-      0.014062866759102748,
-      -0.05210682697853124,
-      0.11091668928613378,
-      0.2990964999949313,
-      0.5385399665532266,
-      0.22651079092994508,
-      0.04521239572328026
-    ],
-    [
-      0.33092297487284617,
-      0.306348164358225,
-      0.3238400065207823,
-      0.3693496848744186,
-      0.38871869483912574,
-      0.1581862969025989,
-      -0.3471496502086163,
-      -0.43374811025089965,
-      0.33796301073828167,
-      -0.3268410473725932,
-      -0.3386739643520862,
-      0.055679399245274847,
-      0.3020796910928048,
-      -0.04623557252911246,
-      -0.19287576889960628,
-      -0.23886314058329716,
-      -0.1732637367181755,
-      0.02241746611798094
-    ],
-    [
-      null,
-      -0.05985205635299918,
-      -0.07346388019658537,
-      -0.04156216899598115,
-      -0.06836488141749311,
-      -0.03935680545094748,
-      0.12058512533492027,
-      0.13212728757237097,
-      -0.11270465651638581,
-      0.15970627541493335,
-      0.13401194122424062,
-      -0.12384718246215928,
-      -0.10414752849189488,
-      0.7574388860132296,
-      0.48388350772788513,
-      null,
-      0.6315662616124519,
-      -0.11571785360027256
-    ],
-    [
-      -0.2290337466539601,
-      -0.1757661352019487,
-      -0.24760184223062584,
-      -0.18278999260309406,
-      -0.1710761141838468,
-      -0.09542438099888385,
-      -0.059267030345385996,
-      -0.013539781630611262,
-      -0.09643066932644401,
-      0.43854582251146346,
-      0.3609544353566733,
-      -0.07178405902927397,
-      -0.06341025046618942,
-      0.22096261180630974,
-      0.10541941385096928,
-      0.5599627595822098,
-      0.1278673522191922,
-      -0.032944279661146915
-    ],
-    [
-      0.3334796387999488,
-      0.19952042019781102,
-      0.3452068134908724,
-      0.26082399416277346,
-      0.2754560009958487,
-      0.23762065170375052,
-      0.1934927693146689,
-      0.1712970613845418,
-      null,
-      0.012760506344240884,
-      0.014062866759102748,
-      null,
-      0.6310066640401927,
-      -0.1500265206387344,
-      -0.06689746899862688,
-      0.01986212506899432,
-      -0.08550943488376969,
-      0.676555546708353
-    ],
-    [
-      0.3381396079397914,
-      0.2900699030570146,
-      0.33210650851954204,
-      0.349163057602413,
-      0.2569523390521722,
-      0.23266705566189747,
-      0.10623582254983449,
-      0.06714970974071707,
-      0.6841527486069171,
-      -0.054701981754940544,
-      -0.05210682697853124,
-      0.6310066640401927,
-      null,
-      -0.12258332045801432,
-      -0.0567307219837807,
-      -0.022320716664225384,
-      -0.07178249009741255,
-      null
-    ],
-    [
-      -0.11599438338517783,
-      -0.09959194444606909,
-      -0.1245886065474142,
-      -0.0749918701328735,
-      -0.11051731563471724,
-      -0.05154149468310855,
-      7285286560751833e-19,
-      0.01180306783229655,
-      -0.13779469419376966,
-      0.1344540319549378,
-      0.11091668928613378,
-      -0.1500265206387344,
-      -0.12258332045801432,
-      null,
-      0.4348018015155649,
-      0.1802672705079899,
-      0.5785565720280881,
-      -0.1349910962529299
-    ],
-    [
-      -0.0603311321070773,
-      -0.05653224901990311,
-      -0.059708735955503585,
-      -0.06355840786694379,
-      -0.08226769814606767,
-      -0.02870286844834339,
-      0.19378449287322094,
-      0.2255650150706005,
-      -0.0635847915251171,
-      null,
-      0.2990964999949313,
-      -0.06689746899862688,
-      -0.0567307219837807,
-      0.4348018015155649,
-      null,
-      0.16176932292012,
-      0.7133807791437314,
-      -0.05999313994718329
-    ],
-    [
-      -0.06778027180778882,
-      -0.06094700100554602,
-      -0.06749293269532497,
-      -0.07015551687145612,
-      -0.09380332086205506,
-      -0.03214432503025587,
-      0.20746554020517102,
-      0.2523547017592986,
-      -0.07210328538123267,
-      0.4203440217106889,
-      null,
-      -0.0750002557187531,
-      -0.06409549706414985,
-      0.49720071299727603,
-      0.8986894662282207,
-      0.19577005850577103,
-      0.7147205376873481,
-      -0.06663105366067186
-    ],
-    [
-      -0.1314723477716716,
-      -0.10888331650996384,
-      -0.12016811312503141,
-      -0.14500851581063834,
-      -0.14651760866997154,
-      -0.0894267074095959,
-      -0.10021629943072725,
-      -0.02053796018986287,
-      -0.08959271152178999,
-      0.07728964320941438,
-      0.11382059101409457,
-      -0.055901670004619375,
-      -0.07981810377749747,
-      0.12046075802517535,
-      0.07334344740483416,
-      -0.020568856117619418,
-      0.12080907584004444,
-      -0.040957057721220644
-    ],
-    [
-      0.24799941442360907,
-      0.210717984018573,
-      0.24325119232100342,
-      0.25841056419208985,
-      0.20899371630213479,
-      0.18581115270615528,
-      0.16809925893975913,
-      0.15970052255248204,
-      0.6178257434320957,
-      0.04014411156301263,
-      0.04521239572328026,
-      0.676555546708353,
-      null,
-      -0.1349910962529299,
-      -0.05999313994718329,
-      0.035960163104143954,
-      -0.07699941382657573,
-      null
-    ]
-  ],
-  indicators: [
-    {
-      name: "mhr_index",
-      label: "Multi-hazard risk PDC GRVA",
-      copyrights: [
-        "© 2022 Pacific Disaster Center. https://www.pdc.org/privacy-policy/"
-      ],
-      direction: [["unimportant"], ["important", "bad"]]
-    },
-    {
-      name: "mhe_index",
-      label: "Multi-hazard exposure PDC GRVA",
-      copyrights: [
-        "© 2022 Pacific Disaster Center. https://www.pdc.org/privacy-policy/"
-      ],
-      direction: [["unimportant"], ["important", "bad"]]
-    },
-    {
-      name: "coping_capacity_index",
-      label: "Coping Capacity PDC GRVA",
-      copyrights: [
-        "© 2022 Pacific Disaster Center. https://www.pdc.org/privacy-policy/"
-      ],
-      direction: [["important", "bad"], ["good"]]
-    },
-    {
-      name: "resilience_index",
-      label: "Resilience PDC GRVA",
-      copyrights: [
-        "© 2022 Pacific Disaster Center. https://www.pdc.org/privacy-policy/"
-      ],
-      direction: [["important", "bad"], ["good"]]
-    },
-    {
-      name: "vulnerability_index",
-      label: "Vulnerability PDC GRVA",
-      copyrights: [
-        "© 2022 Pacific Disaster Center. https://www.pdc.org/privacy-policy/"
-      ],
-      direction: [["unimportant"], ["important", "bad"]]
-    },
-    {
-      name: "count",
-      label: "OSM Objects",
-      copyrights: [
-        "© OpenStreetMap contributors https://www.openstreetmap.org/copyright"
-      ],
-      direction: [["bad"], ["good"]]
-    },
-    {
-      name: "count_6_months",
-      label: "OSM Objects (last 6 months)",
-      copyrights: [
-        "© OpenStreetMap contributors https://www.openstreetmap.org/copyright"
-      ],
-      direction: [["bad"], ["good"]]
-    },
-    {
-      name: "view_count",
-      label: "OSM Map Views",
-      copyrights: [
-        "© OpenStreetMap contributors https://www.openstreetmap.org/copyright"
-      ],
-      direction: [
-        ["bad", "unimportant"],
-        ["good", "important"]
-      ]
-    },
-    {
-      name: "avgmax_ts",
-      label: "OSM Last Edit Date (avg)",
-      copyrights: [
-        "© OpenStreetMap contributors https://www.openstreetmap.org/copyright"
-      ],
-      direction: [["bad", "unimportant"], ["good"]]
-    },
-    {
-      name: "max_ts",
-      label: "OSM Last Edit Date (max)",
-      copyrights: [
-        "© OpenStreetMap contributors https://www.openstreetmap.org/copyright"
-      ],
-      direction: [["bad", "unimportant"], ["good"]]
-    },
-    {
-      name: "min_ts",
-      label: "OSM First Edit Date (min)",
-      copyrights: [
-        "© OpenStreetMap contributors https://www.openstreetmap.org/copyright"
-      ],
-      direction: [["good"], ["neutral"]]
-    },
-    {
-      name: "osm_users",
-      label: "OSM Mappers Edited Here",
-      copyrights: [
-        "© OpenStreetMap contributors https://www.openstreetmap.org/copyright"
-      ],
-      direction: [["bad"], ["good"]]
-    },
-    {
-      name: "building_count",
-      label: "OSM Buildings",
-      copyrights: [
-        "© OpenStreetMap contributors https://www.openstreetmap.org/copyright"
-      ],
-      direction: [["bad"], ["good"]]
-    },
-    {
-      name: "building_count_6_months",
-      label: "OSM Buildings (last 6 months)",
-      copyrights: [
-        "© OpenStreetMap contributors https://www.openstreetmap.org/copyright"
-      ],
-      direction: [["bad"], ["good"]]
-    },
-    {
-      name: "highway_length",
-      label: "OSM Road Length",
-      copyrights: [
-        "© OpenStreetMap contributors https://www.openstreetmap.org/copyright"
-      ],
-      direction: [["bad"], ["good"]]
-    },
-    {
-      name: "highway_length_6_months",
-      label: "OSM Road Length (last 6 months)",
-      copyrights: [
-        "© OpenStreetMap contributors https://www.openstreetmap.org/copyright"
-      ],
-      direction: [["bad"], ["good"]]
-    },
-    {
-      name: "local_hours",
-      label: "OSM Mapping Hours by Local Mappers",
-      copyrights: [
-        "© Kontur https://kontur.io/",
-        "© OpenStreetMap contributors https://www.openstreetmap.org/copyright"
-      ],
-      direction: [["bad"], ["good"]]
-    },
-    {
-      name: "total_hours",
-      label: "OSM Mapping Hours by All Mappers",
-      copyrights: [
-        "© Kontur https://kontur.io/",
-        "© OpenStreetMap contributors https://www.openstreetmap.org/copyright"
-      ],
-      direction: [["bad"], ["good"]]
-    },
-    {
-      name: "pop_disability_total",
-      label: "Population with a disability",
-      copyrights: [
-        "© United States Census Bureau. 2019 5-Year American Community Survey (ACS). https://www.census.gov/en.html"
-      ],
-      direction: [["unimportant"], ["important"]]
-    },
-    {
-      name: "forest",
-      label: "Forest Landcover Area",
-      copyrights: [
-        "© Kontur https://kontur.io/",
-        "Copernicus Global Land Service: Land Cover 100 m: Marcel Buchhorn, Bruno Smets, Luc Bertels, Bert De Roo, MyroslavaLesiv, Nandin - Erdene Tsendbazar, … Steffen Fritz. (2020). Copernicus Global Land Service: Land Cover 100m: collection 3: epoch 2019: Globe (Version V3.0.1) Data set. Zenodo. http://doi.org/10.5281/zenodo.3939050"
-      ],
-      direction: [["unimportant"], ["important"]]
-    },
-    {
-      name: "pop_not_well_eng_speak",
-      label: "Population with a difficulty speaking English",
-      copyrights: [
-        "© United States Census Bureau. 2019 5-Year American Community Survey (ACS). https://www.census.gov/en.html"
-      ],
-      direction: [["good"], ["important", "bad"]]
-    },
-    {
-      name: "evergreen_needle_leaved_forest",
-      label: "Evergreen Needle-leaved Forest Landcover Area",
-      copyrights: [
-        "© Kontur https://kontur.io/",
-        "Copernicus Global Land Service: Land Cover 100 m: Marcel Buchhorn, Bruno Smets, Luc Bertels, Bert De Roo, MyroslavaLesiv, Nandin - Erdene Tsendbazar, … Steffen Fritz. (2020). Copernicus Global Land Service: Land Cover 100m: collection 3: epoch 2019: Globe (Version V3.0.1) Data set. Zenodo. http://doi.org/10.5281/zenodo.3939050"
-      ],
-      direction: [["unimportant"], ["important"]]
-    },
-    {
-      name: "pop_under_5_total",
-      label: "Population under age of 5",
-      copyrights: [
-        "© United States Census Bureau. 2019 5-Year American Community Survey (ACS). https://www.census.gov/en.html"
-      ],
-      direction: [["unimportant"], ["important"]]
-    },
-    {
-      name: "shrubs",
-      label: "Shrubland Area",
-      copyrights: [
-        "© Kontur https://kontur.io/",
-        "Copernicus Global Land Service: Land Cover 100 m: Marcel Buchhorn, Bruno Smets, Luc Bertels, Bert De Roo, MyroslavaLesiv, Nandin - Erdene Tsendbazar, … Steffen Fritz. (2020). Copernicus Global Land Service: Land Cover 100m: collection 3: epoch 2019: Globe (Version V3.0.1) Data set. Zenodo. http://doi.org/10.5281/zenodo.3939050"
-      ],
-      direction: [["unimportant"], ["important"]]
-    },
-    {
-      name: "pop_over_65_total",
-      label: "Population over age of 65",
-      copyrights: [
-        "© United States Census Bureau. 2019 5-Year American Community Survey (ACS). https://www.census.gov/en.html"
-      ],
-      direction: [["unimportant"], ["important"]]
-    },
-    {
-      name: "herbage",
-      label: "Herbaceous Landcover Area",
-      copyrights: [
-        "© Kontur https://kontur.io/",
-        "Copernicus Global Land Service: Land Cover 100 m: Marcel Buchhorn, Bruno Smets, Luc Bertels, Bert De Roo, MyroslavaLesiv, Nandin - Erdene Tsendbazar, … Steffen Fritz. (2020). Copernicus Global Land Service: Land Cover 100m: collection 3: epoch 2019: Globe (Version V3.0.1) Data set. Zenodo. http://doi.org/10.5281/zenodo.3939050"
-      ],
-      direction: [["unimportant"], ["important"]]
-    },
-    {
-      name: "poverty_families_total",
-      label: "Families living below poverty line",
-      copyrights: [
-        "© United States Census Bureau. 2019 5-Year American Community Survey (ACS). https://www.census.gov/en.html"
-      ],
-      direction: [["unimportant, good"], ["important"]]
-    },
-    {
-      name: "unknown_forest",
-      label: "Unknown Forest Type Landcover Area",
-      copyrights: [
-        "© Kontur https://kontur.io/",
-        "Copernicus Global Land Service: Land Cover 100 m: Marcel Buchhorn, Bruno Smets, Luc Bertels, Bert De Roo, MyroslavaLesiv, Nandin - Erdene Tsendbazar, … Steffen Fritz. (2020). Copernicus Global Land Service: Land Cover 100m: collection 3: epoch 2019: Globe (Version V3.0.1) Data set. Zenodo. http://doi.org/10.5281/zenodo.3939050"
-      ],
-      direction: [["unimportant"], ["important"]]
-    },
-    {
-      name: "volcanos_count",
-      label: "Number of volcanos",
-      copyrights: [
-        "© OpenStreetMap contributors https://www.openstreetmap.org/copyright"
-      ],
-      direction: [["unimportant"], ["important"]]
-    },
-    {
-      name: "covid19_vaccines",
-      label: "COVID19 Vaccine Acceptance",
-      copyrights: ["© Data from Delphi COVIDcast, covidcast.cmu.edu"],
-      direction: [["bad"], ["neutral"]]
-    },
-    {
-      name: "covid19_confirmed",
-      label: "COVID19 Confirmed Cases",
-      copyrights: ["© Data from JHU CSSE COVID-19 Dataset"],
-      direction: [["good"], ["bad"]]
-    },
-    {
-      name: "avg_slope",
-      label: "Average slope",
-      copyrights: ["© Data from General Bathymatric Chart of the Oceans, www.gebco.net"],
-      direction: [
-        ["good", "unimportant"],
-        ["bad", "important"]
-      ]
-    },
-    {
-      name: "avg_elevation",
-      label: "Average elevation",
-      copyrights: ["© Data from General Bathymatric Chart of the Oceans, www.gebco.net"],
-      direction: [
-        ["good", "unimportant"],
-        ["bad", "important"]
-      ]
-    },
-    {
-      name: "gdp",
-      label: "Gross Domestic Product",
-      copyrights: [
-        "© Kontur https://kontur.io/",
-        "© 2019 The World Bank Group, CC-BY 4.0",
-        "Facebook Connectivity Lab and Center for International Earth Science Information Network - CIESIN - Columbia University. 2016. High Resolution Settlement Layer (HRSL). Source imagery for HRSL © 2016 DigitalGlobe. https://dataforgood.fb.com/tools/population-density-maps/",
-        "Dataset: Schiavina, Marcello; Freire, Sergio; MacManus, Kytt (2019): GHS population grid multitemporal (1975, 1990, 2000, 2015) R2019A. European Commission, Joint Research Centre (JRC) DOI: 10.2905/42E8BE89-54FF-464E-BE7B-BF9E64DA5218 PID: http://data.europa.eu/89h/0c6b9751-a71f-4062-830b-43c9f432370f Concept & Methodology: Freire, Sergio; MacManus, Kytt; Pesaresi, Martino; Doxsey-Whitfield, Erin; Mills, Jane (2016): Development of new open and free multi-temporal global population grids at 250 m resolution. Geospatial Data in a Changing World; Association of Geographic Information Laboratories in Europe (AGILE). AGILE 2016",
-        "Copernicus Global Land Service: Land Cover 100m: Marcel Buchhorn, Bruno Smets, Luc Bertels, Bert De Roo, Myroslava Lesiv, Nandin-Erdene Tsendbazar, … Steffen Fritz. (2020). Copernicus Global Land Service: Land Cover 100m: collection 3: epoch 2019: Globe (Version V3.0.1) Data set. Zenodo. http://doi.org/10.5281/zenodo.3939050",
-        "Microsoft Buildings: Canada, Tanzania, Uganda, USA: This data is licensed by Microsoft under the Open Data Commons Open Database License (ODbL).",
-        "@ OpenStreetMap contributors https://www.openstreetmap.org/copyright"
-      ],
-      direction: [["bad"], ["good"]]
-    },
-    {
-      name: "population_prev",
-      label: "Population (previous version)",
-      copyrights: [
-        "© Kontur https://kontur.io/",
-        "Facebook Connectivity Lab and Center for International Earth Science Information Network - CIESIN - Columbia University. 2016. High Resolution Settlement Layer (HRSL). Source imagery for HRSL © 2016 DigitalGlobe. https://dataforgood.fb.com/tools/population-density-maps/",
-        "Dataset: Schiavina, Marcello; Freire, Sergio; MacManus, Kytt (2019): GHS population grid multitemporal (1975, 1990, 2000, 2015) R2019A. European Commission, Joint Research Centre (JRC) DOI: 10.2905/42E8BE89-54FF-464E-BE7B-BF9E64DA5218 PID: http://data.europa.eu/89h/0c6b9751-a71f-4062-830b-43c9f432370f Concept & Methodology: Freire, Sergio; MacManus, Kytt; Pesaresi, Martino; Doxsey-Whitfield, Erin; Mills, Jane (2016): Development of new open and free multi-temporal global population grids at 250 m resolution. Geospatial Data in a Changing World; Association of Geographic Information Laboratories in Europe (AGILE). AGILE 2016",
-        "Copernicus Global Land Service: Land Cover 100 m: Marcel Buchhorn, Bruno Smets, Luc Bertels, Bert De Roo, MyroslavaLesiv, Nandin - Erdene Tsendbazar, … Steffen Fritz. (2020). Copernicus Global Land Service: Land Cover 100m: collection 3: epoch 2019: Globe (Version V3.0.1) Data set. Zenodo. http://doi.org/10.5281/zenodo.3939050",
-        "Microsoft Buildings: Australia, Canada, Tanzania, Uganda, USA: This data is licensed by Microsoft under the Open Data Commons Open Database License (ODbL).",
-        "NZ Building Outlines data sourced from the LINZ Data Service - https://data.linz.govt.nz/",
-        "Geoalert Urban Mapping: Chechnya, Moscow region, Tyva - https://github.com/Geoalert/urban-mapping",
-        "Unconstrained Individual countries 2020 (100m resolution): WorldPop - https://www.worldpop.org/",
-        "© OpenStreetMap contributors https://www.openstreetmap.org/copyright"
-      ],
-      direction: [["unimportant"], ["important"]]
-    },
-    {
-      name: "wildfires",
-      label: "Wildfire Days Per Year",
-      copyrights: [
-        "© NRT VIIRS 375 m Active Fire product VJ114IMGTDL_NRT. Available on-line [https://earthdata.nasa.gov/firms]. doi: 10.5067/FIRMS/VIIRS/VJ114IMGT_NRT.002",
-        "NRT VIIRS 375 m Active Fire product VNP14IMGT. Available on-line [https://earthdata.nasa.gov/firms]. doi:10.5067/FIRMS/VIIRS/VNP14IMGT_NRT.002",
-        "MODIS Collection 6 NRT Hotspot / Active Fire Detections MCD14DL. Available on-line [https://earthdata.nasa.gov/firms]. doi: 10.5067/FIRMS/MODIS/MCD14DL.NRT.006",
-        "MODIS Collection 6 NRT Hotspot / Active Fire Detections MCD14ML. Available on-line [https://earthdata.nasa.gov/firms]. doi: 10.5067/FIRMS/MODIS/MCD14ML"
-      ],
-      direction: [
-        ["good", "unimportant"],
-        ["bad", "important"]
-      ]
-    },
-    {
-      name: "avg_ndvi",
-      label: "Average NDVI, JUN 2019",
-      copyrights: [
-        "© Data from Sentinel-2 L2A 120m Mosaic, CC-BY 4.0, https://forum.sentinel-hub.com/c/aws-sentinel"
-      ],
-      direction: [["bad"], ["good"]]
-    },
-    {
-      name: "industrial_area",
-      label: "OSM industrial area",
-      copyrights: [
-        "© OpenStreetMap contributors https://www.openstreetmap.org/copyright"
-      ],
-      direction: [["unimportant"], ["important"]]
-    },
-    {
-      name: "pop_without_car",
-      label: "Population without a car",
-      copyrights: [
-        "© United States Census Bureau. 2019 5-Year American Community Survey (ACS). https://www.census.gov/en.html"
-      ],
-      direction: [["neutral"], ["important"]]
-    },
-    {
-      name: "area_km2",
-      label: "Area",
-      copyrights: ["Concept of areas © Brahmagupta, René Descartes"],
-      direction: [["neutral"], ["neutral"]]
-    },
-    {
-      name: "days_maxtemp_over_32c_1c",
-      label: "Days above 32C, recent scenario",
-      copyrights: [
-        "© 2021 Probable Futures, a Project of the SouthCoast Community Foundation. https://probablefutures.org/, CC BY 4.0"
-      ],
-      direction: [["good"], ["bad"]]
-    },
-    {
-      name: "days_maxtemp_over_32c_2c",
-      label: "Days above 32C, potential scenario (2C)",
-      copyrights: [
-        "© 2021 Probable Futures, a Project of the SouthCoast Community Foundation. https://probablefutures.org/, CC BY 4.0"
-      ],
-      direction: [["good"], ["bad"]]
-    },
-    {
-      name: "days_mintemp_above_25c_1c",
-      label: "Nights above 25C, recent scenario",
-      copyrights: [
-        "© 2021 Probable Futures, a Project of the SouthCoast Community Foundation. https://probablefutures.org/, CC BY 4.0"
-      ],
-      direction: [["good"], ["bad"]]
-    },
-    {
-      name: "days_mintemp_above_25c_2c",
-      label: "Nights above 25C, potential scenario(2C)",
-      copyrights: [
-        "© 2021 Probable Futures, a Project of the SouthCoast Community Foundation. https://probablefutures.org/, CC BY 4.0"
-      ],
-      direction: [["good"], ["bad"]]
-    },
-    {
-      name: "days_maxwetbulb_over_32c_1c",
-      label: "Days above 32C wet-bulb, recent scenario",
-      copyrights: [
-        "© 2021 Probable Futures, a Project of the SouthCoast Community Foundation. https://probablefutures.org/, CC BY 4.0"
-      ],
-      direction: [["good"], ["bad"]]
-    },
-    {
-      name: "days_maxwetbulb_over_32c_2c",
-      label: "Days above 32C wet-bulb, potential scenario(2C)",
-      copyrights: [
-        "© 2021 Probable Futures, a Project of the SouthCoast Community Foundation. https://probablefutures.org/, CC BY 4.0"
-      ],
-      direction: [["good"], ["bad"]]
-    },
-    {
-      name: "mandays_maxtemp_over_32c_1c",
-      label: "Man-days above 32C, recent scenario",
-      copyrights: [
-        "© 2021 Probable Futures, a Project of the SouthCoast Community Foundation. https://probablefutures.org/, CC BY 4.0"
-      ],
-      direction: [["good"], ["bad"]]
-    },
-    {
-      name: "man_distance_to_fire_brigade",
-      label: "Man-distance to fire brigade",
-      copyrights: [
-        "© Kontur https://kontur.io/",
-        "© OpenStreetMap contributors https://www.openstreetmap.org/copyright"
-      ],
-      direction: [["good"], ["bad"]]
-    },
-    {
-      name: "man_distance_to_hospital",
-      label: "Man-distance to hospitals",
-      copyrights: [
-        "© Kontur https://kontur.io/",
-        "© OpenStreetMap contributors https://www.openstreetmap.org/copyright"
-      ],
-      direction: [["good"], ["bad"]]
-    },
-    {
-      name: "total_road_length",
-      label: "Total Roads length",
-      copyrights: [
-        "©2019 Facebook, Inc. and its affiliates https://github.com/facebookmicrosites/Open-Mapping-At-Facebook/blob/main/LICENSE.md",
-        "© OpenStreetMap contributors https://www.openstreetmap.org/copyright"
-      ],
-      direction: [["unimportant"], ["important"]]
-    },
-    {
-      name: "foursquare_places_count",
-      label: "Foursquare Japan places count",
-      copyrights: ["©Foursquare Labs Inc", "Sample data"],
-      direction: [["unimportant"], ["important"]]
-    },
-    {
-      name: "foursquare_visits_count",
-      label: "Foursquare Japan visits count",
-      copyrights: ["©Foursquare Labs Inc", "Sample data"],
-      direction: [["unimportant"], ["important"]]
-    },
-    {
-      name: "one",
-      label: "1",
-      copyrights: ["Numbers © Muḥammad ibn Mūsā al-Khwārizmī"],
-      direction: [["neutral"], ["neutral"]]
-    },
-    {
-      name: "populated_area_km2",
-      label: "Populated area",
-      copyrights: [
-        "© Kontur https://kontur.io/",
-        "Facebook Connectivity Lab and Center for International Earth Science Information Network - CIESIN - Columbia University. 2016. High Resolution Settlement Layer (HRSL). Source imagery for HRSL © 2016 DigitalGlobe. https://dataforgood.fb.com/tools/population-density-maps/",
-        "Dataset: Schiavina, Marcello; Freire, Sergio; MacManus, Kytt (2019): GHS population grid multitemporal (1975, 1990, 2000, 2015) R2019A. European Commission, Joint Research Centre (JRC) DOI: 10.2905/42E8BE89-54FF-464E-BE7B-BF9E64DA5218 PID: http://data.europa.eu/89h/0c6b9751-a71f-4062-830b-43c9f432370f Concept & Methodology: Freire, Sergio; MacManus, Kytt; Pesaresi, Martino; Doxsey-Whitfield, Erin; Mills, Jane (2016): Development of new open and free multi-temporal global population grids at 250 m resolution. Geospatial Data in a Changing World; Association of Geographic Information Laboratories in Europe (AGILE). AGILE 2016",
-        "Copernicus Global Land Service: Land Cover 100 m: Marcel Buchhorn, Bruno Smets, Luc Bertels, Bert De Roo, MyroslavaLesiv, Nandin - Erdene Tsendbazar, … Steffen Fritz. (2020). Copernicus Global Land Service: Land Cover 100m: collection 3: epoch 2019: Globe (Version V3.0.1) Data set. Zenodo. http://doi.org/10.5281/zenodo.3939050",
-        "Microsoft Buildings: Australia, Canada, Tanzania, Uganda, USA: This data is licensed by Microsoft under the Open Data Commons Open Database License (ODbL).",
-        "NZ Building Outlines data sourced from the LINZ Data Service - https://data.linz.govt.nz/",
-        "Geoalert Urban Mapping: Chechnya, Moscow region, Tyva - https://github.com/Geoalert/urban-mapping",
-        "Unconstrained Individual countries 2020 (100m resolution): WorldPop - https://www.worldpop.org/",
-        "© OpenStreetMap contributors https://www.openstreetmap.org/copyright"
-      ],
-      direction: [["unimportant"], ["important"]]
-    },
-    {
-      name: "population",
-      label: "Population",
-      copyrights: [
-        "© Kontur https://kontur.io/",
-        "Facebook Connectivity Lab and Center for International Earth Science Information Network - CIESIN - Columbia University. 2016. High Resolution Settlement Layer (HRSL). Source imagery for HRSL © 2016 DigitalGlobe. https://dataforgood.fb.com/tools/population-density-maps/",
-        "Dataset: Schiavina, Marcello; Freire, Sergio; MacManus, Kytt (2019): GHS population grid multitemporal (1975, 1990, 2000, 2015) R2019A. European Commission, Joint Research Centre (JRC) DOI: 10.2905/42E8BE89-54FF-464E-BE7B-BF9E64DA5218 PID: http://data.europa.eu/89h/0c6b9751-a71f-4062-830b-43c9f432370f Concept & Methodology: Freire, Sergio; MacManus, Kytt; Pesaresi, Martino; Doxsey-Whitfield, Erin; Mills, Jane (2016): Development of new open and free multi-temporal global population grids at 250 m resolution. Geospatial Data in a Changing World; Association of Geographic Information Laboratories in Europe (AGILE). AGILE 2016",
-        "Copernicus Global Land Service: Land Cover 100 m: Marcel Buchhorn, Bruno Smets, Luc Bertels, Bert De Roo, MyroslavaLesiv, Nandin - Erdene Tsendbazar, … Steffen Fritz. (2020). Copernicus Global Land Service: Land Cover 100m: collection 3: epoch 2019: Globe (Version V3.0.1) Data set. Zenodo. http://doi.org/10.5281/zenodo.3939050",
-        "Microsoft Buildings: Australia, Canada, Tanzania, Uganda, USA: This data is licensed by Microsoft under the Open Data Commons Open Database License (ODbL).",
-        "NZ Building Outlines data sourced from the LINZ Data Service - https://data.linz.govt.nz/",
-        "Geoalert Urban Mapping: Chechnya, Moscow region, Tyva - https://github.com/Geoalert/urban-mapping",
-        "Unconstrained Individual countries 2020 (100m resolution): WorldPop - https://www.worldpop.org/",
-        "© OpenStreetMap contributors https://www.openstreetmap.org/copyright"
-      ],
-      direction: [["unimportant"], ["important"]]
-    },
-    {
-      name: "total_building_count",
-      label: "Total Buildings Estimate",
-      copyrights: [
-        "© Kontur https://kontur.io/",
-        "Copernicus Global Land Service: Land Cover 100 m: Marcel Buchhorn, Bruno Smets, Luc Bertels, Bert De Roo, MyroslavaLesiv, Nandin - Erdene Tsendbazar, … Steffen Fritz. (2020). Copernicus Global Land Service: Land Cover 100m: collection 3: epoch 2019: Globe (Version V3.0.1) Data set. Zenodo. http://doi.org/10.5281/zenodo.3939050",
-        "Geoalert Urban Mapping: Chechnya, Moscow region, Tyva - https://github.com/Geoalert/urban-mapping",
-        "Microsoft Buildings: Australia, Canada, Tanzania, Uganda, USA: This data is licensed by Microsoft under the Open Data Commons Open Database License (ODbL).",
-        "NZ Building Outlines data sourced from the LINZ Data Service - https://data.linz.govt.nz/",
-        "© OpenStreetMap contributors https://www.openstreetmap.org/copyright"
-      ],
-      direction: [["unimportant"], ["important"]]
-    },
-    {
-      name: "view_count_bf2402",
-      label: "OSM Map Views 30 days before 24.02.2022",
-      copyrights: [
-        "© Kontur",
-        "© OpenStreetMap contributors https://www.openstreetmap.org/copyright"
-      ],
-      direction: [
-        ["bad", "unimportant"],
-        ["good", "important"]
-      ]
-    }
-  ]
-};
-const axisMatrix = "_axisMatrix_13uay_1";
-const styles = {
-  axisMatrix
-};
-const mapHeaderCell = (group, indicators) => {
-  var _a2, _b;
-  return {
-    label: ((_a2 = indicators.find((indicator2) => indicator2.name === group.selectedQuotient[0])) == null ? void 0 : _a2.label) || "",
-    selectedQuotient: {
-      id: group.selectedQuotient,
-      label: (_b = indicators.find((indicator2) => indicator2.name === group.selectedQuotient[1])) == null ? void 0 : _b.label
-    },
-    quality: "1",
-    quotients: group.quotients.map((quotient) => {
-      var _a3;
-      return {
-        id: quotient,
-        label: (_a3 = indicators.find((indicator2) => indicator2.name === quotient[0])) == null ? void 0 : _a3.label,
-        quality: "1"
-      };
-    })
-  };
-};
-function BivariateMatrixControlFixture() {
-  const headings = reactExports.useMemo(() => {
-    if (!mock.indicators || !mock.xGroups || !mock.xGroups.length || !mock.yGroups || !mock.yGroups.length) {
-      return null;
-    }
-    const mapWithIndicators = (group) => (
-      // eslint-disable-next-line
-      mapHeaderCell(group, mock == null ? void 0 : mock.indicators)
-    );
-    return {
-      x: mock.xGroups.map(mapWithIndicators),
-      y: mock.yGroups.map(mapWithIndicators)
-    };
-  }, [mock]);
-  const [selectedCell, setSelectedCell] = reactExports.useState(null);
-  const onSelectCellHandler = reactExports.useCallback((x2, y2, e) => {
-    console.log("onSelectCellHandler", x2, y2, e);
-    setSelectedCell({ x: x2, y: y2 });
-  }, []);
-  const onSelectQuotient = reactExports.useCallback(
-    (horizontal, index2, numId, denId) => {
-      console.log("onSelectQuotient", horizontal, index2, numId, denId);
-    },
-    []
-  );
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(reatomContext.Provider, { value: store.v3ctx, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: styles.axisMatrix, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
-    BivariateMatrixControlComponent,
-    {
-      matrix: mock.matrix,
-      xHeadings: headings == null ? void 0 : headings.x,
-      yHeadings: headings == null ? void 0 : headings.y,
-      onSelectCell: onSelectCellHandler,
-      selectedCell,
-      onSelectQuotient
-    }
-  ) }) });
-}
-const fixture8 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  default: BivariateMatrixControlFixture
-}, Symbol.toStringTag, { value: "Module" }));
-const lazily = (loader) => new Proxy({}, {
-  get: (target, componentName) => {
-    if (typeof componentName === "string") {
-      return reactExports.lazy(() => loader(componentName).then((x2) => ({
-        default: x2[componentName]
-      })));
-    }
-  }
-});
-const GREETINGS_DISABLED_LS_KEY = "bivariate-greetings-disabled";
-const container = "_container_zzzsn_1";
-const closeButton = "_closeButton_zzzsn_8";
-const style = {
-  container,
-  closeButton
-};
-const { BivariateGreetings } = lazily(() => __vitePreload(() => import("./BivariateGreetings-D0oSlFvK.js"), true ? __vite__mapDeps([0,1]) : void 0, import.meta.url));
-const BivariateGreetingsContainer = ({
-  className
-}) => {
-  const [isComponentShown, setComponentShown] = reactExports.useState(false);
-  reactExports.useEffect(() => {
-    const greetingsDisabled = localStorage$1.getItem(GREETINGS_DISABLED_LS_KEY);
-    if (!greetingsDisabled && !isComponentShown) {
-      setComponentShown(true);
-    }
-  }, []);
-  const onCloseBtnClick = () => {
-    setComponentShown(false);
-    localStorage$1.setItem(GREETINGS_DISABLED_LS_KEY, "true");
-  };
-  return isComponentShown ? /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(className, style.container), children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx(reactExports.Suspense, { fallback: null, children: /* @__PURE__ */ jsxRuntimeExports.jsx(BivariateGreetings, {}) }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { onClick: onCloseBtnClick, className: style.closeButton, children: /* @__PURE__ */ jsxRuntimeExports.jsx(Memo$23, {}) })
-  ] }) : null;
-};
-const BivariateGreetings_fixture = () => /* @__PURE__ */ jsxRuntimeExports.jsx(BivariateGreetingsContainer, {});
-const fixture9 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  default: BivariateGreetings_fixture
-}, Symbol.toStringTag, { value: "Module" }));
 function getMapContainerRect(map) {
   const container2 = map.getContainer();
   return container2.getBoundingClientRect();
@@ -22677,11 +15273,11 @@ function pageToMapContainerCoords(pagePoint, containerRect) {
 }
 const MapPopoverContext = reactExports.createContext(void 0);
 function useMapPopoverService() {
-  const context2 = reactExports.useContext(MapPopoverContext);
-  if (!context2) {
+  const context = reactExports.useContext(MapPopoverContext);
+  if (!context) {
     throw new Error("useMapPopoverService must be used within MapPopoverProvider");
   }
-  return context2;
+  return context;
 }
 function MapPopoverProvider({
   children,
@@ -22749,8 +15345,8 @@ function MapPopoverProvider({
     });
   }, []);
   const isOpen = reactExports.useCallback(() => {
-    var _a2;
-    return ((_a2 = globalPopoverRef.current) == null ? void 0 : _a2.isOpen) || false;
+    var _a;
+    return ((_a = globalPopoverRef.current) == null ? void 0 : _a.isOpen) || false;
   }, []);
   const showWithId = reactExports.useCallback(
     (id, point, content, placement = "top") => {
@@ -22820,6 +15416,184 @@ function MapPopoverProvider({
     ))
   ] });
 }
+class MapPopoverContentRegistry {
+  constructor() {
+    __publicField(this, "providers", /* @__PURE__ */ new Map());
+    __publicField(this, "orderedProviderIds", []);
+    __publicField(this, "currentToolState", {
+      activeToolId: void 0,
+      isExclusive: false
+    });
+    __publicField(this, "exclusiveProviderId", null);
+    __publicField(this, "registrationCounter", 0);
+    __publicField(this, "currentMapEvent", null);
+    __publicField(this, "cachedFeatures", null);
+    __publicField(this, "onCloseCallback", null);
+  }
+  register(id, provider) {
+    if (this.providers.has(id)) {
+      console.warn(`MapPopover provider "${id}" already registered, replacing`);
+    }
+    const registration = {
+      provider,
+      priority: provider.priority,
+      registrationOrder: this.registrationCounter++,
+      isActive: true,
+      toolId: provider.toolId
+    };
+    this.providers.set(id, registration);
+    this.sortProviders();
+    if (provider.isExclusive) {
+      this.setExclusiveMode(id, provider.toolId);
+    }
+  }
+  unregister(id) {
+    var _a;
+    const isExclusive = ((_a = this.providers.get(id)) == null ? void 0 : _a.provider.isExclusive) || false;
+    this.providers.delete(id);
+    this.sortProviders();
+    if (isExclusive) {
+      if (this.onCloseCallback) {
+        this.onCloseCallback();
+      }
+      this.clearExclusiveMode();
+    }
+  }
+  setCloseCallback(callback) {
+    this.onCloseCallback = callback;
+  }
+  setExclusiveMode(providerId, toolId) {
+    this.exclusiveProviderId = providerId;
+    this.currentToolState = {
+      activeToolId: toolId,
+      isExclusive: true
+    };
+    if (this.onCloseCallback) {
+      this.onCloseCallback();
+    }
+  }
+  clearExclusiveMode() {
+    this.exclusiveProviderId = null;
+    this.currentToolState = {
+      activeToolId: void 0,
+      isExclusive: false
+    };
+  }
+  updateToolState(toolState) {
+    this.currentToolState = { ...toolState };
+  }
+  renderContent(mapEvent, onClose) {
+    this.currentMapEvent = mapEvent;
+    this.cachedFeatures = null;
+    if (this.currentToolState.isExclusive) {
+      if (this.exclusiveProviderId) {
+        const registration = this.providers.get(this.exclusiveProviderId);
+        if (registration) {
+          const context = this.createProviderContext(
+            mapEvent,
+            onClose,
+            this.exclusiveProviderId,
+            registration
+          );
+          const content = this.executeProvider(registration, context);
+          this.clearRenderCycleState();
+          return content;
+        }
+      }
+      this.clearRenderCycleState();
+      return null;
+    }
+    const contentElements = [];
+    for (const providerId of this.orderedProviderIds) {
+      const registration = this.providers.get(providerId);
+      if (registration == null ? void 0 : registration.isActive) {
+        const context = this.createProviderContext(
+          mapEvent,
+          onClose,
+          providerId,
+          registration
+        );
+        const content = this.executeProvider(registration, context);
+        if (content) {
+          contentElements.push(
+            React.createElement(
+              "div",
+              { key: providerId, title: providerId, className: "mappopover-provider" },
+              content
+            )
+          );
+        }
+      }
+    }
+    this.clearRenderCycleState();
+    if (contentElements.length === 0) {
+      return null;
+    }
+    return React.createElement(React.Fragment, {}, ...contentElements);
+  }
+  get providerCount() {
+    return this.providers.size;
+  }
+  clear() {
+    this.providers.clear();
+    this.orderedProviderIds = [];
+    this.clearExclusiveMode();
+    this.registrationCounter = 0;
+    this.clearRenderCycleState();
+  }
+  clearRenderCycleState() {
+    this.currentMapEvent = null;
+    this.cachedFeatures = null;
+  }
+  sortProviders() {
+    this.orderedProviderIds = Array.from(this.providers.entries()).sort(([, a2], [, b2]) => {
+      if (a2.priority !== b2.priority) return b2.priority - a2.priority;
+      return a2.registrationOrder - b2.registrationOrder;
+    }).map(([id]) => id);
+  }
+  createProviderContext(mapEvent, onClose, providerId, registration) {
+    return {
+      getFeatures: () => {
+        if (this.cachedFeatures === null && this.currentMapEvent) {
+          this.cachedFeatures = this.currentMapEvent.target.queryRenderedFeatures(
+            this.currentMapEvent.point
+          );
+        }
+        return this.cachedFeatures || [];
+      },
+      getToolState: () => ({ ...this.currentToolState }),
+      getProviderInfo: () => ({
+        priority: registration.priority,
+        mode: this.currentToolState.isExclusive && this.exclusiveProviderId === providerId ? "exclusive" : "shared",
+        id: providerId
+      }),
+      mapEvent,
+      onClose
+    };
+  }
+  executeProvider(registration, context) {
+    try {
+      return registration.provider.renderContent(context);
+    } catch (error2) {
+      console.error(
+        `Error in MapPopover provider "${context.getProviderInfo().id}":`,
+        error2
+      );
+      return null;
+    }
+  }
+}
+const g = globalThis;
+const mapPopoverRegistry = g.__kontur_mapPopoverRegistry ?? (g.__kontur_mapPopoverRegistry = new MapPopoverContentRegistry());
+const ProviderPriority = {
+  // System alerts, error states
+  HIGH: 500,
+  // Active tools (boundary selector, drawing)
+  NORMAL: 100,
+  // Background info, debug data
+  DEBUG: 1
+  // Development diagnostics
+};
 const GeometryTypeIcon = {
   Point: "📍",
   MultiPoint: "[📍]",
@@ -22833,9 +15607,9 @@ class DebugMapPopoverProvider {
   constructor() {
     __publicField(this, "priority", ProviderPriority.DEBUG);
   }
-  renderContent(context2) {
-    const features = context2.getFeatures();
-    const { mapEvent } = context2;
+  renderContent(context) {
+    const features = context.getFeatures();
+    const { mapEvent } = context;
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("h4", { children: [
         "Features Inspector: Found ",
@@ -22858,14 +15632,14 @@ class DebugMapPopoverProvider {
         mapEvent.point.y
       ] }),
       features.map((feature, index2) => {
-        var _a2, _b, _c, _d;
+        var _a, _b, _c, _d;
         return /* @__PURE__ */ jsxRuntimeExports.jsx(
           "div",
           {
             style: { margin: "8px 0", padding: 8, backgroundColor: "#eee" },
             children: /* @__PURE__ */ jsxRuntimeExports.jsxs("details", { children: [
               /* @__PURE__ */ jsxRuntimeExports.jsxs("summary", { children: [
-                /* @__PURE__ */ jsxRuntimeExports.jsx("b", { title: (_a2 = feature.geometry) == null ? void 0 : _a2.type, children: GeometryTypeIcon[(_b = feature.geometry) == null ? void 0 : _b.type] || ((_c = feature.geometry) == null ? void 0 : _c.type) || "?" }),
+                /* @__PURE__ */ jsxRuntimeExports.jsx("b", { title: (_a = feature.geometry) == null ? void 0 : _a.type, children: GeometryTypeIcon[(_b = feature.geometry) == null ? void 0 : _b.type] || ((_c = feature.geometry) == null ? void 0 : _c.type) || "?" }),
                 /* @__PURE__ */ jsxRuntimeExports.jsx("strong", { children: " Source Layer:" }),
                 " ",
                 feature == null ? void 0 : feature.sourceLayer
@@ -26999,7 +19773,7 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
         }
         class wa extends Ri {
         }
-        class _a2 extends ji {
+        class _a extends ji {
         }
         class Aa extends Ni {
         }
@@ -29293,7 +22067,7 @@ Use an identity property function instead: \`{ "type": "identity", "property": $
         $n("SymbolBuffers", Du);
         class Ou {
           constructor(t3, e2, r3) {
-            this.layoutVertexArray = new t3(), this.layoutAttributes = e2, this.indexArray = new r3(), this.segments = new za(), this.collisionVertexArray = new _a2();
+            this.layoutVertexArray = new t3(), this.layoutAttributes = e2, this.indexArray = new r3(), this.segments = new za(), this.collisionVertexArray = new _a();
           }
           upload(t3) {
             this.layoutVertexBuffer = t3.createVertexBuffer(this.layoutVertexArray, this.layoutAttributes), this.indexBuffer = t3.createIndexBuffer(this.indexArray), this.collisionVertexBuffer = t3.createVertexBuffer(this.collisionVertexArray, zl.members, true);
@@ -38387,7 +31161,7 @@ uniform ${i4} ${s4} u_${a4};
             return s3 && Math.sign(a3) > 0 && Math.sign(o3) < 0 || !s3 && Math.sign(a3) < 0 && Math.sign(o3) > 0 ? (a3 = 360 * Math.sign(o3) + a3, t2.G(a3)) : i3;
           }
         }
-        class _a2 {
+        class _a {
           constructor(t3, e2, i3) {
             this._context = t3, this._size = e2, this._tileSize = i3, this._objects = [], this._recentlyUsed = [], this._stamp = 0;
           }
@@ -38426,7 +31200,7 @@ uniform ${i4} ${s4} u_${a4};
         const pa = { background: true, fill: true, line: true, raster: true, hillshade: true };
         class ma {
           constructor(t3, e2) {
-            this.painter = t3, this.terrain = e2, this.pool = new _a2(t3.context, 30, e2.sourceCache.tileSize * e2.qualityFactor);
+            this.painter = t3, this.terrain = e2, this.pool = new _a(t3.context, 30, e2.sourceCache.tileSize * e2.qualityFactor);
           }
           destruct() {
             this.pool.destruct();
@@ -39682,7 +32456,7 @@ function MapLibreContainer({
 }) {
   const [mapInstance, setMapInstance] = reactExports.useState(null);
   const handleRef = reactExports.useCallback((node) => {
-    var _a2;
+    var _a;
     if (node && !mapInstance) {
       const config2 = options.getConfig();
       const map = new maplibreGlExports.Map({
@@ -39702,25 +32476,25 @@ function MapLibreContainer({
         resizeObserver.observe(map.getContainer());
         requestAnimationFrame(() => map.resize());
         resizeCleanup = () => {
-          var _a3;
+          var _a2;
           resizeObserver.disconnect();
-          (_a3 = throttledResize.cancel) == null ? void 0 : _a3.call(throttledResize);
+          (_a2 = throttledResize.cancel) == null ? void 0 : _a2.call(throttledResize);
         };
       }
       map._resizeCleanup = resizeCleanup;
-      (_a2 = options.onMapCreated) == null ? void 0 : _a2.call(options, map);
+      (_a = options.onMapCreated) == null ? void 0 : _a.call(options, map);
       setMapInstance(map);
     }
   }, []);
   reactExports.useEffect(() => {
     return () => {
-      var _a2;
+      var _a;
       if (mapInstance) {
         const resizeCleanup = mapInstance._resizeCleanup;
         if (resizeCleanup && typeof resizeCleanup === "function") {
           resizeCleanup();
         }
-        (_a2 = options.onMapDestroy) == null ? void 0 : _a2.call(options, mapInstance);
+        (_a = options.onMapDestroy) == null ? void 0 : _a.call(options, mapInstance);
         mapInstance.remove();
         setMapInstance(null);
       }
@@ -39807,9 +32581,9 @@ class SimpleFeatureProvider {
     __publicField(this, "priority", ProviderPriority.NORMAL);
     __publicField(this, "enabled", true);
   }
-  renderContent(context2) {
+  renderContent(context) {
     if (!this.enabled) return null;
-    const { mapEvent, onClose } = context2;
+    const { mapEvent, onClose } = context;
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { style: { padding: "12px", backgroundColor: "white", borderRadius: "4px" }, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { children: "Simple Provider" }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { children: [
@@ -39874,8 +32648,8 @@ function HotProjectIntegration({ map }) {
   const hotProjectProvider = reactExports.useMemo(
     () => ({
       priority: ProviderPriority.HIGH,
-      renderContent: (context2) => {
-        const features = context2.getFeatures().filter((f2) => f2.source === "hot-project-layers");
+      renderContent: (context) => {
+        const features = context.getFeatures().filter((f2) => f2.source === "hot-project-layers");
         if (features.length === 0) return null;
         const feature = features[0];
         if (!feature || !feature.properties) return null;
@@ -39946,7 +32720,7 @@ const MapPopover_fixture = {
   DebugProviderDemo: /* @__PURE__ */ jsxRuntimeExports.jsx(MapPopoverProvider, { registry: mapPopoverRegistry, children: /* @__PURE__ */ jsxRuntimeExports.jsx(DebugProviderDemo, {}) }),
   HotProjectCardDemo: /* @__PURE__ */ jsxRuntimeExports.jsx(MapPopoverProvider, { registry: mapPopoverRegistry, children: /* @__PURE__ */ jsxRuntimeExports.jsx(HotProjectCardDemo, {}) })
 };
-const fixture10 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const fixture8 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   default: MapPopover_fixture
 }, Symbol.toStringTag, { value: "Module" }));
@@ -39983,186 +32757,9 @@ const UniComponents_fixture = /* @__PURE__ */ jsxRuntimeExports.jsx("blockquote"
   /* @__PURE__ */ jsxRuntimeExports.jsx(SeverityIndicator, { value: "MODERATE" }),
   /* @__PURE__ */ jsxRuntimeExports.jsx(SeverityIndicator, { value: "UNKNOWN" })
 ].map((Element2) => [Element2, /* @__PURE__ */ jsxRuntimeExports.jsx("hr", {})]) });
-const fixture11 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const fixture9 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   default: UniComponents_fixture
-}, Symbol.toStringTag, { value: "Module" }));
-const LegendGrid = "_LegendGrid_16y0t_1";
-const LegendGridCell = "_LegendGridCell_16y0t_10";
-const LegendGridCellChanged = "_LegendGridCellChanged_16y0t_17";
-const LegendGridCellUndefinedChanged = "_LegendGridCellUndefinedChanged_16y0t_23";
-const CircleIndicator = "_CircleIndicator_16y0t_27";
-const UndefinedColorsIndicator = "_UndefinedColorsIndicator_16y0t_37";
-const s = {
-  LegendGrid,
-  LegendGridCell,
-  LegendGridCellChanged,
-  LegendGridCellUndefinedChanged,
-  CircleIndicator,
-  UndefinedColorsIndicator
-};
-const MiniLegend = ({ legendSteps, changes = {} }) => {
-  const corners = CORNER_POINTS_INDEXES.map((corner2) => legendSteps[corner2]);
-  const legendStepsHasUndefinedColor = legendSteps.some((step) => step.isFallbackColor);
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: s.LegendGrid, children: [
-    corners.map((cell2) => {
-      var _a2;
-      let cellColor = cell2.color;
-      let changed = false;
-      let cellBorderClass;
-      let style2;
-      if (changes[cell2.label]) {
-        changed = true;
-        const nextColor = (_a2 = changes[cell2.label]) == null ? void 0 : _a2.color;
-        cellColor = nextColor;
-        cellBorderClass = nextColor ? s.LegendGridCellChanged : s.LegendGridCellUndefinedChanged;
-      }
-      if (cellColor) style2 = { backgroundColor: cellColor };
-      return /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "div",
-        {
-          className: clsx(s.LegendGridCell, cellBorderClass),
-          style: style2,
-          children: changed && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s.CircleIndicator })
-        },
-        cell2.label
-      );
-    }),
-    legendStepsHasUndefinedColor && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s.UndefinedColorsIndicator, children: /* @__PURE__ */ jsxRuntimeExports.jsx(AlarmIcon, {}) })
-  ] });
-};
-const AlarmIcon = () => /* @__PURE__ */ jsxRuntimeExports.jsxs(
-  "svg",
-  {
-    xmlns: "http://www.w3.org/2000/svg",
-    width: "20",
-    height: "20",
-    viewBox: "0 0 20 20",
-    fill: "none",
-    children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx("circle", { cx: "10", cy: "10", r: "10", fill: "white" }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "path",
-        {
-          d: "M10 3C6.13438 3 3 6.13438 3 10C3 13.8656 6.13438 17 10 17C13.8656 17 17 13.8656 17 10C17 6.13438 13.8656 3 10 3ZM10 15.8125C6.79063 15.8125 4.1875 13.2094 4.1875 10C4.1875 6.79063 6.79063 4.1875 10 4.1875C13.2094 4.1875 15.8125 6.79063 15.8125 10C15.8125 13.2094 13.2094 15.8125 10 15.8125Z",
-          fill: "#F5222D"
-        }
-      ),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        "path",
-        {
-          d: "M9.25 12.75C9.25 12.9489 9.32902 13.1397 9.46967 13.2803C9.61032 13.421 9.80109 13.5 10 13.5C10.1989 13.5 10.3897 13.421 10.5303 13.2803C10.671 13.1397 10.75 12.9489 10.75 12.75C10.75 12.5511 10.671 12.3603 10.5303 12.2197C10.3897 12.079 10.1989 12 10 12C9.80109 12 9.61032 12.079 9.46967 12.2197C9.32902 12.3603 9.25 12.5511 9.25 12.75ZM9.625 11H10.375C10.4438 11 10.5 10.9438 10.5 10.875V6.625C10.5 6.55625 10.4438 6.5 10.375 6.5H9.625C9.55625 6.5 9.5 6.55625 9.5 6.625V10.875C9.5 10.9438 9.55625 11 9.625 11Z",
-          fill: "#F5222D"
-        }
-      )
-    ]
-  }
-);
-const mockResponse = [
-  {
-    label: "A1",
-    color: "rgba(232,232,157,0.5)"
-  },
-  {
-    label: "A2",
-    color: "rgba(216,159,88,0.5)"
-  },
-  {
-    label: "A3",
-    color: "rgba(228,26,28,0.5)"
-  },
-  {
-    label: "B1",
-    color: "rgba(169,218,122,0.5)"
-  },
-  {
-    label: "B2",
-    color: "rgba(159,171,87,0.5)"
-  },
-  {
-    label: "B3",
-    color: "rgba(140,127,57,0.5)"
-  },
-  {
-    label: "C1",
-    color: "rgba(90,200,127,0.5)"
-  },
-  {
-    label: "C2",
-    color: "rgba(88,176,117,0.5)"
-  },
-  {
-    label: "C3",
-    color: "rgba(83,152,106,0.5)"
-  }
-];
-const MiniLegend_fixture = /* @__PURE__ */ jsxRuntimeExports.jsxs(
-  "div",
-  {
-    style: {
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "flex-start"
-    },
-    children: [
-      "All next colors - undefined",
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        MiniLegend,
-        {
-          legendSteps: mockResponse,
-          changes: {
-            A1: { color: void 0 },
-            A3: { color: void 0 },
-            C1: { color: void 0 },
-            C3: { color: void 0 }
-          }
-        }
-      ),
-      "No changes",
-      /* @__PURE__ */ jsxRuntimeExports.jsx(MiniLegend, { legendSteps: mockResponse, changes: {} }),
-      "All changed",
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        MiniLegend,
-        {
-          legendSteps: mockResponse,
-          changes: {
-            A1: { color: "rgba(173, 169, 200, 0.5)" },
-            A3: { color: "rgba(12, 155, 237, 0.5)" },
-            C1: { color: "rgba(171, 216, 237, 0.5)" },
-            C3: { color: "rgba(83, 152, 106, 0.5)" }
-          }
-        }
-      ),
-      "Half of cells changed",
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        MiniLegend,
-        {
-          legendSteps: mockResponse,
-          changes: {
-            A1: { color: "rgba(173, 169, 200, 0.5)" },
-            C3: { color: "rgba(83, 152, 106, 0.5)" }
-          }
-        }
-      ),
-      "Half of cells changed, half comes incorrect",
-      /* @__PURE__ */ jsxRuntimeExports.jsx(
-        MiniLegend,
-        {
-          legendSteps: mockResponse,
-          changes: {
-            A1: { color: void 0 },
-            A3: { color: "rgba(12, 155, 237, 0.5)" },
-            C1: { color: "rgba(173, 169, 200, 0.5)" },
-            C3: { color: void 0 }
-          }
-        }
-      )
-    ]
-  }
-);
-const fixture12 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  default: MiniLegend_fixture
 }, Symbol.toStringTag, { value: "Module" }));
 const rendererConfig = {
   "playgroundUrl": "http://127.0.0.1:5000",
@@ -40177,11 +32774,8 @@ const fixtures = {
   "src/components/Overlays/Overlays.fixture.tsx": { module: fixture5 },
   "src/components/LinkRenderer/LinkRenderer.fixture.tsx": { module: fixture6 },
   "src/components/BivariateLegend/BivariateLegend.fixture.tsx": { module: fixture7 },
-  "src/features/bivariate_manager/fixtures/BivariateMatrixControl.fixture.tsx": { module: fixture8 },
-  "src/features/bivariate_manager/fixtures/BivariateGreetings.fixture.tsx": { module: fixture9 },
-  "src/core/map/popover/MapPopover.fixture.tsx": { module: fixture10 },
-  "src/components/Uni/Components/UniComponents.fixture.tsx": { module: fixture11 },
-  "src/features/bivariate_color_manager/components/MiniLegend/MiniLegend.fixture.tsx": { module: fixture12 }
+  "src/core/map/popover/MapPopover.fixture.tsx": { module: fixture8 },
+  "src/components/Uni/Components/UniComponents.fixture.tsx": { module: fixture9 }
 };
 const decorators = {};
 const moduleWrappers = {
@@ -40189,12 +32783,7 @@ const moduleWrappers = {
   fixtures,
   decorators
 };
-const _virtual_cosmosImports = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
+export {
   moduleWrappers,
   rendererConfig
-}, Symbol.toStringTag, { value: "Module" }));
-export {
-  _virtual_cosmosImports as _,
-  jsxRuntimeExports as j
 };
