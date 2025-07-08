@@ -138,13 +138,17 @@ export function MultivariateAnalysisForm({
   const isConfigValid = useMemo(
     () =>
       axesResource.data &&
-      (dimensionsLayers.score.length > 0 || dimensionsLayers.compare.length > 0) &&
+      (dimensionsLayers.score.length > 0 ||
+        dimensionsLayers.compare.length > 0 ||
+        dimensionsLayers.opacity.length > 0 ||
+        opacityStatic !== undefined ||
+        dimensionsLayers.extrusion.length > 0) &&
       ((isCustomStepsChecked && !customStepsErrors) || !isCustomStepsChecked),
     [
       axesResource.data,
       customStepsErrors,
-      dimensionsLayers.compare.length,
-      dimensionsLayers.score.length,
+      dimensionsLayers,
+      opacityStatic,
       isCustomStepsChecked,
     ],
   );
