@@ -75,3 +75,7 @@ V_total = Σ(V_norm(1) · weight(1), V_norm(2) · weight(2), V_norm(n) · weight
 
 V_total is a result value of MCDA analysis (it's >=0 and <= 1), it's interpolated in color from colors field of JSON, where 0 is bad color, 1 is good color.
 If value is out of [0,1] range, it's painted as transparent.
+
+### Layers panel placement
+
+MCDA layers are automatically placed at the top of the **Kontur analytics** group in the Layers panel so newly created analyses are easy to find.

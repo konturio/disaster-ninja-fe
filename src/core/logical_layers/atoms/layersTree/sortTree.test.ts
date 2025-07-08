@@ -197,3 +197,17 @@ test('Not loose layers after sort', () => {
   const sorted = sortChildren(children, getTestContext().sorterSettings);
   expect(countChildren(children)).toEqual(countChildren(sorted));
 });
+
+test('Layers with order go first inside group', () => {
+  const children: TreeChildren[] = [
+    {
+      id: 'group',
+      isGroup: true,
+      children: [{ id: 'layer_2' }, { id: 'layer_1', order: 0 }],
+    },
+  ] as TreeChildren[];
+
+  const sorted = sortChildren(children, getTestContext().sorterSettings);
+  const groupChildren = (sorted[0] as any).children;
+  expect(getTestContext().getIds(groupChildren)[0]).toEqual('layer_1');
+});

@@ -38,6 +38,7 @@ export const mcdaLayerAtom = createAtom(
             category: 'overlay' as const,
             group: 'bivariate',
             ownedByUser: true,
+            order: 0,
           }),
         ),
 

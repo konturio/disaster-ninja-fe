@@ -5,4 +5,9 @@ export interface LayerSettings {
   group?: string;
   boundaryRequiredForRetrieval?: boolean;
   ownedByUser: boolean;
+  /**
+   * Optional order value used to sort layers inside a group.
+   * Layers with lower values appear before those without or with higher order.
+   */
+  order?: number;
 }
