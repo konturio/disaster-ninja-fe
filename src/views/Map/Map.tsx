@@ -115,11 +115,6 @@ function FeaturesLoader() {
         initSensor();
       });
     }
-    if (featureFlags[AppFeature.BIVARIATE_MANAGER]) {
-      import('~features/bivariate_manager').then(({ initBivariateMatrix }) => {
-        initBivariateMatrix();
-      });
-    }
     // TODO: remove user check once backend stops returning reference_area feature for unauthorized users
     if (featureFlags[AppFeature.REFERENCE_AREA] && configRepo.get().user) {
       import('~features/reference_area').then(({ initReferenceArea }) =>

@@ -14,6 +14,7 @@ export const AppFeature = {
   EVENTS_LIST__BBOX_FILTER: 'events_list__bbox_filter',
   MAP_LAYERS_PANEL: 'map_layers_panel',
   SIDE_BAR: 'side_bar',
+  /** @deprecated removed */
   BIVARIATE_MANAGER: 'bivariate_manager',
   CURRENT_EVENT: 'current_event',
   FOCUSED_GEOMETRY_LAYER: 'focused_geometry_layer',
@@ -37,6 +38,7 @@ export const AppFeature = {
   CREATE_LAYER: 'create_layer',
   HEADER: 'header',
   INTERCOM: 'intercom',
+  /** @deprecated removed */
   BIVARIATE_COLOR_MANAGER: 'bivariate_color_manager',
   EPISODES_TIMELINE: 'episodes_timeline',
   LOCATE_ME: 'locate_me',
