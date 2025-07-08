@@ -43,6 +43,7 @@ export type LayerSource = LayerGeoJSONSource | LayerTileSource;
 
 export interface LayerSummaryDto {
   id: string;
+  originalId?: string;
   name: string;
   description?: string;
   category?: 'base' | 'overlay';
