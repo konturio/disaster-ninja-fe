@@ -93,7 +93,7 @@ function createBivariateLegend(
 }
 
 export function MultivariateLegend({ config }: MultivariateLegendProps) {
-  if (config.base && config.colors?.type === 'bivariate') {
+  if (config.score && config.base && config.colors?.type === 'bivariate') {
     return createBivariateLegend(
       config.score.config,
       config.base.config,
@@ -101,7 +101,9 @@ export function MultivariateLegend({ config }: MultivariateLegendProps) {
       config.stepOverrides?.baseSteps ?? DEFAULT_MULTIBIVARIATE_STEPS,
       config.colors.colors,
     );
-  } else {
+  } else if (config.score) {
     return createMCDALegend(config.score.config);
   }
+  // TODO: implement more complex legend based on included dimensions
+  return <>Multivariate legend fallback</>;
 }

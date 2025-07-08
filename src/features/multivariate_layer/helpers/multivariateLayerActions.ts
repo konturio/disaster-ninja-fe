@@ -18,10 +18,6 @@ export const createMultivariateLayer = action((ctx, style: MultivariateLayerStyl
     console.error('Incorrect layer configuration: multivariate type expected');
     return;
   }
-  if (!style.config.score) {
-    console.error('Cannot create multivariate layer without score dimension');
-    return;
-  }
   const config = style.config;
   const id = config.id;
   const name = config.name;
