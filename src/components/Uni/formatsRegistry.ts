@@ -140,6 +140,6 @@ export const formatsRegistry = {
     return values?.length ? values.join(', ') : '';
   },
   hash_id(value?: string | number) {
-    return value ? `#${value}` : '';
+    return value !== undefined ? `#${value}` : '';
   },
 };
