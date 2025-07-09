@@ -32,7 +32,13 @@ type MultiBivariateLegendAxisProp = {
   quotient: [string, string];
 };
 
-function DimensionBlock({ title, children }: { title: string; children }) {
+function DimensionBlock({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
   return (
     <div>
       <div className={s.dimensionName}>{title}</div>
@@ -132,7 +138,7 @@ function createOpacityLegend(config: MultivariateLayerConfig) {
   if (typeof config.opacity === 'object' && config.opacity?.config?.layers.length) {
     opacityLegend = printMCDAAxes(config.opacity.config.layers);
   } else if (isNumber(config.opacity)) {
-    opacityLegend = <>{`Static: ${config.opacity}`}</>;
+    opacityLegend = `${i18n.t('multivariate.static_opacity')}: ${config.opacity}`;
   }
   if (opacityLegend) {
     return (

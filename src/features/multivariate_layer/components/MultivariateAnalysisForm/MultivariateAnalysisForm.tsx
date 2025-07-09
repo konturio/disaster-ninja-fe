@@ -495,7 +495,9 @@ export function MultivariateAnalysisForm({
                   );
                   setOpacityStatic(filteredValue);
                 }}
-                renderLabel={<Text type="label">Static opacity</Text>}
+                renderLabel={
+                  <Text type="label">{i18n.t('multivariate.static_opacity')}</Text>
+                }
                 placeholder="Opacity"
               />
             </div>
