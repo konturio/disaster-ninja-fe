@@ -2,16 +2,20 @@ import { Button, Text } from '@konturio/ui-kit';
 import { i18n } from '~core/localization';
 import { LayerFeaturesCard } from '../LayerFeaturesCard';
 import s from './LayerFeaturesPanel.module.css';
-import type { FeatureCardCfg } from '../CardElements';
+import type { FeaturesPanelItem } from './types';
 
 export function ShortState({
   openFullState,
   feature,
+  layout,
 }: {
   openFullState: Parameters<typeof Button>[0]['onClick'];
-  feature?: FeatureCardCfg;
+  feature?: FeaturesPanelItem;
+  layout: any;
 }) {
-  const featureInfo = feature && <LayerFeaturesCard feature={feature} isActive={true} />;
+  const featureInfo = feature && (
+    <LayerFeaturesCard feature={feature} isActive={true} layout={layout} />
+  );
 
   const panelContent = featureInfo || (
     <div className={s.noFeatures}>
