@@ -4,12 +4,18 @@ import { BIVARIATE_LEGEND_SIZE } from '~components/BivariateLegend/const';
 import { DEFAULT_MULTIBIVARIATE_STEPS } from '~utils/multivariate/constants';
 import { invertClusters, type Step } from '~utils/bivariate';
 import { CornerTooltipWrapper } from '~components/BivariateLegend/CornerTooltipWrapper';
+import { i18n } from '~core/localization';
+import { isNumber } from '~utils/common';
 import { DEFAULT_BASE_DIRECTION, DEFAULT_SCORE_DIRECTION } from './constants';
+import s from './MultivariateLegend.module.css';
 import type { Direction } from '~utils/bivariate';
 import type { LayerMeta } from '~core/logical_layers/types/meta';
 import type { ColorTheme } from '~core/types';
 import type { MultivariateLayerConfig } from '~core/logical_layers/renderers/MultivariateRenderer/types';
-import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type {
+  MCDAConfig,
+  MCDALayer,
+} from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { Cell } from '@konturio/ui-kit/tslib/Legend/types';
 
 export type MultivariateLegendProps = {
@@ -26,12 +32,26 @@ type MultiBivariateLegendAxisProp = {
   quotient: [string, string];
 };
 
-function createMCDALegend(mcdaConfig: MCDAConfig): JSX.Element {
+function DimensionBlock({ title, children }: { title: string; children }) {
+  return (
+    <div>
+      <div className={s.dimensionName}>{title}</div>
+      {children}
+    </div>
+  );
+}
+
+function createMCDALegend(mcdaConfig: MCDAConfig, title: string): JSX.Element {
   let legendColors: string[] | undefined;
   if (mcdaConfig.colors.type === 'sentiments') {
     legendColors = generateMCDALegendColors(mcdaConfig.colors);
   }
-  return <MCDALegend title={mcdaConfig.name} steps={5} colors={legendColors} />;
+  return (
+    <DimensionBlock title={title}>
+      {printMCDAAxes(mcdaConfig.layers)}
+      <MCDALegend steps={5} colors={legendColors} />
+    </DimensionBlock>
+  );
 }
 
 function getCornerHintsForDimension(
@@ -56,6 +76,7 @@ function createBivariateLegend(
   scoreSteps: Step[],
   baseSteps: Step[],
   colors: ColorTheme,
+  title: string,
 ) {
   const xAxis: MultiBivariateLegendAxisProp = {
     label: base.name,
@@ -81,18 +102,69 @@ function createBivariateLegend(
     y: getCornerHintsForDimension(base, DEFAULT_BASE_DIRECTION),
   };
   return (
-    <CornerTooltipWrapper hints={hints}>
-      <BiLegend
-        cells={cells}
-        size={BIVARIATE_LEGEND_SIZE}
-        axis={{ x: xAxis, y: yAxis }}
-        showAxisLabels
-      />
-    </CornerTooltipWrapper>
+    <DimensionBlock title={title}>
+      <CornerTooltipWrapper hints={hints}>
+        <BiLegend
+          cells={cells}
+          size={BIVARIATE_LEGEND_SIZE}
+          axis={{ x: xAxis, y: yAxis }}
+          showAxisLabels
+        />
+      </CornerTooltipWrapper>
+    </DimensionBlock>
   );
 }
 
-export function MultivariateLegend({ config }: MultivariateLegendProps) {
+function printMCDAAxes(axes: MCDALayer[]) {
+  return (
+    <div>
+      {axes.map((layer, index) => (
+        <div key={`${layer.id}-${index}`} className={s.parameter}>
+          - {layer.name}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function createOpacityLegend(config: MultivariateLayerConfig) {
+  let opacityLegend;
+  if (typeof config.opacity === 'object' && config.opacity?.config?.layers.length) {
+    opacityLegend = printMCDAAxes(config.opacity.config.layers);
+  } else if (isNumber(config.opacity)) {
+    opacityLegend = <>{`Static: ${config.opacity}`}</>;
+  }
+  if (opacityLegend) {
+    return (
+      <DimensionBlock title={i18n.t('multivariate.hide_area')}>
+        {opacityLegend}
+      </DimensionBlock>
+    );
+  }
+}
+
+function createExtrusionLegend(config: MultivariateLayerConfig) {
+  if (config.extrusion?.height?.config?.layers.length) {
+    return (
+      <DimensionBlock title={i18n.t('multivariate.3d')}>
+        {printMCDAAxes(config.extrusion.height.config.layers)}
+      </DimensionBlock>
+    );
+  }
+}
+
+function createTextLegend(config: MultivariateLayerConfig) {
+  if (config.text) {
+    return (
+      <DimensionBlock title={i18n.t('multivariate.labels')}>
+        {config.text?.mcdaValue?.config?.layers &&
+          printMCDAAxes(config.text.mcdaValue.config.layers)}
+      </DimensionBlock>
+    );
+  }
+}
+
+function createFillLegend(config: MultivariateLayerConfig) {
   if (config.score && config.base && config.colors?.type === 'bivariate') {
     return createBivariateLegend(
       config.score.config,
@@ -100,10 +172,27 @@ export function MultivariateLegend({ config }: MultivariateLegendProps) {
       config.stepOverrides?.scoreSteps ?? DEFAULT_MULTIBIVARIATE_STEPS,
       config.stepOverrides?.baseSteps ?? DEFAULT_MULTIBIVARIATE_STEPS,
       config.colors.colors,
+      i18n.t('multivariate.score_and_compare'),
     );
   } else if (config.score) {
-    return createMCDALegend(config.score.config);
+    return createMCDALegend(config.score.config, i18n.t('multivariate.score'));
+  } else if (config.base) {
+    return createMCDALegend(config.base.config, i18n.t('multivariate.compare'));
   }
-  // TODO: implement more complex legend based on included dimensions
-  return <>Multivariate legend fallback</>;
+}
+
+export function MultivariateLegend({ config }: MultivariateLegendProps) {
+  const fillLegend = createFillLegend(config);
+  const opacityLegend = createOpacityLegend(config);
+  const extrusionLegend = createExtrusionLegend(config);
+  const textLegend = createTextLegend(config);
+
+  return (
+    <div className={s.dimensionsContainer}>
+      {fillLegend}
+      {opacityLegend}
+      {extrusionLegend}
+      {textLegend}
+    </div>
+  );
 }
