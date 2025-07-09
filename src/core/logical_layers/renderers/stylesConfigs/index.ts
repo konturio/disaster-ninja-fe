@@ -33,8 +33,6 @@ export const styleConfigs: Record<
       // create MCDA based on Score dimension
       multivariateStyle = createMCDAStyle(config.score.config);
     } else if (config.base?.config?.layers.length) {
-      // TODO: create MCDA using Base dimension. Not working properly yet
-      console.error('MCDA styled MVA does not yet support Base (Compare) dimension');
       multivariateStyle = createMCDAStyle(config.base.config);
     } else {
       // create filter based on all MCDA layers from opacity and extrusion
