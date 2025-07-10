@@ -38,7 +38,7 @@ export function CircleIcon({
           styles['circle-color'] ||
           '#000000'
         }
-        strokeWidth={styles.width ?? 3}
+        strokeWidth={styles.width ?? 4}
       />
     </svg>
   );
