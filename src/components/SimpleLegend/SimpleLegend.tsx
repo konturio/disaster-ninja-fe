@@ -17,12 +17,37 @@ function icon(
   iconSize: LegendIconSize = 'small',
 ) {
   if (!type) return null;
+  const className = iconSize === 'normal' ? s.normalIcon : s.smallIcon;
   if (type === 'hex')
-    return <HexIcon styles={styles} size={iconSize} fill={fill} stroke={stroke} />;
+    return (
+      <HexIcon
+        styles={styles}
+        size={iconSize}
+        fill={fill}
+        stroke={stroke}
+        className={className}
+      />
+    );
   if (type === 'circle')
-    return <CircleIcon styles={styles} size={iconSize} fill={fill} stroke={stroke} />;
+    return (
+      <CircleIcon
+        styles={styles}
+        size={iconSize}
+        fill={fill}
+        stroke={stroke}
+        className={className}
+      />
+    );
   if (type === 'square')
-    return <SquareIcon styles={styles} size={iconSize} fill={fill} stroke={stroke} />;
+    return (
+      <SquareIcon
+        styles={styles}
+        size={iconSize}
+        fill={fill}
+        stroke={stroke}
+        className={className}
+      />
+    );
 }
 
 export function SimpleLegendStep({
@@ -31,7 +56,6 @@ export function SimpleLegendStep({
 }: {
   step: Flatten<SimpleLegendType['steps']>;
   onlyIcon?: boolean;
-  iconSize?: LegendIconSize;
 }) {
   const style: CSSProperties = {};
   if (step.style['text-color']) {
