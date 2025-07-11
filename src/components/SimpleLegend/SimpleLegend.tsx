@@ -54,13 +54,24 @@ export function SimpleLegendStep({
   return (
     <div className={s.legendStep}>
       {icon(step.stepShape, step.style, step.stepIconFill, step.stepIconStroke)}
-      {!onlyIcon && (
-        <Text type="caption">
-          <span className={s.stepName} style={style}>
-            {step.stepName}
-          </span>
-        </Text>
-      )}
+      <div className={s.stepTextMultiline}>
+        {!onlyIcon &&
+          (Array.isArray(step.stepName) ? (
+            step.stepName.map((stepName, i) => (
+              <Text type="caption" key={stepName + i}>
+                <span className={s.stepName} style={style}>
+                  {stepName}
+                </span>
+              </Text>
+            ))
+          ) : (
+            <Text type="caption">
+              <span className={s.stepName} style={style}>
+                {step.stepName}
+              </span>
+            </Text>
+          ))}
+      </div>
     </div>
   );
 }
@@ -79,7 +90,10 @@ export function SimpleLegend({
       {label}
       <div className={s.multiSteps}>
         {legend.steps.map((step, i) => (
-          <SimpleLegendStep key={step.stepName || i} step={step} />
+          <SimpleLegendStep
+            key={`{${Array.isArray(step.stepName) ? step.stepName.join() : step.stepName}${i}`}
+            step={step}
+          />
         ))}
       </div>
     </div>
