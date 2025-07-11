@@ -39,6 +39,16 @@ function icon(
     return <SquareIcon styles={styles} size="normal" fill={fill} stroke={stroke} />;
 }
 
+function textLine(line: string, style: CSSProperties, key?: string) {
+  return (
+    <Text type="caption" key={key}>
+      <span className={s.stepName} style={style}>
+        {line}
+      </span>
+    </Text>
+  );
+}
+
 export function SimpleLegendStep({
   step,
   onlyIcon = false,
@@ -56,21 +66,9 @@ export function SimpleLegendStep({
       {icon(step.stepShape, step.style, step.stepIconFill, step.stepIconStroke)}
       <div className={s.stepTextMultiline}>
         {!onlyIcon &&
-          (Array.isArray(step.stepName) ? (
-            step.stepName.map((stepName, i) => (
-              <Text type="caption" key={stepName + i}>
-                <span className={s.stepName} style={style}>
-                  {stepName}
-                </span>
-              </Text>
-            ))
-          ) : (
-            <Text type="caption">
-              <span className={s.stepName} style={style}>
-                {step.stepName}
-              </span>
-            </Text>
-          ))}
+          (Array.isArray(step.stepName)
+            ? step.stepName.map((stepName, i) => textLine(stepName, style, stepName + i))
+            : textLine(step.stepName, style))}
       </div>
     </div>
   );
