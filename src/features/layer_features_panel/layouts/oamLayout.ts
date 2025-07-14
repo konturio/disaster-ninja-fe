@@ -5,7 +5,7 @@ export const oamLayout = {
     { type: 'Image', $value: 'properties.thumbnail' },
     { type: 'Title', $value: 'title' },
     {
-      type: 'PropertiesTable',
+      type: 'PropertyGrid',
       children: [
         // TODO: improvement: implement date interval for acquisition? formatsRegistry.dates_interval()
         // needs two bound values in one field component

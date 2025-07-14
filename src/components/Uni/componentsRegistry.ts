@@ -8,9 +8,9 @@ import { MappingProgress } from './Components/MappingProgress';
 import { Field } from './Components/Field';
 import { CardHeader } from './Components/CardHeader';
 import { IconButton } from './Components/IconButton';
-import { PropertiesTable } from './Components/PropertiesTable';
 import { Stack } from './Components/Stack';
 import { Image } from './Components/Image';
+import { PropertyGrid } from './Components/PropertyGrid';
 
 export const componentsRegistry = {
   Card,
@@ -28,5 +28,5 @@ export const componentsRegistry = {
 
   MappingProgress,
   Severity: SeverityIndicator,
-  PropertiesTable,
+  PropertyGrid,
 };

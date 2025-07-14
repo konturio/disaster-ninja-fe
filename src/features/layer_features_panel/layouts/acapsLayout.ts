@@ -15,7 +15,7 @@ export const acapsLayout = {
         { type: 'CardHeader', $value: 'comment' },
         { type: 'Text', $value: 'risk_type' },
         {
-          type: 'PropertiesTable',
+          type: 'PropertyGrid',
           children: [
             {
               type: 'Field',
@@ -88,7 +88,7 @@ export const acapsLayout = {
         { type: 'CardHeader', $value: 'indicator', props: { format: 'list' } },
         { type: 'Text', $value: 'months', props: { format: 'list' } },
         {
-          type: 'PropertiesTable',
+          type: 'PropertyGrid',
           children: [
             {
               type: 'Field',
@@ -130,7 +130,7 @@ export const acapsLayout = {
         { type: 'CardHeader', $value: 'indicator', props: { format: 'list' } },
         { type: 'Text', $value: 'subindicator', props: { format: 'list' } },
         {
-          type: 'PropertiesTable',
+          type: 'PropertyGrid',
           children: [
             {
               type: 'Field',
@@ -172,7 +172,7 @@ export const acapsLayout = {
       children: [
         { type: 'CardHeader', $value: 'indicator', props: { format: 'list' } },
         {
-          type: 'PropertiesTable',
+          type: 'PropertyGrid',
           children: [
             {
               type: 'Field',
@@ -207,7 +207,7 @@ export const acapsLayout = {
       ],
     },
     {
-      type: 'PropertiesTable',
+      type: 'PropertyGrid',
       children: [
         {
           type: 'Field',

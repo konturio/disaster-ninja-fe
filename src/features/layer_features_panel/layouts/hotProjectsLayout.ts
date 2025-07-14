@@ -51,7 +51,7 @@ export const hotProjectsLayout = {
       },
     },
     {
-      type: 'PropertiesTable',
+      type: 'PropertyGrid',
       children: [
         {
           type: 'Field',

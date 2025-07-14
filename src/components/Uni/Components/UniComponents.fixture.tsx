@@ -3,9 +3,9 @@ import { SeverityIndicator } from './Severity';
 import { MappingProgress } from './MappingProgress';
 import s from './UniComponents.module.css';
 import { Text } from '@konturio/ui-kit';
-import { PropertiesTable } from './PropertiesTable';
 import { Title } from './Base';
 import { UniLayout } from '../Layout/UniLayout';
+import { PropertyGrid } from './PropertyGrid';
 
 function ComponentsGroup({
   label,
@@ -55,8 +55,8 @@ export default (
       <SeverityIndicator value="MODERATE" />
       <SeverityIndicator value="UNKNOWN" />
     </ComponentsGroup>
-    <ComponentsGroup label="PropertiesTable">
-      <PropertiesTable>
+    <ComponentsGroup label="PropertyGrid">
+      <PropertyGrid>
         {[
           <div>
             <div>Property 1</div>
@@ -75,7 +75,7 @@ export default (
             </div>
           </div>,
         ]}
-      </PropertiesTable>
+      </PropertyGrid>
     </ComponentsGroup>
     <ComponentsGroup label="Title">
       <UniLayout layout={{ type: 'Row' }} data={{}}>

@@ -1,7 +1,7 @@
 import clsx from 'clsx';
-import s from './PropertiesTable.module.css';
+import s from './PropertyGrid.module.css';
 
-export interface PropertiesTableProps {
+export interface PropertyGridProps {
   children?: React.ReactNode;
 
   className?: string;
@@ -12,7 +12,7 @@ export interface PropertiesTableProps {
 /**
  * Container for displaying a vertical table of label-value pairs. Each child is a table row content (e.g. Field)
  */
-export function PropertiesTable({ children, className, style }: PropertiesTableProps) {
+export function PropertyGrid({ children, className, style }: PropertyGridProps) {
   return (
     <div className={clsx(s.table, className)} style={{ ...style }}>
       {children}

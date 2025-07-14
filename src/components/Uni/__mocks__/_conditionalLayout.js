@@ -18,7 +18,7 @@ export const conditionalLayout = {
       ],
     },
     {
-      type: 'PropertiesTable',
+      type: 'PropertyGrid',
       children: [
         {
           type: 'Field',
