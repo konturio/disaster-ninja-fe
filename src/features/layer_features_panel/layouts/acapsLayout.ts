@@ -8,7 +8,7 @@ export const acapsLayout = {
     { type: 'Text', $value: 'adm1_eng_name', props: { format: 'list' } },
     //  risks list
     {
-      type: 'Block',
+      type: 'Stack',
       $if: 'acaps_source_dataset',
       ifCondition: { op: '==', value: 'Risk list' },
       children: [
@@ -81,7 +81,7 @@ export const acapsLayout = {
     },
     // Seasonal events calendar
     {
-      type: 'Block',
+      type: 'Stack',
       $if: 'acaps_source_dataset',
       ifCondition: { op: '==', value: 'Seasonal events calendar' },
       children: [
@@ -123,7 +123,7 @@ export const acapsLayout = {
     },
     // Information landscape dataset
     {
-      type: 'Block',
+      type: 'Stack',
       $if: 'acaps_source_dataset',
       ifCondition: { op: '==', value: 'Information landscape dataset' },
       children: [
@@ -166,7 +166,7 @@ export const acapsLayout = {
     },
     // Protection risks monitor
     {
-      type: 'Block',
+      type: 'Stack',
       $if: 'acaps_source_dataset',
       ifCondition: { op: '==', value: 'Protection risks monitor' },
       children: [

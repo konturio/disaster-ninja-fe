@@ -9,13 +9,13 @@ import { Field } from './Components/Field';
 import { CardHeader } from './Components/CardHeader';
 import { IconButton } from './Components/IconButton';
 import { PropertiesTable } from './Components/PropertiesTable';
-import { Block } from './Components/Block';
+import { Stack } from './Components/Stack';
 import { Image } from './Components/Image';
 
 export const componentsRegistry = {
   Card,
   Row,
-  Block,
+  Stack,
   CardHeader,
 
   Title,

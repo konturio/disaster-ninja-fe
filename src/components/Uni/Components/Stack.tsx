@@ -1,8 +1,8 @@
 import React from 'react';
 import clsx from 'clsx';
-import s from './Block.module.css';
+import s from './Stack.module.css';
 
-export interface BlockProps {
+export interface StackProps {
   children?: React.ReactNode;
 
   className?: string;
@@ -13,9 +13,9 @@ export interface BlockProps {
 /**
  * Block component. Vertical layout
  */
-export function Block({ children, className, style }: BlockProps) {
+export function Stack({ children, className, style }: StackProps) {
   return (
-    <div className={clsx(s.block, className)} style={{ ...style }}>
+    <div className={clsx(s.stack, className)} style={{ ...style }}>
       {children}
     </div>
   );
