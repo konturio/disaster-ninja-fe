@@ -7,8 +7,10 @@ import { CornerTooltipWrapper } from '~components/BivariateLegend/CornerTooltipW
 import { i18n } from '~core/localization';
 import { isNumber } from '~utils/common';
 import OpacityStepsLegend from '~components/OpacityStepsLegend/OpacityStepsLegend';
+import { SimpleLegend } from '~components/SimpleLegend/SimpleLegend';
 import { DEFAULT_BASE_DIRECTION, DEFAULT_SCORE_DIRECTION } from './constants';
 import s from './MultivariateLegend.module.css';
+import type { SimpleLegendStep } from '~core/logical_layers/types/legends';
 import type { Direction } from '~utils/bivariate';
 import type { LayerMeta } from '~core/logical_layers/types/meta';
 import type { ColorTheme } from '~core/types';
@@ -161,11 +163,25 @@ function createExtrusionLegend(config: MultivariateLayerConfig) {
 }
 
 function createTextLegend(config: MultivariateLayerConfig) {
-  if (config.text) {
+  if (config.text?.mcdaValue?.config?.layers.length) {
+    const label = config.text.mcdaValue?.config?.layers
+      .map((layer) => layer.name)
+      .join(', ');
+    const steps: SimpleLegendStep[] = [
+      {
+        stepName: label,
+        stepShape: 'circle',
+        style: { 'fill-color': 'transparent', color: '#000', width: 2 },
+      },
+    ];
+    const legendConfig = {
+      type: 'simple' as const,
+      name: 'labels',
+      steps: steps,
+    };
     return (
       <DimensionBlock title={i18n.t('multivariate.labels')}>
-        {config.text?.mcdaValue?.config?.layers &&
-          printMCDAAxes(config.text.mcdaValue.config.layers)}
+        <SimpleLegend legend={legendConfig} />
       </DimensionBlock>
     );
   }
