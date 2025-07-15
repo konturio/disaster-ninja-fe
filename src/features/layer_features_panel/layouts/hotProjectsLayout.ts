@@ -62,7 +62,8 @@ export const hotProjectsLayout = {
         {
           type: 'Field',
           $value: 'mappingTypes',
-          showLabel: true,
+          format: 'capitalized_list',
+          overrides: { value: { label: 'Mapping types' } },
         },
         {
           type: 'Field',
