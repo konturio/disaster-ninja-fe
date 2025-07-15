@@ -11,8 +11,8 @@ export const conditionalLayout = {
         { type: 'Title', $value: 'eventName' },
         {
           type: 'Severity',
-          $if: 'itemType',
-          ifCondition: { op: '==', value: 'risk' },
+          // show Severity if isRisk flag is truthy
+          $if: 'isRisk',
           $value: 'severity',
         },
       ],
@@ -23,7 +23,6 @@ export const conditionalLayout = {
         {
           type: 'Field',
           $if: 'affectedPopulation',
-          ifCondition: { op: '>', value: 5000 },
           $value: 'affectedPopulation',
         },
         {
@@ -40,8 +39,7 @@ export const conditionalLayout = {
         },
         {
           type: 'Text',
-          $if: 'itemType',
-          ifCondition: { op: '==', value: 'seasonal_event' },
+          $if: 'description',
           $value: 'description',
         },
       ],
@@ -51,23 +49,23 @@ export const conditionalLayout = {
 
 export const conditionalDataSamples = [
   {
-    itemType: 'risk',
+    isRisk: true,
     eventName: 'Wildfire',
     severity: 'MODERATE',
     affectedPopulation: 10000,
     country: 'Australia',
-    description: "This description shouldn't be displayed",
+    description: 'Moderate wildfire description',
   },
   {
-    itemType: 'risk',
+    isRisk: false,
     eventName: 'Flood',
-    affectedPopulation: 120000,
+    affectedPopulation: 0,
     severity: 'SEVERE',
     country: 'Hungary',
-    description: "This description shouldn't be displayed",
+    description: 'Severe flood description',
   },
   {
-    itemType: 'risk',
+    isRisk: 0,
     eventName: 'Storm',
     affectedPopulation: 5000,
     severity: 'MODERATE',
