@@ -1,10 +1,5 @@
 import type { FieldMeta } from '../fieldsRegistry';
 
-export type UniLayoutIfCondition = {
-  op: '==' | '!==' | '>' | '<' | '<=' | '>=';
-  value: any;
-};
-
 export interface UniLayoutComponentNode {
   type: string;
   key?: string | number;
@@ -14,7 +9,6 @@ export interface UniLayoutComponentNode {
   $context?: string;
   $props?: Record<string, string>;
   $if?: string;
-  ifCondition?: UniLayoutIfCondition;
   $template?: any;
   value?: any[];
   overrides?: Record<string, Partial<FieldMeta>>;

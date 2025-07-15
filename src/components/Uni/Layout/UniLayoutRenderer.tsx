@@ -1,7 +1,6 @@
 import React, { memo, isValidElement } from 'react';
 import { isNonNullish } from '~utils/common';
 import { componentsRegistry } from '../componentsRegistry';
-import { checkIfCondition } from '../helpers/checkIfCondition';
 import { ErrorComponent } from './ErrorComponent';
 import { useUniLayoutContext } from './UniLayoutContext';
 import type { FieldMeta } from '../fieldsRegistry';
@@ -214,9 +213,6 @@ const LayoutRendererInternal = ({ node, data }: LayoutRendererProps) => {
 
   if (node.$if) {
     const ifBindingResult = resolveBinding(node.$if, boundData, context);
-    if (node.ifCondition && !checkIfCondition(ifBindingResult.value, node.ifCondition)) {
-      return null;
-    }
     if (!ifBindingResult.value) {
       return null;
     }

@@ -71,7 +71,6 @@ The system offers multiple binding approaches:
 - `$props`: Maps data fields to specific component properties
 - `$context`: Establishes data scope for component and children
 - `$if`: Conditional rendering based on a data value
-- `ifCondition`: Optional. Used in pairs with `$if`. Contains a logical operator and a value to compare with.
 - `$template`: Defines template for rendering array data (directly in UniLayoutRenderer)
 - Direct `props`: Static values that take precedence over bindings
 - `overrides`: Customizes field metadata properties
