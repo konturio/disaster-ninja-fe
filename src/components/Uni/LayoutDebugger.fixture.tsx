@@ -19,7 +19,10 @@ import { layerFeaturesFormatsRegistry } from '~features/layer_features_panel/for
 import { oamSampleData } from '~core/api/__mocks__/_oamSampleData';
 import { oamLayout } from '~features/layer_features_panel/layouts/oamLayout';
 import { getLayerFeaturesPreprocessor } from '~features/layer_features_panel/atoms/helpers/layerFeaturesPreprocessors';
-import { HOT_PROJECTS_LAYER_ID } from '~features/layer_features_panel/constants';
+import {
+  ACAPS_LAYER_ID,
+  HOT_PROJECTS_LAYER_ID,
+} from '~features/layer_features_panel/constants';
 
 const useJsonState = (initialValue: any): [string, (value: string) => void] => {
   const [json, setJson] = useState(JSON.stringify(initialValue, null, 4));
@@ -145,6 +148,9 @@ export default {
   ),
   'Complex Demo': createLayoutDebugger(complexDataLayout, complexDataSamples),
   'Conditional Demo': createLayoutDebugger(conditionalLayout, conditionalDataSamples),
-  'ACAPS Demo': createLayoutDebugger(acapsLayout, acapsSampleData),
+  'ACAPS Demo': createLayoutDebugger(
+    acapsLayout,
+    preprocessFeatureProperties(ACAPS_LAYER_ID, acapsSampleData),
+  ),
   'OAM Demo': createLayoutDebugger(oamLayout, oamSampleData),
 };

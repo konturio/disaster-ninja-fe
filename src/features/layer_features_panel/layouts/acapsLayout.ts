@@ -9,8 +9,8 @@ export const acapsLayout = {
     //  risks list
     {
       type: 'Stack',
-      $if: 'acaps_source_dataset',
-      ifCondition: { op: '==', value: 'Risk list' },
+      // flag assigned in preprocessor
+      $if: 'isRiskList',
       children: [
         { type: 'CardHeader', $value: 'comment' },
         { type: 'Text', $value: 'risk_type' },
@@ -82,8 +82,8 @@ export const acapsLayout = {
     // Seasonal events calendar
     {
       type: 'Stack',
-      $if: 'acaps_source_dataset',
-      ifCondition: { op: '==', value: 'Seasonal events calendar' },
+      // flag assigned in preprocessor
+      $if: 'isSeasonalEvents',
       children: [
         { type: 'CardHeader', $value: 'indicator', props: { format: 'list' } },
         { type: 'Text', $value: 'months', props: { format: 'list' } },
@@ -124,8 +124,8 @@ export const acapsLayout = {
     // Information landscape dataset
     {
       type: 'Stack',
-      $if: 'acaps_source_dataset',
-      ifCondition: { op: '==', value: 'Information landscape dataset' },
+      // flag assigned in preprocessor
+      $if: 'isInformationLandscape',
       children: [
         { type: 'CardHeader', $value: 'indicator', props: { format: 'list' } },
         { type: 'Text', $value: 'subindicator', props: { format: 'list' } },
@@ -167,8 +167,8 @@ export const acapsLayout = {
     // Protection risks monitor
     {
       type: 'Stack',
-      $if: 'acaps_source_dataset',
-      ifCondition: { op: '==', value: 'Protection risks monitor' },
+      // flag assigned in preprocessor
+      $if: 'isProtectionRisks',
       children: [
         { type: 'CardHeader', $value: 'indicator', props: { format: 'list' } },
         {
