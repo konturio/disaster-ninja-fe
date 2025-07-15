@@ -1,12 +1,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2022-12-21T10:53:46.140Z\n"
-"PO-Revision-Date: 2022-11-28T17:15:49.862Z\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 
 #: km
 msgid "km"
@@ -18,320 +16,308 @@ msgstr "m"
 
 #: to
 msgid "to"
-msgstr "bis"
+msgstr "do"
 
 #: or
 msgid "or"
-msgstr ""
+msgstr "lub"
 
 #: logout
-#, fuzzy
 msgid "Log out"
-msgstr "Einloggen"
+msgstr "Wyloguj się"
 
 #: save
 msgid "Save"
-msgstr "Speichern"
+msgstr "Zapisz"
 
 #: cancel
 msgid "Cancel"
-msgstr "Abbrechen"
+msgstr "Anuluj"
 
 #: ok
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: create
 msgid "Create"
-msgstr "Erstellen"
+msgstr "Utwórz"
 
 #: disasters
 msgid "Disasters"
-msgstr "Katastrophen"
+msgstr "Katastrofy"
 
 #: loading
 msgid "Loading..."
-msgstr "Wird geladen..."
+msgstr "Ładowanie..."
 
 #: preparing_data
-#, fuzzy
 msgid "Preparing data"
-msgstr "Daten sammeln"
+msgstr "Przygotowywanie danych"
 
 #: loading_events
-#, fuzzy
 msgid "Loading disasters"
-msgstr "Katastrophen"
+msgstr "Ładowanie katastrof"
 
-#: legend mcda##legend_title
+#: legend
+#: mcda##legend_title
 msgid "Legend"
-msgstr "Legende"
+msgstr "Legenda"
 
 #: maps
 msgid "maps"
-msgstr "Karten"
+msgstr "mapy"
 
 #: vertical_direction
 msgid "Vertical direction"
-msgstr "Vertikale Richtung"
+msgstr "Kierunek pionowy"
 
 #: horizontal_direction
 msgid "Horizontal direction"
-msgstr "Horizontale Richtung"
+msgstr "Kierunek poziomy"
 
 #: legend_presentation
 msgid "Legend presentation"
-msgstr "Darstellung der Legende"
+msgstr "Prezentacja legendy"
 
-#: layers bivariate##color_manager##layers_filter
+#: layers
+#: bivariate##color_manager##layers_filter
 msgid "Layers"
-msgstr "Ebenen"
+msgstr "Warstwy"
 
 #: layer
-#, fuzzy
 msgid "Layer"
-msgstr "Ebenen"
+msgstr "Warstwa"
 
 #: toolbar##map_ruler
 msgid "Measure distance"
-msgstr ""
+msgstr "Zmierz odległość"
 
-#: toolbar##locate_me locate_me##feature_title
+#: toolbar##locate_me
+#: locate_me##feature_title
 msgid "Locate me"
-msgstr "Standort finden"
+msgstr "Zlokalizuj mnie"
 
 #: toolbar##panel_title
 msgid "Toolbar"
-msgstr ""
+msgstr "Pasek narzędzi"
 
-#: toolbar##download layer_actions##tooltips##download
+#: toolbar##download
+#: layer_actions##tooltips##download
 msgid "Download"
-msgstr ""
+msgstr "Pobierz"
 
-#: toolbar##delete layer_actions##tooltips##delete
-#, fuzzy
+#: toolbar##delete
+#: layer_actions##tooltips##delete
 msgid "Delete"
-msgstr "Ebene löschen"
+msgstr "Usuń"
 
 #: toolbar##boundary_selector
-#, fuzzy
 msgid "Select admin boundary"
-msgstr "Fokus auf die Verwaltungsgrenze"
+msgstr "Wybierz granicę administracyjną"
 
 #: toolbar##create_layer
-#, fuzzy
 msgid "Create layer"
-msgstr "Ebene erstellen"
+msgstr "Utwórz warstwę"
 
 #: toolbar##geometry_uploader
-#, fuzzy
 msgid "Upload GeoJSON"
-msgstr "Laden Sie Ihr eigenes geoJSON hoch"
+msgstr "Prześlij GeoJSON"
 
 #: toolbar##focused_geometry_editor
 msgid "Draw or edit geometry"
-msgstr ""
+msgstr "Rysuj lub edytuj geometrię"
 
 #: toolbar##edit_in_osm
-#, fuzzy
 msgid "Edit map in OSM"
-msgstr "In OpenStreetMap bearbeiten"
+msgstr "Edytuj mapę w OSM"
 
 #: toolbar##record_sensors
 msgid "Record sensors"
-msgstr ""
+msgstr "Rejestruj sensory"
 
 #: toolbar##tools_label
 msgid "Tools"
-msgstr ""
+msgstr "Narzędzia"
 
-#: toolbar##selected_area_label focus_geometry_layer##settings##name
-#, fuzzy
+#: toolbar##selected_area_label
+#: focus_geometry_layer##settings##name
 msgid "Selected area"
-msgstr "Ausgewähltes Gebiet"
+msgstr "Wybrany obszar"
 
 #: toolbar##upload_mcda
 msgid "Upload MCDA"
-msgstr ""
+msgstr "Prześlij MCDA"
 
 #: layer_actions##tooltips##erase
 msgid "Erase"
-msgstr ""
+msgstr "Wyczyść"
 
 #: layer_actions##tooltips##edit
 msgid "Edit"
-msgstr ""
+msgstr "Edytuj"
 
-#: layer_actions##tooltips##hide mcda##layer_editor##outliers_options##hide
+#: layer_actions##tooltips##hide
+#: mcda##layer_editor##outliers_options##hide
 msgid "Hide"
-msgstr ""
+msgstr "Ukryj"
 
 #: layer_actions##tooltips##show
 msgid "Show"
-msgstr ""
+msgstr "Pokaż"
 
 #: feed
 msgid "Feed"
-msgstr "Feed"
+msgstr "Kanał"
 
 #: deselect
 msgid "Deselect"
-msgstr "Auswahl aufheben"
+msgstr "Odznacz"
 
 #: spinner_text
 msgid "Gathering data"
-msgstr "Daten sammeln"
+msgstr "Zbieranie danych"
 
 #: updated
 msgid "Updated"
-msgstr "Aktualisiert"
+msgstr "Zaktualizowano"
 
 #: started
 msgid "Started"
-msgstr ""
+msgstr "Rozpoczęto"
 
 #: created
-#, fuzzy
 msgid "Created"
-msgstr "Erstellen"
+msgstr "Utworzono"
 
 #: mapping_types
 msgid "Mapping types"
-msgstr ""
+msgstr "Typy mapowania"
 
 #: osm_gaps
 msgid "OSM gaps"
-msgstr ""
+msgstr "Luki w OSM"
 
 #: no_data_received
 msgid "No data received"
-msgstr "Keine Daten erhalten"
+msgstr "Nie otrzymano danych"
 
 #: wrong_data_received
 msgid "Wrong data received"
-msgstr "Falsche Daten empfangen"
+msgstr "Otrzymano błędne dane"
 
 #: error
 msgid "Error"
-msgstr "Fehler"
+msgstr "Błąd"
 
 #: sort_icon
 msgid "Sort Icon"
-msgstr "Sortiersymbol"
+msgstr "Ikona sortowania"
 
 #: configs##Kontur_public_feed
 msgid "Kontur Public"
-msgstr "Kontur Öffentlichkeit"
+msgstr "Kontur Publiczny"
 
 #: configs##Kontur_public_feed_description
 msgid ""
 "The feed contains real-time data about Cyclones, Droughts, Earthquakes, "
 "Floods, Volcanoes, Wildfires."
 msgstr ""
-"Der Feed enthält Echtzeitdaten über Wirbelstürme, Dürren, Erdbeben, "
-"Überschwemmungen, Vulkanausbrüche und Waldbrände."
+"Kanał zawiera dane w czasie rzeczywistym o cyklonach, suszach, trzęsieniach ziemi, "
+"powodziach, wulkanach i pożarach."
 
 #: errors##default
-#, fuzzy
 msgid "Sorry, we are having issues which will be fixed soon"
-msgstr ""
-"Leider gibt es derzeit ein paar Probleme, die wir in Kürze beheben werden"
+msgstr "Przepraszamy, wystąpiły problemy, które wkrótce zostaną naprawione"
 
 #: errors##timeout
-#, fuzzy
 msgid "Request timeout"
-msgstr "Zeitüberschreitung der Anfrage"
+msgstr "Przekroczono limit czasu żądania"
 
 #: errors##cannot_connect
-#, fuzzy
 msgid "Cannot connect to server"
-msgstr "Die Verbindung zum Server kann nicht hergestellt werden"
+msgstr "Nie można połączyć się z serwerem"
 
 #: errors##forbidden
 msgid "Forbidden"
-msgstr "Verboten"
+msgstr "Zabronione"
 
 #: errors##not_found
 msgid "Not found"
-msgstr "Nicht gefunden"
+msgstr "Nie znaleziono"
 
-#: errors##unknown event_list##severity_unknown
+#: errors##unknown
+#: event_list##severity_unknown
 msgid "Unknown"
-msgstr "Unbekannt"
+msgstr "Nieznane"
 
 #: errors##server_error
-#, fuzzy
 msgid "Server error"
-msgstr "Serverfehler"
+msgstr "Błąd serwera"
 
 #: errors##error_try_again
 msgid "Something went wrong. Please try again"
-msgstr ""
+msgstr "Coś poszło nie tak. Spróbuj ponownie"
 
 #: categories##overlays
 msgid "Overlays"
-msgstr "Überlagerungen"
+msgstr "Nakładki"
 
 #: categories##basemap
 msgid "Basemap"
-msgstr "Basiskarte"
+msgstr "Mapa bazowa"
 
 #: groups##layers_in_selected_area
 msgid "Layers in selected area"
-msgstr "Ebenen im ausgewählten Bereich"
+msgstr "Warstwy w wybranym obszarze"
 
 #: groups##your_layers
-#, fuzzy
 msgid "Your layers"
-msgstr "Ihre Ebenen"
+msgstr "Twoje warstwy"
 
 #: groups##kontur_analytics
-#, fuzzy
 msgid "Kontur analytics"
-msgstr "Kontur Analytik"
+msgstr "Analiza Kontur"
 
 #: groups##qa
-#, fuzzy
 msgid "OpenStreetMap inspector"
-msgstr "Basierend auf OpenStreetMap"
+msgstr "Inspektor OpenStreetMap"
 
 #: groups##osmbasedmap
-#, fuzzy
 msgid "OpenStreetMap based"
-msgstr "Basierend auf OpenStreetMap"
+msgstr "Na podstawie OpenStreetMap"
 
 #: groups##other
 msgid "Other"
-msgstr "Andere"
+msgstr "Inne"
 
 #: groups##elevation
 msgid "Elevation"
-msgstr "Höhe"
+msgstr "Wysokość"
 
 #: groups##photo
-#, fuzzy
 msgid "Imagery"
-msgstr "Bild"
+msgstr "Obrazy"
 
-#: groups##map modes##map
+#: groups##map
+#: modes##map
 msgid "Map"
-msgstr "Karte"
+msgstr "Mapa"
 
 #: advanced_analytics_data_list##load_world_data
 msgid "Load World Data"
-msgstr "Weltdaten laden"
+msgstr "Załaduj dane globalne"
 
 #: advanced_analytics_data_list##numerator
 msgid "Numerator"
-msgstr "Zähler"
+msgstr "Licznik"
 
 #: advanced_analytics_data_list##normalized_by
 msgid "Normalized By"
-msgstr "Normalisiert auf"
+msgstr "Znormalizowane przez"
 
 #: advanced_analytics_data_list##sum
 msgid "Sum"
-msgstr "Summe"
+msgstr "Suma"
 
 #: advanced_analytics_data_list##min
 msgid "Min"
@@ -339,216 +325,205 @@ msgstr "Min"
 
 #: advanced_analytics_data_list##max
 msgid "Max"
-msgstr "Max"
+msgstr "Maks"
 
 #: advanced_analytics_data_list##mean
 msgid "Mean"
-msgstr "Mittelwert"
+msgstr "Średnia"
 
 #: advanced_analytics_data_list##stddev
 msgid "Stddev"
-msgstr "SD"
+msgstr "Odchylenie standardowe"
 
 #: advanced_analytics_data_list##median
 msgid "Median"
-msgstr "Median"
+msgstr "Mediana"
 
 #: advanced_analytics_data_list##filter_numerator
-#, fuzzy
 msgid "Filter Numerator"
-msgstr "Filter Zähler"
+msgstr "Filtruj licznik"
 
 #: advanced_analytics_data_list##filter_denominator
 msgid "Filter Denominator"
-msgstr "Filter Nenner"
+msgstr "Filtruj mianownik"
 
-#: mcda##title mcda##modal_title
+#: mcda##title
+#: mcda##modal_title
 msgid "Multi-criteria decision analysis"
-msgstr ""
+msgstr "Wielokryterialna analiza decyzyjna"
 
 #: mcda##name
-#, fuzzy
 msgid "Create MCDA"
-msgstr "Erstellen"
+msgstr "Utwórz MCDA"
 
 #: mcda##modal_input_name
-#, fuzzy
 msgid "Analysis name"
-msgstr "Analytik"
+msgstr "Nazwa analizy"
 
 #: mcda##modal_input_name_placeholder
 msgid "e.g., Climate change"
-msgstr ""
+msgstr "np. Zmiany klimatu"
 
 #: mcda##modal_input_indicators
-#, fuzzy
 msgid "Layer list"
-msgstr "Ebenen"
+msgstr "Lista warstw"
 
 #: mcda##modal_input_indicators_placeholder
-#, fuzzy
 msgid "Select layers"
-msgstr "Ebene löschen"
+msgstr "Wybierz warstwy"
 
 #: mcda##modal_input_indicators_no_options
 msgid "No options"
-msgstr ""
+msgstr "Brak opcji"
 
 #: mcda##btn_save
-#, fuzzy
 msgid "Save analysis"
-msgstr "Erweiterte Analytik"
+msgstr "Zapisz analizę"
 
 #: mcda##error_analysis_name_cannot_be_empty
-#, fuzzy
 msgid "Analysis name cannot be empty"
-msgstr "Passwort darf nicht leer sein!"
+msgstr "Nazwa analizy nie może być pusta"
 
 #: mcda##error_invalid_file
 msgid "Invalid MCDA file format"
-msgstr ""
+msgstr "Nieprawidłowy format pliku MCDA"
 
 #: mcda##error_invalid_parameter
 msgid "Invalid '{{parameter}}' parameter"
-msgstr ""
+msgstr "Nieprawidłowy parametr '{{parameter}}'"
 
 #: mcda##error_invalid_layer_parameter
 msgid "Invalid '{{parameter}}' parameter in '{{axisName}}' layer"
-msgstr ""
+msgstr "Nieprawidłowy parametr '{{parameter}}' w warstwie '{{axisName}}'"
 
 #: mcda##error_wrong_mcda_version
 msgid "Wrong MCDA version"
-msgstr ""
+msgstr "Nieprawidłowa wersja MCDA"
 
 #: mcda##legend_subtitle
 msgid ""
 "Hexagons are colored based on analysis layer settings. Click a hexagon to "
 "see its values."
 msgstr ""
+"Sześciokąty są kolorowane zgodnie z ustawieniami warstw analizy. Kliknij "
+"sześciokąt, aby zobaczyć jego wartości."
 
-#: mcda##layer_editor##save_changes profile##saveButton
+#: mcda##layer_editor##save_changes
+#: profile##saveButton
 msgid "Save changes"
-msgstr "Änderungen speichern"
+msgstr "Zapisz zmiany"
 
 #: mcda##layer_editor##range
-#, fuzzy
 msgid "Value range"
-msgstr "Änderungen speichern"
+msgstr "Zakres wartości"
 
 #: mcda##layer_editor##outliers
 msgid "Outliers"
-msgstr ""
+msgstr "Wartości odstające"
 
 #: mcda##layer_editor##reverse_to_good_bad
 msgid "Reverse to Good → Bad"
-msgstr ""
+msgstr "Odwróć: Dobre → Złe"
 
 #: mcda##layer_editor##reverse_to_bad_good
 msgid "Reverse to Bad → Good"
-msgstr ""
+msgstr "Odwróć: Złe → Dobre"
 
 #: mcda##layer_editor##weight
 msgid "Weight"
-msgstr ""
+msgstr "Waga"
 
 #: mcda##layer_editor##transform
 msgid "Transform"
-msgstr ""
+msgstr "Przekształć"
 
 #: mcda##layer_editor##transformation
-#, fuzzy
 msgid "Transformation"
-msgstr "Höhe"
+msgstr "Przekształcenie"
 
 #: mcda##layer_editor##normalize
-#, fuzzy
 msgid "Normalize"
-msgstr "Normalisiert auf"
+msgstr "Normalizuj"
 
 #: mcda##layer_editor##normalization
-#, fuzzy
 msgid "Normalization"
-msgstr "Höhe"
+msgstr "Normalizacja"
 
 #: mcda##layer_editor##range_buttons##full_range
-#, fuzzy
 msgid "Full range"
-msgstr "Vollständiger Name"
+msgstr "Pełny zakres"
 
 #: mcda##layer_editor##range_buttons##3_sigma
 msgid "3σ"
-msgstr ""
+msgstr "3σ"
 
 #: mcda##layer_editor##range_buttons##2_sigma
 msgid "2σ"
-msgstr ""
+msgstr "2σ"
 
 #: mcda##layer_editor##range_buttons##1_sigma
 msgid "1σ"
-msgstr ""
+msgstr "1σ"
 
 #: mcda##layer_editor##outliers_options##clamp
 msgid "Clamp"
-msgstr ""
+msgstr "Przytnij"
 
 #: mcda##layer_editor##outliers_options##dont_modify
 msgid "Don't modify"
-msgstr ""
+msgstr "Nie modyfikuj"
 
 #: mcda##layer_editor##transformations##no_transformation
 msgid "No transformation"
-msgstr ""
+msgstr "Bez przekształceń"
 
 #: mcda##layer_editor##transformations##square_root
 msgid "Square root: sign(x)⋅√|x|"
-msgstr ""
+msgstr "Pierwiastek kwadratowy: sign(x)⋅√|x|"
 
 #: mcda##layer_editor##transformations##cube_root
 msgid "Cube root: ∛x"
-msgstr ""
+msgstr "Pierwiastek sześcienny: ∛x"
 
 #: mcda##layer_editor##transformations##log
 msgid "log₁₀(x - xmin + 1)"
-msgstr ""
+msgstr "log₁₀(x - xmin + 1)"
 
 #: mcda##layer_editor##transformations##log_epsilon
 msgid "log₁₀(x - xmin + ε)"
-msgstr ""
+msgstr "log₁₀(x - xmin + ε)"
 
 #: mcda##layer_editor##no
 msgid "No"
-msgstr ""
+msgstr "Nie"
 
 #: mcda##layer_editor##max_min
 msgid "Max-min"
-msgstr ""
+msgstr "Maks-min"
 
 #: mcda##layer_editor##errors##weight_cannot_be_empty
-#, fuzzy
 msgid "Weight cannot be empty"
-msgstr "E-Mail darf nicht leer sein!"
+msgstr "Waga nie może być pusta"
 
 #: mcda##layer_editor##errors##weight_must_be_a_number
 msgid "Weight must be a valid number"
-msgstr ""
+msgstr "Waga musi być liczbą"
 
 #: mcda##layer_editor##errors##range_from_cannot_be_bigger
 msgid "The ‘from’ value cannot be bigger than the ‘to’ value"
-msgstr ""
+msgstr "Wartość „od” nie może być większa niż wartość „do”"
 
 #: mcda##layer_editor##errors##range_cannot_be_empty
-#, fuzzy
 msgid "Range cannot be empty"
-msgstr "E-Mail darf nicht leer sein!"
+msgstr "Zakres nie może być pusty"
 
 #: mcda##layer_editor##errors##range_must_be_a_number
 msgid "Range must be a valid number"
-msgstr ""
+msgstr "Zakres musi być poprawną liczbą"
 
 #: mcda##layer_editor##tips##range
-msgid ""
-"The values that will be considered the worst and the best in your analysis."
-msgstr ""
+msgid "The values that will be considered the worst and the best in your analysis."
+msgstr "Wartości uznawane za najgorsze i najlepsze w analizie."
 
 #: mcda##layer_editor##tips##sentiment
 msgid ""
@@ -557,13 +532,19 @@ msgid ""
 "* **Bad → Good**: Higher values indicate a positive sentiment.\n"
 "* **Good → Bad**: Higher values indicate a negative sentiment."
 msgstr ""
+"Określ kierunek wpływu warstwy na analizę:\n"
+"* **Złe → Dobre**: Wyższe wartości oznaczają pozytywny wpływ.\n"
+"* **Dobre → Złe**: Wyższe wartości oznaczają negatywny wpływ."
 
 #: mcda##layer_editor##tips##weight
 msgid ""
-"By default, all layers contribute equally to the analysis through a weighted "
-"average. Adjusting the increased weight of a layer (2, 3, etc.) allows you "
-"to assign additional importance to it in the analysis."
+"By default, all layers contribute equally to the analysis through a "
+"weighted average. Adjusting the increased weight of a layer (2, 3, etc.) "
+"allows you to assign additional importance to it in the analysis."
 msgstr ""
+"Domyślnie wszystkie warstwy mają równy wpływ na analizę poprzez średnią "
+"ważoną. Zwiększenie wagi warstwy (np. 2, 3 itd.) pozwala przypisać jej "
+"większe znaczenie."
 
 #: mcda##layer_editor##tips##transform
 msgid ""
@@ -572,6 +553,9 @@ msgid ""
 "\n"
 " **Note**: Calculations are done before normalization."
 msgstr ""
+"Zastosuj obliczenia do wartości. Uzyskanie bardziej liniowego rozkładu "
+"zapewni lepsze informacje do analizy.\n\n"
+" **Uwaga**: Obliczenia są wykonywane przed normalizacją."
 
 #: mcda##layer_editor##tips##normalize
 msgid ""
@@ -581,6 +565,9 @@ msgid ""
 "scale, ensuring they are all comparable.\n"
 "* **No (for specialists only)**: Leaves values unmodified."
 msgstr ""
+"Dostosowuje wartości do standardowej skali. Ułatwia porównanie i podejmowanie decyzji.\n"
+"* **Skalowanie wartości standardowej**: Dostosowuje wartości do wspólnej skali.\n"
+"* **Nie (tylko dla specjalistów)**: Pozostawia wartości bez zmian."
 
 #: mcda##layer_editor##tips##outliers
 msgid ""
@@ -589,248 +576,237 @@ msgid ""
 "beyond this range.\n"
 "* **Exclude**: Exclude areas where values are out of range."
 msgstr ""
+"* **Przytnij**: Ustaw wartości powyżej zakresu na 1, a poniżej na 0.\n"
+"* **Nie modyfikuj**: Zachowaj 0 i 1 dla wartości min i max, ale dopuszczaj wyniki poza zakresem.\n"
+"* **Wyklucz**: Wyklucz obszary z wartościami poza zakresem."
 
 #: mcda##bad
 msgid "Bad"
-msgstr ""
+msgstr "Złe"
 
 #: mcda##good
 msgid "Good"
-msgstr ""
+msgstr "Dobre"
 
 #: multivariate##multivariate_analysis
-#, fuzzy
 msgid "Multivariate Analysis"
-msgstr "Ebene erstellen"
+msgstr "Analiza wielowymiarowa"
 
 #: multivariate##create_analysis_layer
-#, fuzzy
 msgid "Create analysis layer"
-msgstr "Ebene erstellen"
+msgstr "Utwórz warstwę analizy"
 
 #: multivariate##upload_analysis_layer
 msgid "Upload analysis layer"
-msgstr ""
+msgstr "Prześlij warstwę analizy"
 
 #: multivariate##popup##score_header
 msgid "Score {{level}}"
-msgstr ""
+msgstr "Wynik {{level}}"
 
 #: multivariate##popup##compare_header
 msgid "Compare {{level}}"
-msgstr ""
+msgstr "Porównaj {{level}}"
 
 #: multivariate##score
 msgid "Score"
-msgstr ""
+msgstr "Wynik"
 
 #: multivariate##compare
 msgid "Compare"
-msgstr ""
+msgstr "Porównaj"
 
 #: multivariate##hide_area
 msgid "Hide area"
-msgstr ""
+msgstr "Ukryj obszar"
 
 #: multivariate##labels
 msgid "Labels"
-msgstr ""
+msgstr "Etykiety"
 
 #: multivariate##3d
 msgid "3D"
-msgstr ""
+msgstr "3D"
 
 #: map_popup##value
-#, fuzzy
 msgid "Value"
-msgstr "Änderungen speichern"
+msgstr "Wartość"
 
 #: map_popup##range
 msgid "Range"
-msgstr ""
+msgstr "Zakres"
 
 #: map_popup##coefficient
 msgid "Coefficient"
-msgstr ""
+msgstr "Współczynnik"
 
 #: map_popup##normalized_value
-#, fuzzy
 msgid "Normalized value"
-msgstr "Normalisiert auf"
+msgstr "Znormalizowana wartość"
 
 #: search##search_location
 msgid "Search location"
-msgstr "Standort suchen"
+msgstr "Wyszukaj lokalizację"
 
 #: search##info_block
 msgid "You can search for 📍 locations"
-msgstr ""
+msgstr "Możesz wyszukiwać lokalizacje 📍"
 
 #: search##info_block_with_mcda
 msgid ""
-"You can search for 📍 locations or ask ✨ AI your question like “Where is dead "
-"wood”"
+"You can search for 📍 locations or ask ✨ AI your question like “Where is "
+"dead wood”"
 msgstr ""
+"Możesz wyszukiwać lokalizacje 📍 lub zadać pytanie ✨ SI, na przykład: „Gdzie jest martwe drewno”"
 
 #: search##input_placeholder
 msgid "Search"
-msgstr ""
+msgstr "Szukaj"
 
 #: search##input_placeholder_mcda
 msgid "Search or ask AI"
-msgstr ""
+msgstr "Szukaj lub zapytaj SI"
 
 #: search##locations_no_result
-#, fuzzy
 msgid "No locations found"
-msgstr "Nicht gefunden"
+msgstr "Nie znaleziono lokalizacji"
 
 #: search##mcda_loading_message
 msgid "AI is generating an analysis for you"
-msgstr ""
+msgstr "SI generuje dla Ciebie analizę"
 
 #: search##mcda_no_result
 msgid "No AI suggestion"
-msgstr ""
+msgstr "Brak sugestii od SI"
 
 #: search##mcda_error_message
 msgid "AI engine did not respond. Please try again later"
-msgstr ""
+msgstr "Silnik SI nie odpowiedział. Spróbuj ponownie później"
 
 #: search##mcda_create_analysis
-#, fuzzy
 msgid "Create analysis"
-msgstr "Ebene erstellen"
+msgstr "Utwórz analizę"
 
 #: search##upload_analysis
 msgid "“{{name}}” Multi-Criteria Decision Analysis has been created"
-msgstr ""
+msgstr "Utworzono analizę wielokryterialną „{{name}}”"
 
 #: event_list##warning_title
 msgid "Cannot filter by map view"
-msgstr ""
+msgstr "Nie można filtrować według widoku mapy"
 
 #: event_list##warning_description
-#, fuzzy
 msgid "Map is not ready yet, try later"
-msgstr "Die Karte ist noch nicht bereit. Bitte versuchen Sie es später."
+msgstr "Mapa nie jest jeszcze gotowa, spróbuj później"
 
 #: event_list##bbox_filter_button
 msgid "Filter by map view"
-msgstr ""
+msgstr "Filtruj według widoku mapy"
 
 #: event_list##analytics##affected_people##tooltip
-#, fuzzy
 msgid "Affected people"
-msgstr "Betroffene Menschen"
+msgstr "Dotknięte osoby"
 
 #: event_list##analytics##affected_people##value
 msgid "No humanitarian impact"
-msgstr "Keine humanitären Auswirkungen"
+msgstr "Brak wpływu humanitarnego"
 
 #: event_list##analytics##settled_area_tooltip
-#, fuzzy
 msgid "Settled area"
-msgstr "Besiedeltes Gebiet"
+msgstr "Zamieszkany obszar"
 
 #: event_list##analytics##loss_tooltip
 msgid "Estimated loss"
-msgstr "Geschätzter Verlust"
+msgstr "Szacowane straty"
 
 #: event_list##no_event_in_feed
-#, fuzzy
 msgid "The disaster was not found in the current disaster feed"
-msgstr "Das Ereignis wurde nicht im aktuellen Ereignis-Feed gefunden"
+msgstr "Katastrofa nie została znaleziona w bieżącym kanale"
 
 #: event_list##no_selected_disaster
 msgid "No disaster selected"
-msgstr "Keine Katastrophe ausgewählt"
+msgstr "Nie wybrano katastrofy"
 
 #: event_list##chose_disaster
 msgid "Choose disaster"
-msgstr "Katastrophe auswählen"
+msgstr "Wybierz katastrofę"
 
 #: event_list##no_historical_disasters
 msgid "No historical disasters in this area"
-msgstr ""
+msgstr "Brak historycznych katastrof w tym obszarze"
 
 #: event_list##no_feed_disasters
-#, fuzzy
 msgid "No disasters in this feed"
-msgstr "Keine Katastrophe ausgewählt"
+msgstr "Brak katastrof w tym kanale"
 
 #: event_list##no_feed_disasters_matching_your_filters
-#, fuzzy
 msgid "No disasters matching your filters"
-msgstr "Keine Katastrophe ausgewählt"
+msgstr "Brak katastrof pasujących do filtrów"
 
 #: event_list##no_disasters
-#, fuzzy
 msgid "No disasters"
-msgstr "Katastrophen"
+msgstr "Brak katastrof"
 
 #: event_list##severity_termination
-#, fuzzy
 msgid "Termination"
-msgstr "Höhe"
+msgstr "Zakończenie"
 
 #: event_list##severity_minor
 msgid "Minor"
-msgstr ""
+msgstr "Drobna"
 
 #: event_list##severity_moderate
 msgid "Moderate"
-msgstr ""
+msgstr "Umiarkowana"
 
 #: event_list##severity_severe
 msgid "Severe"
-msgstr ""
+msgstr "Poważna"
 
 #: event_list##severity_extreme
 msgid "Extreme"
-msgstr ""
+msgstr "Ekstremalna"
 
-#: event_list##open_timeline_button episode
-#, fuzzy
+#: event_list##open_timeline_button
+#: episode
 msgid "Timeline"
-msgstr "Stimmungen"
+msgstr "Oś czasu"
 
 #: create_layer##save_and_draw
-#, fuzzy
 msgid "Save and draw"
-msgstr "Erweiterte Analytik"
+msgstr "Zapisz i rysuj"
 
 #: create_layer##edit_layer
 msgid "Edit Layer"
-msgstr "Ebene bearbeiten"
+msgstr "Edytuj warstwę"
 
 #: create_layer##edit_features
 msgid "Edit Features"
-msgstr "Merkmale bearbeiten"
+msgstr "Edytuj cechy"
 
 #: create_layer##delete_layer
 msgid "Delete Layer"
-msgstr "Ebene löschen"
+msgstr "Usuń warstwę"
 
 #: create_layer##create_layer
 msgid "Create Layer"
-msgstr "Ebene erstellen"
+msgstr "Utwórz warstwę"
 
 #: create_layer##saving_layer
 msgid "Saving layer..."
-msgstr "Ebene wird gespeichert..."
+msgstr "Zapisywanie warstwy..."
 
 #: create_layer##field_name
 msgid "Field name"
-msgstr "Feldname"
+msgstr "Nazwa pola"
 
 #: create_layer##layer_name
 msgid "Layer name"
-msgstr "Name der Ebene"
+msgstr "Nazwa warstwy"
 
 #: create_layer##marker_icon
 msgid "Marker icon"
-msgstr "Markierungssymbol"
+msgstr "Ikona znacznika"
 
 #: create_layer##type
 msgid "Type"
@@ -838,15 +814,15 @@ msgstr "Typ"
 
 #: create_layer##select
 msgid "Select"
-msgstr "Auswählen"
+msgstr "Wybierz"
 
 #: create_layer##short_text
 msgid "Short Text"
-msgstr "Kurzer Text"
+msgstr "Krótki tekst"
 
 #: create_layer##long_text
 msgid "Long Text"
-msgstr "Langer Text"
+msgstr "Długi tekst"
 
 #: create_layer##link
 msgid "Link"
@@ -854,105 +830,101 @@ msgstr "Link"
 
 #: create_layer##image
 msgid "Image"
-msgstr "Bild"
+msgstr "Obraz"
 
 #: create_layer##fields
 msgid "Fields"
-msgstr "Felder"
+msgstr "Pola"
 
 #: create_layer##add_field
 msgid "Add field"
-msgstr "Feld hinzufügen"
+msgstr "Dodaj pole"
 
 #: create_layer##location
 msgid "Location"
-msgstr "Standort"
+msgstr "Lokalizacja"
 
 #: create_layer##edit_feature_placeholder
 msgid "Select some feature for start edit feature properties"
-msgstr "Wählen Sie einige Merkmale aus, um Merkmalseigenschaften zu bearbeiten"
+msgstr "Wybierz cechę, aby rozpocząć edycję jej właściwości"
 
 #: analytics_panel##header_title
 msgid "Analytics"
-msgstr "Analytik"
+msgstr "Analityka"
 
 #: analytics_panel##error_loading
 msgid "Failed receiving data about selected area. It may be too large."
-msgstr ""
+msgstr "Nie udało się pobrać danych o wybranym obszarze. Może być zbyt duży."
 
 #: analytics_panel##info_short
-#, fuzzy
 msgid "Calculations are made for selected area"
-msgstr "Ebenen im ausgewählten Bereich"
+msgstr "Obliczenia wykonano dla wybranego obszaru"
 
 #: advanced_analytics_panel##header_title
 msgid "Advanced analytics"
-msgstr "Erweiterte Analytik"
+msgstr "Zaawansowana analityka"
 
 #: advanced_analytics_panel##error
 msgid "Error while fetching advanced analytics data"
-msgstr "Fehler beim Abrufen von erweiterten Analysedaten"
+msgstr "Błąd podczas pobierania danych zaawansowanej analityki"
 
-#: advanced_analytics_empty##not_found current_event##not_found_request
-#, fuzzy
+#: advanced_analytics_empty##not_found
+#: current_event##not_found_request
 msgid "Sorry, the requested disaster was not found"
-msgstr "Leider wurde das gewünschte Ereignis nicht gefunden."
+msgstr "Przepraszamy, żądana katastrofa nie została znaleziona"
 
 #: advanced_analytics_empty##error
-#, fuzzy
 msgid "An error occurred"
-msgstr "Es ist ein Fehler aufgetreten!"
+msgstr "Wystąpił błąd"
 
 #: advanced_analytics_empty##analytics_for_selected
-#, fuzzy
 msgid "Analytics for selected area"
-msgstr "Ebenen im ausgewählten Bereich"
+msgstr "Analityka dla wybranego obszaru"
 
 #: advanced_analytics_empty##will_be_provided
 msgid "will be provided here"
-msgstr ""
+msgstr "zostanie udostępniona tutaj"
 
 #: advanced_analytics_empty##no_analytics
-#, fuzzy
 msgid "No analytics for the selected area"
-msgstr "Ebenen im ausgewählten Bereich"
+msgstr "Brak analityki dla wybranego obszaru"
 
 #: llm_analytics##header
 msgid "AI insights"
-msgstr ""
+msgstr "Wnioski SI"
 
 #: llm_analytics##placeholder##select_area
 msgid ""
 "Select area (<icon1 />,<icon2 />,<icon3 />) you want to explore to get AI "
 "Insights."
 msgstr ""
+"Wybierz obszar (<icon1 />,<icon2 />,<icon3 />), który chcesz zbadać, aby uzyskać wnioski SI."
 
 #: llm_analytics##placeholder##you_can_also
 msgid "You can also:"
-msgstr ""
+msgstr "Możesz także:"
 
 #: llm_analytics##placeholder##fill_bio
-msgid ""
-"<icon /> <lnk>Fill out analysis objectives</lnk> to personalize AI analysis"
-msgstr ""
+msgid "<icon /> <lnk>Fill out analysis objectives</lnk> to personalize AI analysis"
+msgstr "<icon /> <lnk>Wypełnij cele analizy</lnk>, aby spersonalizować analizę SI"
 
 #: llm_analytics##placeholder##select_and_save_as_reference_area
 msgid ""
 "<icon /> Select an area and save it as a reference to compare with another "
 "one"
-msgstr ""
+msgstr "<icon /> Wybierz obszar i zapisz jako referencyjny do porównania z innym"
 
 #: llm_analytics##placeholder##learn_more
 msgid "<lnk><icon/> Learn more about AI Insights</lnk>"
-msgstr ""
+msgstr "<lnk><icon/> Dowiedz się więcej o wnioskach SI</lnk>"
 
 #: draw_tools##area
 msgid "Polygon"
-msgstr ""
+msgstr "Wielokąt"
 
 #: draw_tools##line
 msgid "Line"
-msgstr "Linie"
+msgstr "Linia"
 
 #: draw_tools##point
 msgid "Point"
@@ -960,85 +932,82 @@ msgstr "Punkt"
 
 #: draw_tools##finish_drawing
 msgid "Finish Drawing"
-msgstr "Zeichnen beenden"
+msgstr "Zakończ rysowanie"
 
 #: draw_tools##caption
 msgid "Click on the map to begin drawing"
-msgstr "Klicken Sie auf die Karte, um mit dem Zeichnen zu beginnen"
+msgstr "Kliknij na mapie, aby rozpocząć rysowanie"
 
 #: draw_tools##no_geometry_error
 msgid "No drawn geometry to download"
-msgstr "Keine gezeichnete Formen zum Herunterladen"
+msgstr "Brak narysowanej geometrii do pobrania"
 
 #: draw_tools##overlap_error
 msgid "Polygon should not overlap itself"
-msgstr "Das Polygon darf sich nicht überschneiden"
+msgstr "Wielokąt nie powinien nachodzić sam na siebie"
 
 #: boundary_selector##title
 msgid "Focus to administrative boundary"
-msgstr "Fokus auf die Verwaltungsgrenze"
+msgstr "Skup się na granicy administracyjnej"
 
 #: geometry_uploader##title
 msgid "Focus to uploaded geometry"
-msgstr "Fokus auf die hochgeladene geometrische Form"
+msgstr "Skup się na przesłanej geometrii"
 
 #: geometry_uploader##error
 msgid "Error while reading uploaded file"
-msgstr "Fehler beim Lesen der hochgeladenen Datei"
+msgstr "Błąd podczas odczytu przesłanego pliku"
 
 #: focus_geometry##title
 msgid "Focus to freehand geometry"
-msgstr "Fokus auf freihändig gezeichnete Formen"
+msgstr "Skup się na geometrii odręcznej"
 
-#: reference_area_layer##settings##name profile##reference_area##title
+#: reference_area_layer##settings##name
+#: profile##reference_area##title
 msgid "Reference area"
-msgstr ""
+msgstr "Obszar referencyjny"
 
 #: drawings##self_directions_not_supported
-#, fuzzy
 msgid "Self intersections are not supported"
-msgstr "Überschneidungen werden nicht unterstützt!"
+msgstr "Samoprzecięcia nie są obsługiwane"
 
 #: bivariate##panel##header
-#, fuzzy
 msgid "Bivariate matrix"
-msgstr "Bivariate Matrix"
+msgstr "Macierz dwuwymiarowa"
 
 #: bivariate##matrix##caption##base_axis
 msgid "Base axis"
-msgstr "Basisachse"
+msgstr "Oś bazowa"
 
 #: bivariate##matrix##caption##annex_axis
 msgid "Annex axis"
-msgstr "Hilfsachse"
+msgstr "Oś pomocnicza"
 
 #: bivariate##matrix##caption##tooltip##p1
 msgid ""
 "Charts involving the Base and Annex axes help establish a relationship "
 "between two data sets."
 msgstr ""
-"Diagramme mit der Basis- und der Hilfsachse helfen, eine Beziehung zwischen "
-"zwei Datensätzen herzustellen."
+"Wykresy z osią bazową i pomocniczą pomagają ustalić zależność między dwoma zbiorami danych."
 
 #: bivariate##matrix##caption##tooltip##li1
 msgid "Annex axis - parameters that we analyse"
-msgstr "Hilfsachse - Parameter, die wir analysieren"
+msgstr "Oś pomocnicza – parametry, które analizujemy"
 
 #: bivariate##matrix##caption##tooltip##li2
 msgid "Base axis - reference point in the analysis"
-msgstr "Basisachse - Referenzpunkt in der Analyse"
+msgstr "Oś bazowa – punkt odniesienia w analizie"
 
 #: bivariate##matrix##caption##tooltip##b
 msgid "Ex: the best location to open a cafe"
-msgstr "Beispiel: der beste Standort für die Eröffnung eines Cafés"
+msgstr "Np.: najlepsza lokalizacja na otwarcie kawiarni"
 
 #: bivariate##matrix##caption##tooltip##p2
 msgid ""
 "We can explore the number of eatery places (Annex axis) against Population "
 "density (Base axis)."
 msgstr ""
-"Wir können die Anzahl der Lokale (Hilfsachse) gegen die Bevölkerungsdichte "
-"(Basisachse) untersuchen."
+"Możemy zbadać liczbę lokali gastronomicznych (oś pomocnicza) względem gęstości zaludnienia (oś bazowa)."
 
 #: bivariate##matrix##caption##tooltip##p3
 msgid ""
@@ -1046,257 +1015,250 @@ msgid ""
 "places, and the number of people in that place gives us additional "
 "information."
 msgstr ""
-"In diesem Szenario liegt unser Interesse zunächst auf einer kleinen Anzahl "
-"von Lokalen, wobei uns die Anzahl der Personen in diesem Ort zusätzliche "
-"Informationen liefert."
+"W tym scenariuszu najpierw interesuje nas niewielka liczba lokali, a liczba ludzi dostarcza informacji dodatkowych."
 
 #: bivariate##matrix##header##title
 msgid "Choose two layers to explore correlations"
-msgstr "Wählen Sie zwei Ebenen, um Zusammenhänge zu untersuchen"
+msgstr "Wybierz dwie warstwy, aby zbadać korelacje"
 
 #: bivariate##matrix##header##hint
 msgid "Layers and correlations are displayed for the current Selected Area"
-msgstr ""
-"Die Ebenen und Zusammenhänge werden für den aktuellen ausgewählten Bereich "
-"angezeigt"
+msgstr "Warstwy i korelacje są wyświetlane dla aktualnie wybranego obszaru"
 
 #: bivariate##matrix##icon##population
 msgid "Value divided by Population"
-msgstr "Wert geteilt durch Einwohnerzahl"
+msgstr "Wartość podzielona przez liczbę ludności"
 
 #: bivariate##matrix##icon##area_km2
 msgid "Value divided by Area"
-msgstr "Wert geteilt durch Fläche"
+msgstr "Wartość podzielona przez powierzchnię"
 
 #: bivariate##matrix##icon##total_building_count
 msgid "Value divided by Total Buildings Estimate"
-msgstr "Wert geteilt durch geschätzte Gesamtbebauung"
+msgstr "Wartość podzielona przez szacowaną liczbę budynków"
 
 #: bivariate##matrix##icon##populated_area_km2
 msgid "Value divided by Populated Area"
-msgstr "Wert geteilt durch bevölkerte Fläche"
+msgstr "Wartość podzielona przez obszar zaludniony"
 
 #: bivariate##matrix##icon##one
 msgid "Without divider"
-msgstr "Ohne Teilung"
+msgstr "Bez dzielnika"
 
 #: bivariate##matrix##icon##roads
 msgid "Value divided by Total Roads Length"
-msgstr "Wert geteilt durch die Gesamtlänge der Straßen"
+msgstr "Wartość podzielona przez całkowitą długość dróg"
 
 #: bivariate##matrix##progress##rendering
 msgid "Rendering"
-msgstr "Übertragung"
+msgstr "Renderowanie"
 
 #: bivariate##matrix##progress##applied
 msgid "Applied on the map"
-msgstr "Wird auf die Karte angewendet"
+msgstr "Zastosowano na mapie"
 
 #: bivariate##matrix##loading_error
 msgid ""
-"Unfortunately, we cannot display the matrix. Try refreshing the page or come "
-"back later."
+"Unfortunately, we cannot display the matrix. Try refreshing the page or "
+"come back later."
 msgstr ""
+"Niestety nie możemy wyświetlić macierzy. Odśwież stronę lub spróbuj później."
 
 #: bivariate##legend##high
 msgid "High"
-msgstr "Hoch"
+msgstr "Wysoki"
 
 #: bivariate##legend##low
 msgid "Low"
-msgstr "Niedrig"
+msgstr "Niski"
 
 #: bivariate##legend##medium
 msgid "Medium"
-msgstr "Mittel"
+msgstr "Średni"
 
 #: bivariate##color_manager##not_defined
 msgid "Not defined"
-msgstr "Nicht definiert"
+msgstr "Nieokreślony"
 
 #: bivariate##color_manager##sentiments_combinations_filter
 msgid "Sentiments combinations"
-msgstr "Stimmungs-Kombinationen"
+msgstr "Kombinacje odczuć"
 
 #: bivariate##color_manager##no_legends
 msgid "There are no legends satisfying the conditions."
-msgstr "Es gibt keine Legenden, die den Kriterien entsprechen."
+msgstr "Brak legend spełniających warunki."
 
 #: bivariate##color_manager##no_data
 msgid "No Data."
-msgstr "Keine Daten."
+msgstr "Brak danych."
 
 #: bivariate##color_manager##sentiments_tab
 msgid "Sentiments"
-msgstr "Stimmungen"
+msgstr "Odczuć"
 
 #: bivariate##color_manager##color_legends_tab
 msgid "Color Legends"
-msgstr "Farbe Legenden"
+msgstr "Legendy kolorów"
 
 #: bivariate##color_manager##layers_tab
 msgid "Layers (indicators)"
-msgstr "Ebenen (Indikatoren)"
+msgstr "Warstwy (wskaźniki)"
 
 #: sidebar##biv_color_manager
 msgid "Сolor manager"
-msgstr "Farbmanager"
+msgstr "Menedżer kolorów"
 
 #: sidebar##edit_osm
 msgid "Edit in OpenStreetMap"
-msgstr "In OpenStreetMap bearbeiten"
+msgstr "Edytuj w OpenStreetMap"
 
 #: sidebar##ruler
 msgid "Ruler"
-msgstr "Lineal"
+msgstr "Linijka"
 
 #: sidebar##collapse
 msgid "Collapse"
-msgstr "Zusammenklappen"
+msgstr "Zwiń"
 
 #: sidebar##expand
 msgid "Expand"
-msgstr "Erweitern"
+msgstr "Rozwiń"
 
 #: sidebar##icon_alt
 msgid "Application logo"
-msgstr "Logo der Anwendung"
+msgstr "Logo aplikacji"
 
-#: login##email profile##email
+#: login##email
+#: profile##email
 msgid "Email"
-msgstr "E-Mail"
+msgstr "Email"
 
 #: login##password
 msgid "Password"
-msgstr "Passwort"
+msgstr "Hasło"
 
 #: login##login_button
 msgid "Login"
-msgstr "Anmelden"
+msgstr "Zaloguj się"
 
 #: login##sign_up
 msgid "Sign up"
-msgstr "Registrieren"
+msgstr "Zarejestruj się"
 
 #: login##logging_in
 msgid "Logging in..."
-msgstr "Anmelden..."
+msgstr "Logowanie..."
 
 #: login##log_in
 msgid "Log in"
-msgstr "Einloggen"
+msgstr "Zaloguj się"
 
 #: login##forgot_password
 msgid "Forgot password?"
-msgstr ""
+msgstr "Zapomniałeś hasła?"
 
 #: login##description
 msgid "Please log in to change your settings"
-msgstr "Bitte melden Sie sich an, um Ihre Einstellungen zu ändern"
+msgstr "Zaloguj się, aby zmienić ustawienia"
 
 #: login##error##email_empty
-#, fuzzy
 msgid "Email cannot be empty"
-msgstr "E-Mail darf nicht leer sein!"
+msgstr "Email nie może być pusty"
 
 #: login##error##email_invalid
-#, fuzzy
 msgid "Email has to be valid"
-msgstr "E-Mail muss gültig sein!"
+msgstr "Email musi być prawidłowy"
 
 #: login##error##password
-#, fuzzy
 msgid "Password cannot be empty"
-msgstr "Passwort darf nicht leer sein!"
+msgstr "Hasło nie może być puste"
 
 #: login##error##connect
-#, fuzzy
 msgid "Could not connect to authentication service"
-msgstr ""
-"Die Verbindung zum Authentifizierungsdienst konnte nicht hergestellt werden"
+msgstr "Nie udało się połączyć z usługą uwierzytelniania"
 
 #: currency##usd
 msgid "USD"
-msgstr ""
+msgstr "USD"
 
 #: subscription##title
 msgid "Plans & Pricing"
-msgstr ""
+msgstr "Plany i ceny"
 
 #: subscription##price_summary
 msgid "* Billed as ${{pricePerYear}} USD once yearly"
-msgstr ""
+msgstr "* Rozliczane jako ${{pricePerYear}} USD rocznie"
 
 #: subscription##unauthorized_button
 msgid "Sign in to subscribe"
-msgstr ""
+msgstr "Zaloguj się, aby zasubskrybować"
 
 #: subscription##current_plan_button
 msgid "Current plan"
-msgstr ""
+msgstr "Obecny plan"
 
 #: subscription##sales_button
 msgid "Contact sales"
-msgstr ""
+msgstr "Skontaktuj się z działem sprzedaży"
 
 #: subscription##book_demo_button
 msgid "Book a demo"
-msgstr ""
+msgstr "Zarezerwuj demo"
 
 #: subscription##request_trial_button
-#, fuzzy
 msgid "Request trial"
-msgstr "Zeitüberschreitung der Anfrage"
+msgstr "Poproś o wersję próbną"
 
 #: subscription##errors##payment_initialization
 msgid ""
 "There was an error during payment initialization. Please try again or "
 "contact our support"
 msgstr ""
+"Wystąpił błąd podczas inicjalizacji płatności. Spróbuj ponownie lub skontaktuj się z pomocą techniczną"
 
 #: subscription##success_modal##title
 msgid "Success"
-msgstr ""
+msgstr "Sukces"
 
 #: subscription##success_modal##thank_you_for_subscribing
 msgid "Thank you for subscribing to our platform!"
-msgstr ""
+msgstr "Dziękujemy za subskrypcję naszej platformy!"
 
 #: subscription##success_modal##after_the_page_refreshes
 msgid "After the page refreshes, you can start using Kontur Atlas"
-msgstr ""
+msgstr "Po odświeżeniu strony możesz zacząć korzystać z Kontur Atlas"
 
 #: reports##title
 msgid "Disaster Ninja Reports"
-msgstr "Disaster Ninja Berichte"
+msgstr "Raporty Disaster Ninja"
 
 #: reports##no_data
 msgid "No data for this report"
-msgstr "Keine Daten für diesen Bericht"
+msgstr "Brak danych do tego raportu"
 
 #: reports##sorting
 msgid "Sorting data..."
-msgstr "Daten werden sortiert..."
+msgstr "Sortowanie danych..."
 
 #: reports##loading
 msgid "Loading data"
-msgstr "Daten werden geladen"
+msgstr "Ładowanie danych"
 
 #: reports##open_josm
 msgid "Open via JOSM remote control"
-msgstr "Öffnen über die JOSM-Fernsteuerung"
+msgstr "Otwórz przez zdalne sterowanie JOSM"
 
 #: reports##josm_logo_alt
 msgid "JOSM logo"
-msgstr "JOSM-Logo"
+msgstr "Logo JOSM"
 
 #: reports##see_all
 msgid "See all reports"
-msgstr "Alle Berichte anzeigen"
+msgstr "Zobacz wszystkie raporty"
 
 #: reports##wrong_id
 msgid "Wrong report ID"
-msgstr "Falsche Berichts-ID"
+msgstr "Nieprawidłowy identyfikator raportu"
 
 #: reports##description
 msgid ""
@@ -1304,27 +1266,23 @@ msgid ""
 "quality. They contain links to areas on <4>osm.org </4> and links to open "
 "them in the JOSM editor with enabled remote control for editing."
 msgstr ""
-"<0>Kontur </0> generiert verschiedene Berichte, die bei der Überprüfung der "
-"Qualität von OpenStreetMap helfen. Sie enthalten Links zu Gebieten auf "
-"<4>osm.org </4> und Links, um sie im JOSM-Editor mit aktivierter "
-"Fernsteuerung zur Bearbeitung öffnen zu können."
+"<0>Kontur </0> generuje kilka raportów pomagających w weryfikacji jakości OpenStreetMap. Zawierają one linki do obszarów na <4>osm.org </4> oraz do otwierania ich w edytorze JOSM z włączoną funkcją zdalnego sterowania."
 
 #: modes##about
 msgid "About"
-msgstr "Über uns"
+msgstr "O nas"
 
 #: modes##cookies
 msgid "Cookies"
-msgstr ""
+msgstr "Pliki cookie"
 
 #: modes##reports
 msgid "Reports"
-msgstr "Berichte"
+msgstr "Raporty"
 
 #: modes##report
-#, fuzzy
 msgid "Report"
-msgstr "Berichte"
+msgstr "Raport"
 
 #: modes##profile
 msgid "Profile"
@@ -1332,131 +1290,129 @@ msgstr "Profil"
 
 #: modes##privacy
 msgid "Privacy"
-msgstr ""
+msgstr "Prywatność"
 
 #: modes##terms
 msgid "Terms"
-msgstr ""
+msgstr "Regulamin"
 
 #: modes##user_guide
 msgid "User guide"
-msgstr ""
+msgstr "Przewodnik użytkownika"
 
 #: modes##external##upload_imagery
 msgid "Upload imagery"
-msgstr ""
+msgstr "Prześlij obrazy"
 
 #: modes##external##imagery_catalog
-#, fuzzy
 msgid "Imagery catalog"
-msgstr "Bild"
+msgstr "Katalog obrazów"
 
 #: profile##interfaceTheme
 msgid "Theme"
-msgstr "Thema"
+msgstr "Motyw"
 
 #: profile##interfaceLanguage
 msgid "Language"
-msgstr "Sprache"
+msgstr "Język"
 
 #: profile##units
 msgid "Units"
-msgstr "Einheiten"
+msgstr "Jednostki"
 
 #: profile##fullName
-#, fuzzy
 msgid "Full name"
-msgstr "Vollständiger Name"
+msgstr "Imię i nazwisko"
 
 #: profile##metric
 msgid "metric"
-msgstr "metrisch"
+msgstr "metryczne"
 
 #: profile##imperialBeta
 msgid "imperial (beta)"
-msgstr "imperial (beta)"
+msgstr "imperialne (beta)"
 
 #: profile##profileSettingsHeader
 msgid "Personalize your experience"
-msgstr ""
+msgstr "Spersonalizuj swoje doświadczenie"
 
 #: profile##your_current_job
 msgid "your current job"
-msgstr ""
+msgstr "Twoje aktualne stanowisko"
 
 #: profile##area_of_expertise
 msgid "area of expertise"
-msgstr ""
+msgstr "obszar specjalizacji"
 
 #: profile##challenges
-#, fuzzy
 msgid "challenges"
-msgstr "Änderungen speichern"
+msgstr "wyzwania"
 
 #: profile##personalization_prompt
 msgid "For better personalization, please include details such as:"
-msgstr ""
+msgstr "Aby lepiej dopasować ustawienia, podaj informacje takie jak:"
 
 #: profile##ai_tools_compatibility
 msgid "This information is compatible with AI tools"
-msgstr ""
+msgstr "Te informacje są zgodne z narzędziami AI"
 
 #: profile##improves_analysis
 msgid "Improves analysis"
-msgstr ""
+msgstr "Poprawia analizę"
 
 #: profile##bio_placeholder
 msgid "Bio"
-msgstr "Bio"
+msgstr "Biogram"
 
 #: profile##bio_textarea_placeholder
 msgid ""
 "e.g. GIS specialist with 5+ years of experience in disaster risk analysis, "
 "focused on urban resilience."
 msgstr ""
+"np. specjalista GIS z ponad 5-letnim doświadczeniem w analizie ryzyka katastrof, skoncentrowany na odporności miast."
 
 #: profile##analysis_objectives
 msgid "Analysis objectives"
-msgstr ""
+msgstr "Cele analizy"
 
 #: profile##objectives_textarea_placeholder
 msgid ""
 "e.g. Urban planning analysis with a focus on climate resilience. My current "
 "challenge is improving flood risk mapping."
 msgstr ""
+"np. analiza planowania przestrzennego ze szczególnym uwzględnieniem odporności klimatycznej. Moim obecnym wyzwaniem jest ulepszanie mapowania ryzyka powodziowego."
 
 #: profile##appSettingsHeader
 msgid "Settings"
-msgstr "Einstellungen"
+msgstr "Ustawienia"
 
 #: profile##your_organization
 msgid "Your organization"
-msgstr ""
+msgstr "Twoja organizacja"
 
 #: profile##your_contacts
 msgid "Your contact info"
-msgstr ""
+msgstr "Twoje dane kontaktowe"
 
 #: profile##organization_name
 msgid "Organization name"
-msgstr ""
+msgstr "Nazwa organizacji"
 
 #: profile##position
-#, fuzzy
 msgid "Position"
-msgstr "Standort"
+msgstr "Stanowisko"
 
 #: profile##gis_specialists
 msgid "GIS specialists in your team"
-msgstr ""
+msgstr "Specjaliści GIS w Twoim zespole"
 
 #: profile##phone_number
 msgid "Phone number with country code"
-msgstr ""
+msgstr "Numer telefonu z kodem kraju"
 
 #: profile##linkedin
 msgid "LinkedIn profile"
-msgstr ""
+msgstr "Profil LinkedIn"
 
 #: profile##konturTheme
 msgid "Kontur"
@@ -1468,83 +1424,81 @@ msgstr "HOT"
 
 #: profile##defaultDisasterFeed
 msgid "Default disaster feed"
-msgstr "Standardmäßige Katastrophenmeldung"
+msgstr "Domyślny kanał katastrof"
 
 #: profile##defaultOSMeditor
 msgid "Default OpenStreetMap editor (beta)"
-msgstr "Standardmäßiger OpenStreetMap-Editor (Beta)"
+msgstr "Domyślny edytor OpenStreetMap (beta)"
 
 #: profile##successNotification
 msgid "All changes have been applied successfully"
-msgstr "Alle Änderungen wurden erfolgreich übernommen"
+msgstr "Wszystkie zmiany zostały pomyślnie zastosowane"
 
 #: profile##dont_know
 msgid "I don’t know"
-msgstr ""
+msgstr "Nie wiem"
 
 #: profile##languageOption##en
 msgid "English"
-msgstr "Englisch"
+msgstr "Angielski"
 
 #: profile##languageOption##es
 msgid "Spanish"
-msgstr "Spanisch"
+msgstr "Hiszpański"
 
 #: profile##languageOption##ar
 msgid "Arabic"
-msgstr "Arabisch"
+msgstr "Arabski"
 
-# to recheck
 #: profile##languageOption##ko
 msgid "Korean"
-msgstr "Koreanisch"
+msgstr "Koreański"
 
-# to recheck
 #: profile##languageOption##id
 msgid "Indonesian"
-msgstr "Indonesisch"
+msgstr "Indonezyjski"
 
 #: profile##languageOption##de
 msgid "German"
-msgstr "Deutsch"
+msgstr "Niemiecki"
 
 #: profile##languageOption##be
 msgid "Belarusian"
-msgstr ""
+msgstr "Białoruski"
 
 #: profile##languageOption##ru
 msgid "Russian"
-msgstr ""
+msgstr "Rosyjski"
 
 #: profile##languageOption##pl
 msgid "Polish"
-msgstr "Polnisch"
+msgstr "Polski"
 
 #: profile##languageOption##uk
 msgid "Ukrainian"
-msgstr "Ukrainisch"
+msgstr "Ukraiński"
 
 #: profile##reference_area##freehand_geometry
-#, fuzzy
 msgid "Freehand geometry"
-msgstr "Fokus auf freihändig gezeichnete Formen"
+msgstr "Dowolna geometria"
 
 #: profile##reference_area##to_replace_reference_area
 msgid ""
-"You can redefine your reference area on map. Select an area and click \"Save "
-"as reference area\" on toolbar.\n"
+"You can redefine your reference area on map. Select an area and click "
+"\"Save as reference area\" on toolbar.\n"
 msgstr ""
+"Możesz ponownie zdefiniować obszar referencyjny na mapie. Wybierz obszar i kliknij \"Zapisz jako obszar referencyjny\" na pasku narzędzi.\n"
 
 #: profile##reference_area##description
 msgid ""
 "Save an area you are familiar with as a reference. We will use it as a "
 "baseline to compare other areas and explain the differences."
 msgstr ""
+"Zapisz znany Ci obszar jako referencyjny. Będzie on używany jako punkt odniesienia do porównywania innych obszarów i wyjaśniania różnic."
 
 #: profile##reference_area##set_the_reference_area
-#, fuzzy
 msgid "Set area on map"
-msgstr "Wählen Sie eine Grenze auf der Karte"
+msgstr "Ustaw obszar na mapie"
 
 #: profile##reference_area##tooltip_text
 msgid ""
@@ -1553,282 +1507,113 @@ msgid ""
 "\n"
 " 2. Click the 'Save as Reference' button on the toolbar."
 msgstr ""
+"1. Wybierz interesujący obszar na mapie za pomocą narzędzia granic administracyjnych lub rysowania geometrii.\n\n2. Kliknij przycisk 'Zapisz jako referencję' na pasku narzędzi."
 
 #: profile##reference_area##accessing_location
 msgid "Accessing your location"
-msgstr ""
+msgstr "Uzyskiwanie dostępu do Twojej lokalizacji"
 
 #: profile##reference_area##accessing_location_error
 msgid "Error. Try another way."
-msgstr ""
+msgstr "Błąd. Spróbuj inaczej."
 
 #: profile##reference_area##select_location
 msgid "Select my current location"
-msgstr ""
+msgstr "Wybierz moją bieżącą lokalizację"
 
 #: profile##reference_area##notification
 msgid "Your reference area {{name}} has been saved"
-msgstr ""
+msgstr "Twój obszar referencyjny {{name}} został zapisany"
 
 #: locate_me##get_location_error
 msgid "Error while getting location"
-msgstr "Fehler beim Abrufen des Standorts"
+msgstr "Błąd podczas pobierania lokalizacji"
 
 #: loading_episodes
 msgid "Loading Episodes"
-msgstr "Episoden werden geladen"
+msgstr "Ładowanie epizodów"
 
 #: zoom_to_world
 msgid "Zoom to the whole world"
-msgstr ""
+msgstr "Powiększ do całego świata"
 
 #: cookie_banner##header
 msgid "We value your privacy"
-msgstr ""
+msgstr "Cenimy Twoją prywatność"
 
 #: cookie_banner##body
 msgid ""
-"We use absolutely necessary cookies to provide you personalized services and "
-"optional cookies to improve {{appName}} and your experience. You can manage "
-"cookie settings or withdraw consent to optional cookies at any time.\n"
+"We use absolutely necessary cookies to provide you personalized services "
+"and optional cookies to improve {{appName}} and your experience. You can "
+"manage cookie settings or withdraw consent to optional cookies at any time.\n"
 "For more information, please, check our [Privacy Policy](about/privacy)"
 msgstr ""
+"Używamy niezbędnych plików cookie do świadczenia spersonalizowanych usług oraz opcjonalnych plików cookie, aby ulepszyć {{appName}} i Twoje doświadczenia. Możesz zarządzać ustawieniami plików cookie lub wycofać zgodę w dowolnym momencie.\nWięcej informacji znajdziesz w naszej [Polityce prywatności](about/privacy)"
 
 #: cookie_banner##decline_all
 msgid "Decline optional cookies"
-msgstr ""
+msgstr "Odrzuć opcjonalne pliki cookie"
 
 #: cookie_banner##accept_all
 msgid "Accept optional cookies"
-msgstr ""
+msgstr "Zaakceptuj opcjonalne pliki cookie"
 
 #: live_sensor##start
 msgid "Start sensor recording"
-msgstr ""
+msgstr "Rozpocznij nagrywanie z czujników"
 
 #: live_sensor##finish
 msgid "Stop sensor recording"
-msgstr ""
+msgstr "Zatrzymaj nagrywanie z czujników"
 
 #: live_sensor##finishMessage
 msgid "Recording has been finished"
-msgstr ""
+msgstr "Nagrywanie zostało zakończone"
 
 #: live_sensor##startMessage
 msgid "Recording has been started"
-msgstr ""
+msgstr "Nagrywanie zostało rozpoczęte"
 
 #: live_sensor##noSensorsError
 msgid "Your device does not have the required sensors"
-msgstr ""
+msgstr "Twoje urządzenie nie posiada wymaganych czujników"
 
 #: layer_features_panel##empty
 msgid "Layer features within selected area will be provided here"
-msgstr ""
+msgstr "Funkcje warstwy w wybranym obszarze zostaną wyświetlone tutaj"
 
 #: layer_features_panel##noFeatureSelected
-#, fuzzy
 msgid "No layer feature selected"
-msgstr "Keine Katastrophe ausgewählt"
+msgstr "Nie wybrano żadnej funkcji warstwy"
 
 #: layer_features_panel##chooseFeature
-#, fuzzy
 msgid "Choose layer feature"
-msgstr "Merkmale speichern"
+msgstr "Wybierz funkcję warstwy"
 
 #: layer_features_panel##listInfo
 msgid "The list is filtered by selected area and sorted by project number"
-msgstr ""
+msgstr "Lista jest filtrowana według wybranego obszaru i sortowana według numeru projektu"
 
 #: layer_features_panel##error_loading
 msgid "Failed to load layer features data. Please try again."
-msgstr ""
+msgstr "Nie udało się załadować danych funkcji warstwy. Spróbuj ponownie."
 
 #: layer_features_panel##no_features
-#, fuzzy
 msgid "No features found in the selected area."
-msgstr "Ebenen im ausgewählten Bereich"
+msgstr "Nie znaleziono żadnych funkcji w wybranym obszarze."
 
 #: reference_area##save_as_reference_area
 msgid "Save as reference area"
-msgstr ""
+msgstr "Zapisz jako obszar referencyjny"
 
 #: reference_area##error_couldnt_save
 msgid "Unfortunately, we could not save your reference area. Please try again."
-msgstr ""
+msgstr "Niestety, nie udało się zapisać obszaru referencyjnego. Spróbuj ponownie."
 
 #: reference_area##selected_area_saved_as_reference_area
 msgid "Selected area has been saved as reference area in your profile"
-msgstr ""
+msgstr "Wybrany obszar został zapisany jako obszar referencyjny w Twoim profilu"
 
 #: oam_auth##login_button
 msgid "Login with Google"
-msgstr ""
-
-#~ msgid "Save features"
-#~ msgstr "Merkmale speichern"
-
-#~ msgid "Welcome to Disaster Ninja!"
-#~ msgstr "Willkommen bei Disaster Ninja!"
-
-#~ msgid ""
-#~ "Do you want to be notified about ongoing disasters? Are you interested in "
-#~ "instant population data and other analytics for any region in the world? "
-#~ "Disaster Ninja showcases some of <2>Kontur</2>’s capabilities in "
-#~ "addressing these needs.<br/><br/>We initially designed it as a decision "
-#~ "support tool for humanitarian mappers. Now it has grown in functionality "
-#~ "and use cases. Whether you work in disaster management, build a smart "
-#~ "city, or perform research on climate change, Disaster Ninja can help you "
-#~ "to:"
-#~ msgstr ""
-#~ "Möchten Sie über aktuelle Katastrophen informiert werden? Sind Sie an "
-#~ "sofortigen Bevölkerungsdaten und anderen Analysen für eine beliebige "
-#~ "Region auf der Welt interessiert? Disaster Ninja zeigt Ihnen einige der "
-#~ "Funktionen von <2>Kontur</2>, mit denen diese Anforderungen umgesetzt "
-#~ "werden können.<br/><br/>Ursprünglich haben wir es als Entscheidungshilfe "
-#~ "für Kartografen im humanitären Bereich entwickelt. Mittlerweile ist der "
-#~ "Funktionsumfang und der Anwendungsbereich des Programms erweitert worden. "
-#~ "Ganz gleich, ob Sie im Katastrophenmanagement tätig sind, eine "
-#~ "intelligente Stadt bauen oder über den Klimawandel forschen, Disaster "
-#~ "Ninja kann Ihnen dabei helfen:"
-
-#~ msgid "1. Stay up to date with the latest hazard events globally."
-#~ msgstr ""
-#~ "1. Über die aktuellen Gefahrenereignisse weltweit auf dem Laufenden zu "
-#~ "bleiben."
-
-#~ msgid ""
-#~ "The Disasters panel continually refreshes to inform you about ongoing "
-#~ "events. It consumes data from the <2>Kontur Event Feed</2>, which you can "
-#~ "also access via an API."
-#~ msgstr ""
-#~ "Das Bedienfeld von Disasters wird kontinuierlich aktualisiert, um Sie "
-#~ "über aktuelle Ereignisse zu informieren. Es bezieht die Daten aus dem "
-#~ "<2>Kontur Ereignis-Feed</2>, auf den Sie auch über eine API zugreifen "
-#~ "können."
-
-#~ msgid "2. Focus on your area of interest."
-#~ msgstr "2. Den Fokus auf Ihr Interessengebiet zu legen."
-
-#~ msgid ""
-#~ "The Drawing Tools panel allows you to draw or upload your own geometry on "
-#~ "the map. You can also focus on a disaster-exposed area or an "
-#~ "administrative unit — a country, city, or region."
-#~ msgstr ""
-#~ "Mit den Zeichenwerkzeugen können Sie Ihre eigene geometrische Form auf "
-#~ "die Karte zeichnen oder hochladen. Sie können sich auch auf ein von einer "
-#~ "Katastrophe betroffenes Gebiet oder eine Verwaltungseinheit - ein Land, "
-#~ "eine Stadt oder eine Region - konzentrieren."
-
-#~ msgid "3. Get analytics for the focused area."
-#~ msgstr "3. Die Analytik für den ausgewählten Bereich aufrufen."
-
-#~ msgid ""
-#~ "The Analytics panel shows the number of people living in that area per "
-#~ "<2>Kontur Population</2> and estimated mapping gaps in OpenStreetMap. "
-#~ "Kontur’s customers have access to hundreds of other indicators through "
-#~ "Advanced Analytics."
-#~ msgstr ""
-#~ "Das Bedienfeld Analytik zeigt die Anzahl der in diesem Gebiet lebenden "
-#~ "Menschen pro <2>Kontur Bevölkerung</2> und geschätzte Kartierungslücken "
-#~ "in OpenStreetMap. Kontur-Kunden haben über Erweiterte Analytik Zugang zu "
-#~ "Hunderten von weiteren Indikatoren."
-
-#~ msgid "4. Explore data on the map and make conclusions."
-#~ msgstr "4. Die Daten auf der Karte entdecken und Schlussfolgerungen ziehen."
-
-#~ msgid ""
-#~ "The Layers panel gives you various options to display two indicators "
-#~ "simultaneously on a bivariate map, e.g., population density and distance "
-#~ "to the nearest fire station. Use the color legend to assess which areas "
-#~ "require attention. <br/>Hint: in general, green indicates low risk / few "
-#~ "gaps, red — high risk / many gaps."
-#~ msgstr ""
-#~ "Das Ebenen-Panel bietet Ihnen verschiedene Optionen, um zwei Indikatoren "
-#~ "gleichzeitig auf einer bivariaten Karte anzuzeigen, z. B. die "
-#~ "Bevölkerungsdichte und die Entfernung zur nächsten Feuerwache. Verwenden "
-#~ "Sie die Farblegende, um zu beurteilen, welche Bereiche Aufmerksamkeit "
-#~ "erfordern. <br/>Tipp: Im Allgemeinen bedeutet grün ein geringes Risiko / "
-#~ "wenige Lücken, rot ein hohes Risiko / viele Lücken."
-
-#~ msgid ""
-#~ "In addition, you can switch to Reports in the left panel to access data "
-#~ "on potential errors and inconsistencies in OpenStreetMap and help fix "
-#~ "them by mapping the respective area with the JOSM editor."
-#~ msgstr ""
-#~ "Außerdem können Sie im linken Bereich zu Berichte wechseln, um auf Daten "
-#~ "zu potenziellen Fehlern und Unstimmigkeiten in OpenStreetMap zuzugreifen "
-#~ "und dabei zu helfen, diese zu beheben, indem Sie das entsprechende Gebiet "
-#~ "mit dem JOSM-Editor kartieren."
-
-#~ msgid "Go to the map now"
-#~ msgstr "Jetzt die Karte aufrufen"
-
-#~ msgid ""
-#~ "We hope you find this tool valuable. Use the chatbox on Disaster Ninja "
-#~ "for any questions about the functionality, and we will be happy to guide "
-#~ "you. You can also contact us by email at <1>hello@kontur.io</1> if you "
-#~ "have feedback or suggestions on improving the tool.<br/><br/>Disaster "
-#~ "Ninja is an open-source project. Find the code in <8>Kontur’s GitHub "
-#~ "account</8>."
-#~ msgstr ""
-#~ "Wir hoffen, dass dieses Tool Ihnen von Nutzen ist. Wenn Sie Fragen zur "
-#~ "Funktionalität haben, können Sie die Chatbox auf Disaster Ninja nutzen, "
-#~ "und wir helfen Ihnen gerne weiter. Sie können uns auch eine E-Mail an "
-#~ "<1>hello@kontur.io</1> schreiben, wenn Sie Feedback oder Vorschläge zur "
-#~ "Verbesserung des Tools haben.<br/><br/>Disaster Ninja ist ein Open-Source-"
-#~ "Projekt. Sie finden den Code in <8>Konturs GitHub-Konto</8>."
-
-#~ msgid "Logout"
-#~ msgstr "Abmelden"
-
-#~ msgid "Loading events"
-#~ msgstr "Ereignisse werden geladen"
-
-#~ msgid "QA"
-#~ msgstr "QS"
-
-#~ msgid "Photo"
-#~ msgstr "Foto"
-
-#~ msgid "Can't use map as filter"
-#~ msgstr "Die Karte kann nicht als Filter verwendet werden"
-
-#~ msgid "Use map view as filter"
-#~ msgstr "Kartenansicht als Filter verwenden"
-
-#~ msgid "Error while fetching analytics data"
-#~ msgstr "Fehler beim Abrufen von Analysedaten"
-
-#~ msgid "Area"
-#~ msgstr "Gebiet"
-
-#~ msgid "Episode"
-#~ msgstr "Episode"
-
-#~ msgid "INFO"
-#~ msgstr "INFO"
-
-#~ msgid "Details"
-#~ msgstr "Details"
-
-#~ msgid "Loading analytics..."
-#~ msgstr "Analytik wird geladen..."
-
-#~ msgid "Loading advanced analytics..."
-#~ msgstr "Erweiterte Analytik wird geladen..."
-
-#~ msgid "Advanced Analytics"
-#~ msgstr "Erweiterte Analytik"
-
-#~ msgid "Please, select an area again"
-#~ msgstr "Bitte wählen Sie erneut ein Gebiet aus,"
-
-#~ msgid "to see state of the map"
-#~ msgstr "um den Status der Karte zu sehen"
-
-#~ msgid "Pick disaster from the list"
-#~ msgstr "Wählen Sie eine Katastrophe aus der Liste"
-
-#~ msgid "Draw polygon on the map"
-#~ msgstr "Zeichnen Sie ein Polygon auf der Karte"
+msgstr "Zaloguj się przez Google"
