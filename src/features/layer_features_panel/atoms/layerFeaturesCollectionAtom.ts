@@ -9,6 +9,7 @@ import { getLayerFeatures } from '~core/api/layers';
 import { layerFeaturesFiltersAtom } from './layerFeaturesFiltersAtom';
 import { getBBoxForLayerFeature } from './helpers/getBBoxForFeature';
 import { sortFeaturesPanelItems } from './helpers/sortFeaturesPanelItems';
+import { getLayerFeaturesPreprocessor } from './helpers/layerFeaturesPreprocessors';
 import type { FeaturesPanelItem } from '../components/LayerFeaturesPanel/types';
 import type { LayerFeaturesPanelConfig } from '../types/layerFeaturesPanel';
 import type { Feature } from 'geojson';
@@ -41,7 +42,7 @@ export const layerFeaturesCollectionAtom = atom<{
 
 function transformFeaturesToPanelData(featuresList: Feature[]): FeaturesPanelItem[] {
   return featuresList.map((f) => ({
-    properties: f.properties ?? {},
+    properties: getLayerFeaturesPreprocessor(featuresPanelLayerId)(f.properties ?? {}),
     id: f.id,
     focus: getBBoxForLayerFeature(f, featuresPanelLayerId),
   }));

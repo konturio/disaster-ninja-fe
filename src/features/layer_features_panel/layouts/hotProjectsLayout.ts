@@ -14,8 +14,8 @@ export const hotProjectsLayout = {
         },
         {
           type: 'Badge',
-          $if: 'status',
-          ifCondition: { op: '==', value: 'ARCHIVED' },
+          // isArchived added in preprocessor
+          $if: 'isArchived',
           props: {
             value: 'Archived',
             variant: 'faint',

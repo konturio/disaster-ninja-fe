@@ -18,10 +18,17 @@ import { hotProjectsLayout } from '~features/layer_features_panel/layouts/hotPro
 import { layerFeaturesFormatsRegistry } from '~features/layer_features_panel/formats/layerFeaturesFormats';
 import { oamSampleData } from '~core/api/__mocks__/_oamSampleData';
 import { oamLayout } from '~features/layer_features_panel/layouts/oamLayout';
+import { getLayerFeaturesPreprocessor } from '~features/layer_features_panel/atoms/helpers/layerFeaturesPreprocessors';
+import { HOT_PROJECTS_LAYER_ID } from '~features/layer_features_panel/constants';
 
 const useJsonState = (initialValue: any): [string, (value: string) => void] => {
   const [json, setJson] = useState(JSON.stringify(initialValue, null, 4));
   return [json, setJson];
+};
+
+const preprocessFeatureProperties = (layerId: string, properties: any[]) => {
+  const preprocessor = getLayerFeaturesPreprocessor(layerId);
+  return properties.map((p) => preprocessor(p));
 };
 
 interface JsonEditorProps {
@@ -132,7 +139,10 @@ const createLayoutDebugger = (initialLayout, initialData) => {
 
 export default {
   'Event Card': createLayoutDebugger(eventCardLayoutTemplate, eventSampleData),
-  'HOT Project Card': createLayoutDebugger(hotProjectsLayout, hotData),
+  'HOT Project Card': createLayoutDebugger(
+    hotProjectsLayout,
+    preprocessFeatureProperties(HOT_PROJECTS_LAYER_ID, hotData),
+  ),
   'Complex Demo': createLayoutDebugger(complexDataLayout, complexDataSamples),
   'Conditional Demo': createLayoutDebugger(conditionalLayout, conditionalDataSamples),
   'ACAPS Demo': createLayoutDebugger(acapsLayout, acapsSampleData),
