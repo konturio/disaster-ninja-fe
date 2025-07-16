@@ -33,7 +33,7 @@ msgstr "Iniciar sesión"
 msgid "Save"
 msgstr "Guardar"
 
-#: cancel mcda##btn_cancel
+#: cancel
 msgid "Cancel"
 msgstr "Cancelar"
 
@@ -52,6 +52,11 @@ msgstr "Desastres"
 #: loading
 msgid "Loading..."
 msgstr "Cargando..."
+
+#: preparing_data
+#, fuzzy
+msgid "Preparing data"
+msgstr "Recopilación de datos"
 
 #: loading_events
 #, fuzzy
@@ -82,6 +87,11 @@ msgstr "Presentación de la leyenda"
 msgid "Layers"
 msgstr "Capas"
 
+#: layer
+#, fuzzy
+msgid "Layer"
+msgstr "Capas"
+
 #: toolbar##map_ruler
 msgid "Measure distance"
 msgstr ""
@@ -98,7 +108,7 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-#: toolbar##delete
+#: toolbar##delete layer_actions##tooltips##delete
 #, fuzzy
 msgid "Delete"
 msgstr "Eliminar capa"
@@ -178,6 +188,15 @@ msgstr "Actualizado"
 
 #: started
 msgid "Started"
+msgstr ""
+
+#: created
+#, fuzzy
+msgid "Created"
+msgstr "Crear"
+
+#: osm_gaps
+msgid "OSM gaps"
 msgstr ""
 
 #: no_data_received
@@ -347,6 +366,14 @@ msgstr ""
 msgid "Create MCDA"
 msgstr "Crear"
 
+#: mcda##create_mcda_hint
+msgid "Create multi-criteria decision analysis"
+msgstr ""
+
+#: mcda##upload_mcda_hint
+msgid "Upload multi-criteria decision analysis"
+msgstr ""
+
 #: mcda##modal_input_name
 #, fuzzy
 msgid "Analysis name"
@@ -379,10 +406,6 @@ msgstr "Análisis avanzado"
 #, fuzzy
 msgid "Analysis name cannot be empty"
 msgstr "¡La contraseña no debe estar vacía!"
-
-#: mcda##error_bad_layer_data
-msgid "Invalid MCDA layer data"
-msgstr ""
 
 #: mcda##error_invalid_file
 msgid "Invalid MCDA file format"
@@ -578,6 +601,16 @@ msgstr ""
 msgid "Good"
 msgstr ""
 
+#: multivariate##multivariate_analysis
+#, fuzzy
+msgid "Multivariate Analysis"
+msgstr "Crear capa"
+
+#: multivariate##create_analysis_layer
+#, fuzzy
+msgid "Create analysis layer"
+msgstr "Crear capa"
+
 #: multivariate##upload_analysis_layer
 msgid "Upload analysis layer"
 msgstr ""
@@ -586,9 +619,47 @@ msgstr ""
 msgid "Score {{level}}"
 msgstr ""
 
-#: multivariate##popup##base_header
-msgid "Base {{level}}"
+#: multivariate##popup##compare_header
+msgid "Compare {{level}}"
 msgstr ""
+
+#: multivariate##score
+msgid "Score"
+msgstr ""
+
+#: multivariate##compare
+msgid "Compare"
+msgstr ""
+
+#: multivariate##hide_area
+msgid "Hide area"
+msgstr ""
+
+#: multivariate##labels
+msgid "Labels"
+msgstr ""
+
+#: multivariate##3d
+msgid "3D"
+msgstr ""
+
+#: map_popup##value
+#, fuzzy
+msgid "Value"
+msgstr "Guardar cambios"
+
+#: map_popup##range
+msgid "Range"
+msgstr ""
+
+#: map_popup##coefficient
+msgid "Coefficient"
+msgstr ""
+
+#: map_popup##normalized_value
+#, fuzzy
+msgid "Normalized value"
+msgstr "Normalizado por"
 
 #: search##search_location
 msgid "Search location"
@@ -726,6 +797,11 @@ msgstr ""
 #, fuzzy
 msgid "Timeline"
 msgstr "Sentimientos"
+
+#: create_layer##save_and_draw
+#, fuzzy
+msgid "Save and draw"
+msgstr "Análisis avanzado"
 
 #: create_layer##edit_layer
 msgid "Edit Layer"
@@ -902,10 +978,6 @@ msgstr "No hay geometría dibujada para descargar"
 #: draw_tools##overlap_error
 msgid "Polygon should not overlap itself"
 msgstr "El polígono no debe superponerse sobre sí mismo"
-
-#: draw_tools##save_features
-msgid "Save features"
-msgstr "Guardar características"
 
 #: boundary_selector##title
 msgid "Focus to administrative boundary"
@@ -1272,123 +1344,14 @@ msgstr ""
 msgid "User guide"
 msgstr ""
 
-#: about##title
-msgid "Welcome to Disaster Ninja!"
-msgstr "¡Bienvenido a Disaster Ninja!"
-
-#: about##intro
-msgid ""
-"Do you want to be notified about ongoing disasters? Are you interested in "
-"instant population data and other analytics for any region in the world? "
-"Disaster Ninja showcases some of <2>Kontur</2>’s capabilities in addressing "
-"these needs.<br/><br/>We initially designed it as a decision support tool "
-"for humanitarian mappers. Now it has grown in functionality and use cases. "
-"Whether you work in disaster management, build a smart city, or perform "
-"research on climate change, Disaster Ninja can help you to:"
+#: modes##external##upload_imagery
+msgid "Upload imagery"
 msgstr ""
-"¿Desea recibir notificaciones sobre desastres en curso? ¿Le interesan los "
-"datos de población instantáneos y otros datos analíticos de alguna región "
-"del mundo? Disaster Ninja muestra algunas de las capacidades de "
-"<2>Kontur</2> para ocuparse de estas necesidades.<br/><br/> Inicialmente la "
-"diseñamos como una herramienta de apoyo a los mapeadores de servicios "
-"humanitarios. Ahora ha ampliado sus funcionalidades y aplicaciones "
-"prácticas. Tanto si trabaja en la gestión de desastres como si construye una "
-"ciudad inteligente o realiza investigaciones sobre el cambio climático, "
-"Disaster Ninja puede ayudarle a:"
 
-#: about##l1
-msgid "1. Stay up to date with the latest hazard events globally."
-msgstr "1. Estar al día con los últimos eventos peligrosos a nivel mundial."
-
-#: about##p1
-msgid ""
-"The Disasters panel continually refreshes to inform you about ongoing "
-"events. It consumes data from the <2>Kontur Event Feed</2>, which you can "
-"also access via an API."
-msgstr ""
-"El panel de Desastres se actualiza continuamente para informarle sobre los "
-"acontecimientos en curso. Utiliza la información proporcionada por <2>Kontur "
-"Event Feed</2>, a la que también puede acceder a través de la interfaz de la "
-"aplicación."
-
-#: about##l2
-msgid "2. Focus on your area of interest."
-msgstr "2. Centrarse en su área de interés."
-
-#: about##p2
-msgid ""
-"The Drawing Tools panel allows you to draw or upload your own geometry on "
-"the map. You can also focus on a disaster-exposed area or an administrative "
-"unit — a country, city, or region."
-msgstr ""
-"El panel de Herramientas de Dibujo le permite dibujar o subir su propia "
-"geometría en el mapa. También puede centrarse en un área o en una unidad "
-"administrativa - país, ciudad o región — expuesta a desastres."
-
-#: about##l3
-msgid "3. Get analytics for the focused area."
-msgstr "3. Recibir análisis de su área de interés."
-
-#: about##p3
-msgid ""
-"The Analytics panel shows the number of people living in that area per "
-"<2>Kontur Population</2> and estimated mapping gaps in OpenStreetMap. "
-"Kontur’s customers have access to hundreds of other indicators through "
-"Advanced Analytics."
-msgstr ""
-"El panel de Análisis le muestra el número de personas que viven en la zona "
-"según <2>Kontur Population</2> y según una estimación de las zonas sin "
-"mapear en OpenStreetMap. Los clientes de Kontur tienen acceso a cientos de "
-"otros indicadores a través de Advance Analytics."
-
-#: about##l4
-msgid "4. Explore data on the map and make conclusions."
-msgstr "4. Explorar los datos del mapa y sacar sus propias conclusiones."
-
-#: about##p4
-msgid ""
-"The Layers panel gives you various options to display two indicators "
-"simultaneously on a bivariate map, e.g., population density and distance to "
-"the nearest fire station. Use the color legend to assess which areas require "
-"attention. <br/>Hint: in general, green indicates low risk / few gaps, red — "
-"high risk / many gaps."
-msgstr ""
-"El panel Capas le ofrece varias opciones para mostrar dos indicadores en "
-"simultáneo en un mapa bivariado, p. ej:, la densidad de población y la "
-"distancia a la estación de bomberos más cercana. Utilice las leyendas de "
-"colores para evaluar qué áreas requieren atención. <br/>Consejo: en general, "
-"el verde indica riesgo bajo / pocas zonas sin mapear, el rojo — riesgo "
-"alto / muchas zonas sin mapear."
-
-#: about##p5
-msgid ""
-"In addition, you can switch to Reports in the left panel to access data on "
-"potential errors and inconsistencies in OpenStreetMap and help fix them by "
-"mapping the respective area with the JOSM editor."
-msgstr ""
-"Además, puede cambiar a Informes en el panel de la izquierda para acceder a "
-"los datos sobre posibles errores e inconsistencias en OpenStreetMap y "
-"ayudarle a realizar correcciones mapeando la zona correspondiente con el "
-"editor JOSM."
-
-#: about##goToMap
-msgid "Go to the map now"
-msgstr "Ir al mapa ahora"
-
-#: about##p6
-msgid ""
-"We hope you find this tool valuable. Use the chatbox on Disaster Ninja for "
-"any questions about the functionality, and we will be happy to guide you. "
-"You can also contact us by email at <1>hello@kontur.io</1> if you have "
-"feedback or suggestions on improving the tool.<br/><br/>Disaster Ninja is an "
-"open-source project. Find the code in <8>Kontur’s GitHub account</8>."
-msgstr ""
-"Esperamos que esta herramienta le resulte valiosa. Utilice el chat de "
-"Disaster Ninja si tiene alguna pregunta sobre sus funcionalidades y "
-"estaremos encantados de ayudarle. También puede contactarnos por correo "
-"electrónico en <1>hello@kontur.io</1> si tiene algún comentario o sugerencia "
-"para mejorar la herramienta.<br/><br/> Disaster Ninja es un proyecto de "
-"código abierto. Encuentre el código en la <8>cuenta de GitHub de Kontur</8>."
+#: modes##external##imagery_catalog
+#, fuzzy
+msgid "Imagery catalog"
+msgstr "Imagen"
 
 #: profile##interfaceTheme
 msgid "Theme"
@@ -1560,6 +1523,10 @@ msgstr ""
 msgid "Ukrainian"
 msgstr "Ucranio"
 
+#: profile##languageOption##zn
+msgid "Chinese"
+msgstr ""
+
 #: profile##reference_area##freehand_geometry
 #, fuzzy
 msgid "Freehand geometry"
@@ -1585,7 +1552,9 @@ msgstr "Seleccione el límite en el mapa"
 #: profile##reference_area##tooltip_text
 msgid ""
 "1.Select an area of interest on the map using the Admin Boundary or Draw "
-"Geometry tool. <br/> 2. Click the 'Save as Reference' button on the toolbar."
+"Geometry tool.\n"
+"\n"
+" 2. Click the 'Save as Reference' button on the toolbar."
 msgstr ""
 
 #: profile##reference_area##accessing_location
@@ -1683,6 +1652,10 @@ msgstr ""
 msgid "No features found in the selected area."
 msgstr "Capas en el área seleccionada"
 
+#: layer_features_panel##priority
+msgid "{{level}} priority"
+msgstr ""
+
 #: reference_area##save_as_reference_area
 msgid "Save as reference area"
 msgstr ""
@@ -1694,6 +1667,121 @@ msgstr ""
 #: reference_area##selected_area_saved_as_reference_area
 msgid "Selected area has been saved as reference area in your profile"
 msgstr ""
+
+#: oam_auth##login_button
+msgid "Login with Google"
+msgstr ""
+
+#~ msgid "Save features"
+#~ msgstr "Guardar características"
+
+#~ msgid "Welcome to Disaster Ninja!"
+#~ msgstr "¡Bienvenido a Disaster Ninja!"
+
+#~ msgid ""
+#~ "Do you want to be notified about ongoing disasters? Are you interested in "
+#~ "instant population data and other analytics for any region in the world? "
+#~ "Disaster Ninja showcases some of <2>Kontur</2>’s capabilities in "
+#~ "addressing these needs.<br/><br/>We initially designed it as a decision "
+#~ "support tool for humanitarian mappers. Now it has grown in functionality "
+#~ "and use cases. Whether you work in disaster management, build a smart "
+#~ "city, or perform research on climate change, Disaster Ninja can help you "
+#~ "to:"
+#~ msgstr ""
+#~ "¿Desea recibir notificaciones sobre desastres en curso? ¿Le interesan los "
+#~ "datos de población instantáneos y otros datos analíticos de alguna región "
+#~ "del mundo? Disaster Ninja muestra algunas de las capacidades de "
+#~ "<2>Kontur</2> para ocuparse de estas necesidades.<br/><br/> Inicialmente "
+#~ "la diseñamos como una herramienta de apoyo a los mapeadores de servicios "
+#~ "humanitarios. Ahora ha ampliado sus funcionalidades y aplicaciones "
+#~ "prácticas. Tanto si trabaja en la gestión de desastres como si construye "
+#~ "una ciudad inteligente o realiza investigaciones sobre el cambio "
+#~ "climático, Disaster Ninja puede ayudarle a:"
+
+#~ msgid "1. Stay up to date with the latest hazard events globally."
+#~ msgstr "1. Estar al día con los últimos eventos peligrosos a nivel mundial."
+
+#~ msgid ""
+#~ "The Disasters panel continually refreshes to inform you about ongoing "
+#~ "events. It consumes data from the <2>Kontur Event Feed</2>, which you can "
+#~ "also access via an API."
+#~ msgstr ""
+#~ "El panel de Desastres se actualiza continuamente para informarle sobre "
+#~ "los acontecimientos en curso. Utiliza la información proporcionada por "
+#~ "<2>Kontur Event Feed</2>, a la que también puede acceder a través de la "
+#~ "interfaz de la aplicación."
+
+#~ msgid "2. Focus on your area of interest."
+#~ msgstr "2. Centrarse en su área de interés."
+
+#~ msgid ""
+#~ "The Drawing Tools panel allows you to draw or upload your own geometry on "
+#~ "the map. You can also focus on a disaster-exposed area or an "
+#~ "administrative unit — a country, city, or region."
+#~ msgstr ""
+#~ "El panel de Herramientas de Dibujo le permite dibujar o subir su propia "
+#~ "geometría en el mapa. También puede centrarse en un área o en una unidad "
+#~ "administrativa - país, ciudad o región — expuesta a desastres."
+
+#~ msgid "3. Get analytics for the focused area."
+#~ msgstr "3. Recibir análisis de su área de interés."
+
+#~ msgid ""
+#~ "The Analytics panel shows the number of people living in that area per "
+#~ "<2>Kontur Population</2> and estimated mapping gaps in OpenStreetMap. "
+#~ "Kontur’s customers have access to hundreds of other indicators through "
+#~ "Advanced Analytics."
+#~ msgstr ""
+#~ "El panel de Análisis le muestra el número de personas que viven en la "
+#~ "zona según <2>Kontur Population</2> y según una estimación de las zonas "
+#~ "sin mapear en OpenStreetMap. Los clientes de Kontur tienen acceso a "
+#~ "cientos de otros indicadores a través de Advance Analytics."
+
+#~ msgid "4. Explore data on the map and make conclusions."
+#~ msgstr "4. Explorar los datos del mapa y sacar sus propias conclusiones."
+
+#~ msgid ""
+#~ "The Layers panel gives you various options to display two indicators "
+#~ "simultaneously on a bivariate map, e.g., population density and distance "
+#~ "to the nearest fire station. Use the color legend to assess which areas "
+#~ "require attention. <br/>Hint: in general, green indicates low risk / few "
+#~ "gaps, red — high risk / many gaps."
+#~ msgstr ""
+#~ "El panel Capas le ofrece varias opciones para mostrar dos indicadores en "
+#~ "simultáneo en un mapa bivariado, p. ej:, la densidad de población y la "
+#~ "distancia a la estación de bomberos más cercana. Utilice las leyendas de "
+#~ "colores para evaluar qué áreas requieren atención. <br/>Consejo: en "
+#~ "general, el verde indica riesgo bajo / pocas zonas sin mapear, el rojo — "
+#~ "riesgo alto / muchas zonas sin mapear."
+
+#~ msgid ""
+#~ "In addition, you can switch to Reports in the left panel to access data "
+#~ "on potential errors and inconsistencies in OpenStreetMap and help fix "
+#~ "them by mapping the respective area with the JOSM editor."
+#~ msgstr ""
+#~ "Además, puede cambiar a Informes en el panel de la izquierda para acceder "
+#~ "a los datos sobre posibles errores e inconsistencias en OpenStreetMap y "
+#~ "ayudarle a realizar correcciones mapeando la zona correspondiente con el "
+#~ "editor JOSM."
+
+#~ msgid "Go to the map now"
+#~ msgstr "Ir al mapa ahora"
+
+#~ msgid ""
+#~ "We hope you find this tool valuable. Use the chatbox on Disaster Ninja "
+#~ "for any questions about the functionality, and we will be happy to guide "
+#~ "you. You can also contact us by email at <1>hello@kontur.io</1> if you "
+#~ "have feedback or suggestions on improving the tool.<br/><br/>Disaster "
+#~ "Ninja is an open-source project. Find the code in <8>Kontur’s GitHub "
+#~ "account</8>."
+#~ msgstr ""
+#~ "Esperamos que esta herramienta le resulte valiosa. Utilice el chat de "
+#~ "Disaster Ninja si tiene alguna pregunta sobre sus funcionalidades y "
+#~ "estaremos encantados de ayudarle. También puede contactarnos por correo "
+#~ "electrónico en <1>hello@kontur.io</1> si tiene algún comentario o "
+#~ "sugerencia para mejorar la herramienta.<br/><br/> Disaster Ninja es un "
+#~ "proyecto de código abierto. Encuentre el código en la <8>cuenta de GitHub "
+#~ "de Kontur</8>."
 
 #~ msgid "Logout"
 #~ msgstr "Cierre de sesión"

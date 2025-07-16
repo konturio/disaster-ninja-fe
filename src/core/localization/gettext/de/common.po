@@ -33,7 +33,7 @@ msgstr "Einloggen"
 msgid "Save"
 msgstr "Speichern"
 
-#: cancel mcda##btn_cancel
+#: cancel
 msgid "Cancel"
 msgstr "Abbrechen"
 
@@ -52,6 +52,11 @@ msgstr "Katastrophen"
 #: loading
 msgid "Loading..."
 msgstr "Wird geladen..."
+
+#: preparing_data
+#, fuzzy
+msgid "Preparing data"
+msgstr "Daten sammeln"
 
 #: loading_events
 #, fuzzy
@@ -82,6 +87,11 @@ msgstr "Darstellung der Legende"
 msgid "Layers"
 msgstr "Ebenen"
 
+#: layer
+#, fuzzy
+msgid "Layer"
+msgstr "Ebenen"
+
 #: toolbar##map_ruler
 msgid "Measure distance"
 msgstr ""
@@ -98,7 +108,7 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-#: toolbar##delete
+#: toolbar##delete layer_actions##tooltips##delete
 #, fuzzy
 msgid "Delete"
 msgstr "Ebene löschen"
@@ -178,6 +188,15 @@ msgstr "Aktualisiert"
 
 #: started
 msgid "Started"
+msgstr ""
+
+#: created
+#, fuzzy
+msgid "Created"
+msgstr "Erstellen"
+
+#: osm_gaps
+msgid "OSM gaps"
 msgstr ""
 
 #: no_data_received
@@ -348,6 +367,14 @@ msgstr ""
 msgid "Create MCDA"
 msgstr "Erstellen"
 
+#: mcda##create_mcda_hint
+msgid "Create multi-criteria decision analysis"
+msgstr ""
+
+#: mcda##upload_mcda_hint
+msgid "Upload multi-criteria decision analysis"
+msgstr ""
+
 #: mcda##modal_input_name
 #, fuzzy
 msgid "Analysis name"
@@ -380,10 +407,6 @@ msgstr "Erweiterte Analytik"
 #, fuzzy
 msgid "Analysis name cannot be empty"
 msgstr "Passwort darf nicht leer sein!"
-
-#: mcda##error_bad_layer_data
-msgid "Invalid MCDA layer data"
-msgstr ""
 
 #: mcda##error_invalid_file
 msgid "Invalid MCDA file format"
@@ -579,6 +602,16 @@ msgstr ""
 msgid "Good"
 msgstr ""
 
+#: multivariate##multivariate_analysis
+#, fuzzy
+msgid "Multivariate Analysis"
+msgstr "Ebene erstellen"
+
+#: multivariate##create_analysis_layer
+#, fuzzy
+msgid "Create analysis layer"
+msgstr "Ebene erstellen"
+
 #: multivariate##upload_analysis_layer
 msgid "Upload analysis layer"
 msgstr ""
@@ -587,9 +620,47 @@ msgstr ""
 msgid "Score {{level}}"
 msgstr ""
 
-#: multivariate##popup##base_header
-msgid "Base {{level}}"
+#: multivariate##popup##compare_header
+msgid "Compare {{level}}"
 msgstr ""
+
+#: multivariate##score
+msgid "Score"
+msgstr ""
+
+#: multivariate##compare
+msgid "Compare"
+msgstr ""
+
+#: multivariate##hide_area
+msgid "Hide area"
+msgstr ""
+
+#: multivariate##labels
+msgid "Labels"
+msgstr ""
+
+#: multivariate##3d
+msgid "3D"
+msgstr ""
+
+#: map_popup##value
+#, fuzzy
+msgid "Value"
+msgstr "Änderungen speichern"
+
+#: map_popup##range
+msgid "Range"
+msgstr ""
+
+#: map_popup##coefficient
+msgid "Coefficient"
+msgstr ""
+
+#: map_popup##normalized_value
+#, fuzzy
+msgid "Normalized value"
+msgstr "Normalisiert auf"
 
 #: search##search_location
 msgid "Search location"
@@ -727,6 +798,11 @@ msgstr ""
 #, fuzzy
 msgid "Timeline"
 msgstr "Stimmungen"
+
+#: create_layer##save_and_draw
+#, fuzzy
+msgid "Save and draw"
+msgstr "Erweiterte Analytik"
 
 #: create_layer##edit_layer
 msgid "Edit Layer"
@@ -901,10 +977,6 @@ msgstr "Keine gezeichnete Formen zum Herunterladen"
 #: draw_tools##overlap_error
 msgid "Polygon should not overlap itself"
 msgstr "Das Polygon darf sich nicht überschneiden"
-
-#: draw_tools##save_features
-msgid "Save features"
-msgstr "Merkmale speichern"
 
 #: boundary_selector##title
 msgid "Focus to administrative boundary"
@@ -1274,125 +1346,14 @@ msgstr ""
 msgid "User guide"
 msgstr ""
 
-#: about##title
-msgid "Welcome to Disaster Ninja!"
-msgstr "Willkommen bei Disaster Ninja!"
-
-#: about##intro
-msgid ""
-"Do you want to be notified about ongoing disasters? Are you interested in "
-"instant population data and other analytics for any region in the world? "
-"Disaster Ninja showcases some of <2>Kontur</2>’s capabilities in addressing "
-"these needs.<br/><br/>We initially designed it as a decision support tool "
-"for humanitarian mappers. Now it has grown in functionality and use cases. "
-"Whether you work in disaster management, build a smart city, or perform "
-"research on climate change, Disaster Ninja can help you to:"
+#: modes##external##upload_imagery
+msgid "Upload imagery"
 msgstr ""
-"Möchten Sie über aktuelle Katastrophen informiert werden? Sind Sie an "
-"sofortigen Bevölkerungsdaten und anderen Analysen für eine beliebige Region "
-"auf der Welt interessiert? Disaster Ninja zeigt Ihnen einige der Funktionen "
-"von <2>Kontur</2>, mit denen diese Anforderungen umgesetzt werden können.<br/"
-"><br/>Ursprünglich haben wir es als Entscheidungshilfe für Kartografen im "
-"humanitären Bereich entwickelt. Mittlerweile ist der Funktionsumfang und der "
-"Anwendungsbereich des Programms erweitert worden. Ganz gleich, ob Sie im "
-"Katastrophenmanagement tätig sind, eine intelligente Stadt bauen oder über "
-"den Klimawandel forschen, Disaster Ninja kann Ihnen dabei helfen:"
 
-#: about##l1
-msgid "1. Stay up to date with the latest hazard events globally."
-msgstr ""
-"1. Über die aktuellen Gefahrenereignisse weltweit auf dem Laufenden zu "
-"bleiben."
-
-#: about##p1
-msgid ""
-"The Disasters panel continually refreshes to inform you about ongoing "
-"events. It consumes data from the <2>Kontur Event Feed</2>, which you can "
-"also access via an API."
-msgstr ""
-"Das Bedienfeld von Disasters wird kontinuierlich aktualisiert, um Sie über "
-"aktuelle Ereignisse zu informieren. Es bezieht die Daten aus dem <2>Kontur "
-"Ereignis-Feed</2>, auf den Sie auch über eine API zugreifen können."
-
-#: about##l2
-msgid "2. Focus on your area of interest."
-msgstr "2. Den Fokus auf Ihr Interessengebiet zu legen."
-
-#: about##p2
-msgid ""
-"The Drawing Tools panel allows you to draw or upload your own geometry on "
-"the map. You can also focus on a disaster-exposed area or an administrative "
-"unit — a country, city, or region."
-msgstr ""
-"Mit den Zeichenwerkzeugen können Sie Ihre eigene geometrische Form auf die "
-"Karte zeichnen oder hochladen. Sie können sich auch auf ein von einer "
-"Katastrophe betroffenes Gebiet oder eine Verwaltungseinheit - ein Land, eine "
-"Stadt oder eine Region - konzentrieren."
-
-#: about##l3
-msgid "3. Get analytics for the focused area."
-msgstr "3. Die Analytik für den ausgewählten Bereich aufrufen."
-
-#: about##p3
-msgid ""
-"The Analytics panel shows the number of people living in that area per "
-"<2>Kontur Population</2> and estimated mapping gaps in OpenStreetMap. "
-"Kontur’s customers have access to hundreds of other indicators through "
-"Advanced Analytics."
-msgstr ""
-"Das Bedienfeld Analytik zeigt die Anzahl der in diesem Gebiet lebenden "
-"Menschen pro <2>Kontur Bevölkerung</2> und geschätzte Kartierungslücken in "
-"OpenStreetMap. Kontur-Kunden haben über Erweiterte Analytik Zugang zu "
-"Hunderten von weiteren Indikatoren."
-
-#: about##l4
-msgid "4. Explore data on the map and make conclusions."
-msgstr "4. Die Daten auf der Karte entdecken und Schlussfolgerungen ziehen."
-
-#: about##p4
-msgid ""
-"The Layers panel gives you various options to display two indicators "
-"simultaneously on a bivariate map, e.g., population density and distance to "
-"the nearest fire station. Use the color legend to assess which areas require "
-"attention. <br/>Hint: in general, green indicates low risk / few gaps, red — "
-"high risk / many gaps."
-msgstr ""
-"Das Ebenen-Panel bietet Ihnen verschiedene Optionen, um zwei Indikatoren "
-"gleichzeitig auf einer bivariaten Karte anzuzeigen, z. B. die "
-"Bevölkerungsdichte und die Entfernung zur nächsten Feuerwache. Verwenden Sie "
-"die Farblegende, um zu beurteilen, welche Bereiche Aufmerksamkeit erfordern. "
-"<br/>Tipp: Im Allgemeinen bedeutet grün ein geringes Risiko / wenige Lücken, "
-"rot ein hohes Risiko / viele Lücken."
-
-#: about##p5
-msgid ""
-"In addition, you can switch to Reports in the left panel to access data on "
-"potential errors and inconsistencies in OpenStreetMap and help fix them by "
-"mapping the respective area with the JOSM editor."
-msgstr ""
-"Außerdem können Sie im linken Bereich zu Berichte wechseln, um auf Daten zu "
-"potenziellen Fehlern und Unstimmigkeiten in OpenStreetMap zuzugreifen und "
-"dabei zu helfen, diese zu beheben, indem Sie das entsprechende Gebiet mit "
-"dem JOSM-Editor kartieren."
-
-#: about##goToMap
-msgid "Go to the map now"
-msgstr "Jetzt die Karte aufrufen"
-
-#: about##p6
-msgid ""
-"We hope you find this tool valuable. Use the chatbox on Disaster Ninja for "
-"any questions about the functionality, and we will be happy to guide you. "
-"You can also contact us by email at <1>hello@kontur.io</1> if you have "
-"feedback or suggestions on improving the tool.<br/><br/>Disaster Ninja is an "
-"open-source project. Find the code in <8>Kontur’s GitHub account</8>."
-msgstr ""
-"Wir hoffen, dass dieses Tool Ihnen von Nutzen ist. Wenn Sie Fragen zur "
-"Funktionalität haben, können Sie die Chatbox auf Disaster Ninja nutzen, und "
-"wir helfen Ihnen gerne weiter. Sie können uns auch eine E-Mail an "
-"<1>hello@kontur.io</1> schreiben, wenn Sie Feedback oder Vorschläge zur "
-"Verbesserung des Tools haben.<br/><br/>Disaster Ninja ist ein Open-Source-"
-"Projekt. Sie finden den Code in <8>Konturs GitHub-Konto</8>."
+#: modes##external##imagery_catalog
+#, fuzzy
+msgid "Imagery catalog"
+msgstr "Bild"
 
 #: profile##interfaceTheme
 msgid "Theme"
@@ -1563,6 +1524,10 @@ msgstr ""
 msgid "Ukrainian"
 msgstr "Ukrainisch"
 
+#: profile##languageOption##zn
+msgid "Chinese"
+msgstr ""
+
 #: profile##reference_area##freehand_geometry
 #, fuzzy
 msgid "Freehand geometry"
@@ -1588,7 +1553,9 @@ msgstr "Wählen Sie eine Grenze auf der Karte"
 #: profile##reference_area##tooltip_text
 msgid ""
 "1.Select an area of interest on the map using the Admin Boundary or Draw "
-"Geometry tool. <br/> 2. Click the 'Save as Reference' button on the toolbar."
+"Geometry tool.\n"
+"\n"
+" 2. Click the 'Save as Reference' button on the toolbar."
 msgstr ""
 
 #: profile##reference_area##accessing_location
@@ -1686,6 +1653,10 @@ msgstr ""
 msgid "No features found in the selected area."
 msgstr "Ebenen im ausgewählten Bereich"
 
+#: layer_features_panel##priority
+msgid "{{level}} priority"
+msgstr ""
+
 #: reference_area##save_as_reference_area
 msgid "Save as reference area"
 msgstr ""
@@ -1697,6 +1668,124 @@ msgstr ""
 #: reference_area##selected_area_saved_as_reference_area
 msgid "Selected area has been saved as reference area in your profile"
 msgstr ""
+
+#: oam_auth##login_button
+msgid "Login with Google"
+msgstr ""
+
+#~ msgid "Save features"
+#~ msgstr "Merkmale speichern"
+
+#~ msgid "Welcome to Disaster Ninja!"
+#~ msgstr "Willkommen bei Disaster Ninja!"
+
+#~ msgid ""
+#~ "Do you want to be notified about ongoing disasters? Are you interested in "
+#~ "instant population data and other analytics for any region in the world? "
+#~ "Disaster Ninja showcases some of <2>Kontur</2>’s capabilities in "
+#~ "addressing these needs.<br/><br/>We initially designed it as a decision "
+#~ "support tool for humanitarian mappers. Now it has grown in functionality "
+#~ "and use cases. Whether you work in disaster management, build a smart "
+#~ "city, or perform research on climate change, Disaster Ninja can help you "
+#~ "to:"
+#~ msgstr ""
+#~ "Möchten Sie über aktuelle Katastrophen informiert werden? Sind Sie an "
+#~ "sofortigen Bevölkerungsdaten und anderen Analysen für eine beliebige "
+#~ "Region auf der Welt interessiert? Disaster Ninja zeigt Ihnen einige der "
+#~ "Funktionen von <2>Kontur</2>, mit denen diese Anforderungen umgesetzt "
+#~ "werden können.<br/><br/>Ursprünglich haben wir es als Entscheidungshilfe "
+#~ "für Kartografen im humanitären Bereich entwickelt. Mittlerweile ist der "
+#~ "Funktionsumfang und der Anwendungsbereich des Programms erweitert worden. "
+#~ "Ganz gleich, ob Sie im Katastrophenmanagement tätig sind, eine "
+#~ "intelligente Stadt bauen oder über den Klimawandel forschen, Disaster "
+#~ "Ninja kann Ihnen dabei helfen:"
+
+#~ msgid "1. Stay up to date with the latest hazard events globally."
+#~ msgstr ""
+#~ "1. Über die aktuellen Gefahrenereignisse weltweit auf dem Laufenden zu "
+#~ "bleiben."
+
+#~ msgid ""
+#~ "The Disasters panel continually refreshes to inform you about ongoing "
+#~ "events. It consumes data from the <2>Kontur Event Feed</2>, which you can "
+#~ "also access via an API."
+#~ msgstr ""
+#~ "Das Bedienfeld von Disasters wird kontinuierlich aktualisiert, um Sie "
+#~ "über aktuelle Ereignisse zu informieren. Es bezieht die Daten aus dem "
+#~ "<2>Kontur Ereignis-Feed</2>, auf den Sie auch über eine API zugreifen "
+#~ "können."
+
+#~ msgid "2. Focus on your area of interest."
+#~ msgstr "2. Den Fokus auf Ihr Interessengebiet zu legen."
+
+#~ msgid ""
+#~ "The Drawing Tools panel allows you to draw or upload your own geometry on "
+#~ "the map. You can also focus on a disaster-exposed area or an "
+#~ "administrative unit — a country, city, or region."
+#~ msgstr ""
+#~ "Mit den Zeichenwerkzeugen können Sie Ihre eigene geometrische Form auf "
+#~ "die Karte zeichnen oder hochladen. Sie können sich auch auf ein von einer "
+#~ "Katastrophe betroffenes Gebiet oder eine Verwaltungseinheit - ein Land, "
+#~ "eine Stadt oder eine Region - konzentrieren."
+
+#~ msgid "3. Get analytics for the focused area."
+#~ msgstr "3. Die Analytik für den ausgewählten Bereich aufrufen."
+
+#~ msgid ""
+#~ "The Analytics panel shows the number of people living in that area per "
+#~ "<2>Kontur Population</2> and estimated mapping gaps in OpenStreetMap. "
+#~ "Kontur’s customers have access to hundreds of other indicators through "
+#~ "Advanced Analytics."
+#~ msgstr ""
+#~ "Das Bedienfeld Analytik zeigt die Anzahl der in diesem Gebiet lebenden "
+#~ "Menschen pro <2>Kontur Bevölkerung</2> und geschätzte Kartierungslücken "
+#~ "in OpenStreetMap. Kontur-Kunden haben über Erweiterte Analytik Zugang zu "
+#~ "Hunderten von weiteren Indikatoren."
+
+#~ msgid "4. Explore data on the map and make conclusions."
+#~ msgstr "4. Die Daten auf der Karte entdecken und Schlussfolgerungen ziehen."
+
+#~ msgid ""
+#~ "The Layers panel gives you various options to display two indicators "
+#~ "simultaneously on a bivariate map, e.g., population density and distance "
+#~ "to the nearest fire station. Use the color legend to assess which areas "
+#~ "require attention. <br/>Hint: in general, green indicates low risk / few "
+#~ "gaps, red — high risk / many gaps."
+#~ msgstr ""
+#~ "Das Ebenen-Panel bietet Ihnen verschiedene Optionen, um zwei Indikatoren "
+#~ "gleichzeitig auf einer bivariaten Karte anzuzeigen, z. B. die "
+#~ "Bevölkerungsdichte und die Entfernung zur nächsten Feuerwache. Verwenden "
+#~ "Sie die Farblegende, um zu beurteilen, welche Bereiche Aufmerksamkeit "
+#~ "erfordern. <br/>Tipp: Im Allgemeinen bedeutet grün ein geringes Risiko / "
+#~ "wenige Lücken, rot ein hohes Risiko / viele Lücken."
+
+#~ msgid ""
+#~ "In addition, you can switch to Reports in the left panel to access data "
+#~ "on potential errors and inconsistencies in OpenStreetMap and help fix "
+#~ "them by mapping the respective area with the JOSM editor."
+#~ msgstr ""
+#~ "Außerdem können Sie im linken Bereich zu Berichte wechseln, um auf Daten "
+#~ "zu potenziellen Fehlern und Unstimmigkeiten in OpenStreetMap zuzugreifen "
+#~ "und dabei zu helfen, diese zu beheben, indem Sie das entsprechende Gebiet "
+#~ "mit dem JOSM-Editor kartieren."
+
+#~ msgid "Go to the map now"
+#~ msgstr "Jetzt die Karte aufrufen"
+
+#~ msgid ""
+#~ "We hope you find this tool valuable. Use the chatbox on Disaster Ninja "
+#~ "for any questions about the functionality, and we will be happy to guide "
+#~ "you. You can also contact us by email at <1>hello@kontur.io</1> if you "
+#~ "have feedback or suggestions on improving the tool.<br/><br/>Disaster "
+#~ "Ninja is an open-source project. Find the code in <8>Kontur’s GitHub "
+#~ "account</8>."
+#~ msgstr ""
+#~ "Wir hoffen, dass dieses Tool Ihnen von Nutzen ist. Wenn Sie Fragen zur "
+#~ "Funktionalität haben, können Sie die Chatbox auf Disaster Ninja nutzen, "
+#~ "und wir helfen Ihnen gerne weiter. Sie können uns auch eine E-Mail an "
+#~ "<1>hello@kontur.io</1> schreiben, wenn Sie Feedback oder Vorschläge zur "
+#~ "Verbesserung des Tools haben.<br/><br/>Disaster Ninja ist ein Open-Source-"
+#~ "Projekt. Sie finden den Code in <8>Konturs GitHub-Konto</8>."
 
 #~ msgid "Logout"
 #~ msgstr "Abmelden"
