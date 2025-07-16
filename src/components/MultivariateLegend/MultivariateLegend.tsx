@@ -1,4 +1,5 @@
-import { Legend as BiLegend, MCDALegend } from '@konturio/ui-kit';
+import { Legend as BiLegend, MCDALegend, Text } from '@konturio/ui-kit';
+import clsx from 'clsx';
 import { generateMCDALegendColors } from '~utils/mcda/mcdaLegendsUtils';
 import { BIVARIATE_LEGEND_SIZE } from '~components/BivariateLegend/const';
 import { DEFAULT_MULTIBIVARIATE_STEPS } from '~utils/multivariate/constants';
@@ -7,10 +8,12 @@ import { CornerTooltipWrapper } from '~components/BivariateLegend/CornerTooltipW
 import { i18n } from '~core/localization';
 import { isNumber } from '~utils/common';
 import OpacityStepsLegend from '~components/OpacityStepsLegend/OpacityStepsLegend';
-import { SimpleLegend } from '~components/SimpleLegend/SimpleLegend';
 import { DEFAULT_BASE_DIRECTION, DEFAULT_SCORE_DIRECTION } from './constants';
 import s from './MultivariateLegend.module.css';
-import type { SimpleLegendStep } from '~core/logical_layers/types/legends';
+import textLegendIcon from './icons/text_legend_icon.svg';
+import icon3DLegendLow from './icons/3d_legend_low.svg';
+import icon3DLegendMed from './icons/3d_legend_med.svg';
+import icon3DLegendHigh from './icons/3d_legend_high.svg';
 import type { Direction } from '~utils/bivariate';
 import type { LayerMeta } from '~core/logical_layers/types/meta';
 import type { ColorTheme } from '~core/types';
@@ -38,14 +41,27 @@ type MultiBivariateLegendAxisProp = {
 function DimensionBlock({
   title,
   children,
+  grayscale,
 }: {
   title: string;
   children: React.ReactNode;
+  grayscale?: boolean;
 }) {
   return (
     <div>
       <div className={s.dimensionName}>{title}</div>
-      {children}
+      <div className={clsx({ [s.grayscale]: grayscale })}>{children}</div>
+    </div>
+  );
+}
+
+function DimensionStep({ text, icon }: { text: string; icon: JSX.Element }): JSX.Element {
+  return (
+    <div>
+      {icon}
+      <Text type="caption" className={s.dimensionStepName}>
+        {text}
+      </Text>
     </div>
   );
 }
@@ -157,6 +173,9 @@ function createExtrusionLegend(config: MultivariateLayerConfig) {
     return (
       <DimensionBlock title={i18n.t('multivariate.3d')}>
         {printMCDAAxes(config.extrusion.height.config.layers)}
+        <img src={icon3DLegendLow} className={s.extruisionIcon} />
+        <img src={icon3DLegendMed} className={s.extruisionIcon} />
+        <img src={icon3DLegendHigh} className={s.extruisionIcon} />
       </DimensionBlock>
     );
   }
@@ -167,21 +186,14 @@ function createTextLegend(config: MultivariateLayerConfig) {
     const label = config.text.mcdaValue?.config?.layers
       .map((layer) => layer.name)
       .join(', ');
-    const steps: SimpleLegendStep[] = [
-      {
-        stepName: label,
-        stepShape: 'circle',
-        style: { 'fill-color': 'transparent', color: '#000', width: 2 },
-      },
-    ];
-    const legendConfig = {
-      type: 'simple' as const,
-      name: 'labels',
-      steps: steps,
-    };
     return (
       <DimensionBlock title={i18n.t('multivariate.labels')}>
-        <SimpleLegend legend={legendConfig} />
+        <div>
+          <DimensionStep
+            text={label}
+            icon={<img src={textLegendIcon} className={s.textIcon} />}
+          />
+        </div>
       </DimensionBlock>
     );
   }
