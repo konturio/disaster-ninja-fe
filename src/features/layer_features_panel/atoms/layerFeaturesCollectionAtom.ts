@@ -30,13 +30,13 @@ export const layerFeaturesCollectionAtom = atom<{
 }>((ctx) => {
   const layerFeatures = ctx.spy(fetchLayerFeaturesResource.dataAtom);
   const loading = ctx.spy(fetchLayerFeaturesResource.pendingAtom) > 0;
-  const transformedLaterFeatures = layerFeatures
+  const transformedLayerFeatures = layerFeatures
     ? transformFeaturesToPanelItems(layerFeatures)
     : null;
-  if (transformedLaterFeatures) {
-    sortFeaturesPanelItems(transformedLaterFeatures, featuresPanelLayerId);
+  if (transformedLayerFeatures) {
+    sortFeaturesPanelItems(transformedLayerFeatures, featuresPanelLayerId);
   }
-  return { data: transformedLaterFeatures, loading };
+  return { data: transformedLayerFeatures, loading };
 }, 'layerFeaturesCollectionAtom');
 
 function transformFeaturesToPanelItems(featuresList: Feature[]): FeaturesPanelItem[] {
