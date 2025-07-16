@@ -594,7 +594,7 @@ msgstr "Хорошо"
 
 #: multivariate##multivariate_analysis
 msgid "Multivariate Analysis"
-msgstr "Многомерныйй анализ"
+msgstr "Многомерный анализ"
 
 #: multivariate##create_analysis_layer
 msgid "Create analysis layer"
