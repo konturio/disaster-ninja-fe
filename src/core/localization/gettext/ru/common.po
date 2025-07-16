@@ -645,7 +645,7 @@ msgstr "Диапазон"
 
 #: map_popup##coefficient
 msgid "Coefficient"
-msgstr "Коэфициент"
+msgstr "Коэффициент"
 
 #: map_popup##normalized_value
 msgid "Normalized value"
