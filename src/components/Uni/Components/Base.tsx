@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { useFormattedValue } from '../hooks/useFormattedValue';
+import { useUniLayoutContext } from '../Layout/UniLayoutContext';
 import bs from './Base.module.css';
 
 export interface TextProps {
@@ -13,7 +13,8 @@ export interface TitleProps extends TextProps {
 }
 
 export function Title({ value, className, level = 2, format }: TitleProps) {
-  const formattedValue = useFormattedValue(value, format);
+  const context = useUniLayoutContext();
+  const formattedValue = context.getFormattedValue(value, format);
 
   return (
     <div className={clsx(level ? bs[`titleL${level}`] : bs.titleL2, className)}>
@@ -22,7 +23,8 @@ export function Title({ value, className, level = 2, format }: TitleProps) {
   );
 }
 export function Text({ value, className, format }: TextProps) {
-  const formattedValue = useFormattedValue(value, format);
+  const context = useUniLayoutContext();
+  const formattedValue = context.getFormattedValue(value, format);
 
   return <div className={clsx(bs.text, className)}>{formattedValue}</div>;
 }
