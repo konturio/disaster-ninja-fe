@@ -28,6 +28,7 @@ export const acapsSampleData = [
     geographic_level: 'Subnational',
     last_risk_update: '2024-06-13T13:54:05.000Z',
     acaps_source_dataset: 'Risk list',
+    isRiskList: true,
     _internal_filter_date: '2024-06-13',
     source_link:
       'https://www.acaps.org/special-report/crisisinsight-global-risk-analysis-3',
@@ -59,6 +60,7 @@ export const acapsSampleData = [
       'https://climateknowledgeportal.worldbank.org/sites/default/files/2018-10/wb_gfdrr_climate_change_country_profile_for_PAN.pdf',
     source_name: 'World Bank',
     acaps_source_dataset: 'Seasonal events calendar',
+    isSeasonalEvents: true,
     _internal_filter_date: '2011-04-01',
   },
   // info landscape
@@ -77,6 +79,7 @@ export const acapsSampleData = [
     source_name: 'IFRC',
     subindicator: ['ILS2.1 - Telecommunications infrastructures damage or limitations'],
     acaps_source_dataset: 'Information landscape dataset',
+    isInformationLandscape: true,
     _internal_filter_date: '2021-11-01',
   },
   // protection risk monitor
@@ -124,6 +127,7 @@ export const acapsSampleData = [
       'R02 - Attacks on civilians and other unlawful killings, and attacks on civilian objects',
     ],
     acaps_source_dataset: 'Protection risks monitor',
+    isProtectionRisks: true,
     _internal_filter_date: '2022-09-01',
     targeting_specific_population_groups: ['Political affilitation'],
   },

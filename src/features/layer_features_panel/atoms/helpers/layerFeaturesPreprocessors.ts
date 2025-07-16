@@ -5,9 +5,10 @@ import {
 } from '~features/layer_features_panel/constants';
 import { hotProjectsPreprocessor } from './preprocessors/hotProjectsPreprocessor';
 import { acapsPreprocessor } from './preprocessors/acapsPreprocessor';
+import type { Feature } from 'geojson';
 
-export type LayerFeaturesPreprocessor = (properties: object) => object;
-const defaultFeaturesPreprocessor = (properties: object) => properties;
+export type LayerFeaturesPreprocessor = (feature: Feature) => Feature;
+const defaultFeaturesPreprocessor = (feature: Feature) => feature;
 
 const layerFeaturesPreprocessors: Record<string, LayerFeaturesPreprocessor> = {
   [HOT_PROJECTS_LAYER_ID]: hotProjectsPreprocessor,

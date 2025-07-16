@@ -1,4 +1,7 @@
-export function acapsPreprocessor(properties: object) {
+import type { Feature } from 'geojson';
+
+export function acapsPreprocessor(feature: Feature): Feature {
+  const properties = feature.properties;
   switch (properties?.['acaps_source_dataset']) {
     case 'Risk list':
       properties['isRiskList'] = true;
@@ -13,5 +16,5 @@ export function acapsPreprocessor(properties: object) {
       properties['isProtectionRisks'] = true;
       break;
   }
-  return properties;
+  return feature;
 }

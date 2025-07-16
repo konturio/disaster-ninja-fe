@@ -89,6 +89,7 @@ export const hotData = [
   {
     teams: [],
     status: 'ARCHIVED',
+    isArchived: true,
     author: 'geohacker',
     k_type: 'polygon',
     aoiBBOX: [76.959254, 10.048946, 77.140251, 10.312653],

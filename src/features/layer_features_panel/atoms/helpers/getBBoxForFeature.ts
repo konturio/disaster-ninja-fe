@@ -1,6 +1,4 @@
 import {
-  ACAPS_LAYER_ID,
-  ACAPS_SIMPLE_LAYER_ID,
   HOT_PROJECTS_LAYER_ID,
   OAM_LAYER_ID,
 } from '~features/layer_features_panel/constants';

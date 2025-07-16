@@ -142,15 +142,9 @@ const createLayoutDebugger = (initialLayout, initialData) => {
 
 export default {
   'Event Card': createLayoutDebugger(eventCardLayoutTemplate, eventSampleData),
-  'HOT Project Card': createLayoutDebugger(
-    hotProjectsLayout,
-    preprocessFeatureProperties(HOT_PROJECTS_LAYER_ID, hotData),
-  ),
+  'HOT Project Card': createLayoutDebugger(hotProjectsLayout, hotData),
   'Complex Demo': createLayoutDebugger(complexDataLayout, complexDataSamples),
   'Conditional Demo': createLayoutDebugger(conditionalLayout, conditionalDataSamples),
-  'ACAPS Demo': createLayoutDebugger(
-    acapsLayout,
-    preprocessFeatureProperties(ACAPS_LAYER_ID, acapsSampleData),
-  ),
+  'ACAPS Demo': createLayoutDebugger(acapsLayout, acapsSampleData),
   'OAM Demo': createLayoutDebugger(oamLayout, oamSampleData),
 };

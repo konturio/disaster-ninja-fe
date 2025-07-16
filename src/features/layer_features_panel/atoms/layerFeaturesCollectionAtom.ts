@@ -41,8 +41,11 @@ export const layerFeaturesCollectionAtom = atom<{
 }, 'layerFeaturesCollectionAtom');
 
 function transformFeaturesToPanelData(featuresList: Feature[]): FeaturesPanelItem[] {
-  return featuresList.map((f) => ({
-    properties: getLayerFeaturesPreprocessor(featuresPanelLayerId)(f.properties ?? {}),
+  const preprocessedFeatures = featuresList.map((f) =>
+    getLayerFeaturesPreprocessor(featuresPanelLayerId)(f),
+  );
+  return preprocessedFeatures.map((f) => ({
+    properties: f.properties ?? {},
     id: f.id,
     focus: getBBoxForLayerFeature(f, featuresPanelLayerId),
   }));
