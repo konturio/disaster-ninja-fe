@@ -9,7 +9,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value2) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value2);
 var __privateSet = (obj, member, value2, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value2) : member.set(obj, value2), value2);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, e as extendWithValue, R as React, c as createValue, i as isEqual, r as reactExports, a as requireReact, b as requireReactDom, d as React$1, g as getDefaultExportFromCjs } from "./index-DBSuAQpq.js";
+import { u as useFixtureState, e as extendWithValue, R as React, c as createValue, i as isEqual, r as reactExports, a as requireReact, b as requireReactDom, d as React$1, g as getDefaultExportFromCjs } from "./index-t8jnH0-N.js";
 function useCurrentInputValue(inputName, defaultValue) {
   const [fixtureState] = useFixtureState("inputs");
   const inputFs = fixtureState && fixtureState[inputName];
@@ -191,7 +191,7 @@ var i$2;
 !function(e) {
   e[e.MAX = 0] = "MAX", e[e.HIGH = 1] = "HIGH", e[e.MED = 2] = "MED", e[e.LOW = 3] = "LOW", e[e.MIN = 4] = "MIN";
 }(i$2 || (i$2 = {}));
-const l = ["allowFullScreen", "allowTransparency", "autoComplete", "autoFocus", "autoPlay", "cellPadding", "cellSpacing", "charSet", "classId", "colSpan", "contentEditable", "contextMenu", "crossOrigin", "encType", "formAction", "formEncType", "formMethod", "formNoValidate", "formTarget", "frameBorder", "hrefLang", "inputMode", "keyParams", "keyType", "marginHeight", "marginWidth", "maxLength", "mediaGroup", "minLength", "noValidate", "radioGroup", "readOnly", "rowSpan", "spellCheck", "srcDoc", "srcLang", "srcSet", "tabIndex", "useMap"].reduce((e, t2) => (e[t2.toLowerCase()] = t2, e), { class: "className", for: "htmlFor" }), o$1 = { amp: "&", apos: "'", gt: ">", lt: "<", nbsp: " ", quot: "“" }, a = ["style", "script"], c$1 = ["src", "href", "data", "formAction", "srcDoc", "action"], s$g = /([-A-Z0-9_:]+)(?:\s*=\s*(?:(?:"((?:\\.|[^"])*)")|(?:'((?:\\.|[^'])*)')|(?:\{((?:\\.|{[^}]*?}|[^}])*)\})))?/gi, d = /mailto:/i, u = /\n{2,}$/, p = /^(\s*>[\s\S]*?)(?=\n\n|$)/, f = /^ *> ?/gm, h = /^(?:\[!([^\]]*)\]\n)?([\s\S]*)/, m$9 = /^ {2,}\n/, g$1 = /^(?:( *[-*_])){3,} *(?:\n *)+\n/, y = /^(?: {1,3})?(`{3,}|~{3,}) *(\S+)? *([^\n]*?)?\n([\s\S]*?)(?:\1\n?|$)/, k = /^(?: {4}[^\n]+\n*)+(?:\n *)+\n?/, x = /^(`+)((?:\\`|(?!\1)`|[^`])+)\1/, b = /^(?:\n *)*\n/, v = /\r\n?/g, C = /^\[\^([^\]]+)](:(.*)((\n+ {4,}.*)|(\n(?!\[\^).+))*)/, $ = /^\[\^([^\]]+)]/, S = /\f/g, w = /^---[ \t]*\n(.|\n)*\n---[ \t]*\n/, E = /^\s*?\[(x|\s)\]/, z = /^ *(#{1,6}) *([^\n]+?)(?: +#*)?(?:\n *)*(?:\n|$)/, L = /^ *(#{1,6}) +([^\n]+?)(?: +#*)?(?:\n *)*(?:\n|$)/, A = /^([^\n]+)\n *(=|-){3,} *(?:\n *)+\n/, O = /^ *(?!<[a-z][^ >/]* ?\/>)<([a-z][^ >/]*) ?((?:[^>]*[^/])?)>\n?(\s*(?:<\1[^>]*?>[\s\S]*?<\/\1>|(?!<\1\b)[\s\S])*?)<\/\1>(?!<\/\1>)\n*/i, T = /&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-fA-F]{1,6});/gi, B = /^<!--[\s\S]*?(?:-->)/, M = /^(data|aria|x)-[a-z_][a-z\d_.-]*$/, R = /^ *<([a-z][a-z0-9:]*)(?:\s+((?:<.*?>|[^>])*))?\/?>(?!<\/\1>)(\s*\n)?/i, I = /^\{.*\}$/, D = /^(https?:\/\/[^\s<]+[^<.,:;"')\]\s])/, U = /^<([^ >]+@[^ >]+)>/, N = /^<([^ >]+:\/[^ >]+)>/, j = /-([a-z])?/gi, H = /^(\|.*)\n(?: *(\|? *[-:]+ *\|[-| :]*)\n((?:.*\|.*\n)*))?\n?/, P = /^\[([^\]]*)\]:\s+<?([^\s>]+)>?\s*("([^"]*)")?/, _ = /^!\[([^\]]*)\] ?\[([^\]]*)\]/, F = /^\[([^\]]*)\] ?\[([^\]]*)\]/, W = /(\n|^[-*]\s|^#|^ {2,}|^-{2,}|^>\s)/, G = /\t/g, Z = /(^ *\||\| *$)/g, q = /^ *:-+: *$/, Q = /^ *:-+ *$/, V = /^ *-+: *$/, X = "((?:\\[.*?\\][([].*?[)\\]]|<.*?>(?:.*?<.*?>)?|`.*?`|\\\\\\1|[\\s\\S])+?)", J = new RegExp(`^([*_])\\1${X}\\1\\1(?!\\1)`), K = new RegExp(`^([*_])${X}\\1(?!\\1)`), Y = new RegExp(`^(==)${X}\\1`), ee = new RegExp(`^(~~)${X}\\1`), te = /^\\([^0-9A-Za-z\s])/, ne = /\\([^0-9A-Za-z\s])/g, re = /^([\s\S](?:(?!  |[0-9]\.)[^=*_~\-\n<`\\\[!])*)/, ie = /^\n+/, le = /^([ \t]*)/, oe = /\\([^\\])/g, ae = /(?:^|\n)( *)$/, ce = "(?:\\d+\\.)", se = "(?:[*+-])";
+const l = ["allowFullScreen", "allowTransparency", "autoComplete", "autoFocus", "autoPlay", "cellPadding", "cellSpacing", "charSet", "classId", "colSpan", "contentEditable", "contextMenu", "crossOrigin", "encType", "formAction", "formEncType", "formMethod", "formNoValidate", "formTarget", "frameBorder", "hrefLang", "inputMode", "keyParams", "keyType", "marginHeight", "marginWidth", "maxLength", "mediaGroup", "minLength", "noValidate", "radioGroup", "readOnly", "rowSpan", "spellCheck", "srcDoc", "srcLang", "srcSet", "tabIndex", "useMap"].reduce((e, t2) => (e[t2.toLowerCase()] = t2, e), { class: "className", for: "htmlFor" }), o$1 = { amp: "&", apos: "'", gt: ">", lt: "<", nbsp: " ", quot: "“" }, a = ["style", "script"], c$1 = ["src", "href", "data", "formAction", "srcDoc", "action"], s$k = /([-A-Z0-9_:]+)(?:\s*=\s*(?:(?:"((?:\\.|[^"])*)")|(?:'((?:\\.|[^'])*)')|(?:\{((?:\\.|{[^}]*?}|[^}])*)\})))?/gi, d = /mailto:/i, u = /\n{2,}$/, p = /^(\s*>[\s\S]*?)(?=\n\n|$)/, f = /^ *> ?/gm, h = /^(?:\[!([^\]]*)\]\n)?([\s\S]*)/, m$9 = /^ {2,}\n/, g$1 = /^(?:( *[-*_])){3,} *(?:\n *)+\n/, y = /^(?: {1,3})?(`{3,}|~{3,}) *(\S+)? *([^\n]*?)?\n([\s\S]*?)(?:\1\n?|$)/, k = /^(?: {4}[^\n]+\n*)+(?:\n *)+\n?/, x = /^(`+)((?:\\`|(?!\1)`|[^`])+)\1/, b = /^(?:\n *)*\n/, v = /\r\n?/g, C = /^\[\^([^\]]+)](:(.*)((\n+ {4,}.*)|(\n(?!\[\^).+))*)/, $ = /^\[\^([^\]]+)]/, S = /\f/g, w = /^---[ \t]*\n(.|\n)*\n---[ \t]*\n/, E = /^\s*?\[(x|\s)\]/, z = /^ *(#{1,6}) *([^\n]+?)(?: +#*)?(?:\n *)*(?:\n|$)/, L = /^ *(#{1,6}) +([^\n]+?)(?: +#*)?(?:\n *)*(?:\n|$)/, A = /^([^\n]+)\n *(=|-){3,} *(?:\n *)+\n/, O = /^ *(?!<[a-z][^ >/]* ?\/>)<([a-z][^ >/]*) ?((?:[^>]*[^/])?)>\n?(\s*(?:<\1[^>]*?>[\s\S]*?<\/\1>|(?!<\1\b)[\s\S])*?)<\/\1>(?!<\/\1>)\n*/i, T = /&([a-z0-9]+|#[0-9]{1,6}|#x[0-9a-fA-F]{1,6});/gi, B = /^<!--[\s\S]*?(?:-->)/, M = /^(data|aria|x)-[a-z_][a-z\d_.-]*$/, R = /^ *<([a-z][a-z0-9:]*)(?:\s+((?:<.*?>|[^>])*))?\/?>(?!<\/\1>)(\s*\n)?/i, I = /^\{.*\}$/, D = /^(https?:\/\/[^\s<]+[^<.,:;"')\]\s])/, U = /^<([^ >]+@[^ >]+)>/, N = /^<([^ >]+:\/[^ >]+)>/, j = /-([a-z])?/gi, H = /^(\|.*)\n(?: *(\|? *[-:]+ *\|[-| :]*)\n((?:.*\|.*\n)*))?\n?/, P = /^\[([^\]]*)\]:\s+<?([^\s>]+)>?\s*("([^"]*)")?/, _ = /^!\[([^\]]*)\] ?\[([^\]]*)\]/, F = /^\[([^\]]*)\] ?\[([^\]]*)\]/, W = /(\n|^[-*]\s|^#|^ {2,}|^-{2,}|^>\s)/, G = /\t/g, Z = /(^ *\||\| *$)/g, q = /^ *:-+: *$/, Q = /^ *:-+ *$/, V = /^ *-+: *$/, X = "((?:\\[.*?\\][([].*?[)\\]]|<.*?>(?:.*?<.*?>)?|`.*?`|\\\\\\1|[\\s\\S])+?)", J = new RegExp(`^([*_])\\1${X}\\1\\1(?!\\1)`), K = new RegExp(`^([*_])${X}\\1(?!\\1)`), Y = new RegExp(`^(==)${X}\\1`), ee = new RegExp(`^(~~)${X}\\1`), te = /^\\([^0-9A-Za-z\s])/, ne = /\\([^0-9A-Za-z\s])/g, re = /^([\s\S](?:(?!  |[0-9]\.)[^=*_~\-\n<`\\\[!])*)/, ie = /^\n+/, le = /^([ \t]*)/, oe = /\\([^\\])/g, ae = /(?:^|\n)( *)$/, ce = "(?:\\d+\\.)", se = "(?:[*+-])";
 function de(e) {
   return "( *)(" + (1 === e ? ce : se) + ") +";
 }
@@ -371,7 +371,7 @@ function Xe(n2 = "", i2 = {}) {
     return i2.createElement(r2, { key: "outer" }, l2);
   }
   function q2(e, t2) {
-    const n3 = t2.match(s$g);
+    const n3 = t2.match(s$k);
     return n3 ? n3.reduce(function(t3, n4) {
       const r2 = n4.indexOf("=");
       if (-1 !== r2) {
@@ -1358,7 +1358,7 @@ const iconAfter = "_iconAfter_1231j_156";
 const primary = "_primary_1231j_163";
 const active = "_active_1231j_174";
 const invert = "_invert_1231j_180";
-const s$f = {
+const s$j = {
   button,
   buttonDark,
   buttonInner,
@@ -1379,13 +1379,13 @@ const s$f = {
 const Button = reactExports.forwardRef(({ children, className, active: active2, variant = "primary", size = "medium", dark = false, iconBefore: iconBefore2, iconAfter: iconAfter2, ...props }, ref) => {
   const hasContent = reactExports.Children.count(children) > 0;
   const hasIcon = iconBefore2 || iconAfter2;
-  return jsxRuntimeExports.jsx("button", { ref, className: clsx(s$f.button, {
-    [s$f.buttonDark]: dark
-  }, s$f[variant], s$f[size], {
-    [s$f.active]: active2,
-    [s$f.withContent]: hasContent,
-    [s$f.withIcon]: hasIcon
-  }, className), ...props, children: jsxRuntimeExports.jsxs("div", { className: clsx(s$f.buttonInner), children: [iconBefore2 && jsxRuntimeExports.jsx("div", { className: s$f.iconBefore, children: iconBefore2 }), hasContent && jsxRuntimeExports.jsx("span", { className: s$f.buttonContent, children }), iconAfter2 && jsxRuntimeExports.jsx("div", { className: s$f.iconAfter, children: iconAfter2 })] }) });
+  return jsxRuntimeExports.jsx("button", { ref, className: clsx(s$j.button, {
+    [s$j.buttonDark]: dark
+  }, s$j[variant], s$j[size], {
+    [s$j.active]: active2,
+    [s$j.withContent]: hasContent,
+    [s$j.withIcon]: hasIcon
+  }, className), ...props, children: jsxRuntimeExports.jsxs("div", { className: clsx(s$j.buttonInner), children: [iconBefore2 && jsxRuntimeExports.jsx("div", { className: s$j.iconBefore, children: iconBefore2 }), hasContent && jsxRuntimeExports.jsx("span", { className: s$j.buttonContent, children }), iconAfter2 && jsxRuntimeExports.jsx("div", { className: s$j.iconAfter, children: iconAfter2 })] }) });
 });
 Button.displayName = "Button";
 var reactDomExports = requireReactDom();
@@ -5671,7 +5671,7 @@ const TooltipTrigger = reactExports.forwardRef(function TooltipTrigger2({ childr
 const tooltipContent$1 = "_tooltipContent_1k4lm_1";
 const bigger = "_bigger_1k4lm_12";
 const arrow$1 = "_arrow_1k4lm_24";
-const s$e = {
+const s$i = {
   tooltipContent: tooltipContent$1,
   bigger,
   "default": "_default_1k4lm_18",
@@ -5681,12 +5681,12 @@ const TooltipContent = reactExports.forwardRef(function TooltipContent2(props, p
   const { context, arrowRef, size } = useTooltipContext("Tooltip");
   const ref = useMergeRefs([context.refs.setFloating, propRef]);
   const { children, ...rest } = props;
-  return jsxRuntimeExports.jsx(FloatingPortal, { children: context.open && jsxRuntimeExports.jsxs("div", { className: clsx(s$e.tooltipContent, s$e[size ?? "default"]), ref, style: {
+  return jsxRuntimeExports.jsx(FloatingPortal, { children: context.open && jsxRuntimeExports.jsxs("div", { className: clsx(s$i.tooltipContent, s$i[size ?? "default"]), ref, style: {
     position: context.strategy,
     top: context.y ?? 0,
     left: context.x ?? 0,
     visibility: context.x == null ? "hidden" : "visible"
-  }, ...context.getFloatingProps(rest), children: [children, jsxRuntimeExports.jsx(FloatingArrow, { ref: arrowRef, context: context.context, className: s$e.arrow, stroke: "transparent", strokeWidth: 2, height: 8, width: 16 })] }) });
+  }, ...context.getFloatingProps(rest), children: [children, jsxRuntimeExports.jsx(FloatingArrow, { ref: arrowRef, context: context.context, className: s$i.arrow, stroke: "transparent", strokeWidth: 2, height: 8, width: 16 })] }) });
 });
 const ARROW_HEIGHT = 8;
 function useTooltip({ initialOpen = false, placement = "bottom", offset: offsetValue = 0, open: controlledOpen, onOpenChange: setControlledOpen } = {}, arrowRef) {
@@ -8035,7 +8035,7 @@ function requireBuild() {
 var buildExports = requireBuild();
 const usePromise = /* @__PURE__ */ getDefaultExportFromCjs(buildExports);
 const article = "_article_b9f5o_1";
-const s$d = {
+const s$h = {
   article
 };
 function Article({
@@ -8043,7 +8043,7 @@ function Article({
   className = "",
   id = ""
 }) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("article", { className: `${s$d.article} ${className}`, id, children });
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("article", { className: `${s$h.article} ${className}`, id, children });
 }
 const isString = (obj) => typeof obj === "string";
 const defer = () => {
@@ -10868,7 +10868,6 @@ const spinner_text$8 = "Gathering data";
 const updated$8 = "Updated";
 const started$2 = "Started";
 const created = "Created";
-const mapping_types = "Mapping types";
 const osm_gaps = "OSM gaps";
 const no_data_received$8 = "No data received";
 const wrong_data_received$8 = "Wrong data received";
@@ -10911,7 +10910,7 @@ const loading_episodes$8 = "Loading Episodes";
 const zoom_to_world$2 = "Zoom to the whole world";
 const cookie_banner$8 = { "header": "We value your privacy", "body": "We use absolutely necessary cookies to provide you personalized services and optional cookies to improve {{appName}} and your experience. You can manage cookie settings or withdraw consent to optional cookies at any time.\nFor more information, please, check our [Privacy Policy](about/privacy)", "decline_all": "Decline optional cookies", "accept_all": "Accept optional cookies" };
 const live_sensor$8 = { "start": "Start sensor recording", "finish": "Stop sensor recording", "finishMessage": "Recording has been finished", "startMessage": "Recording has been started", "noSensorsError": "Your device does not have the required sensors" };
-const layer_features_panel$8 = { "empty": "Layer features within selected area will be provided here", "noFeatureSelected": "No layer feature selected", "chooseFeature": "Choose layer feature", "listInfo": "The list is filtered by selected area and sorted by project number", "error_loading": "Failed to load layer features data. Please try again.", "no_features": "No features found in the selected area." };
+const layer_features_panel$8 = { "empty": "Layer features within selected area will be provided here", "noFeatureSelected": "No layer feature selected", "chooseFeature": "Choose layer feature", "listInfo": "The list is filtered by selected area and sorted by project number", "error_loading": "Failed to load layer features data. Please try again.", "no_features": "No features found in the selected area.", "priority": "{{level}} priority" };
 const reference_area$8 = { "save_as_reference_area": "Save as reference area", "error_couldnt_save": "Unfortunately, we could not save your reference area. Please try again.", "selected_area_saved_as_reference_area": "Selected area has been saved as reference area in your profile" };
 const oam_auth = { "login_button": "Login with Google" };
 const en_common = {
@@ -10943,7 +10942,6 @@ const en_common = {
   updated: updated$8,
   started: started$2,
   created,
-  mapping_types,
   osm_gaps,
   no_data_received: no_data_received$8,
   wrong_data_received: wrong_data_received$8,
@@ -12099,17 +12097,17 @@ const priceWrap = "_priceWrap_11z70_1";
 const dollarSign = "_dollarSign_11z70_7";
 const amount = "_amount_11z70_15";
 const perMonth = "_perMonth_11z70_21";
-const s$c = {
+const s$g = {
   priceWrap,
   dollarSign,
   amount,
   perMonth
 };
 function Price({ amount: amount2, className }) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$c.priceWrap, className), children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$c.dollarSign, children: "$" }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$c.amount, children: amount2.toLocaleString("en-US") }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: s$c.perMonth, children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$g.priceWrap, className), children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$g.dollarSign, children: "$" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$g.amount, children: amount2.toLocaleString("en-US") }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: s$g.perMonth, children: [
       TranslationService.t("currency.usd"),
       " / mo*"
     ] })
@@ -12122,7 +12120,7 @@ const hidden = "_hidden_q8sg6_98";
 const buttonWrapper = "_buttonWrapper_q8sg6_124";
 const footerWrapper = "_footerWrapper_q8sg6_155";
 const paymentPlanButton = "_paymentPlanButton_q8sg6_191";
-const s$b = {
+const s$f = {
   planCard,
   initialPrice,
   price,
@@ -12212,13 +12210,13 @@ const config = {
 };
 const _plans = "# Educational\n\nFor students, hobbyists, and anyone testing the entry-level option before upgrading\n\n###### **edu**\n\n- Multi-criteria decision analyses\n- AI analytics\n- Favorite area of interest\n- Download analyses\n\n---\n\n# Professional\n\nFor GIS data analysts and managers who work with GIS on a daily basis\n\n###### **pro**\n\n- Multi-criteria decision analyses\n- AI analytics\n- Favorite area of interest\n- Download analyses\n- Customer support\n- Custom requests\n- Upload custom indicators for analytics\n\n---\n\n# Custom\n\n# Enterprise\n\nFor GIS data analysts and managers who work with GIS on a daily basis\nContact sales, book a demo or write to us at <info@kontur.io> for custom pricing and features\n\n###### **ent**\n\n- Multiple seats\n- Custom workflows\n- Custom features\n- Custom design\n- Training and onboarding\n- Support\n";
 const css = `
-.premium > .${s$b.planName}::before {
+.premium > .${s$f.planName}::before {
   content: '★';
   font-size: larger;
   padding-right: 4px;
 }
 
-.${s$b.planName} {
+.${s$f.planName} {
   font-family: var(--font-family);
   font-style: normal;
   font-weight: 600;
@@ -12273,23 +12271,23 @@ function Plans({ styling = "", markdown: markdown2 = _plans, isUserAuthorized = 
       const billingOption = (_b = plan.billingCycles) == null ? void 0 : _b.find(
         (option) => option.id === currentBillingCycleId
       );
-      const actionsBlock = /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: s$b.buttonWrapper, children: [
-        !isUserAuthorized && /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { className: clsx(s$b.paymentPlanButton, styleClass), children: "Sign in to subscribe" }),
+      const actionsBlock = /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: s$f.buttonWrapper, children: [
+        !isUserAuthorized && /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { className: clsx(s$f.paymentPlanButton, styleClass), children: "Sign in to subscribe" }),
         isUserAuthorized && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "[PAYPAL BUTTONS INJECTED HERE]" })
       ] });
       const priceBlock = !isCustom && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
         billingOption && /* @__PURE__ */ jsxRuntimeExports.jsx(
           "div",
           {
-            className: clsx(s$b.initialPrice, {
-              [s$b.hidden]: billingOption.id === "month"
+            className: clsx(s$f.initialPrice, {
+              [s$f.hidden]: billingOption.id === "month"
             }),
             children: `$${(_c = billingOption == null ? void 0 : billingOption.initialPricePerMonth) == null ? void 0 : _c.toLocaleString("en-US")} USD`
           }
         ),
-        billingOption && /* @__PURE__ */ jsxRuntimeExports.jsx(Price, { className: s$b.price, amount: billingOption.pricePerMonth })
+        billingOption && /* @__PURE__ */ jsxRuntimeExports.jsx(Price, { className: s$f.price, amount: billingOption.pricePerMonth })
       ] });
-      const footerBlock = !isCustom && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$b.footerWrapper, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      const footerBlock = !isCustom && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$f.footerWrapper, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
         PaymentPlanCardFooter,
         {
           planConfig: plan,
@@ -12298,8 +12296,8 @@ function Plans({ styling = "", markdown: markdown2 = _plans, isUserAuthorized = 
           billingOption
         }
       ) });
-      return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$b.planCard, styleClass), children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$b.planName, children: planName }),
+      return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$f.planCard, styleClass), children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$f.planName, children: planName }),
         priceBlock,
         planContent,
         actionsBlock,
@@ -12909,15 +12907,6 @@ const fieldsRegistry = {
     type: "date",
     label: TranslationService.t("updated"),
     format: "date"
-  },
-  // HOT
-  mappingTypes: {
-    type: "text",
-    label: TranslationService.t("mapping_types")
-  },
-  projectId: {
-    type: "number",
-    text: (v2) => `#${v2}`
   }
 };
 fieldsRegistry["lastUpdated"] = fieldsRegistry.updatedAt;
@@ -12955,7 +12944,7 @@ function throttle(callback, wait2 = 0, { start = true, middle = true, once = fal
   };
   return fn;
 }
-const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 const toCapitalizedList = (arr) => arr.map(capitalize).join(", ");
 function isNumber(value2) {
   return typeof value2 === "number" && isFinite(value2);
@@ -12974,6 +12963,12 @@ const dateMonthYearFormatter = new Intl.DateTimeFormat(language, {
   year: "numeric",
   month: "short",
   day: "numeric"
+}).format;
+const dateWithTimezoneFormatter = new Intl.DateTimeFormat(language, {
+  year: "numeric",
+  month: "short",
+  day: "numeric",
+  timeZoneName: "short"
 }).format;
 const numberFormatter = new Intl.NumberFormat(language);
 const number_f000_Formatter = new Intl.NumberFormat(language, {
@@ -13034,6 +13029,9 @@ const formatsRegistry = {
   date_month_year(date) {
     return date ? dateMonthYearFormatter(new Date(date)) : "";
   },
+  date_timezone(date) {
+    return date ? dateWithTimezoneFormatter(new Date(date)) : "";
+  },
   dates_interval(datesInterval) {
     return formatDatesInterval(datesInterval.dateStart, datesInterval.dateEnd);
   },
@@ -13064,12 +13062,30 @@ const formatsRegistry = {
     return placeholder;
   },
   file_size(sizeInBytes) {
-    return isNumber(sizeInBytes) ? formatFileSize(sizeInBytes) : "";
+    return isNumber(sizeInBytes) ? formatFileSize(sizeInBytes) : String(sizeInBytes);
   },
   distance_per_pixel(metersPerPixel) {
-    return isNumber(metersPerPixel) ? formatDistancePerPixel(metersPerPixel) : "";
+    return isNumber(metersPerPixel) ? formatDistancePerPixel(metersPerPixel) : String(metersPerPixel);
+  },
+  capitalized_list(values) {
+    return values ? toCapitalizedList(values) : "";
+  },
+  list(values) {
+    return (values == null ? void 0 : values.length) ? values.join(", ") : "";
+  },
+  hash_id(value2) {
+    return value2 !== void 0 ? `#${value2}` : "";
   }
 };
+const defaultFormatter = (v2) => v2 !== null && v2 !== void 0 ? String(v2) : "";
+function applyFormatter(value2, formatter, formatKey) {
+  try {
+    return formatter(value2);
+  } catch (error2) {
+    console.error(`Formatting error (${formatKey ?? ""}):`, error2);
+    return defaultFormatter(value2);
+  }
+}
 function compilePathAccessor(path2) {
   const segments = path2.split(".");
   const code = `
@@ -13141,7 +13157,6 @@ const useUniLayoutContext = () => {
   }
   return context;
 };
-const defaultFormatter = (v2) => v2 !== null && v2 !== void 0 ? String(v2) : "";
 function useUniLayoutContextValue({
   layout,
   actionHandler = () => {
@@ -13165,14 +13180,20 @@ function useUniLayoutContextValue({
   );
   const precompiledAccessors = useUniLayoutCompiledAccessors(layout);
   const getFormattedValue = reactExports.useCallback(
-    (fieldMeta, rawValue) => {
-      if (rawValue === null || rawValue === void 0) return "";
-      const formatKey = (fieldMeta == null ? void 0 : fieldMeta.format) || "text";
+    (rawValue, format) => {
+      const formatKey = format || "text";
       const formatter = mergedFormatsRegistry[formatKey] || defaultFormatter;
-      const formattedValue = formatter(rawValue);
-      return (fieldMeta == null ? void 0 : fieldMeta.text) ? fieldMeta.text(formattedValue) : formattedValue;
+      return applyFormatter(rawValue, formatter, formatKey);
     },
     [mergedFormatsRegistry]
+  );
+  const getFormattedValueWithMeta = reactExports.useCallback(
+    (rawValue, fieldMeta) => {
+      if (rawValue === null || rawValue === void 0) return "";
+      const formattedValue = getFormattedValue(rawValue, fieldMeta == null ? void 0 : fieldMeta.format);
+      return (fieldMeta == null ? void 0 : fieldMeta.text) ? fieldMeta.text(formattedValue) : formattedValue;
+    },
+    [getFormattedValue]
   );
   return reactExports.useMemo(
     () => ({
@@ -13180,6 +13201,7 @@ function useUniLayoutContextValue({
       formatsRegistry: mergedFormatsRegistry,
       precompiledAccessors,
       actionHandler,
+      getFormattedValueWithMeta,
       getFormattedValue
     }),
     [
@@ -13187,19 +13209,20 @@ function useUniLayoutContextValue({
       actionHandler,
       mergedFieldsRegistry,
       mergedFormatsRegistry,
+      getFormattedValueWithMeta,
       getFormattedValue
     ]
   );
 }
 const row = "_row_6zanc_1";
-const s$a = {
+const s$e = {
   row
 };
 function Row({ wrap = true, children, className, style }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     "div",
     {
-      className: clsx(s$a.row, className),
+      className: clsx(s$e.row, className),
       style: { ...style, flexWrap: wrap ? "wrap" : "nowrap" },
       children
     }
@@ -13209,7 +13232,7 @@ const card$1 = "_card_aste0_1";
 const selected = "_selected_aste0_16";
 const cardContent = "_cardContent_aste0_29";
 const clickable = "_clickable_aste0_35";
-const s$9 = {
+const s$d = {
   card: card$1,
   selected,
   cardContent,
@@ -13231,15 +13254,15 @@ function Card({
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     "div",
     {
-      className: clsx(s$9.card, active2 && s$9.selected, action2 && s$9.clickable, className),
+      className: clsx(s$d.card, active2 && s$d.selected, action2 && s$d.clickable, className),
       style,
       onClick: action2 ? handleClick : void 0,
-      children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$9.cardContent, children })
+      children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$d.cardContent, children })
     }
   );
 }
 const indicator$1 = "_indicator_h9oko_1";
-const s$8 = {
+const s$c = {
   indicator: indicator$1
 };
 const SEVERITY_CONFIG = {
@@ -13282,7 +13305,7 @@ function SeverityIndicatorImpl({ value: value2, className }) {
   }
   const pivot = SEVERITY_CONFIG[value2].level;
   const tooltip = SEVERITY_CONFIG[value2].text;
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(SimpleTooltip, { content: tooltip, placement: "top", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: clsx(s$8.indicator, className), children: COLORS.map((color, i2) => /* @__PURE__ */ jsxRuntimeExports.jsx(
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(SimpleTooltip, { content: tooltip, placement: "top", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: clsx(s$c.indicator, className), children: COLORS.map((color, i2) => /* @__PURE__ */ jsxRuntimeExports.jsx(
     "div",
     {
       style: {
@@ -13293,102 +13316,209 @@ function SeverityIndicatorImpl({ value: value2, className }) {
   )) }) });
 }
 const SeverityIndicator = reactExports.memo(SeverityIndicatorImpl);
-const url = "_url_1o8yo_1";
-const icon$2 = "_icon_1o8yo_12";
-const s$7 = {
+const Icon = reactExports.forwardRef(({ icon: icon2, ...svgProps }, ref) => {
+  const KonturIcon = icons[icon2];
+  reactExports.useEffect(() => {
+    if (!icons[icon2]) console.error(`Icon "${icon2}" not found`);
+  }, [icon2]);
+  return KonturIcon ? /* @__PURE__ */ jsxRuntimeExports.jsx(KonturIcon, { ref, ...svgProps }) : null;
+});
+Icon.displayName = "SvgIcon";
+function parseTemplate(template, options = {}) {
+  const open = options.open || "{{";
+  const close = options.close || "}}";
+  const openLength = open.length;
+  const closeLength = close.length;
+  const segments = [""];
+  let lastIndex = 0;
+  let i2 = 0;
+  while (i2 < template.length) {
+    if (template.substring(i2, i2 + openLength) === open) {
+      segments[segments.length - 1] += template.substring(lastIndex, i2);
+      i2 += openLength;
+      const keyStart = i2;
+      let delimiterFound = false;
+      while (i2 <= template.length - closeLength) {
+        if (template.substring(i2, i2 + closeLength) === close) {
+          delimiterFound = true;
+          break;
+        }
+        i2++;
+      }
+      if (delimiterFound) {
+        const keyPath = template.substring(keyStart, i2).trim().split(".");
+        segments.push(keyPath);
+        segments.push("");
+        i2 += closeLength;
+        lastIndex = i2;
+      } else {
+        segments[segments.length - 1] += open;
+        i2 = keyStart;
+        lastIndex = keyStart;
+      }
+    } else {
+      i2++;
+    }
+  }
+  if (lastIndex < template.length) {
+    segments[segments.length - 1] += template.substring(lastIndex);
+  }
+  return segments;
+}
+function createTemplateRenderer(segments, originalTemplate) {
+  const hasDynamicSegments = segments.length > 1;
+  return function renderTemplate(data) {
+    if (!data || !hasDynamicSegments) return originalTemplate;
+    const result = [];
+    result.push(segments[0]);
+    for (let i2 = 1; i2 < segments.length; i2 += 2) {
+      const expressionPath = segments[i2];
+      const staticText = segments[i2 + 1];
+      const value2 = resolvePropertyPath(data, expressionPath);
+      result.push(value2);
+      result.push(staticText);
+    }
+    return result.join("");
+  };
+}
+function resolvePropertyPath(obj, path2) {
+  if (obj == null) return "";
+  if (!path2.length) return "";
+  if (path2.length === 1) {
+    const value22 = obj[path2[0]];
+    return value22 != null ? String(value22) : "";
+  }
+  let value2 = obj;
+  const len = path2.length;
+  for (let i2 = 0; i2 < len; i2++) {
+    if (value2 == null) return "";
+    if (typeof value2 !== "object") return "";
+    value2 = value2[path2[i2]];
+  }
+  return value2 != null ? String(value2) : "";
+}
+function compileStringTemplate(template, options = {}) {
+  const segments = parseTemplate(template, options);
+  return createTemplateRenderer(segments, template);
+}
+const applyValueToTemplate = (urlTemplate, value2) => {
+  return compileStringTemplate(urlTemplate)({ value: value2 });
+};
+const url = "_url_1dm13_1";
+const icon$2 = "_icon_1dm13_12";
+const s$b = {
   url,
   icon: icon$2
 };
 function Url(props) {
-  const { value: value2 = "#", label: label2, newTab = true, className } = props;
-  const displayText = label2 || (value2 ? formatsRegistry.url_domain(value2) : "");
+  const { value: value2 = "#", label: label2, newTab = true, className, urlTemplate } = props;
+  const url2 = urlTemplate ? applyValueToTemplate(urlTemplate, value2) : value2;
+  const displayText = label2 || (url2 ? formatsRegistry.url_domain(url2) : "");
+  const LinkIcon = reactExports.useCallback(
+    () => props.icon ? /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { icon: props.icon, className: s$b.icon }) : /* @__PURE__ */ jsxRuntimeExports.jsx(Memo$9, { className: s$b.icon }),
+    [props.icon]
+  );
   return /* @__PURE__ */ jsxRuntimeExports.jsxs(
     "a",
     {
-      href: value2,
-      className: clsx(s$7.url, className),
+      href: url2,
+      className: clsx(s$b.url, className),
       target: newTab ? "_blank" : void 0,
       rel: newTab ? "noopener noreferrer" : void 0,
       children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: displayText }),
-        newTab && /* @__PURE__ */ jsxRuntimeExports.jsx(Memo$9, { className: s$7.icon })
+        (newTab || props.icon) && /* @__PURE__ */ jsxRuntimeExports.jsx(LinkIcon, {}),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { children: displayText })
       ]
     }
   );
 }
-const titleText = "_titleText_kpgt4_1";
-const text = "_text_kpgt4_8";
-const alignStart = "_alignStart_kpgt4_14";
+const titleL2 = "_titleL2_b0a6d_1";
+const titleL1 = "_titleL1_b0a6d_8";
+const titleL3 = "_titleL3_b0a6d_15";
+const text = "_text_b0a6d_22";
+const alignStart = "_alignStart_b0a6d_27";
 const baseStyles = {
-  titleText,
+  titleL2,
+  titleL1,
+  titleL3,
   text,
   alignStart
 };
-function Title({ value: value2, className }) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: clsx(baseStyles.titleText, className), children: value2 });
+function Title({ value: value2, className, level = 2, format }) {
+  const context = useUniLayoutContext();
+  const formattedValue = context.getFormattedValue(value2, format);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: clsx(level ? baseStyles[`titleL${level}`] : baseStyles.titleL2, className), children: formattedValue });
 }
-function Text({ value: value2, className }) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: clsx(baseStyles.text, className), children: value2 });
+function Text({ value: value2, className, format }) {
+  const context = useUniLayoutContext();
+  const formattedValue = context.getFormattedValue(value2, format);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: clsx(baseStyles.text, className), children: formattedValue });
 }
-const badge = "_badge_108ln_1";
-const error$1 = "_error_108ln_12";
-const success = "_success_108ln_17";
-const warning = "_warning_108ln_22";
-const info = "_info_108ln_27";
-const neutral = "_neutral_108ln_32";
-const s$6 = {
+const badge = "_badge_46xf9_1";
+const error$1 = "_error_46xf9_12";
+const success = "_success_46xf9_17";
+const warning = "_warning_46xf9_22";
+const info = "_info_46xf9_27";
+const neutral = "_neutral_46xf9_32";
+const faint = "_faint_46xf9_37";
+const s$a = {
   badge,
   error: error$1,
   success,
   warning,
   info,
-  neutral
+  neutral,
+  faint
 };
 const Variants = {
-  error: s$6.error,
-  success: s$6.success,
-  warning: s$6.warning,
-  info: s$6.info,
-  neutral: s$6.neutral
+  error: s$a.error,
+  success: s$a.success,
+  warning: s$a.warning,
+  info: s$a.info,
+  neutral: s$a.neutral,
+  faint: s$a.faint
 };
 function Badge({
   value: value2,
   variant = "neutral",
   mapping,
   className = "",
-  style = {}
+  style = {},
+  format
 }) {
+  const context = useUniLayoutContext();
+  const formattedValue = context.getFormattedValue(value2, format);
   if (value2 === void 0) return null;
   const key = ("" + value2).toLowerCase();
   const computedVariant = (mapping == null ? void 0 : mapping[key]) ?? variant;
   const variantClass = Variants[computedVariant.toLowerCase()] ?? "";
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: clsx(s$6.badge, variantClass, className), style, children: value2 });
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: clsx(s$a.badge, variantClass, className), style, children: formattedValue });
 }
 const progress = "_progress_2aklk_1";
 const caption = "_caption_2aklk_9";
 const desc = "_desc_2aklk_13";
-const stack = "_stack_2aklk_19";
-const s$5 = {
+const stack$1 = "_stack_2aklk_19";
+const s$9 = {
   progress,
   caption,
   desc,
-  stack
+  stack: stack$1
 };
 function StackedProgressBar({
   value: items,
   caption: caption2,
   className
 }) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$5.progress, className), children: [
-    caption2 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$5.caption, children: caption2 }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$5.stack, children: items.map(({ color, value: value2 }, i2) => {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$9.progress, className), children: [
+    caption2 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$9.caption, children: caption2 }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$9.stack, children: items.map(({ color, value: value2 }, i2) => {
       const style = {};
       if (color) style["backgroundColor"] = color;
       const clampedValue = Math.max(0, Math.min(100, value2));
       style["width"] = clampedValue + "%";
       return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style }, i2);
     }).reverse() }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$5.desc, children: items.map(({ color, title: title2, value: value2 }, i2) => {
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$9.desc, children: items.map(({ color, title: title2, value: value2 }, i2) => {
       const style = {};
       if (color) style["color"] = color;
       return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style, children: value2 + title2 }, i2);
@@ -13414,19 +13544,11 @@ function MappingProgress({
   ];
   return /* @__PURE__ */ jsxRuntimeExports.jsx(StackedProgressBar, { value: items, caption: caption2 });
 }
-const Icon = reactExports.forwardRef(({ icon: icon2, ...svgProps }, ref) => {
-  const KonturIcon = icons[icon2];
-  reactExports.useEffect(() => {
-    if (!icons[icon2]) console.error(`Icon "${icon2}" not found`);
-  }, [icon2]);
-  return KonturIcon ? /* @__PURE__ */ jsxRuntimeExports.jsx(KonturIcon, { ref, ...svgProps }) : null;
-});
-Icon.displayName = "SvgIcon";
 const container = "_container_1vcfi_6";
 const icon$1 = "_icon_1vcfi_13";
 const value = "_value_1vcfi_18";
 const label = "_label_1vcfi_23";
-const s$4 = {
+const s$8 = {
   container,
   icon: icon$1,
   value,
@@ -13442,13 +13564,13 @@ function Field({
   const context = useUniLayoutContext();
   if (value2 === void 0) return null;
   const fieldMeta = $meta == null ? void 0 : $meta.value;
-  const formattedValue = format && context.formatsRegistry[format] ? context.formatsRegistry[format](value2) : context.getFormattedValue(fieldMeta, value2);
+  const formattedValue = format && context.formatsRegistry[format] ? applyFormatter(value2, context.formatsRegistry[format], format) : context.getFormattedValueWithMeta(value2, fieldMeta);
   const shouldShowLabel = showLabel && (fieldMeta == null ? void 0 : fieldMeta.label);
   const tooltip = fieldMeta == null ? void 0 : fieldMeta.tooltip;
-  const content = /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$4.container, className), children: [
-    (fieldMeta == null ? void 0 : fieldMeta.icon) && /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { icon: fieldMeta.icon, className: s$4.icon }),
-    shouldShowLabel && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$4.label, children: fieldMeta.label }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$4.value, children: formattedValue })
+  const content = /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$8.container, className), children: [
+    (fieldMeta == null ? void 0 : fieldMeta.icon) && /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { icon: fieldMeta.icon, className: s$8.icon }),
+    shouldShowLabel && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$8.label, children: fieldMeta.label }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$8.value, children: formattedValue })
   ] });
   if (tooltip) {
     return /* @__PURE__ */ jsxRuntimeExports.jsx(SimpleTooltip, { content: tooltip, placement: "top", children: content });
@@ -13456,25 +13578,34 @@ function Field({
   return content;
 }
 const cardHeader = "_cardHeader_tv12g_1";
-const imageContainer = "_imageContainer_tv12g_8";
-const image = "_image_tv12g_8";
+const imageContainer$1 = "_imageContainer_tv12g_8";
+const image$1 = "_image_tv12g_8";
 const icon = "_icon_tv12g_22";
 const title = "_title_tv12g_27";
 const subtitle = "_subtitle_tv12g_33";
-const s$3 = {
+const s$7 = {
   cardHeader,
-  imageContainer,
-  image,
+  imageContainer: imageContainer$1,
+  image: image$1,
   icon,
   title,
   subtitle
 };
-function CardHeader({ image: image2, icon: icon2, value: value2, subtitle: subtitle2, className }) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$3.cardHeader, className), children: [
-    image2 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$3.imageContainer, children: /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: image2, alt: "", className: s$3.image }) }),
-    icon2 && /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { icon: icon2, className: s$3.icon }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$3.title, children: value2 }),
-    subtitle2 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$3.subtitle, children: subtitle2 })
+function CardHeader({
+  image: image2,
+  icon: icon2,
+  value: value2,
+  subtitle: subtitle2,
+  className,
+  format
+}) {
+  const context = useUniLayoutContext();
+  const formattedValue = context.getFormattedValue(value2, format);
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$7.cardHeader, className), children: [
+    image2 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$7.imageContainer, children: /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: image2, alt: "", className: s$7.image }) }),
+    icon2 && /* @__PURE__ */ jsxRuntimeExports.jsx(Icon, { icon: icon2, className: s$7.icon }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$7.title, children: formattedValue }),
+    subtitle2 && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$7.subtitle, children: subtitle2 })
   ] });
 }
 function IconButton({
@@ -13488,7 +13619,7 @@ function IconButton({
 }) {
   const context = useUniLayoutContext();
   const fieldMeta = $meta == null ? void 0 : $meta.value;
-  const formattedValue = context.getFormattedValue(fieldMeta, value2);
+  const formattedValue = context.getFormattedValueWithMeta(value2, fieldMeta);
   const tooltip = fieldMeta == null ? void 0 : fieldMeta.tooltip;
   const handler = reactExports.useCallback(() => {
     if (action2 && handleAction) {
@@ -13512,9 +13643,34 @@ function IconButton({
   }
   return content;
 }
+const stack = "_stack_1lf47_1";
+const s$6 = {
+  stack
+};
+function Stack({ children, className, style }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: clsx(s$6.stack, className), style: { ...style }, children });
+}
+const imageContainer = "_imageContainer_1mljz_1";
+const image = "_image_1mljz_1";
+const s$5 = {
+  imageContainer,
+  image
+};
+function Image$1({ value: value2, className, urlTemplate, style }) {
+  const url2 = urlTemplate ? applyValueToTemplate(urlTemplate, value2) : value2;
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: clsx(s$5.imageContainer, className), style, children: /* @__PURE__ */ jsxRuntimeExports.jsx("img", { src: url2, className: s$5.image }) });
+}
+const table = "_table_1pk40_1";
+const s$4 = {
+  table
+};
+function PropertyGrid({ children, className, style }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: clsx(s$4.table, className), style: { ...style }, children });
+}
 const componentsRegistry = {
   Card,
   Row,
+  Stack,
   CardHeader,
   Title,
   Text,
@@ -13522,8 +13678,10 @@ const componentsRegistry = {
   IconButton,
   Url,
   Badge,
+  Image: Image$1,
   MappingProgress,
-  Severity: SeverityIndicator
+  Severity: SeverityIndicator,
+  PropertyGrid
 };
 const ErrorComponent = ({ type, error: error2, severity = "error" }) => {
   const style = {
@@ -13883,6 +14041,8 @@ const hotData = [
   },
   {
     teams: [],
+    status: "ARCHIVED",
+    isArchived: true,
     author: "geohacker",
     k_type: "polygon",
     aoiBBOX: [76.959254, 10.048946, 77.140251, 10.312653],
@@ -13954,74 +14114,131 @@ const hotData = [
     enforceRandomTaskSelection: false
   }
 ];
-const hotProjectLayoutTemplate = {
-  type: "Card",
-  children: [
-    {
-      type: "Row",
-      children: [
-        {
-          type: "Badge",
-          $value: "projectId"
-        },
-        // Project priority with proper binding and overrides
-        {
-          type: "Badge",
-          $props: {
-            value: "projectPriority",
-            variant: "projectPriority"
-          },
-          props: {
-            mapping: {
-              low: "neutral",
-              medium: "info",
-              high: "warning",
-              urgent: "error"
-            }
-          }
-        }
-      ]
-    },
-    {
-      type: "Title",
-      $value: "projectInfo.name"
-    },
-    {
-      type: "MappingProgress",
-      $props: {
-        percentValidated: "percentValidated",
-        percentMapped: "percentMapped"
-      }
-    },
-    {
-      type: "Text",
-      $value: "projectInfo.shortDescription"
-    },
-    {
-      type: "Field",
-      $value: "mappingTypes",
-      showLabel: true
-    },
-    {
-      type: "Field",
-      $value: "created"
-    },
-    {
-      type: "Field",
-      $value: "lastUpdated"
-    },
-    {
-      type: "Text",
-      $value: "mappingEditors"
-    },
-    {
-      type: "Url",
-      $value: "projectId",
-      // pre-transform: 'https://tasks.hotosm.org/projects/{value}' -> projectUrl,
-      label: "Open in Tasking Manager"
-    }
-  ]
-};
+const acapsSampleData = [
+  // risk list
+  {
+    iso3: ["BRA"],
+    impact: "3",
+    status: "Materialised",
+    comment: "Brazil’s government agencies warned of droughts this week as the country faces its worst dry spell in 91 years, increasing fears of energy rationing, hitting hydroelectric power generation and agriculture while raising the risk of Amazon fires. several states could be affected: Minas Gerais, Goiás, Mato Grosso do Sul, São Paulo and Paraná. The alert pointed out that studies carried out by the Brazilian SNM foresee this tendency for the period June-July-August/2021.\n -   Unforeseen heavy rains continue to cause flooding in northeast and southern Brazil\n- Droughts in central and southern Brazil, because extension of La Niña period\n- Continued mobility limitations due to road destruction\n",
+    country: ["Brazil", "Venezuela"],
+    adm1_eng_name: ["Adm 1", "Adm 2"],
+    trigger: "-   Unforeseen heavy rains continue to cause flooding in northeast and southern Brazil\n- Droughts in central and southern Brazil, because extension of La Niña period\n- Continued mobility limitations due to road destruction\n",
+    exposure: "250,000-500,000",
+    crisis_id: ["BRA003"],
+    indicator: ["Brazil's northeastern, southern, and central regions face flood risks."],
+    intensity: "3",
+    rationale: "Brazil’s government agencies warned of droughts this week as the country faces its worst dry spell in 91 years, increasing fears of energy rationing, hitting hydroelectric power generation and agriculture while raising the risk of Amazon fires. several states could be affected: Minas Gerais, Goiás, Mato Grosso do Sul, São Paulo and Paraná. The alert pointed out that studies carried out by the Brazilian SNM foresee this tendency for the period June-July-August/2021.\n",
+    risk_type: "Marked deterioration in an existing crisis",
+    source_id: "R0139",
+    risk_level: "High",
+    countrywide: false,
+    probability: "High",
+    source_date: "2021-06-02",
+    source_name: "ACAPS",
+    vulnerability: "The impact in terms of humanitarian consequences focuses on a significant reduction in food consumption, which means increased levels of malnutrition for vulnerable groups. This encourages an increase in negative coping strategies (indebtedness, skipping meals, reduced dietary variety, etc.). This situation may be exacerbated by socio-political instability, which could increase due to the presidential elections projected for October 2022. ",
+    geographic_level: "Subnational",
+    last_risk_update: "2024-06-13T13:54:05.000Z",
+    acaps_source_dataset: "Risk list",
+    isRiskList: true,
+    _internal_filter_date: "2024-06-13",
+    source_link: "https://www.acaps.org/special-report/crisisinsight-global-risk-analysis-3"
+  },
+  // seasonal events
+  {
+    adm1: "PAN.1_1, PAN.2_1, PAN.3_1, PAN.4_1, PAN.5_1, PAN.6_1, PAN.7_1, PAN.8_1, PAN.9_1, PAN.10_1, PAN.12_1, PAN.11_1, PAN.13_1",
+    iso3: ["PAN"],
+    label: ["Rainy season"],
+    months: [
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
+    comment: "Rainy season",
+    country: ["Panama"],
+    indicator: ["Main wet/ Rainy/ Monsoon season", "Indicator part 2"],
+    subindicator: ["Subindicator part 1", "Subindicator part 2"],
+    source_id: "339",
+    event_type: ["Seasonal hazard"],
+    countrywide: true,
+    source_date: "2011-04-01",
+    source_link: "https://climateknowledgeportal.worldbank.org/sites/default/files/2018-10/wb_gfdrr_climate_change_country_profile_for_PAN.pdf",
+    source_name: "World Bank",
+    acaps_source_dataset: "Seasonal events calendar",
+    isSeasonalEvents: true,
+    _internal_filter_date: "2011-04-01"
+  },
+  // info landscape
+  {
+    iso3: ["COL"],
+    comment: "Flooding caused by La Niña and heavy rain falls in Caribbean, Northern Pacific region, North and Central Andean regions and Central-Western region. Major rivers continue to rise. ",
+    country: ["Colombia", "Chile"],
+    created: "2022-06-17",
+    indicator: ["ILI2 - Access to information", "ILI3 - Access to more information"],
+    source_id: "I00002",
+    entry_type: "Event",
+    countrywide: true,
+    source_date: "2021-11-01",
+    source_link: "DREF Final Report Colombia: La Niña phenomenon (Floods)",
+    source_name: "IFRC",
+    subindicator: ["ILS2.1 - Telecommunications infrastructures damage or limitations"],
+    acaps_source_dataset: "Information landscape dataset",
+    isInformationLandscape: true,
+    _internal_filter_date: "2021-11-01"
+  },
+  // protection risk monitor
+  {
+    adm1: "VEN.1_1, VEN.2_1, VEN.3_1, VEN.4_1, VEN.5_1, VEN.6_1, VEN.7_1, VEN.8_1, VEN.9_1, VEN.10_1, VEN.11_1, VEN.12_1, VEN.13_1, VEN.14_1, VEN.15_1, VEN.16_1, VEN.17_1, VEN.18_1, VEN.19_1, VEN.20_1, VEN.21_1, VEN.22_1, VEN.23_1, VEN.24_1, VEN.25_1",
+    iso3: ["VEN"],
+    comment: "According Global Centre for Responsability to Project: The Venezuelan government is pursuing policies that enable systematic human rights violations and abuses in an apparent attempt to silence dissent. Extrajudicial killings appear to be part of a systematic strategy to reinforce social control. The number of killings reduced following the publication of the FFM’s first report in September 2020, suggesting a possible deterrent effect of international scrutiny. However, state security forces have continued their targeted repression and systematic abuses. Government-linked media outlets play a key role in state repression and persecution. ",
+    country: ["Venezuela"],
+    source_id: "P00541",
+    countrywide: true,
+    source_date: "2022-09-01",
+    source_link: "https://www.globalr2p.org/countries/venezuela/",
+    additional_sources: "https://www.expedientepublico.org/asi-fue-el-allanamiento-contra-el-periodico-de-guatemala-la-trama-por-silenciar-a-quienes-denuncian-la-corrupcion/",
+    source_name: "Global2p",
+    adm1_eng_name: [
+      "Amazonas",
+      "Anzoátegui",
+      "Apure",
+      "Aragua",
+      "Barinas",
+      "Bolívar",
+      "Carabobo",
+      "Cojedes",
+      "Delta Amacuro",
+      "Dependencias Federales",
+      "Distrito Capital",
+      "Falcón",
+      "Guárico",
+      "Lara",
+      "Mérida",
+      "Miranda",
+      "Monagas",
+      "Nueva Esparta",
+      "Portuguesa",
+      "Sucre",
+      "Táchira",
+      "Trujillo",
+      "Vargas",
+      "Yaracuy",
+      "Zulia"
+    ],
+    protection_risk: [
+      "R02 - Attacks on civilians and other unlawful killings, and attacks on civilian objects"
+    ],
+    acaps_source_dataset: "Protection risks monitor",
+    isProtectionRisks: true,
+    _internal_filter_date: "2022-09-01",
+    targeting_specific_population_groups: ["Political affilitation"]
+  }
+];
 const complexDataSamples = [
   {
     countries: [
@@ -14354,6 +14571,85 @@ const complexDataLayout = {
     }
   ]
 };
+const conditionalLayout = {
+  type: "Card",
+  children: [
+    {
+      type: "Badge",
+      $value: "country"
+    },
+    {
+      type: "Row",
+      children: [
+        { type: "Title", $value: "eventName" },
+        {
+          type: "Severity",
+          // show Severity if isRisk flag is truthy
+          $if: "isRisk",
+          $value: "severity"
+        }
+      ]
+    },
+    {
+      type: "PropertyGrid",
+      children: [
+        {
+          type: "Field",
+          $if: "affectedPopulation",
+          $value: "affectedPopulation"
+        },
+        {
+          type: "Field",
+          $value: "impact"
+        },
+        {
+          type: "Field",
+          $value: "sourceName"
+        },
+        {
+          type: "Field",
+          $value: "label"
+        },
+        {
+          type: "Text",
+          $if: "description",
+          $value: "description"
+        }
+      ]
+    }
+  ]
+};
+const conditionalDataSamples = [
+  {
+    isRisk: true,
+    eventName: "Wildfire",
+    severity: "MODERATE",
+    affectedPopulation: 1e4,
+    country: "Australia",
+    description: "Moderate wildfire description"
+  },
+  {
+    isRisk: false,
+    eventName: "Flood",
+    affectedPopulation: 0,
+    severity: "SEVERE",
+    country: "Hungary",
+    description: "Severe flood description"
+  },
+  {
+    isRisk: 0,
+    eventName: "Storm",
+    affectedPopulation: 5e3,
+    severity: "MODERATE",
+    country: "New Zealand"
+  },
+  {
+    itemType: "seasonal_event",
+    eventName: "Birds migration",
+    country: "Sweden",
+    description: "Birds fly south from Sweden"
+  }
+];
 const grid = "_grid_1wyj5_1";
 const card = "_card_1wyj5_7";
 const tcard = "_tcard_1wyj5_28";
@@ -14366,6 +14662,449 @@ const styles = {
   error,
   "debugger": "_debugger_1wyj5_48",
   editors
+};
+const acapsLayout = {
+  type: "Card",
+  $props: { active: "active" },
+  children: [
+    // common
+    { type: "Badge", $value: "acaps_source_dataset" },
+    { type: "Text", $value: "country", props: { format: "list" } },
+    { type: "Text", $value: "adm1_eng_name", props: { format: "list" } },
+    //  risks list
+    {
+      type: "Stack",
+      // flag assigned in preprocessor
+      $if: "isRiskList",
+      children: [
+        { type: "CardHeader", $value: "comment" },
+        { type: "Text", $value: "risk_type" },
+        {
+          type: "PropertyGrid",
+          children: [
+            {
+              type: "Field",
+              $value: "geographic_level",
+              overrides: { value: { label: "geographic_level" } }
+            },
+            {
+              type: "Field",
+              $value: "impact",
+              overrides: { value: { label: "impact" } }
+            },
+            {
+              type: "Field",
+              $value: "source_date",
+              overrides: { value: { label: "date_entered" } },
+              format: "date_month_year"
+            },
+            {
+              type: "Field",
+              $value: "last_risk_update",
+              overrides: { value: { label: "last_risk_update" } },
+              format: "date"
+            },
+            {
+              type: "Field",
+              $value: "status",
+              overrides: { value: { label: "status" } }
+            },
+            {
+              type: "Field",
+              $value: "exposure",
+              overrides: { value: { label: "exposure" } }
+            },
+            {
+              type: "Field",
+              $value: "intensity",
+              overrides: { value: { label: "intensity" } }
+            },
+            {
+              type: "Field",
+              $value: "probability",
+              overrides: { value: { label: "probability" } }
+            },
+            {
+              type: "Field",
+              $value: "risk_level",
+              overrides: { value: { label: "risk_level" } }
+            }
+          ]
+        },
+        {
+          type: "Url",
+          $value: "source_link",
+          $if: "source_link"
+        },
+        { type: "Title", value: "rationale", props: { level: 3 } },
+        { type: "Text", $value: "rationale" },
+        { type: "Title", value: "trigger", props: { level: 3 } },
+        { type: "Text", $value: "trigger" },
+        { type: "Title", value: "vulnerability", props: { level: 3 } },
+        { type: "Text", $value: "vulnerability" }
+      ]
+    },
+    // Seasonal events calendar
+    {
+      type: "Stack",
+      // flag assigned in preprocessor
+      $if: "isSeasonalEvents",
+      children: [
+        { type: "CardHeader", $value: "indicator", props: { format: "list" } },
+        { type: "Text", $value: "months", props: { format: "list" } },
+        {
+          type: "PropertyGrid",
+          children: [
+            {
+              type: "Field",
+              $value: "event_type",
+              overrides: { value: { label: "event_type" } }
+            },
+            {
+              type: "Field",
+              $value: "source_name",
+              overrides: { value: { label: "source_name" } }
+            },
+            {
+              type: "Field",
+              $value: "source_date",
+              overrides: { value: { label: "source_date" } },
+              format: "date_month_year"
+            },
+            {
+              type: "Field",
+              $value: "label",
+              overrides: { value: { label: "label" } }
+            }
+          ]
+        },
+        { type: "Text", $value: "comment" },
+        {
+          type: "Url",
+          $value: "source_link",
+          $if: "source_link"
+        }
+      ]
+    },
+    // Information landscape dataset
+    {
+      type: "Stack",
+      // flag assigned in preprocessor
+      $if: "isInformationLandscape",
+      children: [
+        { type: "CardHeader", $value: "indicator", props: { format: "list" } },
+        { type: "Text", $value: "subindicator", props: { format: "list" } },
+        {
+          type: "PropertyGrid",
+          children: [
+            {
+              type: "Field",
+              $value: "entry_type",
+              overrides: { value: { label: "event_type" } }
+            },
+            {
+              type: "Field",
+              $value: "created",
+              overrides: { value: { label: "created" } },
+              format: "date_month_year"
+            },
+            {
+              type: "Field",
+              $value: "source_name",
+              overrides: { value: { label: "source_name" } }
+            },
+            {
+              type: "Field",
+              $value: "source_date",
+              overrides: { value: { label: "source_date" } },
+              format: "date_month_year"
+            }
+          ]
+        },
+        {
+          type: "Url",
+          $value: "source_link",
+          $if: "source_link"
+        },
+        { type: "Text", $value: "comment" }
+      ]
+    },
+    // Protection risks monitor
+    {
+      type: "Stack",
+      // flag assigned in preprocessor
+      $if: "isProtectionRisks",
+      children: [
+        { type: "CardHeader", $value: "indicator", props: { format: "list" } },
+        {
+          type: "PropertyGrid",
+          children: [
+            {
+              type: "Field",
+              $value: "targeting_specific_population_groups",
+              overrides: { value: { label: "targeting_specific_population_groups" } },
+              props: { format: "list" }
+            },
+            {
+              type: "Field",
+              $value: "source_name",
+              overrides: { value: { label: "source_name" } }
+            },
+            {
+              type: "Field",
+              $value: "source_date",
+              overrides: { value: { label: "source_date" } },
+              format: "date_month_year"
+            }
+          ]
+        },
+        {
+          type: "Url",
+          $value: "source_link",
+          $if: "source_link"
+        },
+        {
+          type: "Url",
+          $value: "additional_sources",
+          $if: "additional_sources"
+        },
+        { type: "Text", $value: "comment" }
+      ]
+    },
+    {
+      type: "PropertyGrid",
+      children: [
+        {
+          type: "Field",
+          $value: "published",
+          overrides: { value: { label: "published" } },
+          format: "date_month_year"
+        },
+        {
+          type: "Field",
+          $value: "_internal_filter_date",
+          overrides: { value: { label: "_internal_filter_date" } },
+          format: "date_month_year"
+        }
+      ]
+    }
+  ]
+};
+const hotProjectsLayout = {
+  type: "Card",
+  $props: { active: "active" },
+  children: [
+    {
+      type: "Row",
+      children: [
+        {
+          type: "Badge",
+          $value: "projectId",
+          props: {
+            format: "hash_id"
+          }
+        },
+        {
+          type: "Badge",
+          // isArchived added in preprocessor
+          $if: "isArchived",
+          props: {
+            value: "Archived",
+            variant: "faint"
+          }
+        },
+        {
+          type: "Badge",
+          $props: {
+            value: "projectPriority",
+            variant: "projectPriority"
+          },
+          props: {
+            format: "priority_level",
+            mapping: {
+              low: "neutral",
+              medium: "info",
+              high: "warning",
+              urgent: "error"
+            }
+          }
+        }
+      ]
+    },
+    {
+      type: "Title",
+      $value: "projectInfo.name"
+    },
+    {
+      type: "MappingProgress",
+      $props: {
+        percentValidated: "percentValidated",
+        percentMapped: "percentMapped"
+      }
+    },
+    {
+      type: "PropertyGrid",
+      children: [
+        {
+          type: "Field",
+          $value: "created",
+          format: "date_timezone",
+          overrides: { value: { label: "Creation date" } }
+        },
+        {
+          type: "Field",
+          $value: "mappingTypes",
+          format: "capitalized_list",
+          overrides: { value: { label: "Mapping types" } }
+        },
+        {
+          type: "Field",
+          $value: "lastUpdated",
+          format: "date_timezone",
+          overrides: { value: { label: "Last contribution" } }
+        }
+      ]
+    },
+    {
+      type: "Url",
+      $value: "projectId",
+      props: {
+        urlTemplate: "https://tasks.hotosm.org/projects/{{value}}"
+      },
+      label: "Open in Tasking Manager"
+    }
+  ]
+};
+const layerFeaturesFormatsRegistry = {
+  // HOT
+  priority_level(value2) {
+    return value2 ? TranslationService.t("layer_features_panel.priority", {
+      level: capitalize(value2)
+    }) : "";
+  }
+};
+const oamSampleData = [
+  {
+    __v: 0,
+    _id: "68667c39e7af60368f3ffb77",
+    gsd: 0.05584619841729107,
+    bbox: [-88.315042, 17.833199, -88.308487, 17.836975],
+    user: {
+      _id: "59ecfc8c31eff4000c3804dd",
+      name: "Dan Joseph"
+    },
+    uuid: "https://oin-hotosm-temp.s3.us-east-1.amazonaws.com/686679d2e7af60368f3ff711/0/686679d2e7af60368f3ff712.tif",
+    title: "Santana",
+    contact: "Dan Joseph,dan.b.joseph@gmail.com",
+    geojson: {
+      bbox: [-88.315042, 17.833199, -88.308487, 17.836975],
+      type: "MultiPolygon",
+      coordinates: [
+        [
+          [
+            [-88.315042, 17.836931],
+            [-88.315015, 17.833199],
+            [-88.308487, 17.833243],
+            [-88.308514, 17.836975],
+            [-88.315042, 17.836931]
+          ]
+        ]
+      ]
+    },
+    tooltip: "2025-07-03T12:48:57.511Z",
+    meta_uri: "https://oin-hotosm-temp.s3.us-east-1.amazonaws.com/686679d2e7af60368f3ff711/0/686679d2e7af60368f3ff712_meta.json",
+    platform: "uav",
+    provider: "Belize Red Cross",
+    file_size: 17473284,
+    footprint: "POLYGON ((-88.315042 17.833199, -88.308487 17.833199, -88.308487 17.836975, -88.315042 17.836975, -88.315042 17.833199))",
+    projection: '\nPROJCRS["WGS 84 / UTM zone 16N",\n    BASEGEOGCRS["WGS 84",\n        ENSEMBLE["World Geodetic System 1984 ensemble",\n            MEMBER["World Geodetic System 1984 (Transit)"],\n            MEMBER["World Geodetic System 1984 (G730)"],\n            MEMBER["World Geodetic System 1984 (G873)"],\n            MEMBER["World Geodetic System 1984 (G1150)"],\n            MEMBER["World Geodetic System 1984 (G1674)"],\n            MEMBER["World Geodetic System 1984 (G1762)"],\n            MEMBER["World Geodetic System 1984 (G2139)"],\n            ELLIPSOID["WGS 84",6378137,298.257223563,\n                LENGTHUNIT["metre",1]],\n            ENSEMBLEACCURACY[2.0]],\n        PRIMEM["Greenwich",0,\n            ANGLEUNIT["degree",0.0174532925199433]],\n        ID["EPSG",4326]],\n    CONVERSION["UTM zone 16N",\n        METHOD["Transverse Mercator",\n            ID["EPSG",9807]],\n        PARAMETER["Latitude of natural origin",0,\n            ANGLEUNIT["degree",0.0174532925199433],\n            ID["EPSG",8801]],\n        PARAMETER["Longitude of natural origin",-87,\n            ANGLEUNIT["degree",0.0174532925199433],\n            ID["EPSG",8802]],\n        PARAMETER["Scale factor at natural origin",0.9996,\n            SCALEUNIT["unity",1],\n            ID["EPSG",8805]],\n        PARAMETER["False easting",500000,\n            LENGTHUNIT["metre",1],\n            ID["EPSG",8806]],\n        PARAMETER["False northing",0,\n            LENGTHUNIT["metre",1],\n            ID["EPSG",8807]]],\n    CS[Cartesian,2],\n        AXIS["(E)",east,\n            ORDER[1],\n            LENGTHUNIT["metre",1]],\n        AXIS["(N)",north,\n            ORDER[2],\n            LENGTHUNIT["metre",1]],\n    USAGE[\n        SCOPE["Navigation and medium accuracy spatial referencing."],\n        AREA["Between 90°W and 84°W, northern hemisphere between equator and 84°N, onshore and offshore. Belize. Canada - Manitoba; Nunavut; Ontario. Costa Rica. Cuba. Ecuador - Galapagos. El Salvador. Guatemala. Honduras. Mexico. Nicaragua. United States (USA)."],\n        BBOX[0,-90,84,-84]],\n    ID["EPSG",32616]]',
+    properties: {
+      crs: "EPSG:32616",
+      tms: "https://tiles.openaerialmap.org/686679d2e7af60368f3ff711/0/686679d2e7af60368f3ff712/{z}/{x}/{y}",
+      url: "s3://oin-hotosm-temp/686679d2e7af60368f3ff711/0/686679d2e7af60368f3ff712.tif",
+      wmts: "https://tiles.openaerialmap.org/686679d2e7af60368f3ff711/0/686679d2e7af60368f3ff712/wmts",
+      bands: 3,
+      dtype: "uint8",
+      sensor: "DJI Phantom 4 Pro v2",
+      license: "CC-BY 4.0",
+      filename: "686679d2e7af60368f3ff712.tif",
+      tilejson: "https://tiles.openaerialmap.org/cog/tilejson.json?url=https%3A%2F%2Foin-hotosm-temp.s3.us-east-1.amazonaws.com%2F686679d2e7af60368f3ff711%2F0%2F686679d2e7af60368f3ff712.tif",
+      thumbnail: "https://oin-hotosm-temp.s3.us-east-1.amazonaws.com/686679d2e7af60368f3ff711/0/686679d2e7af60368f3ff712.png",
+      dimensions: [12390, 7396],
+      resolution: [0.05584619841729107, 0.055844445359494475],
+      colorinterp: ["red", "green", "blue"],
+      resolution_in_meters: 0.05584619841729107
+    },
+    uploaded_at: "2025-07-03T12:48:57.511Z",
+    acquisition_end: "2019-08-15T03:59:00.000Z",
+    acquisition_start: "2019-08-14T04:00:00.000Z"
+  }
+];
+const oamLayout = {
+  type: "Card",
+  $props: { active: "active" },
+  children: [
+    { type: "Image", $value: "properties.thumbnail" },
+    { type: "Title", $value: "title" },
+    {
+      type: "PropertyGrid",
+      children: [
+        // TODO: improvement: implement date interval for acquisition? formatsRegistry.dates_interval()
+        // needs two bound values in one field component
+        {
+          type: "Field",
+          $value: "acquisition_start",
+          overrides: { value: { format: "date_month_year", label: "Acquisition start" } }
+        },
+        {
+          type: "Field",
+          $value: "acquisition_end",
+          overrides: { value: { format: "date_month_year", label: "Acquisition end" } }
+        },
+        {
+          type: "Field",
+          $value: "uploaded_at",
+          overrides: { value: { format: "date_month_year", label: "Uploaded at" } }
+        },
+        {
+          type: "Field",
+          $value: "properties.resolution_in_meters",
+          overrides: { value: { label: "Resolution", format: "distance_per_pixel" } }
+        },
+        {
+          type: "Field",
+          $value: "user.name",
+          overrides: { value: { label: "Uploaded by" } }
+        },
+        {
+          type: "Field",
+          $value: "provider",
+          overrides: { value: { label: "Provider" } }
+        },
+        {
+          type: "Field",
+          $value: "platform",
+          overrides: { value: { label: "Platform" } }
+        },
+        {
+          type: "Field",
+          $value: "properties.sensor",
+          overrides: { value: { label: "Sensor" } }
+        },
+        {
+          type: "Field",
+          $value: "file_size",
+          overrides: { value: { label: "File size", format: "file_size" } }
+        },
+        {
+          type: "Field",
+          $value: "properties.license",
+          overrides: { value: { label: "License" } }
+        }
+      ]
+    },
+    { type: "Url", $value: "uuid", label: "Download", props: { icon: "Download16" } }
+  ]
 };
 const useJsonState = (initialValue) => {
   const [json, setJson] = reactExports.useState(JSON.stringify(initialValue, null, 4));
@@ -14429,7 +15168,8 @@ Payload: ${JSON.stringify(payload)}`);
     };
     const contextValue = useUniLayoutContextValue({
       layout,
-      actionHandler: handleAction
+      actionHandler: handleAction,
+      customFormatsRegistry: layerFeaturesFormatsRegistry
     });
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles.debugger, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(UniLayoutContext.Provider, { value: contextValue, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: styles.grid, children: limitedData.map((item, index2) => /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: styles.card, children: /* @__PURE__ */ jsxRuntimeExports.jsx(UniLayoutRenderer, { node: layout, data: item }) }, index2)) }) }),
@@ -14460,8 +15200,11 @@ Payload: ${JSON.stringify(payload)}`);
 };
 const LayoutDebugger_fixture = {
   "Event Card": createLayoutDebugger(eventCardLayoutTemplate, eventSampleData),
-  "HOT Project Card": createLayoutDebugger(hotProjectLayoutTemplate, hotData),
-  "Complex Demo": createLayoutDebugger(complexDataLayout, complexDataSamples)
+  "HOT Project Card": createLayoutDebugger(hotProjectsLayout, hotData),
+  "Complex Demo": createLayoutDebugger(complexDataLayout, complexDataSamples),
+  "Conditional Demo": createLayoutDebugger(conditionalLayout, conditionalDataSamples),
+  "ACAPS Demo": createLayoutDebugger(acapsLayout, acapsSampleData),
+  "OAM Demo": createLayoutDebugger(oamLayout, oamSampleData)
 };
 const fixture2 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
@@ -14494,12 +15237,19 @@ function FieldsRegistry() {
   const [sampleText] = useFixtureInput("Sample Text", "Foo Bar ...");
   const [sampleNumber] = useFixtureInput("Sample Number", -32465.27542);
   const [sampleDate] = useFixtureInput("Sample Date", "2023-05-28T14:30:00Z");
+  const [sampleArray] = useFixtureInput("Sample Array", [
+    "Value 1",
+    "value 2",
+    "value_three"
+  ]);
   return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "1rem" }, children: Object.entries(fieldsRegistry).map(([fieldName, fieldMeta]) => {
     let sampleValue = sampleText;
     if (fieldMeta.type === "number") {
       sampleValue = sampleNumber;
     } else if (fieldMeta.type === "date") {
       sampleValue = sampleDate;
+    } else if (fieldMeta.type === "array") {
+      sampleValue = sampleArray;
     }
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: styles.card, children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("label", { children: fieldName }),
@@ -14559,7 +15309,7 @@ const Popover$1 = "_Popover_56jbh_25";
 const PopoverContent$1 = "_PopoverContent_56jbh_48";
 const PopoverClose$1 = "_PopoverClose_56jbh_56";
 const markdown = "_markdown_56jbh_62";
-const s$2 = {
+const s$3 = {
   tooltipContent,
   arrow,
   InfoPopoverTrigger,
@@ -14690,14 +15440,14 @@ const PopoverContent = reactExports.forwardRef(function PopoverContent2({ style,
     {
       ref,
       style: { ...context.floatingStyles, ...style },
-      className: `${s$2.Popover}${containerClassName ? ` ${containerClassName}` : ""}`,
+      className: `${s$3.Popover}${containerClassName ? ` ${containerClassName}` : ""}`,
       ...context.getFloatingProps(props),
       children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(PopoverClose, {}),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "div",
           {
-            className: `${s$2.PopoverContent}${contentClassName ? ` ${contentClassName}` : ""}`,
+            className: `${s$3.PopoverContent}${contentClassName ? ` ${contentClassName}` : ""}`,
             children: props.children
           }
         ),
@@ -14706,7 +15456,7 @@ const PopoverContent = reactExports.forwardRef(function PopoverContent2({ style,
           {
             ref: arrowRef,
             context: floatingContext,
-            className: s$2.PopoverArrow,
+            className: s$3.PopoverArrow,
             stroke: "transparent",
             strokeWidth: 1,
             height: 8,
@@ -14724,7 +15474,7 @@ const PopoverClose = reactExports.forwardRef(function PopoverClose2(props, ref) 
     {
       type: "button",
       ref,
-      className: s$2.PopoverClose,
+      className: s$3.PopoverClose,
       ...props,
       onClick: (event) => {
         var _a;
@@ -14783,7 +15533,7 @@ function Tooltip({
     isOpen && /* @__PURE__ */ jsxRuntimeExports.jsx(FloatingPortal, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
       "div",
       {
-        className: s$2.tooltipContent,
+        className: s$3.tooltipContent,
         ref: refs.setFloating,
         style: {
           position: strategy,
@@ -14799,7 +15549,7 @@ function Tooltip({
             {
               ref: arrowRef,
               context,
-              className: s$2.arrow,
+              className: s$3.arrow,
               stroke: "transparent",
               strokeWidth: 2,
               height: 8,
@@ -14850,7 +15600,7 @@ const linkWidthWrap = "_linkWidthWrap_qkwt3_1";
 const truncate = "_truncate_qkwt3_3";
 const tail = "_tail_qkwt3_4";
 const link = "_link_qkwt3_1";
-const s$1 = {
+const s$2 = {
   linkWidthWrap,
   truncate,
   tail,
@@ -14872,17 +15622,17 @@ function ShortLinkRenderer({
 }) {
   const passedLink = (linksArr == null ? void 0 : linksArr[0]) ?? href;
   const [leftPart, rightPart] = splitTail(passedLink, truncateAmount);
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$1.linkWidthWrap, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$1.linkOverflowWrap, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$2.linkWidthWrap, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$2.linkOverflowWrap, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
     "a",
     {
-      className: s$1.link,
+      className: s$2.link,
       target: "_blank",
       rel: "noreferrer",
       "data-truncate": rightPart,
       href,
       children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: s$1.truncate, style: { maxWidth: maxWidth || "unset" }, children: leftPart }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: s$1.tail, children: rightPart })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: s$2.truncate, style: { maxWidth: maxWidth || "unset" }, children: leftPart }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: s$2.tail, children: rightPart })
       ]
     }
   ) }) });
@@ -14900,7 +15650,7 @@ const MarkdownContent = reactExports.memo(function MarkdownContent2({
     Markdown,
     {
       options: { overrides: { a: LinkRenderer } },
-      className: clsx(s$2.markdown, className),
+      className: clsx(s$3.markdown, className),
       children: parsed
     }
   );
@@ -14915,7 +15665,7 @@ function InfoPopover({
     /* @__PURE__ */ jsxRuntimeExports.jsx(PopoverTrigger, { asChild: true, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
       "button",
       {
-        className: clsx(s$2.InfoPopoverTrigger, className),
+        className: clsx(s$3.InfoPopoverTrigger, className),
         type: "button",
         "aria-label": "More information",
         ...restProps,
@@ -15050,7 +15800,7 @@ const sentimentDirection = "_sentimentDirection_zjmcz_17";
 const sentimentLabel = "_sentimentLabel_zjmcz_21";
 const sentimentInfo = "_sentimentInfo_zjmcz_25";
 const indicator = "_indicator_zjmcz_29";
-const s = {
+const s$1 = {
   tooltipRoot,
   tooltipRow,
   sentimentDirection,
@@ -15115,14 +15865,14 @@ const BivariateLegendCornerTooltip = ({
       indicator: isLeftSide(cellIndex) ? LOW : HIGH
     }
   ];
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: clsx(s.tooltipRoot), children: rows.map(({ label: label2, direction, indicator: indicator2 }, i2) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s.tooltipRow), children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: clsx(s.indicator), children: indicator2 }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: clsx(s.sentimentInfo), children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: clsx(s.sentimentLabel), children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: clsx(s$1.tooltipRoot), children: rows.map(({ label: label2, direction, indicator: indicator2 }, i2) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$1.tooltipRow), children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: clsx(s$1.indicator), children: indicator2 }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: clsx(s$1.sentimentInfo), children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: clsx(s$1.sentimentLabel), children: [
         label2,
         " "
       ] }),
-      direction && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: clsx(s.sentimentDirection), children: formatSentimentDirection(direction) })
+      direction && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: clsx(s$1.sentimentDirection), children: formatSentimentDirection(direction) })
     ] })
   ] }, i2)) });
 };
@@ -32642,7 +33392,7 @@ function HotProjectIntegration({ map }) {
     alert(`Action: ${action2}, Payload: ${JSON.stringify(payload)}`);
   }, []);
   const uniLayoutContextValue = useUniLayoutContextValue({
-    layout: hotProjectLayoutTemplate,
+    layout: hotProjectsLayout,
     actionHandler: handleAction
   });
   const hotProjectProvider = reactExports.useMemo(
@@ -32655,7 +33405,7 @@ function HotProjectIntegration({ map }) {
         if (!feature || !feature.properties) return null;
         const data = hotData.find((d2) => d2.projectId === feature.properties.projectId);
         if (!data) return null;
-        return /* @__PURE__ */ jsxRuntimeExports.jsx(UniLayoutContext.Provider, { value: uniLayoutContextValue, children: /* @__PURE__ */ jsxRuntimeExports.jsx(UniLayoutRenderer, { node: hotProjectLayoutTemplate, data }) });
+        return /* @__PURE__ */ jsxRuntimeExports.jsx(UniLayoutContext.Provider, { value: uniLayoutContextValue, children: /* @__PURE__ */ jsxRuntimeExports.jsx(UniLayoutRenderer, { node: hotProjectsLayout, data }) });
       }
     }),
     []
@@ -32724,39 +33474,83 @@ const fixture8 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProp
   __proto__: null,
   default: MapPopover_fixture
 }, Symbol.toStringTag, { value: "Module" }));
-const UniComponents_fixture = /* @__PURE__ */ jsxRuntimeExports.jsx("blockquote", { style: { width: 390 }, children: [
-  /* @__PURE__ */ jsxRuntimeExports.jsx(
-    StackedProgressBar,
-    {
-      value: [
-        { title: "% processed", value: 57, color: "green" },
-        { title: "% received", value: 75, color: "orange" }
-      ],
-      caption: "Stacked Progress Bar"
-    }
-  ),
-  /* @__PURE__ */ jsxRuntimeExports.jsx(
-    StackedProgressBar,
-    {
-      value: [{ title: "%", value: 33, color: "red" }],
-      caption: "Progress"
-    }
-  ),
-  /* @__PURE__ */ jsxRuntimeExports.jsx(
-    StackedProgressBar,
-    {
-      value: [
-        { title: "% jaw", value: 7, color: "green" },
-        { title: "% drip", value: 26, color: "orange" },
-        { title: "% flock", value: 75, color: "red" },
-        { title: "% mass", value: 95, color: "blue" }
-      ],
-      caption: "5 step Progress"
-    }
-  ),
-  /* @__PURE__ */ jsxRuntimeExports.jsx(SeverityIndicator, { value: "MODERATE" }),
-  /* @__PURE__ */ jsxRuntimeExports.jsx(SeverityIndicator, { value: "UNKNOWN" })
-].map((Element2) => [Element2, /* @__PURE__ */ jsxRuntimeExports.jsx("hr", {})]) });
+const componentsGroup = "_componentsGroup_eds5k_1";
+const componentsContainer = "_componentsContainer_eds5k_5";
+const s = {
+  componentsGroup,
+  componentsContainer
+};
+function ComponentsGroup({
+  label: label2,
+  children
+}) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: s.componentsGroup, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Text$1, { type: "label", children: label2 }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s.componentsContainer, children })
+  ] });
+}
+const UniComponents_fixture = /* @__PURE__ */ jsxRuntimeExports.jsxs("blockquote", { style: { width: 390 }, children: [
+  /* @__PURE__ */ jsxRuntimeExports.jsxs(ComponentsGroup, { label: "StackedProgressBar", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      MappingProgress,
+      {
+        percentValidated: 30,
+        percentMapped: 60,
+        caption: "MappingProgress"
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      StackedProgressBar,
+      {
+        value: [
+          { title: "% processed", value: 57, color: "green" },
+          { title: "% received", value: 75, color: "orange" }
+        ],
+        caption: "Stacked Progress Bar"
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      StackedProgressBar,
+      {
+        value: [{ title: "%", value: 33, color: "red" }],
+        caption: "Progress"
+      }
+    ),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
+      StackedProgressBar,
+      {
+        value: [
+          { title: "% jaw", value: 7, color: "green" },
+          { title: "% drip", value: 26, color: "orange" },
+          { title: "% flock", value: 75, color: "red" },
+          { title: "% mass", value: 95, color: "blue" }
+        ],
+        caption: "5 step Progress"
+      }
+    )
+  ] }),
+  /* @__PURE__ */ jsxRuntimeExports.jsxs(ComponentsGroup, { label: "SeverityIndicator", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(SeverityIndicator, { value: "MODERATE" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(SeverityIndicator, { value: "UNKNOWN" })
+  ] }),
+  /* @__PURE__ */ jsxRuntimeExports.jsx(ComponentsGroup, { label: "PropertyGrid", children: /* @__PURE__ */ jsxRuntimeExports.jsx(PropertyGrid, { children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Property 1" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Short value" })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Propert 2" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis orci quis dui elementum tempor." })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "This property has no label, so the value takes all the available space." }) })
+  ] }) }),
+  /* @__PURE__ */ jsxRuntimeExports.jsx(ComponentsGroup, { label: "Title", children: /* @__PURE__ */ jsxRuntimeExports.jsxs(UniLayout, { layout: { type: "Row" }, data: {}, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Title, { value: "Title Level 1", level: 1 }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Title, { value: "Title Level 2", level: 2 }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Title, { value: "Title Level 3", level: 3 }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Title, { value: "Title Default" })
+  ] }) })
+] });
 const fixture9 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   default: UniComponents_fixture
