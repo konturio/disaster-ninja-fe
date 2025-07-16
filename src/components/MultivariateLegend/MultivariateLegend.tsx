@@ -8,6 +8,7 @@ import { CornerTooltipWrapper } from '~components/BivariateLegend/CornerTooltipW
 import { i18n } from '~core/localization';
 import { isNumber } from '~utils/common';
 import OpacityStepsLegend from '~components/OpacityStepsLegend/OpacityStepsLegend';
+import { getDirectAndReversedMCDALayers } from '~utils/mcda/getDirectAndReversedMCDALayers';
 import { DEFAULT_BASE_DIRECTION, DEFAULT_SCORE_DIRECTION } from './constants';
 import s from './MultivariateLegend.module.css';
 import textLegendIcon from './icons/text_legend_icon.svg';
@@ -55,13 +56,23 @@ function DimensionBlock({
   );
 }
 
-function DimensionStep({ text, icon }: { text: string; icon: JSX.Element }): JSX.Element {
+function DimensionStep({
+  text,
+  icon,
+}: {
+  text: string[];
+  icon: JSX.Element;
+}): JSX.Element {
   return (
-    <div>
+    <div className={s.dimensionStep}>
       {icon}
-      <Text type="caption" className={s.dimensionStepName}>
-        {text}
-      </Text>
+      <div className={s.dimensionStepMultiline}>
+        {text.map((line, index) => (
+          <Text type="caption" className={s.dimensionStepName} key={`${index}`}>
+            {line}
+          </Text>
+        ))}
+      </div>
     </div>
   );
 }
@@ -155,7 +166,9 @@ function printMCDAAxes(axes: MCDALayer[]) {
 function createOpacityLegend(config: MultivariateLayerConfig) {
   let opacityLegend;
   if (typeof config.opacity === 'object' && config.opacity?.config?.layers.length) {
-    opacityLegend = OpacityStepsLegend({ config: config.opacity.config });
+    opacityLegend = OpacityStepsLegend(
+      getDirectAndReversedMCDALayers(config.opacity?.config),
+    );
   } else if (isNumber(config.opacity)) {
     opacityLegend = `${i18n.t('multivariate.static_opacity')}: ${config.opacity}`;
   }
@@ -190,7 +203,7 @@ function createTextLegend(config: MultivariateLayerConfig) {
       <DimensionBlock title={i18n.t('multivariate.labels')}>
         <div>
           <DimensionStep
-            text={label}
+            text={[label]}
             icon={<img src={textLegendIcon} className={s.textIcon} />}
           />
         </div>
