@@ -112,6 +112,7 @@ export function LayerFeaturesPanel() {
 
   useAutoCollapsePanel(isOpen, closePanel);
 
+  // TODO: panel header should be coming from BE, along with other layer data
   const panelHeader = useMemo(() => {
     switch (featuresPanelLayerId) {
       case HOT_PROJECTS_LAYER_ID:
