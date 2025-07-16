@@ -1,7 +1,7 @@
 import { i18n } from '~core/localization';
 import { configRepo } from '~core/config';
 
-const LANGUAGES = ['en', 'es', 'ar', 'ko', 'id', 'de', 'uk', 'be', 'ru'] as const;
+const LANGUAGES = ['en', 'es', 'ar', 'ko', 'id', 'de', 'uk', 'be', 'ru', 'zn'] as const;
 export type Lng = (typeof LANGUAGES)[number];
 
 const getLocaleTranslations = (lng: Lng): [string, string] => {
