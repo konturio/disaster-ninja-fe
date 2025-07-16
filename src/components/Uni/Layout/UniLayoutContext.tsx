@@ -49,7 +49,7 @@ export function useUniLayoutContextValue({
   // Compile accessors for all data bindings in the layout
   const precompiledAccessors = useUniLayoutCompiledAccessors(layout);
 
-  const getFormattedValue = useCallback(
+  const getFormattedValueWithMeta = useCallback(
     (fieldMeta: FieldMeta | undefined | null, rawValue: any): string => {
       if (rawValue === null || rawValue === undefined) return '';
 
@@ -69,14 +69,14 @@ export function useUniLayoutContextValue({
       formatsRegistry: mergedFormatsRegistry,
       precompiledAccessors,
       actionHandler,
-      getFormattedValue,
+      getFormattedValueWithMeta,
     }),
     [
       precompiledAccessors,
       actionHandler,
       mergedFieldsRegistry,
       mergedFormatsRegistry,
-      getFormattedValue,
+      getFormattedValueWithMeta,
     ],
   );
 }

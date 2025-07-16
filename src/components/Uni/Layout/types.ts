@@ -19,7 +19,10 @@ export interface UniLayoutContextType {
   formatsRegistry: Record<string, (value: any) => string>;
   precompiledAccessors: Record<string, AccessorFunction>;
   actionHandler: (action: string, payload?: any) => void;
-  getFormattedValue: (fieldMeta: FieldMeta | undefined | null, value: any) => string;
+  getFormattedValueWithMeta: (
+    fieldMeta: FieldMeta | undefined | null,
+    value: any,
+  ) => string;
 }
 
 export interface BindingResult {
