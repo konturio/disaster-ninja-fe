@@ -581,7 +581,7 @@ msgstr "Аснова {{level}}"
 
 #: search##search_location
 msgid "Search location"
-msgstr "Пошук месца"
+msgstr "Шукаць месца"
 
 #: search##info_block
 msgid "You can search for 📍 locations"
@@ -1357,7 +1357,7 @@ msgstr "Наладзьце свой вопыт выкарыстання"
 
 #: profile##your_current_job
 msgid "your current job"
-msgstr "ваша цяперашняя праца"
+msgstr "ваша цяперашняя пасада"
 
 #: profile##area_of_expertise
 msgid "area of expertise"
@@ -1539,7 +1539,7 @@ msgstr "Памылка. Паспрабуйце іншы спосаб."
 
 #: profile##reference_area##select_location
 msgid "Select my current location"
-msgstr "Абраць маю цякучае месцазнаходжанне"
+msgstr "Абраць маё цякучае месцазнаходжанне"
 
 #: profile##reference_area##notification
 msgid "Your reference area {{name}} has been saved"

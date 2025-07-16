@@ -1367,7 +1367,7 @@ msgstr "область экспертизы"
 
 #: profile##challenges
 msgid "challenges"
-msgstr "проблемы"
+msgstr "задачи"
 
 #: profile##personalization_prompt
 msgid "For better personalization, please include details such as:"
