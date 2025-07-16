@@ -1,4 +1,3 @@
-import type { AccessorFunction } from '~utils/common/compilePropertyAccessor';
 import type { FieldMeta } from '../fieldsRegistry';
 
 export interface UniLayoutComponentNode {
@@ -33,3 +32,5 @@ export interface LayoutRendererProps {
   node: any;
   data: any;
 }
+
+export type AccessorFunction = (data: any) => any;
