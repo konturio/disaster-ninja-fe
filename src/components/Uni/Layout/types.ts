@@ -21,8 +21,8 @@ export interface UniLayoutContextType {
   actionHandler: (action: string, payload?: any) => void;
   getFormattedValue: (rawValue: unknown, format?: string) => string;
   getFormattedValueWithMeta: (
+    rawValue: unknown,
     fieldMeta: FieldMeta | undefined | null,
-    value: any,
   ) => string;
 }
 

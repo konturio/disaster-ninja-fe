@@ -59,7 +59,7 @@ export function useUniLayoutContextValue({
   );
 
   const getFormattedValueWithMeta = useCallback(
-    (fieldMeta: FieldMeta | undefined | null, rawValue: any): string => {
+    (rawValue: unknown, fieldMeta: FieldMeta | undefined | null): string => {
       if (rawValue === null || rawValue === undefined) return '';
       const formattedValue = getFormattedValue(rawValue, fieldMeta?.format);
 

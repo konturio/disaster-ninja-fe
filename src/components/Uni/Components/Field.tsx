@@ -35,7 +35,7 @@ export function Field({
   const formattedValue =
     format && context.formatsRegistry[format]
       ? applyFormatter(value, context.formatsRegistry[format], format)
-      : context.getFormattedValueWithMeta(fieldMeta, value);
+      : context.getFormattedValueWithMeta(value, fieldMeta);
 
   const shouldShowLabel = showLabel && fieldMeta?.label;
   const tooltip = fieldMeta?.tooltip;

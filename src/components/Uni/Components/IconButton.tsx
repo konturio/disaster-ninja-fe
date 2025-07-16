@@ -27,7 +27,7 @@ export function IconButton({
 
   const fieldMeta = $meta?.value;
 
-  const formattedValue = context.getFormattedValueWithMeta(fieldMeta, value);
+  const formattedValue = context.getFormattedValueWithMeta(value, fieldMeta);
 
   const tooltip = fieldMeta?.tooltip;
 
