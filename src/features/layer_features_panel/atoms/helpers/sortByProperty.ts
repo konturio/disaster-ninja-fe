@@ -1,15 +1,12 @@
-import type { FeaturesPanelItem } from '~features/layer_features_panel/components/LayerFeaturesPanel/types';
+type PropertyAccessor<T, V> = (data: T) => V;
 
-// TODO: rewrite using path accessor so we can use nested properties
-export function sortByNumericProperty(
-  featureItems: FeaturesPanelItem[],
-  propertyName: string,
+export function sortByNumericProperty<T>(
+  items: T[],
+  accessor: PropertyAccessor<T, number>,
   direction: 'asc' | 'desc' = 'desc',
 ) {
-  const comparator = (a: FeaturesPanelItem, b: FeaturesPanelItem) =>
-    direction === 'desc'
-      ? -(a.properties?.[propertyName] - b.properties?.[propertyName])
-      : a.properties?.[propertyName] - b.properties?.[propertyName];
+  const comparator = (a: T, b: T) =>
+    direction === 'desc' ? -(accessor(a) - accessor(b)) : accessor(a) - accessor(b);
 
-  return featureItems.sort(comparator);
+  return items.sort(comparator);
 }

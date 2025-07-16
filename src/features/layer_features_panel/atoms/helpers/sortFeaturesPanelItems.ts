@@ -8,7 +8,7 @@ export function sortFeaturesPanelItems(
 ): void {
   switch (featuresPanelLayerId) {
     case HOT_PROJECTS_LAYER_ID:
-      sortByNumericProperty(features, 'projectId');
+      sortByNumericProperty(features, (feature) => feature.properties?.['projectId']);
       break;
     default:
       // do nothing
