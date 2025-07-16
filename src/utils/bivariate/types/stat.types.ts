@@ -50,6 +50,8 @@ export type Axis = {
   datasetStats?: AxisDatasetStats;
 };
 
+export type AxisDTO = Omit<Axis, 'id' | 'label'> & { label: string | null };
+
 export type CorrelationRate = {
   x: Axis;
   y: Axis;

@@ -59,7 +59,6 @@ class ToolbarImpl implements Toolbar {
           'LocateMe',
           'MapRuler',
           'EditInOsm',
-          'BivariateMatrix',
           SENSOR_CONTROL_ID,
           MCDA_CONTROL_ID,
           UPLOAD_MCDA_CONTROL_ID,

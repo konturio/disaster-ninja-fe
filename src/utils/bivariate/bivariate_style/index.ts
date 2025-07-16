@@ -7,7 +7,7 @@ import {
   notEqual,
 } from './styleGen';
 import type { ExpressionSpecification, FilterSpecification } from 'maplibre-gl';
-import type { Stat, Axis, OverlayColor, Step } from '../types/stat.types';
+import type { Stat, Axis, OverlayColor } from '../types/stat.types';
 import type { BivariateLayerStyle } from '~utils/bivariate/bivariateColorThemeUtils';
 
 export function colorsMap(colors: Array<OverlayColor>): Record<string, string> {
