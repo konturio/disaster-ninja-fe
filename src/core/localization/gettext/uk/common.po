@@ -84,9 +84,8 @@ msgid "Layers"
 msgstr "Шари"
 
 #: layer
-#, fuzzy
 msgid "Layer"
-msgstr "Шари"
+msgstr "Шар"
 
 #: toolbar##map_ruler
 msgid "Measure distance"
