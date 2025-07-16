@@ -21,6 +21,7 @@ const _configDataMock = {
   // intercomDefaultName: null,
   intercomAppId: 'e59cl64z',
   intercomSelector: '#kontur_header_chat_btn',
+  matomoContainerUrl: 'https://matomo.kontur.io/js/container_R9VsLLth.js',
   defaultFeed: 'kontur-public',
   osmEditors: [
     {
@@ -351,7 +352,6 @@ const _configDataMock = {
   activeLayers: ['kontur_lines', 'population_density'],
 };
 
-// @ts-ignore
 configRepo.get = () => _configDataMock;
 
 export { configRepo };
