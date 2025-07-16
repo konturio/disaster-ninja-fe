@@ -12,7 +12,6 @@ export function sortByNumber<T>(
     const aValue = getValue(a) as number;
     const bValue = getValue(b) as number;
     return direction === 'desc' ? bValue - aValue : aValue - bValue;
-    return 0;
   };
   return items.sort(comparator);
 }
