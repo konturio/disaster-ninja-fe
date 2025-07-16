@@ -24,7 +24,11 @@ export class MatomoMetrics implements Metric {
           console.error('Matomo script failed to load', err);
         });
         const s = d.getElementsByTagName('script')[0];
-        s?.parentNode?.insertBefore(g, s);
+        if (s?.parentNode) {
+          s.parentNode.insertBefore(g, s);
+        } else {
+          d.head.appendChild(g);
+        }
       } catch (e) {
         console.error('Failed to inject Matomo script', e);
       }

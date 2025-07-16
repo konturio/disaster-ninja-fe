@@ -1,37 +1,39 @@
 /**
  * @vitest-environment happy-dom
  */
-import { describe, expect, test, vi } from 'vitest';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
 import { configRepo } from '~core/config';
 import { METRICS_EVENT } from '../constants';
 import { MatomoMetrics } from './matomoMetrics';
 
 describe('MatomoMetrics', () => {
-  test('injects script using config url', () => {
+  const containerUrl = 'https://matomo.example.com/container.js';
+  let metrics: MatomoMetrics;
+
+  beforeEach(() => {
+    vi.restoreAllMocks();
     vi.spyOn(configRepo, 'get').mockReturnValue({
       id: 'atlas',
-      matomoContainerUrl: 'https://matomo.example.com/container.js',
+      matomoContainerUrl: containerUrl,
     } as any);
-    document.head.innerHTML = '<script></script>';
-    const metrics = new MatomoMetrics();
+    document.head.innerHTML = '';
+    metrics = new MatomoMetrics();
+  });
+
+  test('injects script using config url', () => {
     metrics.init('atlas', 'home', () => true);
-    const scripts = document.getElementsByTagName('script');
-    expect(scripts[0]?.getAttribute('src')).toBe(
-      'https://matomo.example.com/container.js',
-    );
+    const script = document.head.querySelector(`script[src="${containerUrl}"]`);
+    expect(script).not.toBeNull();
   });
 
   test('dispatches events to data layer', () => {
     const pushSpy = vi.fn();
     (globalThis as any)._mtm = { push: pushSpy };
-    vi.spyOn(configRepo, 'get').mockReturnValue({
-      id: 'atlas',
-      matomoContainerUrl: 'https://matomo.example.com/container.js',
-    } as any);
-    document.head.innerHTML = '<script></script>';
-    const metrics = new MatomoMetrics();
     metrics.init('atlas', 'home', () => true);
-    metrics['ready'] = true;
+    const script = document.head.querySelector(
+      `script[src="${containerUrl}"]`,
+    ) as HTMLScriptElement | null;
+    script?.dispatchEvent(new Event('load'));
     globalThis.dispatchEvent(
       new CustomEvent(METRICS_EVENT, { detail: { name: 'test' } }),
     );
