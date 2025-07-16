@@ -1,13 +1,18 @@
-export const sortByKey =
-  <T extends Record<string, unknown>>(key: string, direction: 'asc' | 'desc') =>
-  (a: T, b: T) => {
-    const aVal = a[key];
-    const bVal = b[key];
-    if (typeof aVal === 'number' && typeof bVal === 'number') {
-      return direction === 'desc' ? bVal - aVal : aVal - bVal;
-    }
-    return 0;
-  };
+/**
+ * Sorts an array in place using numerical property.
+ **/
+export function sortByNumber<T>(
+  items: T[],
+  getValue: (item: T) => unknown,
+  direction: 'asc' | 'desc',
+): T[] {
+  function comparator(a: T, b: T) {
+    const aValue = Number(getValue(a));
+    const bValue = Number(getValue(b));
+    return direction === 'desc' ? bValue - aValue : aValue - bValue;
+  }
+  return items.sort(comparator);
+}
 
 /**
  * Sorts an array in place alphabetically.

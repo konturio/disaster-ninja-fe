@@ -6,18 +6,11 @@ import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { isGeoJSONEmpty } from '~utils/geoJSON/helpers';
 import { i18n } from '~core/localization';
 import { getLayerFeatures } from '~core/api/layers';
-import {
-  ACAPS_LAYER_ID,
-  ACAPS_SIMPLE_LAYER_ID,
-  HOT_PROJECTS_LAYER_ID,
-  OAM_LAYER_ID,
-} from '../constants';
-import { getHotProjectsPanelData } from './helpers/hotProjects_outlines';
-import { getAcapsPanelData } from './helpers/acaps';
-import { getOAMPanelData } from './helpers/openaerialmap';
 import { layerFeaturesFiltersAtom } from './layerFeaturesFiltersAtom';
+import { sortFeaturesPanelItems } from './helpers/sortFeaturesPanelItems';
+import { getLayerFeaturesPreprocessor } from './helpers/layerFeaturesPreprocessors';
+import type { FeaturesPanelItem } from '../components/LayerFeaturesPanel/types';
 import type { LayerFeaturesPanelConfig } from '../types/layerFeaturesPanel';
-import type { FeatureCardCfg } from '../components/CardElements';
 import type { Feature } from 'geojson';
 
 const panelFeature = configRepo.get().features[AppFeature.LAYER_FEATURES_PANEL];
@@ -32,30 +25,25 @@ const requiresGeometry = layerFeaturesPanelConfig?.requiresGeometry ?? true;
 export const currentFeatureIdAtom = atom<number | null>(null, 'currentFeatureIdAtom');
 
 export const layerFeaturesCollectionAtom = atom<{
-  data: FeatureCardCfg[] | null;
+  data: FeaturesPanelItem[] | null;
   loading: boolean;
 }>((ctx) => {
   const layerFeatures = ctx.spy(fetchLayerFeaturesResource.dataAtom);
   const loading = ctx.spy(fetchLayerFeaturesResource.pendingAtom) > 0;
-  const transformedLaterFeatures = layerFeatures
-    ? transformFeaturesToPanelData(layerFeatures)
+  const transformedLayerFeatures = layerFeatures
+    ? transformFeaturesToPanelItems(layerFeatures)
     : null;
-  return { data: transformedLaterFeatures, loading };
+  if (transformedLayerFeatures) {
+    sortFeaturesPanelItems(transformedLayerFeatures, featuresPanelLayerId);
+  }
+  return { data: transformedLayerFeatures, loading };
 }, 'layerFeaturesCollectionAtom');
 
-function transformFeaturesToPanelData(featuresList: object): FeatureCardCfg[] {
-  switch (featuresPanelLayerId) {
-    case HOT_PROJECTS_LAYER_ID:
-      return getHotProjectsPanelData(featuresList);
-    case ACAPS_LAYER_ID:
-    case ACAPS_SIMPLE_LAYER_ID:
-      return getAcapsPanelData(featuresList);
-    case OAM_LAYER_ID:
-      return getOAMPanelData(featuresList);
-    default:
-      console.error(`Layer Features panel: unsupported layerId: ${featuresPanelLayerId}`);
-      return [];
-  }
+function transformFeaturesToPanelItems(featuresList: Feature[]): FeaturesPanelItem[] {
+  const preprocessedFeatures = featuresList.map((f) =>
+    getLayerFeaturesPreprocessor(featuresPanelLayerId)(f),
+  );
+  return preprocessedFeatures;
 }
 
 const fetchLayerFeaturesResource = reatomResource<Feature[] | null>(async (ctx) => {
