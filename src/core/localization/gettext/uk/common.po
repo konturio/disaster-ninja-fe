@@ -180,10 +180,8 @@ msgid "Started"
 msgstr ""
 
 #: created
-#, fuzzy
 msgid "Created"
--msgstr "Створити"
-+msgstr "Створено"
+msgstr "Створено"
 
 #: osm_gaps
 msgid "OSM gaps"
