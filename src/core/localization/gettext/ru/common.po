@@ -605,25 +605,22 @@ msgid "Upload analysis layer"
 msgstr "Загрузить анализ"
 
 #: multivariate##popup##score_header
-#, fuzzy
 msgid "Score {{level}}"
-msgstr "Основа {{уровень}}"
+msgstr "Оценка {{уровень}}"
 
 #: multivariate##popup##compare_header
-#, fuzzy
 msgid "Compare {{level}}"
-msgstr "Основа {{уровень}}"
+msgstr "Сравнение {{уровень}}"
 
 #: multivariate##score
 msgid "Score"
-msgstr "Основа"
+msgstr "Оценка"
 
 #: multivariate##compare
 msgid "Compare"
 msgstr "Сравнение"
 
 #: multivariate##hide_area
-#, fuzzy
 msgid "Hide area"
 msgstr "Скрыть область"
 
