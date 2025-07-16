@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { Icon } from '~components/Icon';
-import { useFormattedValue } from '../hooks/useFormattedValue';
+import { useUniLayoutContext } from '../Layout/UniLayoutContext';
 import s from './CardHeader.module.css';
 
 export interface CardHeaderProps {
@@ -20,7 +20,8 @@ export function CardHeader({
   className,
   format,
 }: CardHeaderProps) {
-  const formattedValue = useFormattedValue(value, format);
+  const context = useUniLayoutContext();
+  const formattedValue = context.getFormattedValue(value, format);
 
   return (
     <div className={clsx(s.cardHeader, className)}>

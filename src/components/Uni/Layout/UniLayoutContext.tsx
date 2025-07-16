@@ -49,18 +49,24 @@ export function useUniLayoutContextValue({
   // Compile accessors for all data bindings in the layout
   const precompiledAccessors = useUniLayoutCompiledAccessors(layout);
 
+  const getFormattedValue = useCallback(
+    (rawValue: unknown, format?: string): string => {
+      const formatKey = format || 'text';
+      const formatter = mergedFormatsRegistry[formatKey] || defaultFormatter;
+      return applyFormatter(rawValue, formatter, formatKey);
+    },
+    [mergedFormatsRegistry],
+  );
+
   const getFormattedValueWithMeta = useCallback(
     (fieldMeta: FieldMeta | undefined | null, rawValue: any): string => {
       if (rawValue === null || rawValue === undefined) return '';
-
-      const formatKey = fieldMeta?.format || 'text';
-      const formatter = mergedFormatsRegistry[formatKey] || defaultFormatter;
-      const formattedValue = applyFormatter(rawValue, formatter, formatKey);
+      const formattedValue = getFormattedValue(rawValue, fieldMeta?.format);
 
       // Apply text transformation if available
       return fieldMeta?.text ? fieldMeta.text(formattedValue) : formattedValue;
     },
-    [mergedFormatsRegistry],
+    [getFormattedValue],
   );
 
   return useMemo(
@@ -70,6 +76,7 @@ export function useUniLayoutContextValue({
       precompiledAccessors,
       actionHandler,
       getFormattedValueWithMeta,
+      getFormattedValue,
     }),
     [
       precompiledAccessors,
@@ -77,6 +84,7 @@ export function useUniLayoutContextValue({
       mergedFieldsRegistry,
       mergedFormatsRegistry,
       getFormattedValueWithMeta,
+      getFormattedValue,
     ],
   );
 }

@@ -19,6 +19,7 @@ export interface UniLayoutContextType {
   formatsRegistry: Record<string, (value: any) => string>;
   precompiledAccessors: Record<string, AccessorFunction>;
   actionHandler: (action: string, payload?: any) => void;
+  getFormattedValue: (rawValue: unknown, format?: string) => string;
   getFormattedValueWithMeta: (
     fieldMeta: FieldMeta | undefined | null,
     value: any,
