@@ -183,7 +183,8 @@ msgstr ""
 #: created
 #, fuzzy
 msgid "Created"
-msgstr "Створити"
+-msgstr "Створити"
++msgstr "Створено"
 
 #: osm_gaps
 msgid "OSM gaps"
