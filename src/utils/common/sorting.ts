@@ -6,11 +6,11 @@ export function sortByNumber<T>(
   getValue: (item: T) => unknown,
   direction: 'asc' | 'desc',
 ): T[] {
-  const comparator = (a: T, b: T) => {
+  function comparator(a: T, b: T) {
     const aValue = Number(getValue(a));
     const bValue = Number(getValue(b));
     return direction === 'desc' ? bValue - aValue : aValue - bValue;
-  };
+  }
   return items.sort(comparator);
 }
 
