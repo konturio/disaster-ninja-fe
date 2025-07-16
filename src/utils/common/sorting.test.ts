@@ -46,12 +46,24 @@ describe('sortByNumber', () => {
   it('should sort items numerically in ascending ordrer', () => {
     const items: SelectableItem[] = [
       { title: 'Value 5', value: 5 },
-      { title: 'Value 2', value: 2 },
-      { title: 'Value 3', value: 3 },
-      { title: 'Value 1', value: 1 },
+      { title: 'Value 2', value: 0 },
+      { title: 'Value 3', value: 0.5 },
+      { title: 'Value 1', value: -1 },
       { title: 'Value 4', value: 4 },
     ];
     sortByNumber(items, (item) => item.value, 'asc');
-    expect(items.map((v) => v.value)).toEqual([1, 2, 3, 4, 5]);
+    expect(items.map((v) => v.value)).toEqual([-1, 0, 0.5, 4, 5]);
+  });
+
+  it('should sort stringified numbers correctly', () => {
+    const items: SelectableItem[] = [
+      { title: 'Value 5', value: '-100' },
+      { title: 'Value 2', value: '0.5' },
+      { title: 'Value 3', value: '0' },
+      { title: 'Value 1', value: '100' },
+      { title: 'Value 4', value: '10' },
+    ];
+    sortByNumber(items, (item) => item.value, 'desc');
+    expect(items.map((v) => v.value)).toEqual(['100', '10', '0.5', '0', '-100']);
   });
 });

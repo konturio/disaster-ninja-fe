@@ -1,5 +1,3 @@
-import { isNumber } from './isNumber';
-
 /**
  * Sorts an array in place using numerical property.
  **/
@@ -9,8 +7,8 @@ export function sortByNumber<T>(
   direction: 'asc' | 'desc',
 ): T[] {
   const comparator = (a: T, b: T) => {
-    const aValue = getValue(a) as number;
-    const bValue = getValue(b) as number;
+    const aValue = Number(getValue(a));
+    const bValue = Number(getValue(b));
     return direction === 'desc' ? bValue - aValue : aValue - bValue;
   };
   return items.sort(comparator);
