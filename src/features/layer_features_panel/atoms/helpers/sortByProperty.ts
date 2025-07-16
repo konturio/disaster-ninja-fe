@@ -8,8 +8,8 @@ export function sortByNumericProperty(
 ) {
   const comparator = (a: FeaturesPanelItem, b: FeaturesPanelItem) =>
     direction === 'desc'
-      ? -(a.properties[propertyName] - b.properties[propertyName])
-      : a.properties[propertyName] - b.properties[propertyName];
+      ? -(a.properties?.[propertyName] - b.properties?.[propertyName])
+      : a.properties?.[propertyName] - b.properties?.[propertyName];
 
   return featureItems.sort(comparator);
 }

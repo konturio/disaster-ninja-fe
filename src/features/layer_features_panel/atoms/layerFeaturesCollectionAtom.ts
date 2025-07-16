@@ -7,7 +7,6 @@ import { isGeoJSONEmpty } from '~utils/geoJSON/helpers';
 import { i18n } from '~core/localization';
 import { getLayerFeatures } from '~core/api/layers';
 import { layerFeaturesFiltersAtom } from './layerFeaturesFiltersAtom';
-import { getBBoxForLayerFeature } from './helpers/getBBoxForFeature';
 import { sortFeaturesPanelItems } from './helpers/sortFeaturesPanelItems';
 import { getLayerFeaturesPreprocessor } from './helpers/layerFeaturesPreprocessors';
 import type { FeaturesPanelItem } from '../components/LayerFeaturesPanel/types';
@@ -32,7 +31,7 @@ export const layerFeaturesCollectionAtom = atom<{
   const layerFeatures = ctx.spy(fetchLayerFeaturesResource.dataAtom);
   const loading = ctx.spy(fetchLayerFeaturesResource.pendingAtom) > 0;
   const transformedLaterFeatures = layerFeatures
-    ? transformFeaturesToPanelData(layerFeatures)
+    ? transformFeaturesToPanelItems(layerFeatures)
     : null;
   if (transformedLaterFeatures) {
     sortFeaturesPanelItems(transformedLaterFeatures, featuresPanelLayerId);
@@ -40,15 +39,11 @@ export const layerFeaturesCollectionAtom = atom<{
   return { data: transformedLaterFeatures, loading };
 }, 'layerFeaturesCollectionAtom');
 
-function transformFeaturesToPanelData(featuresList: Feature[]): FeaturesPanelItem[] {
+function transformFeaturesToPanelItems(featuresList: Feature[]): FeaturesPanelItem[] {
   const preprocessedFeatures = featuresList.map((f) =>
     getLayerFeaturesPreprocessor(featuresPanelLayerId)(f),
   );
-  return preprocessedFeatures.map((f) => ({
-    properties: f.properties ?? {},
-    id: f.id,
-    focus: getBBoxForLayerFeature(f, featuresPanelLayerId),
-  }));
+  return preprocessedFeatures;
 }
 
 const fetchLayerFeaturesResource = reatomResource<Feature[] | null>(async (ctx) => {

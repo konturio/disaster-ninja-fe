@@ -1,7 +1,3 @@
-import type { LngLatBoundsLike } from 'maplibre-gl';
+import type { Feature } from 'geojson';
 
-export type FeaturesPanelItem = {
-  properties: object;
-  id?: string | number;
-  focus?: LngLatBoundsLike;
-};
+export type FeaturesPanelItem = Feature;

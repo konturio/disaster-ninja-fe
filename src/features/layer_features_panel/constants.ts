@@ -1,5 +1,8 @@
 export const FEATURESPANEL_MIN_HEIGHT = 80;
 
+// name for optional custom bbox property. Used to focus on custom bbox area associated with feature
+export const LAYER_FEATURES_CUSTOM_FOCUS_BBOX = '__customFocusBbox';
+
 export const HOT_PROJECTS_LAYER_ID = 'hotProjects_outlines';
 export const HOT_PROJECTS_HEADER = 'HOT Tasking Manager Projects';
 

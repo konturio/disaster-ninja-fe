@@ -28,6 +28,7 @@ import {
 } from '~components/Uni/Layout/UniLayoutContext';
 import { layerFeatureLayouts } from '~features/layer_features_panel/layouts/layouts';
 import { layerFeaturesFormatsRegistry } from '~features/layer_features_panel/formats/layerFeaturesFormats';
+import { getBBoxForLayerFeature } from '~features/layer_features_panel/helpers/getBBoxForLayerFeature';
 import {
   featuresPanelLayerId,
   currentFeatureIdAtom,
@@ -62,8 +63,9 @@ export function LayerFeaturesPanel() {
     (id: number, feature: FeaturesPanelItem) => {
       setCurrentFeatureIdAtom(id);
       scheduledAutoFocus.setFalse.dispatch();
-      if (feature.focus) {
-        setMapBbox(feature.focus as Bbox);
+      const focusBBox = getBBoxForLayerFeature(feature);
+      if (focusBBox) {
+        setMapBbox(focusBBox as Bbox);
       }
     },
     [setCurrentFeatureIdAtom, setMapBbox],
