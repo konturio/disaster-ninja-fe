@@ -1,5 +1,5 @@
 import { HOT_PROJECTS_LAYER_ID } from '~features/layer_features_panel/constants';
-import { sortByNumericProperty } from './sortByProperty';
+import { sortByNumber } from '~utils/common/sorting';
 import type { FeaturesPanelItem } from '~features/layer_features_panel/components/LayerFeaturesPanel/types';
 
 export function sortFeaturesPanelItems(
@@ -8,7 +8,7 @@ export function sortFeaturesPanelItems(
 ): void {
   switch (featuresPanelLayerId) {
     case HOT_PROJECTS_LAYER_ID:
-      sortByNumericProperty(features, (feature) => feature.properties?.['projectId']);
+      sortByNumber(features, (feature) => feature.properties?.['projectId'], 'desc');
       break;
     default:
       // do nothing
