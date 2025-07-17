@@ -1652,12 +1652,11 @@ msgstr "Выбранная область сохранена как эталон
 msgid "Login with Google"
 msgstr "Войти через Google"
 
-#~ msgid "Score {{уровень}}"
-#~ msgstr "Основа {{уровень}}"
+#~ msgid "Score {{level}}"
+#~ msgstr "Основа {{level}}"
 
-#, fuzzy
-#~ msgid "Compare {{уровень}}"
-#~ msgstr "Сравнение {{уровень}}"
+#~ msgid "Compare {{level}}"
+#~ msgstr "Сравнение {{level}}"
 
 #~ msgid "Invalid MCDA layer data"
 #~ msgstr "Некорректные данные слоя многокритериального анализа"
