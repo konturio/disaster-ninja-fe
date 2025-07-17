@@ -1457,7 +1457,7 @@ msgstr "俄语"
 msgid "Ukrainian"
 msgstr "乌克兰语"
 
-#: profile##languageOption##zn
+#: profile##languageOption##zh
 msgid "Chinese"
 msgstr "中文"
 
