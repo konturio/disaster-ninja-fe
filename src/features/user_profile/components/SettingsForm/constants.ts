@@ -51,7 +51,7 @@ const getLocaleTranslations = (lng: Lng): [string, string] => {
         i18n.t('profile.languageOption.ru'),
         i18n.t('profile.languageOption.ru', { lng }),
       ];
-    case 'zn':
+    case 'zh':
       return [
         i18n.t('profile.languageOption.zh'),
         i18n.t('profile.languageOption.zh', { lng }),
