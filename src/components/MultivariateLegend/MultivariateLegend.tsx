@@ -38,7 +38,7 @@ type MultiBivariateLegendAxisProp = {
   quotient: [string, string];
 };
 
-function DimensionBlock({
+function DimensionStack({
   title,
   children,
   grayscale,
@@ -61,10 +61,20 @@ function createMCDALegend(mcdaConfig: MCDAConfig, title: string): JSX.Element {
     legendColors = generateMCDALegendColors(mcdaConfig.colors);
   }
   return (
-    <DimensionBlock title={title}>
-      {printMCDAAxes(mcdaConfig.layers)}
-      <MCDALegend steps={5} colors={legendColors} />
-    </DimensionBlock>
+    <DimensionStack title={title}>
+      <Text type="caption">
+        {mcdaConfig.layers?.map((layer) => layer.name).join(', ')}
+      </Text>
+      <div className={s.mcdaLegend}>
+        <MCDALegend
+          steps={5}
+          colors={legendColors}
+          subtitle="Hexagons are colored as weighted average of normalized and transformed layers values"
+          fromValue={i18n.t('mcda.bad')}
+          toValue={i18n.t('mcda.good')}
+        />
+      </div>
+    </DimensionStack>
   );
 }
 
@@ -116,7 +126,7 @@ function createBivariateLegend(
     y: getCornerHintsForDimension(base, DEFAULT_BASE_DIRECTION),
   };
   return (
-    <DimensionBlock title={title}>
+    <DimensionStack title={title}>
       <CornerTooltipWrapper hints={hints}>
         <BiLegend
           cells={cells}
@@ -125,19 +135,7 @@ function createBivariateLegend(
           showAxisLabels
         />
       </CornerTooltipWrapper>
-    </DimensionBlock>
-  );
-}
-
-function printMCDAAxes(axes: MCDALayer[]) {
-  return (
-    <div>
-      {axes.map((layer, index) => (
-        <div key={`${layer.id}-${index}`} className={s.parameter}>
-          - {layer.name}
-        </div>
-      ))}
-    </div>
+    </DimensionStack>
   );
 }
 
@@ -156,9 +154,9 @@ function createOpacityLegend(config: MultivariateLayerConfig, hasColors: boolean
   }
   if (opacityLegend) {
     return (
-      <DimensionBlock title={i18n.t('multivariate.hide_area')} grayscale={!hasColors}>
+      <DimensionStack title={i18n.t('multivariate.hide_area')} grayscale={!hasColors}>
         {opacityLegend}
-      </DimensionBlock>
+      </DimensionStack>
     );
   }
 }
@@ -166,11 +164,11 @@ function createOpacityLegend(config: MultivariateLayerConfig, hasColors: boolean
 function createExtrusionLegend(config: MultivariateLayerConfig, hasColors: boolean) {
   if (config.extrusion?.height?.config?.layers.length) {
     return (
-      <DimensionBlock title={i18n.t('multivariate.3d')} grayscale={!hasColors}>
+      <DimensionStack title={i18n.t('multivariate.3d')} grayscale={!hasColors}>
         <ExtrusionStepsLegend
           {...getMCDALayersDirectionsForLegend(config.extrusion.height.config)}
         />
-      </DimensionBlock>
+      </DimensionStack>
     );
   }
 }
@@ -181,12 +179,12 @@ function createTextLegend(config: MultivariateLayerConfig) {
       .map((layer) => layer.name)
       .join(', ');
     return (
-      <DimensionBlock title={i18n.t('multivariate.labels')}>
+      <DimensionStack title={i18n.t('multivariate.labels')}>
         <MultivariateLegendStep
           textLines={[label]}
           icon={<Letter className={s.textIcon} />}
         />
-      </DimensionBlock>
+      </DimensionStack>
     );
   }
 }
@@ -201,9 +199,9 @@ function createFillLegend(config: MultivariateLayerConfig) {
       config.colors.colors,
       i18n.t('multivariate.score_and_compare'),
     );
-  } else if (config.score) {
+  } else if (config.score?.config.layers?.length) {
     return createMCDALegend(config.score.config, i18n.t('multivariate.score'));
-  } else if (config.base) {
+  } else if (config.base?.config.layers?.length) {
     return createMCDALegend(config.base.config, i18n.t('multivariate.compare'));
   }
 }
