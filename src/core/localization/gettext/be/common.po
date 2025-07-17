@@ -140,8 +140,9 @@ msgid "Selected area"
 msgstr "Вылучаная вобласць"
 
 #: toolbar##upload_mcda
-msgid "Upload MCDA"
-msgstr "Загрузіць аналіз"
+#, fuzzy
+msgid "Upload analysis"
+msgstr "Загрузіць аналіз слаёў"
 
 #: layer_actions##tooltips##erase
 msgid "Erase"
@@ -339,8 +340,8 @@ msgstr "Фільтр па назоўніку"
 msgid "Multi-criteria decision analysis"
 msgstr "Шматкрытэрыяльны аналіз"
 
-#: mcda##name
-msgid "Create MCDA"
+#: mcda##name search##mcda_create_analysis
+msgid "Create analysis"
 msgstr "Стварыць аналіз"
 
 #: mcda##create_mcda_hint
@@ -380,7 +381,8 @@ msgid "Analysis name cannot be empty"
 msgstr "Назва аналізу не можа быць пустой"
 
 #: mcda##error_invalid_file
-msgid "Invalid MCDA file format"
+#, fuzzy
+msgid "Invalid analysis file format"
 msgstr "Няправільны фармат файла шматкрытэрыяльнага аналізу"
 
 #: mcda##error_invalid_parameter
@@ -392,7 +394,8 @@ msgid "Invalid '{{parameter}}' parameter in '{{axisName}}' layer"
 msgstr "Няправільны параметр '{{parameter}}' у слоі '{{axisName}}'"
 
 #: mcda##error_wrong_mcda_version
-msgid "Wrong MCDA version"
+#, fuzzy
+msgid "Wrong analysis version"
 msgstr "Няправільная версія MCDA"
 
 #: mcda##legend_subtitle
@@ -687,10 +690,6 @@ msgstr "Няма прапаноў ад AI"
 msgid "AI engine did not respond. Please try again later"
 msgstr "AI не адказаў. Паспрабуйце пазней"
 
-#: search##mcda_create_analysis
-msgid "Create analysis"
-msgstr "Стварыць аналіз"
-
 #: search##upload_analysis
 msgid "“{{name}}” Multi-Criteria Decision Analysis has been created"
 msgstr "“{{name}}” шматкрытэрыяльны аналіз быў створаны"
@@ -779,6 +778,7 @@ msgstr "Часавая шкала"
 #, fuzzy
 msgid "Save and draw"
 msgstr "Захаваць і намаляваць"
+
 #: create_layer##edit_layer
 msgid "Edit Layer"
 msgstr "Рэдагаваць слой"
@@ -1655,6 +1655,12 @@ msgstr "Вылучаная вобласць была захаваная як э�
 #: oam_auth##login_button
 msgid "Login with Google"
 msgstr "Ўвайсці праз Google"
+
+#~ msgid "Upload MCDA"
+#~ msgstr "Загрузіць аналіз"
+
+#~ msgid "Create MCDA"
+#~ msgstr "Стварыць аналіз"
 
 #~ msgid "Invalid MCDA layer data"
 #~ msgstr "Няправільныя даныя слоя шматкрытэрыяльнага аналізу"

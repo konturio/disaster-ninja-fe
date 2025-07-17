@@ -139,8 +139,9 @@ msgid "Selected area"
 msgstr "选定区域"
 
 #: toolbar##upload_mcda
-msgid "Upload MCDA"
-msgstr "上传 MCDA"
+#, fuzzy
+msgid "Upload analysis"
+msgstr "上传分析图层"
 
 #: layer_actions##tooltips##erase
 msgid "Erase"
@@ -336,9 +337,9 @@ msgstr "筛选分母"
 msgid "Multi-criteria decision analysis"
 msgstr "多标准决策分析"
 
-#: mcda##name
-msgid "Create MCDA"
-msgstr "创建 MCDA"
+#: mcda##name search##mcda_create_analysis
+msgid "Create analysis"
+msgstr "创建分析"
 
 #: mcda##create_mcda_hint
 #, fuzzy
@@ -379,7 +380,8 @@ msgid "Analysis name cannot be empty"
 msgstr "分析名称不能为空"
 
 #: mcda##error_invalid_file
-msgid "Invalid MCDA file format"
+#, fuzzy
+msgid "Invalid analysis file format"
 msgstr "无效的 MCDA 文件格式"
 
 #: mcda##error_invalid_parameter
@@ -391,7 +393,8 @@ msgid "Invalid '{{parameter}}' parameter in '{{axisName}}' layer"
 msgstr "图层 '{{axisName}}' 中的参数 '{{parameter}}' 无效"
 
 #: mcda##error_wrong_mcda_version
-msgid "Wrong MCDA version"
+#, fuzzy
+msgid "Wrong analysis version"
 msgstr "MCDA 版本错误"
 
 #: mcda##legend_subtitle
@@ -673,10 +676,6 @@ msgstr "无 AI 建议"
 #: search##mcda_error_message
 msgid "AI engine did not respond. Please try again later"
 msgstr "AI 引擎未响应，请稍后重试"
-
-#: search##mcda_create_analysis
-msgid "Create analysis"
-msgstr "创建分析"
 
 #: search##upload_analysis
 msgid "“{{name}}” Multi-Criteria Decision Analysis has been created"
@@ -1609,6 +1608,12 @@ msgstr "所选区域已保存为你个人资料中的参考区域"
 #: oam_auth##login_button
 msgid "Login with Google"
 msgstr "使用 Google 登录"
+
+#~ msgid "Upload MCDA"
+#~ msgstr "上传 MCDA"
+
+#~ msgid "Create MCDA"
+#~ msgstr "创建 MCDA"
 
 #~ msgid "Invalid MCDA layer data"
 #~ msgstr "无效的 MCDA 文件格式"

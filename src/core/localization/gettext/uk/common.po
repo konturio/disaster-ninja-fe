@@ -140,8 +140,9 @@ msgid "Selected area"
 msgstr "Вибрана область"
 
 #: toolbar##upload_mcda
-msgid "Upload MCDA"
-msgstr "Завантажити MCDA"
+#, fuzzy
+msgid "Upload analysis"
+msgstr "Створити аналіз"
 
 #: layer_actions##tooltips##erase
 msgid "Erase"
@@ -339,9 +340,9 @@ msgstr "Фільтр знаменника"
 msgid "Multi-criteria decision analysis"
 msgstr ""
 
-#: mcda##name
-msgid "Create MCDA"
-msgstr ""
+#: mcda##name search##mcda_create_analysis
+msgid "Create analysis"
+msgstr "Створити аналіз"
 
 #: mcda##create_mcda_hint
 msgid "Create multi-criteria decision analysis"
@@ -380,7 +381,7 @@ msgid "Analysis name cannot be empty"
 msgstr ""
 
 #: mcda##error_invalid_file
-msgid "Invalid MCDA file format"
+msgid "Invalid analysis file format"
 msgstr ""
 
 #: mcda##error_invalid_parameter
@@ -392,8 +393,9 @@ msgid "Invalid '{{parameter}}' parameter in '{{axisName}}' layer"
 msgstr ""
 
 #: mcda##error_wrong_mcda_version
-msgid "Wrong MCDA version"
-msgstr ""
+#, fuzzy
+msgid "Wrong analysis version"
+msgstr "Створити аналіз"
 
 #: mcda##legend_subtitle
 msgid ""
@@ -663,10 +665,6 @@ msgstr ""
 #: search##mcda_error_message
 msgid "AI engine did not respond. Please try again later"
 msgstr ""
-
-#: search##mcda_create_analysis
-msgid "Create analysis"
-msgstr "Створити аналіз"
 
 #: search##upload_analysis
 msgid "“{{name}}” Multi-Criteria Decision Analysis has been created"
@@ -1604,6 +1602,9 @@ msgstr ""
 #: oam_auth##login_button
 msgid "Login with Google"
 msgstr ""
+
+#~ msgid "Upload MCDA"
+#~ msgstr "Завантажити MCDA"
 
 #~ msgid "Save features"
 #~ msgstr "Зберегти об'єкти"

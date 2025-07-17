@@ -151,8 +151,9 @@ msgid "Selected area"
 msgstr "선택된 영역"
 
 #: toolbar##upload_mcda
-msgid "Upload MCDA"
-msgstr ""
+#, fuzzy
+msgid "Upload analysis"
+msgstr "고급 분석"
 
 #: layer_actions##tooltips##erase
 msgid "Erase"
@@ -361,10 +362,10 @@ msgstr "분모 필터"
 msgid "Multi-criteria decision analysis"
 msgstr ""
 
-#: mcda##name
+#: mcda##name search##mcda_create_analysis
 #, fuzzy
-msgid "Create MCDA"
-msgstr "생성"
+msgid "Create analysis"
+msgstr "레이어 생성"
 
 #: mcda##create_mcda_hint
 msgid "Create multi-criteria decision analysis"
@@ -408,7 +409,7 @@ msgid "Analysis name cannot be empty"
 msgstr "비밀번호는 필수 입력 사항입니다."
 
 #: mcda##error_invalid_file
-msgid "Invalid MCDA file format"
+msgid "Invalid analysis file format"
 msgstr ""
 
 #: mcda##error_invalid_parameter
@@ -420,8 +421,9 @@ msgid "Invalid '{{parameter}}' parameter in '{{axisName}}' layer"
 msgstr ""
 
 #: mcda##error_wrong_mcda_version
-msgid "Wrong MCDA version"
-msgstr ""
+#, fuzzy
+msgid "Wrong analysis version"
+msgstr "레이어 생성"
 
 #: mcda##legend_subtitle
 msgid ""
@@ -699,11 +701,6 @@ msgstr ""
 #: search##mcda_error_message
 msgid "AI engine did not respond. Please try again later"
 msgstr ""
-
-#: search##mcda_create_analysis
-#, fuzzy
-msgid "Create analysis"
-msgstr "레이어 생성"
 
 #: search##upload_analysis
 msgid "“{{name}}” Multi-Criteria Decision Analysis has been created"
@@ -1666,6 +1663,10 @@ msgstr ""
 #: oam_auth##login_button
 msgid "Login with Google"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Create MCDA"
+#~ msgstr "생성"
 
 #~ msgid "Save features"
 #~ msgstr "특성 저장"

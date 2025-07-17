@@ -151,8 +151,9 @@ msgid "Selected area"
 msgstr "Área seleccionada"
 
 #: toolbar##upload_mcda
-msgid "Upload MCDA"
-msgstr ""
+#, fuzzy
+msgid "Upload analysis"
+msgstr "Análisis avanzado"
 
 #: layer_actions##tooltips##erase
 msgid "Erase"
@@ -361,10 +362,10 @@ msgstr "Filtrar Denominador"
 msgid "Multi-criteria decision analysis"
 msgstr ""
 
-#: mcda##name
+#: mcda##name search##mcda_create_analysis
 #, fuzzy
-msgid "Create MCDA"
-msgstr "Crear"
+msgid "Create analysis"
+msgstr "Crear capa"
 
 #: mcda##create_mcda_hint
 msgid "Create multi-criteria decision analysis"
@@ -408,7 +409,7 @@ msgid "Analysis name cannot be empty"
 msgstr "¡La contraseña no debe estar vacía!"
 
 #: mcda##error_invalid_file
-msgid "Invalid MCDA file format"
+msgid "Invalid analysis file format"
 msgstr ""
 
 #: mcda##error_invalid_parameter
@@ -420,8 +421,9 @@ msgid "Invalid '{{parameter}}' parameter in '{{axisName}}' layer"
 msgstr ""
 
 #: mcda##error_wrong_mcda_version
-msgid "Wrong MCDA version"
-msgstr ""
+#, fuzzy
+msgid "Wrong analysis version"
+msgstr "Crear capa"
 
 #: mcda##legend_subtitle
 msgid ""
@@ -699,11 +701,6 @@ msgstr ""
 #: search##mcda_error_message
 msgid "AI engine did not respond. Please try again later"
 msgstr ""
-
-#: search##mcda_create_analysis
-#, fuzzy
-msgid "Create analysis"
-msgstr "Crear capa"
 
 #: search##upload_analysis
 msgid "“{{name}}” Multi-Criteria Decision Analysis has been created"
@@ -1671,6 +1668,10 @@ msgstr ""
 #: oam_auth##login_button
 msgid "Login with Google"
 msgstr ""
+
+#, fuzzy
+#~ msgid "Create MCDA"
+#~ msgstr "Crear"
 
 #~ msgid "Save features"
 #~ msgstr "Guardar características"

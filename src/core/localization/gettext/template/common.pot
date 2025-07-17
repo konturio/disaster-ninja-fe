@@ -145,7 +145,7 @@ msgid "Selected area"
 msgstr ""
 
 #: toolbar##upload_mcda
-msgid "Upload MCDA"
+msgid "Upload analysis"
 msgstr ""
 
 #: layer_actions##tooltips##erase
@@ -347,7 +347,8 @@ msgid "Multi-criteria decision analysis"
 msgstr ""
 
 #: mcda##name
-msgid "Create MCDA"
+#: search##mcda_create_analysis
+msgid "Create analysis"
 msgstr ""
 
 #: mcda##create_mcda_hint
@@ -387,7 +388,7 @@ msgid "Analysis name cannot be empty"
 msgstr ""
 
 #: mcda##error_invalid_file
-msgid "Invalid MCDA file format"
+msgid "Invalid analysis file format"
 msgstr ""
 
 #: mcda##error_invalid_parameter
@@ -399,7 +400,7 @@ msgid "Invalid '{{parameter}}' parameter in '{{axisName}}' layer"
 msgstr ""
 
 #: mcda##error_wrong_mcda_version
-msgid "Wrong MCDA version"
+msgid "Wrong analysis version"
 msgstr ""
 
 #: mcda##legend_subtitle
@@ -665,10 +666,6 @@ msgstr ""
 
 #: search##mcda_error_message
 msgid "AI engine did not respond. Please try again later"
-msgstr ""
-
-#: search##mcda_create_analysis
-msgid "Create analysis"
 msgstr ""
 
 #: search##upload_analysis
