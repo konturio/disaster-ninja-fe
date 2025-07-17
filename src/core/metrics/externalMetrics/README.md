@@ -1,6 +1,6 @@
 # External Metrics
 
-This folder contains implementations used to integrate third party analytics systems.
+This folder contains implementations used to integrate third-party analytics systems.
 
 ## Matomo Tag Manager
 

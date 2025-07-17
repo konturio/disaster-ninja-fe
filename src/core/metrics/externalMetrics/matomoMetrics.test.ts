@@ -1,10 +1,11 @@
 /**
  * @vitest-environment happy-dom
  */
-import { describe, test, expect, vi } from 'vitest';
+import { describe, test, expect, vi, afterEach } from 'vitest';
 import { configRepo } from '~core/config/__mocks__/_configMock';
 import { METRICS_EVENT } from '../constants';
 import { MatomoMetrics } from './matomoMetrics';
+import type { Config } from '~core/config/types';
 
 const URL = 'https://matomo.kontur.io/js/container_R9VsLLth.js';
 
@@ -16,16 +17,20 @@ function prepareDom() {
 }
 
 describe('MatomoMetrics', () => {
-  test('pushes events to _mtm data layer', () => {
+  const origGet = configRepo.get;
+  afterEach(() => {
+    configRepo.get = origGet;
+  });
+  test('pushes events to _mtm data layer and injects script', () => {
     prepareDom();
-    configRepo.get = vi.fn(() => ({ id: 'test_app', matomoContainerUrl: URL })) as any;
-    const origCreate = document.createElement;
-    const createSpy = vi
-      .spyOn(document, 'createElement')
-      .mockImplementation((tag: string) => origCreate.call(document, tag));
+    const baseConfig = configRepo.get();
+    const mockConfig: Config = { ...baseConfig, id: 'test_app', matomoContainerUrl: URL };
+    configRepo.get = vi.fn<[], Config>(() => mockConfig);
     const metric = new MatomoMetrics();
     metric.init('app', 'route');
-    createSpy.mockRestore();
+
+    const script = document.querySelector(`script[src="${URL}"]`);
+    expect(script).not.toBeNull();
 
     const mtm: any[] = (globalThis as any)._mtm;
     expect(Array.isArray(mtm)).toBe(true);
@@ -39,7 +44,9 @@ describe('MatomoMetrics', () => {
 
   test('does not initialize twice', () => {
     prepareDom();
-    configRepo.get = vi.fn(() => ({ id: 'test_app', matomoContainerUrl: URL })) as any;
+    const baseConfig = configRepo.get();
+    const mockConfig: Config = { ...baseConfig, id: 'test_app', matomoContainerUrl: URL };
+    configRepo.get = vi.fn<[], Config>(() => mockConfig);
     const metric = new MatomoMetrics();
     metric.init('a', 'b');
     const scriptsAfterFirst = document.querySelectorAll(`script[src="${URL}"]`).length;
@@ -52,9 +59,9 @@ describe('MatomoMetrics', () => {
 
   test('dispatchEvent handles errors', () => {
     prepareDom();
-    configRepo.get = vi.fn(() => {
+    configRepo.get = vi.fn<[], Config>(() => {
       throw new Error('boom');
-    }) as any;
+    });
     const metric = new MatomoMetrics();
     metric.init('a', 'b');
     (globalThis as any)._mtm = {
@@ -68,7 +75,9 @@ describe('MatomoMetrics', () => {
 
   test('cleanup removes listener', () => {
     prepareDom();
-    configRepo.get = vi.fn(() => ({ id: 'test_app', matomoContainerUrl: URL })) as any;
+    const baseConfig = configRepo.get();
+    const mockConfig: Config = { ...baseConfig, id: 'test_app', matomoContainerUrl: URL };
+    configRepo.get = vi.fn<[], Config>(() => mockConfig);
     const metric = new MatomoMetrics();
     metric.init('a', 'b');
     metric.cleanup();
