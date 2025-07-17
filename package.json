@@ -87,7 +87,7 @@
     "@sentry/react": "^8.45.0",
     "@turf/area": "6.5.0",
     "@turf/bbox": "^6.5.0",
-    "@turf/centroid": "^6.5.0",
+    "@turf/centroid": "^7.2.0",
     "@turf/distance": "^6.5.0",
     "@turf/great-circle": "^6.5.0",
     "@turf/helpers": "^6.5.0",
