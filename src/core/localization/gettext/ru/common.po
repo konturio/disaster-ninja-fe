@@ -349,7 +349,7 @@ msgstr "Создать многокритериальный анализ"
 
 #: mcda##upload_mcda_hint
 msgid "Upload multi-criteria decision analysis"
-msgstr "Загрузить Многокритериальный анализ"
+msgstr "Загрузить многокритериальный анализ"
 
 #: mcda##modal_input_name
 msgid "Analysis name"
