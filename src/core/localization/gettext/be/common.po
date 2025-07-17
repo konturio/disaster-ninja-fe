@@ -140,9 +140,8 @@ msgid "Selected area"
 msgstr "Вылучаная вобласць"
 
 #: toolbar##upload_mcda
-#, fuzzy
 msgid "Upload analysis"
-msgstr "Загрузіць аналіз слаёў"
+msgstr "Загрузіць аналіз"
 
 #: layer_actions##tooltips##erase
 msgid "Erase"
@@ -383,7 +382,7 @@ msgstr "Назва аналізу не можа быць пустой"
 #: mcda##error_invalid_file
 #, fuzzy
 msgid "Invalid analysis file format"
-msgstr "Няправільны фармат файла шматкрытэрыяльнага аналізу"
+msgstr "Няправільны фармат файла аналізу"
 
 #: mcda##error_invalid_parameter
 msgid "Invalid '{{parameter}}' parameter"
@@ -396,7 +395,7 @@ msgstr "Няправільны параметр '{{parameter}}' у слоі '{{a
 #: mcda##error_wrong_mcda_version
 #, fuzzy
 msgid "Wrong analysis version"
-msgstr "Няправільная версія MCDA"
+msgstr "Няправільная версія аналізу"
 
 #: mcda##legend_subtitle
 msgid ""
