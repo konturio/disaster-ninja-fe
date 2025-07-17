@@ -177,7 +177,7 @@ msgstr "Обновлено"
 
 #: started
 msgid "Started"
-msgstr "Запущено"
+msgstr "Началось"
 
 #: created
 msgid "Created"
