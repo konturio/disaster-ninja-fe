@@ -1492,7 +1492,7 @@ msgstr "Русский"
 msgid "Ukrainian"
 msgstr "Украинский"
 
-#: profile##languageOption##zn
+#: profile##languageOption##zh
 msgid "Chinese"
 msgstr "Китайский"
 
