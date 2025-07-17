@@ -348,7 +348,7 @@ msgstr "多标准决策分析"
 #: mcda##upload_mcda_hint
 #, fuzzy
 msgid "Upload multi-criteria decision analysis"
-msgstr "多标准决策分析"
+msgstr "上传多标准决策分析"
 
 #: mcda##modal_input_name
 msgid "Analysis name"
@@ -598,7 +598,7 @@ msgstr "评分 {{level}}"
 #: multivariate##popup##compare_header
 #, fuzzy
 msgid "Compare {{level}}"
-msgstr "评分 {{level}}"
+msgstr "比较 {{level}}"
 
 #: multivariate##score
 msgid "Score"
@@ -1592,7 +1592,7 @@ msgstr "所选区域未发现特征。"
 
 #: layer_features_panel##priority
 msgid "{{level}} priority"
-msgstr ""
+msgstr "{{level}} 优先"
 
 #: reference_area##save_as_reference_area
 msgid "Save as reference area"
@@ -1610,19 +1610,15 @@ msgstr "所选区域已保存为你个人资料中的参考区域"
 msgid "Login with Google"
 msgstr "使用 Google 登录"
 
-#, fuzzy
 #~ msgid "Invalid MCDA layer data"
 #~ msgstr "无效的 MCDA 文件格式"
 
-#, fuzzy
 #~ msgid "Base {{level}}"
-#~ msgstr "比较 {{level}}"
+#~ msgstr "根本 {{level}}"
 
-#, fuzzy
 #~ msgid "Save features"
 #~ msgstr "保存更改"
 
-#, fuzzy
 #~ msgid "3. Get analytics for the focused area."
 #~ msgstr "所选区域没有分析"
 
