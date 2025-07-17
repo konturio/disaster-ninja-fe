@@ -344,11 +344,11 @@ msgstr "Создать анализ"
 
 #: mcda##create_mcda_hint
 msgid "Create multi-criteria decision analysis"
-msgstr "Создать многокритериальный анализ"
+msgstr "Создать многокритериальный анализ слоёв"
 
 #: mcda##upload_mcda_hint
 msgid "Upload multi-criteria decision analysis"
-msgstr "Загрузить многокритериальный анализ"
+msgstr "Загрузить многокритериальный анализ слоёв"
 
 #: mcda##modal_input_name
 msgid "Analysis name"
