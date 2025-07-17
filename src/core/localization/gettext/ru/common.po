@@ -381,7 +381,7 @@ msgstr "Название анализа не может быть пустым"
 
 #: mcda##error_invalid_file
 msgid "Invalid MCDA file format"
-msgstr "Некорректный формат файла многокритериального анализа"
+msgstr "Некорректный формат файла анализа"
 
 #: mcda##error_invalid_parameter
 msgid "Invalid '{{parameter}}' parameter"
@@ -393,7 +393,7 @@ msgstr "Некорректный параметр '{{parameter}}' в слое '{
 
 #: mcda##error_wrong_mcda_version
 msgid "Wrong MCDA version"
-msgstr "Неподдерживаемая версия многокритериального анализа"
+msgstr "Неподдерживаемая версия анализа"
 
 #: mcda##legend_subtitle
 msgid ""
