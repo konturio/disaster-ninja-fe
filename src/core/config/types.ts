@@ -44,6 +44,7 @@ export interface StageConfig {
   keycloakClientId: string;
   // Third-party services
   yandexMetricaId?: number[];
+  matomoContainerUrl?: string;
   intercomDefaultName?: string;
   intercomAppId?: string;
   intercomSelector?: string;
