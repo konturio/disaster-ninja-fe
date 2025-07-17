@@ -4,6 +4,12 @@
   padding-bottom: var(--half-unit);
 }
 
+.controls {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: var(--double-unit);
+}
+
 /* mobile */
 @media screen and (max-width: 960px) {
   .panelBody {

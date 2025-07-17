@@ -17,3 +17,23 @@ export function downloadObject(
     }, 0),
   );
 }
+
+export function downloadText(content: string, fileName: string, mimeType = 'text/plain') {
+  const file = new Blob([content], { type: mimeType });
+  const a = document.createElement('a');
+  const url = URL.createObjectURL(file);
+  a.href = url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  clearTimeout(
+    setTimeout(function () {
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    }, 0),
+  );
+}
+
+export function downloadCsv(content: string, fileName: string) {
+  downloadText(content, fileName, 'text/csv');
+}
