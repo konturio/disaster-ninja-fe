@@ -93,7 +93,7 @@ msgstr "Измерить расстояние"
 
 #: toolbar##locate_me locate_me##feature_title
 msgid "Locate me"
-msgstr "Определить моё местоположение"
+msgstr "Найті меня"
 
 #: toolbar##panel_title
 msgid "Toolbar"
