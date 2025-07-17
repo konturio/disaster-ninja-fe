@@ -1524,7 +1524,7 @@ msgstr ""
 msgid "Ukrainian"
 msgstr "Ukrainisch"
 
-#: profile##languageOption##zn
+#: profile##languageOption##zh
 msgid "Chinese"
 msgstr ""
 
