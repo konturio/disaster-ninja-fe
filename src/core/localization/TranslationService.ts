@@ -10,7 +10,7 @@ import de_common from './translations/de/common.json';
 import uk_common from './translations/uk/common.json';
 import be_common from './translations/be/common.json';
 import ru_common from './translations/ru/common.json';
-import zn_common from './translations/zn/common.json';
+import zn_common from './translations/zh/common.json';
 import type { TOptions } from 'i18next';
 
 export const I18N_FALLBACK_LANGUAGE = 'en';
@@ -25,7 +25,7 @@ const languageResources = {
   uk: { common: uk_common },
   be: { common: be_common },
   ru: { common: ru_common },
-  zn: { common: zn_common },
+  zn: { common: zh_common },
 };
 
 i18n
