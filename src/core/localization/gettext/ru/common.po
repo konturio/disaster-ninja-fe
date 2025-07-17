@@ -598,19 +598,19 @@ msgstr "Многомерный анализ"
 
 #: multivariate##create_analysis_layer
 msgid "Create analysis layer"
-msgstr "Создать анализ"
+msgstr "Создать анализ слоёв"
 
 #: multivariate##upload_analysis_layer
 msgid "Upload analysis layer"
-msgstr "Загрузить анализ"
+msgstr "Загрузить анализ слоёв"
 
 #: multivariate##popup##score_header
 msgid "Score {{level}}"
-msgstr "Оценка {{уровень}}"
+msgstr "Оценка {{level}}"
 
 #: multivariate##popup##compare_header
 msgid "Compare {{level}}"
-msgstr "Сравнение {{уровень}}"
+msgstr "Сравнение {{level}}"
 
 #: multivariate##score
 msgid "Score"
@@ -1633,7 +1633,7 @@ msgstr "В выделенной области не найдено ни одно
 
 #: layer_features_panel##priority
 msgid "{{level}} priority"
-msgstr "{{уровень}} приоритет"
+msgstr "{{level}} приоритет"
 
 #: reference_area##save_as_reference_area
 msgid "Save as reference area"
