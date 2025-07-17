@@ -778,7 +778,7 @@ msgstr "Таймлайн"
 
 #: create_layer##save_and_draw
 msgid "Save and draw"
-msgstr "Сохранить и нарисовать"
+msgstr "Сохранить и рисовать"
 
 #: create_layer##edit_layer
 msgid "Edit Layer"
