@@ -1,15 +1,15 @@
-.dimensionStep {
+.mvLegendStep {
   display: flex;
   align-items: flex-start;
 }
 
-.dimensionStepMultiline {
+.mvLegendStepMultiline {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: var(--half-unit);
 }
 
-.dimensionStepName {
+.mvLegendStepText {
   margin-left: var(--half-unit);
 }

@@ -1,5 +1,5 @@
 import { PrismHigh, PrismLow, PrismMed } from '@konturio/default-icons';
-import { DimensionStep } from './DimensionStep';
+import { MultivariateLegendStep } from './MultivariateLegendStep';
 import s from './ExtrusionLegend.module.css';
 
 export type OpacityStepType = {
@@ -16,12 +16,15 @@ export default function ExtrusionStepsLegend({
 }) {
   return (
     <>
-      <DimensionStep
+      <MultivariateLegendStep
         textLines={highMCDAScoreLayersDirections}
         icon={<PrismLow className={s.extruisionIcon} />}
       />
-      <DimensionStep textLines={['']} icon={<PrismMed className={s.extruisionIcon} />} />
-      <DimensionStep
+      <MultivariateLegendStep
+        textLines={['']}
+        icon={<PrismMed className={s.extruisionIcon} />}
+      />
+      <MultivariateLegendStep
         textLines={lowMCDAScoreLayersDirections}
         icon={<PrismHigh className={s.extruisionIcon} />}
       />

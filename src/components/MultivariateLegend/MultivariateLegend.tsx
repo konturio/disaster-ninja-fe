@@ -12,7 +12,7 @@ import OpacityStepsLegend from '~components/MultivariateLegend/OpacityStepsLegen
 import ExtrusionStepsLegend from './ExtrusionStepsLegend';
 import { DEFAULT_BASE_DIRECTION, DEFAULT_SCORE_DIRECTION } from './constants';
 import s from './MultivariateLegend.module.css';
-import { DimensionStep } from './DimensionStep';
+import { MultivariateLegendStep } from './MultivariateLegendStep';
 import { getMCDALayersDirectionsForLegend } from './helpers/getMCDALayersDirectionsForLegend';
 import type { Direction } from '~utils/bivariate';
 import type { LayerMeta } from '~core/logical_layers/types/meta';
@@ -182,7 +182,10 @@ function createTextLegend(config: MultivariateLayerConfig) {
       .join(', ');
     return (
       <DimensionBlock title={i18n.t('multivariate.labels')}>
-        <DimensionStep textLines={[label]} icon={<Letter className={s.textIcon} />} />
+        <MultivariateLegendStep
+          textLines={[label]}
+          icon={<Letter className={s.textIcon} />}
+        />
       </DimensionBlock>
     );
   }
