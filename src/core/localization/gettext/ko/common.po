@@ -33,7 +33,7 @@ msgstr "로그인"
 msgid "Save"
 msgstr "저장"
 
-#: cancel mcda##btn_cancel
+#: cancel
 msgid "Cancel"
 msgstr "취소"
 
@@ -52,6 +52,11 @@ msgstr "재난"
 #: loading
 msgid "Loading..."
 msgstr "로딩 중..."
+
+#: preparing_data
+#, fuzzy
+msgid "Preparing data"
+msgstr "데이터 수집"
 
 #: loading_events
 #, fuzzy
@@ -82,6 +87,11 @@ msgstr "범례 표시"
 msgid "Layers"
 msgstr "레이어"
 
+#: layer
+#, fuzzy
+msgid "Layer"
+msgstr "레이어"
+
 #: toolbar##map_ruler
 msgid "Measure distance"
 msgstr ""
@@ -98,7 +108,7 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-#: toolbar##delete
+#: toolbar##delete layer_actions##tooltips##delete
 #, fuzzy
 msgid "Delete"
 msgstr "레이어 삭제"
@@ -141,8 +151,9 @@ msgid "Selected area"
 msgstr "선택된 영역"
 
 #: toolbar##upload_mcda
-msgid "Upload MCDA"
-msgstr ""
+#, fuzzy
+msgid "Upload analysis"
+msgstr "고급 분석"
 
 #: layer_actions##tooltips##erase
 msgid "Erase"
@@ -178,6 +189,15 @@ msgstr "업데이트됨"
 
 #: started
 msgid "Started"
+msgstr ""
+
+#: created
+#, fuzzy
+msgid "Created"
+msgstr "생성"
+
+#: osm_gaps
+msgid "OSM gaps"
 msgstr ""
 
 #: no_data_received
@@ -342,10 +362,18 @@ msgstr "분모 필터"
 msgid "Multi-criteria decision analysis"
 msgstr ""
 
-#: mcda##name
+#: mcda##name search##mcda_create_analysis
 #, fuzzy
-msgid "Create MCDA"
-msgstr "생성"
+msgid "Create analysis"
+msgstr "레이어 생성"
+
+#: mcda##create_mcda_hint
+msgid "Create multi-criteria decision analysis"
+msgstr ""
+
+#: mcda##upload_mcda_hint
+msgid "Upload multi-criteria decision analysis"
+msgstr ""
 
 #: mcda##modal_input_name
 #, fuzzy
@@ -380,12 +408,8 @@ msgstr "고급 분석"
 msgid "Analysis name cannot be empty"
 msgstr "비밀번호는 필수 입력 사항입니다."
 
-#: mcda##error_bad_layer_data
-msgid "Invalid MCDA layer data"
-msgstr ""
-
 #: mcda##error_invalid_file
-msgid "Invalid MCDA file format"
+msgid "Invalid analysis file format"
 msgstr ""
 
 #: mcda##error_invalid_parameter
@@ -397,8 +421,9 @@ msgid "Invalid '{{parameter}}' parameter in '{{axisName}}' layer"
 msgstr ""
 
 #: mcda##error_wrong_mcda_version
-msgid "Wrong MCDA version"
-msgstr ""
+#, fuzzy
+msgid "Wrong analysis version"
+msgstr "레이어 생성"
 
 #: mcda##legend_subtitle
 msgid ""
@@ -578,6 +603,16 @@ msgstr ""
 msgid "Good"
 msgstr ""
 
+#: multivariate##multivariate_analysis
+#, fuzzy
+msgid "Multivariate Analysis"
+msgstr "레이어 생성"
+
+#: multivariate##create_analysis_layer
+#, fuzzy
+msgid "Create analysis layer"
+msgstr "레이어 생성"
+
 #: multivariate##upload_analysis_layer
 msgid "Upload analysis layer"
 msgstr ""
@@ -586,9 +621,47 @@ msgstr ""
 msgid "Score {{level}}"
 msgstr ""
 
-#: multivariate##popup##base_header
-msgid "Base {{level}}"
+#: multivariate##popup##compare_header
+msgid "Compare {{level}}"
 msgstr ""
+
+#: multivariate##score
+msgid "Score"
+msgstr ""
+
+#: multivariate##compare
+msgid "Compare"
+msgstr ""
+
+#: multivariate##hide_area
+msgid "Hide area"
+msgstr ""
+
+#: multivariate##labels
+msgid "Labels"
+msgstr ""
+
+#: multivariate##3d
+msgid "3D"
+msgstr ""
+
+#: map_popup##value
+#, fuzzy
+msgid "Value"
+msgstr "변경 사항 저장"
+
+#: map_popup##range
+msgid "Range"
+msgstr ""
+
+#: map_popup##coefficient
+msgid "Coefficient"
+msgstr ""
+
+#: map_popup##normalized_value
+#, fuzzy
+msgid "Normalized value"
+msgstr "정규화 기준:"
 
 #: search##search_location
 msgid "Search location"
@@ -628,11 +701,6 @@ msgstr ""
 #: search##mcda_error_message
 msgid "AI engine did not respond. Please try again later"
 msgstr ""
-
-#: search##mcda_create_analysis
-#, fuzzy
-msgid "Create analysis"
-msgstr "레이어 생성"
 
 #: search##upload_analysis
 msgid "“{{name}}” Multi-Criteria Decision Analysis has been created"
@@ -726,6 +794,11 @@ msgstr ""
 #, fuzzy
 msgid "Timeline"
 msgstr "감정"
+
+#: create_layer##save_and_draw
+#, fuzzy
+msgid "Save and draw"
+msgstr "고급 분석"
 
 #: create_layer##edit_layer
 msgid "Edit Layer"
@@ -900,10 +973,6 @@ msgstr "다운로드할 수 있는 기하 도형이 없습니다."
 #: draw_tools##overlap_error
 msgid "Polygon should not overlap itself"
 msgstr "다각형은 그 자체로 겹치지 않아야 합니다."
-
-#: draw_tools##save_features
-msgid "Save features"
-msgstr "특성 저장"
 
 #: boundary_selector##title
 msgid "Focus to administrative boundary"
@@ -1267,115 +1336,14 @@ msgstr ""
 msgid "User guide"
 msgstr ""
 
-#: about##title
-msgid "Welcome to Disaster Ninja!"
-msgstr "Disaster Ninja에 오신 것을 환영합니다!"
-
-#: about##intro
-msgid ""
-"Do you want to be notified about ongoing disasters? Are you interested in "
-"instant population data and other analytics for any region in the world? "
-"Disaster Ninja showcases some of <2>Kontur</2>’s capabilities in addressing "
-"these needs.<br/><br/>We initially designed it as a decision support tool "
-"for humanitarian mappers. Now it has grown in functionality and use cases. "
-"Whether you work in disaster management, build a smart city, or perform "
-"research on climate change, Disaster Ninja can help you to:"
+#: modes##external##upload_imagery
+msgid "Upload imagery"
 msgstr ""
-"현재 진행 중인 재난에 대해 알림을 받아보시겠습니까? 전 세계 모든 지역의 인구 "
-"데이터와 기타 분석 사항을 즉시 알아보고 싶으신가요? Disaster Ninja에서는 이러"
-"한 요구 사항을 해결하기 위해 몇 가지 <2>Kontur</2> 기능을 사용합니다.<br/"
-"><br/>처음에는 인도주의적인 문제를 다루기 위한 의사 결정 지원 도구로 고안되었"
-"지만, 이제는 기능과 용법이 여러 가지로 늘어났습니다. 재난 관리, 스마트 시티 "
-"구축, 기후 변화에 관한 연구 수행 등 어떤 업무를 하더라도 다음과 같은 도움을 "
-"드릴 수 있습니다."
 
-#: about##l1
-msgid "1. Stay up to date with the latest hazard events globally."
-msgstr "1. 전 세계의 최신 위험 이벤트의 동향을 알려 드립니다."
-
-#: about##p1
-msgid ""
-"The Disasters panel continually refreshes to inform you about ongoing "
-"events. It consumes data from the <2>Kontur Event Feed</2>, which you can "
-"also access via an API."
-msgstr ""
-"재난 패널이 지속적으로 새로 고침 되어 현재 일어나는 이벤트에 대한 정보를 제공"
-"합니다. <2>Kontur 이벤트 피드</2>의 데이터를 사용하며, API를 통해서도 해당 데"
-"이터에 액세스할 수 있습니다."
-
-#: about##l2
-msgid "2. Focus on your area of interest."
-msgstr "2. 관심 영역을 집중적으로 보여 드립니다."
-
-#: about##p2
-msgid ""
-"The Drawing Tools panel allows you to draw or upload your own geometry on "
-"the map. You can also focus on a disaster-exposed area or an administrative "
-"unit — a country, city, or region."
-msgstr ""
-"그리기 도구 패널을 사용하면 자체 기하 도형을 지도에 그리거나 업로드할 수 있습"
-"니다. 재난에 노출된 영역이나 행정 단위(예: 국가, 도시, 지역)에 초점을 맞출 수"
-"도 있습니다."
-
-#: about##l3
-msgid "3. Get analytics for the focused area."
-msgstr "3. 집중 영역에 대한 분석을 제공합니다."
-
-#: about##p3
-msgid ""
-"The Analytics panel shows the number of people living in that area per "
-"<2>Kontur Population</2> and estimated mapping gaps in OpenStreetMap. "
-"Kontur’s customers have access to hundreds of other indicators through "
-"Advanced Analytics."
-msgstr ""
-"분석 패널은 <2>Kontur 인구</2>당 해당 영역에 거주하는 사람의 수와 "
-"OpenStreetMap 내 예상 매핑 갭을 보여줍니다. 그 외에도 Kontur 고객은 고급 분석"
-"을 통해 수백 가지 지표에 액세스할 수 있습니다."
-
-#: about##l4
-msgid "4. Explore data on the map and make conclusions."
-msgstr "4. 지도의 데이터를 탐색하여 결론을 내릴 수 있습니다."
-
-#: about##p4
-msgid ""
-"The Layers panel gives you various options to display two indicators "
-"simultaneously on a bivariate map, e.g., population density and distance to "
-"the nearest fire station. Use the color legend to assess which areas require "
-"attention. <br/>Hint: in general, green indicates low risk / few gaps, red — "
-"high risk / many gaps."
-msgstr ""
-"레이어 패널을 사용하면 이변수 지도에서 두 가지 지표를 동시에 표시하는 다양한 "
-"옵션을 사용할 수 있게 됩니다(예: 인구 밀도, 가장 가까운 소방서까지의 거리). "
-"색상 범례를 사용하여 주의가 필요한 영역을 평가하세요. <br/>힌트: 일반적으로 "
-"녹색은 저위험/적은 갭을 의미하고 빨간색은 고위험/많은 갭을 의미합니다."
-
-#: about##p5
-msgid ""
-"In addition, you can switch to Reports in the left panel to access data on "
-"potential errors and inconsistencies in OpenStreetMap and help fix them by "
-"mapping the respective area with the JOSM editor."
-msgstr ""
-"또한, 왼쪽 패널의 보고서로 이동하여 OpenStreetMap의 잠재적인 오류 및 불일치 "
-"데이터에 액세스하고, JOSM 편집기를 통해 각 영역을 매핑하여 해당 데이터를 수정"
-"할 수도 있습니다."
-
-#: about##goToMap
-msgid "Go to the map now"
-msgstr "지금 바로 지도로 이동하세요."
-
-#: about##p6
-msgid ""
-"We hope you find this tool valuable. Use the chatbox on Disaster Ninja for "
-"any questions about the functionality, and we will be happy to guide you. "
-"You can also contact us by email at <1>hello@kontur.io</1> if you have "
-"feedback or suggestions on improving the tool.<br/><br/>Disaster Ninja is an "
-"open-source project. Find the code in <8>Kontur’s GitHub account</8>."
-msgstr ""
-"이 도구가 많은 도움이 되기를 바랍니다. 기능에 대해 궁금한 점은 Disaster Ninja"
-"의 챗박스를 통해 언제든지 문의해 주시면 도와 드리겠습니다. 도구 개선에 대한 "
-"피드백이나 제안 사항이 있을 경우, <1>hello@kontur.io</1> 로 이메일 주셔도 됩"
-"니다.<br/><br/>Disaster Ninja는 오픈 소스 프로젝트입니다. <8>Kontur의 GitHub "
-"계정</8>에서 코드를 찾아보세요."
+#: modes##external##imagery_catalog
+#, fuzzy
+msgid "Imagery catalog"
+msgstr "이미지"
 
 #: profile##interfaceTheme
 msgid "Theme"
@@ -1547,6 +1515,10 @@ msgstr ""
 msgid "Ukrainian"
 msgstr "우크라이나 인"
 
+#: profile##languageOption##zh
+msgid "Chinese"
+msgstr ""
+
 #: profile##reference_area##freehand_geometry
 #, fuzzy
 msgid "Freehand geometry"
@@ -1572,7 +1544,9 @@ msgstr "지도에서 경계 선택"
 #: profile##reference_area##tooltip_text
 msgid ""
 "1.Select an area of interest on the map using the Admin Boundary or Draw "
-"Geometry tool. <br/> 2. Click the 'Save as Reference' button on the toolbar."
+"Geometry tool.\n"
+"\n"
+" 2. Click the 'Save as Reference' button on the toolbar."
 msgstr ""
 
 #: profile##reference_area##accessing_location
@@ -1670,6 +1644,10 @@ msgstr ""
 msgid "No features found in the selected area."
 msgstr "선택 영역 내 레이어"
 
+#: layer_features_panel##priority
+msgid "{{level}} priority"
+msgstr ""
+
 #: reference_area##save_as_reference_area
 msgid "Save as reference area"
 msgstr ""
@@ -1681,6 +1659,117 @@ msgstr ""
 #: reference_area##selected_area_saved_as_reference_area
 msgid "Selected area has been saved as reference area in your profile"
 msgstr ""
+
+#: oam_auth##login_button
+msgid "Login with Google"
+msgstr ""
+
+#, fuzzy
+#~ msgid "Create MCDA"
+#~ msgstr "생성"
+
+#~ msgid "Save features"
+#~ msgstr "특성 저장"
+
+#~ msgid "Welcome to Disaster Ninja!"
+#~ msgstr "Disaster Ninja에 오신 것을 환영합니다!"
+
+#~ msgid ""
+#~ "Do you want to be notified about ongoing disasters? Are you interested in "
+#~ "instant population data and other analytics for any region in the world? "
+#~ "Disaster Ninja showcases some of <2>Kontur</2>’s capabilities in "
+#~ "addressing these needs.<br/><br/>We initially designed it as a decision "
+#~ "support tool for humanitarian mappers. Now it has grown in functionality "
+#~ "and use cases. Whether you work in disaster management, build a smart "
+#~ "city, or perform research on climate change, Disaster Ninja can help you "
+#~ "to:"
+#~ msgstr ""
+#~ "현재 진행 중인 재난에 대해 알림을 받아보시겠습니까? 전 세계 모든 지역의 인"
+#~ "구 데이터와 기타 분석 사항을 즉시 알아보고 싶으신가요? Disaster Ninja에서"
+#~ "는 이러한 요구 사항을 해결하기 위해 몇 가지 <2>Kontur</2> 기능을 사용합니"
+#~ "다.<br/><br/>처음에는 인도주의적인 문제를 다루기 위한 의사 결정 지원 도구"
+#~ "로 고안되었지만, 이제는 기능과 용법이 여러 가지로 늘어났습니다. 재난 관"
+#~ "리, 스마트 시티 구축, 기후 변화에 관한 연구 수행 등 어떤 업무를 하더라도 "
+#~ "다음과 같은 도움을 드릴 수 있습니다."
+
+#~ msgid "1. Stay up to date with the latest hazard events globally."
+#~ msgstr "1. 전 세계의 최신 위험 이벤트의 동향을 알려 드립니다."
+
+#~ msgid ""
+#~ "The Disasters panel continually refreshes to inform you about ongoing "
+#~ "events. It consumes data from the <2>Kontur Event Feed</2>, which you can "
+#~ "also access via an API."
+#~ msgstr ""
+#~ "재난 패널이 지속적으로 새로 고침 되어 현재 일어나는 이벤트에 대한 정보를 "
+#~ "제공합니다. <2>Kontur 이벤트 피드</2>의 데이터를 사용하며, API를 통해서도 "
+#~ "해당 데이터에 액세스할 수 있습니다."
+
+#~ msgid "2. Focus on your area of interest."
+#~ msgstr "2. 관심 영역을 집중적으로 보여 드립니다."
+
+#~ msgid ""
+#~ "The Drawing Tools panel allows you to draw or upload your own geometry on "
+#~ "the map. You can also focus on a disaster-exposed area or an "
+#~ "administrative unit — a country, city, or region."
+#~ msgstr ""
+#~ "그리기 도구 패널을 사용하면 자체 기하 도형을 지도에 그리거나 업로드할 수 "
+#~ "있습니다. 재난에 노출된 영역이나 행정 단위(예: 국가, 도시, 지역)에 초점을 "
+#~ "맞출 수도 있습니다."
+
+#~ msgid "3. Get analytics for the focused area."
+#~ msgstr "3. 집중 영역에 대한 분석을 제공합니다."
+
+#~ msgid ""
+#~ "The Analytics panel shows the number of people living in that area per "
+#~ "<2>Kontur Population</2> and estimated mapping gaps in OpenStreetMap. "
+#~ "Kontur’s customers have access to hundreds of other indicators through "
+#~ "Advanced Analytics."
+#~ msgstr ""
+#~ "분석 패널은 <2>Kontur 인구</2>당 해당 영역에 거주하는 사람의 수와 "
+#~ "OpenStreetMap 내 예상 매핑 갭을 보여줍니다. 그 외에도 Kontur 고객은 고급 "
+#~ "분석을 통해 수백 가지 지표에 액세스할 수 있습니다."
+
+#~ msgid "4. Explore data on the map and make conclusions."
+#~ msgstr "4. 지도의 데이터를 탐색하여 결론을 내릴 수 있습니다."
+
+#~ msgid ""
+#~ "The Layers panel gives you various options to display two indicators "
+#~ "simultaneously on a bivariate map, e.g., population density and distance "
+#~ "to the nearest fire station. Use the color legend to assess which areas "
+#~ "require attention. <br/>Hint: in general, green indicates low risk / few "
+#~ "gaps, red — high risk / many gaps."
+#~ msgstr ""
+#~ "레이어 패널을 사용하면 이변수 지도에서 두 가지 지표를 동시에 표시하는 다양"
+#~ "한 옵션을 사용할 수 있게 됩니다(예: 인구 밀도, 가장 가까운 소방서까지의 거"
+#~ "리). 색상 범례를 사용하여 주의가 필요한 영역을 평가하세요. <br/>힌트: 일반"
+#~ "적으로 녹색은 저위험/적은 갭을 의미하고 빨간색은 고위험/많은 갭을 의미합니"
+#~ "다."
+
+#~ msgid ""
+#~ "In addition, you can switch to Reports in the left panel to access data "
+#~ "on potential errors and inconsistencies in OpenStreetMap and help fix "
+#~ "them by mapping the respective area with the JOSM editor."
+#~ msgstr ""
+#~ "또한, 왼쪽 패널의 보고서로 이동하여 OpenStreetMap의 잠재적인 오류 및 불일"
+#~ "치 데이터에 액세스하고, JOSM 편집기를 통해 각 영역을 매핑하여 해당 데이터"
+#~ "를 수정할 수도 있습니다."
+
+#~ msgid "Go to the map now"
+#~ msgstr "지금 바로 지도로 이동하세요."
+
+#~ msgid ""
+#~ "We hope you find this tool valuable. Use the chatbox on Disaster Ninja "
+#~ "for any questions about the functionality, and we will be happy to guide "
+#~ "you. You can also contact us by email at <1>hello@kontur.io</1> if you "
+#~ "have feedback or suggestions on improving the tool.<br/><br/>Disaster "
+#~ "Ninja is an open-source project. Find the code in <8>Kontur’s GitHub "
+#~ "account</8>."
+#~ msgstr ""
+#~ "이 도구가 많은 도움이 되기를 바랍니다. 기능에 대해 궁금한 점은 Disaster "
+#~ "Ninja의 챗박스를 통해 언제든지 문의해 주시면 도와 드리겠습니다. 도구 개선"
+#~ "에 대한 피드백이나 제안 사항이 있을 경우, <1>hello@kontur.io</1> 로 이메"
+#~ "일 주셔도 됩니다.<br/><br/>Disaster Ninja는 오픈 소스 프로젝트입니다. "
+#~ "<8>Kontur의 GitHub 계정</8>에서 코드를 찾아보세요."
 
 #~ msgid "Logout"
 #~ msgstr "로그아웃"

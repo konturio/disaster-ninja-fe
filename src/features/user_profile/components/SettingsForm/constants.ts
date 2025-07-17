@@ -1,7 +1,7 @@
 import { i18n } from '~core/localization';
 import { configRepo } from '~core/config';
 
-const LANGUAGES = ['en', 'es', 'ar', 'ko', 'id', 'de', 'uk', 'be', 'ru'] as const;
+const LANGUAGES = ['en', 'es', 'ar', 'ko', 'id', 'de', 'uk', 'be', 'ru', 'zh'] as const;
 export type Lng = (typeof LANGUAGES)[number];
 
 const getLocaleTranslations = (lng: Lng): [string, string] => {
@@ -50,6 +50,11 @@ const getLocaleTranslations = (lng: Lng): [string, string] => {
       return [
         i18n.t('profile.languageOption.ru'),
         i18n.t('profile.languageOption.ru', { lng }),
+      ];
+    case 'zh':
+      return [
+        i18n.t('profile.languageOption.zh'),
+        i18n.t('profile.languageOption.zh', { lng }),
       ];
   }
 };
