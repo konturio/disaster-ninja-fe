@@ -53,8 +53,8 @@ msgstr "Загрузка..."
 
 #: preparing_data
 msgid "Preparing data"
-msgstr "Збор даных"
-
+-msgstr "Збор даных"
++msgstr "Падрыхтоўка даных"
 #: loading_events
 msgid "Loading disasters"
 msgstr "Загрузка катастроф"
