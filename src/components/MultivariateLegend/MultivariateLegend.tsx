@@ -1,4 +1,5 @@
 import { Legend as BiLegend, MCDALegend } from '@konturio/ui-kit';
+import { Letter } from '@konturio/default-icons';
 import clsx from 'clsx';
 import { generateMCDALegendColors } from '~utils/mcda/mcdaLegendsUtils';
 import { BIVARIATE_LEGEND_SIZE } from '~components/BivariateLegend/const';
@@ -11,7 +12,6 @@ import OpacityStepsLegend from '~components/MultivariateLegend/OpacityStepsLegen
 import ExtrusionStepsLegend from './ExtrusionStepsLegend';
 import { DEFAULT_BASE_DIRECTION, DEFAULT_SCORE_DIRECTION } from './constants';
 import s from './MultivariateLegend.module.css';
-import textLegendIcon from './icons/text_legend_icon.svg';
 import { DimensionStep } from './DimensionStep';
 import { getMCDALayersDirectionsForLegend } from './helpers/getMCDALayersDirectionsForLegend';
 import type { Direction } from '~utils/bivariate';
@@ -178,10 +178,7 @@ function createTextLegend(config: MultivariateLayerConfig) {
       .join(', ');
     return (
       <DimensionBlock title={i18n.t('multivariate.labels')}>
-        <DimensionStep
-          textLines={[label]}
-          icon={<img src={textLegendIcon} className={s.textIcon} />}
-        />
+        <DimensionStep textLines={[label]} icon={<Letter className={s.textIcon} />} />
       </DimensionBlock>
     );
   }

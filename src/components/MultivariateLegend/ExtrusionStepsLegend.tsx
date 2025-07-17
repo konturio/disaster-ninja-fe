@@ -1,7 +1,5 @@
+import { PrismHigh, PrismLow, PrismMed } from '@konturio/default-icons';
 import { DimensionStep } from './DimensionStep';
-import icon3DLegendLow from './icons/3d_legend_low.svg';
-import icon3DLegendMed from './icons/3d_legend_med.svg';
-import icon3DLegendHigh from './icons/3d_legend_high.svg';
 import s from './ExtrusionLegend.module.css';
 
 export type OpacityStepType = {
@@ -20,15 +18,12 @@ export default function ExtrusionStepsLegend({
     <>
       <DimensionStep
         textLines={highMCDAScoreLayersDirections}
-        icon={<img src={icon3DLegendLow} className={s.extruisionIcon} />}
+        icon={<PrismLow className={s.extruisionIcon} />}
       />
-      <DimensionStep
-        textLines={['']}
-        icon={<img src={icon3DLegendMed} className={s.extruisionIcon} />}
-      />
+      <DimensionStep textLines={['']} icon={<PrismMed className={s.extruisionIcon} />} />
       <DimensionStep
         textLines={lowMCDAScoreLayersDirections}
-        icon={<img src={icon3DLegendHigh} className={s.extruisionIcon} />}
+        icon={<PrismHigh className={s.extruisionIcon} />}
       />
     </>
   );
