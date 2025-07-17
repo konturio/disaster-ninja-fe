@@ -1,5 +1,5 @@
 import { i18n } from '~core/localization';
-import { isNumber } from '~utils/common';
+import { isNumber, toCapitalizedList } from '~utils/common';
 
 const language = i18n.instance.language || 'default';
 
@@ -16,6 +16,13 @@ const dateMonthYearFormatter = new Intl.DateTimeFormat(language, {
   year: 'numeric',
   month: 'short',
   day: 'numeric',
+}).format;
+
+const dateWithTimezoneFormatter = new Intl.DateTimeFormat(language, {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+  timeZoneName: 'short',
 }).format;
 
 export const numberFormatter = new Intl.NumberFormat(language);
@@ -85,6 +92,9 @@ export const formatsRegistry = {
   date_month_year(date?: string) {
     return date ? dateMonthYearFormatter(new Date(date)) : '';
   },
+  date_timezone(date?: string) {
+    return date ? dateWithTimezoneFormatter(new Date(date)) : '';
+  },
   dates_interval(datesInterval: { dateStart?: string; dateEnd?: string }) {
     return formatDatesInterval(datesInterval.dateStart, datesInterval.dateEnd);
   },
@@ -104,6 +114,7 @@ export const formatsRegistry = {
     return numberFormatter.format(value);
   },
   text(v: string) {
+    // TODO: why is "text" formatter different from defaultFormatter?
     // default format
     return '' + v;
   },
@@ -114,10 +125,21 @@ export const formatsRegistry = {
     } catch (_) {}
     return placeholder;
   },
-  file_size(sizeInBytes?: number) {
-    return isNumber(sizeInBytes) ? formatFileSize(sizeInBytes) : '';
+  file_size(sizeInBytes?: any) {
+    return isNumber(sizeInBytes) ? formatFileSize(sizeInBytes) : String(sizeInBytes);
   },
-  distance_per_pixel(metersPerPixel?: number) {
-    return isNumber(metersPerPixel) ? formatDistancePerPixel(metersPerPixel) : '';
+  distance_per_pixel(metersPerPixel?: any) {
+    return isNumber(metersPerPixel)
+      ? formatDistancePerPixel(metersPerPixel)
+      : String(metersPerPixel);
+  },
+  capitalized_list(values?: string[]) {
+    return values ? toCapitalizedList(values) : '';
+  },
+  list(values?: string[]) {
+    return values?.length ? values.join(', ') : '';
+  },
+  hash_id(value?: string | number) {
+    return value !== undefined ? `#${value}` : '';
   },
 };

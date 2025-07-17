@@ -1,6 +1,8 @@
 import React, { useMemo, useCallback } from 'react';
 import { fieldsRegistry } from '../fieldsRegistry';
 import { formatsRegistry } from '../formatsRegistry';
+import { applyFormatter } from '../helpers/applyFormater';
+import { defaultFormatter } from '../helpers/defaultFormatter';
 import { useUniLayoutCompiledAccessors } from './useUniLayoutCompiledAccessors';
 import type { FieldMeta } from '../fieldsRegistry';
 import type { UniLayoutContextType } from './types';
@@ -13,9 +15,6 @@ export const useUniLayoutContext = (): UniLayoutContextType => {
   }
   return context;
 };
-
-const defaultFormatter = (v: any): string =>
-  v !== null && v !== undefined ? String(v) : '';
 
 /**
  * Creates a layout context configuration hook that can be used with UniLayoutContext.Provider
@@ -51,17 +50,23 @@ export function useUniLayoutContextValue({
   const precompiledAccessors = useUniLayoutCompiledAccessors(layout);
 
   const getFormattedValue = useCallback(
-    (fieldMeta: FieldMeta | undefined | null, rawValue: any): string => {
-      if (rawValue === null || rawValue === undefined) return '';
-
-      const formatKey = fieldMeta?.format || 'text';
+    (rawValue: unknown, format?: string): string => {
+      const formatKey = format || 'text';
       const formatter = mergedFormatsRegistry[formatKey] || defaultFormatter;
-      const formattedValue = formatter(rawValue);
+      return applyFormatter(rawValue, formatter, formatKey);
+    },
+    [mergedFormatsRegistry],
+  );
+
+  const getFormattedValueWithMeta = useCallback(
+    (rawValue: unknown, fieldMeta: FieldMeta | undefined | null): string => {
+      if (rawValue === null || rawValue === undefined) return '';
+      const formattedValue = getFormattedValue(rawValue, fieldMeta?.format);
 
       // Apply text transformation if available
       return fieldMeta?.text ? fieldMeta.text(formattedValue) : formattedValue;
     },
-    [mergedFormatsRegistry],
+    [getFormattedValue],
   );
 
   return useMemo(
@@ -70,6 +75,7 @@ export function useUniLayoutContextValue({
       formatsRegistry: mergedFormatsRegistry,
       precompiledAccessors,
       actionHandler,
+      getFormattedValueWithMeta,
       getFormattedValue,
     }),
     [
@@ -77,6 +83,7 @@ export function useUniLayoutContextValue({
       actionHandler,
       mergedFieldsRegistry,
       mergedFormatsRegistry,
+      getFormattedValueWithMeta,
       getFormattedValue,
     ],
   );

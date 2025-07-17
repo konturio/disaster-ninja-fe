@@ -53,15 +53,6 @@ const fieldsRegistry: Record<string, FieldMeta> = {
     label: i18n.t('updated'),
     format: 'date',
   },
-  // HOT
-  mappingTypes: {
-    type: 'text',
-    label: i18n.t('mapping_types'),
-  },
-  projectId: {
-    type: 'number',
-    text: (v) => `#${v}`,
-  },
 };
 
 // aliases

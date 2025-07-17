@@ -1,7 +1,8 @@
 import clsx from 'clsx';
+import { useUniLayoutContext } from '../Layout/UniLayoutContext';
 import s from './Badge.module.css';
 
-type VariantType = 'error' | 'success' | 'warning' | 'info' | 'neutral';
+type VariantType = 'error' | 'success' | 'warning' | 'info' | 'neutral' | 'faint';
 
 // Map variant names to CSS classes
 const Variants = {
@@ -10,6 +11,7 @@ const Variants = {
   warning: s.warning,
   info: s.info,
   neutral: s.neutral,
+  faint: s.faint,
 };
 
 interface BadgeProps {
@@ -18,6 +20,7 @@ interface BadgeProps {
   mapping?: Record<string, VariantType>;
   className?: string;
   style?: object;
+  format?: string;
 }
 
 export function Badge({
@@ -26,7 +29,11 @@ export function Badge({
   mapping,
   className = '',
   style = {},
+  format,
 }: BadgeProps) {
+  const context = useUniLayoutContext();
+  const formattedValue = context.getFormattedValue(value, format);
+
   if (value === undefined) return null;
 
   const key = ('' + value).toLowerCase();
@@ -36,7 +43,7 @@ export function Badge({
 
   return (
     <div className={clsx(s.badge, variantClass, className)} style={style}>
-      {value}
+      {formattedValue}
     </div>
   );
 }
