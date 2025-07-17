@@ -53,8 +53,8 @@ msgstr "Загрузка..."
 
 #: preparing_data
 msgid "Preparing data"
--msgstr "Збор даных"
-+msgstr "Падрыхтоўка даных"
+msgstr "Падрыхтоўка даных"
+
 #: loading_events
 msgid "Loading disasters"
 msgstr "Загрузка катастроф"
@@ -606,7 +606,6 @@ msgid "Score {{level}}"
 msgstr "Адзнака {{level}}"
 
 #: multivariate##popup##compare_header
-#, fuzzy
 msgid "Compare {{level}}"
 msgstr "Параўнанне {{level}}"
 

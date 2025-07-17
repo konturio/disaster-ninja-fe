@@ -1653,7 +1653,7 @@ msgid "Login with Google"
 msgstr "Войти через Google"
 
 #~ msgid "Score {{level}}"
-#~ msgstr "Основа {{level}}"
+#~ msgstr "Оценка {{level}}"
 
 #~ msgid "Compare {{level}}"
 #~ msgstr "Сравнение {{level}}"
