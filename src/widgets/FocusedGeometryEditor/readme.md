@@ -21,7 +21,7 @@ import('~features/focused_geometry_editor/').then(({ initFocusedGeometry }) =>
 
 `isEditorActiveAtom` sets to `true`, this triggers `focusedGeometryEditorAtom`. It hides focused geometry layer, if any geometry existed. It also starts listening to any uploaded files, so that if user uploads geometry - he would be able to edit it right away.
 `toolboxAtom` being enabled for all editor modes and also gets a callback action for disabling actions.
-While `toolboxAtom` is responsible for UI component of the draw tools, several actions enabling them on the map - `drawModeLogicalLayerAtom.enable` is self-explanatory, `activeDrawModeAtom.setDrawMode` sets initial draw mode to preferred one and `setIndexesForCurrentGeometryAtom.set(true)` provides autoselect of the focused geometry shapes (so that user can modify them instantly)
+While `toolboxAtom` is responsible for UI component of the draw tools, several actions enabling them on the map - `drawModeLogicalLayerAtom.enable` is self-explanatory, `activeDrawModeAtom.setDrawMode` sets initial draw mode to preferred one and `setIndexesForCurrentGeometryAtom.set(true)` provides autoselect of the focused geometry shapes (so that user can modify them instantly). The map view is also adjusted to fit the current focused geometry when editing starts, so the whole area is visible on screen.
 
 #### On disabling
 
