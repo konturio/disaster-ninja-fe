@@ -779,8 +779,7 @@ msgstr "Часавая шкала"
 #: create_layer##save_and_draw
 #, fuzzy
 msgid "Save and draw"
-msgstr "Захаваць аналіз"
-
+msgstr "Захаваць і намаляваць"
 #: create_layer##edit_layer
 msgid "Edit Layer"
 msgstr "Рэдагаваць слой"
