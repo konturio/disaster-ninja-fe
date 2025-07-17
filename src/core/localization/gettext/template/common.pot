@@ -1449,7 +1449,7 @@ msgstr ""
 msgid "Ukrainian"
 msgstr ""
 
-#: profile##languageOption##zn
+#: profile##languageOption##zh
 msgid "Chinese"
 msgstr ""
 
