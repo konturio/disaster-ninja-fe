@@ -1662,7 +1662,7 @@ msgstr "Ўвайсці праз Google"
 #~ msgstr "Няправільныя даныя слоя шматкрытэрыяльнага аналізу"
 
 #~ msgid "Base {{level}}"
-#~ msgstr "Аснова {{узровень}}"
+#~ msgstr "Аснова {{level}}"
 
 #~ msgid "Save features"
 #~ msgstr "Захаваць аб'екты"
