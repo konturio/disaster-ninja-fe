@@ -1518,7 +1518,7 @@ msgstr ""
 msgid "Ukrainian"
 msgstr "우크라이나 인"
 
-#: profile##languageOption##zn
+#: profile##languageOption##zh
 msgid "Chinese"
 msgstr ""
 
