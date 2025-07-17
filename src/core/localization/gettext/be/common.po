@@ -595,20 +595,20 @@ msgstr "Шматварыянтны аналіз"
 
 #: multivariate##create_analysis_layer
 msgid "Create analysis layer"
-msgstr "Стварыць аналіз"
+msgstr "Стварыць аналіз слаёў"
 
 #: multivariate##upload_analysis_layer
 msgid "Upload analysis layer"
-msgstr "Загрузіць аналіз"
+msgstr "Загрузіць аналіз слаёў"
 
 #: multivariate##popup##score_header
 msgid "Score {{level}}"
-msgstr "Адзнака {{узровень}}"
+msgstr "Адзнака {{level}}"
 
 #: multivariate##popup##compare_header
 #, fuzzy
 msgid "Compare {{level}}"
-msgstr "Параўнанне {{узровень}}"
+msgstr "Параўнанне {{level}}"
 
 #: multivariate##score
 msgid "Score"
@@ -1638,7 +1638,7 @@ msgstr "У вылучанай вобласці не знойдзена аб'ек
 
 #: layer_features_panel##priority
 msgid "{{level}} priority"
-msgstr "{{узровень}} прыярытэт"
+msgstr "{{level}} прыярытэт"
 
 #: reference_area##save_as_reference_area
 msgid "Save as reference area"
