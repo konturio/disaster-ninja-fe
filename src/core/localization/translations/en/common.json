@@ -177,9 +177,12 @@
     },
     "score": "Score",
     "compare": "Compare",
+    "score_and_compare": "Score and compare",
     "hide_area": "Hide area",
     "labels": "Labels",
-    "3d": "3D"
+    "3d": "3D",
+    "static_opacity": "Static opacity",
+    "mcda_legend_subtitle": "Hexagons are colored as weighted average of normalized and transformed layers values"
   },
   "map_popup": {
     "value": "Value",

@@ -31,8 +31,8 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1
       '@konturio/default-icons':
-        specifier: ^2.5.0
-        version: 2.5.0(react@18.3.1)
+        specifier: ^2.5.1
+        version: 2.5.1(react@18.3.1)
       '@konturio/default-theme':
         specifier: ~3.2.7
         version: 3.2.7
@@ -1040,8 +1040,8 @@ packages:
   '@keyv/serialize@1.0.3':
     resolution: {integrity: sha512-qnEovoOp5Np2JDGonIDL6Ayihw0RhnRh6vxPuHo4RDn1UOzwEo4AeIfpL6UGIrsceWrCMiVPgwRjbHu4vYFc3g==}
 
-  '@konturio/default-icons@2.5.0':
-    resolution: {integrity: sha512-8/RrVYUwXEfhzFzN+VaEXRcy0i/N7LdKiKfAZzAyOr/i25bZBoA3Dpcv4OeHsnoglfYGq6EpJS3FDJVsQ1YbBg==}
+  '@konturio/default-icons@2.5.1':
+    resolution: {integrity: sha512-LTNGYfhKjjt2DwJnzh7EbWxSkSkuTVGsSxYZkoILnXzP9fBNkvCA78VxGIf4cuNkr9GG9roo3+ocdjI9Bzh9Sg==}
     peerDependencies:
       react: ^18.2.0
 
@@ -6799,7 +6799,7 @@ snapshots:
     dependencies:
       buffer: 6.0.3
 
-  '@konturio/default-icons@2.5.0(react@18.3.1)':
+  '@konturio/default-icons@2.5.1(react@18.3.1)':
     dependencies:
       react: 18.3.1
 

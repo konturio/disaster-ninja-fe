@@ -33,7 +33,7 @@ export function SquareIcon({
         height="12"
         fill={fill || styles['fill-color'] || 'none'}
         stroke={stroke || styles.color || '#000000'}
-        strokeWidth={styles.width || 3}
+        strokeWidth={styles.width ?? 3}
       />
     </svg>
   );

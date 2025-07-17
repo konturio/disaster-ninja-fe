@@ -44,7 +44,7 @@ export function generateMCDALayersTableAndScore(
 ) {
   const mcdaLayersTable = createTableWithCalculations(feature, layers);
   const resultMCDAScore = calcMcdaIndex(layers, mcdaLayersTable);
-  return { mcdaLayersTable, resultMCDAScore };
+  return { mcdaLayersTable, resultMCDAScore, layers };
 }
 
 export function generateMCDAPopupTable(
