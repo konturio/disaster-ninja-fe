@@ -1,5 +1,6 @@
 import { createAtom } from '~utils/atoms/createPrimitives';
 import type { LayerDetailsDto } from '~core/logical_layers/types/source';
+import { splitContextFromId } from '~core/logical_layers/utils/contextualIds';
 import type { DetailsRequestParams } from './types';
 
 type EventId = string | null;
@@ -39,9 +40,10 @@ export const areaLayersDetailsResourceAtomCache = createAtom(
         request.layersToRetrieveWithGeometryFilter,
       );
       response.forEach((layer) => {
+        const { baseId } = splitContextFromId(layer.id);
         const cacheKey: string | null = getLayersDetailsCacheKey({
-          boundaryRequiredForRetrieval: layersToRetrieveWithGeometryFilter.has(layer.id),
-          eventIdRequiredForRetrieval: layersToRetrieveWithEventId.has(layer.id),
+          boundaryRequiredForRetrieval: layersToRetrieveWithGeometryFilter.has(baseId),
+          eventIdRequiredForRetrieval: layersToRetrieveWithEventId.has(baseId),
           eventId: request.eventId,
           hash: request.geoJSON?.hash,
         });
