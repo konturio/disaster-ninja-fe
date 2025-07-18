@@ -25,7 +25,7 @@ describe('MatomoMetrics', () => {
     prepareDom();
     const baseConfig = configRepo.get();
     const mockConfig: Config = { ...baseConfig, id: 'test_app', matomoContainerUrl: URL };
-    configRepo.get = vi.fn<[], Config>(() => mockConfig);
+    configRepo.get = vi.fn(() => mockConfig);
     const metric = new MatomoMetrics();
     metric.init('app', 'route');
 
@@ -46,7 +46,7 @@ describe('MatomoMetrics', () => {
     prepareDom();
     const baseConfig = configRepo.get();
     const mockConfig: Config = { ...baseConfig, id: 'test_app', matomoContainerUrl: URL };
-    configRepo.get = vi.fn<[], Config>(() => mockConfig);
+    configRepo.get = vi.fn(() => mockConfig);
     const metric = new MatomoMetrics();
     metric.init('a', 'b');
     const scriptsAfterFirst = document.querySelectorAll(`script[src="${URL}"]`).length;
@@ -59,9 +59,9 @@ describe('MatomoMetrics', () => {
 
   test('dispatchEvent handles errors', () => {
     prepareDom();
-    configRepo.get = vi.fn<[], Config>(() => {
+    configRepo.get = vi.fn(() => {
       throw new Error('boom');
-    });
+    }) as unknown as typeof configRepo.get;
     const metric = new MatomoMetrics();
     metric.init('a', 'b');
     (globalThis as any)._mtm = {
@@ -77,7 +77,7 @@ describe('MatomoMetrics', () => {
     prepareDom();
     const baseConfig = configRepo.get();
     const mockConfig: Config = { ...baseConfig, id: 'test_app', matomoContainerUrl: URL };
-    configRepo.get = vi.fn<[], Config>(() => mockConfig);
+    configRepo.get = vi.fn(() => mockConfig);
     const metric = new MatomoMetrics();
     metric.init('a', 'b');
     metric.cleanup();
