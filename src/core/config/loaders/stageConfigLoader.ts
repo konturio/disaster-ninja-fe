@@ -19,6 +19,7 @@ export interface StageConfigLegacy {
   INTERCOM_DEFAULT_NAME?: string;
   INTERCOM_APP_ID?: string;
   INTERCOM_SELECTOR?: string;
+  MATOMO_CONTAINER_URL?: string;
   FEATURES_BY_DEFAULT: AppFeatureType[];
   DEFAULT_FEED: string;
   OSM_EDITORS: OsmEditorConfig[];
@@ -45,6 +46,7 @@ export async function getStageConfig(): Promise<StageConfig> {
     intercomDefaultName: c.INTERCOM_DEFAULT_NAME,
     intercomAppId: c.INTERCOM_APP_ID,
     intercomSelector: c.INTERCOM_SELECTOR,
+    matomoContainerUrl: c.MATOMO_CONTAINER_URL,
     defaultFeed: c.DEFAULT_FEED,
     osmEditors: c.OSM_EDITORS,
     autofocusZoom: c.AUTOFOCUS_ZOOM,

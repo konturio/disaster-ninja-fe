@@ -47,6 +47,7 @@ export interface StageConfig {
   intercomDefaultName?: string;
   intercomAppId?: string;
   intercomSelector?: string;
+  matomoContainerUrl?: string;
   // Event api config
   defaultFeed: string;
   // Map editor config
