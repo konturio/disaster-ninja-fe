@@ -10,7 +10,6 @@ const appMetrics = AppMetrics.getInstance();
 const googleMetrics = new GoogleMetrics();
 const matomoMetrics = new MatomoMetrics();
 export const yandexMetrics = new YandexMetrics();
-export const matomo = matomoMetrics;
 
 addAllSequences(appMetrics);
 
