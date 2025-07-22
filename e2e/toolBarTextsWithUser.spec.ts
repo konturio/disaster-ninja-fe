@@ -74,20 +74,14 @@ for (const project of projects) {
     }
 
     if (project.name !== 'atlas') {
-      await pageManager.atToolBar.checkTextsAndTooltipsInToolbar(
-        visibleTexts,
-        hiddenTexts,
-      );
+      await pageManager.atToolBar.checkTextsInToolbar(visibleTexts, hiddenTexts);
       await pageManager.atToolBar.resizeToolbar({ collapse: true });
       await pageManager.atToolBar.checkTooltipsInShortToolbar(
         pageManager.atToolBar.getToolBarData(visibleTexts),
         pageManager.atToolBar.getToolBarData(hiddenTexts),
       );
       await pageManager.atToolBar.resizeToolbar({ collapse: false });
-      await pageManager.atToolBar.checkTextsAndTooltipsInToolbar(
-        visibleTexts,
-        hiddenTexts,
-      );
+      await pageManager.atToolBar.checkTextsInToolbar(visibleTexts, hiddenTexts);
     } else {
       await expect(
         pageManager.atToolBar.getButtonByText('Measure distance'),

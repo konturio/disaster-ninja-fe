@@ -46,7 +46,7 @@ for (const project of projects) {
     }
 
     if (project.name !== 'atlas') {
-      await pageManager.atToolBar.checkTextsAndTooltipsInToolbar(
+      await pageManager.atToolBar.checkTextsInToolbar(
         visibleTexts,
         hiddenToolbarFeaturesGuest,
       );
@@ -56,7 +56,7 @@ for (const project of projects) {
         pageManager.atToolBar.getToolBarData(hiddenToolbarFeaturesGuest),
       );
       await pageManager.atToolBar.resizeToolbar({ collapse: false });
-      await pageManager.atToolBar.checkTextsAndTooltipsInToolbar(
+      await pageManager.atToolBar.checkTextsInToolbar(
         visibleTexts,
         hiddenToolbarFeaturesGuest,
       );

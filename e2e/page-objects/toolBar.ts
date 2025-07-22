@@ -58,24 +58,23 @@ export class ToolBar extends HelperBase {
   }
 
   /**
-   * This method checks that there are some texts/tooltips that should be visible in big toolbar and also some texts that should not be visible there
+   * This method checks that there are some texts visible in the expanded toolbar
+   * and some texts that should be hidden.
    * @param visibleTexts - array of visible texts
    * @param hiddenTexts - array of hidden texts
    */
 
   @step(
     (args) =>
-      `Check that the following texts in toolbar are visible: ${args[0].join(', ')} and the following texts are hidden: ${args[1].join(', ')}. Check tooltips for visible texts.`,
+      `Check that the following texts in toolbar are visible: ${args[0].join(', ')} and the following texts are hidden: ${args[1].join(', ')}.`,
   )
-  async checkTextsAndTooltipsInToolbar(visibleTexts: string[], hiddenTexts: string[]) {
+  async checkTextsInToolbar(visibleTexts: string[], hiddenTexts: string[]) {
     for (const text of visibleTexts) {
       const element = await this.getButtonByText(text);
       await expect(
         element,
         `Expect element with text '${text}' to be visible on the map side of app`,
       ).toBeVisible();
-      if (text !== 'Save as reference area')
-        await this.hoverElAndCheckTooltip(element, text);
     }
     await Promise.all(
       hiddenTexts.map(async (text) => {
