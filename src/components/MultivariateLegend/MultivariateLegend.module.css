@@ -8,6 +8,10 @@
   margin-bottom: var(--half-unit);
 }
 
+.mcdaLegend {
+  margin-top: var(--unit);
+}
+
 .textIcon {
   margin-top: -1px;
   height: 18px;
