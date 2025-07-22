@@ -185,8 +185,6 @@ function createFillLegend(config: MultivariateLayerConfig) {
   } else if (config.base) {
     return createMCDALegend(config.base.config, i18n.t('multivariate.compare'));
   }
-  // TODO: implement more complex legend based on included dimensions
-  return <>Multivariate legend fallback</>;
 }
 
 export function MultivariateLegend({ config }: MultivariateLegendProps) {
