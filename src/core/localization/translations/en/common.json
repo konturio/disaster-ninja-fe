@@ -33,7 +33,7 @@
     "record_sensors": "Record sensors",
     "tools_label": "Tools",
     "selected_area_label": "Selected area",
-    "upload_mcda": "Upload MCDA"
+    "upload_mcda": "Upload analysis"
   },
   "layer_actions": {
     "tooltips": {
@@ -100,7 +100,7 @@
   },
   "mcda": {
     "title": "Multi-criteria decision analysis",
-    "name": "Create MCDA",
+    "name": "Create analysis",
     "create_mcda_hint": "Create multi-criteria decision analysis",
     "upload_mcda_hint": "Upload multi-criteria decision analysis",
     "modal_title": "Multi-criteria decision analysis",
@@ -111,10 +111,10 @@
     "modal_input_indicators_no_options": "No options",
     "btn_save": "Save analysis",
     "error_analysis_name_cannot_be_empty": "Analysis name cannot be empty",
-    "error_invalid_file": "Invalid MCDA file format",
+    "error_invalid_file": "Invalid analysis file format",
     "error_invalid_parameter": "Invalid '{{parameter}}' parameter",
     "error_invalid_layer_parameter": "Invalid '{{parameter}}' parameter in '{{axisName}}' layer",
-    "error_wrong_mcda_version": "Wrong MCDA version",
+    "error_wrong_mcda_version": "Wrong analysis version",
     "legend_title": "Legend",
     "legend_subtitle": "Hexagons are colored based on analysis layer settings. Click a hexagon to see its values.",
     "layer_editor": {
@@ -472,7 +472,8 @@
       "de": "German",
       "be": "Belarusian",
       "ru": "Russian",
-      "uk": "Ukrainian"
+      "uk": "Ukrainian",
+      "zh": "Chinese"
     },
     "reference_area": {
       "title": "Reference area",
