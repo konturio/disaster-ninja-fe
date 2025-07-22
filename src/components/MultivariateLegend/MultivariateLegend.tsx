@@ -141,7 +141,7 @@ function printMCDAAxes(axes: MCDALayer[]) {
   );
 }
 
-function createOpacityLegend(config: MultivariateLayerConfig) {
+function createOpacityLegend(config: MultivariateLayerConfig, hasColors: boolean) {
   let opacityLegend;
   if (typeof config.opacity === 'object' && config.opacity?.config?.layers.length) {
     opacityLegend = OpacityStepsLegend(
@@ -152,17 +152,17 @@ function createOpacityLegend(config: MultivariateLayerConfig) {
   }
   if (opacityLegend) {
     return (
-      <DimensionBlock title={i18n.t('multivariate.hide_area')}>
+      <DimensionBlock title={i18n.t('multivariate.hide_area')} grayscale={!hasColors}>
         {opacityLegend}
       </DimensionBlock>
     );
   }
 }
 
-function createExtrusionLegend(config: MultivariateLayerConfig) {
+function createExtrusionLegend(config: MultivariateLayerConfig, hasColors: boolean) {
   if (config.extrusion?.height?.config?.layers.length) {
     return (
-      <DimensionBlock title={i18n.t('multivariate.3d')}>
+      <DimensionBlock title={i18n.t('multivariate.3d')} grayscale={!hasColors}>
         {ExtrusionStepsLegend(
           getMCDALayersDirectionsForLegend(config.extrusion.height.config),
         )}
@@ -203,8 +203,9 @@ function createFillLegend(config: MultivariateLayerConfig) {
 
 export function MultivariateLegend({ config }: MultivariateLegendProps) {
   const fillLegend = createFillLegend(config);
-  const opacityLegend = createOpacityLegend(config);
-  const extrusionLegend = createExtrusionLegend(config);
+  const hasColors = !!fillLegend;
+  const opacityLegend = createOpacityLegend(config, hasColors);
+  const extrusionLegend = createExtrusionLegend(config, hasColors);
   const textLegend = createTextLegend(config);
 
   return (
