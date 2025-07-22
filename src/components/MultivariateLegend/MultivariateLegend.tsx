@@ -69,7 +69,7 @@ function createMCDALegend(mcdaConfig: MCDAConfig, title: string): JSX.Element {
         <MCDALegend
           steps={5}
           colors={legendColors}
-          subtitle="Hexagons are colored as weighted average of normalized and transformed layers values"
+          subtitle={i18n.t('multivariate.mcda_legend_subtitle')}
           fromValue={i18n.t('mcda.bad')}
           toValue={i18n.t('mcda.good')}
         />
