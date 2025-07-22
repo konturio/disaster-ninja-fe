@@ -61,5 +61,5 @@
   "KEYCLOAK_REALM": "kontur",
   "KEYCLOAK_CLIENT_ID": "kontur_platform",
   "SENTRY_DSN": "https://fixme@dsn.ingest.sentry.io/project-id",
-  "MATOMO_CONTAINER_URL": "https://matomo.kontur.io/js/container_R9VsLLth.js"
+  "MATOMO_CONTAINER_URL": "https://matomo.kontur.io/js/container_I7eDYwKj.js"
 }
