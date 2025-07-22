@@ -1,6 +1,5 @@
 import { PrismHigh, PrismLow, PrismMed } from '@konturio/default-icons';
 import { MultivariateLegendStep } from './MultivariateLegendStep';
-import s from './ExtrusionLegend.module.css';
 
 export default function ExtrusionStepsLegend({
   lowMCDAScoreLayersDirections,
@@ -13,15 +12,14 @@ export default function ExtrusionStepsLegend({
     <>
       <MultivariateLegendStep
         textLines={highMCDAScoreLayersDirections}
-        icon={<PrismLow className={s.extruisionIcon} />}
+        icon={<PrismLow />}
+        lineKey="extrusion-low"
       />
-      <MultivariateLegendStep
-        textLines={['']}
-        icon={<PrismMed className={s.extruisionIcon} />}
-      />
+      <MultivariateLegendStep textLines={['']} icon={<PrismMed />} />
       <MultivariateLegendStep
         textLines={lowMCDAScoreLayersDirections}
-        icon={<PrismHigh className={s.extruisionIcon} />}
+        icon={<PrismHigh />}
+        lineKey="extrusion-high"
       />
     </>
   );

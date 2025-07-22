@@ -183,6 +183,7 @@ function createTextLegend(config: MultivariateLayerConfig) {
         <MultivariateLegendStep
           textLines={[label]}
           icon={<Letter className={s.textIcon} />}
+          lineKey="labels"
         />
       </DimensionStack>
     );
