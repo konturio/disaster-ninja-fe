@@ -1,7 +1,7 @@
 import { Text } from '@konturio/ui-kit';
-import s from './DimensionStep.module.css';
+import s from './MultivariateLegendStep.module.css';
 
-export function DimensionStep({
+export function MultivariateLegendStep({
   textLines: text,
   icon,
 }: {
@@ -9,11 +9,11 @@ export function DimensionStep({
   icon: JSX.Element;
 }): JSX.Element {
   return (
-    <div className={s.dimensionStep}>
+    <div className={s.mvLegendStep}>
       {icon}
-      <div className={s.dimensionStepMultiline}>
+      <div className={s.mvLegendStepMultiline}>
         {text.map((line, index) => (
-          <Text type="caption" className={s.dimensionStepName} key={`${index}`}>
+          <Text type="caption" className={s.mvLegendStepText} key={`${index}`}>
             {line}
           </Text>
         ))}

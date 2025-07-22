@@ -1,5 +1,5 @@
 import { SquareIcon } from '~components/SimpleLegend/icons/SquareIcon';
-import { DimensionStep } from './DimensionStep';
+import { MultivariateLegendStep } from './MultivariateLegendStep';
 
 export type OpacityStepType = {
   fillColor: string;
@@ -15,19 +15,19 @@ export default function OpacityStepsLegend({
 }) {
   return (
     <>
-      <DimensionStep
+      <MultivariateLegendStep
         textLines={highMCDAScoreLayersDirections}
         icon={
           <SquareIcon size="normal" styles={{ 'fill-color': '#5AC87F33', width: '0' }} />
         }
       />
-      <DimensionStep
+      <MultivariateLegendStep
         textLines={['']}
         icon={
           <SquareIcon size="normal" styles={{ 'fill-color': '#5AC87F66', width: '0' }} />
         }
       />
-      <DimensionStep
+      <MultivariateLegendStep
         textLines={lowMCDAScoreLayersDirections}
         icon={
           <SquareIcon size="normal" styles={{ 'fill-color': '#5AC87FFF', width: '0' }} />
