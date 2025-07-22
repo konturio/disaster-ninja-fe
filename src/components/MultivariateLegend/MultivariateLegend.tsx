@@ -6,6 +6,7 @@ import { invertClusters, type Step } from '~utils/bivariate';
 import { CornerTooltipWrapper } from '~components/BivariateLegend/CornerTooltipWrapper';
 import { i18n } from '~core/localization';
 import { isNumber } from '~utils/common';
+import OpacityStepsLegend from '~components/OpacityStepsLegend/OpacityStepsLegend';
 import { DEFAULT_BASE_DIRECTION, DEFAULT_SCORE_DIRECTION } from './constants';
 import s from './MultivariateLegend.module.css';
 import type { Direction } from '~utils/bivariate';
@@ -136,7 +137,7 @@ function printMCDAAxes(axes: MCDALayer[]) {
 function createOpacityLegend(config: MultivariateLayerConfig) {
   let opacityLegend;
   if (typeof config.opacity === 'object' && config.opacity?.config?.layers.length) {
-    opacityLegend = printMCDAAxes(config.opacity.config.layers);
+    opacityLegend = OpacityStepsLegend({ config: config.opacity.config });
   } else if (isNumber(config.opacity)) {
     opacityLegend = `${i18n.t('multivariate.static_opacity')}: ${config.opacity}`;
   }
