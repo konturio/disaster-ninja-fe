@@ -1,4 +1,4 @@
-import { Legend as BiLegend, MCDALegend } from '@konturio/ui-kit';
+import { Legend as BiLegend, MCDALegend, Text } from '@konturio/ui-kit';
 import { Letter } from '@konturio/default-icons';
 import clsx from 'clsx';
 import { generateMCDALegendColors } from '~utils/mcda/mcdaLegendsUtils';
@@ -144,11 +144,15 @@ function printMCDAAxes(axes: MCDALayer[]) {
 function createOpacityLegend(config: MultivariateLayerConfig, hasColors: boolean) {
   let opacityLegend;
   if (typeof config.opacity === 'object' && config.opacity?.config?.layers.length) {
-    opacityLegend = OpacityStepsLegend(
-      getMCDALayersDirectionsForLegend(config.opacity?.config),
+    opacityLegend = (
+      <OpacityStepsLegend {...getMCDALayersDirectionsForLegend(config.opacity?.config)} />
     );
   } else if (isNumber(config.opacity)) {
-    opacityLegend = `${i18n.t('multivariate.static_opacity')}: ${config.opacity}`;
+    opacityLegend = (
+      <Text type="caption">
+        {`${i18n.t('multivariate.static_opacity')}: ${config.opacity}`}
+      </Text>
+    );
   }
   if (opacityLegend) {
     return (
@@ -163,9 +167,9 @@ function createExtrusionLegend(config: MultivariateLayerConfig, hasColors: boole
   if (config.extrusion?.height?.config?.layers.length) {
     return (
       <DimensionBlock title={i18n.t('multivariate.3d')} grayscale={!hasColors}>
-        {ExtrusionStepsLegend(
-          getMCDALayersDirectionsForLegend(config.extrusion.height.config),
-        )}
+        <ExtrusionStepsLegend
+          {...getMCDALayersDirectionsForLegend(config.extrusion.height.config)}
+        />
       </DimensionBlock>
     );
   }
