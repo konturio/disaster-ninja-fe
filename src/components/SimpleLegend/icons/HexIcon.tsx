@@ -61,7 +61,7 @@ export function HexIcon({
       <path
         d="M2.70577 5.36603L9 1.73205L15.2942 5.36602V12.634L9 16.268L2.70577 12.634V5.36603Z"
         stroke={stroke || styles.color || '#000000'}
-        strokeWidth={styles.width || 3}
+        strokeWidth={styles.width ?? 3}
       />
 
       {casing && (
