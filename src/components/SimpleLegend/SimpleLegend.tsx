@@ -16,37 +16,11 @@ function icon(
 ) {
   if (!type) return null;
   if (type === 'hex')
-    return (
-      <HexIcon
-        styles={styles}
-        size="small"
-        fill={fill}
-        stroke={stroke}
-        className={s.smallIcon}
-      />
-    );
+    return <HexIcon styles={styles} size="small" fill={fill} stroke={stroke} />;
   if (type === 'circle')
-    return (
-      <CircleIcon
-        styles={styles}
-        size="small"
-        fill={fill}
-        stroke={stroke}
-        className={s.smallIcon}
-      />
-    );
+    return <CircleIcon styles={styles} size="small" fill={fill} stroke={stroke} />;
   if (type === 'square')
     return <SquareIcon styles={styles} size="normal" fill={fill} stroke={stroke} />;
-}
-
-function textLine(line: string, style: CSSProperties, key?: string) {
-  return (
-    <Text type="caption" key={key}>
-      <span className={s.stepName} style={style}>
-        {line}
-      </span>
-    </Text>
-  );
 }
 
 export function SimpleLegendStep({
@@ -64,12 +38,13 @@ export function SimpleLegendStep({
   return (
     <div className={s.legendStep}>
       {icon(step.stepShape, step.style, step.stepIconFill, step.stepIconStroke)}
-      <div className={s.stepTextMultiline}>
-        {!onlyIcon &&
-          (Array.isArray(step.stepName)
-            ? step.stepName.map((stepName, i) => textLine(stepName, style, stepName + i))
-            : textLine(step.stepName, style))}
-      </div>
+      {!onlyIcon && (
+        <Text type="caption">
+          <span className={s.stepName} style={style}>
+            {step.stepName}
+          </span>
+        </Text>
+      )}
     </div>
   );
 }
@@ -88,10 +63,7 @@ export function SimpleLegend({
       {label}
       <div className={s.multiSteps}>
         {legend.steps.map((step, i) => (
-          <SimpleLegendStep
-            key={`{${Array.isArray(step.stepName) ? step.stepName.join() : step.stepName}${i}`}
-            step={step}
-          />
+          <SimpleLegendStep key={step.stepName || i} step={step} />
         ))}
       </div>
     </div>

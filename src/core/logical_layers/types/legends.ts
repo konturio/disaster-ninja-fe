@@ -1,4 +1,3 @@
-import type { LegendIconSize } from '~core/types';
 import type { MultivariateLayerConfig } from '../renderers/MultivariateRenderer/types';
 import type { Axis } from '~utils/bivariate';
 
@@ -13,8 +12,7 @@ export interface SimpleLegendStep {
   paramValue?: string | number;
   stepIconFill?: string;
   stepIconStroke?: string;
-  stepIconSize?: LegendIconSize;
-  stepName: string | string[];
+  stepName: string;
   stepShape: SimpleLegendStepType;
   sourceLayer?: string; // Required for vector tile source, unnecessary for other
   style: MapCSSProperties;
