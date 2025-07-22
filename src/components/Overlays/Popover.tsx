@@ -25,6 +25,11 @@ interface PopoverOptions {
   modal?: boolean;
   open?: boolean;
   onOpenChange?: (open: boolean) => void;
+  virtualReference?: { x: number; y: number };
+}
+
+function createBoundingRect(x: number, y: number): DOMRect {
+  return new DOMRect(x, y, 0, 0);
 }
 
 export function usePopover({
@@ -33,6 +38,7 @@ export function usePopover({
   modal,
   open: controlledOpen,
   onOpenChange: setControlledOpen,
+  virtualReference,
 }: PopoverOptions = {}) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen);
   const arrowRef = React.useRef(null);
@@ -40,35 +46,56 @@ export function usePopover({
   const open = controlledOpen ?? uncontrolledOpen;
   const setOpen = setControlledOpen ?? setUncontrolledOpen;
 
+  const virtualRef = React.useMemo(
+    () => ({
+      getBoundingClientRect: () =>
+        createBoundingRect(virtualReference?.x ?? 0, virtualReference?.y ?? 0),
+    }),
+    [virtualReference],
+  );
+
   const data = useFloating({
     placement,
     open,
     onOpenChange: setOpen,
+    strategy: 'fixed',
     whileElementsMounted: autoUpdate,
     middleware: [
-      offset(5),
+      offset(8),
       flip({
         crossAxis: placement.includes('-'),
         fallbackAxisSideDirection: 'end',
         padding: 5,
       }),
-      shift({ padding: 5 }),
-      arrow({
-        element: arrowRef,
-        padding: 5, // Add padding to prevent arrow from touching edges
-      }),
+      shift({ crossAxis: false, padding: 0 }),
+      arrow({ element: arrowRef, padding: 8 }),
     ],
   });
+
+  if (virtualReference && !data.refs.reference.current) {
+    data.refs.setReference(virtualRef);
+  }
 
   const context = data.context;
 
   const click = useClick(context, {
-    enabled: controlledOpen == null,
+    enabled: controlledOpen == null && !virtualReference,
   });
-  const dismiss = useDismiss(context);
+  const dismiss = useDismiss(context, {
+    enabled: !virtualReference,
+  });
   const role = useRole(context);
 
   const interactions = useInteractions([click, dismiss, role]);
+
+  React.useEffect(() => {
+    if (virtualReference) {
+      virtualRef.getBoundingClientRect = () =>
+        createBoundingRect(virtualReference.x, virtualReference.y);
+      data.refs.setReference(virtualRef);
+      data.update();
+    }
+  }, [virtualReference, data.refs, data.update, virtualRef]);
 
   return React.useMemo(
     () => ({
@@ -77,9 +104,10 @@ export function usePopover({
       ...interactions,
       ...data,
       modal,
-      arrowRef, // Pass arrowRef to components
+      arrowRef,
+      virtualReference,
     }),
-    [open, setOpen, interactions, data, modal],
+    [open, setOpen, interactions, data, modal, virtualReference],
   );
 }
 
@@ -104,8 +132,6 @@ export function Popover({
 }: {
   children: React.ReactNode;
 } & PopoverOptions) {
-  // This can accept any props as options, e.g. `placement`,
-  // or other positioning options.
   const popover = usePopover({ modal, ...restOptions });
   return <PopoverContext.Provider value={popover}>{children}</PopoverContext.Provider>;
 }
@@ -123,7 +149,6 @@ export const PopoverTrigger = React.forwardRef<
   const childrenRef = (children as any).ref;
   const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef]);
 
-  // `asChild` allows the user to pass any element as the anchor
   if (asChild && React.isValidElement(children)) {
     return React.cloneElement(
       children,
@@ -140,7 +165,6 @@ export const PopoverTrigger = React.forwardRef<
     <button
       ref={ref}
       type="button"
-      // The user can style the trigger based on the state
       data-state={context.open ? 'open' : 'closed'}
       {...context.getReferenceProps(props)}
     >
@@ -151,8 +175,14 @@ export const PopoverTrigger = React.forwardRef<
 
 export const PopoverContent = React.forwardRef<
   HTMLDivElement,
-  React.HTMLProps<HTMLDivElement>
->(function PopoverContent({ style, ...props }, propRef) {
+  React.HTMLProps<HTMLDivElement> & {
+    containerClassName?: string;
+    contentClassName?: string;
+  }
+>(function PopoverContent(
+  { style, containerClassName, contentClassName, ...props },
+  propRef,
+) {
   const { context: floatingContext, arrowRef, ...context } = usePopoverContext();
   const ref = useMergeRefs([context.refs.setFloating, propRef]);
 
@@ -164,11 +194,15 @@ export const PopoverContent = React.forwardRef<
         <div
           ref={ref}
           style={{ ...context.floatingStyles, ...style }}
-          className={s.Popover}
+          className={`${s.Popover}${containerClassName ? ` ${containerClassName}` : ''}`}
           {...context.getFloatingProps(props)}
         >
           <PopoverClose />
-          <div className={s.PopoverContent}>{props.children}</div>
+          <div
+            className={`${s.PopoverContent}${contentClassName ? ` ${contentClassName}` : ''}`}
+          >
+            {props.children}
+          </div>
           <FloatingArrow
             ref={arrowRef}
             context={floatingContext}

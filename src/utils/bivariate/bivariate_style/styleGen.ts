@@ -56,8 +56,6 @@ export function anyCondition(...conditionInputs): ExpressionSpecification {
   return ['any', ...conditionInputs];
 }
 
-type FeaturePropReturn = number | string | Array<FeaturePropReturn>;
-
 const AT_CHAR_CODE = 64; // '@'.charCodeAt(0);
 export const getCharByIndex = (i: number) => String.fromCharCode(AT_CHAR_CODE + i); //get A - C by index
 

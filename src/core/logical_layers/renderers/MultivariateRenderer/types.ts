@@ -46,7 +46,7 @@ export interface MultivariateLayerConfig {
   version: 0;
   id: string;
   name: string;
-  score: MultivariateDimension;
+  score?: MultivariateDimension;
   base?: MultivariateDimension;
   stepOverrides?: MultivariateStepOverrides;
   opacity?: OpacityDimension;

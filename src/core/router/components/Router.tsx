@@ -12,6 +12,7 @@ import { configRepo } from '~core/config';
 import { FullScreenLoader } from '~components/LoadingSpinner/LoadingSpinner';
 import { landUser, userWasLanded } from '~core/app/userWasLanded';
 import { dispatchMetricsEvent, dispatchMetricsEventOnce } from '~core/metrics/dispatch';
+import { KONTUR_DEBUG } from '~utils/debug';
 import { availableRoutesAtom, getAvailableRoutes } from '../atoms/availableRoutes';
 import { currentRouteAtom } from '../atoms/currentRoute';
 import { getAbsoluteRoute } from '../getAbsoluteRoute';
@@ -77,7 +78,13 @@ function initRouter() {
   const routes: RouteObject[] = availableRoutes.routes.map((r) => ({
     id: r.id,
     path: getAbsoluteRoute(r.parentRouteId ? `${r.parentRouteId}/${r.slug}` : r.slug),
-    element: <Suspense fallback={<FullScreenLoader />}>{r.view}</Suspense>,
+    element: (
+      <Suspense
+        fallback={<FullScreenLoader message={KONTUR_DEBUG ? 'Route: ' + r.id : ''} />}
+      >
+        {r.view}
+      </Suspense>
+    ),
   }));
 
   const router = createBrowserRouter(

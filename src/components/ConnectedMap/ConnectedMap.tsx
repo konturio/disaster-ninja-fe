@@ -1,132 +1,127 @@
-import { useCallback, useEffect, useRef } from 'react';
-import { Marker } from 'maplibre-gl';
-import { useAction, useAtom } from '@reatom/react-v2';
-import { currentMapAtom, mapListenersAtom } from '~core/shared_state';
-import { layersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
-import { mapLibreParentsIds } from '~core/logical_layers/utils/layersOrder/mapLibreParentsIds';
-import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
+import { useMemo } from 'react';
+import { useAtom } from '@reatom/npm-react';
+import { useAction } from '@reatom/react-v2';
 import { configRepo } from '~core/config';
-import Map from './map-libre-adapter';
-import { useMapPositionSync } from './useMapPositionSync';
+import { currentMapPositionAtom } from '~core/shared_state/currentMapPosition';
+import { currentMapAtom } from '~core/shared_state/currentMap';
+import { layersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
+import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
+import { mapLibreParentsIds } from '~core/logical_layers/utils/layersOrder/mapLibreParentsIds';
+import { mapPopoverRegistry } from '~core/map/popover/globalMapPopoverRegistry';
+import {
+  MapPopoverProvider,
+  useMapPopoverService,
+} from '~core/map/popover/MapPopoverProvider';
+import { useMapPopoverMaplibreIntegration } from '~core/map/hooks/useMapPopoverMaplibreIntegration';
+import { registerMapListener } from '~core/shared_state/mapListeners';
+import { MapLibreContainer } from './MapLibreContainer';
 import type {
-  LayerSpecification,
   Map as MapLibreMap,
+  MapOptions as MapLibreOptions,
+  LayerSpecification,
   MapMouseEvent,
-  MarkerOptions,
 } from 'maplibre-gl';
-// temporary set generic map class to mapbox map
-// todo: change mapbox map declaration to generic map later
+
 export type ApplicationMap = MapLibreMap;
 export type ApplicationLayer = LayerSpecification;
 
-export class ApplicationMapMarker extends Marker {
-  public readonly id: string;
-
-  public constructor(id: string, element?: HTMLElement, options?: MarkerOptions) {
-    super({ ...options, element });
-    this.id = id;
-  }
-}
-
-const LAYERS_ON_TOP = [
-  'editable-layer',
-  'hovered-boundaries-layer',
-  'selected-boundaries-layer',
-];
-
 export function ConnectedMap({ className }: { className?: string }) {
-  const mapBaseStyle = configRepo.get().mapBaseStyle;
-  const mapRef = useRef<ApplicationMap>();
-  useMapPositionSync(mapRef);
-
-  // init current MapRefAtom
+  // do not subsctibe to atom, just read initial value
+  const [initialPosition] = useAtom(currentMapPositionAtom, [], false);
   const setCurrentMap = useAction(currentMapAtom.setMap);
-  const resetCurrentMap = useAction(currentMapAtom.resetMap);
 
-  const [mapListeners] = useAtom(mapListenersAtom);
-  const initLayersOrderManager = useCallback(
-    (map) =>
-      layersOrderManager.init(mapRef.current!, mapLibreParentsIds, layersSettingsAtom),
+  const options = useMemo(
+    () => ({
+      getConfig: () => {
+        const config: Partial<MapLibreOptions> = {
+          style: configRepo.get().mapBaseStyle,
+          attributionControl: false,
+        };
+
+        // Apply URL position as initial map position ONLY
+        if (initialPosition) {
+          if ('bbox' in initialPosition) {
+            config.bounds = initialPosition.bbox;
+          } else {
+            config.center = [initialPosition.lng, initialPosition.lat];
+            config.zoom = initialPosition.zoom;
+          }
+        }
+
+        return config as Omit<MapLibreOptions, 'container'>;
+      },
+
+      onMapCreated: (map: MapLibreMap) => {
+        // Global map access for debugging
+        if (!globalThis.KONTUR_MAP) {
+          globalThis.KONTUR_MAP = map;
+        }
+
+        // Apply default extent if no URL position was used
+        if (!initialPosition) {
+          const extent = configRepo.get().extent;
+          if (extent) {
+            map.fitBounds(extent, { animate: false });
+          }
+        }
+
+        setCurrentMap(map);
+
+        // Set up light for extrusion layers
+        map.once('styledata', () => {
+          map.setLight({ anchor: 'viewport', color: '#FFF', intensity: 1 });
+        });
+
+        // Disable rotation
+        map.touchZoomRotate.disableRotation();
+
+        // Layers manager initialization - wait for map to load
+        map.once('load', () => {
+          layersOrderManager.init(map, mapLibreParentsIds, layersSettingsAtom);
+        });
+      },
+
+      onMapDestroy: (map: MapLibreMap) => {
+        layersOrderManager.destroy();
+        if (globalThis.KONTUR_MAP === map) {
+          globalThis.KONTUR_MAP = undefined;
+        }
+      },
+    }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
 
-  useEffect(() => {
-    if (mapRef.current && !globalThis.KONTUR_MAP) {
-      console.info('Map instance available by window.KONTUR_MAP', mapRef.current);
-      globalThis.KONTUR_MAP = mapRef.current;
-      // https://maplibre.org/maplibre-gl-js-docs/api/handlers/#touchzoomrotatehandler#disablerotation
-      mapRef.current.touchZoomRotate.disableRotation();
-      // @ts-expect-error Fix for react dev tools
-      mapRef.current.toJSON = () => '[Mapbox Object]';
-      // Fix - map fitBounds for incorrectly, because have incorrect internal state abut self canvas size
-      // This will force update that state.
-      // TODO: Replace map component with map service from event tinter
-      // were this problem resolved by more elegant way
-      setTimeout(() => {
-        requestAnimationFrame(() => {
-          // @ts-expect-error Fix for react dev tools
-          mapRef.current.resize();
-        });
-      }, 1000);
-    }
-    mapRef.current ? setCurrentMap(mapRef.current) : resetCurrentMap();
-  }, [mapRef, setCurrentMap]);
-
-  useEffect(() => {
-    // for starters lets add click handlers only. It's also easier to read
-
-    const clickHandlers = (event: MapMouseEvent) => {
-      for (let i = 0; i < mapListeners.click.length; i++) {
-        const { listener } = mapListeners.click[i];
-        const passToNextListener = listener(event, mapRef.current);
-        if (!passToNextListener) break;
-      }
-    };
-    const mousemoveHandlers = (event: MapMouseEvent) => {
-      for (let i = 0; i < mapListeners.mousemove.length; i++) {
-        const { listener } = mapListeners.mousemove[i];
-        const passToNextListener = listener(event, mapRef.current);
-        if (!passToNextListener) break;
-      }
-    };
-    if (mapRef.current) {
-      mapRef.current.on('click', clickHandlers);
-      mapRef.current.on('mousemove', mousemoveHandlers);
-    }
-    return () => {
-      mapRef.current?.off('click', clickHandlers);
-      mapRef.current?.off('mousemove', mousemoveHandlers);
-    };
-  }, [mapRef, mapListeners]);
-
-  // Resize map canvas when map container changes in size
-  useEffect(() => {
-    if (mapRef.current) {
-      const resizeObserver = new ResizeObserver(() => {
-        mapRef.current!.resize();
-      });
-      const mapContainer = mapRef.current.getCanvasContainer();
-      resizeObserver.observe(mapContainer);
-      return () => {
-        resizeObserver.unobserve(mapContainer);
-      };
-    }
-  }, [mapRef]);
-
-  // cleanup
-  useEffect(() => {
-    return () => {
-      layersOrderManager.destroy();
-    };
-  }, []);
-
   return (
-    <Map
-      ref={mapRef}
-      onLoad={initLayersOrderManager}
-      layersOnTop={LAYERS_ON_TOP}
-      className={className}
-      style={mapBaseStyle}
-    />
+    <MapPopoverProvider registry={mapPopoverRegistry}>
+      <MapLibreContainer options={options} className={className}>
+        {(map) => <MapIntegration map={map} />}
+      </MapLibreContainer>
+    </MapPopoverProvider>
   );
+}
+
+// should we repsect featureFlags[AppFeature.TOOLTIP] ?
+function MapIntegration({ map }: { map: MapLibreMap }) {
+  const popoverService = useMapPopoverService();
+
+  // Create global event handlers using priority system
+  const eventHandlers = useMemo(
+    () => ({
+      onClick: (handler: (event: MapMouseEvent) => boolean) =>
+        registerMapListener('click', handler, 55),
+      onMove: (handler: () => boolean) => registerMapListener('move', handler, 80),
+    }),
+    [],
+  );
+
+  // MapPopover integration with proper position tracking
+  useMapPopoverMaplibreIntegration({
+    map,
+    popoverService,
+    trackingThrottleMs: 16,
+    eventHandlers,
+  });
+
+  return null;
 }

@@ -1,5 +1,10 @@
-.legendName {
+.dimensionsContainer {
   display: flex;
-  align-items: center;
-  margin-top: calc(var(--unit) * 3);
+  flex-direction: column;
+  gap: var(--unit);
+}
+
+.dimensionName {
+  font-weight: 500;
+  margin-bottom: var(--half-unit);
 }

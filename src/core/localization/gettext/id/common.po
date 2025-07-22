@@ -33,7 +33,7 @@ msgstr "Masuk"
 msgid "Save"
 msgstr "Simpan"
 
-#: cancel mcda##btn_cancel
+#: cancel
 msgid "Cancel"
 msgstr "Batalkan"
 
@@ -52,6 +52,11 @@ msgstr "Bencana"
 #: loading
 msgid "Loading..."
 msgstr "Memuat..."
+
+#: preparing_data
+#, fuzzy
+msgid "Preparing data"
+msgstr "Mengumpulkan data"
 
 #: loading_events
 #, fuzzy
@@ -82,6 +87,11 @@ msgstr "Penyajian legenda"
 msgid "Layers"
 msgstr "Lapisan"
 
+#: layer
+#, fuzzy
+msgid "Layer"
+msgstr "Lapisan"
+
 #: toolbar##map_ruler
 msgid "Measure distance"
 msgstr ""
@@ -98,7 +108,7 @@ msgstr ""
 msgid "Download"
 msgstr ""
 
-#: toolbar##delete
+#: toolbar##delete layer_actions##tooltips##delete
 #, fuzzy
 msgid "Delete"
 msgstr "Hapus Lapisan"
@@ -141,8 +151,9 @@ msgid "Selected area"
 msgstr "Area Pilihan"
 
 #: toolbar##upload_mcda
-msgid "Upload MCDA"
-msgstr ""
+#, fuzzy
+msgid "Upload analysis"
+msgstr "Analitik tingkat lanjut"
 
 #: layer_actions##tooltips##erase
 msgid "Erase"
@@ -178,6 +189,15 @@ msgstr "Diperbarui"
 
 #: started
 msgid "Started"
+msgstr ""
+
+#: created
+#, fuzzy
+msgid "Created"
+msgstr "Buat"
+
+#: osm_gaps
+msgid "OSM gaps"
 msgstr ""
 
 #: no_data_received
@@ -342,10 +362,18 @@ msgstr "Filter Penyebut"
 msgid "Multi-criteria decision analysis"
 msgstr ""
 
-#: mcda##name
+#: mcda##name search##mcda_create_analysis
 #, fuzzy
-msgid "Create MCDA"
-msgstr "Buat"
+msgid "Create analysis"
+msgstr "Buat Lapisan"
+
+#: mcda##create_mcda_hint
+msgid "Create multi-criteria decision analysis"
+msgstr ""
+
+#: mcda##upload_mcda_hint
+msgid "Upload multi-criteria decision analysis"
+msgstr ""
 
 #: mcda##modal_input_name
 #, fuzzy
@@ -380,12 +408,8 @@ msgstr "Analitik tingkat lanjut"
 msgid "Analysis name cannot be empty"
 msgstr "Kata sandi tidak boleh kosong!"
 
-#: mcda##error_bad_layer_data
-msgid "Invalid MCDA layer data"
-msgstr ""
-
 #: mcda##error_invalid_file
-msgid "Invalid MCDA file format"
+msgid "Invalid analysis file format"
 msgstr ""
 
 #: mcda##error_invalid_parameter
@@ -397,8 +421,9 @@ msgid "Invalid '{{parameter}}' parameter in '{{axisName}}' layer"
 msgstr ""
 
 #: mcda##error_wrong_mcda_version
-msgid "Wrong MCDA version"
-msgstr ""
+#, fuzzy
+msgid "Wrong analysis version"
+msgstr "Buat Lapisan"
 
 #: mcda##legend_subtitle
 msgid ""
@@ -578,6 +603,16 @@ msgstr ""
 msgid "Good"
 msgstr ""
 
+#: multivariate##multivariate_analysis
+#, fuzzy
+msgid "Multivariate Analysis"
+msgstr "Buat Lapisan"
+
+#: multivariate##create_analysis_layer
+#, fuzzy
+msgid "Create analysis layer"
+msgstr "Buat Lapisan"
+
 #: multivariate##upload_analysis_layer
 msgid "Upload analysis layer"
 msgstr ""
@@ -586,9 +621,47 @@ msgstr ""
 msgid "Score {{level}}"
 msgstr ""
 
-#: multivariate##popup##base_header
-msgid "Base {{level}}"
+#: multivariate##popup##compare_header
+msgid "Compare {{level}}"
 msgstr ""
+
+#: multivariate##score
+msgid "Score"
+msgstr ""
+
+#: multivariate##compare
+msgid "Compare"
+msgstr ""
+
+#: multivariate##hide_area
+msgid "Hide area"
+msgstr ""
+
+#: multivariate##labels
+msgid "Labels"
+msgstr ""
+
+#: multivariate##3d
+msgid "3D"
+msgstr ""
+
+#: map_popup##value
+#, fuzzy
+msgid "Value"
+msgstr "Simpan perubahan"
+
+#: map_popup##range
+msgid "Range"
+msgstr ""
+
+#: map_popup##coefficient
+msgid "Coefficient"
+msgstr ""
+
+#: map_popup##normalized_value
+#, fuzzy
+msgid "Normalized value"
+msgstr "Dinormalkan Dengan"
 
 #: search##search_location
 msgid "Search location"
@@ -628,11 +701,6 @@ msgstr ""
 #: search##mcda_error_message
 msgid "AI engine did not respond. Please try again later"
 msgstr ""
-
-#: search##mcda_create_analysis
-#, fuzzy
-msgid "Create analysis"
-msgstr "Buat Lapisan"
 
 #: search##upload_analysis
 msgid "“{{name}}” Multi-Criteria Decision Analysis has been created"
@@ -726,6 +794,11 @@ msgstr ""
 #, fuzzy
 msgid "Timeline"
 msgstr "Sentimen"
+
+#: create_layer##save_and_draw
+#, fuzzy
+msgid "Save and draw"
+msgstr "Analitik tingkat lanjut"
 
 #: create_layer##edit_layer
 msgid "Edit Layer"
@@ -900,10 +973,6 @@ msgstr "Tidak ada gambar geometri untuk diunduh"
 #: draw_tools##overlap_error
 msgid "Polygon should not overlap itself"
 msgstr "Poligon tidak boleh bertumpang-tindih sendiri"
-
-#: draw_tools##save_features
-msgid "Save features"
-msgstr "Simpan fitur"
 
 #: boundary_selector##title
 msgid "Focus to administrative boundary"
@@ -1269,122 +1338,14 @@ msgstr ""
 msgid "User guide"
 msgstr ""
 
-#: about##title
-msgid "Welcome to Disaster Ninja!"
-msgstr "Selamat datang di Disaster Ninja!"
-
-#: about##intro
-msgid ""
-"Do you want to be notified about ongoing disasters? Are you interested in "
-"instant population data and other analytics for any region in the world? "
-"Disaster Ninja showcases some of <2>Kontur</2>’s capabilities in addressing "
-"these needs.<br/><br/>We initially designed it as a decision support tool "
-"for humanitarian mappers. Now it has grown in functionality and use cases. "
-"Whether you work in disaster management, build a smart city, or perform "
-"research on climate change, Disaster Ninja can help you to:"
+#: modes##external##upload_imagery
+msgid "Upload imagery"
 msgstr ""
-"Apakah Anda ingin menerima kabar tentang bencana yang sedang terjadi? Anda "
-"tertarik dengan data populasi dan analitik lainnya yang tersaji seketika "
-"untuk wilayah mana pun di dunia? Disaster Ninja menampilkan beberapa "
-"kemampuan dari <2>Kontur</2> dalam mengatasi berbagai kebutuhan ini.<br/><br/"
-">Pada awalnya, kami merancang alat ini sebagai alat bantu untuk pemetaan "
-"kemanusiaan. Kini, fungsionalitas dan kasus penggunaannya telah bertambah. "
-"Apakah Anda bekerja pada pengelolaan bencana, membangun kota cerdas, ataupun "
-"meneliti perubahan iklim, Disaster Ninja dapat membantu Anda untuk:"
 
-#: about##l1
-msgid "1. Stay up to date with the latest hazard events globally."
-msgstr ""
-"1. Selalu mendapatkan kabar terbaru tentang kejadian berbahaya terkini di "
-"seluruh dunia."
-
-#: about##p1
-msgid ""
-"The Disasters panel continually refreshes to inform you about ongoing "
-"events. It consumes data from the <2>Kontur Event Feed</2>, which you can "
-"also access via an API."
-msgstr ""
-"Panel Bencana disegarkan secara terus-menerus untuk memberi tahu Anda "
-"kejadian yang sedang berlangsung. Panel ini memakai data dari <2>Feed "
-"Kejadian Kontur</2>, yang juga dapat diakses melalui API."
-
-#: about##l2
-msgid "2. Focus on your area of interest."
-msgstr "2. Fokus pada area perhatian Anda."
-
-#: about##p2
-msgid ""
-"The Drawing Tools panel allows you to draw or upload your own geometry on "
-"the map. You can also focus on a disaster-exposed area or an administrative "
-"unit — a country, city, or region."
-msgstr ""
-"Panel Peralatan Gambar memungkinkan Anda menggambar atau mengunggah geometri "
-"Anda sendiri pada peta. Anda juga dapat berfokus pada area yang terpapar "
-"bencana atau satuan administratif — negara, kota, atau wilayah."
-
-#: about##l3
-msgid "3. Get analytics for the focused area."
-msgstr "3. Dapatkan analitik untuk area yang menjadi fokus."
-
-#: about##p3
-msgid ""
-"The Analytics panel shows the number of people living in that area per "
-"<2>Kontur Population</2> and estimated mapping gaps in OpenStreetMap. "
-"Kontur’s customers have access to hundreds of other indicators through "
-"Advanced Analytics."
-msgstr ""
-"Panel Analitik memperlihatkan jumlah orang yang tinggal di area tersebut "
-"untuk setiap <2>Populasi Kontur</2> dan perkiraan kesenjangan pemetaan di "
-"OpenStreetMap. Pelanggan Kontur memiliki akses ke ratusan indikator lainnya "
-"melalui Analitik Lanjut."
-
-#: about##l4
-msgid "4. Explore data on the map and make conclusions."
-msgstr "4. Selidiki data pada peta dan buat kesimpulan."
-
-#: about##p4
-msgid ""
-"The Layers panel gives you various options to display two indicators "
-"simultaneously on a bivariate map, e.g., population density and distance to "
-"the nearest fire station. Use the color legend to assess which areas require "
-"attention. <br/>Hint: in general, green indicates low risk / few gaps, red — "
-"high risk / many gaps."
-msgstr ""
-"Panel Lapisan memberi Anda berbagai opsi untuk menampilkan dua indikator "
-"secara serentak pada peta bivariat, misalnya kepadatan populasi dan jarak ke "
-"stasiun pemadam kebakaran terdekat. Gunakan legenda warna untuk menilai area "
-"mana yang perlu diperhatikan. <br/>Petunjuk: secara umum, warna hijau "
-"menunjukkan risiko rendah/sedikit kesenjangan, warna merah — risiko tinggi/"
-"banyak kesenjangan."
-
-#: about##p5
-msgid ""
-"In addition, you can switch to Reports in the left panel to access data on "
-"potential errors and inconsistencies in OpenStreetMap and help fix them by "
-"mapping the respective area with the JOSM editor."
-msgstr ""
-"Selain itu, Anda dapat beralih ke Laporan di panel kiri untuk mengakses data "
-"tentang potensi kesalahan dan inkonsistensi di OpenStreetMap serta membantu "
-"memperbaikinya dengan memetakan masing-masing area menggunakan editor JOSM."
-
-#: about##goToMap
-msgid "Go to the map now"
-msgstr "Buka peta sekarang"
-
-#: about##p6
-msgid ""
-"We hope you find this tool valuable. Use the chatbox on Disaster Ninja for "
-"any questions about the functionality, and we will be happy to guide you. "
-"You can also contact us by email at <1>hello@kontur.io</1> if you have "
-"feedback or suggestions on improving the tool.<br/><br/>Disaster Ninja is an "
-"open-source project. Find the code in <8>Kontur’s GitHub account</8>."
-msgstr ""
-"Kami berharap agar alat ini bermanfaat bagi Anda. Gunakan kotak obrolan di "
-"Disaster Ninja untuk setiap pertanyaan tentang fungsionalitas, dan kami "
-"dengan senang hati akan memandu Anda. Anda juga dapat menghubungi kami "
-"melalui email di <1>hello@kontur.io</1> jika Anda memiliki tanggapan atau "
-"saran untuk meningkatkan alat ini.<br/><br/>Disaster Ninja adalah proyek "
-"sumber terbuka. Temukan kodenya di <8>akun GitHub Kontur</8>."
+#: modes##external##imagery_catalog
+#, fuzzy
+msgid "Imagery catalog"
+msgstr "Gambar"
 
 #: profile##interfaceTheme
 msgid "Theme"
@@ -1555,6 +1516,10 @@ msgstr ""
 msgid "Ukrainian"
 msgstr "Orang Ukraina"
 
+#: profile##languageOption##zh
+msgid "Chinese"
+msgstr ""
+
 #: profile##reference_area##freehand_geometry
 #, fuzzy
 msgid "Freehand geometry"
@@ -1580,7 +1545,9 @@ msgstr "Pilih batas pada peta"
 #: profile##reference_area##tooltip_text
 msgid ""
 "1.Select an area of interest on the map using the Admin Boundary or Draw "
-"Geometry tool. <br/> 2. Click the 'Save as Reference' button on the toolbar."
+"Geometry tool.\n"
+"\n"
+" 2. Click the 'Save as Reference' button on the toolbar."
 msgstr ""
 
 #: profile##reference_area##accessing_location
@@ -1678,6 +1645,10 @@ msgstr ""
 msgid "No features found in the selected area."
 msgstr "Lapisan di area pilihan"
 
+#: layer_features_panel##priority
+msgid "{{level}} priority"
+msgstr ""
+
 #: reference_area##save_as_reference_area
 msgid "Save as reference area"
 msgstr ""
@@ -1689,6 +1660,125 @@ msgstr ""
 #: reference_area##selected_area_saved_as_reference_area
 msgid "Selected area has been saved as reference area in your profile"
 msgstr ""
+
+#: oam_auth##login_button
+msgid "Login with Google"
+msgstr ""
+
+#, fuzzy
+#~ msgid "Create MCDA"
+#~ msgstr "Buat"
+
+#~ msgid "Save features"
+#~ msgstr "Simpan fitur"
+
+#~ msgid "Welcome to Disaster Ninja!"
+#~ msgstr "Selamat datang di Disaster Ninja!"
+
+#~ msgid ""
+#~ "Do you want to be notified about ongoing disasters? Are you interested in "
+#~ "instant population data and other analytics for any region in the world? "
+#~ "Disaster Ninja showcases some of <2>Kontur</2>’s capabilities in "
+#~ "addressing these needs.<br/><br/>We initially designed it as a decision "
+#~ "support tool for humanitarian mappers. Now it has grown in functionality "
+#~ "and use cases. Whether you work in disaster management, build a smart "
+#~ "city, or perform research on climate change, Disaster Ninja can help you "
+#~ "to:"
+#~ msgstr ""
+#~ "Apakah Anda ingin menerima kabar tentang bencana yang sedang terjadi? "
+#~ "Anda tertarik dengan data populasi dan analitik lainnya yang tersaji "
+#~ "seketika untuk wilayah mana pun di dunia? Disaster Ninja menampilkan "
+#~ "beberapa kemampuan dari <2>Kontur</2> dalam mengatasi berbagai kebutuhan "
+#~ "ini.<br/><br/>Pada awalnya, kami merancang alat ini sebagai alat bantu "
+#~ "untuk pemetaan kemanusiaan. Kini, fungsionalitas dan kasus penggunaannya "
+#~ "telah bertambah. Apakah Anda bekerja pada pengelolaan bencana, membangun "
+#~ "kota cerdas, ataupun meneliti perubahan iklim, Disaster Ninja dapat "
+#~ "membantu Anda untuk:"
+
+#~ msgid "1. Stay up to date with the latest hazard events globally."
+#~ msgstr ""
+#~ "1. Selalu mendapatkan kabar terbaru tentang kejadian berbahaya terkini di "
+#~ "seluruh dunia."
+
+#~ msgid ""
+#~ "The Disasters panel continually refreshes to inform you about ongoing "
+#~ "events. It consumes data from the <2>Kontur Event Feed</2>, which you can "
+#~ "also access via an API."
+#~ msgstr ""
+#~ "Panel Bencana disegarkan secara terus-menerus untuk memberi tahu Anda "
+#~ "kejadian yang sedang berlangsung. Panel ini memakai data dari <2>Feed "
+#~ "Kejadian Kontur</2>, yang juga dapat diakses melalui API."
+
+#~ msgid "2. Focus on your area of interest."
+#~ msgstr "2. Fokus pada area perhatian Anda."
+
+#~ msgid ""
+#~ "The Drawing Tools panel allows you to draw or upload your own geometry on "
+#~ "the map. You can also focus on a disaster-exposed area or an "
+#~ "administrative unit — a country, city, or region."
+#~ msgstr ""
+#~ "Panel Peralatan Gambar memungkinkan Anda menggambar atau mengunggah "
+#~ "geometri Anda sendiri pada peta. Anda juga dapat berfokus pada area yang "
+#~ "terpapar bencana atau satuan administratif — negara, kota, atau wilayah."
+
+#~ msgid "3. Get analytics for the focused area."
+#~ msgstr "3. Dapatkan analitik untuk area yang menjadi fokus."
+
+#~ msgid ""
+#~ "The Analytics panel shows the number of people living in that area per "
+#~ "<2>Kontur Population</2> and estimated mapping gaps in OpenStreetMap. "
+#~ "Kontur’s customers have access to hundreds of other indicators through "
+#~ "Advanced Analytics."
+#~ msgstr ""
+#~ "Panel Analitik memperlihatkan jumlah orang yang tinggal di area tersebut "
+#~ "untuk setiap <2>Populasi Kontur</2> dan perkiraan kesenjangan pemetaan di "
+#~ "OpenStreetMap. Pelanggan Kontur memiliki akses ke ratusan indikator "
+#~ "lainnya melalui Analitik Lanjut."
+
+#~ msgid "4. Explore data on the map and make conclusions."
+#~ msgstr "4. Selidiki data pada peta dan buat kesimpulan."
+
+#~ msgid ""
+#~ "The Layers panel gives you various options to display two indicators "
+#~ "simultaneously on a bivariate map, e.g., population density and distance "
+#~ "to the nearest fire station. Use the color legend to assess which areas "
+#~ "require attention. <br/>Hint: in general, green indicates low risk / few "
+#~ "gaps, red — high risk / many gaps."
+#~ msgstr ""
+#~ "Panel Lapisan memberi Anda berbagai opsi untuk menampilkan dua indikator "
+#~ "secara serentak pada peta bivariat, misalnya kepadatan populasi dan jarak "
+#~ "ke stasiun pemadam kebakaran terdekat. Gunakan legenda warna untuk "
+#~ "menilai area mana yang perlu diperhatikan. <br/>Petunjuk: secara umum, "
+#~ "warna hijau menunjukkan risiko rendah/sedikit kesenjangan, warna merah — "
+#~ "risiko tinggi/banyak kesenjangan."
+
+#~ msgid ""
+#~ "In addition, you can switch to Reports in the left panel to access data "
+#~ "on potential errors and inconsistencies in OpenStreetMap and help fix "
+#~ "them by mapping the respective area with the JOSM editor."
+#~ msgstr ""
+#~ "Selain itu, Anda dapat beralih ke Laporan di panel kiri untuk mengakses "
+#~ "data tentang potensi kesalahan dan inkonsistensi di OpenStreetMap serta "
+#~ "membantu memperbaikinya dengan memetakan masing-masing area menggunakan "
+#~ "editor JOSM."
+
+#~ msgid "Go to the map now"
+#~ msgstr "Buka peta sekarang"
+
+#~ msgid ""
+#~ "We hope you find this tool valuable. Use the chatbox on Disaster Ninja "
+#~ "for any questions about the functionality, and we will be happy to guide "
+#~ "you. You can also contact us by email at <1>hello@kontur.io</1> if you "
+#~ "have feedback or suggestions on improving the tool.<br/><br/>Disaster "
+#~ "Ninja is an open-source project. Find the code in <8>Kontur’s GitHub "
+#~ "account</8>."
+#~ msgstr ""
+#~ "Kami berharap agar alat ini bermanfaat bagi Anda. Gunakan kotak obrolan "
+#~ "di Disaster Ninja untuk setiap pertanyaan tentang fungsionalitas, dan "
+#~ "kami dengan senang hati akan memandu Anda. Anda juga dapat menghubungi "
+#~ "kami melalui email di <1>hello@kontur.io</1> jika Anda memiliki tanggapan "
+#~ "atau saran untuk meningkatkan alat ini.<br/><br/>Disaster Ninja adalah "
+#~ "proyek sumber terbuka. Temukan kodenya di <8>akun GitHub Kontur</8>."
 
 #~ msgid "Logout"
 #~ msgstr "Keluar"

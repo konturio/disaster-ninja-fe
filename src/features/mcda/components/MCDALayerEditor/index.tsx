@@ -34,12 +34,31 @@ export function MCDALayerEditor({ layerId }: LayerEditorProps) {
     [mcdaConfig],
   );
 
+  const onLayerDeleted = useCallback(
+    (deletedLayer: MCDALayer) => {
+      // not allowing to delete the last layer
+      if (mcdaConfig && mcdaConfig.layers.length > 1) {
+        const editedConfig = {
+          ...mcdaConfig,
+          layers: mcdaConfig.layers.filter((layer) => layer !== deletedLayer),
+        };
+        applyNewLayerStyle({ type: 'mcda', config: editedConfig });
+      }
+    },
+    [mcdaConfig],
+  );
+
   if (!mcdaConfig) return null;
 
   return (
     <div className={s.editor}>
       {mcdaConfig.layers.map((layer) => (
-        <MCDALayerParameters key={layer.id} layer={layer} onLayerEdited={onLayerEdited} />
+        <MCDALayerParameters
+          key={layer.id}
+          layer={layer}
+          onLayerEdited={onLayerEdited}
+          onDeletePressed={() => onLayerDeleted(layer)}
+        />
       ))}
     </div>
   );

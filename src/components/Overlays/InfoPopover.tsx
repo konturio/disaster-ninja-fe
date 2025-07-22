@@ -1,9 +1,7 @@
-import Markdown from 'markdown-to-jsx';
 import { InfoOutline16 } from '@konturio/default-icons';
 import clsx from 'clsx';
-import { parseLinksAsTags } from '~utils/markdown/parser';
-import { LinkRenderer } from '~components/LinkRenderer/LinkRenderer';
 import { Popover, PopoverContent, PopoverTrigger } from './Popover';
+import { MarkdownContent } from './MarkdownContent';
 import s from './Overlays.module.css';
 
 export function InfoPopover({
@@ -12,13 +10,7 @@ export function InfoPopover({
   ...restProps
 }: { content: React.ReactNode } & React.ComponentProps<'button'>) {
   const overlayContent =
-    typeof content === 'string' ? (
-      <Markdown options={{ overrides: { a: LinkRenderer } }} className={s.markdown}>
-        {parseLinksAsTags(content)}
-      </Markdown>
-    ) : (
-      content
-    );
+    typeof content === 'string' ? <MarkdownContent content={content} /> : content;
   return (
     <Popover>
       <PopoverTrigger asChild>

@@ -46,17 +46,15 @@ export function createMultivariateConfig(
   const hasText = !!overrides?.text?.length;
   const hasExtrusion = !!overrides?.extrusion?.length;
   const isBivariateStyleLegend = hasScore && hasBase;
-  const scoreMCDAStyle: MCDALayerStyle = {
-    type: 'mcda',
-    config: createDefaultMCDAConfig(
-      hasScore
-        ? {
-            layers: overrides?.score,
-            name: createMCDANameOverride(overrides.score, i18n.t('multivariate.score')),
-          }
-        : undefined,
-    ),
-  };
+  const scoreMCDAStyle: MCDALayerStyle | undefined = hasScore
+    ? {
+        type: 'mcda',
+        config: createDefaultMCDAConfig({
+          layers: overrides?.score,
+          name: createMCDANameOverride(overrides.score, i18n.t('multivariate.score')),
+        }),
+      }
+    : undefined;
   const baseMCDAStyle: MCDALayerStyle | undefined = hasBase
     ? {
         type: 'mcda',

@@ -1,0 +1,1634 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+
+#: km
+msgid "km"
+msgstr "公里"
+
+#: m
+msgid "m"
+msgstr "米"
+
+#: to
+msgid "to"
+msgstr "到"
+
+#: or
+msgid "or"
+msgstr "或"
+
+#: logout
+msgid "Log out"
+msgstr "登出"
+
+#: save
+msgid "Save"
+msgstr "保存"
+
+#: cancel
+msgid "Cancel"
+msgstr "取消"
+
+#: ok
+msgid "OK"
+msgstr "确定"
+
+#: create
+msgid "Create"
+msgstr "创建"
+
+#: disasters
+msgid "Disasters"
+msgstr "灾害"
+
+#: loading
+msgid "Loading..."
+msgstr "加载中..."
+
+#: preparing_data
+msgid "Preparing data"
+msgstr "准备数据中"
+
+#: loading_events
+msgid "Loading disasters"
+msgstr "加载灾害信息"
+
+#: legend mcda##legend_title
+msgid "Legend"
+msgstr "图例"
+
+#: maps
+msgid "maps"
+msgstr "地图"
+
+#: vertical_direction
+msgid "Vertical direction"
+msgstr "垂直方向"
+
+#: horizontal_direction
+msgid "Horizontal direction"
+msgstr "水平方向"
+
+#: legend_presentation
+msgid "Legend presentation"
+msgstr "图例显示方式"
+
+#: layers bivariate##color_manager##layers_filter
+msgid "Layers"
+msgstr "图层"
+
+#: layer
+msgid "Layer"
+msgstr "图层"
+
+#: toolbar##map_ruler
+msgid "Measure distance"
+msgstr "测量距离"
+
+#: toolbar##locate_me locate_me##feature_title
+msgid "Locate me"
+msgstr "定位我"
+
+#: toolbar##panel_title
+msgid "Toolbar"
+msgstr "工具栏"
+
+#: toolbar##download layer_actions##tooltips##download
+msgid "Download"
+msgstr "下载"
+
+#: toolbar##delete layer_actions##tooltips##delete
+msgid "Delete"
+msgstr "删除"
+
+#: toolbar##boundary_selector
+msgid "Select admin boundary"
+msgstr "选择行政边界"
+
+#: toolbar##create_layer
+msgid "Create layer"
+msgstr "创建图层"
+
+#: toolbar##geometry_uploader
+msgid "Upload GeoJSON"
+msgstr "上传 GeoJSON"
+
+#: toolbar##focused_geometry_editor
+msgid "Draw or edit geometry"
+msgstr "绘制或编辑几何图形"
+
+#: toolbar##edit_in_osm
+msgid "Edit map in OSM"
+msgstr "在 OSM 中编辑地图"
+
+#: toolbar##record_sensors
+msgid "Record sensors"
+msgstr "记录传感器"
+
+#: toolbar##tools_label
+msgid "Tools"
+msgstr "工具"
+
+#: toolbar##selected_area_label focus_geometry_layer##settings##name
+msgid "Selected area"
+msgstr "选定区域"
+
+#: toolbar##upload_mcda
+#, fuzzy
+msgid "Upload analysis"
+msgstr "上传分析图层"
+
+#: layer_actions##tooltips##erase
+msgid "Erase"
+msgstr "擦除"
+
+#: layer_actions##tooltips##edit
+msgid "Edit"
+msgstr "编辑"
+
+#: layer_actions##tooltips##hide mcda##layer_editor##outliers_options##hide
+msgid "Hide"
+msgstr "隐藏"
+
+#: layer_actions##tooltips##show
+msgid "Show"
+msgstr "显示"
+
+#: feed
+msgid "Feed"
+msgstr "信息流"
+
+#: deselect
+msgid "Deselect"
+msgstr "取消选择"
+
+#: spinner_text
+msgid "Gathering data"
+msgstr "收集数据中"
+
+#: updated
+msgid "Updated"
+msgstr "已更新"
+
+#: started
+msgid "Started"
+msgstr "已开始"
+
+#: created
+msgid "Created"
+msgstr "已创建"
+
+#: osm_gaps
+msgid "OSM gaps"
+msgstr "OSM 缺口"
+
+#: no_data_received
+msgid "No data received"
+msgstr "未收到数据"
+
+#: wrong_data_received
+msgid "Wrong data received"
+msgstr "收到错误数据"
+
+#: error
+msgid "Error"
+msgstr "错误"
+
+#: sort_icon
+msgid "Sort Icon"
+msgstr "排序图标"
+
+#: configs##Kontur_public_feed
+msgid "Kontur Public"
+msgstr "Kontur 公共数据源"
+
+#: configs##Kontur_public_feed_description
+msgid ""
+"The feed contains real-time data about Cyclones, Droughts, Earthquakes, "
+"Floods, Volcanoes, Wildfires."
+msgstr "该数据源包含有关气旋、干旱、地震、洪水、火山、野火的实时数据。"
+
+#: errors##default
+msgid "Sorry, we are having issues which will be fixed soon"
+msgstr "抱歉，我们遇到了一些问题，很快会修复"
+
+#: errors##timeout
+msgid "Request timeout"
+msgstr "请求超时"
+
+#: errors##cannot_connect
+msgid "Cannot connect to server"
+msgstr "无法连接服务器"
+
+#: errors##forbidden
+msgid "Forbidden"
+msgstr "禁止访问"
+
+#: errors##not_found
+msgid "Not found"
+msgstr "未找到"
+
+#: errors##unknown event_list##severity_unknown
+msgid "Unknown"
+msgstr "未知"
+
+#: errors##server_error
+msgid "Server error"
+msgstr "服务器错误"
+
+#: errors##error_try_again
+msgid "Something went wrong. Please try again"
+msgstr "出现错误，请重试"
+
+#: categories##overlays
+msgid "Overlays"
+msgstr "叠加图层"
+
+#: categories##basemap
+msgid "Basemap"
+msgstr "底图"
+
+#: groups##layers_in_selected_area
+msgid "Layers in selected area"
+msgstr "所选区域的图层"
+
+#: groups##your_layers
+msgid "Your layers"
+msgstr "您的图层"
+
+#: groups##kontur_analytics
+msgid "Kontur analytics"
+msgstr "Kontur 分析"
+
+#: groups##qa
+msgid "OpenStreetMap inspector"
+msgstr "OpenStreetMap 检查工具"
+
+#: groups##osmbasedmap
+msgid "OpenStreetMap based"
+msgstr "基于 OpenStreetMap"
+
+#: groups##other
+msgid "Other"
+msgstr "其他"
+
+#: groups##elevation
+msgid "Elevation"
+msgstr "海拔"
+
+#: groups##photo
+msgid "Imagery"
+msgstr "影像图"
+
+#: groups##map modes##map
+msgid "Map"
+msgstr "地图"
+
+#: advanced_analytics_data_list##load_world_data
+msgid "Load World Data"
+msgstr "加载全球数据"
+
+#: advanced_analytics_data_list##numerator
+msgid "Numerator"
+msgstr "分子"
+
+#: advanced_analytics_data_list##normalized_by
+msgid "Normalized By"
+msgstr "归一化方式"
+
+#: advanced_analytics_data_list##sum
+msgid "Sum"
+msgstr "总和"
+
+#: advanced_analytics_data_list##min
+msgid "Min"
+msgstr "最小值"
+
+#: advanced_analytics_data_list##max
+msgid "Max"
+msgstr "最大值"
+
+#: advanced_analytics_data_list##mean
+msgid "Mean"
+msgstr "平均值"
+
+#: advanced_analytics_data_list##stddev
+msgid "Stddev"
+msgstr "标准差"
+
+#: advanced_analytics_data_list##median
+msgid "Median"
+msgstr "中位数"
+
+#: advanced_analytics_data_list##filter_numerator
+msgid "Filter Numerator"
+msgstr "筛选分子"
+
+#: advanced_analytics_data_list##filter_denominator
+msgid "Filter Denominator"
+msgstr "筛选分母"
+
+#: mcda##title mcda##modal_title
+msgid "Multi-criteria decision analysis"
+msgstr "多标准决策分析"
+
+#: mcda##name search##mcda_create_analysis
+msgid "Create analysis"
+msgstr "创建分析"
+
+#: mcda##create_mcda_hint
+#, fuzzy
+msgid "Create multi-criteria decision analysis"
+msgstr "多标准决策分析"
+
+#: mcda##upload_mcda_hint
+#, fuzzy
+msgid "Upload multi-criteria decision analysis"
+msgstr "上传多标准决策分析"
+
+#: mcda##modal_input_name
+msgid "Analysis name"
+msgstr "分析名称"
+
+#: mcda##modal_input_name_placeholder
+msgid "e.g., Climate change"
+msgstr "例如：气候变化"
+
+#: mcda##modal_input_indicators
+msgid "Layer list"
+msgstr "图层列表"
+
+#: mcda##modal_input_indicators_placeholder
+msgid "Select layers"
+msgstr "选择图层"
+
+#: mcda##modal_input_indicators_no_options
+msgid "No options"
+msgstr "无可选项"
+
+#: mcda##btn_save
+msgid "Save analysis"
+msgstr "保存分析"
+
+#: mcda##error_analysis_name_cannot_be_empty
+msgid "Analysis name cannot be empty"
+msgstr "分析名称不能为空"
+
+#: mcda##error_invalid_file
+#, fuzzy
+msgid "Invalid analysis file format"
+msgstr "无效的分析文件格式"
+
+#: mcda##error_invalid_parameter
+msgid "Invalid '{{parameter}}' parameter"
+msgstr "无效的参数 '{{parameter}}'"
+
+#: mcda##error_invalid_layer_parameter
+msgid "Invalid '{{parameter}}' parameter in '{{axisName}}' layer"
+msgstr "图层 '{{axisName}}' 中的参数 '{{parameter}}' 无效"
+
+#: mcda##error_wrong_mcda_version
+#, fuzzy
+msgid "Wrong analysis version"
+msgstr "分析版本错误"
+
+#: mcda##legend_subtitle
+msgid ""
+"Hexagons are colored based on analysis layer settings. Click a hexagon to "
+"see its values."
+msgstr "六边形根据图层设置着色。点击六边形可查看对应值。"
+
+#: mcda##layer_editor##save_changes profile##saveButton
+msgid "Save changes"
+msgstr "保存更改"
+
+#: mcda##layer_editor##range
+msgid "Value range"
+msgstr "值范围"
+
+#: mcda##layer_editor##outliers
+msgid "Outliers"
+msgstr "异常值"
+
+#: mcda##layer_editor##reverse_to_good_bad
+msgid "Reverse to Good → Bad"
+msgstr "反转为 好 → 坏"
+
+#: mcda##layer_editor##reverse_to_bad_good
+msgid "Reverse to Bad → Good"
+msgstr "反转为 坏 → 好"
+
+#: mcda##layer_editor##weight
+msgid "Weight"
+msgstr "权重"
+
+#: mcda##layer_editor##transform
+msgid "Transform"
+msgstr "转换"
+
+#: mcda##layer_editor##transformation
+msgid "Transformation"
+msgstr "转换方式"
+
+#: mcda##layer_editor##normalize
+msgid "Normalize"
+msgstr "归一化"
+
+#: mcda##layer_editor##normalization
+msgid "Normalization"
+msgstr "归一化处理"
+
+#: mcda##layer_editor##range_buttons##full_range
+msgid "Full range"
+msgstr "完整范围"
+
+#: mcda##layer_editor##range_buttons##3_sigma
+msgid "3σ"
+msgstr "3σ"
+
+#: mcda##layer_editor##range_buttons##2_sigma
+msgid "2σ"
+msgstr "2σ"
+
+#: mcda##layer_editor##range_buttons##1_sigma
+msgid "1σ"
+msgstr "1σ"
+
+#: mcda##layer_editor##outliers_options##clamp
+msgid "Clamp"
+msgstr "截断"
+
+#: mcda##layer_editor##outliers_options##dont_modify
+msgid "Don't modify"
+msgstr "不修改"
+
+#: mcda##layer_editor##transformations##no_transformation
+msgid "No transformation"
+msgstr "不转换"
+
+#: mcda##layer_editor##transformations##square_root
+msgid "Square root: sign(x)⋅√|x|"
+msgstr "平方根：sign(x)⋅√|x|"
+
+#: mcda##layer_editor##transformations##cube_root
+msgid "Cube root: ∛x"
+msgstr "立方根：∛x"
+
+#: mcda##layer_editor##transformations##log
+msgid "log₁₀(x - xmin + 1)"
+msgstr "log₁₀(x - xmin + 1)"
+
+#: mcda##layer_editor##transformations##log_epsilon
+msgid "log₁₀(x - xmin + ε)"
+msgstr "log₁₀(x - xmin + ε)"
+
+#: mcda##layer_editor##no
+msgid "No"
+msgstr "否"
+
+#: mcda##layer_editor##max_min
+msgid "Max-min"
+msgstr "最大-最小"
+
+#: mcda##layer_editor##errors##weight_cannot_be_empty
+msgid "Weight cannot be empty"
+msgstr "权重不能为空"
+
+#: mcda##layer_editor##errors##weight_must_be_a_number
+msgid "Weight must be a valid number"
+msgstr "权重必须为有效数字"
+
+#: mcda##layer_editor##errors##range_from_cannot_be_bigger
+msgid "The ‘from’ value cannot be bigger than the ‘to’ value"
+msgstr "“起始值”不能大于“结束值”"
+
+#: mcda##layer_editor##errors##range_cannot_be_empty
+msgid "Range cannot be empty"
+msgstr "范围不能为空"
+
+#: mcda##layer_editor##errors##range_must_be_a_number
+msgid "Range must be a valid number"
+msgstr "范围必须为有效数字"
+
+#: mcda##layer_editor##tips##range
+msgid ""
+"The values that will be considered the worst and the best in your analysis."
+msgstr "将被视为分析中最差与最优的值范围。"
+
+#: mcda##layer_editor##tips##sentiment
+msgid ""
+"Determine the direction of sentiment for the layer's impact on the "
+"analysis:\n"
+"* **Bad → Good**: Higher values indicate a positive sentiment.\n"
+"* **Good → Bad**: Higher values indicate a negative sentiment."
+msgstr ""
+"定义图层对分析的倾向方向：\n"
+"* **坏 → 好**：数值越高表示越积极。\n"
+"* **好 → 坏**：数值越高表示越消极。"
+
+#: mcda##layer_editor##tips##weight
+msgid ""
+"By default, all layers contribute equally to the analysis through a weighted "
+"average. Adjusting the increased weight of a layer (2, 3, etc.) allows you "
+"to assign additional importance to it in the analysis."
+msgstr ""
+"默认所有图层以加权平均方式等同参与分析。您可通过设置权重 (如 2、3) 来提高某个"
+"图层在分析中的重要性。"
+
+#: mcda##layer_editor##tips##transform
+msgid ""
+"Apply calculations to the values. Achieving a more linear distribution will "
+"provide more useful information for analysis.\n"
+"\n"
+" **Note**: Calculations are done before normalization."
+msgstr ""
+"对值应用计算，以实现更线性的分布，从而获得更有效的分析信息。\n"
+"\n"
+"**注意**：计算在归一化之前执行。"
+
+#: mcda##layer_editor##tips##normalize
+msgid ""
+"Adjusts values to a standardized scale. This helps compare them easily and "
+"make decisions.\n"
+"* **Standard score scaling**: This option adjusts values to a standardized "
+"scale, ensuring they are all comparable.\n"
+"* **No (for specialists only)**: Leaves values unmodified."
+msgstr ""
+"将数值调整为标准化范围，便于比较与决策。\n"
+"* **标准化缩放**：将数值调整到统一比例。\n"
+"* **否（仅供专家）**：保留原始值。"
+
+#: mcda##layer_editor##tips##outliers
+msgid ""
+"* **Clamp**: Set values above the range to 1 and below the range to 0.\n"
+"* **Don’t modify**: Keep 0 and 1 for min and max, but allow outlier scores "
+"beyond this range.\n"
+"* **Exclude**: Exclude areas where values are out of range."
+msgstr ""
+"* **截断**：超出范围的值设为 1，低于范围的值设为 0。\n"
+"* **不修改**：保留最小值为 0，最大值为 1，允许存在异常值。\n"
+"* **排除**：排除值超出范围的区域。"
+
+#: mcda##bad
+msgid "Bad"
+msgstr "坏"
+
+#: mcda##good
+msgid "Good"
+msgstr "好"
+
+#: multivariate##multivariate_analysis
+msgid "Multivariate Analysis"
+msgstr "多变量分析"
+
+#: multivariate##create_analysis_layer
+msgid "Create analysis layer"
+msgstr "创建分析图层"
+
+#: multivariate##upload_analysis_layer
+msgid "Upload analysis layer"
+msgstr "上传分析图层"
+
+#: multivariate##popup##score_header
+msgid "Score {{level}}"
+msgstr "评分 {{level}}"
+
+#: multivariate##popup##compare_header
+#, fuzzy
+msgid "Compare {{level}}"
+msgstr "比较 {{level}}"
+
+#: multivariate##score
+msgid "Score"
+msgstr "评分"
+
+#: multivariate##compare
+msgid "Compare"
+msgstr "比较"
+
+#: multivariate##hide_area
+msgid "Hide area"
+msgstr "隐藏区域"
+
+#: multivariate##labels
+msgid "Labels"
+msgstr "标签"
+
+#: multivariate##3d
+msgid "3D"
+msgstr "3D"
+
+#: map_popup##value
+msgid "Value"
+msgstr "数值"
+
+#: map_popup##range
+msgid "Range"
+msgstr "范围"
+
+#: map_popup##coefficient
+msgid "Coefficient"
+msgstr "系数"
+
+#: map_popup##normalized_value
+msgid "Normalized value"
+msgstr "归一化值"
+
+#: search##search_location
+msgid "Search location"
+msgstr "搜索地点"
+
+#: search##info_block
+msgid "You can search for 📍 locations"
+msgstr "你可以搜索 📍 位置"
+
+#: search##info_block_with_mcda
+msgid ""
+"You can search for 📍 locations or ask ✨ AI your question like “Where is dead "
+"wood”"
+msgstr "你可以搜索 📍 地点，或向 ✨ AI 提问，例如“哪里有枯木”"
+
+#: search##input_placeholder
+msgid "Search"
+msgstr "搜索"
+
+#: search##input_placeholder_mcda
+msgid "Search or ask AI"
+msgstr "搜索或向 AI 提问"
+
+#: search##locations_no_result
+msgid "No locations found"
+msgstr "未找到位置"
+
+#: search##mcda_loading_message
+msgid "AI is generating an analysis for you"
+msgstr "AI 正在为你生成分析"
+
+#: search##mcda_no_result
+msgid "No AI suggestion"
+msgstr "无 AI 建议"
+
+#: search##mcda_error_message
+msgid "AI engine did not respond. Please try again later"
+msgstr "AI 引擎未响应，请稍后重试"
+
+#: search##upload_analysis
+msgid "“{{name}}” Multi-Criteria Decision Analysis has been created"
+msgstr "“{{name}}” 多标准决策分析已创建"
+
+#: event_list##warning_title
+msgid "Cannot filter by map view"
+msgstr "无法按地图视图筛选"
+
+#: event_list##warning_description
+msgid "Map is not ready yet, try later"
+msgstr "地图尚未加载完成，请稍后再试"
+
+#: event_list##bbox_filter_button
+msgid "Filter by map view"
+msgstr "按地图视图筛选"
+
+#: event_list##analytics##affected_people##tooltip
+msgid "Affected people"
+msgstr "受影响人数"
+
+#: event_list##analytics##affected_people##value
+msgid "No humanitarian impact"
+msgstr "无人道影响"
+
+#: event_list##analytics##settled_area_tooltip
+msgid "Settled area"
+msgstr "已定居区域"
+
+#: event_list##analytics##loss_tooltip
+msgid "Estimated loss"
+msgstr "估计损失"
+
+#: event_list##no_event_in_feed
+msgid "The disaster was not found in the current disaster feed"
+msgstr "当前灾害列表中未找到该灾害"
+
+#: event_list##no_selected_disaster
+msgid "No disaster selected"
+msgstr "未选择灾害"
+
+#: event_list##chose_disaster
+msgid "Choose disaster"
+msgstr "选择灾害"
+
+#: event_list##no_historical_disasters
+msgid "No historical disasters in this area"
+msgstr "该区域没有历史灾害"
+
+#: event_list##no_feed_disasters
+msgid "No disasters in this feed"
+msgstr "此源中无灾害"
+
+#: event_list##no_feed_disasters_matching_your_filters
+msgid "No disasters matching your filters"
+msgstr "没有符合筛选条件的灾害"
+
+#: event_list##no_disasters
+msgid "No disasters"
+msgstr "无灾害"
+
+#: event_list##severity_termination
+msgid "Termination"
+msgstr "结束"
+
+#: event_list##severity_minor
+msgid "Minor"
+msgstr "轻微"
+
+#: event_list##severity_moderate
+msgid "Moderate"
+msgstr "中等"
+
+#: event_list##severity_severe
+msgid "Severe"
+msgstr "严重"
+
+#: event_list##severity_extreme
+msgid "Extreme"
+msgstr "极端"
+
+#: event_list##open_timeline_button episode
+msgid "Timeline"
+msgstr "时间线"
+
+#: create_layer##save_and_draw
+msgid "Save and draw"
+msgstr "保存并绘制"
+
+#: create_layer##edit_layer
+msgid "Edit Layer"
+msgstr "编辑图层"
+
+#: create_layer##edit_features
+msgid "Edit Features"
+msgstr "编辑要素"
+
+#: create_layer##delete_layer
+msgid "Delete Layer"
+msgstr "删除图层"
+
+#: create_layer##create_layer
+msgid "Create Layer"
+msgstr "创建图层"
+
+#: create_layer##saving_layer
+msgid "Saving layer..."
+msgstr "正在保存图层..."
+
+#: create_layer##field_name
+msgid "Field name"
+msgstr "字段名称"
+
+#: create_layer##layer_name
+msgid "Layer name"
+msgstr "图层名称"
+
+#: create_layer##marker_icon
+msgid "Marker icon"
+msgstr "标记图标"
+
+#: create_layer##type
+msgid "Type"
+msgstr "类型"
+
+#: create_layer##select
+msgid "Select"
+msgstr "选择"
+
+#: create_layer##short_text
+msgid "Short Text"
+msgstr "短文本"
+
+#: create_layer##long_text
+msgid "Long Text"
+msgstr "长文本"
+
+#: create_layer##link
+msgid "Link"
+msgstr "链接"
+
+#: create_layer##image
+msgid "Image"
+msgstr "图像"
+
+#: create_layer##fields
+msgid "Fields"
+msgstr "字段"
+
+#: create_layer##add_field
+msgid "Add field"
+msgstr "添加字段"
+
+#: create_layer##location
+msgid "Location"
+msgstr "位置"
+
+#: create_layer##edit_feature_placeholder
+msgid "Select some feature for start edit feature properties"
+msgstr "选择要素以开始编辑属性"
+
+#: analytics_panel##header_title
+msgid "Analytics"
+msgstr "分析"
+
+#: analytics_panel##error_loading
+msgid "Failed receiving data about selected area. It may be too large."
+msgstr "获取选定区域数据失败，可能区域过大。"
+
+#: analytics_panel##info_short
+msgid "Calculations are made for selected area"
+msgstr "计算基于所选区域"
+
+#: advanced_analytics_panel##header_title
+msgid "Advanced analytics"
+msgstr "高级分析"
+
+#: advanced_analytics_panel##error
+msgid "Error while fetching advanced analytics data"
+msgstr "获取高级分析数据时出错"
+
+#: advanced_analytics_empty##not_found current_event##not_found_request
+msgid "Sorry, the requested disaster was not found"
+msgstr "抱歉，未找到请求的灾害"
+
+#: advanced_analytics_empty##error
+msgid "An error occurred"
+msgstr "发生错误"
+
+#: advanced_analytics_empty##analytics_for_selected
+msgid "Analytics for selected area"
+msgstr "所选区域的分析"
+
+#: advanced_analytics_empty##will_be_provided
+msgid "will be provided here"
+msgstr "将在此提供"
+
+#: advanced_analytics_empty##no_analytics
+msgid "No analytics for the selected area"
+msgstr "所选区域没有分析"
+
+#: llm_analytics##header
+msgid "AI insights"
+msgstr "AI 洞察"
+
+#: llm_analytics##placeholder##select_area
+msgid ""
+"Select area (<icon1 />,<icon2 />,<icon3 />) you want to explore to get AI "
+"Insights."
+msgstr "选择要探索的区域（<icon1 />,<icon2 />,<icon3 />）以获取 AI 洞察。"
+
+#: llm_analytics##placeholder##you_can_also
+msgid "You can also:"
+msgstr "你也可以："
+
+#: llm_analytics##placeholder##fill_bio
+msgid ""
+"<icon /> <lnk>Fill out analysis objectives</lnk> to personalize AI analysis"
+msgstr "<icon /> <lnk>填写分析目标</lnk> 以个性化 AI 分析"
+
+#: llm_analytics##placeholder##select_and_save_as_reference_area
+msgid ""
+"<icon /> Select an area and save it as a reference to compare with another "
+"one"
+msgstr "<icon /> 选择一个区域并保存为参考，以与其他区域进行比较"
+
+#: llm_analytics##placeholder##learn_more
+msgid "<lnk><icon/> Learn more about AI Insights</lnk>"
+msgstr "<lnk><icon/> 了解更多关于 AI 洞察的信息</lnk>"
+
+#: draw_tools##area
+msgid "Polygon"
+msgstr "多边形"
+
+#: draw_tools##line
+msgid "Line"
+msgstr "线条"
+
+#: draw_tools##point
+msgid "Point"
+msgstr "点"
+
+#: draw_tools##finish_drawing
+msgid "Finish Drawing"
+msgstr "完成绘制"
+
+#: draw_tools##caption
+msgid "Click on the map to begin drawing"
+msgstr "点击地图开始绘制"
+
+#: draw_tools##no_geometry_error
+msgid "No drawn geometry to download"
+msgstr "没有可下载的绘图几何体"
+
+#: draw_tools##overlap_error
+msgid "Polygon should not overlap itself"
+msgstr "多边形不应自重叠"
+
+#: boundary_selector##title
+msgid "Focus to administrative boundary"
+msgstr "聚焦至行政边界"
+
+#: geometry_uploader##title
+msgid "Focus to uploaded geometry"
+msgstr "聚焦至上传的几何体"
+
+#: geometry_uploader##error
+msgid "Error while reading uploaded file"
+msgstr "读取上传文件时出错"
+
+#: focus_geometry##title
+msgid "Focus to freehand geometry"
+msgstr "聚焦至手绘几何体"
+
+#: reference_area_layer##settings##name profile##reference_area##title
+msgid "Reference area"
+msgstr "参考区域"
+
+#: drawings##self_directions_not_supported
+msgid "Self intersections are not supported"
+msgstr "不支持自相交"
+
+#: bivariate##panel##header
+msgid "Bivariate matrix"
+msgstr "双变量矩阵"
+
+#: bivariate##matrix##caption##base_axis
+msgid "Base axis"
+msgstr "基础轴"
+
+#: bivariate##matrix##caption##annex_axis
+msgid "Annex axis"
+msgstr "附属轴"
+
+#: bivariate##matrix##caption##tooltip##p1
+msgid ""
+"Charts involving the Base and Annex axes help establish a relationship "
+"between two data sets."
+msgstr "涉及基础轴和附属轴的图表有助于建立两个数据集之间的关系。"
+
+#: bivariate##matrix##caption##tooltip##li1
+msgid "Annex axis - parameters that we analyse"
+msgstr "附属轴 - 我们要分析的参数"
+
+#: bivariate##matrix##caption##tooltip##li2
+msgid "Base axis - reference point in the analysis"
+msgstr "基础轴 - 分析中的参考点"
+
+#: bivariate##matrix##caption##tooltip##b
+msgid "Ex: the best location to open a cafe"
+msgstr "例如：开设咖啡馆的最佳地点"
+
+#: bivariate##matrix##caption##tooltip##p2
+msgid ""
+"We can explore the number of eatery places (Annex axis) against Population "
+"density (Base axis)."
+msgstr "我们可以探讨餐饮场所数量（附属轴）与人口密度（基础轴）之间的关系。"
+
+#: bivariate##matrix##caption##tooltip##p3
+msgid ""
+"In this scenario, we are first interested in a small number of eatery "
+"places, and the number of people in that place gives us additional "
+"information."
+msgstr ""
+"在这种情况下，我们首先关注较少的餐饮场所数量，该地的人口数量为我们提供了更多"
+"信息。"
+
+#: bivariate##matrix##header##title
+msgid "Choose two layers to explore correlations"
+msgstr "选择两个图层以探索相关性"
+
+#: bivariate##matrix##header##hint
+msgid "Layers and correlations are displayed for the current Selected Area"
+msgstr "图层和相关性显示于当前所选区域"
+
+#: bivariate##matrix##icon##population
+msgid "Value divided by Population"
+msgstr "数值除以人口"
+
+#: bivariate##matrix##icon##area_km2
+msgid "Value divided by Area"
+msgstr "数值除以面积"
+
+#: bivariate##matrix##icon##total_building_count
+msgid "Value divided by Total Buildings Estimate"
+msgstr "数值除以估算的建筑总数"
+
+#: bivariate##matrix##icon##populated_area_km2
+msgid "Value divided by Populated Area"
+msgstr "数值除以有人口的面积"
+
+#: bivariate##matrix##icon##one
+msgid "Without divider"
+msgstr "不使用除数"
+
+#: bivariate##matrix##icon##roads
+msgid "Value divided by Total Roads Length"
+msgstr "数值除以道路总长度"
+
+#: bivariate##matrix##progress##rendering
+msgid "Rendering"
+msgstr "渲染中"
+
+#: bivariate##matrix##progress##applied
+msgid "Applied on the map"
+msgstr "已应用于地图"
+
+#: bivariate##matrix##loading_error
+msgid ""
+"Unfortunately, we cannot display the matrix. Try refreshing the page or come "
+"back later."
+msgstr "很抱歉，我们无法显示矩阵。请尝试刷新页面或稍后重试。"
+
+#: bivariate##legend##high
+msgid "High"
+msgstr "高"
+
+#: bivariate##legend##low
+msgid "Low"
+msgstr "低"
+
+#: bivariate##legend##medium
+msgid "Medium"
+msgstr "中"
+
+#: bivariate##color_manager##not_defined
+msgid "Not defined"
+msgstr "未定义"
+
+#: bivariate##color_manager##sentiments_combinations_filter
+msgid "Sentiments combinations"
+msgstr "倾向性设置"
+
+#: bivariate##color_manager##no_legends
+msgid "There are no legends satisfying the conditions."
+msgstr "没有符合条件的图例。"
+
+#: bivariate##color_manager##no_data
+msgid "No Data."
+msgstr "无数据"
+
+#: bivariate##color_manager##sentiments_tab
+msgid "Sentiments"
+msgstr "倾向性"
+
+#: bivariate##color_manager##color_legends_tab
+msgid "Color Legends"
+msgstr "颜色图例"
+
+#: bivariate##color_manager##layers_tab
+msgid "Layers (indicators)"
+msgstr "图层（指标）"
+
+#: sidebar##biv_color_manager
+msgid "Сolor manager"
+msgstr "颜色管理器"
+
+#: sidebar##edit_osm
+msgid "Edit in OpenStreetMap"
+msgstr "在 OpenStreetMap 中编辑"
+
+#: sidebar##ruler
+msgid "Ruler"
+msgstr "标尺"
+
+#: sidebar##collapse
+msgid "Collapse"
+msgstr "折叠"
+
+#: sidebar##expand
+msgid "Expand"
+msgstr "展开"
+
+#: sidebar##icon_alt
+msgid "Application logo"
+msgstr "应用程序标志"
+
+#: login##email profile##email
+msgid "Email"
+msgstr "电子邮件"
+
+#: login##password
+msgid "Password"
+msgstr "密码"
+
+#: login##login_button
+msgid "Login"
+msgstr "登录"
+
+#: login##sign_up
+msgid "Sign up"
+msgstr "注册"
+
+#: login##logging_in
+msgid "Logging in..."
+msgstr "正在登录..."
+
+#: login##log_in
+msgid "Log in"
+msgstr "登录"
+
+#: login##forgot_password
+msgid "Forgot password?"
+msgstr "忘记密码？"
+
+#: login##description
+msgid "Please log in to change your settings"
+msgstr "请登录以更改您的设置"
+
+#: login##error##email_empty
+msgid "Email cannot be empty"
+msgstr "电子邮件不能为空"
+
+#: login##error##email_invalid
+msgid "Email has to be valid"
+msgstr "电子邮件必须有效"
+
+#: login##error##password
+msgid "Password cannot be empty"
+msgstr "密码不能为空"
+
+#: login##error##connect
+msgid "Could not connect to authentication service"
+msgstr "无法连接到身份验证服务"
+
+#: currency##usd
+msgid "USD"
+msgstr "USD"
+
+#: subscription##title
+msgid "Plans & Pricing"
+msgstr "套餐与价格"
+
+#: subscription##price_summary
+msgid "* Billed as ${{pricePerYear}} USD once yearly"
+msgstr "* 每年一次性计费 ${{pricePerYear}} 美元"
+
+#: subscription##unauthorized_button
+msgid "Sign in to subscribe"
+msgstr "登录以订阅"
+
+#: subscription##current_plan_button
+msgid "Current plan"
+msgstr "当前套餐"
+
+#: subscription##sales_button
+msgid "Contact sales"
+msgstr "联系销售"
+
+#: subscription##book_demo_button
+msgid "Book a demo"
+msgstr "预约演示"
+
+#: subscription##request_trial_button
+msgid "Request trial"
+msgstr "申请试用"
+
+#: subscription##errors##payment_initialization
+msgid ""
+"There was an error during payment initialization. Please try again or "
+"contact our support"
+msgstr "初始化付款时出错。请重试或联系客服"
+
+#: subscription##success_modal##title
+msgid "Success"
+msgstr "成功"
+
+#: subscription##success_modal##thank_you_for_subscribing
+msgid "Thank you for subscribing to our platform!"
+msgstr "感谢您订阅我们的平台！"
+
+#: subscription##success_modal##after_the_page_refreshes
+msgid "After the page refreshes, you can start using Kontur Atlas"
+msgstr "页面刷新后，您可以开始使用 Kontur Atlas"
+
+#: reports##title
+msgid "Disaster Ninja Reports"
+msgstr "Disaster Ninja报告"
+
+#: reports##no_data
+msgid "No data for this report"
+msgstr "该报告暂无数据"
+
+#: reports##sorting
+msgid "Sorting data..."
+msgstr "正在排序数据..."
+
+#: reports##loading
+msgid "Loading data"
+msgstr "正在加载数据"
+
+#: reports##open_josm
+msgid "Open via JOSM remote control"
+msgstr "通过 JOSM 远程控制打开"
+
+#: reports##josm_logo_alt
+msgid "JOSM logo"
+msgstr "JOSM 标志"
+
+#: reports##see_all
+msgid "See all reports"
+msgstr "查看所有报告"
+
+#: reports##wrong_id
+msgid "Wrong report ID"
+msgstr "报告 ID 错误"
+
+#: reports##description
+msgid ""
+"<0>Kontur </0> generates several reports that help validate OpenStreetMap "
+"quality. They contain links to areas on <4>osm.org </4> and links to open "
+"them in the JOSM editor with enabled remote control for editing."
+msgstr ""
+"<0>Kontur </0> 生成多个报告以帮助验证 OpenStreetMap 的质量。报告包含指向 "
+"<4>osm.org </4> 区域的链接，以及可在启用远程控制的 JOSM 编辑器中打开的链接。"
+
+#: modes##about
+msgid "About"
+msgstr "关于"
+
+#: modes##cookies
+msgid "Cookies"
+msgstr "Cookie"
+
+#: modes##reports
+msgid "Reports"
+msgstr "报告"
+
+#: modes##report
+msgid "Report"
+msgstr "报告"
+
+#: modes##profile
+msgid "Profile"
+msgstr "个人资料"
+
+#: modes##privacy
+msgid "Privacy"
+msgstr "隐私"
+
+#: modes##terms
+msgid "Terms"
+msgstr "条款"
+
+#: modes##user_guide
+msgid "User guide"
+msgstr "用户指南"
+
+#: modes##external##upload_imagery
+msgid "Upload imagery"
+msgstr "上传图像"
+
+#: modes##external##imagery_catalog
+msgid "Imagery catalog"
+msgstr "图像目录"
+
+#: profile##interfaceTheme
+msgid "Theme"
+msgstr "主题"
+
+#: profile##interfaceLanguage
+msgid "Language"
+msgstr "语言"
+
+#: profile##units
+msgid "Units"
+msgstr "单位"
+
+#: profile##fullName
+msgid "Full name"
+msgstr "全名"
+
+#: profile##metric
+msgid "metric"
+msgstr "公制"
+
+#: profile##imperialBeta
+msgid "imperial (beta)"
+msgstr "英制（测试版）"
+
+#: profile##profileSettingsHeader
+msgid "Personalize your experience"
+msgstr "个性化您的体验"
+
+#: profile##your_current_job
+msgid "your current job"
+msgstr "您目前的工作"
+
+#: profile##area_of_expertise
+msgid "area of expertise"
+msgstr "专业领域"
+
+#: profile##challenges
+msgid "challenges"
+msgstr "挑战"
+
+#: profile##personalization_prompt
+msgid "For better personalization, please include details such as:"
+msgstr "为实现更好的个性化，请提供以下详细信息："
+
+#: profile##ai_tools_compatibility
+msgid "This information is compatible with AI tools"
+msgstr "此信息可兼容 AI 工具"
+
+#: profile##improves_analysis
+msgid "Improves analysis"
+msgstr "提升分析效果"
+
+#: profile##bio_placeholder
+msgid "Bio"
+msgstr "简介"
+
+#: profile##bio_textarea_placeholder
+msgid ""
+"e.g. GIS specialist with 5+ years of experience in disaster risk analysis, "
+"focused on urban resilience."
+msgstr "例如：拥有 5 年以上灾害风险分析经验的 GIS 专家，专注于城市韧性。"
+
+#: profile##analysis_objectives
+msgid "Analysis objectives"
+msgstr "分析目标"
+
+#: profile##objectives_textarea_placeholder
+msgid ""
+"e.g. Urban planning analysis with a focus on climate resilience. My current "
+"challenge is improving flood risk mapping."
+msgstr "例如：聚焦气候韧性的城市规划分析。目前的挑战是改进洪水风险图绘制。"
+
+#: profile##appSettingsHeader
+msgid "Settings"
+msgstr "设置"
+
+#: profile##your_organization
+msgid "Your organization"
+msgstr "您的公司"
+
+#: profile##your_contacts
+msgid "Your contact info"
+msgstr "您的联系方式"
+
+#: profile##organization_name
+msgid "Organization name"
+msgstr "公司名称"
+
+#: profile##position
+msgid "Position"
+msgstr "职位"
+
+#: profile##gis_specialists
+msgid "GIS specialists in your team"
+msgstr "您团队中的 GIS 专家"
+
+#: profile##phone_number
+msgid "Phone number with country code"
+msgstr "带国家代码的电话号码"
+
+#: profile##linkedin
+msgid "LinkedIn profile"
+msgstr "LinkedIn 个人资料"
+
+#: profile##konturTheme
+msgid "Kontur"
+msgstr "Kontur"
+
+#: profile##HOTTheme
+msgid "HOT"
+msgstr "HOT"
+
+#: profile##defaultDisasterFeed
+msgid "Default disaster feed"
+msgstr "默认灾害数据源"
+
+#: profile##defaultOSMeditor
+msgid "Default OpenStreetMap editor (beta)"
+msgstr "默认 OpenStreetMap 编辑器（测试版）"
+
+#: profile##successNotification
+msgid "All changes have been applied successfully"
+msgstr "所有更改已成功应用"
+
+#: profile##dont_know
+msgid "I don’t know"
+msgstr "我不知道"
+
+#: profile##languageOption##en
+msgid "English"
+msgstr "英语"
+
+#: profile##languageOption##es
+msgid "Spanish"
+msgstr "西班牙语"
+
+#: profile##languageOption##ar
+msgid "Arabic"
+msgstr "阿拉伯语"
+
+#: profile##languageOption##ko
+msgid "Korean"
+msgstr "韩语"
+
+#: profile##languageOption##id
+msgid "Indonesian"
+msgstr "印尼语"
+
+#: profile##languageOption##de
+msgid "German"
+msgstr "德语"
+
+#: profile##languageOption##be
+msgid "Belarusian"
+msgstr "白俄罗斯语"
+
+#: profile##languageOption##ru
+msgid "Russian"
+msgstr "俄语"
+
+#: profile##languageOption##uk
+msgid "Ukrainian"
+msgstr "乌克兰语"
+
+#: profile##languageOption##zh
+msgid "Chinese"
+msgstr "中文"
+
+#: profile##reference_area##freehand_geometry
+msgid "Freehand geometry"
+msgstr "手绘几何"
+
+#: profile##reference_area##to_replace_reference_area
+msgid ""
+"You can redefine your reference area on map. Select an area and click \"Save "
+"as reference area\" on toolbar.\n"
+msgstr ""
+"你可以在地图上重新定义参考区域。选择一个区域并点击工具栏上的“保存为参考区"
+"域”。\n"
+
+#: profile##reference_area##description
+msgid ""
+"Save an area you are familiar with as a reference. We will use it as a "
+"baseline to compare other areas and explain the differences."
+msgstr "将你熟悉的区域保存为参考，我们将其用作基准来比较其他区域并说明差异。"
+
+#: profile##reference_area##set_the_reference_area
+msgid "Set area on map"
+msgstr "在地图上设置区域"
+
+#: profile##reference_area##tooltip_text
+#, fuzzy
+msgid ""
+"1.Select an area of interest on the map using the Admin Boundary or Draw "
+"Geometry tool.\n"
+"\n"
+" 2. Click the 'Save as Reference' button on the toolbar."
+msgstr ""
+"1.使用“行政边界”或“绘图工具”在地图上选择感兴趣区域。\n"
+"\n"
+"2.点击工具栏上的“保存为参考区域”按钮。"
+
+#: profile##reference_area##accessing_location
+msgid "Accessing your location"
+msgstr "正在获取你的位置"
+
+#: profile##reference_area##accessing_location_error
+msgid "Error. Try another way."
+msgstr "出错了。请尝试其他方式。"
+
+#: profile##reference_area##select_location
+msgid "Select my current location"
+msgstr "选择我的当前位置"
+
+#: profile##reference_area##notification
+msgid "Your reference area {{name}} has been saved"
+msgstr "你的参考区域 {{name}} 已保存"
+
+#: locate_me##get_location_error
+msgid "Error while getting location"
+msgstr "获取位置时出错"
+
+#: loading_episodes
+msgid "Loading Episodes"
+msgstr "正在加载内容"
+
+#: zoom_to_world
+msgid "Zoom to the whole world"
+msgstr "缩放至全世界"
+
+#: cookie_banner##header
+msgid "We value your privacy"
+msgstr "我们重视您的隐私"
+
+#: cookie_banner##body
+msgid ""
+"We use absolutely necessary cookies to provide you personalized services and "
+"optional cookies to improve {{appName}} and your experience. You can manage "
+"cookie settings or withdraw consent to optional cookies at any time.\n"
+"For more information, please, check our [Privacy Policy](about/privacy)"
+msgstr ""
+"我们使用必要的 cookie 来提供个性化服务，也使用可选 cookie 来改善 {{appName}} "
+"和你的体验。你可以随时管理 cookie 设置或撤回对可选 cookie 的同意。\n"
+"更多信息请查看我们的 [隐私政策](about/privacy)"
+
+#: cookie_banner##decline_all
+msgid "Decline optional cookies"
+msgstr "拒绝可选 cookie"
+
+#: cookie_banner##accept_all
+msgid "Accept optional cookies"
+msgstr "接受可选 cookie"
+
+#: live_sensor##start
+msgid "Start sensor recording"
+msgstr "开始传感器记录"
+
+#: live_sensor##finish
+msgid "Stop sensor recording"
+msgstr "停止传感器记录"
+
+#: live_sensor##finishMessage
+msgid "Recording has been finished"
+msgstr "记录已完成"
+
+#: live_sensor##startMessage
+msgid "Recording has been started"
+msgstr "记录已开始"
+
+#: live_sensor##noSensorsError
+msgid "Your device does not have the required sensors"
+msgstr "你的设备没有所需的传感器"
+
+#: layer_features_panel##empty
+msgid "Layer features within selected area will be provided here"
+msgstr "所选区域的图层特征将显示在此处"
+
+#: layer_features_panel##noFeatureSelected
+msgid "No layer feature selected"
+msgstr "未选择图层特征"
+
+#: layer_features_panel##chooseFeature
+msgid "Choose layer feature"
+msgstr "选择图层特征"
+
+#: layer_features_panel##listInfo
+msgid "The list is filtered by selected area and sorted by project number"
+msgstr "列表按所选区域筛选，并按项目编号排序"
+
+#: layer_features_panel##error_loading
+msgid "Failed to load layer features data. Please try again."
+msgstr "加载图层特征数据失败。请重试。"
+
+#: layer_features_panel##no_features
+msgid "No features found in the selected area."
+msgstr "所选区域未发现特征。"
+
+#: layer_features_panel##priority
+msgid "{{level}} priority"
+msgstr "{{level}} 优先"
+
+#: reference_area##save_as_reference_area
+msgid "Save as reference area"
+msgstr "保存为参考区域"
+
+#: reference_area##error_couldnt_save
+msgid "Unfortunately, we could not save your reference area. Please try again."
+msgstr "很遗憾，无法保存你的参考区域。请重试。"
+
+#: reference_area##selected_area_saved_as_reference_area
+msgid "Selected area has been saved as reference area in your profile"
+msgstr "所选区域已保存为你个人资料中的参考区域"
+
+#: oam_auth##login_button
+msgid "Login with Google"
+msgstr "使用 Google 登录"
+
+#~ msgid "Upload MCDA"
+#~ msgstr "上传分析"
+
+#~ msgid "Create MCDA"
+#~ msgstr "创建分析"
+
+#~ msgid "Invalid MCDA layer data"
+#~ msgstr "无效的分析文件格式"
+
+#~ msgid "Base {{level}}"
+#~ msgstr "根本 {{level}}"
+
+#~ msgid "Save features"
+#~ msgstr "保存更改"
+
+#~ msgid "3. Get analytics for the focused area."
+#~ msgstr "所选区域没有分析"
+
+#~ msgid "Mapping types"
+#~ msgstr "制图类型"
+
+#~ msgid "Polish"
+#~ msgstr "波兰语"

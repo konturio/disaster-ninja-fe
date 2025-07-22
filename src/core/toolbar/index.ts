@@ -14,6 +14,7 @@ import {
   CREATE_LAYER_CONTROL_ID,
   CUSTOM_LAYER_DRAW_TOOLS_CONTROL,
 } from '~features/create_layer/constants';
+import { mapPopoverRegistry } from '~core/map';
 import type {
   ControlID,
   ControlState,
@@ -58,7 +59,6 @@ class ToolbarImpl implements Toolbar {
           'LocateMe',
           'MapRuler',
           'EditInOsm',
-          'BivariateMatrix',
           SENSOR_CONTROL_ID,
           MCDA_CONTROL_ID,
           UPLOAD_MCDA_CONTROL_ID,
@@ -102,6 +102,7 @@ class ToolbarImpl implements Toolbar {
       (controlId, settings) =>
         controlId !== activeControlId && Boolean(settings.borrowMapInteractions),
     );
+    mapPopoverRegistry.setExclusiveMode(activeControlId);
   }
 
   // Enables controls that borrow map interactions when an active control returns to regular state
@@ -113,6 +114,7 @@ class ToolbarImpl implements Toolbar {
       (controlId, settings) =>
         controlId !== activeControlId && Boolean(settings.borrowMapInteractions),
     );
+    mapPopoverRegistry.clearExclusiveMode();
   }
 
   // Sets up a control with its settings and state management logic

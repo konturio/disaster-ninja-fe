@@ -1,3 +1,7 @@
 .dimension {
   margin: var(--unit) 0;
 }
+
+.dimensionTitle {
+  font-weight: 500;
+}
