@@ -3,6 +3,7 @@ import { HexIcon } from '~components/SimpleLegend/icons/HexIcon';
 import { CircleIcon } from '~components/SimpleLegend/icons/CircleIcon';
 import { SquareIcon } from '~components/SimpleLegend/icons/SquareIcon';
 import s from './SimpleLegend.module.css';
+import type { LegendIconSize } from '~core/types';
 import type { SimpleLegend as SimpleLegendType } from '~core/logical_layers/types/legends';
 import type { CSSProperties } from 'react';
 
@@ -13,14 +14,15 @@ function icon(
   styles: Flatten<SimpleLegendType['steps']>['style'],
   fill?: string,
   stroke?: string,
+  iconSize: LegendIconSize = 'small',
 ) {
   if (!type) return null;
   if (type === 'hex')
-    return <HexIcon styles={styles} size="small" fill={fill} stroke={stroke} />;
+    return <HexIcon styles={styles} size={iconSize} fill={fill} stroke={stroke} />;
   if (type === 'circle')
-    return <CircleIcon styles={styles} size="small" fill={fill} stroke={stroke} />;
+    return <CircleIcon styles={styles} size={iconSize} fill={fill} stroke={stroke} />;
   if (type === 'square')
-    return <SquareIcon styles={styles} size="normal" fill={fill} stroke={stroke} />;
+    return <SquareIcon styles={styles} size={iconSize} fill={fill} stroke={stroke} />;
 }
 
 export function SimpleLegendStep({
@@ -29,6 +31,7 @@ export function SimpleLegendStep({
 }: {
   step: Flatten<SimpleLegendType['steps']>;
   onlyIcon?: boolean;
+  iconSize?: LegendIconSize;
 }) {
   const style: CSSProperties = {};
   if (step.style['text-color']) {
@@ -37,7 +40,13 @@ export function SimpleLegendStep({
 
   return (
     <div className={s.legendStep}>
-      {icon(step.stepShape, step.style, step.stepIconFill, step.stepIconStroke)}
+      {icon(
+        step.stepShape,
+        step.style,
+        step.stepIconFill,
+        step.stepIconStroke,
+        step.stepIconSize,
+      )}
       {!onlyIcon && (
         <Text type="caption">
           <span className={s.stepName} style={style}>
