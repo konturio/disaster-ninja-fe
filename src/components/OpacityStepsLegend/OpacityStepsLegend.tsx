@@ -1,11 +1,6 @@
 import { SimpleLegend } from '~components/SimpleLegend/SimpleLegend';
-import { sentimentReversed } from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations/constants';
-import { arraysAreEqualWithStrictOrder } from '~utils/common/equality';
 import { i18n } from '~core/localization';
-import type {
-  MCDAConfig,
-  MCDALayer,
-} from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 import type { SimpleLegendStep } from '~core/logical_layers/types/legends';
 
 export type OpacityStepType = {
@@ -17,35 +12,30 @@ function joinLayerNames(names: string[]): string {
   return names.join(', ');
 }
 
-export default function OpacityStepsLegend({ config }: { config: MCDAConfig }) {
-  const reversedLayers: MCDALayer[] = [];
-  const defaultDirectionLayers: MCDALayer[] = [];
-  config.layers
-    .filter((layer) => layer.name)
-    .forEach((layer) => {
-      if (arraysAreEqualWithStrictOrder(layer.sentiment, sentimentReversed)) {
-        reversedLayers.push(layer);
-      } else {
-        defaultDirectionLayers.push(layer);
-      }
-    });
+export default function OpacityStepsLegend({
+  directLayers,
+  reversedLayers,
+}: {
+  directLayers: MCDALayer[];
+  reversedLayers: MCDALayer[];
+}) {
   const reversedLow = reversedLayers.length
     ? `${i18n.t('bivariate.legend.low')} ${joinLayerNames(reversedLayers.map((v) => v.name))}`
     : '';
   const reversedHigh = reversedLayers.length
     ? `${i18n.t('bivariate.legend.high')} ${joinLayerNames(reversedLayers.map((v) => v.name))}`
     : '';
-  const defaultHigh = defaultDirectionLayers.length
-    ? `${i18n.t('bivariate.legend.high')} ${joinLayerNames(defaultDirectionLayers.map((v) => v.name))}`
+  const directHigh = directLayers.length
+    ? `${i18n.t('bivariate.legend.high')} ${joinLayerNames(directLayers.map((v) => v.name))}`
     : '';
-  const defaultLow = defaultDirectionLayers.length
-    ? `${i18n.t('bivariate.legend.low')} ${joinLayerNames(defaultDirectionLayers.map((v) => v.name))}`
+  const directLow = directLayers.length
+    ? `${i18n.t('bivariate.legend.low')} ${joinLayerNames(directLayers.map((v) => v.name))}`
     : '';
 
   const steps: SimpleLegendStep[] = [
     {
       // high opacity
-      stepName: [reversedLow, defaultHigh].filter(Boolean),
+      stepName: [reversedLow, directHigh].filter(Boolean),
       stepShape: 'square',
       style: { 'fill-color': '#5AC87FFF', width: 0 },
     },
@@ -56,7 +46,7 @@ export default function OpacityStepsLegend({ config }: { config: MCDAConfig }) {
     },
     {
       // low opacity
-      stepName: [defaultLow, reversedHigh].filter(Boolean),
+      stepName: [directLow, reversedHigh].filter(Boolean),
       stepShape: 'square',
       style: { 'fill-color': '#5AC87F33', width: 0 },
     },
