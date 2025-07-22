@@ -2,11 +2,6 @@ import { PrismHigh, PrismLow, PrismMed } from '@konturio/default-icons';
 import { MultivariateLegendStep } from './MultivariateLegendStep';
 import s from './ExtrusionLegend.module.css';
 
-export type OpacityStepType = {
-  fillColor: string;
-  label?: string;
-};
-
 export default function ExtrusionStepsLegend({
   lowMCDAScoreLayersDirections,
   highMCDAScoreLayersDirections,

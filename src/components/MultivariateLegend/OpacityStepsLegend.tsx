@@ -1,11 +1,6 @@
 import { SquareIcon } from '~components/SimpleLegend/icons/SquareIcon';
 import { MultivariateLegendStep } from './MultivariateLegendStep';
 
-export type OpacityStepType = {
-  fillColor: string;
-  label?: string;
-};
-
 export default function OpacityStepsLegend({
   lowMCDAScoreLayersDirections,
   highMCDAScoreLayersDirections,
