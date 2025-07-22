@@ -21,7 +21,7 @@ describe('MatomoMetrics', () => {
   });
 
   test('injects script using config url', () => {
-    metrics.init('atlas', 'home', () => true);
+    metrics.init('atlas', 'home');
     const script = document.head.querySelector(`script[src="${containerUrl}"]`);
     expect(script).not.toBeNull();
   });
@@ -29,7 +29,7 @@ describe('MatomoMetrics', () => {
   test('dispatches events to data layer', () => {
     const pushSpy = vi.fn();
     (globalThis as any)._mtm = { push: pushSpy };
-    metrics.init('atlas', 'home', () => true);
+    metrics.init('atlas', 'home');
     const script = document.head.querySelector(
       `script[src="${containerUrl}"]`,
     ) as HTMLScriptElement | null;

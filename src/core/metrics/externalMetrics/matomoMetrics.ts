@@ -1,13 +1,12 @@
 import { METRICS_EVENT } from '~core/metrics/constants';
 import { configRepo } from '~core/config';
 import type { Metric, MetricsEvent } from '../types';
-import type { AppFeatureType } from '~core/app/types';
 
 export class MatomoMetrics implements Metric {
   private ready = false;
   private appId = '';
 
-  init(appId: string, _route: string, _hasFeature: (f: AppFeatureType) => boolean) {
+  init(appId: string, _route: string) {
     this.appId = appId;
     const d = globalThis.document;
     if (d) {
