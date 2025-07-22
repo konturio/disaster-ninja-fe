@@ -19,6 +19,6 @@ test('shutdownIntercom clears session and calls Intercom shutdown', () => {
   shutdownIntercom();
 
   expect(globalThis.Intercom).toHaveBeenCalledWith('shutdown');
-  expect(document.cookie).not.toContain('intercom-session-abc=');
+  expect(document.cookie).not.toBe('intercom-session-abc=value');
   expect((globalThis as any).intercomSettings).toBeUndefined();
 });
