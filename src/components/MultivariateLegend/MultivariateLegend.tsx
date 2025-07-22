@@ -1,4 +1,4 @@
-import { Legend as BiLegend, MCDALegend, Text } from '@konturio/ui-kit';
+import { Legend as BiLegend, MCDALegend } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import { generateMCDALegendColors } from '~utils/mcda/mcdaLegendsUtils';
 import { BIVARIATE_LEGEND_SIZE } from '~components/BivariateLegend/const';
@@ -7,14 +7,13 @@ import { invertClusters, type Step } from '~utils/bivariate';
 import { CornerTooltipWrapper } from '~components/BivariateLegend/CornerTooltipWrapper';
 import { i18n } from '~core/localization';
 import { isNumber } from '~utils/common';
-import OpacityStepsLegend from '~components/OpacityStepsLegend/OpacityStepsLegend';
-import { getDirectAndReversedMCDALayers } from '~utils/mcda/getDirectAndReversedMCDALayers';
+import OpacityStepsLegend from '~components/MultivariateLegend/OpacityStepsLegend';
+import ExtrusionStepsLegend from './ExtrusionStepsLegend';
 import { DEFAULT_BASE_DIRECTION, DEFAULT_SCORE_DIRECTION } from './constants';
 import s from './MultivariateLegend.module.css';
 import textLegendIcon from './icons/text_legend_icon.svg';
-import icon3DLegendLow from './icons/3d_legend_low.svg';
-import icon3DLegendMed from './icons/3d_legend_med.svg';
-import icon3DLegendHigh from './icons/3d_legend_high.svg';
+import { DimensionStep } from './DimensionStep';
+import { getMCDALayersDirectionsForLegend } from './helpers/getMCDALayersDirectionsForLegend';
 import type { Direction } from '~utils/bivariate';
 import type { LayerMeta } from '~core/logical_layers/types/meta';
 import type { ColorTheme } from '~core/types';
@@ -52,27 +51,6 @@ function DimensionBlock({
     <div>
       <div className={s.dimensionName}>{title}</div>
       <div className={clsx({ [s.grayscale]: grayscale })}>{children}</div>
-    </div>
-  );
-}
-
-function DimensionStep({
-  text,
-  icon,
-}: {
-  text: string[];
-  icon: JSX.Element;
-}): JSX.Element {
-  return (
-    <div className={s.dimensionStep}>
-      {icon}
-      <div className={s.dimensionStepMultiline}>
-        {text.map((line, index) => (
-          <Text type="caption" className={s.dimensionStepName} key={`${index}`}>
-            {line}
-          </Text>
-        ))}
-      </div>
     </div>
   );
 }
@@ -167,7 +145,7 @@ function createOpacityLegend(config: MultivariateLayerConfig) {
   let opacityLegend;
   if (typeof config.opacity === 'object' && config.opacity?.config?.layers.length) {
     opacityLegend = OpacityStepsLegend(
-      getDirectAndReversedMCDALayers(config.opacity?.config),
+      getMCDALayersDirectionsForLegend(config.opacity?.config),
     );
   } else if (isNumber(config.opacity)) {
     opacityLegend = `${i18n.t('multivariate.static_opacity')}: ${config.opacity}`;
@@ -185,10 +163,9 @@ function createExtrusionLegend(config: MultivariateLayerConfig) {
   if (config.extrusion?.height?.config?.layers.length) {
     return (
       <DimensionBlock title={i18n.t('multivariate.3d')}>
-        {printMCDAAxes(config.extrusion.height.config.layers)}
-        <img src={icon3DLegendLow} className={s.extruisionIcon} />
-        <img src={icon3DLegendMed} className={s.extruisionIcon} />
-        <img src={icon3DLegendHigh} className={s.extruisionIcon} />
+        {ExtrusionStepsLegend(
+          getMCDALayersDirectionsForLegend(config.extrusion.height.config),
+        )}
       </DimensionBlock>
     );
   }
@@ -201,12 +178,10 @@ function createTextLegend(config: MultivariateLayerConfig) {
       .join(', ');
     return (
       <DimensionBlock title={i18n.t('multivariate.labels')}>
-        <div>
-          <DimensionStep
-            text={[label]}
-            icon={<img src={textLegendIcon} className={s.textIcon} />}
-          />
-        </div>
+        <DimensionStep
+          textLines={[label]}
+          icon={<img src={textLegendIcon} className={s.textIcon} />}
+        />
       </DimensionBlock>
     );
   }

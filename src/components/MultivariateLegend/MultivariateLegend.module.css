@@ -4,34 +4,14 @@
   gap: var(--unit);
 }
 
-.dimensionStep {
-  display: flex;
-  align-items: flex-start;
-}
-
-.dimensionStepMultiline {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: var(--half-unit);
-}
-
 .dimensionName {
-  margin-bottom: var(--half-unit);
-}
-
-.dimensionStepName {
-  margin-left: var(--half-unit);
+  margin-top: var(--half-unit);
+  margin-bottom: var(--unit);
 }
 
 .textIcon {
   margin-top: 3px;
   height: 10px;
-  display: inline;
-}
-
-.extrusionIcon {
-  height: 16px;
   display: inline;
 }
 
