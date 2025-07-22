@@ -7,3 +7,21 @@
 .dimensionName {
   margin-bottom: var(--half-unit);
 }
+
+.dimensionStepName {
+  margin-left: var(--half-unit);
+}
+
+.textIcon {
+  height: 10px;
+  display: inline;
+}
+
+.extrusionIcon {
+  height: 16px;
+  display: inline;
+}
+
+.grayscale {
+  filter: grayscale(1);
+}
