@@ -286,14 +286,14 @@
     "overlap_error": "Polygon should not overlap itself"
   },
   "boundary_selector": {
-    "title": "Focus to administrative boundary"
+    "title": "Select administrative boundary"
   },
   "geometry_uploader": {
-    "title": "Focus to uploaded geometry",
+    "title": "Uploaded selected area as a GeoJSON file",
     "error": "Error while reading uploaded file"
   },
   "focus_geometry": {
-    "title": "Focus to freehand geometry"
+    "title": "Draw or edit geometry"
   },
   "focus_geometry_layer": {
     "settings": {

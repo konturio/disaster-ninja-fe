@@ -124,6 +124,7 @@ msgid "Upload GeoJSON"
 msgstr ""
 
 #: toolbar##focused_geometry_editor
+#: focus_geometry##title
 msgid "Draw or edit geometry"
 msgstr ""
 
@@ -602,6 +603,10 @@ msgstr ""
 msgid "Compare"
 msgstr ""
 
+#: multivariate##score_and_compare
+msgid "Score and compare"
+msgstr ""
+
 #: multivariate##hide_area
 msgid "Hide area"
 msgstr ""
@@ -612,6 +617,10 @@ msgstr ""
 
 #: multivariate##3d
 msgid "3D"
+msgstr ""
+
+#: multivariate##static_opacity
+msgid "Static opacity"
 msgstr ""
 
 #: map_popup##value
@@ -927,19 +936,15 @@ msgid "Polygon should not overlap itself"
 msgstr ""
 
 #: boundary_selector##title
-msgid "Focus to administrative boundary"
+msgid "Select administrative boundary"
 msgstr ""
 
 #: geometry_uploader##title
-msgid "Focus to uploaded geometry"
+msgid "Uploaded selected area as a GeoJSON file"
 msgstr ""
 
 #: geometry_uploader##error
 msgid "Error while reading uploaded file"
-msgstr ""
-
-#: focus_geometry##title
-msgid "Focus to freehand geometry"
 msgstr ""
 
 #: reference_area_layer##settings##name
