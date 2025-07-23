@@ -289,7 +289,7 @@
     "title": "Select administrative boundary"
   },
   "geometry_uploader": {
-    "title": "Uploaded selected area as a GeoJSON file",
+    "title": "Upload selected area as a GeoJSON file",
     "error": "Error while reading uploaded file"
   },
   "focus_geometry": {
