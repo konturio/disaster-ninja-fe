@@ -1,6 +1,10 @@
 import { useCallback } from 'react';
 import { useAtom } from '@reatom/react-v2';
 import { passRefToSettings, resolveValue } from '~core/toolbar/utils';
+import {
+  MCDA_CONTROL_ID,
+  UPLOAD_MCDA_CONTROL_ID,
+} from '~features/mcda/constants';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { ToolbarIcon } from '../ToolbarIcon';
 import type {
@@ -49,10 +53,17 @@ export function ToolbarControl({
       const size = isMobile
         ? (settings.typeSettings.mobilePreferredSize ?? 'medium')
         : settings.typeSettings.preferredSize;
-      const hint = resolveValue(
+      const defaultHint = resolveValue(settings.typeSettings.name, state);
+
+      const mcdaHint = resolveValue(
         settings.typeSettings.hint ?? settings.typeSettings.name,
         state,
       );
+
+      const hint =
+        id === MCDA_CONTROL_ID || id === UPLOAD_MCDA_CONTROL_ID
+          ? mcdaHint
+          : defaultHint;
 
       return (
         <ControlComponent

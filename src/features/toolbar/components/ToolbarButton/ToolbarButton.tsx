@@ -35,7 +35,7 @@ export const ToolbarButton = forwardRef(function ToolbarButton(
   ref: React.Ref<HTMLButtonElement>,
 ) {
   return (
-    <SimpleTooltip content={hint} placement="top">
+    <SimpleTooltip content={hint ?? children} placement="top">
       <Button
         ref={ref}
         variant={variant}

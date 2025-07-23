@@ -20,7 +20,7 @@ export const ShortToolbarButton = forwardRef(function ToolbarButton(
   ref: React.Ref<HTMLButtonElement>,
 ) {
   return (
-    <SimpleTooltip content={hint} placement="top">
+    <SimpleTooltip content={hint ?? children} placement="top">
       <Button
         data-testid={id}
         ref={ref}
