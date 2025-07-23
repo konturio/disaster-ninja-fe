@@ -14,7 +14,9 @@ function initSentry(config: Config) {
     Sentry.init({
       dsn: config.sentryDsn,
       integrations: [
-        Sentry.browserTracingIntegration(),
+        Sentry.browserTracingIntegration({
+          shouldCreateSpanForRequest: (url: string) => !url.includes('mc.yandex.ru'),
+        }),
         Sentry.replayIntegration({
           maskAllText: false,
           blockAllMedia: false,
