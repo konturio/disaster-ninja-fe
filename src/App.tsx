@@ -15,7 +15,10 @@ function initSentry(config: Config) {
       dsn: config.sentryDsn,
       integrations: [
         Sentry.browserTracingIntegration({
-          shouldCreateSpanForRequest: (url: string) => !url.includes('mc.yandex.ru'),
+          shouldCreateSpanForRequest: (url: string) => {
+            const { hostname } = new URL(url, window.location.origin);
+            return hostname !== 'mc.yandex.ru';
+          },
         }),
         Sentry.replayIntegration({
           maskAllText: false,
