@@ -24,7 +24,7 @@ function calculateMaxJosmArea(
 
 export function openJosmLink(
   { lat, lng },
-  baseLink = 'http://127.0.0.1:8111/load_and_zoom?',
+  baseLink = 'http://127.0.0.1:8111/load_and_zoom',
 ) {
   const { left, bottom, right, top } = calculateMaxJosmArea(lat, lng);
   const url = `${baseLink}?left=${left}&right=${right}&top=${top}&bottom=${bottom}`;
