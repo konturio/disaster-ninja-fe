@@ -6,13 +6,16 @@ COPY ./server/go.mod ./server/go.sum ./
 RUN go mod download && go mod verify
 
 COPY ./server/. ./
-RUN go build -v -o app ./...
+RUN CGO_ENABLED=0 go build -v -ldflags="-s -w" -o app ./...
 
 # Runtime stage
 FROM alpine:3.16
 RUN apk --no-cache add ca-certificates
-WORKDIR /root/
+RUN adduser -D appuser
+WORKDIR /home/appuser
 COPY --from=builder /usr/src/app/app .
 COPY ./dist/. ./static/
 EXPOSE 80
+USER appuser
+HEALTHCHECK --interval=30s --timeout=3s CMD wget --quiet --tries=1 --spider http://localhost:80/ || exit 1
 CMD ["./app"]
