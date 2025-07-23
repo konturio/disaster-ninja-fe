@@ -12,11 +12,7 @@ export const liveSensorsControl = toolbar.setupControl<{
   type: 'button',
   typeSettings: {
     name: i18n.t('toolbar.record_sensors'),
-    hint: {
-      regular: i18n.t('live_sensor.start'),
-      active: i18n.t('live_sensor.finish'),
-      disabled: i18n.t('live_sensor.start'),
-    },
+    hint: i18n.t('toolbar.record_sensors'),
     icon: 'Car24',
     preferredSize: 'large',
   },
