@@ -49,6 +49,7 @@ export function LocateMeButton({
       onClick={handleClick}
       active={state === 'active'}
       disabled={state === 'disabled'}
+      hint={LOCATE_ME_CONTROL_NAME}
     >
       {LOCATE_ME_CONTROL_NAME}
     </ControlComponent>

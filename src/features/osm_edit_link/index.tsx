@@ -13,7 +13,7 @@ export const osmEditControl = toolbar.setupControl({
   type: 'button',
   typeSettings: {
     name: EDIT_IN_OSM_CONTROL_NAME,
-    hint: i18n.t('sidebar.edit_osm'),
+    hint: EDIT_IN_OSM_CONTROL_NAME,
     icon: 'EditInOsm16',
     preferredSize: 'tiny',
   },

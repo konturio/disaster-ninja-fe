@@ -14,7 +14,7 @@ export const boundarySelectorToolbarControl = toolbar.setupControl<{
   borrowMapInteractions: true,
   typeSettings: {
     name: BOUNDARY_SELECTOR_CONTROL_NAME,
-    hint: i18n.t('boundary_selector.title'),
+    hint: BOUNDARY_SELECTOR_CONTROL_NAME,
     icon: 'SelectArea24',
     preferredSize: 'large',
   },
