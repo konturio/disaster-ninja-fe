@@ -360,9 +360,6 @@
     }
   },
   "sidebar": {
-    "biv_color_manager": "Сolor manager",
-    "edit_osm": "Edit map in OpenStreetMap",
-    "ruler": "Measure distance",
     "collapse": "Collapse",
     "expand": "Expand",
     "icon_alt": "Application logo"
