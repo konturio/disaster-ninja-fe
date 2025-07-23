@@ -1,3 +1,7 @@
-*
-!./dist/*
-!./server/*
+node_modules/
+.git/
+e2e/
+.github/
+playwright.config.ts
+!server/
+!dist/
