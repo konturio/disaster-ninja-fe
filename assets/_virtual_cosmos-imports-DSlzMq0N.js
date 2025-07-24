@@ -9,7 +9,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value2) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value2);
 var __privateSet = (obj, member, value2, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value2) : member.set(obj, value2), value2);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, e as extendWithValue, R as React, c as createValue, i as isEqual, r as reactExports, a as requireReact, b as requireReactDom, d as React$1, g as getDefaultExportFromCjs } from "./index-DRd0wlT8.js";
+import { u as useFixtureState, e as extendWithValue, R as React, c as createValue, i as isEqual, r as reactExports, a as requireReact, b as requireReactDom, d as React$1, g as getDefaultExportFromCjs } from "./index-BCznxZr-.js";
 function useCurrentInputValue(inputName, defaultValue) {
   const [fixtureState] = useFixtureState("inputs");
   const inputFs = fixtureState && fixtureState[inputName];
@@ -10889,14 +10889,12 @@ const advanced_analytics_panel$9 = { "header_title": "Advanced analytics", "erro
 const advanced_analytics_empty$9 = { "not_found": "Sorry, the requested disaster was not found", "error": "An error occurred", "analytics_for_selected": "Analytics for selected area", "will_be_provided": "will be provided here", "no_analytics": "No analytics for the selected area" };
 const llm_analytics$9 = { "header": "AI insights", "placeholder": { "select_area": "Select area (<icon1 />,<icon2 />,<icon3 />) you want to explore to get AI Insights.", "you_can_also": "You can also:", "fill_bio": "<icon /> <lnk>Fill out analysis objectives</lnk> to personalize AI analysis", "select_and_save_as_reference_area": "<icon /> Select an area and save it as a reference to compare with another one", "learn_more": "<lnk><icon/> Learn more about AI Insights</lnk>" } };
 const draw_tools$9 = { "area": "Polygon", "line": "Line", "point": "Point", "finish_drawing": "Finish Drawing", "caption": "Click on the map to begin drawing", "no_geometry_error": "No drawn geometry to download", "overlap_error": "Polygon should not overlap itself" };
-const boundary_selector$9 = { "title": "Focus to administrative boundary" };
 const geometry_uploader$9 = { "title": "Focus to uploaded geometry", "error": "Error while reading uploaded file" };
-const focus_geometry$9 = { "title": "Focus to freehand geometry" };
 const focus_geometry_layer$4 = { "settings": { "name": "Selected area" } };
 const reference_area_layer$9 = { "settings": { "name": "Reference area" } };
 const drawings$4 = { "self_directions_not_supported": "Self intersections are not supported" };
 const bivariate$9 = { "panel": { "header": "Bivariate matrix" }, "matrix": { "caption": { "base_axis": "Base axis", "annex_axis": "Annex axis", "tooltip": { "p1": "Charts involving the Base and Annex axes help establish a relationship between two data sets.", "li1": "Annex axis - parameters that we analyse", "li2": "Base axis - reference point in the analysis", "b": "Ex: the best location to open a cafe", "p2": "We can explore the number of eatery places (Annex axis) against Population density (Base axis).", "p3": "In this scenario, we are first interested in a small number of eatery places, and the number of people in that place gives us additional information." } }, "header": { "title": "Choose two layers to explore correlations", "hint": "Layers and correlations are displayed for the current Selected Area" }, "icon": { "population": "Value divided by Population", "area_km2": "Value divided by Area", "total_building_count": "Value divided by Total Buildings Estimate", "populated_area_km2": "Value divided by Populated Area", "one": "Without divider", "roads": "Value divided by Total Roads Length" }, "progress": { "rendering": "Rendering", "applied": "Applied on the map" }, "loading_error": "Unfortunately, we cannot display the matrix. Try refreshing the page or come back later." }, "legend": { "high": "High", "low": "Low", "medium": "Medium" }, "color_manager": { "not_defined": "Not defined", "sentiments_combinations_filter": "Sentiments combinations", "layers_filter": "Layers", "no_legends": "There are no legends satisfying the conditions.", "no_data": "No Data.", "sentiments_tab": "Sentiments", "color_legends_tab": "Color Legends", "layers_tab": "Layers (indicators)" } };
-const sidebar$9 = { "biv_color_manager": "Сolor manager", "edit_osm": "Edit in OpenStreetMap", "ruler": "Ruler", "collapse": "Collapse", "expand": "Expand", "icon_alt": "Application logo" };
+const sidebar$9 = { "collapse": "Collapse", "expand": "Expand", "icon_alt": "Application logo" };
 const login$9 = { "email": "Email", "password": "Password", "login_button": "Login", "sign_up": "Sign up", "logging_in": "Logging in...", "log_in": "Log in", "forgot_password": "Forgot password?", "description": "Please log in to change your settings", "error": { "email_empty": "Email cannot be empty", "email_invalid": "Email has to be valid", "password": "Password cannot be empty", "connect": "Could not connect to authentication service" } };
 const currency$9 = { "usd": "USD" };
 const subscription$9 = { "title": "Plans & Pricing", "price_summary": "* Billed as ${{pricePerYear}} USD once yearly", "unauthorized_button": "Sign in to subscribe", "current_plan_button": "Current plan", "sales_button": "Contact sales", "book_demo_button": "Book a demo", "request_trial_button": "Request trial", "errors": { "payment_initialization": "There was an error during payment initialization. Please try again or contact our support" }, "success_modal": { "title": "Success", "thank_you_for_subscribing": "Thank you for subscribing to our platform!", "after_the_page_refreshes": "After the page refreshes, you can start using Kontur Atlas" } };
@@ -10963,9 +10961,7 @@ const en_common = {
   advanced_analytics_empty: advanced_analytics_empty$9,
   llm_analytics: llm_analytics$9,
   draw_tools: draw_tools$9,
-  boundary_selector: boundary_selector$9,
   geometry_uploader: geometry_uploader$9,
-  focus_geometry: focus_geometry$9,
   focus_geometry_layer: focus_geometry_layer$4,
   reference_area_layer: reference_area_layer$9,
   drawings: drawings$4,
