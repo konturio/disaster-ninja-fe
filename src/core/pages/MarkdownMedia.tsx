@@ -41,16 +41,17 @@ export function MarkdownMedia({
 
   // Handle YouTube embeds
   if (isYoutubeUrl(originalUrl)) {
+    const width = params?.width ?? 560;
+    const height = params?.height ?? 315;
     return (
       <iframe
         src={getYoutubeEmbedUrl(originalUrl)}
-        width={params?.width || 560}
-        height={params?.height || 315}
         title={title || alt || 'YouTube video player'}
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen={params?.allowFullscreen ?? true}
         referrerPolicy="strict-origin-when-cross-origin"
+        style={{ width: '100%', aspectRatio: `${width} / ${height}` }}
       />
     );
   }

@@ -119,6 +119,8 @@ Parameter syntax: `::width,height,allowFullscreen`
 
 - Width and height are in pixels
 - allowFullscreen is boolean (1 or 0)
+- YouTube embeds automatically adapt to the available width while keeping the aspect
+  ratio from the provided dimensions (defaults to 560x315).
 
 ### App Protocol Links
 
