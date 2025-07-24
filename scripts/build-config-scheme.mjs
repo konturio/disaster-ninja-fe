@@ -5,7 +5,7 @@ export function buildScheme() {
   const config = {
     path: 'src/core/config/loaders/stageConfigLoader.ts',
     tsconfig: './tsconfig.json',
-    type: 'StageConfigLegacy',
+    type: 'StageConfig',
     skipTypeCheck: true,
   };
   const schema = tsj.createGenerator(config).createSchema(config.type);

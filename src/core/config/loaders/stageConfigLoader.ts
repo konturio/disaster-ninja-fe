@@ -39,32 +39,41 @@ export async function getStageConfig(): Promise<StageConfig> {
       `Failed to load stage config: ${response.status} ${response.statusText}`,
     );
   }
-  const c = (await response.json()) as StageConfigLegacy;
-  // TODO - reformat configs to new case
+  const raw = await response.json();
+  if ('API_GATEWAY' in raw) {
+    const c = raw as StageConfigLegacy;
+    return {
+      apiGateway: c.API_GATEWAY,
+      reportsApiGateway: c.REPORTS_API,
+      bivariateTilesRelativeUrl: c.BIVARIATE_TILES_RELATIVE_URL,
+      bivariateTilesIndicatorsClass: c.BIVARIATE_TILES_INDICATORS_CLASS,
+      bivariateTilesServer: c.BIVARIATE_TILES_SERVER,
+      refreshIntervalSec: c.REFRESH_INTERVAL_SEC,
+      sentryDsn: c.SENTRY_DSN,
+      keycloakUrl: c.KEYCLOAK_URL,
+      keycloakRealm: c.KEYCLOAK_REALM,
+      keycloakClientId: c.KEYCLOAK_CLIENT_ID,
+      yandexMetricaId: c.YANDEX_METRICA_ID,
+      matomoContainerUrl: c.MATOMO_CONTAINER_URL,
+      intercomDefaultName: c.INTERCOM_DEFAULT_NAME,
+      intercomAppId: c.INTERCOM_APP_ID,
+      intercomSelector: c.INTERCOM_SELECTOR,
+      defaultFeed: c.DEFAULT_FEED,
+      osmEditors: c.OSM_EDITORS,
+      autofocusZoom: c.AUTOFOCUS_ZOOM,
+      mapBlankSpaceId: c.MAP_BLANK_SPACE_ID,
+      mapBaseStyle: c.MAP_BASE_STYLE,
+      defaultLanguage: c.DEFAULT_LANGUAGE,
+      featuresByDefault: getFeaturesFromStageConfig(
+        c.FEATURES_BY_DEFAULT,
+      ) as AppConfig['features'],
+    };
+  }
+  const c = raw as StageConfig & { featuresByDefault: unknown };
   return {
-    apiGateway: c.API_GATEWAY,
-    reportsApiGateway: c.REPORTS_API,
-    bivariateTilesRelativeUrl: c.BIVARIATE_TILES_RELATIVE_URL,
-    bivariateTilesIndicatorsClass: c.BIVARIATE_TILES_INDICATORS_CLASS,
-    bivariateTilesServer: c.BIVARIATE_TILES_SERVER,
-    refreshIntervalSec: c.REFRESH_INTERVAL_SEC,
-    sentryDsn: c.SENTRY_DSN,
-    keycloakUrl: c.KEYCLOAK_URL,
-    keycloakRealm: c.KEYCLOAK_REALM,
-    keycloakClientId: c.KEYCLOAK_CLIENT_ID,
-    yandexMetricaId: c.YANDEX_METRICA_ID,
-    matomoContainerUrl: c.MATOMO_CONTAINER_URL,
-    intercomDefaultName: c.INTERCOM_DEFAULT_NAME,
-    intercomAppId: c.INTERCOM_APP_ID,
-    intercomSelector: c.INTERCOM_SELECTOR,
-    defaultFeed: c.DEFAULT_FEED,
-    osmEditors: c.OSM_EDITORS,
-    autofocusZoom: c.AUTOFOCUS_ZOOM,
-    mapBlankSpaceId: c.MAP_BLANK_SPACE_ID,
-    mapBaseStyle: c.MAP_BASE_STYLE,
-    defaultLanguage: c.DEFAULT_LANGUAGE,
-    featuresByDefault: getFeaturesFromStageConfig(
-      c.FEATURES_BY_DEFAULT,
-    ) as AppConfig['features'],
+    ...c,
+    featuresByDefault: Array.isArray(c.featuresByDefault)
+      ? (getFeaturesFromStageConfig(c.featuresByDefault) as AppConfig['features'])
+      : c.featuresByDefault,
   };
 }

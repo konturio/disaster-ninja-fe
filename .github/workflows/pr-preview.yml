@@ -37,8 +37,8 @@ jobs:
         if: github.event.action != 'closed'
         run: |
           sed -i "s|https://disaster.ninja|https://${PREVIEW_API_DOMAIN}|" configs/config.default.json
-          sed -i "s|\"KEYCLOAK_URL\": \"https://keycloak01.kontur.io\"|\"KEYCLOAK_URL\": \"${KEYCLOAK_URL}\"|" configs/config.default.json
-          sed -i "s|\"KEYCLOAK_REALM\": \"kontur\"|\"KEYCLOAK_REALM\": \"${KEYCLOAK_REALM}\"|" configs/config.default.json
+          sed -i "s|\"keycloakUrl\": \"https://keycloak01.kontur.io\"|\"keycloakUrl\": \"${KEYCLOAK_URL}\"|" configs/config.default.json
+          sed -i "s|\"keycloakRealm\": \"kontur\"|\"keycloakRealm\": \"${KEYCLOAK_REALM}\"|" configs/config.default.json
           sed -i "s|VITE_BASE_PATH=/active/|VITE_BASE_PATH=/|" .env.production
           sed -i "s|VITE_STATIC_PATH=static/|VITE_STATIC_PATH=|" .env.production
 

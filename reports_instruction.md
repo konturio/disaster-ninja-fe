@@ -34,6 +34,6 @@ If you want to display your reports on the Disaster Ninja Reports page, you must
 
 Reports have to be served by some web server.
 Standalone configuration expects that reports are served at /reports/ subpath - as shown in default DN Front End configuration:
-`"REPORTS_API": "https://disaster.ninja/active/reports"`
+`"reportsApiGateway": "https://disaster.ninja/active/reports"`
 
 For more information, please see https://github.com/konturio/disaster-ninja-fe/blob/main/configs/config.default.json
