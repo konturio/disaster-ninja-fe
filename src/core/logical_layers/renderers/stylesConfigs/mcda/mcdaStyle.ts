@@ -23,7 +23,12 @@ export const calculateMCDALayer = calculateLayerPipeline(inStyleCalculations, (a
   den: ['get', axis.den],
 }));
 
-export function filterSetup(layers: MCDAConfig['layers']): FilterSpecification {
+export function filterSetup(
+  layers: MCDAConfig['layers'],
+): FilterSpecification | undefined {
+  if (layers.length === 0) {
+    return undefined;
+  }
   // TODO: is this condition really needed?
   // checks that at least one layer has a non-zero value
   const conditions = [
