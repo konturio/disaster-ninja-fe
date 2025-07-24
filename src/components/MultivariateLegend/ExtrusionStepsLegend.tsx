@@ -11,13 +11,13 @@ export default function ExtrusionStepsLegend({
   return (
     <>
       <MultivariateLegendStep
-        textLines={highMCDAScoreLayersDirections}
+        textLines={lowMCDAScoreLayersDirections}
         icon={<PrismLow />}
         lineKey="extrusion-low"
       />
       <MultivariateLegendStep textLines={['']} icon={<PrismMed />} />
       <MultivariateLegendStep
-        textLines={lowMCDAScoreLayersDirections}
+        textLines={highMCDAScoreLayersDirections}
         icon={<PrismHigh />}
         lineKey="extrusion-high"
       />

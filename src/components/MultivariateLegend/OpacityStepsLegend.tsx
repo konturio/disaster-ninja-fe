@@ -17,7 +17,7 @@ export default function OpacityStepsLegend({
   return (
     <>
       <MultivariateLegendStep
-        textLines={highMCDAScoreLayersDirections}
+        textLines={lowMCDAScoreLayersDirections}
         icon={
           <SquareIcon
             size="normal"
@@ -36,7 +36,7 @@ export default function OpacityStepsLegend({
         }
       />
       <MultivariateLegendStep
-        textLines={lowMCDAScoreLayersDirections}
+        textLines={highMCDAScoreLayersDirections}
         icon={
           <SquareIcon
             size="normal"
