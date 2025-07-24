@@ -285,15 +285,9 @@
     "no_geometry_error": "No drawn geometry to download",
     "overlap_error": "Polygon should not overlap itself"
   },
-  "boundary_selector": {
-    "title": "Select administrative boundary"
-  },
   "geometry_uploader": {
-    "title": "Upload selected area as a GeoJSON file",
+    "title": "Focus to uploaded geometry",
     "error": "Error while reading uploaded file"
-  },
-  "focus_geometry": {
-    "title": "Draw or edit geometry"
   },
   "focus_geometry_layer": {
     "settings": {
