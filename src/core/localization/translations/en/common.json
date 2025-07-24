@@ -285,15 +285,9 @@
     "no_geometry_error": "No drawn geometry to download",
     "overlap_error": "Polygon should not overlap itself"
   },
-  "boundary_selector": {
-    "title": "Focus to administrative boundary"
-  },
   "geometry_uploader": {
     "title": "Focus to uploaded geometry",
     "error": "Error while reading uploaded file"
-  },
-  "focus_geometry": {
-    "title": "Focus to freehand geometry"
   },
   "focus_geometry_layer": {
     "settings": {
@@ -360,9 +354,6 @@
     }
   },
   "sidebar": {
-    "biv_color_manager": "Сolor manager",
-    "edit_osm": "Edit in OpenStreetMap",
-    "ruler": "Ruler",
     "collapse": "Collapse",
     "expand": "Expand",
     "icon_alt": "Application logo"

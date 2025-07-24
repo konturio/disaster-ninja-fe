@@ -2,7 +2,6 @@ import {
   BOUNDARY_SELECTOR_CONTROL_ID,
   BOUNDARY_SELECTOR_CONTROL_NAME,
 } from '~features/boundary_selector/constants';
-import { i18n } from '~core/localization';
 import { toolbar } from '~core/toolbar';
 import type { Action } from '@reatom/core-v2';
 
@@ -14,7 +13,7 @@ export const boundarySelectorToolbarControl = toolbar.setupControl<{
   borrowMapInteractions: true,
   typeSettings: {
     name: BOUNDARY_SELECTOR_CONTROL_NAME,
-    hint: i18n.t('boundary_selector.title'),
+    hint: BOUNDARY_SELECTOR_CONTROL_NAME,
     icon: 'SelectArea24',
     preferredSize: 'large',
   },
