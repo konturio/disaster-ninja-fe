@@ -14,6 +14,7 @@ export interface StageConfigLegacy {
   KEYCLOAK_REALM: string;
   KEYCLOAK_CLIENT_ID: string;
   YANDEX_METRICA_ID?: number[];
+  MATOMO_CONTAINER_URL?: string;
   MAP_BLANK_SPACE_ID: string;
   AUTOFOCUS_ZOOM: number;
   INTERCOM_DEFAULT_NAME?: string;
@@ -52,6 +53,7 @@ export async function getStageConfig(): Promise<StageConfig> {
     keycloakRealm: c.KEYCLOAK_REALM,
     keycloakClientId: c.KEYCLOAK_CLIENT_ID,
     yandexMetricaId: c.YANDEX_METRICA_ID,
+    matomoContainerUrl: c.MATOMO_CONTAINER_URL,
     intercomDefaultName: c.INTERCOM_DEFAULT_NAME,
     intercomAppId: c.INTERCOM_APP_ID,
     intercomSelector: c.INTERCOM_SELECTOR,
