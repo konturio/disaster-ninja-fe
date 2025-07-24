@@ -91,11 +91,7 @@ function FeaturesLoader() {
     if (featureFlags[AppFeature.OSM_EDIT_LINK]) {
       import('~features/osm_edit_link/').then(({ initOsmEditLink }) => initOsmEditLink());
     }
-    // TODO add feature flag to replace 'draw_tools' to 'focused_geometry_editor'
-    if (
-      featureFlags[AppFeature.DRAW_TOOLS] ||
-      featureFlags[AppFeature.FOCUSED_GEOMETRY_EDITOR]
-    ) {
+    if (featureFlags[AppFeature.FOCUSED_GEOMETRY_EDITOR]) {
       import('~widgets/FocusedGeometryEditor').then(({ initFocusedGeometry }) =>
         initFocusedGeometry(),
       );
