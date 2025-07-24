@@ -14,7 +14,7 @@ export interface SimpleLegendStep {
   stepIconFill?: string;
   stepIconStroke?: string;
   stepIconSize?: LegendIconSize;
-  stepName: string;
+  stepName: string | string[];
   stepShape: SimpleLegendStepType;
   sourceLayer?: string; // Required for vector tile source, unnecessary for other
   style: MapCSSProperties;
