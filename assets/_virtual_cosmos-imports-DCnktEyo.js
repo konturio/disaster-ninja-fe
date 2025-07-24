@@ -9,7 +9,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value2) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value2);
 var __privateSet = (obj, member, value2, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value2) : member.set(obj, value2), value2);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, e as extendWithValue, R as React, c as createValue, i as isEqual, r as reactExports, a as requireReact, b as requireReactDom, d as React$1, g as getDefaultExportFromCjs } from "./index-uYQx1qGZ.js";
+import { u as useFixtureState, e as extendWithValue, R as React, c as createValue, i as isEqual, r as reactExports, a as requireReact, b as requireReactDom, d as React$1, g as getDefaultExportFromCjs } from "./index-t8UmkHIr.js";
 function useCurrentInputValue(inputName, defaultValue) {
   const [fixtureState] = useFixtureState("inputs");
   const inputFs = fixtureState && fixtureState[inputName];
@@ -7776,17 +7776,18 @@ function MarkdownMedia({
 }) {
   const { originalUrl, params } = parseMediaParams(src);
   if (isYoutubeUrl(originalUrl)) {
+    const width = (params == null ? void 0 : params.width) ?? 560;
+    const height = (params == null ? void 0 : params.height) ?? 315;
     return /* @__PURE__ */ jsxRuntimeExports.jsx(
       "iframe",
       {
         src: getYoutubeEmbedUrl(originalUrl),
-        width: (params == null ? void 0 : params.width) || 560,
-        height: (params == null ? void 0 : params.height) || 315,
         title: title2 || alt || "YouTube video player",
         frameBorder: "0",
         allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
         allowFullScreen: (params == null ? void 0 : params.allowFullscreen) ?? true,
-        referrerPolicy: "strict-origin-when-cross-origin"
+        referrerPolicy: "strict-origin-when-cross-origin",
+        style: { width: "100%", aspectRatio: `${width} / ${height}` }
       }
     );
   }
@@ -15498,72 +15499,6 @@ const fixture4 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProp
   __proto__: null,
   default: ComponentsRegistry
 }, Symbol.toStringTag, { value: "Module" }));
-const linkWidthWrap = "_linkWidthWrap_qkwt3_1";
-const truncate = "_truncate_qkwt3_3";
-const tail = "_tail_qkwt3_4";
-const link = "_link_qkwt3_1";
-const s$3 = {
-  linkWidthWrap,
-  truncate,
-  tail,
-  link
-};
-const splitTail = (str, tailSize) => {
-  const tail2 = str.slice(tailSize * -1);
-  const body = str.slice(0, Math.max(0, str.length - tailSize));
-  return [body, tail2];
-};
-const LinkRenderer = reactExports.memo(function(props) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: props.href, target: "_blank", rel: "noreferrer", onClick: stopPropagation, children: props.children });
-});
-function ShortLinkRenderer({
-  children: linksArr,
-  maxWidth = 190,
-  truncateAmount = 12,
-  href
-}) {
-  const passedLink = (linksArr == null ? void 0 : linksArr[0]) ?? href;
-  const [leftPart, rightPart] = splitTail(passedLink, truncateAmount);
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$3.linkWidthWrap, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$3.linkOverflowWrap, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
-    "a",
-    {
-      className: s$3.link,
-      target: "_blank",
-      rel: "noreferrer",
-      "data-truncate": rightPart,
-      href,
-      children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: s$3.truncate, style: { maxWidth: maxWidth || "unset" }, children: leftPart }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: s$3.tail, children: rightPart })
-      ]
-    }
-  ) }) });
-}
-function stopPropagation(e) {
-  e.stopPropagation();
-}
-LinkRenderer.displayName = "LinkRenderer";
-const LinkRenderer_fixture = /* @__PURE__ */ jsxRuntimeExports.jsxs("blockquote", { children: [
-  /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-  "LinkRenderer: ",
-  /* @__PURE__ */ jsxRuntimeExports.jsx(LinkRenderer, { href: "https://kontur.io", children: "kontur.io" }),
-  /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-  /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-  "ShortLinkRenderer short:",
-  /* @__PURE__ */ jsxRuntimeExports.jsx(ShortLinkRenderer, { href: "https://kontur.io", children: ["kontur.io"] }),
-  /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-  "ShortLinkRenderer gdacs:",
-  /* @__PURE__ */ jsxRuntimeExports.jsx(ShortLinkRenderer, { href: "https://www.gdacs.org/report.aspx?eventid=1102779&episodeid=6&eventtype=FL", children: ["gdacs.org/report.aspx?eventtype=EQ&eventid=1441158"] }),
-  /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
-  "ShortLinkRenderer long:",
-  /* @__PURE__ */ jsxRuntimeExports.jsx(ShortLinkRenderer, { href: "https://disaster.ninja/active/?layers=kontur_lines%2CactiveContributors%2CeventShape%2ChotProjects_outlines%2Cpopulation_density%2Cfocused-geometry", children: [
-    "https://disaster.ninja/active/?layers=kontur_lines%2CactiveContributors%2CeventShape%2ChotProjects_outlines%2Cpopulation_density%2Cfocused-geometry"
-  ] })
-] });
-const fixture5 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  default: LinkRenderer_fixture
-}, Symbol.toStringTag, { value: "Module" }));
 const tooltipContent = "_tooltipContent_56jbh_1";
 const arrow = "_arrow_56jbh_15";
 const InfoPopoverTrigger = "_InfoPopoverTrigger_56jbh_20";
@@ -15572,7 +15507,7 @@ const Popover$1 = "_Popover_56jbh_25";
 const PopoverContent$1 = "_PopoverContent_56jbh_48";
 const PopoverClose$1 = "_PopoverClose_56jbh_56";
 const markdown = "_markdown_56jbh_62";
-const s$2 = {
+const s$3 = {
   tooltipContent,
   arrow,
   InfoPopoverTrigger,
@@ -15703,14 +15638,14 @@ const PopoverContent = reactExports.forwardRef(function PopoverContent2({ style,
     {
       ref,
       style: { ...context.floatingStyles, ...style },
-      className: `${s$2.Popover}${containerClassName ? ` ${containerClassName}` : ""}`,
+      className: `${s$3.Popover}${containerClassName ? ` ${containerClassName}` : ""}`,
       ...context.getFloatingProps(props),
       children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(PopoverClose, {}),
         /* @__PURE__ */ jsxRuntimeExports.jsx(
           "div",
           {
-            className: `${s$2.PopoverContent}${contentClassName ? ` ${contentClassName}` : ""}`,
+            className: `${s$3.PopoverContent}${contentClassName ? ` ${contentClassName}` : ""}`,
             children: props.children
           }
         ),
@@ -15719,7 +15654,7 @@ const PopoverContent = reactExports.forwardRef(function PopoverContent2({ style,
           {
             ref: arrowRef,
             context: floatingContext,
-            className: s$2.PopoverArrow,
+            className: s$3.PopoverArrow,
             stroke: "transparent",
             strokeWidth: 1,
             height: 8,
@@ -15737,7 +15672,7 @@ const PopoverClose = reactExports.forwardRef(function PopoverClose2(props, ref) 
     {
       type: "button",
       ref,
-      className: s$2.PopoverClose,
+      className: s$3.PopoverClose,
       ...props,
       onClick: (event) => {
         var _a;
@@ -15796,7 +15731,7 @@ function Tooltip({
     isOpen && /* @__PURE__ */ jsxRuntimeExports.jsx(FloatingPortal, { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
       "div",
       {
-        className: s$2.tooltipContent,
+        className: s$3.tooltipContent,
         ref: refs.setFloating,
         style: {
           position: strategy,
@@ -15812,7 +15747,7 @@ function Tooltip({
             {
               ref: arrowRef,
               context,
-              className: s$2.arrow,
+              className: s$3.arrow,
               stroke: "transparent",
               strokeWidth: 2,
               height: 8,
@@ -15859,6 +15794,51 @@ function spliceString(string) {
     return string.slice(0, index2) + (add || "") + string.slice(index2 + count2);
   };
 }
+const linkWidthWrap = "_linkWidthWrap_qkwt3_1";
+const truncate = "_truncate_qkwt3_3";
+const tail = "_tail_qkwt3_4";
+const link = "_link_qkwt3_1";
+const s$2 = {
+  linkWidthWrap,
+  truncate,
+  tail,
+  link
+};
+const splitTail = (str, tailSize) => {
+  const tail2 = str.slice(tailSize * -1);
+  const body = str.slice(0, Math.max(0, str.length - tailSize));
+  return [body, tail2];
+};
+const LinkRenderer = reactExports.memo(function(props) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: props.href, target: "_blank", rel: "noreferrer", onClick: stopPropagation, children: props.children });
+});
+function ShortLinkRenderer({
+  children: linksArr,
+  maxWidth = 190,
+  truncateAmount = 12,
+  href
+}) {
+  const passedLink = (linksArr == null ? void 0 : linksArr[0]) ?? href;
+  const [leftPart, rightPart] = splitTail(passedLink, truncateAmount);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$2.linkWidthWrap, children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$2.linkOverflowWrap, children: /* @__PURE__ */ jsxRuntimeExports.jsxs(
+    "a",
+    {
+      className: s$2.link,
+      target: "_blank",
+      rel: "noreferrer",
+      "data-truncate": rightPart,
+      href,
+      children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: s$2.truncate, style: { maxWidth: maxWidth || "unset" }, children: leftPart }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: s$2.tail, children: rightPart })
+      ]
+    }
+  ) }) });
+}
+function stopPropagation(e) {
+  e.stopPropagation();
+}
+LinkRenderer.displayName = "LinkRenderer";
 const MarkdownContent = reactExports.memo(function MarkdownContent2({
   content,
   className
@@ -15868,7 +15848,7 @@ const MarkdownContent = reactExports.memo(function MarkdownContent2({
     Markdown,
     {
       options: { overrides: { a: LinkRenderer } },
-      className: clsx(s$2.markdown, className),
+      className: clsx(s$3.markdown, className),
       children: parsed
     }
   );
@@ -15883,7 +15863,7 @@ function InfoPopover({
     /* @__PURE__ */ jsxRuntimeExports.jsx(PopoverTrigger, { asChild: true, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
       "button",
       {
-        className: clsx(s$2.InfoPopoverTrigger, className),
+        className: clsx(s$3.InfoPopoverTrigger, className),
         type: "button",
         "aria-label": "More information",
         ...restProps,
@@ -15966,9 +15946,30 @@ const Overlays_fixture = /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { childre
     /* @__PURE__ */ jsxRuntimeExports.jsx(InfoPopover, { content: MD_TEXT })
   ] })
 ] });
-const fixture6 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const fixture5 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   default: Overlays_fixture
+}, Symbol.toStringTag, { value: "Module" }));
+const LinkRenderer_fixture = /* @__PURE__ */ jsxRuntimeExports.jsxs("blockquote", { children: [
+  /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+  "LinkRenderer: ",
+  /* @__PURE__ */ jsxRuntimeExports.jsx(LinkRenderer, { href: "https://kontur.io", children: "kontur.io" }),
+  /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+  /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+  "ShortLinkRenderer short:",
+  /* @__PURE__ */ jsxRuntimeExports.jsx(ShortLinkRenderer, { href: "https://kontur.io", children: ["kontur.io"] }),
+  /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+  "ShortLinkRenderer gdacs:",
+  /* @__PURE__ */ jsxRuntimeExports.jsx(ShortLinkRenderer, { href: "https://www.gdacs.org/report.aspx?eventid=1102779&episodeid=6&eventtype=FL", children: ["gdacs.org/report.aspx?eventtype=EQ&eventid=1441158"] }),
+  /* @__PURE__ */ jsxRuntimeExports.jsx("br", {}),
+  "ShortLinkRenderer long:",
+  /* @__PURE__ */ jsxRuntimeExports.jsx(ShortLinkRenderer, { href: "https://disaster.ninja/active/?layers=kontur_lines%2CactiveContributors%2CeventShape%2ChotProjects_outlines%2Cpopulation_density%2Cfocused-geometry", children: [
+    "https://disaster.ninja/active/?layers=kontur_lines%2CactiveContributors%2CeventShape%2ChotProjects_outlines%2Cpopulation_density%2Cfocused-geometry"
+  ] })
+] });
+const fixture6 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: LinkRenderer_fixture
 }, Symbol.toStringTag, { value: "Module" }));
 const BIVARIATE_LEGEND_SIZE = 3;
 const CORNER_POINTS_INDEXES = [
@@ -33762,8 +33763,8 @@ const fixtures = {
   "src/components/Uni/LayoutDebugger.fixture.tsx": { module: fixture2 },
   "src/components/Uni/FieldsRegistry.fixture.tsx": { module: fixture3 },
   "src/components/Uni/ComponentsRegistry.fixture.tsx": { module: fixture4 },
-  "src/components/LinkRenderer/LinkRenderer.fixture.tsx": { module: fixture5 },
-  "src/components/Overlays/Overlays.fixture.tsx": { module: fixture6 },
+  "src/components/Overlays/Overlays.fixture.tsx": { module: fixture5 },
+  "src/components/LinkRenderer/LinkRenderer.fixture.tsx": { module: fixture6 },
   "src/components/BivariateLegend/BivariateLegend.fixture.tsx": { module: fixture7 },
   "src/core/map/popover/MapPopover.fixture.tsx": { module: fixture8 },
   "src/components/Uni/Components/UniComponents.fixture.tsx": { module: fixture9 }
