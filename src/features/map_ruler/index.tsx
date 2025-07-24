@@ -3,7 +3,6 @@ import {
   MAP_RULER_CONTROL_NAME,
   MAP_RULER_LAYER_ID,
 } from '~features/map_ruler/constants';
-import { i18n } from '~core/localization';
 import { createLogicalLayerAtom } from '~core/logical_layers/utils/logicalLayerFabric';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { toolbar } from '~core/toolbar';

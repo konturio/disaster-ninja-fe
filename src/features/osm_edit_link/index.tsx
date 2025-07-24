@@ -1,6 +1,5 @@
 import { currentUserAtom } from '~core/shared_state';
 import { toolbar } from '~core/toolbar';
-import { i18n } from '~core/localization';
 import { configRepo } from '~core/config';
 import { store } from '~core/store/store';
 import { DEFAULT_OSM_EDITOR } from '~core/constants';

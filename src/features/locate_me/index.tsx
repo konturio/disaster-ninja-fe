@@ -1,6 +1,5 @@
 import { toolbar } from '~core/toolbar';
-import { i18n } from '~core/localization';
-import { LOCATE_ME_CONTROL_ID, LOCATE_ME_CONTROL_NAME } from './constants';
+import { LOCATE_ME_CONTROL_ID } from './constants';
 import { LocateMeButton } from './LocateMeButton';
 
 export const locateMeControl = toolbar.setupControl({

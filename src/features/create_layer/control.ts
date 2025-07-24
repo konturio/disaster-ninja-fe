@@ -1,5 +1,4 @@
 import { toolbar } from '~core/toolbar';
-import { i18n } from '~core/localization';
 import { forceRun } from '~utils/atoms/forceRun';
 import { openDrawToolsInFeatureEditMode } from '~features/create_layer/atoms/drawToolsController';
 import { editableLayersLegendsAndSources } from '~features/create_layer/atoms/editableLayersLegendsAndSources';
