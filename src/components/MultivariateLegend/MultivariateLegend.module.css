@@ -1,10 +1,23 @@
 .dimensionsContainer {
   display: flex;
   flex-direction: column;
-  gap: var(--unit);
+  gap: var(--double-unit);
 }
 
 .dimensionName {
-  font-weight: 500;
   margin-bottom: var(--half-unit);
+}
+
+.mcdaLegend {
+  margin-top: var(--unit);
+}
+
+.textIcon {
+  margin-top: -1px;
+  height: 18px;
+  width: 18px;
+}
+
+.grayscale {
+  filter: grayscale(1);
 }
