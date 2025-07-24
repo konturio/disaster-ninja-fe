@@ -35,9 +35,8 @@ export class MatomoMetrics implements Metric {
     this.subscribeMetricsEvents();
   }
 
-  // Matomo integration does not require manual marks
   mark(name: string, payload: unknown) {
-    /* intentionally empty */
+    /* noop */
   }
 
   private subscribeMetricsEvents() {
