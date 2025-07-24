@@ -9,7 +9,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value2) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value2);
 var __privateSet = (obj, member, value2, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value2) : member.set(obj, value2), value2);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, e as extendWithValue, R as React, c as createValue, i as isEqual, r as reactExports, a as requireReact, b as requireReactDom, d as React$1, g as getDefaultExportFromCjs } from "./index-t8UmkHIr.js";
+import { u as useFixtureState, e as extendWithValue, R as React, c as createValue, i as isEqual, r as reactExports, a as requireReact, b as requireReactDom, d as React$1, g as getDefaultExportFromCjs } from "./index-2AwkNgAf.js";
 function useCurrentInputValue(inputName, defaultValue) {
   const [fixtureState] = useFixtureState("inputs");
   const inputFs = fixtureState && fixtureState[inputName];
@@ -12552,8 +12552,6 @@ const _configDataMock = {
     events_list: true,
     current_event: true,
     reports: true,
-    current_episode: true,
-    episode_list: true,
     osm_edit_link: true,
     side_bar: true,
     analytics_panel: true,
@@ -12561,20 +12559,12 @@ const _configDataMock = {
     focused_geometry_layer: true,
     map_ruler: true,
     boundary_selector: true,
-    draw_tools: true,
     geometry_uploader: true,
     legend_panel: true,
-    // @ts-ignore
-    url_store: true,
-    feature_settings: true,
     layers_in_area: true,
     toasts: true,
-    interactive_map: true,
     feed_selector: true,
-    header: true,
     intercom: true,
-    geocoder: true,
-    communities: true,
     tooltip: true
   },
   id: "9043acf9-2cf3-48ac-9656-a5d7c4b7593d",
