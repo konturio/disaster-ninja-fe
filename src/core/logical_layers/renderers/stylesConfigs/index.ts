@@ -3,11 +3,9 @@ import { isNumber } from '~utils/common';
 import { SOURCE_LAYER_BIVARIATE } from '../BivariateRenderer/constants';
 import { createMCDAStyle, filterSetup as mcdaFilterSetup } from './mcda/mcdaStyle';
 import { createOpacityStepsExpression } from './multivariate/createOpacityStepsExpression';
-import {
-  createMonochromeFillSpec,
-  DEFAULT_GREY_FILL_COLOR,
-} from './multivariate/createMonochromeFillSpec';
+import { createMonochromeFillSpec } from './multivariate/createMonochromeFillSpec';
 import { SOURCE_LAYER_MCDA } from './mcda/constants';
+import { DEFAULT_GREY_FILL_COLOR, TRANSPARENT_COLOR } from './constants';
 import type { MultivariateLayerStyle } from './multivariate/multivariateStyle';
 import type { MCDAConfig, MCDALayerStyle } from './mcda/types';
 import type { FillLayerSpecification, LayerSpecification } from 'maplibre-gl';
@@ -43,10 +41,11 @@ export const styleConfigs: Record<
       if (config.extrusion?.height.config.layers.length) {
         layersForFilter.push(...config.extrusion.height.config.layers);
       }
-      // create monochrome fill
+      // create grey monochrome fill
       multivariateStyle = createMonochromeFillSpec(
         mcdaFilterSetup(layersForFilter),
-        DEFAULT_GREY_FILL_COLOR,
+        // grey fill if there's opacity or extrusion. Transparent fill otherwise
+        layersForFilter.length > 0 ? DEFAULT_GREY_FILL_COLOR : TRANSPARENT_COLOR,
         SOURCE_LAYER_MCDA,
       );
     }

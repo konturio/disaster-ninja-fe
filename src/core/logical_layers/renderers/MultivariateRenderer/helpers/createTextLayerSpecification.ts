@@ -82,8 +82,10 @@ export function createTextLayerSpecification(
       },
       source: sourceId,
       'source-layer': SOURCE_LAYER_MCDA,
-      filter,
     };
+    if (filter) {
+      layerStyle.filter = filter;
+    }
     return layerStyle;
   }
   return undefined;

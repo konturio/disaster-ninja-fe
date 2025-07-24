@@ -1,7 +1,5 @@
 import type { FillLayerSpecification, FilterSpecification } from 'maplibre-gl';
 
-export const DEFAULT_GREY_FILL_COLOR = 'rgba(53,53,53,0.5)';
-
 export function createMonochromeFillSpec(
   filter: FilterSpecification | undefined,
   color: string,
@@ -12,11 +10,13 @@ export function createMonochromeFillSpec(
     id: 'placeholder_id',
     type: 'fill' as const,
     layout: {},
-    filter: filter,
     paint: { 'fill-color': color, 'fill-antialias': false },
     // TODO: this source id is useless and gets replaced in renderer. Needs refactoring
     source: 'placeholder_source_id',
     'source-layer': sourceLayerId,
   };
+  if (filter) {
+    layerSpec.filter = filter;
+  }
   return layerSpec;
 }

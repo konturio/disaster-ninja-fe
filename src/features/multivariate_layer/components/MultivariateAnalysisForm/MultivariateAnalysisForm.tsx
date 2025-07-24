@@ -143,7 +143,7 @@ export function MultivariateAnalysisForm({
         dimensionsLayers.opacity.length > 0 ||
         opacityStatic !== undefined ||
         dimensionsLayers.extrusion.length > 0 ||
-        dimensionsLayers.text) &&
+        dimensionsLayers.text.length > 0) &&
       ((isCustomStepsChecked && !customStepsErrors) || !isCustomStepsChecked),
     [
       axesResource.data,
