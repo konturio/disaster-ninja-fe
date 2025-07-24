@@ -2,6 +2,7 @@ import { configRepo } from '~core/config';
 import { createAtom } from '~utils/atoms';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { notificationServiceInstance } from '~core/notificationServiceInstance';
+import { i18n } from '~core/localization';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { createLayer, deleteLayer, updateLayer } from '../api/layers';
 import { EditTargets, DEFAULT_USER_LAYER_LEGEND } from '../constants';
@@ -86,6 +87,17 @@ export const editableLayerControllerAtom = createAtom(
       if (state?.data) {
         const dataState = getUnlistedState(state.data);
         if (!dataState.name) return;
+
+        const existingLayers = getUnlistedState(editableLayersListResource);
+        const duplicateName = existingLayers.data?.some(
+          (l) => l.name === dataState.name && l.id !== dataState.id,
+        );
+        if (duplicateName) {
+          notificationServiceInstance.error({
+            title: i18n.t('create_layer.layer_name_exists'),
+          });
+          return;
+        }
 
         state = { ...state, loading: true };
 
