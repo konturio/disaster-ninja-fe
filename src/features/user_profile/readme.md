@@ -19,3 +19,5 @@ Import `LoginForm`, `SettingsForm` from feature root
 
 Successful login stores `justLoggedIn` flag in `sessionStorage` and reloads the page.
 If the router reads `justLoggedIn` flag, it redirects the user to the first available route from `DEFAULT_POST_LOGIN_ROUTES` array.
+
+Settings form also disables dropdowns when there is only a single option. For example, the default disaster feed selector is inactive when a user has access to only one feed.
