@@ -5,7 +5,7 @@ Feature flag name: `create_layer`
 ## Short feature purpose description:
 
 Allows the authorized user to create and edit his own layers with geojson source,
-and edit features properties
+and edit features properties. Layer names must be unique for each user.
 
 Consists of two parts:
 

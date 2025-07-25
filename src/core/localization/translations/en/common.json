@@ -237,6 +237,7 @@
     "delete_layer": "Delete Layer",
     "create_layer": "Create Layer",
     "saving_layer": "Saving layer...",
+    "layer_name_exists": "Layer with this name already exists.",
     "field_name": "Field name",
     "layer_name": "Layer name",
     "marker_icon": "Marker icon",
