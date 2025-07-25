@@ -14,20 +14,6 @@
   - [Async API](#async-api)
   - [Primitive API](#primitive-api)
   - [React API](#react-api)
-- [Dependency Patterns](#dependency-patterns)
-  - [Direct Dependencies](#direct-dependencies)
-  - [Lazy Dependencies](#lazy-dependencies)
-  - [Action Dependencies](#action-dependencies)
-- [Async Patterns](#async-patterns)
-  - [reatomAsync](#reatomasync)
-  - [reatomResource](#reatomresource)
-  - [Resource Operators](#resource-operators)
-- [React Integration](#react-integration)
-- [Lifecycle Hooks](#lifecycle-hooks)
-- [Common Patterns](#common-patterns)
-  - [State Management](#state-management)
-  - [Refetching](#refetching)
-  - [Error Handling](#error-handling)
 
 ## Overview
 

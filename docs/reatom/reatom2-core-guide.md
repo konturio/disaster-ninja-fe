@@ -20,7 +20,7 @@
 - [Async Patterns](#async-patterns)
   - [createAsyncAtom](#createasyncatom)
   - [State Management](#state-management)
-  - [Dependency Patterns](#dependency-patterns-1)
+  - [Async Dependency Patterns](#async-dependency-patterns)
 - [V2/V3 Bridge](#v2v3-bridge)
   - [v3toV2](#v3tov2)
   - [v3ActionToV2](#v3actiontov2)
@@ -28,6 +28,7 @@
   - [State Management](#state-management-1)
   - [Action Handling](#action-handling)
   - [Side Effects](#side-effects)
+  - [V2/V3 Integration](#v2v3-integration)
 
 ## Overview
 
@@ -667,7 +668,7 @@ userResource.refetch.dispatch(); // Retry with last params
 userResource.cancel.dispatch(); // Cancel current request
 ```
 
-### Dependency Patterns
+### Async Dependency Patterns
 
 #### Direct Atom Dependency
 
