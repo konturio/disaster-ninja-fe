@@ -365,7 +365,6 @@
     "forgot_password": "Forgot password?",
     "description": "Please log in to change your settings",
     "google_login": "Sign in with Google",
-    "use_email": "Use email",
     "error": {
       "email_empty": "Email cannot be empty",
       "email_invalid": "Email has to be valid",
