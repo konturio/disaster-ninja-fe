@@ -26,7 +26,7 @@
 }
 
 /* Remove divider below panel header */
-:global(.knt-panel-header > div) {
+:global(.knt-panel-header) {
   border-bottom: none;
 }
 
