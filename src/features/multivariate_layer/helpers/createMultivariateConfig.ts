@@ -135,7 +135,11 @@ export function createMultivariateConfig(
             type: 'bivariate',
             colors:
               scoreMCDAStyle?.config && baseMCDAStyle?.config
-                ? createBivariateColorsForMVA(scoreMCDAStyle.config, baseMCDAStyle.config)
+                ? createBivariateColorsForMVA(
+                    scoreMCDAStyle.config.layers,
+                    baseMCDAStyle.config.layers,
+                    DEFAULT_MULTIBIVARIATE_COLORS,
+                  )
                 : DEFAULT_MULTIBIVARIATE_COLORS,
           }
         : {
