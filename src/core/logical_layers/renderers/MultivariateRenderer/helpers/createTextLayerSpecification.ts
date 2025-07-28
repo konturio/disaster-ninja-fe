@@ -30,7 +30,9 @@ export function createTextLayerSpecification(
       values = textDimension.mcdaValue.config.layers.map((layer) =>
         calculateMCDALayer(layer),
       );
-      units = textDimension.mcdaValue.config.layers.map((layer) => layer.unit ?? '');
+      units = textDimension.mcdaValue.config.layers.map((layer) =>
+        layer.normalization === 'no' ? (layer.unit ?? '') : '',
+      );
     }
   }
   if (values?.length) {
