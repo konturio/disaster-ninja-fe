@@ -1,4 +1,4 @@
-import { Button, Card, Heading, Input, Text } from '@konturio/ui-kit';
+import { Button, Card, Divider, Heading, Input, Text } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { authClientInstance } from '~core/authClientInstance';
@@ -7,6 +7,7 @@ import { i18n } from '~core/localization';
 import { testEmail } from '~utils/form/validators';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { dispatchMetricsEvent } from '~core/metrics/dispatch';
+import { GoogleLogo } from '~features/user_profile/icons/GoogleLogo';
 import s from './LoginForm.module.css';
 import type { ChangeEvent } from 'react';
 
@@ -18,9 +19,7 @@ const registrationUrlEncoded = encodeURIComponent(
 const registrationUrl = `${configRepo.get().keycloakUrl}/realms/${configRepo.get().keycloakRealm}/protocol/openid-connect/logout?client_id=account&redirect_uri=${registrationUrlEncoded}`;
 const resetUrl = `${configRepo.get().keycloakUrl}/realms/${configRepo.get().keycloakRealm}/login-actions/reset-credentials?client_id=account`;
 const googleRedirectUri = encodeURIComponent(
-  `${window.location.origin}${configRepo
-    .get()
-    .baseUrl.replace(/\/$/, '')}/profile`,
+  `${window.location.origin}${configRepo.get().baseUrl.replace(/\/$/, '')}/profile`,
 );
 const googleLoginUrl = `${configRepo.get().keycloakUrl}/realms/${configRepo.get().keycloakRealm}/protocol/openid-connect/auth?client_id=${configRepo.get().keycloakClientId}&redirect_uri=${googleRedirectUri}&response_type=code&scope=openid&kc_idp_hint=google`;
 
@@ -62,10 +61,10 @@ export function LoginForm() {
     [],
   );
   const onSignUpClick = useCallback(() => dispatchMetricsEvent('sign_up'), []);
-  const onGoogleLoginClick = useCallback(
-    () => dispatchMetricsEvent('google_login'),
-    [],
-  );
+  const onGoogleLoginClick = useCallback(() => {
+    dispatchMetricsEvent('google_login');
+    window.location.href = googleLoginUrl;
+  }, []);
 
   const onLoginClick = useCallback(async () => {
     const err: { email?: string; password?: string; general?: string } = {};
@@ -127,20 +126,6 @@ export function LoginForm() {
       <div className={s.loginDescription}>
         <Text type="short-m">{i18n.t('login.description')}</Text>
       </div>
-      <div className={s.socialLoginContainer}>
-        <a
-          href={googleLoginUrl}
-          onClick={onGoogleLoginClick}
-          className={s.socialButton}
-        >
-          {i18n.t('login.google_login')}
-        </a>
-      </div>
-      <div className={s.useEmailLabelContainer}>
-        <Text type="short-s" className={s.useEmailLabel}>
-          {i18n.t('login.use_email')}
-        </Text>
-      </div>
       <div className={s.inputsContainer}>
         <Input
           error={error.email || ''}
@@ -174,6 +159,18 @@ export function LoginForm() {
       <div className={s.loginButtonContainer}>
         <Button onClick={onLoginClick} className={s.loginButton}>
           {i18n.t('login.log_in')}
+        </Button>
+      </div>
+      <Divider type="horizontal" className={s.divider}>
+        or
+      </Divider>
+      <div className={s.googleButtonContainer}>
+        <Button
+          onClick={onGoogleLoginClick}
+          className={s.loginButton}
+          iconBefore={<GoogleLogo />}
+        >
+          {i18n.t('login.google_login')}
         </Button>
       </div>
       <div className={clsx(s.link, s.registerContainter)}>

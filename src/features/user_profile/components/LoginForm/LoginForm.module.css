@@ -9,59 +9,6 @@
   margin-top: 20px;
 }
 
-.socialLoginContainer {
-  display: flex;
-  gap: 12px;
-  margin-top: 24px;
-}
-
-.socialButton {
-  box-shadow: none !important;
-  border-radius: 4px;
-  border: 1px solid #a4d1eb;
-  font-family: 'Roboto', Arial, Helvetica, sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 20px;
-  color: var(--accent-strong);
-  padding: 12px 16px;
-
-  &:hover {
-    background-color: var(--accent-weak);
-  }
-
-  &:active {
-    background-color: var(--faint-weak-down) !important;
-  }
-}
-
-.useEmailLabelContainer {
-  display: flex;
-  justify-content: center;
-  position: relative;
-  margin-top: 18px;
-}
-
-.useEmailLabelContainer::after {
-  content: '';
-  border-top: 1px solid #d7dadc;
-  position: absolute;
-  width: 100%;
-  margin-top: 12px;
-}
-
-.useEmailLabel {
-  font-style: normal;
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 20px;
-  color: #8c949b;
-  background: var(--base-weak);
-  padding: 0 16px;
-  z-index: 1;
-}
-
 .inputsContainer {
   margin-top: var(--double-unit);
   display: flex;
@@ -104,6 +51,20 @@
 
 .loginButton {
   width: 100%;
+}
+
+.divider {
+  margin-top: var(--double-unit);
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.019px;
+  color: var(--base-strong);
+}
+
+.googleButtonContainer {
+  margin-top: var(--unit);
 }
 
 .loadingContainer {
