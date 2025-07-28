@@ -8,7 +8,7 @@ import { createBivariateColorsForMVA } from './createBivariateColorsForMVA';
 import type { ColorTheme } from '~core/types';
 import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
 
-export const DEFAULT_COLORS: ColorTheme = [
+const DEFAULT_COLORS: ColorTheme = [
   {
     id: 'A1',
     color: 'rgba(232, 232, 157, 0.5)',
