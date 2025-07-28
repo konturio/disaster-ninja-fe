@@ -161,6 +161,16 @@ export function LoginForm() {
           {i18n.t('login.log_in')}
         </Button>
       </div>
+      <div className={clsx(s.link, s.registerContainter)}>
+        <a
+          href={registrationUrl}
+          target="_blank"
+          rel="noreferrer"
+          onClick={onSignUpClick}
+        >
+          {i18n.t('login.sign_up')}
+        </a>
+      </div>
       <Divider type="horizontal" className={s.divider}>
         or
       </Divider>
@@ -172,16 +182,6 @@ export function LoginForm() {
         >
           {i18n.t('login.google_login')}
         </Button>
-      </div>
-      <div className={clsx(s.link, s.registerContainter)}>
-        <a
-          href={registrationUrl}
-          target="_blank"
-          rel="noreferrer"
-          onClick={onSignUpClick}
-        >
-          {i18n.t('login.sign_up')}
-        </a>
       </div>
     </Card>
   );
