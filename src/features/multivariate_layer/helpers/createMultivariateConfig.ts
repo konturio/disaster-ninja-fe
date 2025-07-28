@@ -12,6 +12,7 @@ import {
 } from '../constants';
 import { generateMultivariateId } from './generateMultivariateId';
 import { createStepsForMCDADimension } from './createStepsForMCDADimension';
+import { createBivariateColorsForMVA } from './createBivariateColorsForMVA';
 import type { Axis } from '~utils/bivariate';
 import type {
   MCDALayer,
@@ -130,7 +131,13 @@ export function createMultivariateConfig(
     colors:
       overrides?.colors ||
       (isBivariateStyleLegend
-        ? { type: 'bivariate', colors: DEFAULT_MULTIBIVARIATE_COLORS }
+        ? {
+            type: 'bivariate',
+            colors:
+              scoreMCDAStyle?.config && baseMCDAStyle?.config
+                ? createBivariateColorsForMVA(scoreMCDAStyle.config, baseMCDAStyle.config)
+                : DEFAULT_MULTIBIVARIATE_COLORS,
+          }
         : {
             type: 'mcda',
             colors: DEFAULT_MCDA_COLORS_BY_SENTIMENT,
