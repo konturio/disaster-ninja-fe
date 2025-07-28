@@ -37,11 +37,8 @@ export function Category({ category }: { category: CategoryWithSettings }) {
           </div>
         }
         controls={
-          category.mutuallyExclusive && (
-            <DeselectControl
-              onClick={onCategoryDeselect}
-              disabled={(counters[category.id] ?? 0) === 0}
-            />
+          category.mutuallyExclusive && (counters[category.id] ?? 0) > 0 && (
+            <DeselectControl onClick={onCategoryDeselect} />
           )
         }
         onClick={toggleOpenState}

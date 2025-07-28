@@ -28,4 +28,4 @@ Additional settings for Categories will be merged from `layersCategoriesSettings
 
 ### UX details
 
-- "Deselect" buttons for mutually exclusive groups and categories become disabled when none of their layers are active. This prevents confusing interactions when there is nothing to deselect.
+- "Deselect" buttons for mutually exclusive groups and categories are hidden when none of their layers are active. This prevents confusing interactions when there is nothing to deselect.

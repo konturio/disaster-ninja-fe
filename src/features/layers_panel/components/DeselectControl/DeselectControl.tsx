@@ -1,15 +1,9 @@
 import { i18n } from '~core/localization';
 import s from './DeselectControl.module.css';
 
-export function DeselectControl({
-  onClick,
-  disabled,
-}: {
-  onClick: () => void;
-  disabled?: boolean;
-}) {
+export function DeselectControl({ onClick }: { onClick: () => void }) {
   return (
-    <button onClick={onClick} className={s.deselectControl} disabled={disabled}>
+    <button onClick={onClick} className={s.deselectControl}>
       {i18n.t('deselect')}
     </button>
   );
