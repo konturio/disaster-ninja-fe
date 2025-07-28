@@ -26,8 +26,15 @@
 }
 
 /* Remove divider below panel header */
-:global(.knt-panel-header) {
-  border-bottom: none;
+:global(.knt-panel-header),
+:global(.knt-panel > header) {
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+:global(.knt-panel-header::after),
+:global(.knt-panel > header::after) {
+  display: none !important;
 }
 
 @media screen and (max-width: 960px) {
