@@ -25,6 +25,11 @@
   z-index: var(--modal);
 }
 
+/* Remove divider below panel header */
+:global(.knt-panel-header > div) {
+  border-bottom: none;
+}
+
 @media screen and (max-width: 960px) {
   .modal > section {
     top: calc(50% + var(--app-header-height)); /* header offset */
