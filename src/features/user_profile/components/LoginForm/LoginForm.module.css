@@ -54,7 +54,7 @@
 }
 
 .divider {
-  margin-top: var(--double-unit);
+  margin-top: 32px;
   font-family: 'IBM Plex Sans', sans-serif;
   font-weight: 400;
   font-size: 12px;
@@ -64,7 +64,7 @@
 }
 
 .googleButtonContainer {
-  margin-top: var(--unit);
+  margin-top: 24px;
 }
 
 .loadingContainer {
