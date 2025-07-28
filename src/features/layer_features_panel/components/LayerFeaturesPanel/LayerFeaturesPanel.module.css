@@ -114,3 +114,12 @@
 .callToAction {
   width: 100%;
 }
+
+/* Remove divider between HOT Tasking Manager cards */
+.featuresPanel :global(.knt-card) {
+  border-bottom: none;
+}
+
+.featuresPanel :global(.knt-card + .knt-card) {
+  border-top: none;
+}

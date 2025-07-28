@@ -1,2 +1,9 @@
 .layerFeaturesCard {
+  /* remove divider between cards */
+  border: none;
+}
+
+/* ensure no divider remains when cards stack */
+:global(.knt-card + .knt-card) {
+  border-top: none;
 }
