@@ -1,5 +1,8 @@
 .header {
   user-select: none;
+  & :global(.headerContent) {
+    border-bottom: none;
+  }
 }
 
 .headerTitle {
