@@ -1,9 +1,9 @@
 import { useCallback, useState } from 'react';
 import { useAction } from '@reatom/react-v2';
 import { FoldingWrap } from '~components/FoldingWrap/FoldingWrap';
+import { useMountedLayersByGroup } from '~features/layers_panel/hooks/useMountedLayersByGroup';
 import { Layer } from '../Layer/Layer';
 import { groupDeselection } from '../../atoms/groupDeselection';
-import { useMountedLayersByGroup } from '~features/layers_panel/hooks/useMountedLayersByGroup';
 import { DeselectControl } from '../DeselectControl/DeselectControl';
 import s from './Group.module.css';
 import type { GroupWithSettings } from '~core/types/layers';
@@ -31,9 +31,8 @@ export function Group({
         open={isOpen}
         title={<span className={s.groupTitle}>{group.name}</span>}
         controls={
-          group.mutuallyExclusive && counter > 0 && (
-            <DeselectControl onClick={groupDeselectAction} />
-          )
+          group.mutuallyExclusive &&
+          counter > 0 && <DeselectControl onClick={groupDeselectAction} />
         }
         onClick={toggleOpenState}
       >

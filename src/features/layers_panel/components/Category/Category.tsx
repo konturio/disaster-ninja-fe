@@ -9,11 +9,6 @@ import { DeselectControl } from '../DeselectControl/DeselectControl';
 import s from './Category.module.css';
 import type { CategoryWithSettings } from '~core/types/layers';
 
-function CategoryMountedLayersCounter({ categoryId }: { categoryId: string }) {
-  const [counters] = useAtom(mountedLayersByCategoryAtom);
-  return <span className={s.mountedLayersCounter}>{counters[categoryId]}</span>;
-}
-
 export function Category({ category }: { category: CategoryWithSettings }) {
   // Temporary solution before redisign according to task 11553-unfold-all-layers-tree-in-layers-panel-by-default
   // const [isOpen, setOpenState] = useState(category.openByDefault ?? false);
@@ -32,12 +27,14 @@ export function Category({ category }: { category: CategoryWithSettings }) {
           <div className={s.categoryTitle}>
             <span>{category.name}</span>
             {!category.mutuallyExclusive ? (
-              <CategoryMountedLayersCounter categoryId={category.id} />
+              // counter text
+              <span className={s.mountedLayersCounter}>{counters[category.id]}</span>
             ) : null}
           </div>
         }
         controls={
-          category.mutuallyExclusive && (counters[category.id] ?? 0) > 0 && (
+          category.mutuallyExclusive &&
+          (counters[category.id] ?? 0) > 0 && (
             <DeselectControl onClick={onCategoryDeselect} />
           )
         }
