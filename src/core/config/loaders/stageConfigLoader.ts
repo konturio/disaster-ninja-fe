@@ -14,6 +14,7 @@ export interface StageConfigLegacy {
   KEYCLOAK_REALM: string;
   KEYCLOAK_CLIENT_ID: string;
   YANDEX_METRICA_ID?: number[];
+  MATOMO_CONTAINER_URL?: string;
   MAP_BLANK_SPACE_ID: string;
   AUTOFOCUS_ZOOM: number;
   INTERCOM_DEFAULT_NAME?: string;
@@ -27,7 +28,17 @@ export interface StageConfigLegacy {
 }
 
 export async function getStageConfig(): Promise<StageConfig> {
-  const response = await fetch(`${import.meta.env?.BASE_URL}config/appconfig.json`);
+  let response: Response;
+  try {
+    response = await fetch(`${import.meta.env?.BASE_URL}config/appconfig.json`);
+  } catch (e) {
+    throw new Error(`Failed to load stage config: ${String(e)}`);
+  }
+  if (!response.ok) {
+    throw new Error(
+      `Failed to load stage config: ${response.status} ${response.statusText}`,
+    );
+  }
   const c = (await response.json()) as StageConfigLegacy;
   // TODO - reformat configs to new case
   return {
@@ -42,6 +53,7 @@ export async function getStageConfig(): Promise<StageConfig> {
     keycloakRealm: c.KEYCLOAK_REALM,
     keycloakClientId: c.KEYCLOAK_CLIENT_ID,
     yandexMetricaId: c.YANDEX_METRICA_ID,
+    matomoContainerUrl: c.MATOMO_CONTAINER_URL,
     intercomDefaultName: c.INTERCOM_DEFAULT_NAME,
     intercomAppId: c.INTERCOM_APP_ID,
     intercomSelector: c.INTERCOM_SELECTOR,

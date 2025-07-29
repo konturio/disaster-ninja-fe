@@ -4,7 +4,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+
 #: km
 msgid "km"
 msgstr "км"
@@ -29,7 +31,7 @@ msgstr "Выйсці"
 msgid "Save"
 msgstr "Захаваць"
 
-#: cancel mcda##btn_cancel
+#: cancel
 msgid "Cancel"
 msgstr "Адмяніць"
 
@@ -48,6 +50,10 @@ msgstr "Катастрофы"
 #: loading
 msgid "Loading..."
 msgstr "Загрузка..."
+
+#: preparing_data
+msgid "Preparing data"
+msgstr "Падрыхтоўка даных"
 
 #: loading_events
 msgid "Loading disasters"
@@ -77,13 +83,17 @@ msgstr "Адлюстраванне легенды"
 msgid "Layers"
 msgstr "Слаі"
 
+#: layer
+msgid "Layer"
+msgstr "Слой"
+
 #: toolbar##map_ruler
 msgid "Measure distance"
 msgstr "Вымераць адлегласць"
 
 #: toolbar##locate_me locate_me##feature_title
 msgid "Locate me"
-msgstr "Вызначыць маё месцазнаходжанне"
+msgstr "Знайсці мяне"
 
 #: toolbar##panel_title
 msgid "Toolbar"
@@ -93,7 +103,7 @@ msgstr "Панэль інструментаў"
 msgid "Download"
 msgstr "Спампаваць"
 
-#: toolbar##delete
+#: toolbar##delete layer_actions##tooltips##delete
 msgid "Delete"
 msgstr "Выдаліць"
 
@@ -130,7 +140,7 @@ msgid "Selected area"
 msgstr "Вылучаная вобласць"
 
 #: toolbar##upload_mcda
-msgid "Upload MCDA"
+msgid "Upload analysis"
 msgstr "Загрузіць аналіз"
 
 #: layer_actions##tooltips##erase
@@ -168,6 +178,14 @@ msgstr "Абноўлена"
 #: started
 msgid "Started"
 msgstr "Пачалося"
+
+#: created
+msgid "Created"
+msgstr "Створаны"
+
+#: osm_gaps
+msgid "OSM gaps"
+msgstr "Прабелы ў OSM"
 
 #: no_data_received
 msgid "No data received"
@@ -321,9 +339,17 @@ msgstr "Фільтр па назоўніку"
 msgid "Multi-criteria decision analysis"
 msgstr "Шматкрытэрыяльны аналіз"
 
-#: mcda##name
-msgid "Create MCDA"
+#: mcda##name search##mcda_create_analysis
+msgid "Create analysis"
 msgstr "Стварыць аналіз"
+
+#: mcda##create_mcda_hint
+msgid "Create multi-criteria decision analysis"
+msgstr "Стварыць шматкрытэрыяльны аналіз слаёў"
+
+#: mcda##upload_mcda_hint
+msgid "Upload multi-criteria decision analysis"
+msgstr "Загрузіць шматкрытэрыяльны аналіз слаёў"
 
 #: mcda##modal_input_name
 msgid "Analysis name"
@@ -353,13 +379,10 @@ msgstr "Захаваць аналіз"
 msgid "Analysis name cannot be empty"
 msgstr "Назва аналізу не можа быць пустой"
 
-#: mcda##error_bad_layer_data
-msgid "Invalid MCDA layer data"
-msgstr "Няправільныя даныя слоя шматкрытэрыяльнага аналізу"
-
 #: mcda##error_invalid_file
-msgid "Invalid MCDA file format"
-msgstr "Няправільны фармат файла шматкрытэрыяльнага аналізу"
+#, fuzzy
+msgid "Invalid analysis file format"
+msgstr "Няправільны фармат файла аналізу"
 
 #: mcda##error_invalid_parameter
 msgid "Invalid '{{parameter}}' parameter"
@@ -370,8 +393,9 @@ msgid "Invalid '{{parameter}}' parameter in '{{axisName}}' layer"
 msgstr "Няправільны параметр '{{parameter}}' у слоі '{{axisName}}'"
 
 #: mcda##error_wrong_mcda_version
-msgid "Wrong MCDA version"
-msgstr "Няправільная версія MCDA"
+#, fuzzy
+msgid "Wrong analysis version"
+msgstr "Няправільная версія аналізу"
 
 #: mcda##legend_subtitle
 msgid ""
@@ -567,21 +591,67 @@ msgstr "Дрэнна"
 msgid "Good"
 msgstr "Добра"
 
+#: multivariate##multivariate_analysis
+msgid "Multivariate Analysis"
+msgstr "Шматварыянтны аналіз"
+
+#: multivariate##create_analysis_layer
+msgid "Create analysis layer"
+msgstr "Стварыць аналіз слаёў"
+
 #: multivariate##upload_analysis_layer
 msgid "Upload analysis layer"
-msgstr "Загрузіць аналітычны слой"
+msgstr "Загрузіць аналіз слаёў"
 
 #: multivariate##popup##score_header
 msgid "Score {{level}}"
 msgstr "Адзнака {{level}}"
 
-#: multivariate##popup##base_header
-msgid "Base {{level}}"
-msgstr "Аснова {{level}}"
+#: multivariate##popup##compare_header
+msgid "Compare {{level}}"
+msgstr "Параўнанне {{level}}"
+
+#: multivariate##score
+msgid "Score"
+msgstr "Адзнака"
+
+#: multivariate##compare
+msgid "Compare"
+msgstr "Параўнанне"
+
+#: multivariate##hide_area
+#, fuzzy
+msgid "Hide area"
+msgstr "Схаваць вобласць"
+
+#: multivariate##labels
+msgid "Labels"
+msgstr "Подпісы"
+
+#: multivariate##3d
+msgid "3D"
+msgstr "3D"
+
+#: map_popup##value
+#, fuzzy
+msgid "Value"
+msgstr "Значэнне"
+
+#: map_popup##range
+msgid "Range"
+msgstr "Дыяпазон"
+
+#: map_popup##coefficient
+msgid "Coefficient"
+msgstr "Каэфіцыент"
+
+#: map_popup##normalized_value
+msgid "Normalized value"
+msgstr "Нармалізаванае значэнне"
 
 #: search##search_location
 msgid "Search location"
-msgstr "Пошук месца"
+msgstr "Шукаць месца"
 
 #: search##info_block
 msgid "You can search for 📍 locations"
@@ -618,10 +688,6 @@ msgstr "Няма прапаноў ад AI"
 #: search##mcda_error_message
 msgid "AI engine did not respond. Please try again later"
 msgstr "AI не адказаў. Паспрабуйце пазней"
-
-#: search##mcda_create_analysis
-msgid "Create analysis"
-msgstr "Стварыць аналіз"
 
 #: search##upload_analysis
 msgid "“{{name}}” Multi-Criteria Decision Analysis has been created"
@@ -706,6 +772,11 @@ msgstr "Экстрэмальная"
 #: event_list##open_timeline_button episode
 msgid "Timeline"
 msgstr "Часавая шкала"
+
+#: create_layer##save_and_draw
+#, fuzzy
+msgid "Save and draw"
+msgstr "Захаваць і намаляваць"
 
 #: create_layer##edit_layer
 msgid "Edit Layer"
@@ -838,8 +909,10 @@ msgid "You can also:"
 msgstr "Вы таксама можаце:"
 
 #: llm_analytics##placeholder##fill_bio
-msgid "<icon /> <lnk>Fill out analysis objectives</lnk> to personalize AI analysis"
-msgstr "<icon /> <lnk>Запоўніце мэты аналізу</lnk>, каб персаналізаваць AI аналіз"
+msgid ""
+"<icon /> <lnk>Fill out analysis objectives</lnk> to personalize AI analysis"
+msgstr ""
+"<icon /> <lnk>Запоўніце мэты аналізу</lnk>, каб персаналізаваць AI аналіз"
 
 #: llm_analytics##placeholder##select_and_save_as_reference_area
 msgid ""
@@ -879,10 +952,6 @@ msgstr "Няма намаляванай геаметрыі для загрузк
 #: draw_tools##overlap_error
 msgid "Polygon should not overlap itself"
 msgstr "Шматкутнік не павінен перакрываць сам сябе"
-
-#: draw_tools##save_features
-msgid "Save features"
-msgstr "Захаваць аб'екты"
 
 #: boundary_selector##title
 msgid "Focus to administrative boundary"
@@ -1245,87 +1314,14 @@ msgstr "Умовы"
 msgid "User guide"
 msgstr "Дапаможнік"
 
-#: about##title
-msgid "Welcome to Disaster Ninja!"
-msgstr ""
+#: modes##external##upload_imagery
+msgid "Upload imagery"
+msgstr "Загрузіць здымак"
 
-#: about##intro
-msgid ""
-"Do you want to be notified about ongoing disasters? Are you interested in "
-"instant population data and other analytics for any region in the world? "
-"Disaster Ninja showcases some of <2>Kontur</2>’s capabilities in addressing "
-"these needs.<br/><br/>We initially designed it as a decision support tool "
-"for humanitarian mappers. Now it has grown in functionality and use cases. "
-"Whether you work in disaster management, build a smart city, or perform "
-"research on climate change, Disaster Ninja can help you to:"
-msgstr ""
-
-#: about##l1
-msgid "1. Stay up to date with the latest hazard events globally."
-msgstr ""
-
-#: about##p1
-msgid ""
-"The Disasters panel continually refreshes to inform you about ongoing "
-"events. It consumes data from the <2>Kontur Event Feed</2>, which you can "
-"also access via an API."
-msgstr ""
-
-#: about##l2
-msgid "2. Focus on your area of interest."
-msgstr ""
-
-#: about##p2
-msgid ""
-"The Drawing Tools panel allows you to draw or upload your own geometry on "
-"the map. You can also focus on a disaster-exposed area or an administrative "
-"unit — a country, city, or region."
-msgstr ""
-
-#: about##l3
-msgid "3. Get analytics for the focused area."
-msgstr ""
-
-#: about##p3
-msgid ""
-"The Analytics panel shows the number of people living in that area per "
-"<2>Kontur Population</2> and estimated mapping gaps in OpenStreetMap. "
-"Kontur’s customers have access to hundreds of other indicators through "
-"Advanced Analytics."
-msgstr ""
-
-#: about##l4
-msgid "4. Explore data on the map and make conclusions."
-msgstr ""
-
-#: about##p4
-msgid ""
-"The Layers panel gives you various options to display two indicators "
-"simultaneously on a bivariate map, e.g., population density and distance to "
-"the nearest fire station. Use the color legend to assess which areas require "
-"attention. <br/>Hint: in general, green indicates low risk / few gaps, red — "
-"high risk / many gaps."
-msgstr ""
-
-#: about##p5
-msgid ""
-"In addition, you can switch to Reports in the left panel to access data on "
-"potential errors and inconsistencies in OpenStreetMap and help fix them by "
-"mapping the respective area with the JOSM editor."
-msgstr ""
-
-#: about##goToMap
-msgid "Go to the map now"
-msgstr ""
-
-#: about##p6
-msgid ""
-"We hope you find this tool valuable. Use the chatbox on Disaster Ninja for "
-"any questions about the functionality, and we will be happy to guide you. "
-"You can also contact us by email at <1>hello@kontur.io</1> if you have "
-"feedback or suggestions on improving the tool.<br/><br/>Disaster Ninja is an "
-"open-source project. Find the code in <8>Kontur’s GitHub account</8>."
-msgstr ""
+#: modes##external##imagery_catalog
+#, fuzzy
+msgid "Imagery catalog"
+msgstr "Каталог здымкаў"
 
 #: profile##interfaceTheme
 msgid "Theme"
@@ -1357,7 +1353,7 @@ msgstr "Наладзьце свой вопыт выкарыстання"
 
 #: profile##your_current_job
 msgid "your current job"
-msgstr "ваша цяперашняя праца"
+msgstr "ваша цяперашняя пасада"
 
 #: profile##area_of_expertise
 msgid "area of expertise"
@@ -1388,8 +1384,8 @@ msgid ""
 "e.g. GIS specialist with 5+ years of experience in disaster risk analysis, "
 "focused on urban resilience."
 msgstr ""
-"Напрыклад, спецыяліст у галіне ГІС з 5+ гадамі вопыту ў аналізе "
-"рызыкаў катастроф, арыентаваны на гарадскую ўстойлівасць."
+"Напрыклад, спецыяліст у галіне ГІС з 5+ гадамі вопыту ў аналізе рызыкаў "
+"катастроф, арыентаваны на гарадскую ўстойлівасць."
 
 #: profile##analysis_objectives
 msgid "Analysis objectives"
@@ -1401,8 +1397,8 @@ msgid ""
 "challenge is improving flood risk mapping."
 msgstr ""
 "Напрыклад, аналіз гарадскога планавання з акцэнтам на кліматычную "
-"ўстойлівасць. Мая цяперашняя задача — паляпшэнне картаграфавання "
-"рызыкаў паводак."
+"ўстойлівасць. Мая цяперашняя задача — паляпшэнне картаграфавання рызыкаў "
+"паводак."
 
 #: profile##appSettingsHeader
 msgid "Settings"
@@ -1496,6 +1492,10 @@ msgstr "Руская"
 msgid "Ukrainian"
 msgstr "Украінская"
 
+#: profile##languageOption##zh
+msgid "Chinese"
+msgstr "Кітайская"
+
 #: profile##reference_area##freehand_geometry
 msgid "Freehand geometry"
 msgstr "Адвольная геаметрыя"
@@ -1521,9 +1521,12 @@ msgid "Set area on map"
 msgstr "Вылучыць вобласць на карце"
 
 #: profile##reference_area##tooltip_text
+#, fuzzy
 msgid ""
 "1.Select an area of interest on the map using the Admin Boundary or Draw "
-"Geometry tool. <br/> 2. Click the 'Save as Reference' button on the toolbar."
+"Geometry tool.\n"
+"\n"
+" 2. Click the 'Save as Reference' button on the toolbar."
 msgstr ""
 "1. Вылучыце вобласць цікавасці на карце, выкарыстоўваючы інструменты "
 "'Адміністрацыйныя межы' або 'Маляванне геаметрыі'. <br/> 2. Націсніце кнопку "
@@ -1539,7 +1542,7 @@ msgstr "Памылка. Паспрабуйце іншы спосаб."
 
 #: profile##reference_area##select_location
 msgid "Select my current location"
-msgstr "Абраць маю цякучае месцазнаходжанне"
+msgstr "Абраць маё цякучае месцазнаходжанне"
 
 #: profile##reference_area##notification
 msgid "Your reference area {{name}} has been saved"
@@ -1630,6 +1633,10 @@ msgstr ""
 msgid "No features found in the selected area."
 msgstr "У вылучанай вобласці не знойдзена аб'ектаў."
 
+#: layer_features_panel##priority
+msgid "{{level}} priority"
+msgstr "{{level}} прыярытэт"
+
 #: reference_area##save_as_reference_area
 msgid "Save as reference area"
 msgstr "Захаваць як эталонную вобласць"
@@ -1643,3 +1650,22 @@ msgstr ""
 #: reference_area##selected_area_saved_as_reference_area
 msgid "Selected area has been saved as reference area in your profile"
 msgstr "Вылучаная вобласць была захаваная як эталонная ў вашым профілі"
+
+#: oam_auth##login_button
+msgid "Login with Google"
+msgstr "Ўвайсці праз Google"
+
+#~ msgid "Upload MCDA"
+#~ msgstr "Загрузіць аналіз"
+
+#~ msgid "Create MCDA"
+#~ msgstr "Стварыць аналіз"
+
+#~ msgid "Invalid MCDA layer data"
+#~ msgstr "Няправільныя даныя слоя шматкрытэрыяльнага аналізу"
+
+#~ msgid "Base {{level}}"
+#~ msgstr "Аснова {{level}}"
+
+#~ msgid "Save features"
+#~ msgstr "Захаваць аб'екты"

@@ -9,6 +9,7 @@ import type {
 
 export type MultivariateDimension = MCDALayerStyle;
 
+// TODO: make static opacity a separate property.
 export type OpacityDimension = MultivariateDimension | number;
 
 export type TextDimension = {
@@ -46,7 +47,7 @@ export interface MultivariateLayerConfig {
   version: 0;
   id: string;
   name: string;
-  score: MultivariateDimension;
+  score?: MultivariateDimension;
   base?: MultivariateDimension;
   stepOverrides?: MultivariateStepOverrides;
   opacity?: OpacityDimension;

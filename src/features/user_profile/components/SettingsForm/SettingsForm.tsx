@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { lazily } from 'react-lazily';
 import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
 import { authClientInstance } from '~core/authClientInstance';
+import { onLogout } from '~core/app/authHooks';
 import { i18n } from '~core/localization';
 import { configRepo } from '~core/config';
 import { flatObjectsAreEqual } from '~utils/common';
@@ -71,7 +72,8 @@ function SettingsFormGen({ userProfile, updateUserProfile }) {
   const [status, { set: setPageStatus }] = useAtom(pageStatusAtom);
   const [localSettings, setLocalSettings] = useState(userProfile);
 
-  function logout() {
+  async function logout() {
+    await onLogout();
     authClientInstance.logout();
   }
 

@@ -26,6 +26,4 @@ Tree can contain `Category`, `Group` and `Layer` items.
 
 Additional settings for Categories will be merged from `layersCategoriesSettingsAtom` and for Groups from `layersGroupsSettingsAtom`
 
-### UX details
-
-- "Deselect" buttons for mutually exclusive groups and categories are hidden when none of their layers are active. This prevents confusing interactions when there is nothing to deselect.
+Current open state of groups and categories is stored in `layersTreeOpenStateAtom`. It remembers user folding choices within a session so that collapsed subgroups remain collapsed when their parent group is toggled.

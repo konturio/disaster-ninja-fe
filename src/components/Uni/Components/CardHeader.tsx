@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { Icon } from '~components/Icon';
+import { useUniLayoutContext } from '../Layout/UniLayoutContext';
 import s from './CardHeader.module.css';
 
 export interface CardHeaderProps {
@@ -8,9 +9,20 @@ export interface CardHeaderProps {
   value: string;
   subtitle?: string;
   className?: string;
+  format?: string;
 }
 
-export function CardHeader({ image, icon, value, subtitle, className }: CardHeaderProps) {
+export function CardHeader({
+  image,
+  icon,
+  value,
+  subtitle,
+  className,
+  format,
+}: CardHeaderProps) {
+  const context = useUniLayoutContext();
+  const formattedValue = context.getFormattedValue(value, format);
+
   return (
     <div className={clsx(s.cardHeader, className)}>
       {image && (
@@ -21,7 +33,7 @@ export function CardHeader({ image, icon, value, subtitle, className }: CardHead
 
       {icon && <Icon icon={icon} className={s.icon} />}
 
-      <div className={s.title}>{value}</div>
+      <div className={s.title}>{formattedValue}</div>
 
       {subtitle && <div className={s.subtitle}>{subtitle}</div>}
     </div>

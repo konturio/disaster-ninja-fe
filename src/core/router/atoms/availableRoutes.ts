@@ -3,10 +3,15 @@ import { configRepo } from '~core/config';
 import { routerConfig } from '../routes';
 import type { AppRouterConfig } from '../types';
 
+let cachedRoutes: AppRouterConfig | null = null;
+// TODO: Reactive usage not needed here, fix it in next router implementation
 export const availableRoutesAtom = createAtom(
   {},
   ({ get }): AppRouterConfig | null => {
-    return getAvailableRoutes();
+    if (cachedRoutes === null) {
+      cachedRoutes = getAvailableRoutes();
+    }
+    return cachedRoutes;
   },
   'availableRoutesAtom',
 );

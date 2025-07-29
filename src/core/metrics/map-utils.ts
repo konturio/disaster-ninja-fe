@@ -1,4 +1,5 @@
 import { KONTUR_METRICS_DEBUG } from '~utils/debug';
+import { waitFor } from '~utils/test/wait';
 
 interface MapRenderOptions {
   requiredIdleCount?: number;
@@ -79,7 +80,7 @@ function logMapState(state: MapState): string {
  * Waits for map to be fully rendered and stable
  */
 export function waitForMapFullyRendered(
-  map: maplibregl.Map,
+  mapOrGetter: maplibregl.Map | (() => maplibregl.Map | null | undefined),
   {
     requiredIdleCount = 2,
     checkInterval = 100,
@@ -87,8 +88,19 @@ export function waitForMapFullyRendered(
     requiredTileCount = 1,
   }: MapRenderOptions = {},
 ): Promise<void> {
+  const getMap = typeof mapOrGetter === 'function' ? mapOrGetter : () => mapOrGetter;
+
+  const map = getMap();
   if (!map) {
-    return Promise.reject(new Error('Map instance not provided'));
+    // If map is not available, wait for it using the reusable waitFor utility
+    return waitFor(getMap, { checkInterval, timeout }).then((availableMap) =>
+      waitForMapFullyRendered(availableMap, {
+        requiredIdleCount,
+        checkInterval,
+        timeout,
+        requiredTileCount,
+      }),
+    );
   }
 
   let timeoutId: number | null = null;

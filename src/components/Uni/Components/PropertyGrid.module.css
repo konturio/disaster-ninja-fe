@@ -1,0 +1,31 @@
+.table {
+  display: flex;
+  flex-direction: column;
+  margin: var(--half-unit) 0;
+}
+
+.table > div {
+  display: flex;
+  gap: var(--half-unit);
+  justify-content: space-between;
+  font: 400 var(--font-xs);
+  line-height: 18px;
+}
+
+.table > div + div {
+  border-top: 1px solid var(--faint-weak);
+}
+
+.table > div > div {
+  padding: 2px 0;
+
+  &:last-of-type {
+    max-width: 70%;
+    text-align: end;
+    word-wrap: break-word;
+  }
+
+  &:only-child {
+    max-width: 100%;
+  }
+}

@@ -6,13 +6,32 @@ import { UniLayoutContext, useUniLayoutContextValue } from './Layout/UniLayoutCo
 import { UniLayoutRenderer } from './Layout/UniLayoutRenderer';
 import { eventSampleData } from '~core/api/__mocks__/_eventsSampleData';
 import { hotData } from '~core/api/__mocks__/_hotSampleData';
-import { hotProjectLayoutTemplate } from './__mocks__/_hotLayout.js';
+import { acapsSampleData } from '~core/api/__mocks__/_acapsSampleData';
 import { complexDataLayout, complexDataSamples } from './__mocks__/_complexLayout';
+import {
+  conditionalDataSamples,
+  conditionalLayout,
+} from './__mocks__/_conditionalLayout';
 import style from './__mocks__/fixture.module.css';
+import { acapsLayout } from '~features/layer_features_panel/layouts/acapsLayout';
+import { hotProjectsLayout } from '~features/layer_features_panel/layouts/hotProjectsLayout';
+import { layerFeaturesFormatsRegistry } from '~features/layer_features_panel/formats/layerFeaturesFormats';
+import { oamSampleData } from '~core/api/__mocks__/_oamSampleData';
+import { oamLayout } from '~features/layer_features_panel/layouts/oamLayout';
+import { getLayerFeaturesPreprocessor } from '~features/layer_features_panel/atoms/helpers/layerFeaturesPreprocessors';
+import {
+  ACAPS_LAYER_ID,
+  HOT_PROJECTS_LAYER_ID,
+} from '~features/layer_features_panel/constants';
 
 const useJsonState = (initialValue: any): [string, (value: string) => void] => {
   const [json, setJson] = useState(JSON.stringify(initialValue, null, 4));
   return [json, setJson];
+};
+
+const preprocessFeatureProperties = (layerId: string, properties: any[]) => {
+  const preprocessor = getLayerFeaturesPreprocessor(layerId);
+  return properties.map((p) => preprocessor(p));
 };
 
 interface JsonEditorProps {
@@ -86,10 +105,11 @@ const createLayoutDebugger = (initialLayout, initialData) => {
     const contextValue = useUniLayoutContextValue({
       layout,
       actionHandler: handleAction,
+      customFormatsRegistry: layerFeaturesFormatsRegistry,
     });
 
     return (
-      <div>
+      <div className={style.debugger}>
         <UniLayoutContext.Provider value={contextValue}>
           <div className={style.grid}>
             {limitedData.map((item, index) => (
@@ -99,8 +119,7 @@ const createLayoutDebugger = (initialLayout, initialData) => {
             ))}
           </div>
         </UniLayoutContext.Provider>
-        <hr />
-        <div style={{ display: 'flex', gap: '1rem' }}>
+        <div className={style.editors}>
           <JsonEditor
             value={layoutJson}
             onChange={setLayoutJson}
@@ -123,6 +142,9 @@ const createLayoutDebugger = (initialLayout, initialData) => {
 
 export default {
   'Event Card': createLayoutDebugger(eventCardLayoutTemplate, eventSampleData),
-  'HOT Project Card': createLayoutDebugger(hotProjectLayoutTemplate, hotData),
+  'HOT Project Card': createLayoutDebugger(hotProjectsLayout, hotData),
   'Complex Demo': createLayoutDebugger(complexDataLayout, complexDataSamples),
+  'Conditional Demo': createLayoutDebugger(conditionalLayout, conditionalDataSamples),
+  'ACAPS Demo': createLayoutDebugger(acapsLayout, acapsSampleData),
+  'OAM Demo': createLayoutDebugger(oamLayout, oamSampleData),
 };

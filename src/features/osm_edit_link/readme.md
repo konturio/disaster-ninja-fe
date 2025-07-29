@@ -17,3 +17,5 @@ if (featureFlags[FeatureFlag.OSM_EDIT_LINK]) {
 On the index file it adds control to the toolbar core instance.
 On control click current map position being read from `currentMapPositionAtom` and preferred user editor being picked from user info.
 That's enough to generate a link. New tab opens with by a new link and becomes focused.
+
+Default JOSM links are opened with the local remote control url `http://127.0.0.1:8111/load_and_zoom`.

@@ -11,8 +11,6 @@
     "events_list",
     "current_event",
     "reports",
-    "current_episode",
-    "episode_list",
     "osm_edit_link",
     "side_bar",
     "analytics_panel",
@@ -20,17 +18,11 @@
     "focused_geometry_layer",
     "map_ruler",
     "boundary_selector",
-    "draw_tools",
     "geometry_uploader",
     "legend_panel",
-    "feature_settings",
     "layers_in_area",
     "toasts",
-    "interactive_map",
     "feed_selector",
-    "header",
-    "geocoder",
-    "communities",
     "tooltip"
   ],
   "DEFAULT_FEED": "kontur-public",
@@ -60,5 +52,6 @@
   "KEYCLOAK_URL": "https://keycloak01.kontur.io",
   "KEYCLOAK_REALM": "kontur",
   "KEYCLOAK_CLIENT_ID": "kontur_platform",
-  "SENTRY_DSN": "https://fixme@dsn.ingest.sentry.io/project-id"
+  "SENTRY_DSN": "https://fixme@dsn.ingest.sentry.io/project-id",
+  "MATOMO_CONTAINER_URL": "https://matomo.kontur.io/js/container_I7eDYwKj.js"
 }

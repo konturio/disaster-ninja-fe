@@ -1,4 +1,3 @@
-import { createRoot } from 'react-dom/client';
 import { sumBy } from '~utils/common';
 import {
   calculateLayerPipeline,
@@ -45,7 +44,7 @@ export function generateMCDALayersTableAndScore(
 ) {
   const mcdaLayersTable = createTableWithCalculations(feature, layers);
   const resultMCDAScore = calcMcdaIndex(layers, mcdaLayersTable);
-  return { mcdaLayersTable, resultMCDAScore };
+  return { mcdaLayersTable, resultMCDAScore, layers };
 }
 
 export function generateMCDAPopupTable(
@@ -58,13 +57,4 @@ export function generateMCDAPopupTable(
   );
 
   return PopupMCDA({ layers, normalized: mcdaLayersTable, resultMCDA: resultMCDAScore });
-}
-
-export function generateMCDAPopupContent(
-  feature: GeoJSON.Feature,
-  layers: MCDAConfig['layers'],
-): HTMLDivElement {
-  const popupNode = document.createElement('div');
-  createRoot(popupNode).render(generateMCDAPopupTable(feature, layers));
-  return popupNode;
 }

@@ -33,7 +33,7 @@
     "record_sensors": "Record sensors",
     "tools_label": "Tools",
     "selected_area_label": "Selected area",
-    "upload_mcda": "Upload MCDA"
+    "upload_mcda": "Upload analysis"
   },
   "layer_actions": {
     "tooltips": {
@@ -51,7 +51,6 @@
   "updated": "Updated",
   "started": "Started",
   "created": "Created",
-  "mapping_types": "Mapping types",
   "osm_gaps": "OSM gaps",
   "no_data_received": "No data received",
   "wrong_data_received": "Wrong data received",
@@ -101,7 +100,9 @@
   },
   "mcda": {
     "title": "Multi-criteria decision analysis",
-    "name": "Create MCDA",
+    "name": "Create analysis",
+    "create_mcda_hint": "Create multi-criteria decision analysis",
+    "upload_mcda_hint": "Upload multi-criteria decision analysis",
     "modal_title": "Multi-criteria decision analysis",
     "modal_input_name": "Analysis name",
     "modal_input_name_placeholder": "e.g., Climate change",
@@ -110,10 +111,10 @@
     "modal_input_indicators_no_options": "No options",
     "btn_save": "Save analysis",
     "error_analysis_name_cannot_be_empty": "Analysis name cannot be empty",
-    "error_invalid_file": "Invalid MCDA file format",
+    "error_invalid_file": "Invalid analysis file format",
     "error_invalid_parameter": "Invalid '{{parameter}}' parameter",
     "error_invalid_layer_parameter": "Invalid '{{parameter}}' parameter in '{{axisName}}' layer",
-    "error_wrong_mcda_version": "Wrong MCDA version",
+    "error_wrong_mcda_version": "Wrong analysis version",
     "legend_title": "Legend",
     "legend_subtitle": "Hexagons are colored based on analysis layer settings. Click a hexagon to see its values.",
     "layer_editor": {
@@ -176,9 +177,12 @@
     },
     "score": "Score",
     "compare": "Compare",
+    "score_and_compare": "Score and compare",
     "hide_area": "Hide area",
     "labels": "Labels",
-    "3d": "3D"
+    "3d": "3D",
+    "static_opacity": "Static opacity",
+    "mcda_legend_subtitle": "Hexagons are colored as weighted average of normalized and transformed layers values"
   },
   "map_popup": {
     "value": "Value",
@@ -282,15 +286,9 @@
     "no_geometry_error": "No drawn geometry to download",
     "overlap_error": "Polygon should not overlap itself"
   },
-  "boundary_selector": {
-    "title": "Focus to administrative boundary"
-  },
   "geometry_uploader": {
     "title": "Focus to uploaded geometry",
     "error": "Error while reading uploaded file"
-  },
-  "focus_geometry": {
-    "title": "Focus to freehand geometry"
   },
   "focus_geometry_layer": {
     "settings": {
@@ -357,9 +355,6 @@
     }
   },
   "sidebar": {
-    "biv_color_manager": "Сolor manager",
-    "edit_osm": "Edit in OpenStreetMap",
-    "ruler": "Ruler",
     "collapse": "Collapse",
     "expand": "Expand",
     "icon_alt": "Application logo"
@@ -469,7 +464,8 @@
       "de": "German",
       "be": "Belarusian",
       "ru": "Russian",
-      "uk": "Ukrainian"
+      "uk": "Ukrainian",
+      "zh": "Chinese"
     },
     "reference_area": {
       "title": "Reference area",
@@ -513,7 +509,8 @@
     "chooseFeature": "Choose layer feature",
     "listInfo": "The list is filtered by selected area and sorted by project number",
     "error_loading": "Failed to load layer features data. Please try again.",
-    "no_features": "No features found in the selected area."
+    "no_features": "No features found in the selected area.",
+    "priority": "{{level}} priority"
   },
   "reference_area": {
     "save_as_reference_area": "Save as reference area",

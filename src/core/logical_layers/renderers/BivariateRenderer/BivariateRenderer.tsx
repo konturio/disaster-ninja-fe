@@ -1,5 +1,3 @@
-import { Popup as MapPopup } from 'maplibre-gl';
-import { createRoot } from 'react-dom/client';
 import { LogicalLayerDefaultRenderer } from '~core/logical_layers/renderers/DefaultRenderer';
 import {
   LAYER_BIVARIATE_PREFIX,
@@ -10,22 +8,18 @@ import { adaptTileUrl } from '~utils/bivariate/tile/adaptTileUrl';
 import { mapLoaded } from '~utils/map/waitMapEvent';
 import { registerMapListener } from '~core/shared_state/mapListeners';
 import {
-  bivariateHexagonPopupContentRoot,
-  MapHexTooltip,
-} from '~components/MapHexTooltip/MapHexTooltip';
-import { invertClusters } from '~utils/bivariate';
-import { getCellLabelByValue } from '~utils/bivariate/bivariateLegendUtils';
-import { dispatchMetricsEvent } from '~core/metrics/dispatch';
-import {
   getMaxMCDAZoomLevel,
   getMaxNumeratorZoomLevel,
 } from '~utils/bivariate/getMaxZoomLevel';
 import { isNumber } from '~utils/common';
+import { mapPopoverRegistry } from '~core/map/popover/globalMapPopoverRegistry';
 import { styleConfigs } from '../stylesConfigs';
-import { generateMCDAPopupContent } from '../MCDARenderer/popup';
 import { setTileScheme } from '../setTileScheme';
 import { createFeatureStateHandlers } from '../helpers/activeAndHoverFeatureStates';
-import { isFeatureVisible } from '../helpers/featureVisibilityCheck';
+import {
+  BivariatePopoverProvider,
+  MCDAPopoverProvider,
+} from './BivariatePopoverProviders';
 import {
   FALLBACK_BIVARIATE_MIN_ZOOM,
   FALLBACK_BIVARIATE_MAX_ZOOM,
@@ -37,52 +31,35 @@ import type { MCDALayerStyle } from '../stylesConfigs/mcda/types';
 import type {
   LayerSpecification,
   LineLayerSpecification,
-  MapLibreZoomEvent,
-  MapMouseEvent,
   VectorSourceSpecification,
 } from 'maplibre-gl';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
-import type {
-  BivariateLegend,
-  BivariateLegendStep,
-} from '~core/logical_layers/types/legends';
+import type { BivariateLegend } from '~core/logical_layers/types/legends';
 import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
 import type { LayerTileSource } from '~core/logical_layers/types/source';
 import type { LayersOrderManager } from '../../utils/layersOrder/layersOrder';
-import type { GeoJsonProperties } from 'geojson';
 import type { LayerStyle } from '../../types/style';
-import type { RGBAColor } from '~core/types/color';
-
-const convertFillColorToRGBA = (fillColor: RGBAColor, withTransparency = true): string =>
-  `rgba(${fillColor.r * 255 * 2},${fillColor.g * 255 * 2},${fillColor.b * 255 * 2}${
-    withTransparency ? ',' + fillColor.a : ''
-  })`;
-
-function calcValueByNumeratorDenominator(
-  cellValues: Exclude<GeoJsonProperties, null>,
-  numerator: string,
-  denominator: string,
-): string | undefined {
-  const numeratorValue = cellValues[numerator];
-  const denominatorValue = cellValues[denominator];
-  // is null or undefined
-  if (numeratorValue == null || denominatorValue == null) return '0.00';
-  if (denominatorValue === 0) return undefined;
-
-  return (numeratorValue / denominatorValue).toFixed(2);
-}
 
 export class BivariateRenderer extends LogicalLayerDefaultRenderer {
   public readonly id: string;
   protected _layerId?: string;
   protected _sourceId: string;
   protected _layersOrderManager?: LayersOrderManager;
-  protected _popup?: MapPopup | null;
   protected _listenersCleaningTasks = new Set<() => void>();
+  private _bivariateProvider: BivariatePopoverProvider | null = null;
+  private _mcdaProvider: MCDAPopoverProvider | null = null;
   private cleanUpListeners = () => {
     this._listenersCleaningTasks.forEach((task) => task());
     this._listenersCleaningTasks.clear();
   };
+
+  private get bivariatePopoverId(): string {
+    return `bivariate-${this._sourceId}`;
+  }
+
+  private get mcdaPopoverId(): string {
+    return `mcda-${this._sourceId}`;
+  }
 
   public constructor({
     id,
@@ -179,91 +156,16 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     }
   }
 
-  removeBivariatePopupClickHandler?: () => void;
-  addBivariatePopup(map: ApplicationMap, legend: BivariateLegend | null) {
-    const clickHandler = (ev: MapMouseEvent) => {
-      const features = ev.target
-        .queryRenderedFeatures(ev.point)
-        .filter((f) => f.source.includes(this._sourceId));
-
-      if (!features.length || !legend || !features[0].geometry) return true;
-
-      const [feature] = features;
-      /* Skip when color empty */
-      if (!isFeatureVisible(feature)) return true;
-      if (!feature.properties) return true;
-      const [xNumerator, xDenominator] = legend.axis.x.quotient;
-      const [yNumerator, yDenominator] = legend.axis.y.quotient;
-      const xValue = calcValueByNumeratorDenominator(
-        feature.properties,
-        xNumerator,
-        xDenominator,
-      );
-      const yValue = calcValueByNumeratorDenominator(
-        feature.properties,
-        yNumerator,
-        yDenominator,
-      );
-
-      if (!xValue || !yValue) return true;
-      const fillColor: RGBAColor = feature.layer.paint?.['fill-color'];
-      if (!fillColor) return true;
-
-      const rgba = convertFillColorToRGBA(fillColor);
-      const cells: BivariateLegendStep[] = invertClusters(legend.steps, 'label');
-      const cellLabel = getCellLabelByValue(
-        legend.axis.x.steps,
-        legend.axis.y.steps,
-        Number(xValue),
-        Number(yValue),
-      );
-      const cellIndex = cells.findIndex((i) => i.label === cellLabel);
-
-      const popupNode = document.createElement('div');
-      createRoot(popupNode).render(
-        <MapHexTooltip
-          cellLabel={cells[cellIndex].label}
-          cellIndex={cellIndex}
-          axis={legend.axis}
-          values={{ x: xValue, y: yValue }}
-          hexagonColor={rgba}
-        />,
-      );
-
-      this.cleanPopup();
-      this._popup = new MapPopup({
-        closeOnClick: true,
-        className: bivariateHexagonPopupContentRoot,
-        maxWidth: 'none',
-        focusAfterOpen: false,
-        offset: 15,
-      })
-        .setLngLat(ev.lngLat)
-        .setDOMContent(popupNode)
-        .addTo(map);
-
-      this._popup.once('close', () => {
-        this.resetFeatureStates?.();
-      });
-
-      return true;
-    };
-
-    if (this.removeBivariatePopupClickHandler) {
-      // Remove old click handler
-      this.removeBivariatePopupClickHandler();
-      // Remove remover from scheduled for unmount tasks
-      this._listenersCleaningTasks.delete(this.removeBivariatePopupClickHandler);
+  registerBivariateProvider(legend: BivariateLegend | null) {
+    if (this._bivariateProvider) {
+      mapPopoverRegistry.unregister(this.bivariatePopoverId);
+      this._bivariateProvider = null;
     }
 
-    // Create new click handler fpr showing popup
-    const removeClickListener = registerMapListener('click', clickHandler, 60);
-
-    // Schedule removing handler on unmount
-    this._listenersCleaningTasks.add(removeClickListener);
-
-    // Save it for next call
-    this.removeBivariatePopupClickHandler = removeClickListener;
+    if (legend) {
+      this._bivariateProvider = new BivariatePopoverProvider(this._sourceId, legend);
+      mapPopoverRegistry.register(this.bivariatePopoverId, this._bivariateProvider);
+    }
   }
 
   async mountMCDALayer(
@@ -306,45 +208,16 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
     this._layerId = layerId;
   }
 
-  addMCDAPopup(map: ApplicationMap, style: MCDALayerStyle) {
-    const clickHandler = (ev: MapMouseEvent) => {
-      const features = ev.target
-        .queryRenderedFeatures(ev.point)
-        .filter((f) => f.source.includes(this._sourceId));
+  registerMCDAProvider(style: MCDALayerStyle | null) {
+    if (this._mcdaProvider) {
+      mapPopoverRegistry.unregister(this.mcdaPopoverId);
+      this._mcdaProvider = null;
+    }
 
-      // Don't show popup when click in empty place
-      if (!features.length || !features[0].geometry) return true;
-
-      const [feature] = features;
-
-      // Don't show popup when click on feature that filtered by map style
-      if (!isFeatureVisible(feature)) return true;
-
-      // Show popup on click
-      const popupNode = generateMCDAPopupContent(feature, style.config.layers);
-      dispatchMetricsEvent('mcda_popup');
-      this.cleanPopup();
-      this._popup = new MapPopup({
-        closeOnClick: true,
-        className: bivariateHexagonPopupContentRoot,
-        maxWidth: 'none',
-        focusAfterOpen: false,
-        offset: 15,
-      })
-        .setLngLat(ev.lngLat)
-        .setDOMContent(popupNode)
-        .addTo(map);
-
-      this._popup.once('close', () => {
-        this.resetFeatureStates?.();
-      });
-
-      return true;
-    };
-    this.cleanUpListeners();
-    // Click
-    const removeClickListener = registerMapListener('click', clickHandler, 60);
-    this._listenersCleaningTasks.add(removeClickListener);
+    if (style) {
+      this._mcdaProvider = new MCDAPopoverProvider(this._sourceId, style);
+      mapPopoverRegistry.register(this.mcdaPopoverId, this._mcdaProvider);
+    }
   }
 
   protected _updateMap(
@@ -358,25 +231,14 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
 
     if (style?.type === 'mcda') {
       this.mountMCDALayer(map, layerData, style);
-      this.addMCDAPopup(map, style);
+      this.registerMCDAProvider(style);
     } else {
       this.mountBivariateLayer(map, layerData, legend);
-      this.addBivariatePopup(map, legend);
+      this.registerBivariateProvider(legend);
     }
 
     this.addHoverAndActiveFeatureState(map, style);
     if (!isVisible) this.willHide({ map });
-  }
-
-  onMapZoom = (ev: maplibregl.MapLibreEvent<MapLibreZoomEvent>) => {
-    this.cleanPopup();
-  };
-
-  cleanPopup() {
-    if (this._popup) {
-      this._popup.remove();
-      this._popup = null;
-    }
   }
 
   /* ========== Hooks ========== */
@@ -398,7 +260,6 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
   }
 
   willMount({ map, state }: { map: ApplicationMap; state: LogicalLayerState }) {
-    map.on('zoom', this.onMapZoom);
     if (state.source) {
       this._updateMap(
         map,
@@ -433,7 +294,15 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       );
     }
 
-    this.cleanPopup();
+    if (this._bivariateProvider) {
+      mapPopoverRegistry.unregister(this.bivariatePopoverId);
+      this._bivariateProvider = null;
+    }
+    if (this._mcdaProvider) {
+      mapPopoverRegistry.unregister(this.mcdaPopoverId);
+      this._mcdaProvider = null;
+    }
+
     this.resetFeatureStates?.();
 
     if (map.getSource(this._sourceId)) {
@@ -444,7 +313,6 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
       );
     }
     this.cleanUpListeners();
-    map.off('zoom', this.onMapZoom);
   }
 
   willHide({ map }: { map: ApplicationMap }) {
@@ -452,7 +320,13 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
 
     if (map.getLayer(this._layerId) !== undefined) {
       map.setLayoutProperty(this._layerId, 'visibility', 'none');
-      this.cleanPopup();
+
+      if (this._bivariateProvider) {
+        mapPopoverRegistry.unregister(this.bivariatePopoverId);
+      }
+      if (this._mcdaProvider) {
+        mapPopoverRegistry.unregister(this.mcdaPopoverId);
+      }
     } else {
       console.warn(
         `Can't hide layer with ID: ${this._layerId}. Layer doesn't exist on the map`,
@@ -465,6 +339,13 @@ export class BivariateRenderer extends LogicalLayerDefaultRenderer {
 
     if (map.getLayer(this._layerId) !== undefined) {
       map.setLayoutProperty(this._layerId, 'visibility', 'visible');
+
+      if (this._bivariateProvider) {
+        mapPopoverRegistry.register(this.bivariatePopoverId, this._bivariateProvider);
+      }
+      if (this._mcdaProvider) {
+        mapPopoverRegistry.register(this.mcdaPopoverId, this._mcdaProvider);
+      }
     } else {
       console.warn(
         `Cannot unhide layer with ID: ${this._layerId}. Layer doesn't exist on the map`,

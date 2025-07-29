@@ -25,7 +25,7 @@ const fileUploaderControl = toolbar.setupControl({
   type: 'button',
   typeSettings: {
     name: GEOMETRY_UPLOADER_CONTROL_NAME,
-    hint: i18n.t('geometry_uploader.title'),
+    hint: GEOMETRY_UPLOADER_CONTROL_NAME,
     icon: 'Upload24',
     preferredSize: 'large',
     onRef: (el) => {

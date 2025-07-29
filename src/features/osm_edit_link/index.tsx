@@ -1,6 +1,5 @@
 import { currentUserAtom } from '~core/shared_state';
 import { toolbar } from '~core/toolbar';
-import { i18n } from '~core/localization';
 import { configRepo } from '~core/config';
 import { store } from '~core/store/store';
 import { DEFAULT_OSM_EDITOR } from '~core/constants';
@@ -13,7 +12,7 @@ export const osmEditControl = toolbar.setupControl({
   type: 'button',
   typeSettings: {
     name: EDIT_IN_OSM_CONTROL_NAME,
-    hint: i18n.t('sidebar.edit_osm'),
+    hint: EDIT_IN_OSM_CONTROL_NAME,
     icon: 'EditInOsm16',
     preferredSize: 'tiny',
   },

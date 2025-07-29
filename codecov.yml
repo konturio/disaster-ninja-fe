@@ -8,11 +8,11 @@ component_management:
         - src/views/**
       statuses:
         - type: project
-          target: 8%
-          threshold: 1%
+          target: auto
+          threshold: 0%
         - type: patch
-          target: 15%
-          threshold: 2%
+          target: auto
+          threshold: 0%
 
     - component_id: core
       name: Core Logic
@@ -20,11 +20,11 @@ component_management:
         - src/core/**
       statuses:
         - type: project
-          target: 25%
-          threshold: 1%
+          target: auto
+          threshold: 0%
         - type: patch
-          target: 35%
-          threshold: 2%
+          target: auto
+          threshold: 0%
 
     - component_id: features
       name: Features
@@ -32,11 +32,11 @@ component_management:
         - src/features/**
       statuses:
         - type: project
-          target: 15%
-          threshold: 1%
+          target: auto
+          threshold: 0%
         - type: patch
-          target: 25%
-          threshold: 2%
+          target: auto
+          threshold: 0%
 
     - component_id: utils
       name: Utilities
@@ -44,11 +44,11 @@ component_management:
         - src/utils/**
       statuses:
         - type: project
-          target: 20%
-          threshold: 1%
+          target: auto
+          threshold: 0%
         - type: patch
-          target: 30%
-          threshold: 2%
+          target: auto
+          threshold: 0%
 
 github_checks:
   annotations: false

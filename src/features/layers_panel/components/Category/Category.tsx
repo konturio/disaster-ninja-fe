@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import { useAtom } from '@reatom/react-v2';
 import { useAction } from '@reatom/react-v2';
 import { FoldingWrap } from '~components/FoldingWrap/FoldingWrap';
@@ -6,19 +6,23 @@ import { mountedLayersByCategoryAtom } from '~features/layers_panel/atoms/mounte
 import { Group } from '../Group/Group';
 import { categoryDeselection } from '../../atoms/categoryDeselection';
 import { DeselectControl } from '../DeselectControl/DeselectControl';
+import { layersTreeOpenStateAtom } from '../../atoms/openState';
 import s from './Category.module.css';
 import type { CategoryWithSettings } from '~core/types/layers';
 
 export function Category({ category }: { category: CategoryWithSettings }) {
-  // Temporary solution before redisign according to task 11553-unfold-all-layers-tree-in-layers-panel-by-default
-  // const [isOpen, setOpenState] = useState(category.openByDefault ?? false);
-  const [isOpen, setOpenState] = useState(true);
+  const [openMap] = useAtom(layersTreeOpenStateAtom);
   const [counters] = useAtom(mountedLayersByCategoryAtom);
+  const isOpen = openMap.get(category.id) ?? true;
+  const setOpen = useAction(layersTreeOpenStateAtom.set);
   const onCategoryDeselect = useAction(
     () => categoryDeselection.deselect(category.id),
     [category.id],
   );
-  const toggleOpenState = useCallback(() => setOpenState((state) => !state), []);
+  const toggleOpenState = useCallback(
+    () => setOpen(category.id, !isOpen),
+    [setOpen, category.id, isOpen],
+  );
   return (
     <div className={s.category}>
       <FoldingWrap

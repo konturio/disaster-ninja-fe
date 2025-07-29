@@ -1,5 +1,4 @@
 import { toolbar } from '~core/toolbar';
-import { i18n } from '~core/localization';
 import { forceRun } from '~utils/atoms/forceRun';
 import { openDrawToolsInFeatureEditMode } from '~features/create_layer/atoms/drawToolsController';
 import { editableLayersLegendsAndSources } from '~features/create_layer/atoms/editableLayersLegendsAndSources';
@@ -13,7 +12,7 @@ export const createLayerController = toolbar.setupControl({
   type: 'button',
   typeSettings: {
     name: CREATE_LAYER_CONTROL_NAME,
-    hint: i18n.t('create_layer.create_layer'),
+    hint: CREATE_LAYER_CONTROL_NAME,
     icon: 'AddLayer24',
     preferredSize: 'large',
   },

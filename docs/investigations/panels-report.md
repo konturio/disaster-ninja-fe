@@ -241,10 +241,10 @@ stateDiagram-v2
 config:
   layout: elk
 ---
-flowchart TD
-    classDef eventClass stroke-width:2px
-    classDef layerClass stroke-width:4px
-    classDef otherClass fill:#333,stroke-width:1px
+flowchart LR
+    classDef eventClass stroke-width:3px,stroke:green
+    classDef layerClass stroke-width:3px,stroke:blue
+    classDef otherClass stroke-width:3px,stroke:grey
 
     App[Application] --> MapView[Map View]
     App --> BivaPanel["BivariatePanel<br/>(features/bivariate_manager)"]:::otherClass

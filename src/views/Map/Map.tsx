@@ -17,6 +17,7 @@ import { configRepo } from '~core/config';
 import { Search } from '~features/search';
 import { AppFeature } from '~core/app/types';
 import { PresentationLayout } from '~views/Map/Layouts/Presentation/Presentation';
+import { KONTUR_DEBUG } from '~utils/debug';
 import s from './Map.module.css';
 import { Layout } from './Layouts/Layout';
 
@@ -45,7 +46,7 @@ const { BreadcrumbsPanel } = lazily(
   () => import('~features/breadcrumbs/BreadcrumbsPanel'),
 );
 
-export function MapPage() {
+function FeaturesLoader() {
   useEffect(() => {
     import('~core/draw_tools').then(({ drawTools }) => drawTools.init());
 
@@ -90,11 +91,7 @@ export function MapPage() {
     if (featureFlags[AppFeature.OSM_EDIT_LINK]) {
       import('~features/osm_edit_link/').then(({ initOsmEditLink }) => initOsmEditLink());
     }
-    // TODO add feature flag to replace 'draw_tools' to 'focused_geometry_editor'
-    if (
-      featureFlags[AppFeature.DRAW_TOOLS] ||
-      featureFlags[AppFeature.FOCUSED_GEOMETRY_EDITOR]
-    ) {
+    if (featureFlags[AppFeature.FOCUSED_GEOMETRY_EDITOR]) {
       import('~widgets/FocusedGeometryEditor').then(({ initFocusedGeometry }) =>
         initFocusedGeometry(),
       );
@@ -114,77 +111,118 @@ export function MapPage() {
         initSensor();
       });
     }
-    if (featureFlags[AppFeature.BIVARIATE_MANAGER]) {
-      import('~features/bivariate_manager').then(({ initBivariateMatrix }) => {
-        initBivariateMatrix();
-      });
-    }
     // TODO: remove user check once backend stops returning reference_area feature for unauthorized users
     if (featureFlags[AppFeature.REFERENCE_AREA] && configRepo.get().user) {
       import('~features/reference_area').then(({ initReferenceArea }) =>
         initReferenceArea(),
       );
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [featureFlags]);
+  }, []);
 
+  return null;
+}
+
+export function MapPage() {
   return (
     <div className={clsx(s.mainView, presentationMode ? 'presentation-mode' : '')}>
       <div className={s.mapWrap}>
-        <Suspense fallback={null}>
-          <ConnectedMap className={s.Map} />
-          {featureFlags[AppFeature.ADMIN_BOUNDARY_BREADCRUMBS] && (
-            <Plus16 className={s.crosshair}></Plus16>
-          )}
+        <ConnectedMap className={s.Map} />
+        {featureFlags[AppFeature.ADMIN_BOUNDARY_BREADCRUMBS] && (
+          <Plus16 className={s.crosshair}></Plus16>
+        )}
+        <Suspense
+          fallback={KONTUR_DEBUG ? <h2>Suspense MapPage FeaturesLoader...</h2> : null}
+        >
+          <FeaturesLoader />
         </Suspense>
       </div>
-      {presentationMode ? (
-        <PresentationLayout
-          scaleAndLogo={
-            <div className={clsx(s.footer, s.clickThrough)}>
-              <div className={s.footerBackground}>
-                <ScaleControl />
-                <Logo height={24} palette="contrast" />
+      <Suspense fallback={KONTUR_DEBUG ? <h2>Suspense MapPage Layout...</h2> : null}>
+        {presentationMode ? (
+          <PresentationLayout
+            scaleAndLogo={
+              <div className={clsx(s.footer, s.clickThrough)}>
+                <div className={s.footerBackground}>
+                  <ScaleControl />
+                  <Logo height={24} palette="contrast" />
+                </div>
               </div>
-            </div>
-          }
-        />
-      ) : (
-        <Layout
-          searchBar={
-            featureFlags[AppFeature.SEARCH_BAR] &&
-            featureFlags[AppFeature.SEARCH_LOCATION] && <Search />
-          }
-          analytics={<Analytics />}
-          // if EVENTS_LIST is enabled, we always have default feed
-          disasters={featureFlags[AppFeature.EVENTS_LIST] && <EventListPanel />}
-          layersAndLegends={<LayersAndLegends />}
-          matrix={<></>}
-          timeline={featureFlags[AppFeature.EPISODES_TIMELINE] && <EventEpisodes />}
-          breadcrumbs={
-            featureFlags[AppFeature.ADMIN_BOUNDARY_BREADCRUMBS] && <BreadcrumbsPanel />
-          }
-          toolbar={featureFlags[AppFeature.TOOLBAR] && <Toolbar />}
-          layerFeaturesPanel={
-            featureFlags[AppFeature.LAYER_FEATURES_PANEL] && <LayerFeaturesPanel />
-          }
-          footer={
-            <div className={clsx(s.footer, s.clickThrough)}>
-              <div className={s.footerBackground}>
-                <ScaleControl />
-                <Copyrights />
-                <Logo height={24} palette="contrast" />
+            }
+          />
+        ) : (
+          <Layout
+            searchBar={
+              featureFlags[AppFeature.SEARCH_BAR] &&
+              featureFlags[AppFeature.SEARCH_LOCATION] && (
+                <Suspense fallback={null}>
+                  <Search />
+                </Suspense>
+              )
+            }
+            analytics={
+              <Suspense fallback={null}>
+                <Analytics />
+              </Suspense>
+            }
+            // if EVENTS_LIST is enabled, we always have default feed
+            disasters={
+              featureFlags[AppFeature.EVENTS_LIST] && (
+                <Suspense fallback={null}>
+                  <EventListPanel />
+                </Suspense>
+              )
+            }
+            layersAndLegends={
+              <Suspense fallback={null}>
+                <LayersAndLegends />
+              </Suspense>
+            }
+            matrix={<></>}
+            timeline={
+              featureFlags[AppFeature.EPISODES_TIMELINE] && (
+                <Suspense fallback={null}>
+                  <EventEpisodes />
+                </Suspense>
+              )
+            }
+            breadcrumbs={
+              featureFlags[AppFeature.ADMIN_BOUNDARY_BREADCRUMBS] && (
+                <Suspense fallback={null}>
+                  <BreadcrumbsPanel />
+                </Suspense>
+              )
+            }
+            toolbar={
+              featureFlags[AppFeature.TOOLBAR] && (
+                <Suspense fallback={null}>
+                  <Toolbar />
+                </Suspense>
+              )
+            }
+            layerFeaturesPanel={
+              featureFlags[AppFeature.LAYER_FEATURES_PANEL] && (
+                <Suspense fallback={null}>
+                  <LayerFeaturesPanel />
+                </Suspense>
+              )
+            }
+            footer={
+              <div className={clsx(s.footer, s.clickThrough)}>
+                <div className={s.footerBackground}>
+                  <ScaleControl />
+                  <Copyrights />
+                  <Logo height={24} palette="contrast" />
+                </div>
+                <IntercomBTN />
               </div>
-              <IntercomBTN />
-            </div>
-          }
-          editPanel={
-            featureFlags[AppFeature.CREATE_LAYER] && (
-              <Suspense fallback={null}>{EditPanel()}</Suspense>
-            )
-          }
-        />
-      )}
+            }
+            editPanel={
+              featureFlags[AppFeature.CREATE_LAYER] && (
+                <Suspense fallback={null}>{EditPanel()}</Suspense>
+              )
+            }
+          />
+        )}
+      </Suspense>
     </div>
   );
 }

@@ -51,6 +51,7 @@ This feature uses next core modules:
 ## How it works
 
 1. layerSideBarButtonControllerAtom adds "Create layer" button in side bar (layerSideBarButtonControllerAtom). This button creates new layer on click.
+   Each new layer receives a randomly generated `id` prefixed with `user-layer-` so layers with the same name remain independent.
 2. editableLayersListResource atom loads enabled user layers
 3. editableLayersControlsAtom - creates logical_layer (visible in layers panel) for every layer from editableLayersListResource
 4. editableLayersLegendsAndSources - creates legends and sources for enabled layers

@@ -1,25 +1,25 @@
 import { clsx } from 'clsx';
-import { CardElementsMap } from '../CardElements';
+import { UniLayoutRenderer } from '~components/Uni/Layout/UniLayoutRenderer';
 import s from './LayerFeaturesCard.module.css';
-import type { FeatureCardCfg } from '../CardElements';
+import type { FeaturesPanelItem } from '../LayerFeaturesPanel/types';
 
 export function LayerFeaturesCard({
   feature,
   isActive,
   onClick,
+  layout,
 }: {
-  feature: FeatureCardCfg;
+  feature: FeaturesPanelItem;
   isActive: boolean;
   onClick?: () => void;
+  layout: any;
 }) {
   return (
-    <div className={clsx(s.card, isActive && s.selected)} onClick={onClick} tabIndex={0}>
-      {feature.items.map(({ type, ...k }, idx) => {
-        if (CardElementsMap[type]) {
-          const Component = CardElementsMap[type] as () => JSX.Element;
-          return <Component key={idx} {...k} />;
-        }
-      })}
+    <div className={clsx(s.layerFeaturesCard)} onClick={onClick} tabIndex={0}>
+      <UniLayoutRenderer
+        node={layout}
+        data={{ ...feature.properties, active: isActive }}
+      />
     </div>
   );
 }

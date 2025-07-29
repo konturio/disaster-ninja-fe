@@ -1,12 +1,13 @@
 import nextafter from 'nextafter';
 import { isNumber } from '~utils/common';
+import { arraysAreEqualWithStrictOrder } from '~utils/common/equality';
 import { sentimentDefault, sentimentReversed } from './constants';
 import { JsMath, MapMath } from './operations';
 import type { IsomorphMath } from './operations';
 import type { MCDAConfig, TransformationFunction } from '../types';
 
 const equalSentiments = (a: Array<string>, b: Array<string>) =>
-  a.length === b.length && a.every((x, i) => x === b[i]);
+  arraysAreEqualWithStrictOrder(a, b);
 
 const nextFloatValueInDirection = (
   value: number,

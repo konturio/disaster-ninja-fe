@@ -23,7 +23,12 @@ export const calculateMCDALayer = calculateLayerPipeline(inStyleCalculations, (a
   den: ['get', axis.den],
 }));
 
-export function filterSetup(layers: MCDAConfig['layers']): FilterSpecification {
+export function filterSetup(
+  layers: MCDAConfig['layers'],
+): FilterSpecification | undefined {
+  if (layers.length === 0) {
+    return undefined;
+  }
   // TODO: is this condition really needed?
   // checks that at least one layer has a non-zero value
   const conditions = [
@@ -179,7 +184,8 @@ export function createMCDAStyle(config: MCDAConfig): FillLayerSpecification {
   const mcdaResult = linearNormalization(config.layers);
 
   const layerStyle: FillLayerSpecification = {
-    id: config.id,
+    // TODO: this id is useless and gets replaced in renderer. Needs refactoring
+    id: 'placeholder_id',
     type: 'fill' as const,
     layout: {},
     filter: filterSetup(config.layers),
@@ -190,8 +196,8 @@ export function createMCDAStyle(config: MCDAConfig): FillLayerSpecification {
       absoluteMin,
       absoluteMax,
     }),
-
-    source: config.id + '_source', // this id is replaced inside the Renderer
+    // TODO: this source id is useless and gets replaced in renderer. Needs refactoring
+    source: 'placeholder_source_id',
     'source-layer': SOURCE_LAYER_MCDA,
   };
 

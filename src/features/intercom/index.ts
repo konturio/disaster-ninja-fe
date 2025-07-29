@@ -27,12 +27,33 @@ export function updateUserData(data) {
   }
 }
 
+function removeIntercomSessionCookie(appId?: string) {
+  if (!appId) return;
+  document.cookie = `intercom-session-${appId}=;path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+  // happy-dom used in tests doesn't respect expires attribute, so also blank out
+  // cookie value to ensure cleanup in that environment
+  document.cookie = `intercom-session-${appId}=`;
+}
+
+export function shutdownIntercom() {
+  // Intercom('shutdown') should remove its cookie, but we observed it sometimes
+  // sticks around when the widget fails to load. Removing it here avoids
+  // showing stale conversations after logout.
+  const { intercomAppId } = configRepo.getIntercomSettings();
+  removeIntercomSessionCookie(intercomAppId);
+  if (typeof globalThis.Intercom === 'function') {
+    globalThis.Intercom('shutdown');
+  }
+  globalThis.intercomSettings = undefined;
+}
+
 function connectAndConfigureIntercom() {
   const { email, intercomAppId, intercomSelector, name, phone } =
     configRepo.getIntercomSettings();
 
-  // need this to reset intercom session for unregistered users on startup
-  document.cookie = `intercom-session-${intercomAppId}= ; expires = Thu, 01 Jan 1970 00:00:00 GMT`;
+  // Remove any leftover session cookie from a previous user. The Intercom
+  // script may not have been loaded yet, so we clear it manually here.
+  removeIntercomSessionCookie(intercomAppId);
 
   if (!globalThis.intercomSettings) {
     globalThis.intercomSettings = {

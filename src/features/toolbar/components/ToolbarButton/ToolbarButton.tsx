@@ -12,6 +12,7 @@ export interface ControlButttonProps {
   icon: React.ReactElement;
   onClick?: () => void;
   children: React.ReactNode;
+  hint?: string;
   disabled?: boolean;
   active?: boolean;
   variant?: ButtonProps['variant'];
@@ -26,6 +27,7 @@ export const ToolbarButton = forwardRef(function ToolbarButton(
     disabled,
     active,
     onClick,
+    hint,
     children,
     variant = 'invert-outline',
     className,
@@ -33,7 +35,7 @@ export const ToolbarButton = forwardRef(function ToolbarButton(
   ref: React.Ref<HTMLButtonElement>,
 ) {
   return (
-    <SimpleTooltip content={children} placement="top">
+    <SimpleTooltip content={hint} placement="top">
       <Button
         ref={ref}
         variant={variant}
