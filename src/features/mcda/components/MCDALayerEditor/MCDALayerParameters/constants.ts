@@ -1,8 +1,5 @@
 import { i18n } from '~core/localization';
-import {
-  sentimentDefault,
-  sentimentReversed,
-} from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations/constants';
+import { sentimentDefault, sentimentReversed } from '~mcda/calculations/constants';
 import type { SelectableItem } from '@konturio/ui-kit';
 
 export const SENTIMENT_VALUES = {

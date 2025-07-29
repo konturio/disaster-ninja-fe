@@ -1,9 +1,6 @@
-import { sentimentReversed } from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations/constants';
+import { sentimentReversed } from '~mcda/calculations/constants';
 import { arraysAreEqualWithStrictOrder } from '~utils/common/equality';
-import type {
-  MCDAConfig,
-  MCDALayer,
-} from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { MCDAConfig, MCDALayer } from '~mcda/types';
 
 export function getDirectAndReversedMCDALayers(config: MCDAConfig) {
   const reversedLayers: MCDALayer[] = [];

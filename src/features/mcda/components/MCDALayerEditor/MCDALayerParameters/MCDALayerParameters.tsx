@@ -27,12 +27,8 @@ import {
   transformOptions,
 } from './constants';
 import MCDATransformationDebugInfo from './MCDATransformationDebugInfo/MCDATransformationDebugInfo';
-import type {
-  MCDALayer,
-  OutliersPolicy,
-  TransformationFunction,
-} from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
-import type { Normalization } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { MCDALayer, OutliersPolicy, TransformationFunction } from '~mcda/types';
+import type { Normalization } from '~mcda/types';
 import type { AxisTransformationWithPoints } from '~utils/bivariate';
 
 export type MCDALayerLegendProps = {

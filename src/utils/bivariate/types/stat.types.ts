@@ -1,6 +1,6 @@
 /** Full docs: https://gist.github.com/Akiyamka/8ad19a8de3c955ac1f27f67281c12fdf#correlationrate */
 
-import type { TransformationFunction } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { TransformationFunction } from '~mcda/types';
 
 export type CornerRange = 'good' | 'bad' | 'important' | 'unimportant' | 'neutral';
 

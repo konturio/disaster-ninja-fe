@@ -1,6 +1,6 @@
 import { i18n } from '~core/localization';
 import { getDirectAndReversedMCDALayers } from '~utils/mcda/getDirectAndReversedMCDALayers';
-import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { MCDAConfig } from '~mcda/types';
 
 function joinLayerNames(names: string[]): string {
   return names.join(', ');

@@ -4,7 +4,7 @@ import { layersSourcesAtom } from '~core/logical_layers/atoms/layersSources';
 import { applyNewLayerStyle } from '~core/logical_layers/utils/applyNewLayerStyle';
 import s from './style.module.css';
 import { MCDALayerParameters } from './MCDALayerParameters/MCDALayerParameters';
-import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { MCDALayer } from '~mcda/types';
 import type { LayerEditorProps } from '~core/logical_layers/types/editors';
 
 export function MCDALayerEditor({ layerId }: LayerEditorProps) {

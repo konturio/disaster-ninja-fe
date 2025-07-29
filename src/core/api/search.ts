@@ -2,7 +2,7 @@ import { apiClient } from '~core/apiClientInstance';
 import { configRepo } from '~core/config';
 import { i18n } from '~core/localization';
 import type { Geometry } from 'geojson';
-import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { MCDAConfig } from '~mcda/types';
 import type { Bbox } from '~core/shared_state/currentMapPosition';
 
 export interface LocationProperties {

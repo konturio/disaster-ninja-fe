@@ -18,10 +18,7 @@ import type { Direction } from '~utils/bivariate';
 import type { LayerMeta } from '~core/logical_layers/types/meta';
 import type { ColorTheme } from '~core/types';
 import type { MultivariateLayerConfig } from '~core/logical_layers/renderers/MultivariateRenderer/types';
-import type {
-  MCDAConfig,
-  MCDALayer,
-} from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { MCDAConfig, MCDALayer } from '~mcda/types';
 import type { Cell } from '@konturio/ui-kit/tslib/Legend/types';
 
 export type MultivariateLegendProps = {

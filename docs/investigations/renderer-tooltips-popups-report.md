@@ -91,8 +91,8 @@ graph TD
   - The `MCDARenderer` class implements `createPopupContent` by calling `generateMCDAPopupContent`.
 - **Dependencies:**
   - [`MCDARenderer/components/PopupMCDA.tsx`](../../src/core/logical_layers/renderers/MCDARenderer/components/PopupMCDA.tsx) (the React component for rendering the table UI).
-  - MCDA style configuration and types ([`~core/logical_layers/renderers/stylesConfigs/mcda/types.ts`](../../src/core/logical_layers/renderers/stylesConfigs/mcda/types.ts)).
-  - MCDA calculation utilities ([`~core/logical_layers/renderers/stylesConfigs/mcda/calculations.ts`](../../src/core/logical_layers/renderers/stylesConfigs/mcda/calculations.ts)).
+  - MCDA style configuration and types ([`~mcda/types.ts`](../../src/core/logical_layers/renderers/stylesConfigs/mcda/types.ts)).
+  - MCDA calculation utilities ([`~mcda/calculations.ts`](../../src/core/logical_layers/renderers/stylesConfigs/mcda/calculations.ts)).
   - React and `react-dom/client`.
 - **Architecture/Dependency Description:** The MCDA popup content generation is modularized. [`MCDARenderer/popup.ts`](../../src/core/logical_layers/renderers/MCDARenderer/popup.ts) depends on the MCDA calculation utilities and the `PopupMCDA.tsx` component. The `MCDARenderer` (not fully provided, but inferred to extend `ClickableFeaturesRenderer`) depends on `MCDARenderer/popup.ts` to get the DOM node content for its popup.
 

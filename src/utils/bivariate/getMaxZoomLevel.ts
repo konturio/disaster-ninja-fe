@@ -1,5 +1,5 @@
 import type { MultivariateLayerConfig } from '~core/logical_layers/renderers/MultivariateRenderer/types';
-import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { MCDAConfig } from '~mcda/types';
 import type { Indicator } from '~utils/bivariate';
 
 export function getMaxMultivariateZoomLevel(

@@ -1,9 +1,6 @@
-import {
-  DEFAULT_GREEN,
-  DEFAULT_RED,
-} from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations/constants';
+import { DEFAULT_GREEN, DEFAULT_RED } from '~mcda/calculations/constants';
 import { generateHclGradientColors } from './generateHclGradientColors';
-import type { ColorsBySentiments } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { ColorsBySentiments } from '~mcda/types';
 
 export function generateMCDALegendColors(colors: ColorsBySentiments) {
   const colorGood = colors.parameters?.good ?? DEFAULT_GREEN;

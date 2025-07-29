@@ -10,7 +10,7 @@ import { i18n } from '~core/localization';
 import { generateMCDALegendColors } from '~utils/mcda/mcdaLegendsUtils';
 import { getDefaultBivariateTileSource } from '~core/bivariate/getDefaultBivariateTileSource';
 import { MCDALayerEditor } from '../components/MCDALayerEditor';
-import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { MCDAConfig } from '~mcda/types';
 import type { Action } from '@reatom/core-v2';
 
 export const mcdaLayerAtom = createAtom(

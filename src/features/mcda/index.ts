@@ -7,7 +7,7 @@ import { mcdaLayerAtom } from './atoms/mcdaLayer';
 import { createMCDAConfig, editMCDAConfig } from './mcdaConfig';
 import { MCDA_CONTROL_ID, UPLOAD_MCDA_CONTROL_ID } from './constants';
 import { askMcdaJSONFile } from './utils/openMcdaFile';
-import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { MCDAConfig } from '~mcda/types';
 import type { LogicalLayerActions } from '~core/logical_layers/types/logicalLayer';
 
 export const mcdaControl = toolbar.setupControl({

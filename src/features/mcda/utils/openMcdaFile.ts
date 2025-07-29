@@ -3,7 +3,7 @@ import { currentNotificationAtom } from '~core/shared_state';
 import { generateMCDAId } from '~utils/mcda/generateMCDAId';
 import { DEFAULT_MCDA_NAME } from '../constants';
 import { validateMCDAConfig } from './validateMCDAConfig';
-import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { MCDAConfig } from '~mcda/types';
 
 const input = (() => {
   const input = document.createElement('input');

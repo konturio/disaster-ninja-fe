@@ -27,7 +27,7 @@ import { MultivariateDimensionDetails } from '../MultivariateDimensionDetails/Mu
 import { CustomStepsInput, type CustomSteps } from '../CustomStepsInput/CustomStepsInput';
 import s from './MultivariateAnalysisForm.module.css';
 import type { CustomStepsErrors } from '../CustomStepsInput/CustomStepsInput';
-import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { MCDALayer } from '~mcda/types';
 import type { MultivariateLayerConfig } from '~core/logical_layers/renderers/MultivariateRenderer/types';
 import type { Axis } from '~utils/bivariate';
 

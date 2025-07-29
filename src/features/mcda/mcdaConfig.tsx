@@ -1,13 +1,10 @@
 import { showModal } from '~core/modal';
-import { DEFAULT_MCDA_COLORS_BY_SENTIMENT } from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations/constants';
+import { DEFAULT_MCDA_COLORS_BY_SENTIMENT } from '~mcda/calculations/constants';
 import { createMCDALayersFromBivariateAxes } from '~utils/mcda/createMCDALayersFromBivariateAxes';
 import { generateMCDAId } from '../../utils/mcda/generateMCDAId';
 import { MCDAForm } from './components/MCDAForm';
 import { DEFAULT_MCDA_NAME } from './constants';
-import type {
-  MCDAConfig,
-  MCDALayer,
-} from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { MCDAConfig, MCDALayer } from '~mcda/types';
 
 export async function editMCDAConfig(oldConfig: MCDAConfig): Promise<MCDAConfig | null> {
   const name = oldConfig.name;

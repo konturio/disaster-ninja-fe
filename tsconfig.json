@@ -36,7 +36,8 @@
       "~services/*": ["services/*"],
       "~core/*": ["core/*"],
       "~features/*": ["features/*"],
-      "~widgets/*": ["widgets/*"]
+      "~widgets/*": ["widgets/*"],
+      "~mcda/*": ["core/logical_layers/renderers/stylesConfigs/mcda/*"]
     }
   },
   "include": [

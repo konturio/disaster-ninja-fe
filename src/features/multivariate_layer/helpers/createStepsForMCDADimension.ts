@@ -1,5 +1,5 @@
 import { DEFAULT_MULTIBIVARIATE_STEPS } from '~utils/multivariate/constants';
-import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { MCDALayer } from '~mcda/types';
 import type { Axis, Step } from '~utils/bivariate';
 
 export function createStepsForMCDADimension(

@@ -1,5 +1,5 @@
 import { i18n } from '~core/localization';
-import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { MCDAConfig } from '~mcda/types';
 
 // TODO: implement json schema validation to cover all properties
 export function validateMCDAConfig(configJson: Partial<MCDAConfig>): MCDAConfig {

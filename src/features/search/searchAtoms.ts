@@ -14,7 +14,7 @@ import {
 } from '~features/search/searchMcdaAtoms';
 import type { LocationProperties } from '~core/api/search';
 import type { Geometry } from 'geojson';
-import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { MCDAConfig } from '~mcda/types';
 
 export type AggregatedSearchItem =
   | (MCDAConfig & { source: 'mcda'; name: string })

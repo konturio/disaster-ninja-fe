@@ -1,7 +1,4 @@
-import {
-  filterSetup as mcdaFilterSetup,
-  linearNormalization,
-} from '~core/logical_layers/renderers/stylesConfigs/mcda/mcdaStyle';
+import { filterSetup as mcdaFilterSetup, linearNormalization } from '~mcda/mcdaStyle';
 import {
   addVariable,
   classResolver,
@@ -13,7 +10,7 @@ import { DEFAULT_MULTIBIVARIATE_COLORS, DEFAULT_MULTIBIVARIATE_STEPS } from './c
 import type { MultivariateLayerConfig } from '~core/logical_layers/renderers/MultivariateRenderer/types';
 import type { ColorTheme } from '~core/types';
 import type { OverlayColor, Step } from '../bivariate/types/stat.types';
-import type { MCDALayerStyle } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { MCDALayerStyle } from '~mcda/types';
 import type { ExpressionSpecification, FillLayerSpecification } from 'maplibre-gl';
 
 export interface MultivaritateBivariateGeneratorProps {

@@ -1,11 +1,8 @@
-import {
-  sentimentDefault,
-  sentimentReversed,
-} from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations/constants';
+import { sentimentDefault, sentimentReversed } from '~mcda/calculations/constants';
 import { formatBivariateAxisUnit } from '~utils/bivariate';
 import { generateSigmaRange } from './generateSigmaRange';
 import type { Axis } from '~utils/bivariate';
-import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { MCDALayer } from '~mcda/types';
 
 export function createMCDALayersFromBivariateAxes(axes: Axis[]): MCDALayer[] {
   return axes.reduce<MCDALayer[]>((acc, axis) => {

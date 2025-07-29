@@ -2,7 +2,7 @@ import { Select } from '@konturio/ui-kit';
 import { MCDALayerParameters } from '~features/mcda/components/MCDALayerEditor/MCDALayerParameters/MCDALayerParameters';
 import { i18n } from '~core/localization';
 import s from './MultivariateDimensionDetails.module.css';
-import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { MCDALayer } from '~mcda/types';
 import type {
   MVAFormDimensionKey,
   MVAFormDimensions,

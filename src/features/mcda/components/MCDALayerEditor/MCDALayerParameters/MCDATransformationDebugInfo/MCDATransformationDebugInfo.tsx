@@ -1,6 +1,6 @@
 import TransformationsChart from '../TransformationsChart/TransformationsChart';
 import s from './MCDATransformationDebugInfo.module.css';
-import type { TransformationFunction } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { TransformationFunction } from '~mcda/types';
 import type { AxisTransformationWithPoints } from '~utils/bivariate';
 
 type Props = {

@@ -6,7 +6,7 @@ import { generateSigmaRange } from '~utils/mcda/generateSigmaRange';
 import { isNumber } from '~utils/common';
 import { INPUT_FILTER_NUMBER } from '~utils/form/inputFilters';
 import s from './MCDARangeControls.module.css';
-import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { MCDALayer } from '~mcda/types';
 
 type Props = {
   rangeFrom: string;

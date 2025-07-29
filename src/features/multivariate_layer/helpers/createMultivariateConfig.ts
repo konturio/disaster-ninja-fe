@@ -3,7 +3,7 @@ import {
   DEFAULT_MULTIBIVARIATE_COLORS,
   DEFAULT_MULTIVARIATE_ANALYSIS_NAME,
 } from '~utils/multivariate/constants';
-import { DEFAULT_MCDA_COLORS_BY_SENTIMENT } from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations/constants';
+import { DEFAULT_MCDA_COLORS_BY_SENTIMENT } from '~mcda/calculations/constants';
 import { i18n } from '~core/localization';
 import { isNumber } from '~utils/common';
 import {
@@ -13,10 +13,7 @@ import {
 import { generateMultivariateId } from './generateMultivariateId';
 import { createStepsForMCDADimension } from './createStepsForMCDADimension';
 import type { Axis } from '~utils/bivariate';
-import type {
-  MCDALayer,
-  MCDALayerStyle,
-} from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
+import type { MCDALayer, MCDALayerStyle } from '~mcda/types';
 import type {
   MultivariateColorConfig,
   MultivariateLayerConfig,
