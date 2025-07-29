@@ -21,7 +21,9 @@
 *.yaml            text eol=lf
 *.yml             text eol=lf
 *.json            text eol=lf
-*.lock            text eol=lf -diff
+# FIXME: add back once Codex learns to deal with -diff
+#*.lock            text eol=lf -diff
+*.lock            text eol=lf
 .editorconfig     text eol=lf
 .eslintignore     text eol=lf
 .gitattributes    text eol=lf
@@ -33,7 +35,7 @@ Dockerfile        text eol=lf
 LICENSE           text eol=lf
 
 # Package management
-pnpm-lock.yaml    text eol=lf -diff
+# pnpm-lock.yaml    text eol=lf -diff
 pnpm-workspace.yaml text eol=lf
 .npmrc            text eol=lf
 .pnpmfile.cjs     text eol=lf
@@ -41,7 +43,7 @@ pnpm-workspace.yaml text eol=lf
 .pnpm/*           binary
 
 # Workspace specific
-**/pnpm-lock.yaml text eol=lf -diff
+# **/pnpm-lock.yaml text eol=lf -diff
 **/package.json   text eol=lf
 **/.npmrc        text eol=lf
 
@@ -58,7 +60,8 @@ node_modules/*    binary
 *.csv             text eol=lf
 *.po              text eol=lf
 *.pot             text eol=lf
-*.patch           text eol=lf -diff
+# *.patch           text eol=lf -diff
+*.patch           text eol=lf
 *.xml             text eol=lf
 
 # Environment files
