@@ -16,7 +16,7 @@ export const currentEventFeedAtom = createAtom(
   },
   (
     { onAction, onChange, schedule, getUnlistedState },
-    state: CurrentEventFeedAtomState = { id: configRepo.get().defaultFeed },
+    state: CurrentEventFeedAtomState = { id: configRepo.getUserDefaultFeed() },
   ) => {
     onAction('setCurrentFeed', (feedId) => {
       if (state?.id !== feedId) {
@@ -49,7 +49,7 @@ export const currentEventFeedAtom = createAtom(
 );
 
 function checkFeed(eventFeeds: EventFeedConfig[], feedId?: string) {
-  if (!feedId) return configRepo.get().defaultFeed;
+  if (!feedId) return configRepo.getUserDefaultFeed();
   const feed = eventFeeds?.find((fd) => fd.feed === feedId);
-  return feed ? feed.feed : configRepo.get().defaultFeed;
+  return feed ? feed.feed : configRepo.getUserDefaultFeed();
 }
