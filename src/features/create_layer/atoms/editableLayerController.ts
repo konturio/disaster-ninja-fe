@@ -5,7 +5,11 @@ import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { notificationServiceInstance } from '~core/notificationServiceInstance';
 import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
 import { createLayer, deleteLayer, updateLayer } from '../api/layers';
-import { EditTargets, DEFAULT_USER_LAYER_LEGEND } from '../constants';
+import {
+  EditTargets,
+  DEFAULT_USER_LAYER_LEGEND,
+  USER_LAYER_ID_PREFIX,
+} from '../constants';
 import { createLayerEditorFormAtom } from './layerEditorForm';
 import { createLayerEditorFormFieldAtom } from './layerEditorFormField';
 import { editableLayerSettingsAtom } from './editableLayerSettings';
@@ -44,7 +48,9 @@ export const editableLayerControllerAtom = createAtom(
       state = {
         loading: false,
         error: null,
-        data: createLayerEditorFormAtom({ id: nanoid() }),
+        data: createLayerEditorFormAtom({
+          id: `${USER_LAYER_ID_PREFIX}${nanoid()}`,
+        }),
       };
       schedule((dispatch) => {
         dispatch(editTargetAtom.set({ type: 'layer' }));
