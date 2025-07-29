@@ -3,7 +3,6 @@ import type { SimpleLegend } from '~core/logical_layers/types/legends';
 export const CREATE_LAYER_CONTROL_ID = 'EditableLayer' as const;
 export const CUSTOM_LAYER_DRAW_TOOLS_CONTROL = 'customLayerDrawToolsControl';
 export const CREATE_LAYER_CONTROL_NAME = i18n.t('toolbar.create_layer');
-export const USER_LAYER_ID_PREFIX = 'user-layer-';
 
 export const FieldTypes = {
   None: 'none',
