@@ -1,8 +1,9 @@
-import { useCallback, useState } from 'react';
-import { useAction } from '@reatom/react-v2';
+import { useCallback } from 'react';
+import { useAction, useAtom } from '@reatom/react-v2';
 import { FoldingWrap } from '~components/FoldingWrap/FoldingWrap';
 import { Layer } from '../Layer/Layer';
 import { groupDeselection } from '../../atoms/groupDeselection';
+import { layersTreeOpenStateAtom } from '../../atoms/openState';
 import { DeselectControl } from '../DeselectControl/DeselectControl';
 import s from './Group.module.css';
 import type { GroupWithSettings } from '~core/types/layers';
@@ -14,14 +15,17 @@ export function Group({
   group: GroupWithSettings;
   mutuallyExclusive?: boolean;
 }) {
-  // Temporary solution before redisign according to task 11553-unfold-all-layers-tree-in-layers-panel-by-default
-  // const [isOpen, setOpenState] = useState(group.openByDefault);
-  const [isOpen, setOpenState] = useState(true);
+  const [openMap] = useAtom(layersTreeOpenStateAtom);
+  const isOpen = openMap.get(group.id) ?? true;
+  const setOpen = useAction(layersTreeOpenStateAtom.set);
   const groupDeselectAction = useAction(
     () => groupDeselection.deselect(group.id),
     [group.id],
   );
-  const toggleOpenState = useCallback(() => setOpenState((state) => !state), []);
+  const toggleOpenState = useCallback(
+    () => setOpen(group.id, !isOpen),
+    [setOpen, group.id, isOpen],
+  );
 
   return (
     <div className={s.group}>
