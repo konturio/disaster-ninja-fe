@@ -7,12 +7,16 @@ interface UseShortPanelStateProps {
   initialState?: PanelState | null;
   skipShortState?: boolean;
   isMobile?: boolean;
+  /** Optional id used to generate test ids for panel controls */
+  panelId?: string;
 }
 
 export const useShortPanelState = (props?: UseShortPanelStateProps) => {
   const initialState = props?.initialState ?? 'full';
   const skipShortState = props?.skipShortState ?? false;
   const isMobile = props?.isMobile ?? false;
+  const collapseTestId = props?.panelId ? `${props.panelId}-collapse` : undefined;
+  const expandTestId = props?.panelId ? `${props.panelId}-expand` : undefined;
   const [panelState, setPanelState] = useState<PanelState>(initialState);
 
   const panelControls = useMemo(() => {
@@ -20,7 +24,12 @@ export const useShortPanelState = (props?: UseShortPanelStateProps) => {
       if (!skipShortState && initialState !== 'closed') {
         return [
           {
-            icon: panelState === 'full' ? <ChevronDown24 /> : <ChevronUp24 />,
+            icon:
+              panelState === 'full' ? (
+                <ChevronDown24 data-testid={collapseTestId} />
+              ) : (
+                <ChevronUp24 data-testid={expandTestId} />
+              ),
             onWrapperClick: (e) => {
               e.stopPropagation();
               setPanelState((prevState) => (prevState === 'full' ? 'short' : 'full'));
@@ -34,7 +43,12 @@ export const useShortPanelState = (props?: UseShortPanelStateProps) => {
     if (skipShortState) {
       return [
         {
-          icon: panelState === 'closed' ? <ChevronDown24 /> : <ChevronUp24 />,
+          icon:
+            panelState === 'closed' ? (
+              <ChevronDown24 data-testid={expandTestId} />
+            ) : (
+              <ChevronUp24 data-testid={collapseTestId} />
+            ),
           onWrapperClick: () => {
             const nextState = initialState === 'closed' ? 'full' : initialState;
             setPanelState((prevState) => (prevState === 'closed' ? nextState : 'closed'));
@@ -45,7 +59,7 @@ export const useShortPanelState = (props?: UseShortPanelStateProps) => {
 
     return [
       {
-        icon: <ChevronDown24 />,
+        icon: <ChevronDown24 data-testid={collapseTestId} />,
         onWrapperClick: (e) => {
           e.stopPropagation();
           setPanelState((prevState) => (prevState === 'closed' ? 'short' : 'full'));
@@ -53,7 +67,7 @@ export const useShortPanelState = (props?: UseShortPanelStateProps) => {
         disabled: panelState === 'full',
       },
       {
-        icon: <ChevronUp24 />,
+        icon: <ChevronUp24 data-testid={expandTestId} />,
         onWrapperClick: (e) => {
           e.stopPropagation();
           setPanelState((prevState) => (prevState === 'full' ? 'short' : 'closed'));

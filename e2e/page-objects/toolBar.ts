@@ -38,8 +38,8 @@ export class ToolBar extends HelperBase {
   )
   async resizeToolbar({ collapse = true }: { collapse: boolean }) {
     const toolbarPanel = this.page.getByTestId('toolbar');
-    const svgNumberToClick = collapse ? 2 : 1;
-    await toolbarPanel.locator('svg').nth(svgNumberToClick).click();
+    const testId = collapse ? 'toolbar-collapse' : 'toolbar-expand';
+    await toolbarPanel.getByTestId(testId).click();
     await expect(
       toolbarPanel.getByText('Toolbar'),
       `Expect toolbar text to be visible and to be ${collapse ? 'short' : 'big'}`,
@@ -101,7 +101,7 @@ export class ToolBar extends HelperBase {
     await element.hover();
     const tooltip = this.page.getByRole('tooltip', { name: tooltipText });
     await tooltip.waitFor({ state: 'visible' });
-    await this.page.getByText('Collapse').hover();
+    await this.page.getByTestId('toolbar-collapse').hover();
     await tooltip.waitFor({ state: 'hidden' });
   }
 
