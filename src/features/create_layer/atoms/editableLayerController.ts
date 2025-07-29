@@ -1,3 +1,4 @@
+import { nanoid } from 'nanoid';
 import { configRepo } from '~core/config';
 import { createAtom } from '~utils/atoms';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
@@ -43,7 +44,7 @@ export const editableLayerControllerAtom = createAtom(
       state = {
         loading: false,
         error: null,
-        data: createLayerEditorFormAtom(),
+        data: createLayerEditorFormAtom({ id: nanoid() }),
       };
       schedule((dispatch) => {
         dispatch(editTargetAtom.set({ type: 'layer' }));
