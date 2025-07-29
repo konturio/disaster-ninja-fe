@@ -1,5 +1,6 @@
 import { configRepo } from '~core/config';
 import { yandexMetrics } from '~core/metrics';
+import { shutdownIntercom } from '~features/intercom';
 import type { UserDto } from './user';
 
 export async function onLogin() {
@@ -7,6 +8,12 @@ export async function onLogin() {
   if (config.user) {
     externalLoginTasks(config.user);
   }
+}
+
+export async function onLogout(): Promise<void> {
+  shutdownIntercom();
+  yandexMetrics.reset();
+  await configRepo.updateIntercomSettings({ name: '', email: '', phone: '' });
 }
 
 function externalLoginTasks(user: UserDto) {

@@ -20,4 +20,9 @@ export class YandexMetrics implements Metric {
     }
     this.ym(this.yandexAccountId, name, payload);
   }
+
+  reset() {
+    if (!this.ready) return;
+    this.ym(this.yandexAccountId, 'setUserID', '');
+  }
 }
