@@ -1,7 +1,8 @@
 import { useCallback } from 'react';
 import { useAction, useAtom } from '@reatom/react-v2';
+import { useAtom as useAtomV3 } from '@reatom/npm-react';
 import { FoldingWrap } from '~components/FoldingWrap/FoldingWrap';
-import { useMountedLayersByGroup } from '~features/layers_panel/hooks/useMountedLayersByGroup';
+import { mountedLayersByGroupAtom } from '~features/layers_panel/atoms/mountedLayersByGroup';
 import { Layer } from '../Layer/Layer';
 import { groupDeselection } from '../../atoms/groupDeselection';
 import { layersTreeOpenStateAtom } from '../../atoms/openState';
@@ -17,7 +18,8 @@ export function Group({
   mutuallyExclusive?: boolean;
 }) {
   const [openMap] = useAtom(layersTreeOpenStateAtom);
-  const counter = useMountedLayersByGroup(group.id);
+  const [counters] = useAtomV3(mountedLayersByGroupAtom);
+  const mountedLayersCounter = counters[group.id] ?? 0;
   const isOpen = openMap.get(group.id) ?? true;
   const setOpen = useAction(layersTreeOpenStateAtom.set);
   const groupDeselectAction = useAction(
@@ -36,7 +38,7 @@ export function Group({
         title={<span className={s.groupTitle}>{group.name}</span>}
         controls={
           group.mutuallyExclusive &&
-          counter > 0 && <DeselectControl onClick={groupDeselectAction} />
+          mountedLayersCounter > 0 && <DeselectControl onClick={groupDeselectAction} />
         }
         onClick={toggleOpenState}
       >
