@@ -1,13 +1,5 @@
 .container {
   position: fixed;
   z-index: var(--modal);
-}
-
-.handle {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 16px;
   cursor: move;
 }

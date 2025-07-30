@@ -13,9 +13,18 @@ export function DraggableContainer({
 }) {
   const { position, onPointerDown } = useDraggablePosition({ x: initialX, y: initialY });
 
+  const handlePointerDown = (e: React.PointerEvent) => {
+    const target = e.target as HTMLElement | null;
+    if (target?.closest('button')) return;
+    onPointerDown(e);
+  };
+
   return (
-    <div className={s.container} style={{ left: position.x, top: position.y }}>
-      <div className={s.handle} onPointerDown={onPointerDown} />
+    <div
+      className={s.container}
+      style={{ left: position.x, top: position.y }}
+      onPointerDown={handlePointerDown}
+    >
       {children}
     </div>
   );

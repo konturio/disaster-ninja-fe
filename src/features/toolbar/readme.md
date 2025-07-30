@@ -20,4 +20,4 @@ import { FullAndShortStatesPanelWidget } from '~widgets/FullAndShortStatesPanelW
 
 ### How it works
 
-`ToolbarContent` collects controls from the toolbar service and arranges them into sections. The toolbar panel is wrapped with `DraggableContainer` so users can move it around the screen. Buttons wrap to new lines, eliminating horizontal scrolling.
+`ToolbarContent` collects controls from the toolbar service and arranges them into sections. The toolbar panel is wrapped with `DraggableContainer` so users can move it around the screen. Drag the toolbar by its header or the empty padding around the buttons. Buttons wrap to new lines, eliminating horizontal scrolling.
