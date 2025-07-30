@@ -6,6 +6,7 @@ import { legendPanel } from '~features/legend_panel';
 import { layersPanel } from '~features/layers_panel';
 import { LayerFeaturesPanel } from '~features/layer_features_panel';
 import { FullAndShortStatesPanelWidget } from '~widgets/FullAndShortStatesPanelWidget';
+import { DraggableContainer } from '~widgets/DraggableContainer';
 import { analyticsPanel } from '~features/analytics_panel';
 import { advancedAnalyticsPanel } from '~features/advanced_analytics_panel';
 import { IntercomBTN } from '~features/intercom/IntercomBTN';
@@ -230,7 +231,7 @@ export function MapPage() {
 const Toolbar = () => {
   const getPanelClasses = () => ({ ...panelClasses });
   return (
-    <div style={{ display: 'flex' }}>
+    <DraggableContainer initialX={20} initialY={100}>
       <FullAndShortStatesPanelWidget
         fullState={toolbar()}
         shortState={shortToolbar()}
@@ -240,7 +241,7 @@ const Toolbar = () => {
         header={toolbar().header}
         getPanelClasses={getPanelClasses}
       />
-    </div>
+    </DraggableContainer>
   );
 };
 

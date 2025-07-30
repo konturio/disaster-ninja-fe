@@ -2,9 +2,8 @@
   padding: var(--unit);
   min-height: inherit;
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: row wrap;
   gap: var(--unit);
-  overflow-x: auto;
 }
 
 .sectionDivider {
