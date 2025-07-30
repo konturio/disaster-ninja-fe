@@ -85,7 +85,7 @@ export function MultivariateAnalysisForm({
     text: initialConfig?.text?.mcdaValue?.config.layers ?? [],
     extrusion: initialConfig?.extrusion?.height?.config.layers ?? [],
   });
-  const [isKeepColorsChecked, setKeepColorsChecked] = useState(true);
+  const [isKeepColorsChecked, setKeepColorsChecked] = useState(false);
   const [isCustomStepsChecked, setCustomStepsChecked] = useState(false);
   const [isTextScoreModeChecked, setTextScoreModeChecked] = useState(
     initialConfig?.text?.mcdaMode === 'score',
