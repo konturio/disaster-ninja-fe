@@ -1,4 +1,4 @@
-export const FEATURESPANEL_MIN_HEIGHT = 80;
+export const FEATURESPANEL_MIN_HEIGHT = 360;
 
 // name for optional custom bbox property. Used to focus on custom bbox area associated with feature
 export const LAYER_FEATURES_CUSTOM_FOCUS_BBOX = '__customFocusBbox';
