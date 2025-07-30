@@ -21,3 +21,22 @@
 .grayscale {
   filter: grayscale(1);
 }
+
+.bivariateAxis {
+  max-height: 180px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--half-unit);
+}
+
+.bivariateAxisLayer {
+  line-height: 13px;
+}
+
+.bivariateAxisLabel {
+  color: var(--black);
+}
+
+.bivariateAxisRange {
+  color: var(--faint-strong);
+}

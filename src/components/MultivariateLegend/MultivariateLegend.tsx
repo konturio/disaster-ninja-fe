@@ -1,7 +1,10 @@
 import { Legend as BiLegend, MCDALegend, Text } from '@konturio/ui-kit';
 import { Letter } from '@konturio/default-icons';
 import clsx from 'clsx';
-import { generateMCDALegendColors } from '~utils/mcda/mcdaLegendsUtils';
+import {
+  generateMCDALegendColors,
+  mcdaRangeToFixedNumber,
+} from '~utils/mcda/mcdaLegendsUtils';
 import { BIVARIATE_LEGEND_SIZE } from '~components/BivariateLegend/const';
 import { DEFAULT_MULTIBIVARIATE_STEPS } from '~utils/multivariate/constants';
 import { invertClusters, type Step } from '~utils/bivariate';
@@ -121,6 +124,33 @@ function createBivariateLegend(
     'label',
   ) as Cell[];
 
+  function renderBivLegendAxisLayer(layer: MCDALayer) {
+    return (
+      <div className={s.bivariateAxisLayer} key={layer.id}>
+        <span className={s.bivariateAxisLabel}>{layer.name}</span>
+        <span
+          className={s.bivariateAxisRange}
+        >{` ${mcdaRangeToFixedNumber(layer.range?.at(0))} \u2192 ${mcdaRangeToFixedNumber(layer.range?.at(1))} ${layer.unit ?? ''}`}</span>
+      </div>
+    );
+  }
+
+  const renderScoreAxisLabel = (axis, rootClassName) => {
+    return (
+      <div className={clsx(rootClassName, s.bivariateAxis)}>
+        {score.layers.map(renderBivLegendAxisLayer)}
+      </div>
+    );
+  };
+
+  const renderBaseAxisLabel = (axis, rootClassName) => {
+    return (
+      <div className={clsx(rootClassName, s.bivariateAxis)}>
+        {base.layers.map(renderBivLegendAxisLayer)}
+      </div>
+    );
+  };
+
   const hints: LayerMeta['hints'] = {
     x: getCornerHintsForDimension(score, DEFAULT_SCORE_DIRECTION),
     y: getCornerHintsForDimension(base, DEFAULT_BASE_DIRECTION),
@@ -133,6 +163,9 @@ function createBivariateLegend(
           size={BIVARIATE_LEGEND_SIZE}
           axis={{ x: xAxis, y: yAxis }}
           showAxisLabels
+          showSteps={false}
+          renderYAxisLabel={renderScoreAxisLabel}
+          renderXAxisLabel={renderBaseAxisLabel}
         />
       </CornerTooltipWrapper>
     </DimensionStack>
