@@ -23,7 +23,7 @@ The `CurrentEvent` component displays details for the currently selected unliste
 
 ### FeedSelector
 
-The `FeedSelector` component allows users to filter the event list by feed. It displays a list of available feeds and allows the user to select one or more to filter the event list. When the component mounts, it selects the default feed from the user profile settings. Will be displayed if feedSelector feature is enabled.
+The `FeedSelector` component allows users to filter the event list by feed. It displays a list of available feeds and allows the user to select one or more to filter the event list. When the component mounts, it selects the default feed from the user profile settings. Will be displayed if feedSelector feature is enabled. When a different feed is chosen, the currently selected event is cleared and nothing is auto-selected from the new feed.
 
 ### BBoxFilter
 
@@ -74,6 +74,8 @@ The `Analytics` component displays statistics for an event, such as the affected
 The `autoSelectEvent` atom is responsible for automatically selecting an event when the `events_list` feature is loaded.
 
 The `autoSelectEvent` atom automatically selects an event from the `eventListResource` atom based on certain conditions. If `scheduledAutoSelect` has been set to `true`, and if the `eventListResource` atom exists, is not `loading` or in `error`, and contains at least one event, then the current event is checked to see if it is in the list of events. If it is, the function returns the current state. If it is not, the function schedules an auto-focus on the first event in the list, and sets the current event to the first event in the list. If there is no current event, a notification is shown.
+
+`scheduledAutoSelect` can be toggled by various parts of the application (for example URL handling or feed synchronization). The `FeedSelector` component no longer triggers this flag on feed change, so switching feeds simply clears the current event without auto-selecting another.
 
 The `autoSelectEvent` atom is useful in situations where the user lands on the events list page and there is no pre-selected event. It ensures that the first event in the list is selected automatically, allowing the user to see event details without manually selecting one.
 
