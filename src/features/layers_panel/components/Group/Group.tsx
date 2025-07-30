@@ -37,8 +37,12 @@ export function Group({
         open={isOpen}
         title={<span className={s.groupTitle}>{group.name}</span>}
         controls={
-          group.mutuallyExclusive &&
-          mountedLayersCounter > 0 && <DeselectControl onClick={groupDeselectAction} />
+          group.mutuallyExclusive && (
+            <DeselectControl
+              onClick={groupDeselectAction}
+              disabled={mountedLayersCounter === 0}
+            />
+          )
         }
         onClick={toggleOpenState}
       >

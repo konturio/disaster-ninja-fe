@@ -14,6 +14,7 @@ import type { CategoryWithSettings } from '~core/types/layers';
 export function Category({ category }: { category: CategoryWithSettings }) {
   const [openMap] = useAtomV2(layersTreeOpenStateAtom);
   const [counters] = useAtom(mountedLayersByCategoryAtom);
+  const mountedLayersCounter = counters[category.id] ?? 0;
   const isOpen = openMap.get(category.id) ?? true;
   const setOpen = useAction(layersTreeOpenStateAtom.set);
   const onCategoryDeselect = useAction(
@@ -38,9 +39,11 @@ export function Category({ category }: { category: CategoryWithSettings }) {
           </div>
         }
         controls={
-          category.mutuallyExclusive &&
-          (counters[category.id] ?? 0) > 0 && (
-            <DeselectControl onClick={onCategoryDeselect} />
+          category.mutuallyExclusive && (
+            <DeselectControl
+              onClick={onCategoryDeselect}
+              disabled={mountedLayersCounter === 0}
+            />
           )
         }
         onClick={toggleOpenState}
