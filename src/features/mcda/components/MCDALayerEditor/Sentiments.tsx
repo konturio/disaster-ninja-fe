@@ -1,9 +1,10 @@
 import { Text } from '@konturio/ui-kit';
+import { mcdaRangeToFixedNumber } from '~utils/mcda/mcdaLegendsUtils';
 
 export type Sentiment = {
   label: string;
   color: string;
-  value: string;
+  value: number | undefined;
 };
 
 export function Sentiments({
@@ -21,13 +22,13 @@ export function Sentiments({
       <span style={{ color: left.color }}>
         <Text type={'caption'}>{`${left.label} `}</Text>
       </span>{' '}
-      <Text type={'caption'}>({+parseFloat(left.value).toFixed(3)})</Text>
+      <Text type={'caption'}>({mcdaRangeToFixedNumber(left.value)})</Text>
       {' \u2192 '}
       {/* Right */}
       <span style={{ color: right.color }}>
         <Text type={'caption'}>{`${right.label} `}</Text>
       </span>
-      <Text type={'caption'}>({+parseFloat(right.value).toFixed(3)})</Text>
+      <Text type={'caption'}>({mcdaRangeToFixedNumber(right.value)})</Text>
       {units ? <Text type={'caption'}>, {units}</Text> : null}
     </div>
   );
