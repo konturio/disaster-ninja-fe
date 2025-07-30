@@ -81,14 +81,14 @@ export const urlStoreAtom = createAtom(
           );
         }
 
-        // Apply event
-        if (initialState.event) {
-          actions.push(currentEventAtom.setCurrentEventId(initialState.event));
-        }
-
-        // Apply feed
+        // Apply feed first to preserve event id
         if (initialState.feed && isFeedSelectorEnabled) {
           actions.push(currentEventFeedAtom.setCurrentFeed(initialState.feed));
+        }
+
+        // Apply event after feed to avoid event reset during feed change
+        if (initialState.event) {
+          actions.push(currentEventAtom.setCurrentEventId(initialState.event));
         }
 
         // Done
