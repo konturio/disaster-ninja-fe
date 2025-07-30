@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import { useAction, useAtom } from '@reatom/react-v2';
-import { useAtom as useAtomV3 } from '@reatom/npm-react';
+import { useAction, useAtom as useAtomV2 } from '@reatom/react-v2';
+import { useAtom } from '@reatom/npm-react';
 import { FoldingWrap } from '~components/FoldingWrap/FoldingWrap';
 import { mountedLayersByGroupAtom } from '~features/layers_panel/atoms/mountedLayersByGroup';
 import { Layer } from '../Layer/Layer';
@@ -17,8 +17,8 @@ export function Group({
   group: GroupWithSettings;
   mutuallyExclusive?: boolean;
 }) {
-  const [openMap] = useAtom(layersTreeOpenStateAtom);
-  const [counters] = useAtomV3(mountedLayersByGroupAtom);
+  const [openMap] = useAtomV2(layersTreeOpenStateAtom);
+  const [counters] = useAtom(mountedLayersByGroupAtom);
   const mountedLayersCounter = counters[group.id] ?? 0;
   const isOpen = openMap.get(group.id) ?? true;
   const setOpen = useAction(layersTreeOpenStateAtom.set);

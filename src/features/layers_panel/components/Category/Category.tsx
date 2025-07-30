@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
-import { useAtom } from '@reatom/react-v2';
+import { useAtom as useAtomV2 } from '@reatom/react-v2';
+import { useAtom } from '@reatom/npm-react';
 import { useAction } from '@reatom/react-v2';
 import { FoldingWrap } from '~components/FoldingWrap/FoldingWrap';
 import { mountedLayersByCategoryAtom } from '~features/layers_panel/atoms/mountedLayersByCategory';
@@ -11,7 +12,7 @@ import s from './Category.module.css';
 import type { CategoryWithSettings } from '~core/types/layers';
 
 export function Category({ category }: { category: CategoryWithSettings }) {
-  const [openMap] = useAtom(layersTreeOpenStateAtom);
+  const [openMap] = useAtomV2(layersTreeOpenStateAtom);
   const [counters] = useAtom(mountedLayersByCategoryAtom);
   const isOpen = openMap.get(category.id) ?? true;
   const setOpen = useAction(layersTreeOpenStateAtom.set);
