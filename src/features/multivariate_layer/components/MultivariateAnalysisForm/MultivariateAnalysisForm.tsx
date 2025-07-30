@@ -28,7 +28,10 @@ import { CustomStepsInput, type CustomSteps } from '../CustomStepsInput/CustomSt
 import s from './MultivariateAnalysisForm.module.css';
 import type { CustomStepsErrors } from '../CustomStepsInput/CustomStepsInput';
 import type { MCDALayer } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
-import type { MultivariateLayerConfig } from '~core/logical_layers/renderers/MultivariateRenderer/types';
+import type {
+  MultivariateLayerConfig,
+  MultivariateStepOverrides,
+} from '~core/logical_layers/renderers/MultivariateRenderer/types';
 import type { Axis } from '~utils/bivariate';
 
 export type MVAFormDimensionKey = keyof MVAFormDimensions;
@@ -155,7 +158,7 @@ export function MultivariateAnalysisForm({
   );
 
   const previewConfig = useMemo(() => {
-    const customStepOverrides =
+    let stepOverrides: MultivariateStepOverrides | undefined =
       isCustomStepsChecked && !customStepsErrors
         ? {
             scoreSteps: customSteps.scoreSteps.map((v) => ({
@@ -165,7 +168,19 @@ export function MultivariateAnalysisForm({
               value: Number.parseFloat(v),
             })),
           }
-        : null;
+        : undefined;
+    if (!stepOverrides && dimensionsLayers.compare && dimensionsLayers.score) {
+      stepOverrides = {
+        baseSteps: createStepsForMCDADimension(
+          dimensionsLayers.compare,
+          axesResource.data ?? [],
+        ),
+        scoreSteps: createStepsForMCDADimension(
+          dimensionsLayers.score,
+          axesResource.data ?? [],
+        ),
+      };
+    }
     // mcda opacity takes precedence
     let opacity: number | MCDALayer[] | undefined = dimensionsLayers.opacity;
     if (!opacity.length && opacityStatic !== undefined) {
@@ -180,34 +195,28 @@ export function MultivariateAnalysisForm({
     }
     const text: MCDALayer[] | undefined = dimensionsLayers.text;
     return isConfigValid
-      ? createMultivariateConfig(
-          {
-            name,
-            score: dimensionsLayers.score,
-            base: dimensionsLayers.compare,
-            colors:
-              showKeepColorsCheckbox && isKeepColorsChecked
-                ? initialConfig?.colors
-                : undefined,
-            stepOverrides:
-              isCustomStepsChecked && customStepOverrides
-                ? customStepOverrides
-                : initialConfig?.stepOverrides,
-            opacity: opacity,
-            text,
-            textSettings: {
-              ...initialConfig?.text,
-              mcdaMode: isTextScoreModeChecked ? 'score' : 'layers',
-            },
-            extrusion: dimensionsLayers.extrusion,
-            extrusionSettings: {
-              maxHeight: extrusionMaxHeight
-                ? Number.parseFloat(extrusionMaxHeight)
-                : undefined,
-            },
+      ? createMultivariateConfig({
+          name,
+          score: dimensionsLayers.score,
+          base: dimensionsLayers.compare,
+          colors:
+            showKeepColorsCheckbox && isKeepColorsChecked
+              ? initialConfig?.colors
+              : undefined,
+          stepOverrides,
+          opacity: opacity,
+          text,
+          textSettings: {
+            ...initialConfig?.text,
+            mcdaMode: isTextScoreModeChecked ? 'score' : 'layers',
           },
-          axesResource.data ?? [],
-        )
+          extrusion: dimensionsLayers.extrusion,
+          extrusionSettings: {
+            maxHeight: extrusionMaxHeight
+              ? Number.parseFloat(extrusionMaxHeight)
+              : undefined,
+          },
+        })
       : undefined;
   }, [
     axesResource.data,

@@ -38,7 +38,6 @@ type MultivariateLayerConfigOverrides = {
 
 export function createMultivariateConfig(
   overrides: MultivariateLayerConfigOverrides,
-  availableBivariateAxes: Axis[],
 ): MultivariateLayerConfig {
   const name = overrides?.name || DEFAULT_MULTIVARIATE_ANALYSIS_NAME;
   const hasScore = !!overrides?.score?.length;
@@ -118,15 +117,7 @@ export function createMultivariateConfig(
     base: baseMCDAStyle,
     opacity: opacityMCDAStyle ?? opacityStatic,
     text: textDimension,
-    stepOverrides: isBivariateStyleLegend
-      ? overrides.stepOverrides || {
-          baseSteps: createStepsForMCDADimension(overrides.base, availableBivariateAxes),
-          scoreSteps: createStepsForMCDADimension(
-            overrides.score,
-            availableBivariateAxes,
-          ),
-        }
-      : undefined,
+    stepOverrides: isBivariateStyleLegend ? overrides.stepOverrides : undefined,
     colors:
       overrides?.colors ||
       (isBivariateStyleLegend
