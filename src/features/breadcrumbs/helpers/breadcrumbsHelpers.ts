@@ -1,4 +1,5 @@
 import { LngLatBounds } from 'maplibre-gl';
+import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
 import {
   type BboxPosition,
   type CenterZoomPosition,
@@ -24,4 +25,27 @@ function isBboxPosition(
   position: BboxPosition | CenterZoomPosition,
 ): position is BboxPosition {
   return 'bbox' in position;
+}
+
+export function filterFeaturesContainingPoint(
+  features: GeoJSON.Feature[],
+  point: [number, number],
+): GeoJSON.Feature[] {
+  return features.filter((feature) => geometryContainsPoint(feature.geometry, point));
+}
+
+function geometryContainsPoint(
+  geometry: GeoJSON.Geometry | null,
+  point: [number, number],
+): boolean {
+  if (!geometry) return false;
+  switch (geometry.type) {
+    case 'Polygon':
+    case 'MultiPolygon':
+      return booleanPointInPolygon(point, geometry);
+    case 'GeometryCollection':
+      return geometry.geometries.some((g) => geometryContainsPoint(g, point));
+    default:
+      return false;
+  }
 }

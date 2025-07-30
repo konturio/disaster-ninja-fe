@@ -4,7 +4,10 @@ import { setCurrentMapBbox, type Bbox } from '~core/shared_state/currentMapPosit
 import { getBboxForGeometry } from '~utils/map/camera';
 import { getBoundaries } from '~core/api/boundaries';
 import { isAbortError } from '~core/api_client/errors';
-import { getCenterFromPosition } from '../helpers/breadcrumbsHelpers';
+import {
+  getCenterFromPosition,
+  filterFeaturesContainingPoint,
+} from '../helpers/breadcrumbsHelpers';
 import type { CurrentMapPositionAtomState } from '~core/shared_state/currentMapPosition';
 
 const debouncedItemsFetch = debounce(
@@ -13,8 +16,6 @@ const debouncedItemsFetch = debounce(
       try {
         const coords: [number, number] = getCenterFromPosition(position);
         const response = await getBoundaries(coords, ctx.controller);
-
-        // TODO: check with the previous items
         breadcrumbsItemsAtom(ctx, response?.features ?? null);
       } catch (error) {
         if (!isAbortError(error)) {
@@ -28,6 +29,16 @@ const debouncedItemsFetch = debounce(
 
 export const fetchBreadcrumbsItems = reatomAsync(
   async (ctx, position: CurrentMapPositionAtomState) => {
+    if (!position) return;
+    const center = getCenterFromPosition(position);
+    const previous = ctx.get(breadcrumbsItemsAtom);
+    if (previous && previous.length) {
+      const valid = filterFeaturesContainingPoint(previous, center);
+      if (valid.length === previous.length) {
+        return;
+      }
+      breadcrumbsItemsAtom(ctx, valid.length ? valid : null);
+    }
     debouncedItemsFetch(ctx, position);
   },
   'breadcrumbsItemsResource',
