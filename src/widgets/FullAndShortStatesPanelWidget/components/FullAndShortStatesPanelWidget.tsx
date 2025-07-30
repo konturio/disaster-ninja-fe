@@ -1,7 +1,7 @@
-import { Panel, PanelIcon } from '@konturio/ui-kit';
 import clsx from 'clsx';
 import { useCallback, useRef } from 'react';
 import { Sheet } from 'react-modal-sheet';
+import { Panel, PanelIcon } from '~components/Panel';
 import { panelClasses as defaultPanelClasses } from '~components/Panel';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useHeightResizer } from '~utils/hooks/useResizer';

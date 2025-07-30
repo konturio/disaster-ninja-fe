@@ -1,10 +1,11 @@
 import { Disasters24 } from '@konturio/default-icons';
-import { Panel, PanelIcon, Text } from '@konturio/ui-kit';
+import { Text } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/react-v2';
 import { useAtom as useAtomV3 } from '@reatom/npm-react';
 import clsx from 'clsx';
 import { useCallback, useMemo, useRef } from 'react';
 import { Sheet } from 'react-modal-sheet';
+import { Panel, PanelIcon } from '~components/Panel';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { panelClasses } from '~components/Panel';
 import {

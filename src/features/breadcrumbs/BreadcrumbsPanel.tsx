@@ -1,5 +1,5 @@
-import { Panel } from '@konturio/ui-kit';
 import { useAction } from '@reatom/npm-react';
+import { Panel } from '~components/Panel';
 import { constructOptionsFromBoundaries } from '~utils/map/boundaries';
 import { i18n } from '~core/localization';
 import Breadcrumbs from './components/Breadcrumbs/Breadcrumbs';

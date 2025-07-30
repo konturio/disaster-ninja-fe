@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useAction, useAtom } from '@reatom/react-v2';
 import clsx from 'clsx';
-import { Panel } from '@konturio/ui-kit';
+import { Panel } from '~components/Panel';
 import { i18n } from '~core/localization';
 import { createStateMap } from '~utils/atoms';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';

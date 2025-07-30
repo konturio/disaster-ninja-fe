@@ -1,9 +1,9 @@
-import { Panel, PanelIcon } from '@konturio/ui-kit';
 import { useCallback, useMemo, useRef } from 'react';
 import { clsx } from 'clsx';
 import { Legend24 } from '@konturio/default-icons';
 import { useAction, useAtom } from '@reatom/npm-react';
 import { Sheet } from 'react-modal-sheet';
+import { Panel, PanelIcon } from '~components/Panel';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import { panelClasses } from '~components/Panel';

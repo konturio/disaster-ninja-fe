@@ -1,5 +1,5 @@
-import { Panel } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/react-v2';
+import { Panel } from '~components/Panel';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { ErrorMessage } from '~components/ErrorMessage/ErrorMessage';
 import { createStateMap } from '~utils/atoms/createStateMap';

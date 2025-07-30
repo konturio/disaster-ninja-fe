@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import clsx from 'clsx';
 import { useAction, useAtom } from '@reatom/react-v2';
-import { Panel } from '@konturio/ui-kit';
+import { Panel } from '~components/Panel';
 import { i18n } from '~core/localization';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
 import { EditTargets } from '../../constants';
