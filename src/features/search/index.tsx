@@ -20,7 +20,10 @@ export function Search() {
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
 
   useEffect(() => {
-    initSearchHighlightLayer();
+    const destroyHighlightLayer = initSearchHighlightLayer();
+    return () => {
+      destroyHighlightLayer?.();
+    };
   }, []);
 
   useEffect(() => {
