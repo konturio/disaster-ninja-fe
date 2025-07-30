@@ -28,6 +28,8 @@ const updateBreadcrumbsFromCache = action(
   'updateBreadcrumbsFromCache',
 );
 
+// Manual queue keeps only the most recent request. Intermediate positions are
+// dropped to avoid race conditions while still ensuring the latest state wins.
 let inFlight = false;
 let queuedPosition: CurrentMapPositionAtomState | null = null;
 
