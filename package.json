@@ -77,7 +77,7 @@
     "@konturio/default-icons": "^2.5.1",
     "@konturio/default-theme": "~3.2.7",
     "@konturio/floating": "^1.2.1",
-    "@konturio/ui-kit": "^5.4.3",
+    "@konturio/ui-kit": "^5.5.0",
     "@nebula.gl/edit-modes": "1.1.0-alpha.5",
     "@nebula.gl/layers": "1.1.0-alpha.5",
     "@paypal/react-paypal-js": "^8.7.0",
