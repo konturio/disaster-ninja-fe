@@ -22,11 +22,19 @@
   filter: grayscale(1);
 }
 
-.bivariateAxis {
-  max-height: 180px;
+.bivariateXAxis {
+  max-width: 160px;
   display: flex;
   flex-direction: column;
   gap: var(--half-unit);
+}
+
+.bivariateYAxis {
+  max-height: 160px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--half-unit);
+  margin-block-start: var(--double-unit);
 }
 
 .bivariateAxisLayer {

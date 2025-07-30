@@ -137,7 +137,7 @@ function createBivariateLegend(
 
   const renderScoreAxisLabel = (axis, rootClassName) => {
     return (
-      <div className={clsx(rootClassName, s.bivariateAxis)}>
+      <div className={clsx(rootClassName, s.bivariateYAxis)}>
         {score.layers.map(renderBivLegendAxisLayer)}
       </div>
     );
@@ -145,11 +145,18 @@ function createBivariateLegend(
 
   const renderBaseAxisLabel = (axis, rootClassName) => {
     return (
-      <div className={clsx(rootClassName, s.bivariateAxis)}>
+      <div className={clsx(rootClassName, s.bivariateXAxis)}>
         {base.layers.map(renderBivLegendAxisLayer)}
       </div>
     );
   };
+
+  const showScoreSteps =
+    score.layers.length === 1 ||
+    score.layers.every((layer) => layer.normalization === 'max-min');
+  const showBaseSteps =
+    base.layers.length === 1 ||
+    base.layers.every((layer) => layer.normalization === 'max-min');
 
   const hints: LayerMeta['hints'] = {
     x: getCornerHintsForDimension(score, DEFAULT_SCORE_DIRECTION),
@@ -163,7 +170,7 @@ function createBivariateLegend(
           size={BIVARIATE_LEGEND_SIZE}
           axis={{ x: xAxis, y: yAxis }}
           showAxisLabels
-          showSteps={false}
+          showSteps={{ x: showBaseSteps, y: showScoreSteps }}
           renderYAxisLabel={renderScoreAxisLabel}
           renderXAxisLabel={renderBaseAxisLabel}
         />
