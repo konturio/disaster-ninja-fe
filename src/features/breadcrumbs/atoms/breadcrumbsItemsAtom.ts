@@ -1,5 +1,6 @@
-import { action, type AsyncCtx, atom, reatomAsync, withAbort } from '@reatom/framework';
-import { debounce } from '@github/mini-throttle';
+import { action, atom, reatomAsync } from '@reatom/framework';
+import { LRUCache } from 'lru-cache';
+import { getBreadcrumbsForPoint } from './getBreadcrumbsForPoint';
 import { setCurrentMapBbox, type Bbox } from '~core/shared_state/currentMapPosition';
 import { getBboxForGeometry } from '~utils/map/camera';
 import { getBoundaries } from '~core/api/boundaries';
@@ -7,31 +8,68 @@ import { isAbortError } from '~core/api_client/errors';
 import { getCenterFromPosition } from '../helpers/breadcrumbsHelpers';
 import type { CurrentMapPositionAtomState } from '~core/shared_state/currentMapPosition';
 
-const debouncedItemsFetch = debounce(
-  async (ctx: AsyncCtx, position: CurrentMapPositionAtomState) => {
-    if (position) {
-      try {
-        const coords: [number, number] = getCenterFromPosition(position);
-        const response = await getBoundaries(coords, ctx.controller);
+const CACHE_SIZE = 256;
+const boundariesCache = new LRUCache<string | number, GeoJSON.Feature>({
+  max: CACHE_SIZE,
+});
 
-        // TODO: check with the previous items
-        breadcrumbsItemsAtom(ctx, response?.features ?? null);
-      } catch (error) {
-        if (!isAbortError(error)) {
-          console.error('Error when trying to retrieve boundaries:', error);
-        }
-      }
+
+const updateBreadcrumbsFromCache = action(
+  (ctx, position: CurrentMapPositionAtomState) => {
+    if (!position) {
+      breadcrumbsItemsAtom(ctx, null);
+      return;
     }
+
+    const coords: [number, number] = getCenterFromPosition(position);
+    const items = getBreadcrumbsForPoint(boundariesCache, coords);
+    breadcrumbsItemsAtom(ctx, items.length > 0 ? items : null);
   },
-  1000,
+  'updateBreadcrumbsFromCache',
 );
+
+let inFlight = false;
+let queuedPosition: CurrentMapPositionAtomState | null = null;
 
 export const fetchBreadcrumbsItems = reatomAsync(
   async (ctx, position: CurrentMapPositionAtomState) => {
-    debouncedItemsFetch(ctx, position);
+    updateBreadcrumbsFromCache(ctx, position);
+
+    if (!position) return;
+
+    if (inFlight) {
+      queuedPosition = position;
+      return;
+    }
+    inFlight = true;
+
+    try {
+      const coords: [number, number] = getCenterFromPosition(position);
+      const response = await getBoundaries(coords);
+      const features = response?.features;
+      if (features) {
+        for (const feature of features) {
+          if (feature.id !== undefined) {
+            boundariesCache.set(feature.id, feature);
+          }
+        }
+        updateBreadcrumbsFromCache(ctx, position);
+      }
+    } catch (error) {
+      if (!isAbortError(error)) {
+        console.error('Error when trying to retrieve boundaries:', error);
+      }
+    } finally {
+      inFlight = false;
+      if (queuedPosition) {
+        const next = queuedPosition;
+        queuedPosition = null;
+        fetchBreadcrumbsItems(ctx, next);
+      }
+    }
   },
   'breadcrumbsItemsResource',
-).pipe(withAbort());
+);
 
 export const breadcrumbsItemsAtom = atom<GeoJSON.Feature[] | null>(
   null,
