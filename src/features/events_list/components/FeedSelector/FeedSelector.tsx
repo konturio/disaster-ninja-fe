@@ -3,7 +3,6 @@ import { Select, type SelectableItem } from '@konturio/ui-kit';
 import { useCallback } from 'react';
 import { configRepo } from '~core/config';
 import { i18n } from '~core/localization';
-import { scheduledAutoSelect } from '~core/shared_state/currentEvent';
 import { eventFeedsAtom } from '~core/shared_state/eventFeeds';
 import { currentEventFeedAtom } from '~core/shared_state/currentEventFeed';
 import s from './FeedSelector.module.css';
@@ -16,7 +15,6 @@ type FeedItem = {
 export function FeedSelector() {
   const [eventFeeds] = useAtom(eventFeedsAtom);
   const [currentFeed, { setCurrentFeed }] = useAtom(currentEventFeedAtom);
-  const scheduleAutoSelect = useAction(scheduledAutoSelect.setTrue);
 
   const mappedItems: FeedItem[] =
     eventFeeds.data?.map((fd) => ({
@@ -29,9 +27,8 @@ export function FeedSelector() {
       if (!selection || Array.isArray(selection)) return;
 
       setCurrentFeed(selection.value as string);
-      scheduleAutoSelect();
     },
-    [setCurrentFeed, scheduleAutoSelect],
+    [setCurrentFeed],
   );
 
   if (eventFeeds.data?.length < 2) {
