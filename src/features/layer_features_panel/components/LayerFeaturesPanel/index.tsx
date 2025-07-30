@@ -98,7 +98,7 @@ export function LayerFeaturesPanel() {
     togglePanel,
     closePanel,
     setPanelState,
-  } = useShortPanelState({ isMobile });
+  } = useShortPanelState({ isMobile, persistKey: 'layer_features_panel' });
 
   const isOpen = panelState !== 'closed';
   const isShort = panelState === 'short';
@@ -108,6 +108,8 @@ export function LayerFeaturesPanel() {
     isOpen,
     FEATURESPANEL_MIN_HEIGHT,
     'lf_list',
+    undefined,
+    true,
   );
 
   useAutoCollapsePanel(isOpen, closePanel);

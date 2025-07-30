@@ -25,3 +25,17 @@ export function loadPanelState(panelId: string): string | null {
   const storage = new AppStorage<string>(`kontur_panels_${configRepo.get().id}`);
   return storage.get(panelId);
 }
+
+export function savePanelHeight(panelId: string, height: string | null) {
+  const storage = new AppStorage<string>(`kontur_panel_heights_${configRepo.get().id}`);
+  if (height) {
+    storage.set(panelId, height);
+  } else {
+    storage.remove(panelId);
+  }
+}
+
+export function loadPanelHeight(panelId: string): string | null {
+  const storage = new AppStorage<string>(`kontur_panel_heights_${configRepo.get().id}`);
+  return storage.get(panelId);
+}

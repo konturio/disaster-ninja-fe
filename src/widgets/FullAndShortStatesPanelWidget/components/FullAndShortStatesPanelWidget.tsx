@@ -75,6 +75,7 @@ export function FullAndShortStatesPanelWidget({
     minHeight,
     id || 'primary_and_secondary',
     isShort ? shortState?.skipAutoResize : fullState?.skipAutoResize,
+    true,
   );
 
   useAutoCollapsePanel(isOpen, closePanel);

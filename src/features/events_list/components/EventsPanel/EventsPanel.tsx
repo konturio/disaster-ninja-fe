@@ -77,6 +77,8 @@ export function EventsPanel({
     isOpen,
     MIN_HEIGHT,
     'event_list',
+    undefined,
+    true,
   );
 
   useAutoCollapsePanel(isOpen, closePanel);
