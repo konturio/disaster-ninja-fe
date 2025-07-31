@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
-import { useAtom } from '@reatom/react-v2';
+import { useAtom as useAtomV2 } from '@reatom/react-v2';
+import { useAtom } from '@reatom/npm-react';
 import { useAction } from '@reatom/react-v2';
 import { FoldingWrap } from '~components/FoldingWrap/FoldingWrap';
 import { mountedLayersByCategoryAtom } from '~features/layers_panel/atoms/mountedLayersByCategory';
@@ -10,13 +11,10 @@ import { layersTreeOpenStateAtom } from '../../atoms/openState';
 import s from './Category.module.css';
 import type { CategoryWithSettings } from '~core/types/layers';
 
-function CategoryMountedLayersCounter({ categoryId }: { categoryId: string }) {
-  const [counters] = useAtom(mountedLayersByCategoryAtom);
-  return <span className={s.mountedLayersCounter}>{counters[categoryId]}</span>;
-}
-
 export function Category({ category }: { category: CategoryWithSettings }) {
-  const [openMap] = useAtom(layersTreeOpenStateAtom);
+  const [openMap] = useAtomV2(layersTreeOpenStateAtom);
+  const [counters] = useAtom(mountedLayersByCategoryAtom);
+  const mountedLayersCounter = counters[category.id] ?? 0;
   const isOpen = openMap.get(category.id) ?? true;
   const setOpen = useAction(layersTreeOpenStateAtom.set);
   const onCategoryDeselect = useAction(
@@ -35,12 +33,18 @@ export function Category({ category }: { category: CategoryWithSettings }) {
           <div className={s.categoryTitle}>
             <span>{category.name}</span>
             {!category.mutuallyExclusive ? (
-              <CategoryMountedLayersCounter categoryId={category.id} />
+              // counter text
+              <span className={s.mountedLayersCounter}>{counters[category.id]}</span>
             ) : null}
           </div>
         }
         controls={
-          category.mutuallyExclusive && <DeselectControl onClick={onCategoryDeselect} />
+          category.mutuallyExclusive && (
+            <DeselectControl
+              onClick={onCategoryDeselect}
+              disabled={mountedLayersCounter === 0}
+            />
+          )
         }
         onClick={toggleOpenState}
       >

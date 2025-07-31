@@ -29,8 +29,7 @@ export function updateUserData(data) {
 
 function removeIntercomSessionCookie(appId?: string) {
   if (!appId) return;
-  document.cookie =
-    `intercom-session-${appId}=;path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT`;
+  document.cookie = `intercom-session-${appId}=;path=/;expires=Thu, 01 Jan 1970 00:00:00 GMT`;
   // happy-dom used in tests doesn't respect expires attribute, so also blank out
   // cookie value to ensure cleanup in that environment
   document.cookie = `intercom-session-${appId}=`;

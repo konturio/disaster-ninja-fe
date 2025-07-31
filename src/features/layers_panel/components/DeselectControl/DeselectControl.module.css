@@ -1,4 +1,9 @@
 .deselectControl {
   color: var(--accent-strong);
   padding-right: var(--double-unit);
+
+  &:disabled {
+    color: var(--faint-weak-up);
+    cursor: default;
+  }
 }
