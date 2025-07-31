@@ -166,12 +166,12 @@ export function MCDALayerParameters({
       left: {
         label: layer.sentiment.at(0)!, // Sentiments name needed instead of id
         color: isGoodLeft ? sentimentColors.good : sentimentColors.bad,
-        value: String(layer.range.at(0)),
+        value: layer.range.at(0),
       },
       right: {
         label: layer.sentiment.at(1)!,
         color: isGoodLeft ? sentimentColors.bad : sentimentColors.good,
-        value: String(layer.range.at(1)),
+        value: layer.range.at(1),
       },
     };
   }, [layer]);

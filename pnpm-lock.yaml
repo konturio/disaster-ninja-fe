@@ -40,8 +40,8 @@ importers:
         specifier: ^1.2.1
         version: 1.2.1(clsx@2.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@konturio/ui-kit':
-        specifier: ^5.4.3
-        version: 5.4.3(@egjs/hammerjs@2.0.17)(clsx@2.1.1)(component-emitter@1.3.1)(keycharm@0.4.0)(moment@2.30.1)(propagating-hammerjs@2.0.1(@egjs/hammerjs@2.0.17))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(uuid@8.3.2)(vis-util@5.0.7(@egjs/hammerjs@2.0.17)(component-emitter@1.3.1))(xss@1.0.15)
+        specifier: ^5.5.0
+        version: 5.5.0(@egjs/hammerjs@2.0.17)(clsx@2.1.1)(component-emitter@1.3.1)(keycharm@0.4.0)(moment@2.30.1)(propagating-hammerjs@2.0.1(@egjs/hammerjs@2.0.17))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(uuid@8.3.2)(vis-util@5.0.7(@egjs/hammerjs@2.0.17)(component-emitter@1.3.1))(xss@1.0.15)
       '@nebula.gl/edit-modes':
         specifier: 1.1.0-alpha.5
         version: 1.1.0-alpha.5
@@ -942,12 +942,6 @@ packages:
   '@floating-ui/dom@1.6.12':
     resolution: {integrity: sha512-NP83c0HjokcGVEMeoStg317VD9W7eDlGK7457dMBANbKA6GJZdc7rjujdgqzTaz93jkGgc5P/jeWbaCHnMNc+w==}
 
-  '@floating-ui/react-dom@2.1.2':
-    resolution: {integrity: sha512-06okr5cgPzMNBy+Ycse2A6udMi4bqwW/zgBF/rwjcNqWkyr82Mcg8b0vjX8OJpZFy/FKjJmw6wV7t44kK6kW7A==}
-    peerDependencies:
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-
   '@floating-ui/react-dom@2.1.3':
     resolution: {integrity: sha512-huMBfiU9UnQ2oBwIhgzyIiSpVgvlDstU8CX0AF+wS+KzmYMs0J2a3GwuFHV1Lz+jlrQGeC1fF+Nv0QoumyV0bA==}
     peerDependencies:
@@ -1054,8 +1048,14 @@ packages:
       clsx: ^2.1.1
       react: ^18.2.0
 
-  '@konturio/ui-kit@5.4.3':
-    resolution: {integrity: sha512-1na/go9J8aUUqo5j1dGp06AhwR4dlnUSL5q1a1q1o5xY67LquZP120ov1YsHaPi2cjEc500LH3ljG+lruqsoaw==}
+  '@konturio/floating@1.2.2':
+    resolution: {integrity: sha512-48HXWSSYtOZydRBo6O78wKl8qPCVcTUKaRUpVvd5iUSTgFPs+YXW0R/zFZ9fvU+ONDPaNL17yDF51dOAATKq2w==}
+    peerDependencies:
+      clsx: ^2.1.1
+      react: ^18.2.0
+
+  '@konturio/ui-kit@5.5.0':
+    resolution: {integrity: sha512-u4U1f1O+r7LcpKV6qqSjinKf02MpUzKlp3pBv5RBk1BvBondZJflL3KJrAE94MIOCNYQ4frBxB4xGh/cok6j9Q==}
     peerDependencies:
       clsx: ^2.1.1
       react: ^18.2.0
@@ -6690,12 +6690,6 @@ snapshots:
       '@floating-ui/core': 1.6.8
       '@floating-ui/utils': 0.2.9
 
-  '@floating-ui/react-dom@2.1.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
-    dependencies:
-      '@floating-ui/dom': 1.6.12
-      react: 18.3.1
-      react-dom: 18.3.1(react@18.3.1)
-
   '@floating-ui/react-dom@2.1.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
       '@floating-ui/dom': 1.6.12
@@ -6814,10 +6808,19 @@ snapshots:
     transitivePeerDependencies:
       - react-dom
 
-  '@konturio/ui-kit@5.4.3(@egjs/hammerjs@2.0.17)(clsx@2.1.1)(component-emitter@1.3.1)(keycharm@0.4.0)(moment@2.30.1)(propagating-hammerjs@2.0.1(@egjs/hammerjs@2.0.17))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(uuid@8.3.2)(vis-util@5.0.7(@egjs/hammerjs@2.0.17)(component-emitter@1.3.1))(xss@1.0.15)':
+  '@konturio/floating@1.2.2(clsx@2.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)':
     dependencies:
-      '@floating-ui/react-dom': 2.1.2(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      '@konturio/floating': 1.2.1(clsx@2.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@floating-ui/react': 0.27.12(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      clsx: 2.1.1
+      nanoid: 4.0.2
+      react: 18.3.1
+    transitivePeerDependencies:
+      - react-dom
+
+  '@konturio/ui-kit@5.5.0(@egjs/hammerjs@2.0.17)(clsx@2.1.1)(component-emitter@1.3.1)(keycharm@0.4.0)(moment@2.30.1)(propagating-hammerjs@2.0.1(@egjs/hammerjs@2.0.17))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(uuid@8.3.2)(vis-util@5.0.7(@egjs/hammerjs@2.0.17)(component-emitter@1.3.1))(xss@1.0.15)':
+    dependencies:
+      '@floating-ui/react-dom': 2.1.3(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@konturio/floating': 1.2.2(clsx@2.1.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       clsx: 2.1.1
       downshift: 8.5.0(react@18.3.1)
       nanoid: 4.0.2

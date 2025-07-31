@@ -20,3 +20,7 @@ export function generateMCDALegendColors(colors: ColorsBySentiments) {
     return generateHclGradientColors(colorBad.toString(), colorGood.toString(), 5);
   }
 }
+
+export function mcdaRangeToFixedNumber(rawValue: number | undefined): number {
+  return Number(rawValue?.toFixed(3));
+}
