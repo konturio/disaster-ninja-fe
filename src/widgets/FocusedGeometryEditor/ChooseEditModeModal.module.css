@@ -1,0 +1,6 @@
+.buttonsRow {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: var(--unit);
+  justify-content: flex-end;
+}

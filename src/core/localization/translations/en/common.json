@@ -517,6 +517,12 @@
     "error_couldnt_save": "Unfortunately, we could not save your reference area. Please try again.",
     "selected_area_saved_as_reference_area": "Selected area has been saved as reference area in your profile"
   },
+  "focused_geometry_editor_modal": {
+    "title": "Selected area already contains geometry",
+    "question": "Do you want to draw new geometry or edit the existing one?",
+    "draw_new": "Draw new geometry",
+    "edit_existing": "Edit existing geometry"
+  },
   "oam_auth": {
     "login_button": "Login with Google"
   }
