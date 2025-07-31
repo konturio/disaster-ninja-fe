@@ -13,6 +13,7 @@ interface BreadcrumbsProps {
   classes?: {
     breadcrumbs: string;
   };
+  loading?: boolean;
 }
 
 const Breadcrumbs = ({
@@ -20,6 +21,7 @@ const Breadcrumbs = ({
   separator = <ChevronRight16 />,
   onClick,
   classes,
+  loading = false,
 }: BreadcrumbsProps) => {
   const containerRef = useRef(null);
   const { leftHiddenItemIndex, rightHiddenItemIndex } = useHiddenItemsRange({
@@ -37,7 +39,7 @@ const Breadcrumbs = ({
           value={crumb.value}
           onClick={onClick}
           separator={separator}
-          isLastItem={start + index === items.length - 1}
+          isLastItem={start + index === items.length - 1 && !loading}
         />
       ));
   };
