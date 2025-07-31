@@ -1,5 +1,6 @@
 import { ChevronDown24, ChevronUp24 } from '@konturio/default-icons';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState, useEffect } from 'react';
+import { savePanelState, loadPanelState } from '~core/panels_state';
 
 export type PanelState = 'full' | 'short' | 'closed';
 
@@ -9,6 +10,8 @@ interface UseShortPanelStateProps {
   isMobile?: boolean;
   /** Optional id used to generate test ids for panel controls */
   panelId?: string;
+  /** Key to persist panel state between sessions */
+  persistKey?: string;
 }
 
 export const useShortPanelState = (props?: UseShortPanelStateProps) => {
@@ -17,7 +20,17 @@ export const useShortPanelState = (props?: UseShortPanelStateProps) => {
   const isMobile = props?.isMobile ?? false;
   const collapseTestId = props?.panelId ? `${props.panelId}-collapse` : undefined;
   const expandTestId = props?.panelId ? `${props.panelId}-expand` : undefined;
-  const [panelState, setPanelState] = useState<PanelState>(initialState);
+  const persistKey = props?.persistKey;
+
+  const [panelState, setPanelState] = useState<PanelState>(() => {
+    if (persistKey) {
+      const stored = loadPanelState(persistKey);
+      if (stored === 'full' || stored === 'short' || stored === 'closed') {
+        return stored as PanelState;
+      }
+    }
+    return initialState;
+  });
 
   const panelControls = useMemo(() => {
     if (isMobile) {
@@ -88,6 +101,12 @@ export const useShortPanelState = (props?: UseShortPanelStateProps) => {
   const togglePanel = useCallback(() => {
     setPanelState(panelState === 'closed' ? 'full' : 'closed');
   }, [panelState, setPanelState]);
+
+  useEffect(() => {
+    if (persistKey) {
+      savePanelState(persistKey, panelState);
+    }
+  }, [panelState, persistKey]);
 
   const result = {
     panelState,

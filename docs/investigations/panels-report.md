@@ -106,6 +106,8 @@ const handleRefChange = useHeightResizer(
   isOpen,
   MIN_HEIGHT,
   'panel_identifier',
+  undefined, // skipAutoResize
+  true, // persist height
 );
 ```
 

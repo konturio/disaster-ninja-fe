@@ -66,7 +66,7 @@ export function EventsPanel({
     togglePanel,
     isOpen,
     isShort,
-  } = useShortPanelState({ isMobile });
+  } = useShortPanelState({ isMobile, persistKey: 'events_panel' });
 
   const [focusedGeometry] = useAtom(focusedGeometryAtom);
   const [{ data: eventsList, error, loading }] = useAtomV3(sortedEventListAtom);
@@ -77,6 +77,8 @@ export function EventsPanel({
     isOpen,
     MIN_HEIGHT,
     'event_list',
+    undefined,
+    true,
   );
 
   useAutoCollapsePanel(isOpen, closePanel);
