@@ -5,6 +5,7 @@ import { i18n } from '~core/localization';
 import { dispatchMetricsEventOnce } from '~core/metrics/dispatch';
 import { currentEventAtom } from '~core/shared_state/currentEvent';
 import { currentEventFeedAtom } from '~core/shared_state/currentEventFeed';
+import { configRepo } from '~core/config';
 import { combineAtoms } from '~utils/atoms';
 import { createAsyncAtom } from '~utils/atoms/createAsyncAtom';
 import { eventListFilters } from './eventListFilters';
@@ -42,8 +43,14 @@ export const eventListResourceAtom = createAsyncAtom(
 
     const currentEvent = currentEventAtom.getState();
     if (currentEvent?.id) {
-      if (responseData.findIndex((d) => d.eventId === currentEvent?.id) === -1) {
-        // selected event is not in list, reset selection
+      const currentEventInList = responseData.some((d) => d.eventId === currentEvent.id);
+      const initUrl = configRepo.get().initialUrlData;
+      const cameFromUrl =
+        initUrl.event === currentEvent.id && initUrl.feed === params.feed;
+
+      if (!currentEventInList && !cameFromUrl) {
+        // Selected event is not in the list and wasn't provided via URL,
+        // so we clear it to avoid pointing to a non-listed event
         currentEventAtom.setCurrentEventId.dispatch(null);
       }
     }
