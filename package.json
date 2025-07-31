@@ -39,7 +39,8 @@
     "i18n:import": "tsx ./scripts/i18n/convertion.ts --to-i18next",
     "i18n:report": "tsx ./scripts/i18n/diagnostic.ts",
     "i18n:update": "i18next-scanner --config i18next-scanner.config.cjs",
-    "i18n:gettext-sync": "sh ./scripts/i18n/gettextSync.sh"
+    "i18n:gettext-sync": "sh ./scripts/i18n/gettextSync.sh",
+    "check:fixmes": "node ./scripts/check-test-fixmes.mjs"
   },
   "lint-staged": {
     "*/**/*.{ts,tsx}": [
@@ -186,6 +187,7 @@
     "globals": "^16.0.0",
     "happy-dom": "^17.4.6",
     "husky": "^9.1.7",
+    "glob": "^10.3.10",
     "i18next-scanner": "^4.6.0",
     "jose": "^6.0.11",
     "lint-staged": "^15.5.2",

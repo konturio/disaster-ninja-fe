@@ -91,6 +91,9 @@ jobs:
       - name: Typecheck
         run: pnpm run typecheck
 
+      - name: Check disabled e2e tests registry
+        run: pnpm run check:fixmes
+
       - name: Coverage
         run: env NODE_ENV=test pnpm run coverage
 
