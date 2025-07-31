@@ -21,3 +21,4 @@ After the `currentEventResourceAtom` is fully loaded, the `currentEventGeometryA
 ### `currentEventRefresherAtom`
 
 This atom is responsible for refreshing the current event. It subscribes to changes in `currentEventAtom` (an atom that contains data about the current event) and when it changes, adds `currentEventResourceAtom` (an atom that contains data about the current event) to the list of data auto-updating service if the current event is not null. If the current event is null or its ID is null, the atom removes `currentEventResourceAtom` from the list of data auto-updating service.
+Whenever a new event is selected, it also re-enables the focused geometry layer so the event shape becomes visible again.
