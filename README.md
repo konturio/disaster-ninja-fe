@@ -13,6 +13,7 @@ The tool’s functionality is much broader nowadays: it can be used whenever ins
 [More info ==>](https://www.kontur.io/portfolio/disaster-ninja/)
 
 Run `npx husky-init` after you first time clone project
+This project requires Node.js 20+ and pnpm 9.x
 
 ## How to use
 
@@ -181,6 +182,14 @@ Run this script after you run pnpm install
 ### upgrade:kontur
 
 Update @konturio to last versions
+
+### validate:external-calls
+
+Checks test coverage of all calls to external libraries. Run automatically on
+`pre-commit`. Missing lines are printed with the library and symbol involved.
+If a call to the same symbol is covered elsewhere it is reported as a warning.
+The validator runs `pnpm coverage` automatically when no coverage data is present.
+Pass `--no-run` to skip running tests and reuse existing coverage.
 
 ## Configuration
 
