@@ -37,7 +37,7 @@ function zoomToFocusedGeometry(focusedGeometry: GeoJSON.GeoJSON) {
       store.dispatch(
         v3ActionToV2<CenterZoomPosition>(
           setCurrentMapPosition,
-          { zoom: Math.min(camera.zoom || maxZoom, maxZoom), ...camera.center },
+          { zoom: Math.min(camera.zoom ?? maxZoom, maxZoom), ...camera.center },
           'setCurrentMapPosition',
         ),
       );
