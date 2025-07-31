@@ -1,3 +1,3 @@
-- Vitest tests fail with "Fatal JavaScript invalid size error" when running the full suite.
-  Investigate memory usage or environment mismatch to restore test execution.
-- Even with pnpm@9 installed, 'pnpm test:unit' crashes with 'Fatal JavaScript invalid size error 169220804'. LRUCache max is small so the bug might stem from Node/V8; needs further investigation.
+- Vitest used to crash with "Fatal JavaScript invalid size error" when walking the LRU cache.
+  Upgrading lru-cache to >=11.2 is recommended when available. The cache iteration
+  now avoids mutations, so tests pass under Node 20.19.4.

@@ -7,18 +7,19 @@ export function getBreadcrumbsForPoint(
   coords: [number, number],
 ): GeoJSON.Feature[] {
   const pt = point(coords);
-  const matches: GeoJSON.Feature[] = [];
-  cache.forEach((feature, key, cacheInstance) => {
+  const hits: [string | number, GeoJSON.Feature][] = [];
+
+  for (const [k, f] of cache.entries()) {
     try {
-      if (booleanPointInPolygon(pt, feature as any)) {
-        cacheInstance.get(key); // mark feature as recently used
-        matches.push(feature);
-      }
+      if (booleanPointInPolygon(pt, f as any)) hits.push([k, f]);
     } catch {
       // ignore geometry errors
     }
-  });
-  return matches.sort(
-    (a, b) => (b.properties?.admin_level ?? 0) - (a.properties?.admin_level ?? 0),
-  );
+  }
+
+  for (const [k] of hits) cache.get(k);
+
+  return hits
+    .map(([, f]) => f)
+    .sort((a, b) => (b.properties?.admin_level ?? 0) - (a.properties?.admin_level ?? 0));
 }
