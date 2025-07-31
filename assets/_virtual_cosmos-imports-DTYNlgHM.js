@@ -9,7 +9,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value2) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value2);
 var __privateSet = (obj, member, value2, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value2) : member.set(obj, value2), value2);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, e as extendWithValue, R as React, c as createValue, i as isEqual, r as reactExports, a as requireReact, b as requireReactDom, d as React$1, g as getDefaultExportFromCjs } from "./index-EJaZPmFq.js";
+import { u as useFixtureState, e as extendWithValue, R as React, c as createValue, i as isEqual, r as reactExports, a as requireReact, b as requireReactDom, d as React$1, g as getDefaultExportFromCjs } from "./index-B5TwU4Cz.js";
 function useCurrentInputValue(inputName, defaultValue) {
   const [fixtureState] = useFixtureState("inputs");
   const inputFs = fixtureState && fixtureState[inputName];
@@ -2760,6 +2760,273 @@ const computePosition = (reference, floating, options) => {
     platform: platformWithCache
   });
 };
+var isClient$1 = typeof document !== "undefined";
+var noop$3 = function noop() {
+};
+var index$1 = isClient$1 ? reactExports.useLayoutEffect : noop$3;
+function deepEqual(a2, b2) {
+  if (a2 === b2) {
+    return true;
+  }
+  if (typeof a2 !== typeof b2) {
+    return false;
+  }
+  if (typeof a2 === "function" && a2.toString() === b2.toString()) {
+    return true;
+  }
+  let length;
+  let i2;
+  let keys;
+  if (a2 && b2 && typeof a2 === "object") {
+    if (Array.isArray(a2)) {
+      length = a2.length;
+      if (length !== b2.length) return false;
+      for (i2 = length; i2-- !== 0; ) {
+        if (!deepEqual(a2[i2], b2[i2])) {
+          return false;
+        }
+      }
+      return true;
+    }
+    keys = Object.keys(a2);
+    length = keys.length;
+    if (length !== Object.keys(b2).length) {
+      return false;
+    }
+    for (i2 = length; i2-- !== 0; ) {
+      if (!{}.hasOwnProperty.call(b2, keys[i2])) {
+        return false;
+      }
+    }
+    for (i2 = length; i2-- !== 0; ) {
+      const key = keys[i2];
+      if (key === "_owner" && a2.$$typeof) {
+        continue;
+      }
+      if (!deepEqual(a2[key], b2[key])) {
+        return false;
+      }
+    }
+    return true;
+  }
+  return a2 !== a2 && b2 !== b2;
+}
+function getDPR(element) {
+  if (typeof window === "undefined") {
+    return 1;
+  }
+  const win = element.ownerDocument.defaultView || window;
+  return win.devicePixelRatio || 1;
+}
+function roundByDPR(element, value2) {
+  const dpr = getDPR(element);
+  return Math.round(value2 * dpr) / dpr;
+}
+function useLatestRef$1(value2) {
+  const ref = reactExports.useRef(value2);
+  index$1(() => {
+    ref.current = value2;
+  });
+  return ref;
+}
+function useFloating$1(options) {
+  if (options === void 0) {
+    options = {};
+  }
+  const {
+    placement = "bottom",
+    strategy = "absolute",
+    middleware = [],
+    platform: platform2,
+    elements: {
+      reference: externalReference,
+      floating: externalFloating
+    } = {},
+    transform = true,
+    whileElementsMounted,
+    open
+  } = options;
+  const [data, setData] = reactExports.useState({
+    x: 0,
+    y: 0,
+    strategy,
+    placement,
+    middlewareData: {},
+    isPositioned: false
+  });
+  const [latestMiddleware, setLatestMiddleware] = reactExports.useState(middleware);
+  if (!deepEqual(latestMiddleware, middleware)) {
+    setLatestMiddleware(middleware);
+  }
+  const [_reference, _setReference] = reactExports.useState(null);
+  const [_floating, _setFloating] = reactExports.useState(null);
+  const setReference = reactExports.useCallback((node) => {
+    if (node !== referenceRef.current) {
+      referenceRef.current = node;
+      _setReference(node);
+    }
+  }, []);
+  const setFloating = reactExports.useCallback((node) => {
+    if (node !== floatingRef.current) {
+      floatingRef.current = node;
+      _setFloating(node);
+    }
+  }, []);
+  const referenceEl = externalReference || _reference;
+  const floatingEl = externalFloating || _floating;
+  const referenceRef = reactExports.useRef(null);
+  const floatingRef = reactExports.useRef(null);
+  const dataRef = reactExports.useRef(data);
+  const hasWhileElementsMounted = whileElementsMounted != null;
+  const whileElementsMountedRef = useLatestRef$1(whileElementsMounted);
+  const platformRef = useLatestRef$1(platform2);
+  const openRef = useLatestRef$1(open);
+  const update = reactExports.useCallback(() => {
+    if (!referenceRef.current || !floatingRef.current) {
+      return;
+    }
+    const config2 = {
+      placement,
+      strategy,
+      middleware: latestMiddleware
+    };
+    if (platformRef.current) {
+      config2.platform = platformRef.current;
+    }
+    computePosition(referenceRef.current, floatingRef.current, config2).then((data2) => {
+      const fullData = {
+        ...data2,
+        // The floating element's position may be recomputed while it's closed
+        // but still mounted (such as when transitioning out). To ensure
+        // `isPositioned` will be `false` initially on the next open, avoid
+        // setting it to `true` when `open === false` (must be specified).
+        isPositioned: openRef.current !== false
+      };
+      if (isMountedRef.current && !deepEqual(dataRef.current, fullData)) {
+        dataRef.current = fullData;
+        reactDomExports.flushSync(() => {
+          setData(fullData);
+        });
+      }
+    });
+  }, [latestMiddleware, placement, strategy, platformRef, openRef]);
+  index$1(() => {
+    if (open === false && dataRef.current.isPositioned) {
+      dataRef.current.isPositioned = false;
+      setData((data2) => ({
+        ...data2,
+        isPositioned: false
+      }));
+    }
+  }, [open]);
+  const isMountedRef = reactExports.useRef(false);
+  index$1(() => {
+    isMountedRef.current = true;
+    return () => {
+      isMountedRef.current = false;
+    };
+  }, []);
+  index$1(() => {
+    if (referenceEl) referenceRef.current = referenceEl;
+    if (floatingEl) floatingRef.current = floatingEl;
+    if (referenceEl && floatingEl) {
+      if (whileElementsMountedRef.current) {
+        return whileElementsMountedRef.current(referenceEl, floatingEl, update);
+      }
+      update();
+    }
+  }, [referenceEl, floatingEl, update, whileElementsMountedRef, hasWhileElementsMounted]);
+  const refs = reactExports.useMemo(() => ({
+    reference: referenceRef,
+    floating: floatingRef,
+    setReference,
+    setFloating
+  }), [setReference, setFloating]);
+  const elements = reactExports.useMemo(() => ({
+    reference: referenceEl,
+    floating: floatingEl
+  }), [referenceEl, floatingEl]);
+  const floatingStyles = reactExports.useMemo(() => {
+    const initialStyles = {
+      position: strategy,
+      left: 0,
+      top: 0
+    };
+    if (!elements.floating) {
+      return initialStyles;
+    }
+    const x2 = roundByDPR(elements.floating, data.x);
+    const y2 = roundByDPR(elements.floating, data.y);
+    if (transform) {
+      return {
+        ...initialStyles,
+        transform: "translate(" + x2 + "px, " + y2 + "px)",
+        ...getDPR(elements.floating) >= 1.5 && {
+          willChange: "transform"
+        }
+      };
+    }
+    return {
+      position: strategy,
+      left: x2,
+      top: y2
+    };
+  }, [strategy, transform, elements.floating, data.x, data.y]);
+  return reactExports.useMemo(() => ({
+    ...data,
+    update,
+    refs,
+    elements,
+    floatingStyles
+  }), [data, update, refs, elements, floatingStyles]);
+}
+const arrow$1$1 = (options) => {
+  function isRef(value2) {
+    return {}.hasOwnProperty.call(value2, "current");
+  }
+  return {
+    name: "arrow",
+    options,
+    fn(state) {
+      const {
+        element,
+        padding
+      } = typeof options === "function" ? options(state) : options;
+      if (element && isRef(element)) {
+        if (element.current != null) {
+          return arrow$3({
+            element: element.current,
+            padding
+          }).fn(state);
+        }
+        return {};
+      }
+      if (element) {
+        return arrow$3({
+          element,
+          padding
+        }).fn(state);
+      }
+      return {};
+    }
+  };
+};
+const offset = (options, deps) => ({
+  ...offset$1(options),
+  options: [options, deps]
+});
+const shift = (options, deps) => ({
+  ...shift$1(options),
+  options: [options, deps]
+});
+const flip = (options, deps) => ({
+  ...flip$1(options),
+  options: [options, deps]
+});
+const arrow$2 = (options, deps) => ({
+  ...arrow$1$1(options),
+  options: [options, deps]
+});
 /*!
 * tabbable 6.2.0
 * @license MIT, https://github.com/focus-trap/tabbable/blob/master/LICENSE
@@ -3246,16 +3513,16 @@ function isMouseLikePointerType(pointerType, strict) {
   }
   return values.includes(pointerType);
 }
-var isClient$1 = typeof document !== "undefined";
-var noop$3 = function noop2() {
+var isClient = typeof document !== "undefined";
+var noop$2 = function noop2() {
 };
-var index$1 = isClient$1 ? reactExports.useLayoutEffect : noop$3;
+var index = isClient ? reactExports.useLayoutEffect : noop$2;
 const SafeReact$1 = {
   ...React$1
 };
-function useLatestRef$1(value2) {
+function useLatestRef(value2) {
   const ref = reactExports.useRef(value2);
-  index$1(() => {
+  index(() => {
     ref.current = value2;
   });
   return ref;
@@ -3323,273 +3590,6 @@ function enableFocusInside(container2) {
     }
   });
 }
-var isClient = typeof document !== "undefined";
-var noop$2 = function noop() {
-};
-var index = isClient ? reactExports.useLayoutEffect : noop$2;
-function deepEqual(a2, b2) {
-  if (a2 === b2) {
-    return true;
-  }
-  if (typeof a2 !== typeof b2) {
-    return false;
-  }
-  if (typeof a2 === "function" && a2.toString() === b2.toString()) {
-    return true;
-  }
-  let length;
-  let i2;
-  let keys;
-  if (a2 && b2 && typeof a2 === "object") {
-    if (Array.isArray(a2)) {
-      length = a2.length;
-      if (length !== b2.length) return false;
-      for (i2 = length; i2-- !== 0; ) {
-        if (!deepEqual(a2[i2], b2[i2])) {
-          return false;
-        }
-      }
-      return true;
-    }
-    keys = Object.keys(a2);
-    length = keys.length;
-    if (length !== Object.keys(b2).length) {
-      return false;
-    }
-    for (i2 = length; i2-- !== 0; ) {
-      if (!{}.hasOwnProperty.call(b2, keys[i2])) {
-        return false;
-      }
-    }
-    for (i2 = length; i2-- !== 0; ) {
-      const key = keys[i2];
-      if (key === "_owner" && a2.$$typeof) {
-        continue;
-      }
-      if (!deepEqual(a2[key], b2[key])) {
-        return false;
-      }
-    }
-    return true;
-  }
-  return a2 !== a2 && b2 !== b2;
-}
-function getDPR(element) {
-  if (typeof window === "undefined") {
-    return 1;
-  }
-  const win = element.ownerDocument.defaultView || window;
-  return win.devicePixelRatio || 1;
-}
-function roundByDPR(element, value2) {
-  const dpr = getDPR(element);
-  return Math.round(value2 * dpr) / dpr;
-}
-function useLatestRef(value2) {
-  const ref = reactExports.useRef(value2);
-  index(() => {
-    ref.current = value2;
-  });
-  return ref;
-}
-function useFloating$1(options) {
-  if (options === void 0) {
-    options = {};
-  }
-  const {
-    placement = "bottom",
-    strategy = "absolute",
-    middleware = [],
-    platform: platform2,
-    elements: {
-      reference: externalReference,
-      floating: externalFloating
-    } = {},
-    transform = true,
-    whileElementsMounted,
-    open
-  } = options;
-  const [data, setData] = reactExports.useState({
-    x: 0,
-    y: 0,
-    strategy,
-    placement,
-    middlewareData: {},
-    isPositioned: false
-  });
-  const [latestMiddleware, setLatestMiddleware] = reactExports.useState(middleware);
-  if (!deepEqual(latestMiddleware, middleware)) {
-    setLatestMiddleware(middleware);
-  }
-  const [_reference, _setReference] = reactExports.useState(null);
-  const [_floating, _setFloating] = reactExports.useState(null);
-  const setReference = reactExports.useCallback((node) => {
-    if (node !== referenceRef.current) {
-      referenceRef.current = node;
-      _setReference(node);
-    }
-  }, []);
-  const setFloating = reactExports.useCallback((node) => {
-    if (node !== floatingRef.current) {
-      floatingRef.current = node;
-      _setFloating(node);
-    }
-  }, []);
-  const referenceEl = externalReference || _reference;
-  const floatingEl = externalFloating || _floating;
-  const referenceRef = reactExports.useRef(null);
-  const floatingRef = reactExports.useRef(null);
-  const dataRef = reactExports.useRef(data);
-  const hasWhileElementsMounted = whileElementsMounted != null;
-  const whileElementsMountedRef = useLatestRef(whileElementsMounted);
-  const platformRef = useLatestRef(platform2);
-  const openRef = useLatestRef(open);
-  const update = reactExports.useCallback(() => {
-    if (!referenceRef.current || !floatingRef.current) {
-      return;
-    }
-    const config2 = {
-      placement,
-      strategy,
-      middleware: latestMiddleware
-    };
-    if (platformRef.current) {
-      config2.platform = platformRef.current;
-    }
-    computePosition(referenceRef.current, floatingRef.current, config2).then((data2) => {
-      const fullData = {
-        ...data2,
-        // The floating element's position may be recomputed while it's closed
-        // but still mounted (such as when transitioning out). To ensure
-        // `isPositioned` will be `false` initially on the next open, avoid
-        // setting it to `true` when `open === false` (must be specified).
-        isPositioned: openRef.current !== false
-      };
-      if (isMountedRef.current && !deepEqual(dataRef.current, fullData)) {
-        dataRef.current = fullData;
-        reactDomExports.flushSync(() => {
-          setData(fullData);
-        });
-      }
-    });
-  }, [latestMiddleware, placement, strategy, platformRef, openRef]);
-  index(() => {
-    if (open === false && dataRef.current.isPositioned) {
-      dataRef.current.isPositioned = false;
-      setData((data2) => ({
-        ...data2,
-        isPositioned: false
-      }));
-    }
-  }, [open]);
-  const isMountedRef = reactExports.useRef(false);
-  index(() => {
-    isMountedRef.current = true;
-    return () => {
-      isMountedRef.current = false;
-    };
-  }, []);
-  index(() => {
-    if (referenceEl) referenceRef.current = referenceEl;
-    if (floatingEl) floatingRef.current = floatingEl;
-    if (referenceEl && floatingEl) {
-      if (whileElementsMountedRef.current) {
-        return whileElementsMountedRef.current(referenceEl, floatingEl, update);
-      }
-      update();
-    }
-  }, [referenceEl, floatingEl, update, whileElementsMountedRef, hasWhileElementsMounted]);
-  const refs = reactExports.useMemo(() => ({
-    reference: referenceRef,
-    floating: floatingRef,
-    setReference,
-    setFloating
-  }), [setReference, setFloating]);
-  const elements = reactExports.useMemo(() => ({
-    reference: referenceEl,
-    floating: floatingEl
-  }), [referenceEl, floatingEl]);
-  const floatingStyles = reactExports.useMemo(() => {
-    const initialStyles = {
-      position: strategy,
-      left: 0,
-      top: 0
-    };
-    if (!elements.floating) {
-      return initialStyles;
-    }
-    const x2 = roundByDPR(elements.floating, data.x);
-    const y2 = roundByDPR(elements.floating, data.y);
-    if (transform) {
-      return {
-        ...initialStyles,
-        transform: "translate(" + x2 + "px, " + y2 + "px)",
-        ...getDPR(elements.floating) >= 1.5 && {
-          willChange: "transform"
-        }
-      };
-    }
-    return {
-      position: strategy,
-      left: x2,
-      top: y2
-    };
-  }, [strategy, transform, elements.floating, data.x, data.y]);
-  return reactExports.useMemo(() => ({
-    ...data,
-    update,
-    refs,
-    elements,
-    floatingStyles
-  }), [data, update, refs, elements, floatingStyles]);
-}
-const arrow$1$1 = (options) => {
-  function isRef(value2) {
-    return {}.hasOwnProperty.call(value2, "current");
-  }
-  return {
-    name: "arrow",
-    options,
-    fn(state) {
-      const {
-        element,
-        padding
-      } = typeof options === "function" ? options(state) : options;
-      if (element && isRef(element)) {
-        if (element.current != null) {
-          return arrow$3({
-            element: element.current,
-            padding
-          }).fn(state);
-        }
-        return {};
-      }
-      if (element) {
-        return arrow$3({
-          element,
-          padding
-        }).fn(state);
-      }
-      return {};
-    }
-  };
-};
-const offset = (options, deps) => ({
-  ...offset$1(options),
-  options: [options, deps]
-});
-const shift = (options, deps) => ({
-  ...shift$1(options),
-  options: [options, deps]
-});
-const flip = (options, deps) => ({
-  ...flip$1(options),
-  options: [options, deps]
-});
-const arrow$2 = (options, deps) => ({
-  ...arrow$1$1(options),
-  options: [options, deps]
-});
 function useMergeRefs(refs) {
   const cleanupRef = reactExports.useRef(void 0);
   const refEffect = reactExports.useCallback((instance2) => {
@@ -3643,7 +3643,7 @@ const genId = () => (
 );
 function useFloatingId() {
   const [id, setId] = reactExports.useState(() => serverHandoffComplete ? genId() : void 0);
-  index$1(() => {
+  index(() => {
     if (id == null) {
       setId(genId());
     }
@@ -3682,7 +3682,7 @@ const FloatingArrow = /* @__PURE__ */ reactExports.forwardRef(function FloatingA
   } = props;
   const clipPathId = useId();
   const [isRTL2, setIsRTL] = reactExports.useState(false);
-  index$1(() => {
+  index(() => {
     if (!floating) return;
     const isRTL22 = getComputedStyle$1(floating).direction === "rtl";
     if (isRTL22) {
@@ -3832,10 +3832,10 @@ function useHover(context, props) {
   } = props;
   const tree = useFloatingTree();
   const parentId = useFloatingParentNodeId();
-  const handleCloseRef = useLatestRef$1(handleClose);
-  const delayRef = useLatestRef$1(delay);
-  const openRef = useLatestRef$1(open);
-  const restMsRef = useLatestRef$1(restMs);
+  const handleCloseRef = useLatestRef(handleClose);
+  const delayRef = useLatestRef(delay);
+  const openRef = useLatestRef(open);
+  const restMsRef = useLatestRef(restMs);
   const pointerTypeRef = reactExports.useRef();
   const timeoutRef = reactExports.useRef(-1);
   const handlerRef = reactExports.useRef();
@@ -4031,7 +4031,7 @@ function useHover(context, props) {
       };
     }
   }, [elements, enabled, context, mouseOnly, move, closeWithDelay, cleanupMouseMoveHandler, clearPointerEvents, onOpenChange, open, openRef, tree, delayRef, handleCloseRef, dataRef, isClickLikeOpenEvent, restMsRef]);
-  index$1(() => {
+  index(() => {
     var _handleCloseRef$curre;
     if (!enabled) return;
     if (open && (_handleCloseRef$curre = handleCloseRef.current) != null && (_handleCloseRef$curre = _handleCloseRef$curre.__options) != null && _handleCloseRef$curre.blockPointerEvents && isHoverOpen()) {
@@ -4057,7 +4057,7 @@ function useHover(context, props) {
       }
     }
   }, [enabled, open, parentId, elements, tree, handleCloseRef, isHoverOpen]);
-  index$1(() => {
+  index(() => {
     if (!open) {
       pointerTypeRef.current = void 0;
       restTimeoutPendingRef.current = false;
@@ -4264,7 +4264,7 @@ const HIDDEN_STYLES = {
 };
 const FocusGuard = /* @__PURE__ */ reactExports.forwardRef(function FocusGuard2(props, ref) {
   const [role, setRole] = reactExports.useState();
-  index$1(() => {
+  index(() => {
     if (isSafari()) {
       setRole("button");
     }
@@ -4297,7 +4297,7 @@ function useFloatingPortalNode(props) {
   const portalContext = usePortalContext();
   const [portalNode, setPortalNode] = reactExports.useState(null);
   const portalNodeRef = reactExports.useRef(null);
-  index$1(() => {
+  index(() => {
     return () => {
       portalNode == null || portalNode.remove();
       queueMicrotask(() => {
@@ -4305,7 +4305,7 @@ function useFloatingPortalNode(props) {
       });
     };
   }, [portalNode]);
-  index$1(() => {
+  index(() => {
     if (!uniqueId) return;
     if (portalNodeRef.current) return;
     const existingIdRoot = id ? document.getElementById(id) : null;
@@ -4317,7 +4317,7 @@ function useFloatingPortalNode(props) {
     portalNodeRef.current = subRoot;
     setPortalNode(subRoot);
   }, [id, uniqueId]);
-  index$1(() => {
+  index(() => {
     if (root === null) return;
     if (!uniqueId) return;
     if (portalNodeRef.current) return;
@@ -4530,9 +4530,9 @@ function FloatingFocusManager(props) {
   const inertSupported = supportsInert();
   const guards = inertSupported ? _guards : true;
   const useInert = !guards || inertSupported && outsideElementsInert;
-  const orderRef = useLatestRef$1(order2);
-  const initialFocusRef = useLatestRef$1(initialFocus);
-  const returnFocusRef = useLatestRef$1(returnFocus);
+  const orderRef = useLatestRef(order2);
+  const initialFocusRef = useLatestRef(initialFocus);
+  const returnFocusRef = useLatestRef(returnFocus);
   const tree = useFloatingTree();
   const portalContext = usePortalContext();
   const startDismissButtonRef = reactExports.useRef(null);
@@ -4688,7 +4688,7 @@ function FloatingFocusManager(props) {
       cleanup2();
     };
   }, [disabled, domReference, floating, modal, orderRef, portalContext, isUntrappedTypeableCombobox, guards, useInert, tree, getNodeId, getInsideElements]);
-  index$1(() => {
+  index(() => {
     if (disabled || !isHTMLElement(floatingFocusElement)) return;
     const doc = getDocument$1(floatingFocusElement);
     const previouslyFocusedElement = activeElement(doc);
@@ -4704,7 +4704,7 @@ function FloatingFocusManager(props) {
       }
     });
   }, [disabled, open, floatingFocusElement, ignoreInitialFocus, getTabbableElements, initialFocusRef]);
-  index$1(() => {
+  index(() => {
     if (disabled || !floatingFocusElement) return;
     const doc = getDocument$1(floatingFocusElement);
     const previouslyFocusedElement = activeElement(doc);
@@ -4783,7 +4783,7 @@ function FloatingFocusManager(props) {
       preventReturnFocusRef.current = false;
     });
   }, [disabled]);
-  index$1(() => {
+  index(() => {
     if (disabled) return;
     if (!portalContext) return;
     portalContext.setFocusManagerState({
@@ -4797,7 +4797,7 @@ function FloatingFocusManager(props) {
       portalContext.setFocusManagerState(null);
     };
   }, [disabled, portalContext, modal, open, onOpenChange, closeOnFocusOut, domReference]);
-  index$1(() => {
+  index(() => {
     if (disabled) return;
     if (!floatingFocusElement) return;
     handleTabIndex(floatingFocusElement, orderRef);
@@ -5289,7 +5289,7 @@ function useFloating(options) {
   const domReference = optionDomReference || _domReference;
   const domReferenceRef = reactExports.useRef(null);
   const tree = useFloatingTree();
-  index$1(() => {
+  index(() => {
     if (domReference) {
       domReferenceRef.current = domReference;
     }
@@ -5341,7 +5341,7 @@ function useFloating(options) {
     elements,
     nodeId
   }), [position, refs, elements, nodeId, rootContext]);
-  index$1(() => {
+  index(() => {
     rootContext.dataRef.current.floatingContext = context;
     const node = tree == null ? void 0 : tree.nodesRef.current.find((node2) => node2.id === nodeId);
     if (node) {
@@ -5645,99 +5645,6 @@ function useRole(context, props) {
     item
   } : {}, [enabled, reference, floating, item]);
 }
-function createContext(rootName, defaultContext) {
-  const Ctx = React.createContext(defaultContext);
-  function Provider(props) {
-    const { children, ...context } = props;
-    const value2 = React.useMemo(() => context, Object.values(context));
-    return jsxRuntimeExports.jsx(Ctx.Provider, { value: value2, children });
-  }
-  function useContext(childName) {
-    const context = React.useContext(Ctx);
-    if (context) {
-      return context;
-    }
-    throw Error(`${childName} must be rendered inside of a ${rootName} component.`);
-  }
-  Ctx.displayName = `${rootName}Context`;
-  Provider.displayName = `${rootName}Provider`;
-  return [Provider, useContext];
-}
-const [TooltipProvider, useTooltipContext] = createContext("Tooltip");
-const TooltipTrigger = reactExports.forwardRef(function TooltipTrigger2({ children, asChild = false, ...props }, propRef) {
-  const { context } = useTooltipContext("Tooltip");
-  const childrenRef = (children == null ? void 0 : children.ref) ?? null;
-  const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef]);
-  reactExports.useLayoutEffect(() => {
-    if (propRef) {
-      context.refs.setReference(propRef == null ? void 0 : propRef.current);
-    }
-  }, []);
-  if (propRef)
-    return null;
-  if (asChild && reactExports.isValidElement(children)) {
-    return reactExports.cloneElement(children, context.getReferenceProps({
-      ref,
-      ...props,
-      ...children.props
-    }));
-  }
-  return jsxRuntimeExports.jsx("div", { ref, ...context.getReferenceProps(props), children });
-});
-const tooltipContent$1 = "_tooltipContent_1k4lm_1";
-const bigger = "_bigger_1k4lm_12";
-const arrow$1 = "_arrow_1k4lm_24";
-const s$i = {
-  tooltipContent: tooltipContent$1,
-  bigger,
-  "default": "_default_1k4lm_18",
-  arrow: arrow$1
-};
-const TooltipContent = reactExports.forwardRef(function TooltipContent2(props, propRef) {
-  const { context, arrowRef, size } = useTooltipContext("Tooltip");
-  const ref = useMergeRefs([context.refs.setFloating, propRef]);
-  const { children, ...rest } = props;
-  return jsxRuntimeExports.jsx(FloatingPortal, { children: context.open && jsxRuntimeExports.jsxs("div", { className: clsx(s$i.tooltipContent, s$i[size ?? "default"]), ref, style: {
-    position: context.strategy,
-    top: context.y ?? 0,
-    left: context.x ?? 0,
-    visibility: context.x == null ? "hidden" : "visible"
-  }, ...context.getFloatingProps(rest), children: [children, jsxRuntimeExports.jsx(FloatingArrow, { ref: arrowRef, context: context.context, className: s$i.arrow, stroke: "transparent", strokeWidth: 2, height: 8, width: 16 })] }) });
-});
-const ARROW_HEIGHT = 8;
-function useTooltip({ initialOpen = false, placement = "bottom", offset: offsetValue = 0, open: controlledOpen, onOpenChange: setControlledOpen } = {}, arrowRef) {
-  const [uncontrolledOpen, setUncontrolledOpen] = reactExports.useState(initialOpen);
-  const open = controlledOpen ?? uncontrolledOpen;
-  const setOpen = setControlledOpen ?? setUncontrolledOpen;
-  const data = useFloating({
-    placement,
-    open,
-    strategy: "fixed",
-    onOpenChange: setOpen,
-    whileElementsMounted: autoUpdate,
-    middleware: [
-      offset(offsetValue + ARROW_HEIGHT),
-      flip({ fallbackAxisSideDirection: "start" }),
-      shift({ padding: 5 }),
-      arrow$2({ element: arrowRef })
-    ]
-  });
-  const context = data.context;
-  const hover = useHover(context);
-  const role = useRole(context, { role: "tooltip" });
-  const interactions = useInteractions([hover, role]);
-  return reactExports.useMemo(() => ({
-    open,
-    setOpen,
-    ...interactions,
-    ...data
-  }), [open, setOpen, interactions, data]);
-}
-function SimpleTooltip({ children, content, ...options }) {
-  const arrowRef = reactExports.useRef(null);
-  const context = useTooltip(options, arrowRef);
-  return jsxRuntimeExports.jsxs(TooltipProvider, { context, arrowRef, size: options.size, children: [jsxRuntimeExports.jsx(TooltipTrigger, { asChild: true, children }), context.open && jsxRuntimeExports.jsx(TooltipContent, { children: content })] });
-}
 const legendTitle = "_legendTitle_sgaz8_1";
 const grid$1 = "_grid_sgaz8_6";
 const cell = "_cell_sgaz8_11";
@@ -5810,14 +5717,14 @@ function Legend({ cells: cells2, size, axis: axis2, title: title2, showAxisLabel
     `. ${new Array(size + 1).fill("x").join(" ")}`
   ], [size]);
   const gridCells = fillTemplate(TEMPLATE, {
-    x: showSteps ? axis2.x.steps.map((step) => ({
+    x: (typeof showSteps === "object" ? showSteps.x : showSteps) ? axis2.x.steps.map((step) => ({
       label: step.label || step.value.toFixed(1),
       className: styles$1.xStepsCell
     })) : axis2.x.steps.map((step) => ({
       label: "",
       className: styles$1.xStepsCellNoLabel
     })),
-    y: showSteps ? safeReverse(axis2.y.steps).map((step) => ({
+    y: (typeof showSteps === "object" ? showSteps.y : showSteps) ? safeReverse(axis2.y.steps).map((step) => ({
       label: step.label || step.value.toFixed(1),
       className: styles$1.yStepsCell
     })) : safeReverse(axis2.y.steps).map((step) => ({
@@ -8055,7 +7962,7 @@ function requireBuild() {
 var buildExports = requireBuild();
 const usePromise = /* @__PURE__ */ getDefaultExportFromCjs(buildExports);
 const article = "_article_b9f5o_1";
-const s$h = {
+const s$i = {
   article
 };
 function Article({
@@ -8063,7 +7970,7 @@ function Article({
   className = "",
   id = ""
 }) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("article", { className: `${s$h.article} ${className}`, id, children });
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("article", { className: `${s$i.article} ${className}`, id, children });
 }
 const isString = (obj) => typeof obj === "string";
 const defer = () => {
@@ -12298,17 +12205,17 @@ const priceWrap = "_priceWrap_11z70_1";
 const dollarSign = "_dollarSign_11z70_7";
 const amount = "_amount_11z70_15";
 const perMonth = "_perMonth_11z70_21";
-const s$g = {
+const s$h = {
   priceWrap,
   dollarSign,
   amount,
   perMonth
 };
 function Price({ amount: amount2, className }) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$g.priceWrap, className), children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$g.dollarSign, children: "$" }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$g.amount, children: amount2.toLocaleString("en-US") }),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: s$g.perMonth, children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$h.priceWrap, className), children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$h.dollarSign, children: "$" }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$h.amount, children: amount2.toLocaleString("en-US") }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: s$h.perMonth, children: [
       TranslationService.t("currency.usd"),
       " / mo*"
     ] })
@@ -12321,7 +12228,7 @@ const hidden = "_hidden_q8sg6_98";
 const buttonWrapper = "_buttonWrapper_q8sg6_124";
 const footerWrapper = "_footerWrapper_q8sg6_155";
 const paymentPlanButton = "_paymentPlanButton_q8sg6_191";
-const s$f = {
+const s$g = {
   planCard,
   initialPrice,
   price,
@@ -12411,13 +12318,13 @@ const config = {
 };
 const _plans = "# Educational\n\nFor students, hobbyists, and anyone testing the entry-level option before upgrading\n\n###### **edu**\n\n- Multi-criteria decision analyses\n- AI analytics\n- Favorite area of interest\n- Download analyses\n\n---\n\n# Professional\n\nFor GIS data analysts and managers who work with GIS on a daily basis\n\n###### **pro**\n\n- Multi-criteria decision analyses\n- AI analytics\n- Favorite area of interest\n- Download analyses\n- Customer support\n- Custom requests\n- Upload custom indicators for analytics\n\n---\n\n# Custom\n\n# Enterprise\n\nFor GIS data analysts and managers who work with GIS on a daily basis\nContact sales, book a demo or write to us at <info@kontur.io> for custom pricing and features\n\n###### **ent**\n\n- Multiple seats\n- Custom workflows\n- Custom features\n- Custom design\n- Training and onboarding\n- Support\n";
 const css = `
-.premium > .${s$f.planName}::before {
+.premium > .${s$g.planName}::before {
   content: '★';
   font-size: larger;
   padding-right: 4px;
 }
 
-.${s$f.planName} {
+.${s$g.planName} {
   font-family: var(--font-family);
   font-style: normal;
   font-weight: 600;
@@ -12472,23 +12379,23 @@ function Plans({ styling = "", markdown: markdown2 = _plans, isUserAuthorized = 
       const billingOption = (_b = plan.billingCycles) == null ? void 0 : _b.find(
         (option) => option.id === currentBillingCycleId
       );
-      const actionsBlock = /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: s$f.buttonWrapper, children: [
-        !isUserAuthorized && /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { className: clsx(s$f.paymentPlanButton, styleClass), children: "Sign in to subscribe" }),
+      const actionsBlock = /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: s$g.buttonWrapper, children: [
+        !isUserAuthorized && /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { className: clsx(s$g.paymentPlanButton, styleClass), children: "Sign in to subscribe" }),
         isUserAuthorized && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: "[PAYPAL BUTTONS INJECTED HERE]" })
       ] });
       const priceBlock = !isCustom && /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
         billingOption && /* @__PURE__ */ jsxRuntimeExports.jsx(
           "div",
           {
-            className: clsx(s$f.initialPrice, {
-              [s$f.hidden]: billingOption.id === "month"
+            className: clsx(s$g.initialPrice, {
+              [s$g.hidden]: billingOption.id === "month"
             }),
             children: `$${(_c = billingOption == null ? void 0 : billingOption.initialPricePerMonth) == null ? void 0 : _c.toLocaleString("en-US")} USD`
           }
         ),
-        billingOption && /* @__PURE__ */ jsxRuntimeExports.jsx(Price, { className: s$f.price, amount: billingOption.pricePerMonth })
+        billingOption && /* @__PURE__ */ jsxRuntimeExports.jsx(Price, { className: s$g.price, amount: billingOption.pricePerMonth })
       ] });
-      const footerBlock = !isCustom && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$f.footerWrapper, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+      const footerBlock = !isCustom && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$g.footerWrapper, children: /* @__PURE__ */ jsxRuntimeExports.jsx(
         PaymentPlanCardFooter,
         {
           planConfig: plan,
@@ -12497,8 +12404,8 @@ function Plans({ styling = "", markdown: markdown2 = _plans, isUserAuthorized = 
           billingOption
         }
       ) });
-      return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$f.planCard, styleClass), children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$f.planName, children: planName }),
+      return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: clsx(s$g.planCard, styleClass), children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$g.planName, children: planName }),
         priceBlock,
         planContent,
         actionsBlock,
@@ -13407,14 +13314,14 @@ function useUniLayoutContextValue({
   );
 }
 const row = "_row_6zanc_1";
-const s$e = {
+const s$f = {
   row
 };
 function Row({ wrap = true, children, className, style }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     "div",
     {
-      className: clsx(s$e.row, className),
+      className: clsx(s$f.row, className),
       style: { ...style, flexWrap: wrap ? "wrap" : "nowrap" },
       children
     }
@@ -13424,7 +13331,7 @@ const card$1 = "_card_aste0_1";
 const selected = "_selected_aste0_16";
 const cardContent = "_cardContent_aste0_29";
 const clickable = "_clickable_aste0_35";
-const s$d = {
+const s$e = {
   card: card$1,
   selected,
   cardContent,
@@ -13446,12 +13353,105 @@ function Card({
   return /* @__PURE__ */ jsxRuntimeExports.jsx(
     "div",
     {
-      className: clsx(s$d.card, active2 && s$d.selected, action2 && s$d.clickable, className),
+      className: clsx(s$e.card, active2 && s$e.selected, action2 && s$e.clickable, className),
       style,
       onClick: action2 ? handleClick : void 0,
-      children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$d.cardContent, children })
+      children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: s$e.cardContent, children })
     }
   );
+}
+function createContext(rootName, defaultContext) {
+  const Ctx = React.createContext(defaultContext);
+  function Provider(props) {
+    const { children, ...context } = props;
+    const value2 = React.useMemo(() => context, Object.values(context));
+    return jsxRuntimeExports.jsx(Ctx.Provider, { value: value2, children });
+  }
+  function useContext(childName) {
+    const context = React.useContext(Ctx);
+    if (context) {
+      return context;
+    }
+    throw Error(`${childName} must be rendered inside of a ${rootName} component.`);
+  }
+  Ctx.displayName = `${rootName}Context`;
+  Provider.displayName = `${rootName}Provider`;
+  return [Provider, useContext];
+}
+const [TooltipProvider, useTooltipContext] = createContext("Tooltip");
+const TooltipTrigger = reactExports.forwardRef(function TooltipTrigger2({ children, asChild = false, ...props }, propRef) {
+  const { context } = useTooltipContext("Tooltip");
+  const childrenRef = (children == null ? void 0 : children.ref) ?? null;
+  const ref = useMergeRefs([context.refs.setReference, propRef, childrenRef]);
+  reactExports.useLayoutEffect(() => {
+    if (propRef) {
+      context.refs.setReference(propRef == null ? void 0 : propRef.current);
+    }
+  }, []);
+  if (propRef)
+    return null;
+  if (asChild && reactExports.isValidElement(children)) {
+    return reactExports.cloneElement(children, context.getReferenceProps({
+      ref,
+      ...props,
+      ...children.props
+    }));
+  }
+  return jsxRuntimeExports.jsx("div", { ref, ...context.getReferenceProps(props), children });
+});
+const tooltipContent$1 = "_tooltipContent_1k4lm_1";
+const bigger = "_bigger_1k4lm_12";
+const arrow$1 = "_arrow_1k4lm_24";
+const s$d = {
+  tooltipContent: tooltipContent$1,
+  bigger,
+  "default": "_default_1k4lm_18",
+  arrow: arrow$1
+};
+const TooltipContent = reactExports.forwardRef(function TooltipContent2(props, propRef) {
+  const { context, arrowRef, size } = useTooltipContext("Tooltip");
+  const ref = useMergeRefs([context.refs.setFloating, propRef]);
+  const { children, ...rest } = props;
+  return jsxRuntimeExports.jsx(FloatingPortal, { children: context.open && jsxRuntimeExports.jsxs("div", { className: clsx(s$d.tooltipContent, s$d[size ?? "default"]), ref, style: {
+    position: context.strategy,
+    top: context.y ?? 0,
+    left: context.x ?? 0,
+    visibility: context.x == null ? "hidden" : "visible"
+  }, ...context.getFloatingProps(rest), children: [children, jsxRuntimeExports.jsx(FloatingArrow, { ref: arrowRef, context: context.context, className: s$d.arrow, stroke: "transparent", strokeWidth: 2, height: 8, width: 16 })] }) });
+});
+const ARROW_HEIGHT = 8;
+function useTooltip({ initialOpen = false, placement = "bottom", offset: offsetValue = 0, open: controlledOpen, onOpenChange: setControlledOpen } = {}, arrowRef) {
+  const [uncontrolledOpen, setUncontrolledOpen] = reactExports.useState(initialOpen);
+  const open = controlledOpen ?? uncontrolledOpen;
+  const setOpen = setControlledOpen ?? setUncontrolledOpen;
+  const data = useFloating({
+    placement,
+    open,
+    strategy: "fixed",
+    onOpenChange: setOpen,
+    whileElementsMounted: autoUpdate,
+    middleware: [
+      offset(offsetValue + ARROW_HEIGHT),
+      flip({ fallbackAxisSideDirection: "start" }),
+      shift({ padding: 5 }),
+      arrow$2({ element: arrowRef })
+    ]
+  });
+  const context = data.context;
+  const hover = useHover(context);
+  const role = useRole(context, { role: "tooltip" });
+  const interactions = useInteractions([hover, role]);
+  return reactExports.useMemo(() => ({
+    open,
+    setOpen,
+    ...interactions,
+    ...data
+  }), [open, setOpen, interactions, data]);
+}
+function SimpleTooltip({ children, content, ...options }) {
+  const arrowRef = reactExports.useRef(null);
+  const context = useTooltip(options, arrowRef);
+  return jsxRuntimeExports.jsxs(TooltipProvider, { context, arrowRef, size: options.size, children: [jsxRuntimeExports.jsx(TooltipTrigger, { asChild: true, children }), context.open && jsxRuntimeExports.jsx(TooltipContent, { children: content })] });
 }
 const indicator$1 = "_indicator_h9oko_1";
 const s$c = {

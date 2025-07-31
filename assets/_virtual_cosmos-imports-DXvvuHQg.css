@@ -751,59 +751,6 @@ code {
     }
   }
 }
-._tooltipContent_1k4lm_1 {
-  font-family: var(--font-family);
-  font-style: normal;
-  font-weight: normal;
-  background: var(--back-faint-weak-down);
-  color: var(--base-weak);
-  pointer-events: all;
-  max-width: 268px;
-  z-index: 9999;
-}
-
-._bigger_1k4lm_12 {
-  font-size: 14px;
-  padding: 8px 12px;
-  border-radius: 4px;
-}
-
-._default_1k4lm_18 {
-  font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 2px;
-}
-
-._arrow_1k4lm_24 {
-  fill: currentColor;
-  color: var(--back-faint-weak-down);
-}
-
-/* Mobile breakpoint */
-@media (max-width: 960px) {
-  ._tooltipContent_1k4lm_1 {
-    top: unset !important;
-    left: 0 !important;
-    right: 0 !important;
-    position: absolute;
-    display: flex;
-    bottom: calc(0px + var(--half-unit));
-    width: 100%;
-    padding: var(--double-unit);
-    max-height: 90%;
-    max-width: 100%;
-    background-color: var(--base-weak);
-    color: var(--base-strong);
-    font-weight: 400;
-    font-size: 16px;
-    border-radius: var(--unit) var(--unit) 0 0;
-    box-sizing: border-box;
-  }
-
-  ._arrow_1k4lm_24 {
-    display: none;
-  }
-}
 ._legendTitle_sgaz8_1 {
   font-size: 0.9em;
   margin-bottom: 12px;
@@ -1447,6 +1394,59 @@ code {
 
 ._clickable_aste0_35 {
   cursor: pointer;
+}
+._tooltipContent_1k4lm_1 {
+  font-family: var(--font-family);
+  font-style: normal;
+  font-weight: normal;
+  background: var(--back-faint-weak-down);
+  color: var(--base-weak);
+  pointer-events: all;
+  max-width: 268px;
+  z-index: 9999;
+}
+
+._bigger_1k4lm_12 {
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+
+._default_1k4lm_18 {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 2px;
+}
+
+._arrow_1k4lm_24 {
+  fill: currentColor;
+  color: var(--back-faint-weak-down);
+}
+
+/* Mobile breakpoint */
+@media (max-width: 960px) {
+  ._tooltipContent_1k4lm_1 {
+    top: unset !important;
+    left: 0 !important;
+    right: 0 !important;
+    position: absolute;
+    display: flex;
+    bottom: calc(0px + var(--half-unit));
+    width: 100%;
+    padding: var(--double-unit);
+    max-height: 90%;
+    max-width: 100%;
+    background-color: var(--base-weak);
+    color: var(--base-strong);
+    font-weight: 400;
+    font-size: 16px;
+    border-radius: var(--unit) var(--unit) 0 0;
+    box-sizing: border-box;
+  }
+
+  ._arrow_1k4lm_24 {
+    display: none;
+  }
 }
 ._indicator_h9oko_1 {
   transform: skew(-24deg, 0);
