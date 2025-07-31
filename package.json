@@ -28,6 +28,7 @@
     "lint:css": "stylelint ./src/**/*.css",
     "lint:i18n:keys:identity": "eslint --no-ignore -c eslintrc.identical.keys.mjs src/core/localization/translations/**/*.json",
     "depcruise": "depcruise --config .dependency-cruiser.cjs src",
+    "validate:external-calls": "node ./scripts/coverage/externalCoverageValidator.mjs",
     "postinstall": "run-s i18n:import",
     "docker:build": "docker build -f ./Dockerfile ./ -t ghcr.io/konturio/disaster-ninja-fe:latest",
     "docker:run": "docker run --rm -d -p 80:80/tcp ghcr.io/konturio/disaster-ninja-fe:latest",
