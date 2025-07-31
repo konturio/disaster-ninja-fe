@@ -25,6 +25,19 @@
   z-index: var(--modal);
 }
 
+.contentContainer {
+  position: relative;
+}
+
+.resizeHandle {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 6px;
+  cursor: ns-resize;
+}
+
 @media screen and (max-width: 960px) {
   .modal > section {
     top: calc(50% + var(--app-header-height)); /* header offset */

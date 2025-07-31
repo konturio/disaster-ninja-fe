@@ -151,6 +151,8 @@ The following panels are configured to be vertically resizable, often using the 
 - [`EventsPanel.tsx`](../../src/features/events_list/components/EventsPanel/EventsPanel.tsx)
 - [`layers_panel/index.tsx`](../../src/features/layers_panel/index.tsx) (configured via `PanelFeatureInterface`)
 
+Since version 2.53.1, the local `Panel` wrapper extends the UI kit component by adding a drag handle that spans the entire bottom edge. Users can now resize panels by dragging anywhere along the bottom border instead of only the bottom-right corner.
+
 ### Mobile Modal Panels
 
 Several Panel implementations are designed to appear as modal sheets on narrow displays (mobile view). This is primarily achieved through the conditional use of the `modal` prop, often in conjunction with the `useMediaQuery` hook and the `react-modal-sheet` library.
