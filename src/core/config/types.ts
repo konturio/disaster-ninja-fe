@@ -57,7 +57,7 @@ export interface StageConfig {
   mapBlankSpaceId: string;
   mapBaseStyle: string;
   // App Defaults
-  featuresByDefault: FeaturesConfig;
+  featuresByDefault: Partial<FeaturesConfig>;
   defaultLanguage: string;
   // Sentry
   sentryDsn: string;
