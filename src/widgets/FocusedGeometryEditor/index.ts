@@ -23,31 +23,35 @@ export const focusedGeometryControl = toolbar.setupControl({
   },
 });
 
+function zoomToFocusedGeometry(focusedGeometry: GeoJSON.GeoJSON) {
+  const map = currentMapAtom.getState();
+  if (map && !isGeoJSONEmpty(focusedGeometry)) {
+    const camera = getCameraForGeometry(focusedGeometry, map);
+    if (
+      typeof camera?.zoom === 'number' &&
+      camera.center &&
+      'lat' in camera.center &&
+      'lng' in camera.center
+    ) {
+      const maxZoom = configRepo.get().autofocusZoom;
+      store.dispatch(
+        v3ActionToV2<CenterZoomPosition>(
+          setCurrentMapPosition,
+          { zoom: Math.min(camera.zoom || maxZoom, maxZoom), ...camera.center },
+          'setCurrentMapPosition',
+        ),
+      );
+    }
+  }
+}
+
 focusedGeometryControl.onStateChange(async (ctx, state, prevState) => {
   if (state === 'active') {
     try {
       // Read focused geometry
       const focusedGeometry =
         focusedGeometryAtom.getState()?.geometry ?? new FeatureCollection([]);
-      const map = currentMapAtom.getState();
-      if (map && !isGeoJSONEmpty(focusedGeometry)) {
-        const camera = getCameraForGeometry(focusedGeometry, map);
-        if (
-          typeof camera?.zoom === 'number' &&
-          camera.center &&
-          'lat' in camera.center &&
-          'lng' in camera.center
-        ) {
-          const maxZoom = configRepo.get().autofocusZoom;
-          store.dispatch(
-            v3ActionToV2<CenterZoomPosition>(
-              setCurrentMapPosition,
-              { zoom: Math.min(camera.zoom || maxZoom, maxZoom), ...camera.center },
-              'setCurrentMapPosition',
-            ),
-          );
-        }
-      }
+      zoomToFocusedGeometry(focusedGeometry);
       store.dispatch(
         // Disable focused geometry layer
         enabledLayersAtom.delete(FOCUSED_GEOMETRY_LOGICAL_LAYER_ID),
