@@ -16,15 +16,9 @@ import (
 )
 
 const (
-        Host = ""
+	Host = ""
+	Port = "80"
 )
-
-func getPort() string {
-        if p := os.Getenv("PORT"); p != "" {
-                return p
-        }
-        return "8080"
-}
 
 type TemplateVariables struct {
 	CurrentQueries string
@@ -173,9 +167,8 @@ func main() {
 	http.Handle("/active/static/", http.StripPrefix("/active/static", http.HandlerFunc(handleStaticFiles(fs))))
 	http.Handle("/metrics", promhttp.Handler())
 	http.Handle("/active/log", http.StripPrefix("/active", http.HandlerFunc(writeLogs)))
-        port := getPort()
-        log.Println("Server listening:", "http://"+Host+":"+port)
-        err := http.ListenAndServe(Host+":"+port, nil)
+	log.Println("Server listening:", "http://"+Host+":"+Port)
+	err := http.ListenAndServe(Host+":"+Port, nil)
 	if err != nil {
 		log.Fatal("Error Starting the HTTP Server :", err)
 		return
