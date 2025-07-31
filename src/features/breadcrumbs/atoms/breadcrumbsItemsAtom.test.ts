@@ -2,12 +2,12 @@ import { test, expect } from 'vitest';
 (globalThis as any).dispatchEvent = () => {};
 import { polygon } from '@turf/helpers';
 import { LRUCache } from 'lru-cache';
+import { getBreadcrumbsForPoint } from './getBreadcrumbsForPoint';
 
 const createPolygon = (coords: number[][]): GeoJSON.Polygon =>
   polygon([coords]).geometry as GeoJSON.Polygon;
 
-test('getBreadcrumbsForPoint orders results by admin level', async () => {
-  const { getBreadcrumbsForPoint } = await import('./getBreadcrumbsForPoint');
+test('getBreadcrumbsForPoint orders results by admin level', () => {
   const cache = new LRUCache<string | number, GeoJSON.Feature>({ max: 5 });
   const outer = {
     type: 'Feature' as const,

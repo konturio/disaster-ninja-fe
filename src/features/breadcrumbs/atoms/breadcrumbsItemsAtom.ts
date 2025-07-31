@@ -1,18 +1,17 @@
 import { action, atom, reatomAsync } from '@reatom/framework';
 import { LRUCache } from 'lru-cache';
-import { getBreadcrumbsForPoint } from './getBreadcrumbsForPoint';
 import { setCurrentMapBbox, type Bbox } from '~core/shared_state/currentMapPosition';
 import { getBboxForGeometry } from '~utils/map/camera';
 import { getBoundaries } from '~core/api/boundaries';
 import { isAbortError } from '~core/api_client/errors';
 import { getCenterFromPosition } from '../helpers/breadcrumbsHelpers';
+import { getBreadcrumbsForPoint } from './getBreadcrumbsForPoint';
 import type { CurrentMapPositionAtomState } from '~core/shared_state/currentMapPosition';
 
 const CACHE_SIZE = 256;
 const boundariesCache = new LRUCache<string | number, GeoJSON.Feature>({
   max: CACHE_SIZE,
 });
-
 
 const updateBreadcrumbsFromCache = action(
   (ctx, position: CurrentMapPositionAtomState) => {
@@ -28,8 +27,9 @@ const updateBreadcrumbsFromCache = action(
   'updateBreadcrumbsFromCache',
 );
 
-// Manual queue keeps only the most recent request. Intermediate positions are
-// dropped to avoid race conditions while still ensuring the latest state wins.
+// Manual queue processes only the most recent request. Intermediate positions
+// are discarded deliberately to avoid race conditions. This behavior is OK for
+// geographic breadcrumbs because only the latest map state should win.
 let inFlight = false;
 let queuedPosition: CurrentMapPositionAtomState | null = null;
 
