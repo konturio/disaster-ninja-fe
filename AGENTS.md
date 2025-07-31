@@ -1,5 +1,4 @@
 # Important rules for agents
-Debugging: Use docs/todo.md as to put issues, inconveniences and impediments that you noticed that you are not fixing on this iteration.
 SQL: Format queries in a way so it's easy to copy them out of the codebase and debug standalone.
 Testing: Always add a custom assertion message when writing assertions in unit tests, including as much context as possible. Incorporate input data and relevant test details so it's immediately clear what is being verified and why it might fail.
 Documentation: When moving around md files also fix the links in them and links to them across all others.
