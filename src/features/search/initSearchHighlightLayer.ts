@@ -1,6 +1,7 @@
 import { currentMapAtom } from '~core/shared_state';
 import { store } from '~core/store/store';
 import type { LogicalLayerState } from '~core/logical_layers/types/logicalLayer';
+import type { Feature, FeatureCollection } from 'geojson';
 import {
   SEARCH_HIGHLIGHT_LAYER_ID,
   SEARCH_HIGHLIGHT_COLOR,
@@ -47,22 +48,25 @@ export function initSearchHighlightLayer() {
 
   renderer.willMount({ map, state });
 
-  const unsubscribe = ctx.subscribe(searchHighlightedGeometryAtom, (geometry) => {
-    renderer.willSourceUpdate({
-      map,
-      state: {
-        ...state,
-        source: {
-          id: sourceId,
-          source: { type: 'geojson', data: geometry as any },
+  const unsubscribe = ctx.subscribe(
+    searchHighlightedGeometryAtom,
+    (geometry: FeatureCollection | Feature) => {
+      renderer.willSourceUpdate({
+        map,
+        state: {
+          ...state,
+          source: {
+            id: sourceId,
+            source: { type: 'geojson', data: geometry },
+          },
         },
-      },
-    });
-  });
+      });
+    },
+  );
 
   cleanUp = () => {
     unsubscribe();
-    renderer.willUnMount({ map, state });
+    renderer.willUnMount({ map });
     cleanUp = null;
   };
 
