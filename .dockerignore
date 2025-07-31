@@ -1,11 +1,3 @@
-node_modules/
-.git/
-e2e/
-.github/
-playwright.config.ts
-!dist/
-# CI artifacts
-coverage/
-playwright-report/
-*.trace
-docker-compose*.yml
+*
+!./dist/*
+!./server/*

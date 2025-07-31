@@ -198,10 +198,6 @@ jobs:
           tags: |
             ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: |
-            type=gha,scope=${{ github.ref_name }}
-            type=gha,scope=main
-          cache-to: type=gha,scope=${{ github.ref_name }},mode=max
 
       - name: Set output for image tag
         id: set_output
