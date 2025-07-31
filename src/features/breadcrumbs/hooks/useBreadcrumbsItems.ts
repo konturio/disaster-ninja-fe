@@ -8,6 +8,7 @@ import {
 
 export function useBreadcrumbsItems() {
   const [items] = useAtom(breadcrumbsItemsAtom);
+  const [loading] = useAtom(fetchBreadcrumbsItems.pendingAtom);
   const [currentMapPosition] = useAtom(currentMapPositionAtom);
   const fetchBreadcrumbs = useAction(fetchBreadcrumbsItems);
 
@@ -15,5 +16,5 @@ export function useBreadcrumbsItems() {
     fetchBreadcrumbs(currentMapPosition);
   }, [currentMapPosition, fetchBreadcrumbs]);
 
-  return items;
+  return { items, loading: loading > 0 };
 }

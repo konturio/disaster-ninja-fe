@@ -13,7 +13,7 @@ const noBreadcrumbsOption = {
 };
 
 export function BreadcrumbsPanel() {
-  const items = useBreadcrumbsItems();
+  const { items, loading } = useBreadcrumbsItems();
   const breadcrumbItemClick = useAction(onBreadcrumbClick);
   const zoomToTheWorld = useAction(onZoomToWholeWorld);
 
@@ -24,7 +24,7 @@ export function BreadcrumbsPanel() {
 
   return (
     <Panel resize="none" className={s.breadcrumbsPanel} contentClassName={s.content}>
-      <Breadcrumbs items={options} onClick={clickHandler} />
+      <Breadcrumbs items={options} onClick={clickHandler} loading={loading} />
     </Panel>
   );
 }
