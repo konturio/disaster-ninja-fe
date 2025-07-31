@@ -9,7 +9,7 @@ export function DeselectControl({
   disabled?: boolean;
 }) {
   return (
-    <button onClick={onClick} className={s.deselectControl} disabled={disabled}>
+    <button type="button" onClick={onClick} className={s.deselectControl} disabled={disabled}>
       {i18n.t('deselect')}
     </button>
   );
