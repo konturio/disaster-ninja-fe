@@ -12,6 +12,7 @@ If the current event geometry has changed, the atom uses `getCameraForGeometry` 
 ### `currentEventGeometryAtom`
 
 The `currentEventGeometryAtom` holds the information about the current selected event with geometry. It subscribes to changes in the `currentEventResourceAtom`. If `currentEventResourceAtom` has changed, and it is fully loaded and contains data, the `currentEventGeometryAtom` checks the source of the geometry. If the source is not an episode, the `currentEventGeometryAtom` sets the `focusedGeometryAtom` to the geometry value from the `currentEventResourceAtom` object, with a reference to the original event data as `meta`.
+It also re-enables the focused geometry layer to ensure the event shape becomes visible even when the user previously disabled it.
 
 If `currentEventResourceAtom` is fully loaded but does not contain data, the atom's value is set to `null`.
 

@@ -4,6 +4,8 @@ import { dispatchMetricsEventOnce } from '~core/metrics/dispatch';
 import { AppFeature } from '~core/app/types';
 import { currentEventResourceAtom } from '~core/shared_state/currentEventResource';
 import { isEpisodeGeometry } from '~core/focused_geometry/utils';
+import { enabledLayersAtom } from '~core/logical_layers/atoms/enabledLayers';
+import { FOCUSED_GEOMETRY_LOGICAL_LAYER_ID } from '~core/focused_geometry/constants';
 import type { EventWithGeometry } from '~core/types';
 
 export const currentEventGeometryAtom = createAtom(
@@ -30,6 +32,7 @@ export const currentEventGeometryAtom = createAtom(
                 data.geojson,
               ),
             );
+            dispatch(enabledLayersAtom.set(FOCUSED_GEOMETRY_LOGICAL_LAYER_ID));
           });
         }
       }
