@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest';
-import { calculateLayerPipeline, inStyleCalculations, inViewCalculations } from '.';
+import { calculateLayerPipeline, inStyleCalculations } from '.';
 import type { MCDALayer } from '../types';
 
 // @ts-expect-error types compatibility
@@ -20,12 +20,12 @@ test('style correct for bad good sentiments', () => {
   expect(result).toMatchSnapshot();
 });
 
-const calculateNumber = calculateLayerPipeline(inViewCalculations, (axis) => ({
+const calculateNumber = calculateLayerPipeline('view', (axis) => ({
   num: 10,
   den: 1,
 }));
 
-const calculateNegativeNumber = calculateLayerPipeline(inViewCalculations, (axis) => ({
+const calculateNegativeNumber = calculateLayerPipeline('view', (axis) => ({
   num: -10,
   den: 1,
 }));

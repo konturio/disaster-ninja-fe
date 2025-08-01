@@ -1,8 +1,5 @@
 import { sumBy } from '~utils/common';
-import {
-  calculateLayerPipeline,
-  inViewCalculations,
-} from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations';
+import { calculateLayerPipeline } from '~core/logical_layers/renderers/stylesConfigs/mcda/calculations';
 import { PopupMCDA } from './components/PopupMCDA';
 import type { PopupMCDAProps } from './types';
 import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
@@ -11,7 +8,7 @@ function createTableWithCalculations(
   feature: GeoJSON.Feature,
   layers: MCDAConfig['layers'],
 ) {
-  const calculateLayer = calculateLayerPipeline(inViewCalculations, ({ num, den }) => ({
+  const calculateLayer = calculateLayerPipeline('view', ({ num, den }) => ({
     num: feature.properties?.[num],
     den: feature.properties?.[den],
   }));

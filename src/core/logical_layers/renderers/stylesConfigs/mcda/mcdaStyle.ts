@@ -8,7 +8,7 @@ import {
 } from '~utils/bivariate/bivariate_style/styleGen';
 import { sumBy } from '~utils/common';
 import { DEFAULT_GREEN, DEFAULT_RED } from './calculations/constants';
-import { calculateLayerPipeline, inStyleCalculations } from './calculations';
+import { calculateLayerPipeline } from './calculations';
 import { SOURCE_LAYER_MCDA } from './constants';
 import type {
   ExpressionSpecification,
@@ -17,9 +17,10 @@ import type {
 } from 'maplibre-gl';
 import type { ColorsByMapLibreExpression, MCDAConfig } from './types';
 
-//@ts-expect-error - not clear how to type this right, but this compromise do the trick
-export const calculateMCDALayer = calculateLayerPipeline(inStyleCalculations, (axis) => ({
+export const calculateMCDALayer = calculateLayerPipeline('layerStyle', (axis) => ({
+  // @ts-expect-error - need to fix calculateLayerPipeline typing
   num: ['get', axis.num],
+  // @ts-expect-error - need to fix calculateLayerPipeline typing
   den: ['get', axis.den],
 }));
 

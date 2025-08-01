@@ -175,7 +175,7 @@ export const inViewCalculations = new Calculations(new JsMath());
 
 export const calculateLayerPipeline =
   <T extends number>(
-    operations: IsomorphCalculations<number>,
+    type: 'view' | 'layerStyle',
     getValue: (axis: { num: string; den: string }) => { num: T; den: T },
   ) =>
   ({
@@ -189,6 +189,9 @@ export const calculateLayerPipeline =
     outliers,
     datasetStats,
   }: MCDAConfig['layers'][0]) => {
+    // @ts-expect-error - IsomorphCalculations typing needs fixing. The code works though, so for now ignoring the ts error
+    const operations: IsomorphCalculations<number> =
+      type === 'layerStyle' ? inStyleCalculations : inViewCalculations;
     const [num, den] = axis;
     let min = range[0];
     const max = range[1];
@@ -242,11 +245,17 @@ export const calculateLayerPipeline =
         tX = operations.clamp(tX, tMin, tMax);
       }
     }
-    const normalized =
-      normalization === 'max-min'
-        ? operations.normalize({ x: tX, min: tMin, max: tMax })
-        : tX;
-    const orientated = inverted ? operations.invert(normalized) : normalized;
-    const scaled = operations.scale(orientated, coefficient);
+    // always normalize for map style - we need to have (0..1) values for proper colors interpolation
+    let normalized = operations.normalize({ x: tX, min: tMin, max: tMax });
+    if (type === 'view' && normalization === 'no') {
+      normalized = tX;
+    }
+    let oriented = inverted ? operations.invert(normalized) : normalized;
+    if (type === 'view' && normalization === 'no') {
+      // don't invert non-normalized values, because applying (1-value) doesn't make sense for them
+      oriented = normalized;
+    }
+
+    const scaled = operations.scale(oriented, coefficient);
     return scaled;
   };
