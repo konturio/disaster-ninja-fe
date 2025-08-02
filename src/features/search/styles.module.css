@@ -27,6 +27,10 @@
   display: none;
 }
 
+.contentContainer {
+  display: block;
+}
+
 /* Mobile */
 @media screen and (max-width: 960px) {
   .searchPanel {
