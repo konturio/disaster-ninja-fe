@@ -4,9 +4,9 @@
 }
 .intercom-lightweight-app-launcher.intercom-launcher,
 .intercom-namespace .intercom-app .intercom-dfosxs {
-  bottom: var(--half-unit);
+  bottom: calc(var(--half-unit) - 8px);
   right: var(--double-unit);
-  margin-bottom: var(--half-unit) !important;
+  margin-bottom: calc(var(--half-unit) - 8px) !important;
 }
 
 /* handling app header here bacause 
@@ -20,7 +20,7 @@
     display: none;
   }
   .intercom-lightweight-app-launcher.intercom-launcher {
-    bottom: var(--half-unit);
+    bottom: calc(var(--half-unit) - 8px);
     right: calc(10px + var(--half-unit));
   }
   /* move map controls to the right so kontur logo wouldn't be overlapped */
