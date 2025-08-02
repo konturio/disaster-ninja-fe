@@ -6,7 +6,6 @@
 .noDisasters {
   text-align: center;
   padding: calc(var(--unit) * 4) 0;
-  display: flex;
   flex-wrap: wrap;
   align-items: center;
   align-content: center;
