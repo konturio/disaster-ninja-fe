@@ -4,19 +4,18 @@
 }
 
 .noDisasters {
-  text-align: center;
   padding: calc(var(--unit) * 4) 0;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   align-items: center;
-  align-content: center;
+  justify-content: center;
   gap: var(--unit);
+  text-align: center;
 }
 
-.noDisasterMsg {
-  width: 100%;
-}
-
+.noDisasterMsg,
 .callToAction {
   width: 100%;
+  display: flex;
+  justify-content: center;
 }
