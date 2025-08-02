@@ -504,12 +504,12 @@
     "noSensorsError": "Your device does not have the required sensors"
   },
   "layer_features_panel": {
-    "empty": "Layer features within selected area will be provided here",
+    "empty": "Layer features in selected area will be provided here",
     "noFeatureSelected": "No layer feature selected",
     "chooseFeature": "Choose layer feature",
     "listInfo": "The list is filtered by selected area and sorted by project number",
     "error_loading": "Failed to load layer features data. Please try again.",
-    "no_features": "No features found in the selected area.",
+    "no_features": "No layer features in selected area",
     "priority": "{{level}} priority"
   },
   "reference_area": {

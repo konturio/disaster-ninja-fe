@@ -1606,7 +1606,7 @@ msgid "Your device does not have the required sensors"
 msgstr "Ваше устройство не имеет необходимые сенсоры"
 
 #: layer_features_panel##empty
-msgid "Layer features within selected area will be provided here"
+msgid "Layer features in selected area will be provided here"
 msgstr "Здесь будут отображены объекты слоёв в выделенной области"
 
 #: layer_features_panel##noFeatureSelected
@@ -1627,7 +1627,7 @@ msgid "Failed to load layer features data. Please try again."
 msgstr "Не удалось загрузить данные об объектах слоя. Попробуйте снова."
 
 #: layer_features_panel##no_features
-msgid "No features found in the selected area."
+msgid "No layer features in selected area"
 msgstr "В выделенной области не найдено ни одного объекта."
 
 #: layer_features_panel##priority

@@ -1566,7 +1566,7 @@ msgid "Your device does not have the required sensors"
 msgstr "你的设备没有所需的传感器"
 
 #: layer_features_panel##empty
-msgid "Layer features within selected area will be provided here"
+msgid "Layer features in selected area will be provided here"
 msgstr "所选区域的图层特征将显示在此处"
 
 #: layer_features_panel##noFeatureSelected
@@ -1586,7 +1586,7 @@ msgid "Failed to load layer features data. Please try again."
 msgstr "加载图层特征数据失败。请重试。"
 
 #: layer_features_panel##no_features
-msgid "No features found in the selected area."
+msgid "No layer features in selected area"
 msgstr "所选区域未发现特征。"
 
 #: layer_features_panel##priority

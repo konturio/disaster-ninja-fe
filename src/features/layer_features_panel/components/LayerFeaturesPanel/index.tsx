@@ -12,6 +12,7 @@ import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { scheduledAutoFocus } from '~core/shared_state/currentEvent';
 import { i18n } from '~core/localization';
 import { setCurrentMapBbox, type Bbox } from '~core/shared_state/currentMapPosition';
+import { focusedGeometryAtom } from '~core/focused_geometry/model';
 import { BBoxFilterToggle } from '~components/BBoxFilterToggle/BBoxFilterToggle';
 import {
   layerFeaturesFiltersAtom,
@@ -29,6 +30,7 @@ import {
 import { layerFeatureLayouts } from '~features/layer_features_panel/layouts/layouts';
 import { layerFeaturesFormatsRegistry } from '~features/layer_features_panel/formats/layerFeaturesFormats';
 import { getBBoxForLayerFeature } from '~features/layer_features_panel/helpers/getBBoxForLayerFeature';
+import { isGeoJSONEmpty } from '~utils/geoJSON/helpers';
 import {
   featuresPanelLayerId,
   currentFeatureIdAtom,
@@ -78,8 +80,11 @@ export function LayerFeaturesPanel() {
       : null;
 
   const [{ geometry: bboxFilter }] = useAtom(layerFeaturesFiltersAtom);
+  const [focusedGeometry] = useAtom(focusedGeometryAtom.v3atom);
   const setBboxFilter = useAction(setBBoxAsGeometryForLayerFeatures);
   const resetBboxFilter = useAction(resetGeometryForLayerFeatures);
+
+  const hasGeometry = !isGeoJSONEmpty(bboxFilter ?? focusedGeometry?.geometry);
 
   const [{ data: featuresList, loading }] = useAtom(layerFeaturesCollectionAtom);
 
@@ -135,7 +140,7 @@ export function LayerFeaturesPanel() {
       return <LoadingSpinner message={i18n.t('loading')} marginTop="none" />;
     }
     if (featuresList === null || featuresList.length === 0) {
-      return <EmptyState />;
+      return <EmptyState hasGeometry={hasGeometry} />;
     }
     const content = {
       full: (

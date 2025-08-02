@@ -3,7 +3,8 @@
 This feature enables Layer Features panel. The panel displays a list of features of the associated layer. Features are filtered by the the Selected area geometry.
 
 - If Selected area is not empty, the features data is requested from the backend and then displayed as a list of items
-- If Selected area is empty, the features list is empty
+- If Selected area is not empty but no layer features are found, the panel shows "No layer features in selected area"
+- If Selected area is empty, the panel shows "Layer features in selected area will be provided here"
 - By default, the panel displays items even if the associated layer (e.g. `hotProjects_outlines`) is disabled.
   - This behavior can be changed to require the layer to be enabled (see [How to use](#how-to-use))
 

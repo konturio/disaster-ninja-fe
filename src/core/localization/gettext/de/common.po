@@ -1624,7 +1624,7 @@ msgid "Your device does not have the required sensors"
 msgstr ""
 
 #: layer_features_panel##empty
-msgid "Layer features within selected area will be provided here"
+msgid "Layer features in selected area will be provided here"
 msgstr ""
 
 #: layer_features_panel##noFeatureSelected
@@ -1647,7 +1647,7 @@ msgstr ""
 
 #: layer_features_panel##no_features
 #, fuzzy
-msgid "No features found in the selected area."
+msgid "No layer features in selected area"
 msgstr "Ebenen im ausgewählten Bereich"
 
 #: layer_features_panel##priority

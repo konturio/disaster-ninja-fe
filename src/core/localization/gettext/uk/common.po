@@ -1560,7 +1560,7 @@ msgid "Your device does not have the required sensors"
 msgstr "Ваш пристрій не має необхідних сенсорів"
 
 #: layer_features_panel##empty
-msgid "Layer features within selected area will be provided here"
+msgid "Layer features in selected area will be provided here"
 msgstr ""
 
 #: layer_features_panel##noFeatureSelected
@@ -1580,7 +1580,7 @@ msgid "Failed to load layer features data. Please try again."
 msgstr ""
 
 #: layer_features_panel##no_features
-msgid "No features found in the selected area."
+msgid "No layer features in selected area"
 msgstr ""
 
 #: layer_features_panel##priority
