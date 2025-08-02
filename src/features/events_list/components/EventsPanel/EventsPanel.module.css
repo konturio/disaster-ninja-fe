@@ -44,7 +44,7 @@
   flex: 1;
 
   &.show > .contentWrap {
-    display: flex;
+    display: none;
     height: 100%;
     padding-bottom: var(--unit);
   }
