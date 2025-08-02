@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import { lazily } from 'react-lazily';
-import { Tools16 } from '@konturio/default-icons';
+import { Tools24 } from '@konturio/default-icons';
 import { i18n } from '~core/localization';
 import type { PanelFeatureInterface } from '~core/types/featuresTypes';
 
@@ -13,7 +13,7 @@ export const shortToolbar: () => PanelFeatureInterface = () => ({
       <ShortToolbarContent />
     </Suspense>
   ),
-  panelIcon: <Tools16 />,
+  panelIcon: <Tools24 />,
   header: i18n.t('toolbar.panel_title'),
   minHeight: 56,
 });
@@ -24,7 +24,7 @@ export const toolbar: () => PanelFeatureInterface = () => ({
       <ToolbarContent />
     </Suspense>
   ),
-  panelIcon: <Tools16 />,
+  panelIcon: <Tools24 />,
   header: i18n.t('toolbar.panel_title'),
   minHeight: 121,
 });
