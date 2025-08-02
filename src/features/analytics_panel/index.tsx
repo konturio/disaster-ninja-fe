@@ -1,4 +1,4 @@
-import { Analytics24 } from '@konturio/default-icons';
+import { Analytics16 } from '@konturio/default-icons';
 import { lazily } from 'react-lazily';
 import { Suspense } from 'react';
 import { i18n } from '~core/localization';
@@ -30,7 +30,7 @@ export const analyticsPanel = (
         ))}
       </Suspense>
     ),
-    panelIcon: <Analytics24 />,
+    panelIcon: <Analytics16 />,
     header: i18n.t('analytics_panel.header_title'),
     minHeight: MIN_HEIGHT,
     maxHeight: MAX_HEIGHT,

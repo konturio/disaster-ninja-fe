@@ -1,5 +1,5 @@
 import { lazily } from 'react-lazily';
-import { Legend24 } from '@konturio/default-icons';
+import { Legend16 } from '@konturio/default-icons';
 import { Suspense } from 'react';
 import { i18n } from '~core/localization';
 import { MIN_HEIGHT } from './constants';
@@ -13,7 +13,7 @@ export const legendPanel = (): PanelFeatureInterface => ({
       <PanelContent />
     </Suspense>
   ),
-  panelIcon: <Legend24 />,
+  panelIcon: <Legend16 />,
   header: i18n.t('legend'),
   minHeight: MIN_HEIGHT,
   contentheight: 'min-content',

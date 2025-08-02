@@ -1,4 +1,4 @@
-import { ChevronDown24, ChevronUp24 } from '@konturio/default-icons';
+import { ChevronDown16, ChevronUp16 } from '@konturio/default-icons';
 import { useCallback, useMemo, useState } from 'react';
 
 export type PanelState = 'full' | 'short' | 'closed';
@@ -26,9 +26,9 @@ export const useShortPanelState = (props?: UseShortPanelStateProps) => {
           {
             icon:
               panelState === 'full' ? (
-                <ChevronDown24 data-testid={collapseTestId} />
+                <ChevronDown16 data-testid={collapseTestId} />
               ) : (
-                <ChevronUp24 data-testid={expandTestId} />
+                <ChevronUp16 data-testid={expandTestId} />
               ),
             onWrapperClick: (e) => {
               e.stopPropagation();
@@ -45,9 +45,9 @@ export const useShortPanelState = (props?: UseShortPanelStateProps) => {
         {
           icon:
             panelState === 'closed' ? (
-              <ChevronDown24 data-testid={expandTestId} />
+              <ChevronDown16 data-testid={expandTestId} />
             ) : (
-              <ChevronUp24 data-testid={collapseTestId} />
+              <ChevronUp16 data-testid={collapseTestId} />
             ),
           onWrapperClick: () => {
             const nextState = initialState === 'closed' ? 'full' : initialState;
@@ -59,7 +59,7 @@ export const useShortPanelState = (props?: UseShortPanelStateProps) => {
 
     return [
       {
-        icon: <ChevronDown24 data-testid={collapseTestId} />,
+        icon: <ChevronDown16 data-testid={collapseTestId} />,
         onWrapperClick: (e) => {
           e.stopPropagation();
           setPanelState((prevState) => (prevState === 'closed' ? 'short' : 'full'));
@@ -67,7 +67,7 @@ export const useShortPanelState = (props?: UseShortPanelStateProps) => {
         disabled: panelState === 'full',
       },
       {
-        icon: <ChevronUp24 data-testid={expandTestId} />,
+        icon: <ChevronUp16 data-testid={expandTestId} />,
         onWrapperClick: (e) => {
           e.stopPropagation();
           setPanelState((prevState) => (prevState === 'full' ? 'short' : 'closed'));

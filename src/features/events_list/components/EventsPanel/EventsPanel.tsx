@@ -1,4 +1,4 @@
-import { Disasters24 } from '@konturio/default-icons';
+import { Disasters16 } from '@konturio/default-icons';
 import { Panel, PanelIcon, Text } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/react-v2';
 import { useAtom as useAtomV3 } from '@reatom/npm-react';
@@ -147,7 +147,7 @@ export function EventsPanel({
       header={header}
       headerIcon={
         <div className={s.iconWrap}>
-          <Disasters24 />
+          <Disasters16 />
         </div>
       }
       onHeaderClick={togglePanel}
@@ -190,7 +190,7 @@ export function EventsPanel({
       <PanelIcon
         clickHandler={openFullState}
         className={clsx(s.panelIcon, isMobile ? '' : s.desktop, 'knt-panel-icon')}
-        icon={<Disasters24 />}
+        icon={<Disasters16 />}
       />
     </>
   );

@@ -135,7 +135,7 @@ export const layersPanel: () => PanelFeatureInterface = () => ({
       <PanelContent />
     </Suspense>
   ),
-  panelIcon: <Layers24 />,
+  panelIcon: <Layers16 />,
   header: i18n.t('layers'),
   minHeight: MIN_HEIGHT,
   resize: 'vertical',

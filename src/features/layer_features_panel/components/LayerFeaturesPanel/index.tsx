@@ -1,7 +1,7 @@
 import { Panel, PanelIcon } from '@konturio/ui-kit';
 import { useCallback, useMemo, useRef } from 'react';
 import { clsx } from 'clsx';
-import { Legend24, List24 } from '@konturio/default-icons';
+import { Legend16, List16 } from '@konturio/default-icons';
 import { useAction, useAtom } from '@reatom/npm-react';
 import { Sheet } from 'react-modal-sheet';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
@@ -128,7 +128,7 @@ export function LayerFeaturesPanel() {
   }, []);
 
   const panelIcon =
-    featuresPanelLayerId === HOT_PROJECTS_LAYER_ID ? <List24 /> : <Legend24 />;
+    featuresPanelLayerId === HOT_PROJECTS_LAYER_ID ? <List16 /> : <Legend16 />;
 
   const getPanelContent = useMemo(() => {
     if (loading) {

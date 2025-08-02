@@ -1,5 +1,5 @@
 import { Button, Panel, PanelIcon, Text } from '@konturio/ui-kit';
-import { Search24 } from '@konturio/default-icons';
+import { Search16 } from '@konturio/default-icons';
 import clsx from 'clsx';
 import { useEffect, useRef } from 'react';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
@@ -45,7 +45,7 @@ export function Search() {
         </div>
       </Panel>
       <PanelIcon
-        icon={<Search24 />}
+        icon={<Search16 />}
         className={clsx(s.panelIcon, 'knt-panel-icon')}
         clickHandler={openFullState}
       />

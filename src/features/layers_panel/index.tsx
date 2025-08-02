@@ -1,5 +1,5 @@
 import { lazily } from 'react-lazily';
-import { Layers24 } from '@konturio/default-icons';
+import { Layers16 } from '@konturio/default-icons';
 import { Suspense } from 'react';
 import { i18n } from '~core/localization';
 import { MIN_HEIGHT } from './constants';
@@ -13,7 +13,7 @@ export const layersPanel: () => PanelFeatureInterface = () => ({
       <PanelContent />
     </Suspense>
   ),
-  panelIcon: <Layers24 />,
+  panelIcon: <Layers16 />,
   header: i18n.t('layers'),
   minHeight: MIN_HEIGHT,
   resize: 'vertical',

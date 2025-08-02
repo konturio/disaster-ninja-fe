@@ -1,15 +1,24 @@
 .header {
   user-select: none;
+  padding: calc(var(--unit) / 2) var(--unit);
+
+  & svg {
+    width: 16px;
+    height: 16px;
+  }
 }
 
 .headerTitle {
   max-width: 260px;
   min-width: 200px;
+  font: var(--font-heading-05);
 }
 
 .closeBtn {
   & svg {
     color: var(--icon-base-strong);
+    width: 16px;
+    height: 16px;
   }
 
   &:disabled svg {
@@ -37,7 +46,7 @@
   }
 
   .header {
-    padding: 0 var(--unit);
+    padding: 0 calc(var(--unit) / 2);
   }
 
   .header:before {
