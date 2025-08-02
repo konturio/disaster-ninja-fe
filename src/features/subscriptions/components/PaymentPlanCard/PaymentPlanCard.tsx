@@ -105,7 +105,7 @@ const PaymentPlanCard = memo(function PaymentPlanCard({
             [s.hidden]: billingOption.id === 'month',
           })}
         >
-          {`$${billingOption?.initialPricePerMonth?.toLocaleString('en-US')} USD / mo`}
+          {`$${billingOption?.initialPricePerMonth?.toLocaleString('en-US')} ${i18n.t('currency.usd')} / ${i18n.t('subscription.month_abbr')}`}
         </div>
       )}
       {billingOption && (

@@ -50,6 +50,17 @@ export function PricingContent({ config }: { config: SubscriptionsConfig }) {
 
   const [monthlyPlanConfig, annuallyPlanConfig] = config.billingCyclesDetails;
 
+  const monthlyName = i18n.t('subscription.monthly');
+  const annuallyName = i18n.t('subscription.annually');
+
+  const parseNote = (note: string | null) => {
+    const percent = note?.match(/\d+/)?.[0];
+    return percent ? i18n.t('subscription.save_percent', { percent }) : note;
+  };
+
+  const monthlyNote = parseNote(monthlyPlanConfig.note);
+  const annuallyNote = parseNote(annuallyPlanConfig.note);
+
   const onTogglerChange = useCallback(() => {
     setCurrentBillingCycleID((prev) => (prev === 'month' ? 'year' : 'month'));
   }, []);
@@ -95,15 +106,13 @@ export function PricingContent({ config }: { config: SubscriptionsConfig }) {
         <Heading type="heading-02">{i18n.t('subscription.title')}</Heading>
         <div
           className={clsx(s.togglerSwitch, {
-            [s.withOffLabel]: monthlyPlanConfig.note,
+            [s.withOffLabel]: monthlyNote,
           })}
         >
-          {monthlyPlanConfig.note && (
-            <div className={s.note}>{monthlyPlanConfig.note}</div>
-          )}
+          {monthlyNote && <div className={s.note}>{monthlyNote}</div>}
           <Toggler
-            label={annuallyPlanConfig.name}
-            offValueLabel={monthlyPlanConfig.name}
+            label={annuallyName}
+            offValueLabel={monthlyName}
             id="paymentPeriodToggler"
             on={currentBillingCycleID === togglerInitialValue}
             classes={{
@@ -112,9 +121,7 @@ export function PricingContent({ config }: { config: SubscriptionsConfig }) {
             }}
             onChange={onTogglerChange}
           />
-          {annuallyPlanConfig.note && (
-            <div className={s.note}>{annuallyPlanConfig.note}</div>
-          )}
+          {annuallyNote && <div className={s.note}>{annuallyNote}</div>}
         </div>
         <div className={s.plans}>
           {plansContent.map((planContent, i) => (
