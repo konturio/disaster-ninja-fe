@@ -52,6 +52,7 @@ export const hotProjectsLayout = {
     },
     {
       type: 'PropertyGrid',
+      $if: 'active',
       children: [
         {
           type: 'Field',
@@ -75,6 +76,7 @@ export const hotProjectsLayout = {
     },
     {
       type: 'Url',
+      $if: 'active',
       $value: 'projectId',
       props: {
         urlTemplate: 'https://tasks.hotosm.org/projects/{{value}}',
