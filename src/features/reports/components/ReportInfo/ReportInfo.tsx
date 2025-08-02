@@ -9,6 +9,7 @@ import { i18n } from '~core/localization';
 import { notificationServiceInstance } from '~core/notificationServiceInstance';
 import { LoadingSpinner } from '~components/LoadingSpinner/LoadingSpinner';
 import { LinkRenderer } from '~components/LinkRenderer/LinkRenderer';
+import { translateReportField } from '../../utils';
 import { reportsAtom } from '../../atoms/reportsAtom';
 import { currentReportAtom, reportResourceAtom } from '../../atoms/reportResource';
 import commonStyles from '../ReportsList/ReportsList.module.css';
@@ -51,7 +52,9 @@ export function ReportInfo() {
       </Text>
 
       <Heading type="heading-05">
-        <span className={clsx(commonStyles.pageTitle, styles.title)}>{report?.name}</span>
+        <span className={clsx(commonStyles.pageTitle, styles.title)}>
+          {translateReportField(report?.name)}
+        </span>
       </Heading>
 
       {report?.description_full && (
@@ -60,7 +63,7 @@ export function ReportInfo() {
             className={commonStyles.description}
             options={{ overrides: { a: LinkRenderer } }}
           >
-            {report.description_full}
+            {translateReportField(report.description_full)}
           </Markdown>
         </Text>
       )}

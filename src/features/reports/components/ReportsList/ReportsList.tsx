@@ -6,6 +6,7 @@ import Markdown from 'markdown-to-jsx';
 import { useAtom } from '@reatom/react-v2';
 import { i18n } from '~core/localization';
 import { LinkRenderer } from '~components/LinkRenderer/LinkRenderer';
+import { translateReportField } from '../../utils';
 import { reportsAtom } from '../../atoms/reportsAtom';
 import styles from './ReportsList.module.css';
 
@@ -60,7 +61,7 @@ export function ReportsList({ goToReport }: { goToReport: (id: string) => void }
               <div className={styles.reportWrap} key={report.id} onClick={onClick}>
                 <Heading type="heading-05">
                   <div className={clsx(styles.link, styles.reportTitle)}>
-                    {report.name}
+                    {translateReportField(report.name)}
                   </div>
                 </Heading>
                 <Text type="long-l">
@@ -68,7 +69,7 @@ export function ReportsList({ goToReport }: { goToReport: (id: string) => void }
                     options={{ overrides: { a: LinkRenderer } }}
                     className={clsx(styles.reportDescr)}
                   >
-                    {report.description_brief}
+                    {translateReportField(report.description_brief)}
                   </Markdown>
                 </Text>
               </div>

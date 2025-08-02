@@ -70,6 +70,7 @@ function ReportInfo() {
 There are 2 dynamic configs we receive from the back-end.
 
 1. `"Reports List"` - array of available reports containing all info about them including link to `.csv` file with report data (all the keys stored in `./atoms/reportsAtom.ts` `Report` type).
+   `name`, `description_full` and `description_brief` fields may be provided as strings or as objects with language codes to support localization.
 
 2. `"Report Content"` - data received from `.csv` link is the second data model.
 

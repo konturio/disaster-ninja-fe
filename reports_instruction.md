@@ -9,24 +9,29 @@ If you want to display your reports on the Disaster Ninja Reports page, you must
 
 - **id**, _string_ - your report id;
 - **link**, _string_ - relative link to your report, for example '/your_report.csv';
-- **name**, _string_ - your report name;
+- **name**, _string_ or _object_ - your report name.
+  Provide an object with language codes to localize it;
 - **sortable**, _boolean_ - true to make your report sortable, false to keep your report static;
 - **last_updated**, _string_ - Timestamp with date of last update;
 - **publick_access**, _boolean_ - true to make your report visible for unlogged users, false to keep your report visible only for particular groups of users;
-- **description_full**, _string_ - A full description of your report, which will be shown on the report page. - https://disaster.ninja/active/reports/your_report_name;
-- **description_brief**, _string_ - A short description of your report, which will be shown on the reports page. - https://disaster.ninja/active/reports;
+- **description_full**, _string_ or _object_ - A full description of your report, which will be shown on the report page.
+  Provide translations as an object keyed by language codes.
+  - https://disaster.ninja/active/reports/your_report_name;
+- **description_brief**, _string_ or _object_ - A short description of your report, which will be shown on the reports page.
+  Provide translations as an object keyed by language codes.
+  - https://disaster.ninja/active/reports;
 - **searchable_columns_indexes**, _array_ - array with column number from your CSV (0-based) will be used for text search.
 
 ### An example of the internal structure of osm_reports_list.json
 
-`[{"id": "your_report_id",
+ `[{"id": "your_report_id",
   "link": "/your_report.csv",
-  "name": "your report name",
+  "name": {"en": "your report name"},
   "sortable": true,
   "last_updated": "2022-09-18T18:59:51Z",
   "public_access": true,
-  "description_full": "full description",
-  "description_brief": "brief description",
+  "description_full": {"en": "full description"},
+  "description_brief": {"en": "brief description"},
   "searchable_columns_indexes": [0]},
   {another report description}]`
 

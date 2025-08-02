@@ -1,16 +1,17 @@
 import { reportsClient } from '~core/apiClientInstance';
 import { i18n } from '~core/localization';
 import { createAtom } from '~utils/atoms';
+import type { TranslatableString } from '../utils';
 
 export type Report = {
   id: string;
   link: string;
-  name: string;
+  name: TranslatableString;
   sortable: boolean;
   last_updated: string;
   public_access: string;
-  description_full: string;
-  description_brief: string;
+  description_full: TranslatableString;
+  description_brief: TranslatableString;
   column_link_templates: [
     { 'OSM ID': string },
     { Name: string } | { ['OSM name']: string },
