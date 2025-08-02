@@ -3,8 +3,10 @@
   z-index: 1;
 }
 
+/* Utility for truncating text within flex containers */
 .truncated {
-  max-width: 100px;
+  min-width: 0;
+
   & > span {
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -14,14 +16,19 @@
 
 .combinedHeader {
   display: flex;
+  align-items: center;
   width: 100%;
-  justify-content: space-between;
+  gap: var(--unit);
+
   & .eventNameLabel {
-    display: flex;
+    display: inline-flex;
     align-items: center;
+    margin-left: auto;
     border-radius: calc(var(--border-radius-unit) * 3);
     background-color: var(--faint-weak);
     padding: 0 var(--unit);
+    max-width: 100%;
+
     & > span {
       font: var(--font-xs);
       font-weight: 500;
