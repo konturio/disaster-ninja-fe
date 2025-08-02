@@ -4,6 +4,7 @@ This feature enables Layer Features panel. The panel displays a list of features
 
 - If Selected area is not empty, the features data is requested from the backend and then displayed as a list of items
 - If Selected area is empty, the features list is empty
+- While data is being loaded, a spinner with "Loading layer features" message is shown
 - By default, the panel displays items even if the associated layer (e.g. `hotProjects_outlines`) is disabled.
   - This behavior can be changed to require the layer to be enabled (see [How to use](#how-to-use))
 

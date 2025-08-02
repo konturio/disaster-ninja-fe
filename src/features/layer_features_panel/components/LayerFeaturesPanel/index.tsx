@@ -132,7 +132,12 @@ export function LayerFeaturesPanel() {
 
   const getPanelContent = useMemo(() => {
     if (loading) {
-      return <LoadingSpinner message={i18n.t('loading')} marginTop="none" />;
+      return (
+        <LoadingSpinner
+          message={i18n.t('layer_features_panel.loading')}
+          marginTop="none"
+        />
+      );
     }
     if (featuresList === null || featuresList.length === 0) {
       return <EmptyState />;

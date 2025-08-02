@@ -1641,6 +1641,10 @@ msgstr "Merkmale speichern"
 msgid "The list is filtered by selected area and sorted by project number"
 msgstr ""
 
+#: layer_features_panel##loading
+msgid "Loading layer features"
+msgstr "Layer-Features werden geladen"
+
 #: layer_features_panel##error_loading
 msgid "Failed to load layer features data. Please try again."
 msgstr ""

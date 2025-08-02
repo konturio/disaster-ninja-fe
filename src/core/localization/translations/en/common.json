@@ -508,6 +508,7 @@
     "noFeatureSelected": "No layer feature selected",
     "chooseFeature": "Choose layer feature",
     "listInfo": "The list is filtered by selected area and sorted by project number",
+    "loading": "Loading layer features",
     "error_loading": "Failed to load layer features data. Please try again.",
     "no_features": "No features found in the selected area.",
     "priority": "{{level}} priority"
