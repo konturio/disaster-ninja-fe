@@ -1,105 +1,19 @@
 .toolbarContent {
   padding: var(--unit);
   min-height: inherit;
-  display: flex;
-  flex-flow: row nowrap;
-  gap: var(--unit);
-  overflow-x: auto;
-}
-
-.sectionDivider {
-  width: 1px;
-  min-height: 100%;
-  background-color: var(--faint-weak);
-  flex-shrink: 0;
-}
-
-.sectionLabel {
-  text-align: center;
-  color: var(--faint-strong-up, #848c94);
-
-  font: var(--font-xs);
-  font-style: normal;
-  font-weight: 400;
-  line-height: 16px; /* 133.333% */
-  letter-spacing: 0.038px;
-}
-
-.section {
-  display: flex;
-  flex-flow: column nowrap;
-  gap: var(--unit);
-  transition:
-    max-height 0.3s ease,
-    opacity 0.3s ease;
-}
-
-.sectionArrow {
-  display: none;
-  rotate: 180deg;
-  margin-left: var(--unit);
-}
-
-.sectionToggleCheckbox {
-  display: none;
-}
-
-.sectionContent {
-  flex: 1;
   display: grid;
   grid-template-rows: repeat(6, auto);
   grid-auto-flow: column;
   gap: var(--half-unit);
+  overflow-x: auto;
 }
 
 @media screen and (max-width: 960px) {
   .toolbarContent {
-    flex-direction: column;
-    gap: calc(var(--unit) * 3);
-    padding: calc(var(--unit) * 3) var(--double-unit);
-  }
-
-  .section {
-    gap: calc(var(--unit) * 3);
-  }
-
-  .sectionLabel {
-    order: -1; /* Move the label to come before the content */
-    text-align: start;
-    line-height: 18px;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-  }
-
-  .sectionArrow {
-    display: inline;
-  }
-
-  .sectionDivider {
-    min-height: 1px;
-    width: 100%;
-  }
-
-  .sectionContent {
     display: flex;
     flex-wrap: wrap;
     align-items: flex-start;
     gap: 12px;
-  }
-
-  .section:has(.sectionToggleCheckbox:checked) .sectionContent {
-    max-height: 0;
-    opacity: 0;
-    display: none;
-  }
-
-  .section:has(.sectionToggleCheckbox:not(:checked)) .sectionContent {
-    max-height: 500px;
-    opacity: 1;
-  }
-
-  .sectionToggleCheckbox:not(:checked) ~ .sectionArrow {
-    rotate: 0deg;
+    padding: calc(var(--unit) * 3) var(--double-unit);
   }
 }
