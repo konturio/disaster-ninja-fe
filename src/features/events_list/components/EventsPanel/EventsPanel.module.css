@@ -3,8 +3,11 @@
   z-index: 1;
 }
 
+/* Utility for truncating text within flex containers */
 .truncated {
-  max-width: 100px;
+  flex: 1;
+  min-width: 0;
+
   & > span {
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -14,14 +17,18 @@
 
 .combinedHeader {
   display: flex;
+  align-items: center;
   width: 100%;
-  justify-content: space-between;
+  gap: var(--unit);
+
   & .eventNameLabel {
     display: flex;
+    flex: 1;
     align-items: center;
     border-radius: calc(var(--border-radius-unit) * 3);
     background-color: var(--faint-weak);
     padding: 0 var(--unit);
+
     & > span {
       font: var(--font-xs);
       font-weight: 500;
