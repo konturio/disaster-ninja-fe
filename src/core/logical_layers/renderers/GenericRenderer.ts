@@ -14,6 +14,10 @@ import { layerByOrder } from '~core/logical_layers';
 import { mapLoaded } from '~utils/map/waitMapEvent';
 import { replaceUrlWithProxy } from '~utils/axios/replaceUrlWithProxy';
 import { mapPopoverRegistry } from '~core/map/popover/globalMapPopoverRegistry';
+import { mountedLayersAtom } from '~core/logical_layers/atoms/mountedLayers';
+import { layersOrderManager } from '~core/logical_layers/utils/layersOrder/layersOrder';
+import { mapLibreParentsIds } from '~core/logical_layers/utils/layersOrder/mapLibreParentsIds';
+import { layersSettingsAtom } from '~core/logical_layers/atoms/layersSettings';
 import { addZoomFilter, onActiveContributorsClick } from './activeContributorsLayers';
 import { styleConfigs } from './stylesConfigs';
 import { setTileScheme } from './setTileScheme';
@@ -222,8 +226,21 @@ export class GenericRenderer extends LogicalLayerDefaultRenderer {
     }
     // @ts-ignore skip, unsupported
     else if (layerData.source.type === 'maplibre-style-url') {
-      // TODO: style url
-      // map.setStyle(layerData.source.urls[0]);
+      const styleUrl = layerData.source.urls?.[0];
+      if (styleUrl) {
+        const layersToRemount = Array.from(mountedLayersAtom.getState().entries()).filter(
+          ([id]) => id !== this.id,
+        );
+        map.setStyle(styleUrl);
+        map.once('styledata', () => {
+          mapLibreParentsIds.clear();
+          layersOrderManager.init(map, mapLibreParentsIds, layersSettingsAtom);
+          layersToRemount.forEach(([, layer]) => {
+            layer('disable');
+            layer('enable');
+          });
+        });
+      }
     } else {
       this.mountTileLayer(map, layerData, legend);
     }
