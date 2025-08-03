@@ -1,6 +1,6 @@
 import { Timeline } from '@konturio/ui-kit';
 import { useAtom } from '@reatom/react-v2';
-import { useCallback, useMemo } from 'react';
+import { useCallback, useMemo, useRef, useEffect } from 'react';
 import { eventEpisodesController } from '../../controller';
 import { eventEpisodesModel } from '../../model';
 import s from './EpisodesTimeline.module.css';
@@ -23,6 +23,8 @@ export function EpisodesTimeline({ episodes }: { episodes: Episode[] }) {
   const [selectedEpisode] = useAtom(eventEpisodesModel.currentEpisode);
   const [timelineState] = useAtom(eventEpisodesModel.episodesTimelineState);
   useAtom(eventEpisodesModel.autoClearCurrentEpisode);
+
+  const timelineRef = useRef<unknown>(null);
 
   const timelineSelection = useMemo(
     () => (selectedEpisode ? [selectedEpisode.id] : []),
@@ -79,7 +81,20 @@ export function EpisodesTimeline({ episodes }: { episodes: Episode[] }) {
 
   // Timeline library have imperative api that provided trough useImperativeHandle handle
   // Here I pass this api to atom.
-  const onRefChange = eventEpisodesController.setTimelineImperativeApi;
+  const onRefChange = useCallback((api: unknown) => {
+    timelineRef.current = api;
+    eventEpisodesController.setTimelineImperativeApi(api);
+  }, []);
+
+  useEffect(() => {
+    if (!selectedEpisode || !timelineRef.current) return;
+    const api = timelineRef.current as {
+      setSelection?: (ids: (string | number)[]) => void;
+      focus?: (id: string | number) => void;
+    };
+    api.setSelection?.([selectedEpisode.id]);
+    api.focus?.(selectedEpisode.id);
+  }, [selectedEpisode]);
   return (
     <div>
       <Timeline
