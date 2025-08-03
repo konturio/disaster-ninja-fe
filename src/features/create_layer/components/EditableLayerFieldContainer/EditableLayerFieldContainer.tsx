@@ -137,7 +137,7 @@ export function EditableLayerFieldContainer({
           value={atomState.type}
           onChange={updateAtomType}
         >
-          <option value={FieldTypes.None} disabled hidden>
+          <option className={s.placeholderOption} value={FieldTypes.None} disabled hidden>
             {i18n.t('create_layer.select')}
           </option>
           {USER_LAYER_FIELDS.map((fldParams) => (
