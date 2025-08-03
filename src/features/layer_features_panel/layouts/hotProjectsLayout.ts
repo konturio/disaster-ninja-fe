@@ -80,6 +80,7 @@ export const hotProjectsLayout = {
         urlTemplate: 'https://tasks.hotosm.org/projects/{{value}}',
       },
       label: 'Open in Tasking Manager',
+      $if: 'active',
     },
   ],
 };
