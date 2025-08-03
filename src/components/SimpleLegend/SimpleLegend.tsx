@@ -10,14 +10,13 @@ import type { CSSProperties } from 'react';
 type Flatten<Type> = Type extends Array<infer Item> ? Item : Type;
 
 function icon(step: Flatten<SimpleLegendType['steps']>) {
-  const { stepShape, style, stepIconFill, stepIconStroke, stepName } = step;
+  const { stepShape, style, stepIconFill, stepIconStroke } = step;
 
-  if (stepName === 'Possibly local mappers' || stepName === 'Active mappers') {
+  if (!stepShape) return null;
+  if (stepShape === 'letter') {
     const color = style['text-color'] || stepIconStroke || stepIconFill || '#000000';
     return <Letter width={12} height={12} style={{ color }} />;
   }
-
-  if (!stepShape) return null;
   if (stepShape === 'hex')
     return (
       <HexIcon styles={style} size="small" fill={stepIconFill} stroke={stepIconStroke} />
