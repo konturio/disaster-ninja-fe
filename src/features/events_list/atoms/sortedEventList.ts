@@ -6,12 +6,16 @@ import { sortEventsBySingleProperty } from '../helpers/singlePropertySort';
 import { sortEventsByMcda } from '../helpers/eventsMcdaSort';
 import {
   filterByExcludedEventTypes,
+  filterByEventTypes,
   filterByLastNDaysStartedAt,
   filterByLastNDaysUpdatedAt,
+  filterByCountry,
   filterByMinAffectedPopulation,
   filterByMinSeverity,
   filterByMinStartedAt,
   filterByMinUpdatedAt,
+  filterByMaxStartedAt,
+  filterByMaxUpdatedAt,
 } from '../helpers/localEventFilters';
 import { eventSortingConfigAtom } from './eventSortingConfig';
 import { eventListResourceAtom } from './eventListResource';
@@ -55,8 +59,14 @@ function applyLocalEventListFilters(
   if (filtersConfig.minSeverity) {
     result = filterByMinSeverity(result, filtersConfig.minSeverity);
   }
+  if (filtersConfig.eventTypes) {
+    result = filterByEventTypes(result, filtersConfig.eventTypes);
+  }
   if (filtersConfig.excludedEventTypes) {
     result = filterByExcludedEventTypes(result, filtersConfig.excludedEventTypes);
+  }
+  if (filtersConfig.country) {
+    result = filterByCountry(result, filtersConfig.country);
   }
   // date filters
   if (filtersConfig.minUpdatedAt) {
@@ -64,10 +74,16 @@ function applyLocalEventListFilters(
   } else if (isNumber(filtersConfig.lastNDaysUpdatedAt)) {
     result = filterByLastNDaysUpdatedAt(result, filtersConfig.lastNDaysUpdatedAt);
   }
+  if (filtersConfig.maxUpdatedAt) {
+    result = filterByMaxUpdatedAt(result, filtersConfig.maxUpdatedAt);
+  }
   if (filtersConfig.minStartedAt) {
     result = filterByMinStartedAt(result, filtersConfig.minStartedAt);
   } else if (isNumber(filtersConfig.lastNDaysStartedAt)) {
     result = filterByLastNDaysStartedAt(result, filtersConfig.lastNDaysStartedAt);
+  }
+  if (filtersConfig.maxStartedAt) {
+    result = filterByMaxStartedAt(result, filtersConfig.maxStartedAt);
   }
   return result;
 }

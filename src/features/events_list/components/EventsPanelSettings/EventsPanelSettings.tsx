@@ -5,6 +5,7 @@ import { eventListFilters } from '~features/events_list/atoms/eventListFilters';
 import { BBoxFilterToggle } from '~components/BBoxFilterToggle/BBoxFilterToggle';
 import { PanelSettingsRow } from '~components/PanelSettingsRow/PanelSettingsRow';
 import { FeedSelectorFlagged } from '../FeedSelector';
+import { EventFilters } from './EventFilters';
 
 const featureFlags = configRepo.get().features;
 
@@ -25,6 +26,7 @@ export function EventsPanelSettings() {
           onCleanFilter={resetBboxFilter}
         />
       )}
+      <EventFilters />
       {/* TODO: for now we don't want these sort buttons, there was no design for them */}
       {/* <EventListSortButton
               onSort={onSort}

@@ -33,6 +33,22 @@ export function filterByMinStartedAt(events: Event[], minDateString: string): Ev
   return events;
 }
 
+export function filterByMaxUpdatedAt(events: Event[], maxDateString: string): Event[] {
+  const maxTime = new Date(maxDateString).getTime();
+  if (maxTime) {
+    return filterByMaxTime(events, maxTime, (event) => event.updatedAt);
+  }
+  return events;
+}
+
+export function filterByMaxStartedAt(events: Event[], maxDateString: string): Event[] {
+  const maxTime = new Date(maxDateString).getTime();
+  if (maxTime) {
+    return filterByMaxTime(events, maxTime, (event) => event.startedAt);
+  }
+  return events;
+}
+
 export function filterByMinAffectedPopulation(
   events: Event[],
   minAffectedPopulation: number,
@@ -72,6 +88,25 @@ export function filterByExcludedEventTypes(
   return events;
 }
 
+export function filterByEventTypes(events: Event[], eventTypes: EventType[]): Event[] {
+  if (eventTypes.length > 0) {
+    return events.filter((event) => {
+      if (event.eventType) {
+        return eventTypes.includes(event.eventType);
+      }
+    });
+  }
+  return events;
+}
+
+export function filterByCountry(events: Event[], country: string): Event[] {
+  if (country) {
+    const lc = country.toLowerCase();
+    return events.filter((event) => event.location?.toLowerCase().includes(lc));
+  }
+  return events;
+}
+
 function filterByMinTime(
   events: Event[],
   minTimeMs: number,
@@ -80,6 +115,18 @@ function filterByMinTime(
   return events.filter((event) => {
     return (
       fieldExtractor(event) && new Date(fieldExtractor(event)).getTime() >= minTimeMs
+    );
+  });
+}
+
+function filterByMaxTime(
+  events: Event[],
+  maxTimeMs: number,
+  fieldExtractor: (event: Event) => string,
+): Event[] {
+  return events.filter((event) => {
+    return (
+      fieldExtractor(event) && new Date(fieldExtractor(event)).getTime() <= maxTimeMs
     );
   });
 }

@@ -228,7 +228,12 @@
     "severity_moderate": "Moderate",
     "severity_severe": "Severe",
     "severity_extreme": "Extreme",
-    "open_timeline_button": "Timeline"
+    "open_timeline_button": "Timeline",
+    "filter_type_label": "Type",
+    "filter_severity_label": "Severity",
+    "filter_date_from_label": "Start date",
+    "filter_date_to_label": "End date",
+    "filter_country_label": "Country"
   },
   "create_layer": {
     "save_and_draw": "Save and draw",

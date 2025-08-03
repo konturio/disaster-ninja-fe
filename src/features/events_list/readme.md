@@ -110,6 +110,24 @@ It has the following actions:
 - `setBBoxFilterFromCurrentMapView`
 - `resetBboxFilter`
 
+# `localEventFiltersAtom`
+
+`localEventFiltersAtom` holds filters applied on the client side. Available fields:
+
+```typescript
+{
+  eventTypes?: EventType[];
+  minSeverity?: Severity;
+  minStartedAt?: string;
+  maxStartedAt?: string;
+  minUpdatedAt?: string;
+  maxUpdatedAt?: string;
+  country?: string;
+}
+```
+
+These filters allow narrowing disasters by type, date range, severity threshold and country.
+
 # Feature config
 
 `initialSort` is an optional field which can hold front-end side sorting configuration.

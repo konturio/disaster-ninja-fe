@@ -753,6 +753,26 @@ msgstr ""
 msgid "Timeline"
 msgstr ""
 
+#: event_list##filter_type_label
+msgid "Type"
+msgstr ""
+
+#: event_list##filter_severity_label
+msgid "Severity"
+msgstr ""
+
+#: event_list##filter_date_from_label
+msgid "Start date"
+msgstr ""
+
+#: event_list##filter_date_to_label
+msgid "End date"
+msgstr ""
+
+#: event_list##filter_country_label
+msgid "Country"
+msgstr ""
+
 #: create_layer##save_and_draw
 msgid "Save and draw"
 msgstr ""
