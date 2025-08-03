@@ -17,6 +17,8 @@ The `EventList` component is a feature that implements a list of disasters in th
 The `EventCard` component is responsible for displaying a single event in the list. It includes information such as the event title, location, and date, including a description and associated external links. Users can click on an event to view more details or select it as the current event.
 It can also contains a show timeline button, if the episodes timeline feature is enabled.
 
+When magnitude or cyclone category information is available, a colored shield is rendered to the left of the severity indicator showing values like `M 8.6` or `Cat 2`.
+
 ### CurrentEvent
 
 The `CurrentEvent` component displays details for the currently selected unlisted event. Unlisted event it is an event that is not in the list of events, nut it comes from the URL.

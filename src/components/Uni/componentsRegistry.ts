@@ -4,6 +4,7 @@ import { SeverityIndicator } from './Components/Severity';
 import { Url } from './Components/Url';
 import { Text, Title } from './Components/Base';
 import { Badge } from './Components/Badge';
+import { DisasterShield } from './Components/DisasterShield';
 import { MappingProgress } from './Components/MappingProgress';
 import { Field } from './Components/Field';
 import { CardHeader } from './Components/CardHeader';
@@ -24,6 +25,7 @@ export const componentsRegistry = {
   IconButton,
   Url,
   Badge,
+  DisasterShield,
   Image,
 
   MappingProgress,
