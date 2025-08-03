@@ -18,10 +18,6 @@ export const EditTargets = {
 
 export const USER_LAYER_FIELDS = [
   {
-    label: i18n.t('create_layer.select'),
-    type: FieldTypes.None,
-  },
-  {
     label: i18n.t('create_layer.short_text'),
     type: FieldTypes.ShortText,
   },

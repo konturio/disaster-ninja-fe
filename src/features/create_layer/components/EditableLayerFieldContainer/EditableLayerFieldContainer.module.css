@@ -64,5 +64,9 @@
         box-shadow: 0 0 0 2px var(--complimentary-strong-down);
       }
     }
+
+    & .input.placeholder {
+      color: var(--faint-strong);
+    }
   }
 }

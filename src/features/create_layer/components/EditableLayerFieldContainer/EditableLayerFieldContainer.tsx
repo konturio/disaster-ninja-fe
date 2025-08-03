@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import { SortDrag16, Trash16 } from '@konturio/default-icons';
 import { Input } from '@konturio/ui-kit';
 import { i18n } from '~core/localization';
-import { USER_LAYER_FIELDS } from '../../constants';
+import { USER_LAYER_FIELDS, FieldTypes } from '../../constants';
 import s from './EditableLayerFieldContainer.module.css';
 import type { LayerEditorFormFieldAtomType } from '~features/create_layer/atoms/layerEditorFormField';
 import type { EditableLayerFieldType } from '../../types';
@@ -132,7 +132,14 @@ export function EditableLayerFieldContainer({
       </div>
       <div className={s.fieldPlaceholder}>
         <div className={s.fieldLabel}>{i18n.t('create_layer.type')}</div>
-        <select className={s.input} value={atomState.type} onChange={updateAtomType}>
+        <select
+          className={clsx(s.input, atomState.type === FieldTypes.None && s.placeholder)}
+          value={atomState.type}
+          onChange={updateAtomType}
+        >
+          <option value={FieldTypes.None} disabled hidden>
+            {i18n.t('create_layer.select')}
+          </option>
           {USER_LAYER_FIELDS.map((fldParams) => (
             <option key={fldParams.label} value={fldParams.type}>
               {fldParams.label}
