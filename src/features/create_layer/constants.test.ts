@@ -3,10 +3,11 @@ import { USER_LAYER_FIELDS, FieldTypes } from './constants';
 
 describe('USER_LAYER_FIELDS', () => {
   it('does not contain placeholder option', () => {
-    const placeholder = USER_LAYER_FIELDS.find((f) => f.type === FieldTypes.None);
-    expect(
-      placeholder,
-      'USER_LAYER_FIELDS should not contain placeholder option with type "none"',
-    ).toBeUndefined();
+    USER_LAYER_FIELDS.forEach((field) =>
+      expect(
+        field.type,
+        `Unexpected placeholder option with type "none" found at label "${field.label}"`,
+      ).not.toBe(FieldTypes.None),
+    );
   });
 });
