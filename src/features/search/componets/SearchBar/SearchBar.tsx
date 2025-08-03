@@ -18,6 +18,7 @@ import {
 import { SearchInput } from '~components/Search/SearchInput/SearchInput';
 import { searchHighlightedGeometryAtom } from '../../atoms/highlightedGeometry';
 import type { Feature } from 'geojson';
+import { EMPTY_HIGHLIGHT } from '../../constants';
 import { useSearchMenu } from '~utils/hooks/useSearchMenu';
 import style from './SearchBar.module.css';
 import type { AggregatedSearchItem } from '~features/search/searchAtoms';
@@ -42,6 +43,7 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
 
     const itemSelect = (item: AggregatedSearchItem) => {
       itemSelectActionFn(item);
+      setHighlightedGeometry(EMPTY_HIGHLIGHT);
       onItemSelect?.();
     };
 
@@ -52,7 +54,7 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
 
   useEffect(() => {
     return () => {
-      setHighlightedGeometry({ type: 'FeatureCollection', features: [] });
+      setHighlightedGeometry(EMPTY_HIGHLIGHT);
     };
   }, [setHighlightedGeometry]);
 
@@ -104,10 +106,7 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
                         item.geometry &&
                         setHighlightedGeometry(item as Feature),
                       onMouseLeave: () =>
-                        setHighlightedGeometry({
-                          type: 'FeatureCollection',
-                          features: [],
-                        }),
+                        setHighlightedGeometry(EMPTY_HIGHLIGHT),
                       role: 'option',
                     }}
                   />
@@ -126,15 +125,9 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
                     itemProps={{
                       onClick: () => handleItemSelect(item),
                       onMouseEnter: () =>
-                        setHighlightedGeometry({
-                          type: 'FeatureCollection',
-                          features: [],
-                        }),
+                        setHighlightedGeometry(EMPTY_HIGHLIGHT),
                       onMouseLeave: () =>
-                        setHighlightedGeometry({
-                          type: 'FeatureCollection',
-                          features: [],
-                        }),
+                        setHighlightedGeometry(EMPTY_HIGHLIGHT),
                       role: 'option',
                     }}
                   />
@@ -173,6 +166,10 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
         mcdaSearchStatus.loading ||
         emptyLocations,
     });
+
+    useEffect(() => {
+      if (!isMenuOpen) setHighlightedGeometry(EMPTY_HIGHLIGHT);
+    }, [isMenuOpen, setHighlightedGeometry]);
 
     return (
       <>
