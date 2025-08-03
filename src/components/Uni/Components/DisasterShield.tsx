@@ -36,6 +36,15 @@ interface DisasterShieldProps {
   className?: string;
 }
 
+function addOpacity(hex: string, opacity: number) {
+  const alpha = Math.round(opacity * 255)
+    .toString(16)
+    .padStart(2, '0')
+    .toUpperCase();
+
+  return `${hex}${alpha}`;
+}
+
 export function DisasterShield({
   eventType,
   magnitude,
@@ -59,7 +68,10 @@ export function DisasterShield({
   if (!label || !color) return null;
 
   return (
-    <div className={clsx(s.shield, className)} style={{ backgroundColor: color }}>
+    <div
+      className={clsx(s.shield, className)}
+      style={{ color, backgroundColor: addOpacity(color, 0.1) }}
+    >
       {label}
     </div>
   );
