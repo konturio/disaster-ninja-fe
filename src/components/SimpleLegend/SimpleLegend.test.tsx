@@ -12,41 +12,43 @@ vi.mock('@konturio/ui-kit', () => ({
 import { SimpleLegendStep } from './SimpleLegend';
 
 describe('SimpleLegendStep', () => {
-  it('shows legend letter icon with matching color for Active mappers', () => {
+  it('shows Figma letter icon with matching color for Active mappers', () => {
     const step = {
       stepName: 'Active mappers',
       stepShape: 'circle',
       style: { 'text-color': '#ff0000' },
     } as any;
     const { container } = render(<SimpleLegendStep step={step} />);
-    const letter = container.querySelector('svg text');
-    expect(letter, 'Active mappers should render letter icon').not.toBeNull();
+    const svg = container.querySelector('svg');
+    const path = svg?.querySelector('path');
+    expect(svg, 'Active mappers should render letter icon').not.toBeNull();
     expect(
-      letter?.textContent,
-      'Active mappers letter icon should display first letter A',
-    ).toBe('A');
+      path?.getAttribute('d')?.startsWith('M6 6H18V9.08508H16.769V8.53835'),
+      'Active mappers should use Figma letter icon path',
+    ).toBe(true);
     expect(
-      letter?.getAttribute('fill'),
+      svg?.getAttribute('style') || '',
       'Active mappers letter icon color should match legend text color #ff0000',
-    ).toBe('#ff0000');
+    ).toContain('#ff0000');
   });
 
-  it('shows legend letter icon with matching color for Possibly local mappers', () => {
+  it('shows Figma letter icon with matching color for Possibly local mappers', () => {
     const step = {
       stepName: 'Possibly local mappers',
       stepShape: 'circle',
       style: { 'text-color': '#00ff00' },
     } as any;
     const { container } = render(<SimpleLegendStep step={step} />);
-    const letter = container.querySelector('svg text');
-    expect(letter, 'Possibly local mappers should render letter icon').not.toBeNull();
+    const svg = container.querySelector('svg');
+    const path = svg?.querySelector('path');
+    expect(svg, 'Possibly local mappers should render letter icon').not.toBeNull();
     expect(
-      letter?.textContent,
-      'Possibly local mappers letter icon should display first letter P',
-    ).toBe('P');
+      path?.getAttribute('d')?.startsWith('M6 6H18V9.08508H16.769V8.53835'),
+      'Possibly local mappers should use Figma letter icon path',
+    ).toBe(true);
     expect(
-      letter?.getAttribute('fill'),
+      svg?.getAttribute('style') || '',
       'Possibly local mappers letter icon color should match legend text color #00ff00',
-    ).toBe('#00ff00');
+    ).toContain('#00ff00');
   });
 });

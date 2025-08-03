@@ -1,8 +1,8 @@
 import { Text } from '@konturio/ui-kit';
+import Letter from '@konturio/default-icons/tslib/figma-icons/Letter.js';
 import { HexIcon } from '~components/SimpleLegend/icons/HexIcon';
 import { CircleIcon } from '~components/SimpleLegend/icons/CircleIcon';
 import { SquareIcon } from '~components/SimpleLegend/icons/SquareIcon';
-import { LetterIcon } from '~components/SimpleLegend/icons/LetterIcon';
 import s from './SimpleLegend.module.css';
 import type { SimpleLegend as SimpleLegendType } from '~core/logical_layers/types/legends';
 import type { CSSProperties } from 'react';
@@ -13,9 +13,8 @@ function icon(step: Flatten<SimpleLegendType['steps']>) {
   const { stepShape, style, stepIconFill, stepIconStroke, stepName } = step;
 
   if (stepName === 'Possibly local mappers' || stepName === 'Active mappers') {
-    const letter = stepName.charAt(0).toUpperCase();
     const color = style['text-color'] || stepIconStroke || stepIconFill || '#000000';
-    return <LetterIcon letter={letter} size="small" color={color} />;
+    return <Letter width={12} height={12} style={{ color }} />;
   }
 
   if (!stepShape) return null;
