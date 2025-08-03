@@ -805,12 +805,12 @@ msgstr "类型"
 msgid "Select"
 msgstr "选择"
 
-#: create_layer##short_text
-msgid "Short Text"
+#: create_layer##single_line_text
+msgid "Single-line text"
 msgstr "短文本"
 
-#: create_layer##long_text
-msgid "Long Text"
+#: create_layer##multi_line_text
+msgid "Multi-line text"
 msgstr "长文本"
 
 #: create_layer##link

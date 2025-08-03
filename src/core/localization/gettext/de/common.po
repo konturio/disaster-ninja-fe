@@ -841,12 +841,12 @@ msgstr "Typ"
 msgid "Select"
 msgstr "Auswählen"
 
-#: create_layer##short_text
-msgid "Short Text"
+#: create_layer##single_line_text
+msgid "Single-line text"
 msgstr "Kurzer Text"
 
-#: create_layer##long_text
-msgid "Long Text"
+#: create_layer##multi_line_text
+msgid "Multi-line text"
 msgstr "Langer Text"
 
 #: create_layer##link

@@ -18,11 +18,11 @@ export const EditTargets = {
 
 export const USER_LAYER_FIELDS = [
   {
-    label: i18n.t('create_layer.short_text'),
+    label: i18n.t('create_layer.single_line_text'),
     type: FieldTypes.ShortText,
   },
   {
-    label: i18n.t('create_layer.long_text'),
+    label: i18n.t('create_layer.multi_line_text'),
     type: FieldTypes.LongText,
   },
 ];

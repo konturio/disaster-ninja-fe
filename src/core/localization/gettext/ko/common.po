@@ -840,12 +840,12 @@ msgstr "유형"
 msgid "Select"
 msgstr "선택"
 
-#: create_layer##short_text
-msgid "Short Text"
+#: create_layer##single_line_text
+msgid "Single-line text"
 msgstr "짧은 텍스트"
 
-#: create_layer##long_text
-msgid "Long Text"
+#: create_layer##multi_line_text
+msgid "Multi-line text"
 msgstr "긴 텍스트"
 
 #: create_layer##link
