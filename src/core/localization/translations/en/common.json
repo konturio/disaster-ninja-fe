@@ -42,7 +42,8 @@
       "edit": "Edit",
       "hide": "Hide",
       "show": "Show",
-      "delete": "Delete"
+      "delete": "Delete",
+      "zoom_to": "Zoom to"
     }
   },
   "feed": "Feed",

@@ -7,6 +7,7 @@ import { DownloadControl } from './DownloadControl/DownloadControl';
 import { EditControl } from './EditControl/EditControl';
 import { LayerContextMenu } from './LayerContextMenu/LayerContextMenu';
 import { CleanControl } from './EraseControl/CleanControl';
+import { ZoomToControl } from './ZoomToControl/ZoomToControl';
 import type {
   LogicalLayerActions,
   LogicalLayerState,
@@ -55,6 +56,7 @@ export function useControlElements({
       layerState?.id === REFERENCE_AREA_LOGICAL_LAYER_ID
     ) {
       elements.push(
+        <ZoomToControl layerState={layerState} key={layerState.id + 'zoom'} />,
         <CleanControl layerActions={layerActions} key={layerState.id + 'clean'} />,
       );
     }

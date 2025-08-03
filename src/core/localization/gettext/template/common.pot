@@ -165,6 +165,10 @@ msgstr ""
 msgid "Show"
 msgstr ""
 
+#: layer_actions##tooltips##zoom_to
+msgid "Zoom to"
+msgstr ""
+
 #: feed
 msgid "Feed"
 msgstr ""
@@ -602,6 +606,10 @@ msgstr ""
 msgid "Compare"
 msgstr ""
 
+#: multivariate##score_and_compare
+msgid "Score and compare"
+msgstr ""
+
 #: multivariate##hide_area
 msgid "Hide area"
 msgstr ""
@@ -612,6 +620,16 @@ msgstr ""
 
 #: multivariate##3d
 msgid "3D"
+msgstr ""
+
+#: multivariate##static_opacity
+msgid "Static opacity"
+msgstr ""
+
+#: multivariate##mcda_legend_subtitle
+msgid ""
+"Hexagons are colored as weighted average of normalized and transformed "
+"layers values"
 msgstr ""
 
 #: map_popup##value
@@ -926,20 +944,12 @@ msgstr ""
 msgid "Polygon should not overlap itself"
 msgstr ""
 
-#: boundary_selector##title
-msgid "Focus to administrative boundary"
-msgstr ""
-
 #: geometry_uploader##title
 msgid "Focus to uploaded geometry"
 msgstr ""
 
 #: geometry_uploader##error
 msgid "Error while reading uploaded file"
-msgstr ""
-
-#: focus_geometry##title
-msgid "Focus to freehand geometry"
 msgstr ""
 
 #: reference_area_layer##settings##name
@@ -1078,18 +1088,6 @@ msgstr ""
 
 #: bivariate##color_manager##layers_tab
 msgid "Layers (indicators)"
-msgstr ""
-
-#: sidebar##biv_color_manager
-msgid "Сolor manager"
-msgstr ""
-
-#: sidebar##edit_osm
-msgid "Edit in OpenStreetMap"
-msgstr ""
-
-#: sidebar##ruler
-msgid "Ruler"
 msgstr ""
 
 #: sidebar##collapse
