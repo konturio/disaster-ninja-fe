@@ -32,6 +32,7 @@ export function createMCDALayersFromBivariateAxes(axes: Axis[]): MCDALayer[] {
       transformationFunction: axis.transformation?.transformation ?? 'no',
       transformation: axis.transformation,
       normalization: 'max-min',
+      isHidden: false,
     });
     return acc;
   }, []);

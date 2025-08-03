@@ -127,8 +127,8 @@ export function createMultivariateConfig(
             colors:
               scoreMCDAStyle?.config && baseMCDAStyle?.config
                 ? createBivariateColorsForMVA(
-                    scoreMCDAStyle.config.layers,
-                    baseMCDAStyle.config.layers,
+                    scoreMCDAStyle.config.layers.filter((l) => !l.isHidden),
+                    baseMCDAStyle.config.layers.filter((l) => !l.isHidden),
                     DEFAULT_MULTIBIVARIATE_COLORS,
                   )
                 : DEFAULT_MULTIBIVARIATE_COLORS,
@@ -151,8 +151,9 @@ function createMCDANameOverride(
   layers: MCDALayer[] | undefined,
   fallbackNameOverride?: string,
 ): string | undefined {
-  if (layers?.length === 1) {
-    return layers[0].name;
+  const visibleLayers = layers?.filter((l) => !l.isHidden);
+  if (visibleLayers?.length === 1) {
+    return visibleLayers[0].name;
   } else {
     return fallbackNameOverride;
   }

@@ -26,20 +26,21 @@ export const calculateMCDALayer = calculateLayerPipeline(inStyleCalculations, (a
 export function filterSetup(
   layers: MCDAConfig['layers'],
 ): FilterSpecification | undefined {
-  if (layers.length === 0) {
+  const visibleLayers = layers.filter((l) => !l.isHidden);
+  if (visibleLayers.length === 0) {
     return undefined;
   }
   // TODO: is this condition really needed?
   // checks that at least one layer has a non-zero value
   const conditions = [
     anyCondition(
-      ...layers.map(({ axis }) =>
+      ...visibleLayers.map(({ axis }) =>
         notEqual(['/', featureProp(axis[0]), featureProp(axis[1])], 0),
       ),
     ),
   ];
   // checks that all of the layers with outliers=="hide" are within their ranges
-  layers.forEach(({ axis, range, outliers }) => {
+  visibleLayers.forEach(({ axis, range, outliers }) => {
     if (outliers === 'hide') {
       conditions.push(
         greaterOrEqual(['/', featureProp(axis[0]), featureProp(axis[1])], range[0]),
@@ -47,7 +48,7 @@ export function filterSetup(
       );
     }
   });
-  layers.forEach(({ axis, range }) => {
+  visibleLayers.forEach(({ axis }) => {
     conditions.push(
       // this checks for 0 in denominator (0 in denominator makes the result === Infinity)
       notEqual(featureProp(axis[1]), 0),
@@ -62,10 +63,18 @@ export function filterSetup(
 export function linearNormalization(
   layers: MCDAConfig['layers'],
 ): ExpressionSpecification {
-  if (layers.length === 1) {
-    return ['/', calculateMCDALayer(layers.at(0)!), layers.at(0)!.coefficient];
+  const visibleLayers = layers.filter((l) => !l.isHidden);
+  if (visibleLayers.length === 0) {
+    return 0;
+  }
+  if (visibleLayers.length === 1) {
+    return ['/', calculateMCDALayer(visibleLayers[0]!), visibleLayers[0]!.coefficient];
   } else {
-    return ['/', ['+', ...layers.map(calculateMCDALayer)], sumBy(layers, 'coefficient')];
+    return [
+      '/',
+      ['+', ...visibleLayers.map(calculateMCDALayer)],
+      sumBy(visibleLayers, 'coefficient'),
+    ];
   }
 }
 
@@ -169,7 +178,8 @@ function generateLayerPaint(props: PaintProps) {
 }
 
 export function createMCDAStyle(config: MCDAConfig): FillLayerSpecification {
-  const [absoluteMin = 0, absoluteMax = 1] = config.layers.reduce(
+  const visibleLayers = config.layers.filter((l) => !l.isHidden);
+  const [absoluteMin = 0, absoluteMax = 1] = visibleLayers.reduce(
     (acc, l) => {
       // Show full range of values between min max if normalization not enabled
       const range: [number, number] = l.normalization === 'no' ? l.range : [0, 1];
@@ -181,14 +191,14 @@ export function createMCDAStyle(config: MCDAConfig): FillLayerSpecification {
     [] as [number, number] | [],
   );
 
-  const mcdaResult = linearNormalization(config.layers);
+  const mcdaResult = linearNormalization(visibleLayers);
 
   const layerStyle: FillLayerSpecification = {
     // TODO: this id is useless and gets replaced in renderer. Needs refactoring
     id: 'placeholder_id',
     type: 'fill' as const,
     layout: {},
-    filter: filterSetup(config.layers),
+    filter: filterSetup(visibleLayers),
     // TODO - MCDA should have separate from bivariate renderer
     paint: generateLayerPaint({
       colorsConfig: config.colors,

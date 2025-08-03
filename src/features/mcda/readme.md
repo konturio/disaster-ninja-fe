@@ -55,6 +55,7 @@ By clicking it in activated prompt window user needs to enter JSON of next struc
    - range: [min: number, max: number] - min, max values for specific axis
    - sentiment: only 2 options here - ["bad", "good"] as deafult direction and ["good", "bad"] as a reversed
    - coefficient: weight of layer in analysis, could be >=0 and <=1
+   - isHidden: optional flag to exclude layer from analysis and hide it in UI
 
 ## How it calculates
 

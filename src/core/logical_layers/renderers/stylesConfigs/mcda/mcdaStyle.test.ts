@@ -13,6 +13,17 @@ describe('createMCDAStyle', () => {
       const result = filterSetup([layer1, { ...layer2, outliers: 'hide' }]);
       expect(result).toMatchSnapshot();
     });
+
+    it('ignores hidden layers in filter', () => {
+      const result = filterSetup([{ ...layer1, isHidden: true }, layer2]);
+      const expected = filterSetup([layer2]);
+      expect(result).toEqual(expected);
+    });
+
+    it('returns undefined when all layers are hidden', () => {
+      const result = filterSetup([{ ...layer1, isHidden: true }]);
+      expect(result).toBeUndefined();
+    });
   });
 });
 

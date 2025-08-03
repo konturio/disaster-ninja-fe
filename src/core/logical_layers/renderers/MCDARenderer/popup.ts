@@ -42,19 +42,25 @@ export function generateMCDALayersTableAndScore(
   feature: GeoJSON.Feature,
   layers: MCDAConfig['layers'],
 ) {
-  const mcdaLayersTable = createTableWithCalculations(feature, layers);
-  const resultMCDAScore = calcMcdaIndex(layers, mcdaLayersTable);
-  return { mcdaLayersTable, resultMCDAScore, layers };
+  const visibleLayers = layers.filter((l) => !l.isHidden);
+  const mcdaLayersTable = createTableWithCalculations(feature, visibleLayers);
+  const resultMCDAScore = calcMcdaIndex(visibleLayers, mcdaLayersTable);
+  return { mcdaLayersTable, resultMCDAScore, layers: visibleLayers };
 }
 
 export function generateMCDAPopupTable(
   feature: GeoJSON.Feature,
   layers: MCDAConfig['layers'],
 ) {
-  const { mcdaLayersTable, resultMCDAScore } = generateMCDALayersTableAndScore(
-    feature,
-    layers,
-  );
+  const {
+    mcdaLayersTable,
+    resultMCDAScore,
+    layers: visibleLayers,
+  } = generateMCDALayersTableAndScore(feature, layers);
 
-  return PopupMCDA({ layers, normalized: mcdaLayersTable, resultMCDA: resultMCDAScore });
+  return PopupMCDA({
+    layers: visibleLayers,
+    normalized: mcdaLayersTable,
+    resultMCDA: resultMCDAScore,
+  });
 }

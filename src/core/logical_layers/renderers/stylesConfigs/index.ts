@@ -38,10 +38,12 @@ export const styleConfigs: Record<
       const layersForFilter: MCDAConfig['layers'] = [];
       // create filter based on all MCDA layers from opacity and extrusion
       if (typeof config.opacity === 'object' && config.opacity?.config.layers.length) {
-        layersForFilter.push(...config.opacity.config.layers);
+        layersForFilter.push(...config.opacity.config.layers.filter((l) => !l.isHidden));
       }
       if (config.extrusion?.height.config.layers.length) {
-        layersForFilter.push(...config.extrusion.height.config.layers);
+        layersForFilter.push(
+          ...config.extrusion.height.config.layers.filter((l) => !l.isHidden),
+        );
       }
       // monochrome fill specification
       multivariateStyle = createMonochromeFillSpec(

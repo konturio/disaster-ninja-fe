@@ -7,6 +7,7 @@ import { i18n } from '~core/localization';
 import { isNumber } from '~utils/common';
 import { LayerActionIcon } from '~components/LayerActionIcon/LayerActionIcon';
 import { LayerInfo } from '~components/LayerInfo/LayerInfo';
+import { LayerHideControl } from '~components/LayerHideControl/LayerHideControl';
 import { availableBivariateAxesAtom } from '~core/bivariate/atoms/availableBivariateAxesAtom';
 import { getAxisTransformations } from '~core/api/mcda';
 import { KonturSpinner } from '~components/LoadingSpinner/KonturSpinner';
@@ -269,12 +270,25 @@ export function MCDALayerParameters({
     }
   }, [onDeletePressed]);
 
+  const hideLayer = useCallback(() => {
+    onLayerEdited({ ...layer, isHidden: true });
+  }, [layer, onLayerEdited]);
+
+  const unhideLayer = useCallback(() => {
+    onLayerEdited({ ...layer, isHidden: false });
+  }, [layer, onLayerEdited]);
+
   return (
     <div>
       <div key={layer.id} className={s.layer}>
         <div className={s.layerHeader}>
           <div>{layer.name}</div>
           <div className={s.layerButtons}>
+            <LayerHideControl
+              isVisible={!layer.isHidden}
+              hideLayer={hideLayer}
+              unhideLayer={unhideLayer}
+            />
             <LayerActionIcon
               onClick={editLayer}
               hint={i18n.t('layer_actions.tooltips.edit')}

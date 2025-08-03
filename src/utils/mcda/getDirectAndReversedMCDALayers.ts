@@ -9,7 +9,7 @@ export function getDirectAndReversedMCDALayers(config: MCDAConfig) {
   const reversedLayers: MCDALayer[] = [];
   const directLayers: MCDALayer[] = [];
   config.layers
-    .filter((layer) => layer.name)
+    .filter((layer) => layer.name && !layer.isHidden)
     .forEach((layer) => {
       if (arraysAreEqualWithStrictOrder(layer.sentiment, sentimentReversed)) {
         reversedLayers.push(layer);

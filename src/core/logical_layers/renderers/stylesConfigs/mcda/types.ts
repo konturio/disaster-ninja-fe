@@ -40,6 +40,7 @@ export interface MCDALayer {
   normalization: Normalization;
   unit: string | null;
   datasetStats?: AxisDatasetStats;
+  isHidden?: boolean;
 }
 
 export interface MCDAConfig {
