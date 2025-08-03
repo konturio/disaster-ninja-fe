@@ -13,8 +13,7 @@ describe('MapRulerRenderer', () => {
     const renderer = new MapRulerRenderer('test');
 
     renderer.addClickListener();
-
-    const calls = registerMapListener.mock.calls;
+    const calls = vi.mocked(registerMapListener).mock.calls;
     expect(
       calls.length,
       'Map ruler should register click and mousemove listeners to disable map interactivity',
