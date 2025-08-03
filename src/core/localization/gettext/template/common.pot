@@ -602,6 +602,10 @@ msgstr ""
 msgid "Compare"
 msgstr ""
 
+#: multivariate##score_and_compare
+msgid "Score and compare"
+msgstr ""
+
 #: multivariate##hide_area
 msgid "Hide area"
 msgstr ""
@@ -612,6 +616,16 @@ msgstr ""
 
 #: multivariate##3d
 msgid "3D"
+msgstr ""
+
+#: multivariate##static_opacity
+msgid "Static opacity"
+msgstr ""
+
+#: multivariate##mcda_legend_subtitle
+msgid ""
+"Hexagons are colored as weighted average of normalized and transformed "
+"layers values"
 msgstr ""
 
 #: map_popup##value
@@ -926,20 +940,12 @@ msgstr ""
 msgid "Polygon should not overlap itself"
 msgstr ""
 
-#: boundary_selector##title
-msgid "Focus to administrative boundary"
-msgstr ""
-
 #: geometry_uploader##title
 msgid "Focus to uploaded geometry"
 msgstr ""
 
 #: geometry_uploader##error
 msgid "Error while reading uploaded file"
-msgstr ""
-
-#: focus_geometry##title
-msgid "Focus to freehand geometry"
 msgstr ""
 
 #: reference_area_layer##settings##name
@@ -1078,18 +1084,6 @@ msgstr ""
 
 #: bivariate##color_manager##layers_tab
 msgid "Layers (indicators)"
-msgstr ""
-
-#: sidebar##biv_color_manager
-msgid "Сolor manager"
-msgstr ""
-
-#: sidebar##edit_osm
-msgid "Edit in OpenStreetMap"
-msgstr ""
-
-#: sidebar##ruler
-msgid "Ruler"
 msgstr ""
 
 #: sidebar##collapse
@@ -1280,6 +1274,11 @@ msgstr ""
 
 #: modes##external##imagery_catalog
 msgid "Imagery catalog"
+msgstr ""
+
+#: modes##new_analysis
+#: new_analysis##title
+msgid "New analysis"
 msgstr ""
 
 #: profile##interfaceTheme
@@ -1588,4 +1587,28 @@ msgstr ""
 
 #: oam_auth##login_button
 msgid "Login with Google"
+msgstr ""
+
+#: new_analysis##heading
+msgid "Ask ✨ AI your spatial question"
+msgstr ""
+
+#: new_analysis##description
+msgid "AI will pick from 200+ layers and build a tailored analysis."
+msgstr ""
+
+#: new_analysis##generate_button
+msgid "Generate analysis"
+msgstr ""
+
+#: new_analysis##try_map_link
+msgid "Try map by yourself"
+msgstr ""
+
+#: new_analysis##ai_generating
+msgid "AI is generating your analysis. It takes time"
+msgstr ""
+
+#: new_analysis##generated_analysis
+msgid "Generated analysis \"{{name}}\""
 msgstr ""

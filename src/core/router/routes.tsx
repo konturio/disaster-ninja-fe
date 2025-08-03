@@ -24,6 +24,7 @@ import type {
 } from '~core/config/types';
 import type { AppRoute, AppRouterConfig } from './types';
 const { PricingPage } = lazily(() => import('~views/Pricing/Pricing'));
+const { NewAnalysisPage } = lazily(() => import('~views/NewAnalysis/NewAnalysis'));
 const { MapPage } = lazily(() => import('~views/Map/Map'));
 const { ReportsPage } = lazily(() => import('~views/Reports/Reports'));
 const { ReportPage } = lazily(() => import('~views/Report/Report'));
@@ -31,6 +32,8 @@ const { ProfilePage } = lazily(() => import('~views/Profile/Profile'));
 
 export const isAuthenticated = !!configRepo.get().user;
 export const isMapFeatureEnabled = configRepo.get().features[AppFeature.MAP];
+export const isNewAnalysisFeatureEnabled =
+  !!configRepo.get().features[AppFeature.NEW_ANALYSIS];
 
 const ROUTE_ID_COOKIES = 'cookies';
 
@@ -153,8 +156,21 @@ function getCustomRoutes(): AppRoute[] {
 }
 
 export const routerConfig: AppRouterConfig = {
-  defaultRoute: isAuthenticated && !isMapFeatureEnabled ? 'pricing' : 'map',
+  defaultRoute:
+    isAuthenticated && isNewAnalysisFeatureEnabled
+      ? 'new-analysis'
+      : isAuthenticated && !isMapFeatureEnabled
+        ? 'pricing'
+        : 'map',
   routes: [
+    {
+      id: 'new-analysis',
+      slug: 'new-analysis',
+      title: i18n.t('modes.new_analysis'),
+      icon: <Diamond24 />,
+      view: <NewAnalysisPage />,
+      requiredFeature: AppFeature.NEW_ANALYSIS,
+    },
     {
       id: 'map',
       slug: 'map',

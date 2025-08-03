@@ -121,8 +121,8 @@
       "save_changes": "Save changes",
       "range": "Value range",
       "outliers": "Outliers",
-      "reverse_to_good_bad": "Reverse to Good \u2192 Bad",
-      "reverse_to_bad_good": "Reverse to Bad \u2192 Good",
+      "reverse_to_good_bad": "Reverse to Good → Bad",
+      "reverse_to_bad_good": "Reverse to Bad → Good",
       "weight": "Weight",
       "transform": "Transform",
       "transformation": "Transformation",
@@ -419,7 +419,8 @@
     "external": {
       "upload_imagery": "Upload imagery",
       "imagery_catalog": "Imagery catalog"
-    }
+    },
+    "new_analysis": "New analysis"
   },
   "profile": {
     "interfaceTheme": "Theme",
@@ -519,5 +520,14 @@
   },
   "oam_auth": {
     "login_button": "Login with Google"
+  },
+  "new_analysis": {
+    "title": "New analysis",
+    "heading": "Ask ✨ AI your spatial question",
+    "description": "AI will pick from 200+ layers and build a tailored analysis.",
+    "generate_button": "Generate analysis",
+    "try_map_link": "Try map by yourself",
+    "ai_generating": "AI is generating your analysis. It takes time",
+    "generated_analysis": "Generated analysis \"{{name}}\""
   }
 }

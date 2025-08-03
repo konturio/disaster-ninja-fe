@@ -633,6 +633,10 @@ msgstr ""
 msgid "Compare"
 msgstr ""
 
+#: multivariate##score_and_compare
+msgid "Score and compare"
+msgstr ""
+
 #: multivariate##hide_area
 msgid "Hide area"
 msgstr ""
@@ -643,6 +647,16 @@ msgstr ""
 
 #: multivariate##3d
 msgid "3D"
+msgstr ""
+
+#: multivariate##static_opacity
+msgid "Static opacity"
+msgstr ""
+
+#: multivariate##mcda_legend_subtitle
+msgid ""
+"Hexagons are colored as weighted average of normalized and transformed "
+"layers values"
 msgstr ""
 
 #: map_popup##value
@@ -673,8 +687,8 @@ msgstr ""
 
 #: search##info_block_with_mcda
 msgid ""
-"You can search for 📍 locations or ask ✨ AI your question like “Where is dead "
-"wood”"
+"You can search for 📍 locations or ask ✨ AI your question like “Where is "
+"dead wood”"
 msgstr ""
 
 #: search##input_placeholder
@@ -976,10 +990,6 @@ msgstr "No hay geometría dibujada para descargar"
 msgid "Polygon should not overlap itself"
 msgstr "El polígono no debe superponerse sobre sí mismo"
 
-#: boundary_selector##title
-msgid "Focus to administrative boundary"
-msgstr "Enfocar en el límite administrativo"
-
 #: geometry_uploader##title
 msgid "Focus to uploaded geometry"
 msgstr "Enfocar en la geometría cargada"
@@ -987,10 +997,6 @@ msgstr "Enfocar en la geometría cargada"
 #: geometry_uploader##error
 msgid "Error while reading uploaded file"
 msgstr "Error al leer el archivo cargado"
-
-#: focus_geometry##title
-msgid "Focus to freehand geometry"
-msgstr "Enfocar en la geometría a mano"
 
 #: reference_area_layer##settings##name profile##reference_area##title
 msgid "Reference area"
@@ -1137,18 +1143,6 @@ msgstr "Leyendas de colores"
 #: bivariate##color_manager##layers_tab
 msgid "Layers (indicators)"
 msgstr "Capas (indicadores)"
-
-#: sidebar##biv_color_manager
-msgid "Сolor manager"
-msgstr "Administrador de color"
-
-#: sidebar##edit_osm
-msgid "Edit in OpenStreetMap"
-msgstr "Editar en OpenStreetMap"
-
-#: sidebar##ruler
-msgid "Ruler"
-msgstr "Regla"
 
 #: sidebar##collapse
 msgid "Collapse"
@@ -1349,6 +1343,11 @@ msgstr ""
 #, fuzzy
 msgid "Imagery catalog"
 msgstr "Imagen"
+
+#: modes##new_analysis new_analysis##title
+#, fuzzy
+msgid "New analysis"
+msgstr "Análisis avanzado"
 
 #: profile##interfaceTheme
 msgid "Theme"
@@ -1668,6 +1667,47 @@ msgstr ""
 #: oam_auth##login_button
 msgid "Login with Google"
 msgstr ""
+
+#: new_analysis##heading
+msgid "Ask ✨ AI your spatial question"
+msgstr ""
+
+#: new_analysis##description
+msgid "AI will pick from 200+ layers and build a tailored analysis."
+msgstr ""
+
+#: new_analysis##generate_button
+#, fuzzy
+msgid "Generate analysis"
+msgstr "Crear capa"
+
+#: new_analysis##try_map_link
+msgid "Try map by yourself"
+msgstr ""
+
+#: new_analysis##ai_generating
+msgid "AI is generating your analysis. It takes time"
+msgstr ""
+
+#: new_analysis##generated_analysis
+#, fuzzy
+msgid "Generated analysis \"{{name}}\""
+msgstr "Crear capa"
+
+#~ msgid "Focus to administrative boundary"
+#~ msgstr "Enfocar en el límite administrativo"
+
+#~ msgid "Focus to freehand geometry"
+#~ msgstr "Enfocar en la geometría a mano"
+
+#~ msgid "Сolor manager"
+#~ msgstr "Administrador de color"
+
+#~ msgid "Edit in OpenStreetMap"
+#~ msgstr "Editar en OpenStreetMap"
+
+#~ msgid "Ruler"
+#~ msgstr "Regla"
 
 #, fuzzy
 #~ msgid "Create MCDA"

@@ -633,6 +633,10 @@ msgstr ""
 msgid "Compare"
 msgstr ""
 
+#: multivariate##score_and_compare
+msgid "Score and compare"
+msgstr ""
+
 #: multivariate##hide_area
 msgid "Hide area"
 msgstr ""
@@ -643,6 +647,16 @@ msgstr ""
 
 #: multivariate##3d
 msgid "3D"
+msgstr ""
+
+#: multivariate##static_opacity
+msgid "Static opacity"
+msgstr ""
+
+#: multivariate##mcda_legend_subtitle
+msgid ""
+"Hexagons are colored as weighted average of normalized and transformed "
+"layers values"
 msgstr ""
 
 #: map_popup##value
@@ -673,8 +687,8 @@ msgstr ""
 
 #: search##info_block_with_mcda
 msgid ""
-"You can search for 📍 locations or ask ✨ AI your question like “Where is dead "
-"wood”"
+"You can search for 📍 locations or ask ✨ AI your question like “Where is "
+"dead wood”"
 msgstr ""
 
 #: search##input_placeholder
@@ -974,10 +988,6 @@ msgstr "다운로드할 수 있는 기하 도형이 없습니다."
 msgid "Polygon should not overlap itself"
 msgstr "다각형은 그 자체로 겹치지 않아야 합니다."
 
-#: boundary_selector##title
-msgid "Focus to administrative boundary"
-msgstr "행정 경계에 초점 맞추기"
-
 #: geometry_uploader##title
 msgid "Focus to uploaded geometry"
 msgstr "업로드된 기하 도형에 초점 맞추기"
@@ -985,10 +995,6 @@ msgstr "업로드된 기하 도형에 초점 맞추기"
 #: geometry_uploader##error
 msgid "Error while reading uploaded file"
 msgstr "업로드된 파일을 읽는 중 오류가 발생했습니다."
-
-#: focus_geometry##title
-msgid "Focus to freehand geometry"
-msgstr "손으로 직접 그린 기하 도형에 초점 맞추기"
 
 #: reference_area_layer##settings##name profile##reference_area##title
 msgid "Reference area"
@@ -1132,18 +1138,6 @@ msgstr "색상 범례"
 #: bivariate##color_manager##layers_tab
 msgid "Layers (indicators)"
 msgstr "레이어(지표)"
-
-#: sidebar##biv_color_manager
-msgid "Сolor manager"
-msgstr "색상 관리자"
-
-#: sidebar##edit_osm
-msgid "Edit in OpenStreetMap"
-msgstr "OpenStreetMap에서 편집"
-
-#: sidebar##ruler
-msgid "Ruler"
-msgstr "눈금자"
 
 #: sidebar##collapse
 msgid "Collapse"
@@ -1344,6 +1338,11 @@ msgstr ""
 #, fuzzy
 msgid "Imagery catalog"
 msgstr "이미지"
+
+#: modes##new_analysis new_analysis##title
+#, fuzzy
+msgid "New analysis"
+msgstr "고급 분석"
 
 #: profile##interfaceTheme
 msgid "Theme"
@@ -1663,6 +1662,47 @@ msgstr ""
 #: oam_auth##login_button
 msgid "Login with Google"
 msgstr ""
+
+#: new_analysis##heading
+msgid "Ask ✨ AI your spatial question"
+msgstr ""
+
+#: new_analysis##description
+msgid "AI will pick from 200+ layers and build a tailored analysis."
+msgstr ""
+
+#: new_analysis##generate_button
+#, fuzzy
+msgid "Generate analysis"
+msgstr "레이어 생성"
+
+#: new_analysis##try_map_link
+msgid "Try map by yourself"
+msgstr ""
+
+#: new_analysis##ai_generating
+msgid "AI is generating your analysis. It takes time"
+msgstr ""
+
+#: new_analysis##generated_analysis
+#, fuzzy
+msgid "Generated analysis \"{{name}}\""
+msgstr "레이어 생성"
+
+#~ msgid "Focus to administrative boundary"
+#~ msgstr "행정 경계에 초점 맞추기"
+
+#~ msgid "Focus to freehand geometry"
+#~ msgstr "손으로 직접 그린 기하 도형에 초점 맞추기"
+
+#~ msgid "Сolor manager"
+#~ msgstr "색상 관리자"
+
+#~ msgid "Edit in OpenStreetMap"
+#~ msgstr "OpenStreetMap에서 편집"
+
+#~ msgid "Ruler"
+#~ msgstr "눈금자"
 
 #, fuzzy
 #~ msgid "Create MCDA"
