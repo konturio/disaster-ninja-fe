@@ -64,6 +64,7 @@ export const hotProjectsLayout = {
           $value: 'mappingTypes',
           format: 'capitalized_list',
           overrides: { value: { label: 'Mapping types' } },
+          $if: 'active',
         },
         {
           type: 'Field',
@@ -80,6 +81,7 @@ export const hotProjectsLayout = {
         urlTemplate: 'https://tasks.hotosm.org/projects/{{value}}',
       },
       label: 'Open in Tasking Manager',
+      $if: 'active',
     },
   ],
 };
