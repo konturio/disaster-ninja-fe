@@ -1283,10 +1283,9 @@ msgstr ""
 msgid "Imagery catalog"
 msgstr "Зображення"
 
-#: modes##new_analysis new_analysis##title
-#, fuzzy
+#: modes##new_analysis new_analysis_page##title
 msgid "New analysis"
-msgstr "Створити аналіз"
+msgstr "Новий аналіз"
 
 #: profile##interfaceTheme
 msgid "Theme"
@@ -1602,31 +1601,29 @@ msgstr ""
 msgid "Login with Google"
 msgstr ""
 
-#: new_analysis##heading
+#: new_analysis_page##heading
 msgid "Ask ✨ AI your spatial question"
-msgstr ""
+msgstr "Поставте ✨ ШІ своє просторове питання"
 
-#: new_analysis##description
+#: new_analysis_page##description
 msgid "AI will pick from 200+ layers and build a tailored analysis."
-msgstr ""
+msgstr "ШІ обере з понад 200 шарів та побудує індивідуальний аналіз."
 
-#: new_analysis##generate_button
-#, fuzzy
+#: new_analysis_page##generate_button
 msgid "Generate analysis"
-msgstr "Створити аналіз"
+msgstr "Згенерувати аналіз"
 
-#: new_analysis##try_map_link
+#: new_analysis_page##try_map_link
 msgid "Try map by yourself"
-msgstr ""
+msgstr "Спробуйте карту самостійно"
 
-#: new_analysis##ai_generating
+#: new_analysis_page##ai_generating
 msgid "AI is generating your analysis. It takes time"
-msgstr ""
+msgstr "ШІ генерує ваш аналіз. Це займе деякий час"
 
-#: new_analysis##generated_analysis
-#, fuzzy
+#: new_analysis_page##generated_analysis
 msgid "Generated analysis \"{{name}}\""
-msgstr "Створити аналіз"
+msgstr "Згенерований аналіз \"{{name}}\""
 
 #~ msgid "Focus to administrative boundary"
 #~ msgstr "Фокусувати на адміністративну одиницю"

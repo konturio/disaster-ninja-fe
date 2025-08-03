@@ -1340,10 +1340,9 @@ msgstr ""
 msgid "Imagery catalog"
 msgstr "صورة"
 
-#: modes##new_analysis new_analysis##title
-#, fuzzy
+#: modes##new_analysis new_analysis_page##title
 msgid "New analysis"
-msgstr "تحليلات متقدمة"
+msgstr "تحليل جديد"
 
 #: profile##interfaceTheme
 msgid "Theme"
@@ -1664,31 +1663,29 @@ msgstr ""
 msgid "Login with Google"
 msgstr ""
 
-#: new_analysis##heading
+#: new_analysis_page##heading
 msgid "Ask ✨ AI your spatial question"
-msgstr ""
+msgstr "اطرح سؤالك المكاني على الذكاء الاصطناعي ✨"
 
-#: new_analysis##description
+#: new_analysis_page##description
 msgid "AI will pick from 200+ layers and build a tailored analysis."
-msgstr ""
+msgstr "سيختار الذكاء الاصطناعي من أكثر من 200 طبقة ويُنشئ تحليلاً مخصصًا."
 
-#: new_analysis##generate_button
-#, fuzzy
+#: new_analysis_page##generate_button
 msgid "Generate analysis"
-msgstr "خلق الطبقة"
+msgstr "إنشاء تحليل"
 
-#: new_analysis##try_map_link
+#: new_analysis_page##try_map_link
 msgid "Try map by yourself"
-msgstr ""
+msgstr "جرّب الخريطة بنفسك"
 
-#: new_analysis##ai_generating
+#: new_analysis_page##ai_generating
 msgid "AI is generating your analysis. It takes time"
-msgstr ""
+msgstr "الذكاء الاصطناعي ينشئ تحليلك. يستغرق الأمر بعض الوقت"
 
-#: new_analysis##generated_analysis
-#, fuzzy
+#: new_analysis_page##generated_analysis
 msgid "Generated analysis \"{{name}}\""
-msgstr "خلق الطبقة"
+msgstr "تم إنشاء التحليل \"{{name}}\""
 
 #~ msgid "Focus to administrative boundary"
 #~ msgstr "التركيز على الحدود الإدارية"

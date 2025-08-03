@@ -4,6 +4,7 @@ import { i18n } from '~core/localization';
 import { configRepo } from '~core/config';
 import { AppFeature } from '~core/app/types';
 import { SearchInput } from '~components/Search/SearchInput/SearchInput';
+import { getMCDA } from '~core/api/search';
 import style from './NewAnalysis.module.css';
 
 function getLocalizedExample(ex: Record<string, string>) {
@@ -12,31 +13,44 @@ function getLocalizedExample(ex: Record<string, string>) {
 }
 
 export function NewAnalysisPage() {
-  const featureConfig = configRepo.get().features[AppFeature.NEW_ANALYSIS] as
-    | { examples?: Record<string, string>[] }
-    | boolean;
+  interface NewAnalysisFeatureConfig {
+    examples?: Record<string, string>[];
+  }
 
-  const examples = Array.isArray((featureConfig as any)?.examples)
-    ? ((featureConfig as any).examples as Record<string, string>[])
-    : [];
+  const rawConfig = configRepo.get().features[AppFeature.NEW_ANALYSIS];
+  const featureConfig =
+    typeof rawConfig === 'object' ? (rawConfig as NewAnalysisFeatureConfig) : undefined;
+
+  const examples = featureConfig?.examples ?? [];
 
   const [query, setQuery] = useState('');
 
-  const onExampleClick = (text: string) => {
-    setQuery(text);
-    // TODO: trigger AI analysis generation
+  const [isLoading, setIsLoading] = useState(false);
+
+  const onGenerate = async (q = query) => {
+    if (!q.trim()) return;
+    setIsLoading(true);
+    try {
+      const result = await getMCDA(q);
+      console.info(result);
+    } catch (error) {
+      console.error('Failed to generate analysis', error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const onGenerate = () => {
-    // TODO: trigger AI analysis generation
+  const onExampleClick = (text: string) => {
+    setQuery(text);
+    void onGenerate(text);
   };
 
   return (
     <div className={style.container}>
-      <h1 className={style.title}>{i18n.t('new_analysis.title')}</h1>
+      <h1 className={style.title}>{i18n.t('new_analysis_page.title')}</h1>
       <div className={style.lead}>
-        <h2>{i18n.t('new_analysis.heading')}</h2>
-        <p className={style.leadText}>{i18n.t('new_analysis.description')}</p>
+        <h2>{i18n.t('new_analysis_page.heading')}</h2>
+        <p className={style.leadText}>{i18n.t('new_analysis_page.description')}</p>
       </div>
       <div className={style.examples}>
         {examples.map((ex) => {
@@ -58,18 +72,23 @@ export function NewAnalysisPage() {
             value: query,
             onChange: (e) => setQuery(e.target.value),
           }}
-          isLoading={false}
-          onSearch={onGenerate}
+          isLoading={isLoading}
+          onSearch={() => onGenerate()}
           onReset={() => setQuery('')}
           placeholder={i18n.t('search.input_placeholder_mcda')}
           classes={{ searchButton: style.hiddenSearchButton }}
         />
-        <Button variant="primary" disabled={!query} onClick={onGenerate}>
-          {i18n.t('new_analysis.generate_button')}
+        <Button
+          type="button"
+          variant="primary"
+          disabled={!query || isLoading}
+          onClick={() => onGenerate()}
+        >
+          {i18n.t('new_analysis_page.generate_button')}
         </Button>
       </div>
       <div className={style.tryMap}>
-        <a href="#/map">{i18n.t('new_analysis.try_map_link')}</a>
+        <a href="#/map">{i18n.t('new_analysis_page.try_map_link')}</a>
       </div>
     </div>
   );

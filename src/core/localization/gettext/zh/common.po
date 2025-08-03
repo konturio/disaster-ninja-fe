@@ -613,7 +613,7 @@ msgstr "比较"
 
 #: multivariate##score_and_compare
 msgid "Score and compare"
-msgstr ""
+msgstr "评分和比较"
 
 #: multivariate##hide_area
 msgid "Hide area"
@@ -629,13 +629,11 @@ msgstr "3D"
 
 #: multivariate##static_opacity
 msgid "Static opacity"
-msgstr ""
+msgstr "静态不透明度"
 
 #: multivariate##mcda_legend_subtitle
-msgid ""
-"Hexagons are colored as weighted average of normalized and transformed "
-"layers values"
-msgstr ""
+msgid "Hexagons are colored as weighted average of normalized and transformed layers values"
+msgstr "六边形颜色为各图层值经归一化和变换后的加权平均"
 
 #: map_popup##value
 msgid "Value"
@@ -1286,10 +1284,9 @@ msgstr "上传图像"
 msgid "Imagery catalog"
 msgstr "图像目录"
 
-#: modes##new_analysis new_analysis##title
-#, fuzzy
+#: modes##new_analysis new_analysis_page##title
 msgid "New analysis"
-msgstr "保存分析"
+msgstr "新建分析"
 
 #: profile##interfaceTheme
 msgid "Theme"
@@ -1608,32 +1605,29 @@ msgstr "所选区域已保存为你个人资料中的参考区域"
 msgid "Login with Google"
 msgstr "使用 Google 登录"
 
-#: new_analysis##heading
+#: new_analysis_page##heading
 msgid "Ask ✨ AI your spatial question"
-msgstr ""
+msgstr "向 ✨ AI 提出你的空间问题"
 
-#: new_analysis##description
+#: new_analysis_page##description
 msgid "AI will pick from 200+ layers and build a tailored analysis."
-msgstr ""
+msgstr "AI 将从 200 多个图层中挑选并构建定制化分析。"
 
-#: new_analysis##generate_button
-#, fuzzy
+#: new_analysis_page##generate_button
 msgid "Generate analysis"
-msgstr "创建分析"
+msgstr "生成分析"
 
-#: new_analysis##try_map_link
+#: new_analysis_page##try_map_link
 msgid "Try map by yourself"
-msgstr ""
+msgstr "自己尝试地图"
 
-#: new_analysis##ai_generating
-#, fuzzy
+#: new_analysis_page##ai_generating
 msgid "AI is generating your analysis. It takes time"
-msgstr "AI 正在为你生成分析"
+msgstr "AI 正在生成你的分析，这需要时间"
 
-#: new_analysis##generated_analysis
-#, fuzzy
+#: new_analysis_page##generated_analysis
 msgid "Generated analysis \"{{name}}\""
-msgstr "创建分析图层"
+msgstr "已生成的分析 \"{{name}}\""
 
 #~ msgid "Focus to administrative boundary"
 #~ msgstr "聚焦至行政边界"

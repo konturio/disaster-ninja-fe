@@ -521,7 +521,7 @@
   "oam_auth": {
     "login_button": "Login with Google"
   },
-  "new_analysis": {
+  "new_analysis_page": {
     "title": "New analysis",
     "heading": "Ask ✨ AI your spatial question",
     "description": "AI will pick from 200+ layers and build a tailored analysis.",

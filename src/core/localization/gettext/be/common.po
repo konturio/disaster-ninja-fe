@@ -1316,10 +1316,9 @@ msgstr "Загрузіць здымак"
 msgid "Imagery catalog"
 msgstr "Каталог здымкаў"
 
-#: modes##new_analysis new_analysis##title
-#, fuzzy
+#: modes##new_analysis new_analysis_page##title
 msgid "New analysis"
-msgstr "Захаваць аналіз"
+msgstr "Новы аналіз"
 
 #: profile##interfaceTheme
 msgid "Theme"
@@ -1653,32 +1652,29 @@ msgstr "Вылучаная вобласць была захаваная як э�
 msgid "Login with Google"
 msgstr "Ўвайсці праз Google"
 
-#: new_analysis##heading
+#: new_analysis_page##heading
 msgid "Ask ✨ AI your spatial question"
-msgstr ""
+msgstr "Задайце ✨ AI сваё прасторавае пытанне"
 
-#: new_analysis##description
+#: new_analysis_page##description
 msgid "AI will pick from 200+ layers and build a tailored analysis."
-msgstr ""
+msgstr "AI выберы больш як з 200 слаёў і пабудуе адпаведны аналіз."
 
-#: new_analysis##generate_button
-#, fuzzy
+#: new_analysis_page##generate_button
 msgid "Generate analysis"
 msgstr "Стварыць аналіз"
 
-#: new_analysis##try_map_link
+#: new_analysis_page##try_map_link
 msgid "Try map by yourself"
-msgstr ""
+msgstr "Паспрабуйце карту самастойна"
 
-#: new_analysis##ai_generating
-#, fuzzy
+#: new_analysis_page##ai_generating
 msgid "AI is generating your analysis. It takes time"
-msgstr "AI стварае аналіз для вас"
+msgstr "AI стварае ваш аналіз. Гэта займае час"
 
-#: new_analysis##generated_analysis
-#, fuzzy
+#: new_analysis_page##generated_analysis
 msgid "Generated analysis \"{{name}}\""
-msgstr "Стварыць аналіз слаёў"
+msgstr "Згенераваны аналіз \"{{name}}\""
 
 #~ msgid "Focus to administrative boundary"
 #~ msgstr "Фокус на адміністрацыйную мяжу"
