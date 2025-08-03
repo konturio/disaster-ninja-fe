@@ -8,7 +8,7 @@ import { getMCDA } from '~core/api/search';
 import style from './NewAnalysis.module.css';
 
 function getLocalizedExample(ex: Record<string, string>) {
-  const lang = i18n.language;
+  const lang = i18n.instance.language;
   return ex[lang] || ex.en || Object.values(ex)[0];
 }
 
