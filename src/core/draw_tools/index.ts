@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useEffect } from 'react';
 import { useAtom } from '@reatom/react-v2';
 import { store } from '~core/store/store';
 import { i18n } from '~core/localization';
@@ -10,6 +10,7 @@ import { activeDrawModeAtom } from './atoms/activeDrawMode';
 import { drawModes } from './constants';
 import { setIndexesForCurrentGeometryAtom } from './atoms/selectedIndexesAtom';
 import { drawnGeometryAtom } from './atoms/drawnGeometryAtom';
+import { drawHistoryAtom } from './atoms/drawHistoryAtom';
 import { convertToFeatures } from './convertToFeatures';
 import { toolboxAtom } from './atoms/toolboxAtom';
 import type { DrawToolController, DrawToolsController, DrawToolsHook } from './types';
@@ -117,6 +118,19 @@ export const useDrawTools: DrawToolsHook = () => {
       cancelDrawing,
     },
   ] = useAtom(toolboxAtom);
+
+  useEffect(() => {
+    if (!activeDrawMode) return;
+    const handler = (e: KeyboardEvent) => {
+      if (!(e.ctrlKey || e.metaKey)) return;
+      if (e.key.toLowerCase() !== 'z') return;
+      e.preventDefault();
+      if (e.shiftKey) store.dispatch(drawHistoryAtom.redo());
+      else store.dispatch(drawHistoryAtom.undo());
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [activeDrawMode]);
 
   const controls = useMemo(() => {
     const controlsArray: Array<DrawToolController> =
