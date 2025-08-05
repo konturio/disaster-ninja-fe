@@ -245,10 +245,11 @@ export const calculateLayerPipeline =
         tX = operations.clamp(tX, tMin, tMax);
       }
     }
-    // always normalize for map style - we need to have (0..1) values for proper colors interpolation
-    let normalized = operations.normalize({ x: tX, min: tMin, max: tMax });
-    if (type === 'view' && normalization === 'no') {
-      normalized = tX;
+    let normalized = tX;
+    if (normalization === 'max-min' || type === 'layerStyle') {
+      // always apply min-max normalization for layer style,
+      // because we need to have (0..1) values in expressions for proper colors interpolation
+      normalized = operations.normalize({ x: tX, min: tMin, max: tMax });
     }
     let oriented = inverted ? operations.invert(normalized) : normalized;
     if (type === 'view' && normalization === 'no') {
