@@ -1,10 +1,11 @@
 import { test, expect } from 'vitest';
-import { calculateLayerPipeline, inStyleCalculations } from '.';
+import { calculateLayerPipeline } from '.';
 import type { MCDALayer } from '../types';
 
-// @ts-expect-error types compatibility
-const calculateLayerStyle = calculateLayerPipeline(inStyleCalculations, (axis) => ({
+const calculateLayerStyle = calculateLayerPipeline('layerStyle', (axis) => ({
+  // @ts-expect-error types compatibility
   num: ['get', axis.num],
+  // @ts-expect-error types compatibility
   den: ['get', axis.den],
 }));
 
