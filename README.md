@@ -243,6 +243,12 @@ Use the `--headed` flag instead of the `--ui` flag to run the tests in a headed 
 
 > Check the `tests-examples/demo-todo-app.spec.ts` file for an example of how to write tests.
 
+### Disabled e2e tests
+
+All tests skipped with `test.fixme` are tracked in `TEST_FIXMES.md`. Update that
+file whenever a test is disabled or re-enabled. CI will run `pnpm run
+check:fixmes` to ensure the registry stays in sync.
+
 ## Running Playwright e2e tests on a local environment
 
 1. Run the app in dev mode
