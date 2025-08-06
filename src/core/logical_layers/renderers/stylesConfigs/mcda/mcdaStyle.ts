@@ -8,7 +8,7 @@ import {
 } from '~utils/bivariate/bivariate_style/styleGen';
 import { sumBy } from '~utils/common';
 import { DEFAULT_GREEN, DEFAULT_RED } from './calculations/constants';
-import { calculateLayerPipeline, inStyleCalculations } from './calculations';
+import { calculateLayerPipeline } from './calculations';
 import { SOURCE_LAYER_MCDA } from './constants';
 import type {
   ExpressionSpecification,
@@ -17,9 +17,10 @@ import type {
 } from 'maplibre-gl';
 import type { ColorsByMapLibreExpression, MCDAConfig } from './types';
 
-//@ts-expect-error - not clear how to type this right, but this compromise do the trick
-export const calculateMCDALayer = calculateLayerPipeline(inStyleCalculations, (axis) => ({
+export const calculateMCDALayer = calculateLayerPipeline('layerStyle', (axis) => ({
+  // @ts-expect-error - need to fix calculateLayerPipeline typing
   num: ['get', axis.num],
+  // @ts-expect-error - need to fix calculateLayerPipeline typing
   den: ['get', axis.den],
 }));
 
@@ -76,12 +77,14 @@ type PaintProps = {
   absoluteMin: number;
 };
 
+// in order for sentiment paint to work properly, its mcdaResult must be normalized
+// (colors must always work with [0; 1] min-max normalization)
 function sentimentPaint({
   colorsConfig,
   mcdaResult,
-  absoluteMin,
-  absoluteMax,
 }: PaintProps): FillLayerSpecification['paint'] {
+  const minValue = 0;
+  const maxValue = 1;
   if (colorsConfig.type !== 'sentiments') {
     console.error(`Expected sentiments color config, but got ${colorsConfig.type}`);
     return undefined;
@@ -92,11 +95,7 @@ function sentimentPaint({
   const midpoints = Array.isArray(colorsConfig.parameters.midpoints)
     ? colorsConfig.parameters.midpoints
     : [];
-  const colorPoints = [
-    { value: absoluteMin, color: bad },
-    ...midpoints,
-    { value: absoluteMax, color: good },
-  ];
+  const colorPoints = [{ value: 0, color: bad }, ...midpoints, { value: 1, color: good }];
   return {
     'fill-color': [
       'let',
@@ -106,8 +105,8 @@ function sentimentPaint({
         'case',
         [
           'all',
-          ['>=', ['var', 'mcdaResult'], absoluteMin],
-          ['<=', ['var', 'mcdaResult'], absoluteMax],
+          ['>=', ['var', 'mcdaResult'], minValue],
+          ['<=', ['var', 'mcdaResult'], maxValue],
         ],
         [
           'interpolate-hcl',
@@ -116,10 +115,10 @@ function sentimentPaint({
           ...colorPoints.flatMap((point) => [point.value, point.color]),
         ],
         // paint all values below absoluteMin (0 by default) same as absoluteMin
-        ['<', ['var', 'mcdaResult'], absoluteMin],
+        ['<', ['var', 'mcdaResult'], minValue],
         bad,
         // paint all values above absoluteMax (1 by default) same as absoluteMax
-        ['>', ['var', 'mcdaResult'], absoluteMax],
+        ['>', ['var', 'mcdaResult'], maxValue],
         good,
         // Default color value. We get here in case of incorrect values (null, NaN etc)
         // Transparent features don't show popups on click
