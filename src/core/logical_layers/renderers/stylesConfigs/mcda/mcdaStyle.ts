@@ -78,7 +78,7 @@ type PaintProps = {
 };
 
 // in order for sentiment paint to work properly, its mcdaResult must be normalized
-// (popups can show non-normalized values, but colors must always work with min-max normalization)
+// (colors must always work with [0; 1] min-max normalization)
 function sentimentPaint({
   colorsConfig,
   mcdaResult,
