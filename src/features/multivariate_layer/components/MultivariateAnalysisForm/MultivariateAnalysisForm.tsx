@@ -97,7 +97,9 @@ export function MultivariateAnalysisForm({
   const buttonsRowRef = useRef<HTMLDivElement>(null);
 
   const [opacityStatic, setOpacityStatic] = useState(
-    initialConfig?.staticOpacity ? String(initialConfig?.staticOpacity) : undefined,
+    isNumber(initialConfig?.staticOpacity)
+      ? String(initialConfig?.staticOpacity)
+      : undefined,
   );
   const [extrusionMaxHeight, setExtrusionMaxHeight] = useState(
     initialConfig?.extrusion?.maxHeight?.toString() ??
