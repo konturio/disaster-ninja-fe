@@ -8,7 +8,11 @@ import { SOURCE_LAYER_MCDA } from './mcda/constants';
 import { DEFAULT_GREY_FILL_COLOR, TRANSPARENT_COLOR } from './constants';
 import type { MultivariateLayerStyle } from './multivariate/multivariateStyle';
 import type { MCDAConfig, MCDALayerStyle } from './mcda/types';
-import type { FillLayerSpecification, LayerSpecification } from 'maplibre-gl';
+import type {
+  ExpressionSpecification,
+  FillLayerSpecification,
+  LayerSpecification,
+} from 'maplibre-gl';
 import type { LayerStyle } from '~core/logical_layers/types/style';
 
 export const styleConfigs: Record<
@@ -37,7 +41,7 @@ export const styleConfigs: Record<
       // No color dimensions - create monochrome fill
       const layersForFilter: MCDAConfig['layers'] = [];
       // create filter based on all MCDA layers from opacity and extrusion
-      if (typeof config.opacity === 'object' && config.opacity?.config.layers.length) {
+      if (config.opacity?.config.layers.length) {
         layersForFilter.push(...config.opacity.config.layers);
       }
       if (config.extrusion?.height.config.layers.length) {
@@ -51,16 +55,18 @@ export const styleConfigs: Record<
         SOURCE_LAYER_MCDA,
       );
     }
-    if (config.opacity !== undefined) {
-      // apply opacity to fill layers
-      const opacity = !isNumber(config.opacity)
-        ? createOpacityStepsExpression(config.opacity)
-        : config.opacity;
-      multivariateStyle = {
-        ...multivariateStyle,
-        paint: { ...multivariateStyle.paint, 'fill-opacity': opacity },
-      };
+    let opacity: number | ExpressionSpecification = config.staticOpacity ?? 1;
+    if (config.opacity?.config?.layers.length) {
+      opacity = createOpacityStepsExpression(config.opacity);
+      if (isNumber(config.staticOpacity)) {
+        opacity = ['*', opacity, config.staticOpacity];
+      }
     }
+    // apply opacity to fill layers
+    multivariateStyle = {
+      ...multivariateStyle,
+      paint: { ...multivariateStyle.paint, 'fill-opacity': opacity },
+    };
     return Array(multivariateStyle);
   },
 };

@@ -11,9 +11,7 @@ import {
   DEFAULT_MULTIVARIATE_TEXT_PRECISION,
 } from '../constants';
 import { generateMultivariateId } from './generateMultivariateId';
-import { createStepsForMCDADimension } from './createStepsForMCDADimension';
 import { createBivariateColorsForMVA } from './createBivariateColorsForMVA';
-import type { Axis } from '~utils/bivariate';
 import type {
   MCDALayer,
   MCDALayerStyle,
@@ -30,7 +28,8 @@ type MultivariateLayerConfigOverrides = {
   base?: MCDALayer[];
   colors?: MultivariateColorConfig;
   stepOverrides?: MultivariateLayerConfig['stepOverrides'];
-  opacity?: MCDALayer[] | number;
+  opacity?: MCDALayer[];
+  staticOpacity?: number;
   text?: MCDALayer[];
   textSettings?: Exclude<TextDimension, 'mcdaValue' | 'mcdaMode'>;
   extrusion?: MCDALayer[];
@@ -96,9 +95,6 @@ export function createMultivariateConfig(
         mcdaValue: textMCDAStyle,
       }
     : undefined;
-  const opacityStatic: number | undefined = isNumber(overrides.opacity)
-    ? overrides.opacity
-    : undefined;
 
   const extrusionMCDAStyle: MCDALayerStyle | undefined = hasExtrusion
     ? {
@@ -116,7 +112,8 @@ export function createMultivariateConfig(
     name,
     score: scoreMCDAStyle,
     base: baseMCDAStyle,
-    opacity: opacityMCDAStyle ?? opacityStatic,
+    opacity: opacityMCDAStyle,
+    staticOpacity: overrides.staticOpacity,
     text: textDimension,
     stepOverrides: isBivariateStyleLegend ? overrides.stepOverrides : undefined,
     colors:
