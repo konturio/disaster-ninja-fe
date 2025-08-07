@@ -69,7 +69,7 @@ Generated MVA config currently contains a lot of unused/duplicated data, most of
 
 - `MultivariateDimension` type can be a `MCDAConfig` instead of `MCDALayerStyleConfig`
 - `colors` property from MCDAConfig is not used in MVA
-- `MCDAConfig` needs further optimnizations
+- `MCDAConfig` needs further optimizations
   - having `id` in `MCDAConfig` is questionable
   - `transformationFunction` and `transformation` properties in `MCDALayer`. `transformationFunction` is deprecated and contained within `transformation`, so it should be removed from root level.
   - `AxisTransformationWithPoints` - `points` array is only used to show debug MCDA values distribution chart.
