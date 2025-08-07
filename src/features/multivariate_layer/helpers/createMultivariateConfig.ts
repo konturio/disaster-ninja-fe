@@ -107,7 +107,7 @@ export function createMultivariateConfig(
     : undefined;
 
   return {
-    version: 0,
+    version: 1,
     id: generateMultivariateId(name),
     name,
     score: scoreMCDAStyle,
