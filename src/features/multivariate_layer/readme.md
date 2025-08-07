@@ -1,4 +1,4 @@
-## MVA - Multivariate Analysis layer
+# MVA - Multivariate Analysis layer
 
 MVA (Multivariate Analysis layer) - is a complex logical layer which can consist of several optional dimensions:
 
@@ -12,7 +12,7 @@ Depending on dimensions, several visual layers can be created on the map:
 
 - fill layer, which can be have several color modes:
   - MCDA coloring (either `score` or `base` dimension is present). MCDA coloring is a linear gradient
-  - Bivariate coloring (both `score` and `base` dimensions are present). Bivariate coloring uses a limited of color classes, each with it's value range.
+  - Bivariate coloring (both `score` and `base` dimensions are present). Bivariate coloring uses a limited number of color classes, each with it's value range.
   - Monochrome coloring (neither `score` nor `base` dimensions are present; `opacity` or `extrusion` are present)
 - text layer
 - 3D (extrusion) layer
@@ -47,7 +47,7 @@ See `MultivariateLayerConfig` type for up-to date details.
 - `expressionValue` - optional property, can contain MapLibre expression, for custom outputs and calculations. `mcdaValue` overwrites this.
 - `formatString` - optional string template. Replaces `{value}` and `{unit}` with MCDA axis value and unit accordingly. If not present, `{value} {unit}` template is used.
 - `precision` - optional, number. How many numbers is retained after the decimal point.
-- `paintOverrides` and `layoutOverrides` - optional, can be used to customize MapLibre paint and layer specification. See for more at https://maplibre.org/maplibre-style-spec/layers/#symbol
+- `paintOverrides` and `layoutOverrides` - optional, can be used to customize MapLibre paint and layer specification. See for more at [MapLibre Symbol layer style specification](https://maplibre.org/maplibre-style-spec/layers/#symbol)
 
 8. `extrusion` - If present, extruded 3D shapes are rendered based for each of the features.
 
