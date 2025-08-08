@@ -40,7 +40,7 @@ graph TD
         D --> E3
 
         subgraph "Consumer Systems"
-            F1["Map Ruler<br/>(Priority: 1)"]
+            F1["Map Ruler<br/>(Priority: 100)"]
             F2["Draw Tools<br/>(Priority: 10)"]
             F2_5["Boundary Selector<br/>(Priority: 50)"]
             F3["Generic/Feature Renderers<br/>(Priority: 60)"]
@@ -128,7 +128,7 @@ Each listener function returns a boolean value that controls event propagation:
 **Example Implementation (Blocking)**:
 
 ```typescript
-// From MapRulerRenderer (Priority: 1)
+// From MapRulerRenderer (Priority: 100)
 function preventClicking(e) {
   e.preventDefault();
   return false; // STOPS all other listeners
@@ -168,7 +168,7 @@ sequenceDiagram
     participant M as MapLibre Map
     participant C as ConnectedMap
     participant R as mapListenersAtom
-    participant L1 as Map Ruler<br/>(P: 1)
+    participant L1 as Map Ruler<br/>(P: 100)
     participant L2 as Draw Tools<br/>(P: 10)
     participant L3 as Boundary Selector<br/>(P: 50)
     participant L4 as Generic Renderer<br/>(P: 60)
@@ -211,7 +211,7 @@ Based on a full codebase analysis, these are the current priority assignments:
 
 | System                    | Priority | Events               | Location                                                                                                                                    | Stops Propagation? |
 | :------------------------ | :------- | :------------------- | :------------------------------------------------------------------------------------------------------------------------------------------ | :----------------- |
-| **Map Ruler**             | 1        | `click`, `mousemove` | [`MapRulerRenderer.ts:109`](../../src/features/map_ruler/renderers/MapRulerRenderer.ts#L109)                                                | ✅                 |
+| **Map Ruler**             | 100      | `click`, `mousemove` | [`MapRulerRenderer.ts:110`](../../src/features/map_ruler/renderers/MapRulerRenderer.ts#L110-L112)                                           | ✅                 |
 | **Draw Tools**            | 10       | `click`, `mousemove` | [`DrawModeRenderer.ts:181`](../../src/core/draw_tools/renderers/DrawModeRenderer.ts#L181)                                                   | ✅                 |
 | **Boundary Selector**     | 10       | `click`, `mousemove` | [`clickCoordinatesAtom.ts:27`](../../src/features/boundary_selector/atoms/clickCoordinatesAtom.ts#L27)                                      | ✅                 |
 | **Active Contributors**   | 60       | `click`              | [`GenericRenderer.ts:231`](../../src/core/logical_layers/renderers/GenericRenderer.ts#L231)                                                 | ❌                 |
@@ -229,7 +229,7 @@ This section provides a detailed breakdown of what each registered listener does
 
 These systems are designed to take exclusive control of the map and prevent any other interactions.
 
-1.  **Map Ruler** (Priority: 1)
+1.  **Map Ruler** (Priority: 100)
 
     - **Location**: `MapRulerRenderer.ts:109`
     - **`click` handler**: Calls `event.preventDefault()` and returns `false`.

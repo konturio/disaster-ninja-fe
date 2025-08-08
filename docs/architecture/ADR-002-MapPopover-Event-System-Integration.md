@@ -45,7 +45,7 @@ graph TD
         A["MapLibre Click Event"] --> B["ConnectedMap Event Handler"]
 
         B --> D["Priority Chain Execution"]
-        D --> E1["Map Ruler (P:1)"]
+        D --> E1["Map Ruler (P:100)"]
         D --> E2["Draw Tools (P:10)"]
         D --> E3["Boundary Selector (P:50)"]
         D --> E4["Legacy Renderers (P:60)"]
@@ -68,7 +68,7 @@ graph TD
 **Problem 1: Event System Conflicts**
 
 - MapPopover operates independently of priority system
-- Tools like Map Ruler (priority 1) and Draw Tools (priority 10) can block all other interactions via `return false`
+- Tools like Map Ruler (priority 100) and Draw Tools (priority 10) can block all other interactions via `return false`
 - MapPopover still triggers despite tool exclusivity, creating UX inconsistencies
 
 **Problem 2: Duplicate Event Handling**
@@ -103,7 +103,7 @@ useMapPopoverInteraction({
 
 | System            | Priority | Propagation Behavior         | Integration Point                                                                                      |
 | ----------------- | -------- | ---------------------------- | ------------------------------------------------------------------------------------------------------ |
-| Map Ruler         | 1        | `return false` (blocks all)  | [`MapRulerRenderer.ts:109`](../../src/features/map_ruler/renderers/MapRulerRenderer.ts#L109)           |
+| Map Ruler         | 100      | `return false` (blocks all)  | [`MapRulerRenderer.ts:110`](../../src/features/map_ruler/renderers/MapRulerRenderer.ts#L110-L112)      |
 | Draw Tools        | 10       | `return false` (blocks all)  | [`DrawModeRenderer.ts:181`](../../src/core/draw_tools/renderers/DrawModeRenderer.ts#L181)              |
 | Boundary Selector | 50       | `return false` (blocks all)  | [`clickCoordinatesAtom.ts:27`](../../src/features/boundary_selector/atoms/clickCoordinatesAtom.ts#L27) |
 | Legacy Renderers  | 60       | `return true` (non-blocking) | [`GenericRenderer.ts:248`](../../src/core/logical_layers/renderers/GenericRenderer.ts#L248)            |
@@ -272,7 +272,7 @@ For ConnectedMap integration, the service call uses existing priority system:
 
 | System            | Priority | Behavior                 | Integration Method                     |
 | ----------------- | -------- | ------------------------ | -------------------------------------- |
-| Map Ruler         | 1        | Blocks all (unchanged)   | Existing priority listener             |
+| Map Ruler         | 100      | Blocks all (unchanged)   | Existing priority listener             |
 | Draw Tools        | 10       | Blocks all (unchanged)   | Existing priority listener             |
 | Boundary Selector | 50       | Blocks all (unchanged)   | Existing priority listener             |
 | **MapPopover**    | **55**   | **Non-blocking**         | **Service call via priority listener** |
