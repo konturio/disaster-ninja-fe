@@ -41,7 +41,7 @@ export type MultivariateStepOverrides = {
 };
 
 export interface MultivariateLayerConfig {
-  version: 0;
+  version: 1;
   id: string;
   name: string;
   score?: MultivariateDimension;
