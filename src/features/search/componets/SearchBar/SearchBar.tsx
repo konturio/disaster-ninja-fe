@@ -1,7 +1,7 @@
 import { SelectItem } from '@konturio/ui-kit';
 import { useAction, useAtom } from '@reatom/npm-react';
 import cn from 'clsx';
-import { forwardRef } from 'react';
+import { forwardRef, useEffect } from 'react';
 import { searchLocationsAtom } from '~features/search/searchLocationAtoms';
 import {
   itemSelectAction,
@@ -16,6 +16,9 @@ import {
   MCDASuggestionAtom,
 } from '~features/search/searchMcdaAtoms';
 import { SearchInput } from '~components/Search/SearchInput/SearchInput';
+import { searchHighlightedGeometryAtom } from '../../atoms/highlightedGeometry';
+import type { Feature } from 'geojson';
+import { EMPTY_HIGHLIGHT } from '../../constants';
 import { useSearchMenu } from '~utils/hooks/useSearchMenu';
 import style from './SearchBar.module.css';
 import type { AggregatedSearchItem } from '~features/search/searchAtoms';
@@ -33,19 +36,27 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
       ? i18n.t('search.input_placeholder_mcda')
       : i18n.t('search.input_placeholder');
 
-    const search = useAction(searchAction);
-    const itemSelectActionFn = useAction(itemSelectAction);
-    const reset = useAction(resetSearchAction);
+  const search = useAction(searchAction);
+  const itemSelectActionFn = useAction(itemSelectAction);
+  const reset = useAction(resetSearchAction);
+  const setHighlightedGeometry = useAction(searchHighlightedGeometryAtom);
 
     const itemSelect = (item: AggregatedSearchItem) => {
       itemSelectActionFn(item);
+      setHighlightedGeometry(EMPTY_HIGHLIGHT);
       onItemSelect?.();
     };
 
     const [{ error, loading, data }] = useAtom(searchLocationsAtom);
     const emptyLocations = data ? data.length === 0 : false;
     const [mcdaSearchStatus] = useAtom(MCDASuggestionAtom);
-    const [aggregatedResults] = useAtom(aggregatedSearchAtom);
+  const [aggregatedResults] = useAtom(aggregatedSearchAtom);
+
+  useEffect(() => {
+    return () => {
+      setHighlightedGeometry(EMPTY_HIGHLIGHT);
+    };
+  }, [setHighlightedGeometry]);
 
     const renderError = () => (
       <SelectItem
@@ -91,6 +102,11 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
                     className={style.listItem}
                     itemProps={{
                       onClick: () => handleItemSelect(item),
+                      onMouseEnter: () =>
+                        item.geometry &&
+                        setHighlightedGeometry(item as Feature),
+                      onMouseLeave: () =>
+                        setHighlightedGeometry(EMPTY_HIGHLIGHT),
                       role: 'option',
                     }}
                   />
@@ -108,6 +124,10 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
                     highlighted={highlightedIndex === index}
                     itemProps={{
                       onClick: () => handleItemSelect(item),
+                      onMouseEnter: () =>
+                        setHighlightedGeometry(EMPTY_HIGHLIGHT),
+                      onMouseLeave: () =>
+                        setHighlightedGeometry(EMPTY_HIGHLIGHT),
                       role: 'option',
                     }}
                   />
@@ -146,6 +166,10 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
         mcdaSearchStatus.loading ||
         emptyLocations,
     });
+
+    useEffect(() => {
+      if (!isMenuOpen) setHighlightedGeometry(EMPTY_HIGHLIGHT);
+    }, [isMenuOpen, setHighlightedGeometry]);
 
     return (
       <>
