@@ -1,17 +1,15 @@
 # Important rules for agents
 Debugging: Use docs/todo.md as to put issues, inconveniences and impediments that you noticed that you are not fixing on this iteration.
 SQL: Format queries in a way so it's easy to copy them out of the codebase and debug standalone.
-Testing: Always add a custom assertion message when writing assertions in unit tests, including as much context as possible. Incorporate input data and relevant test details so it's immediately clear what is being verified and why it might fail.
-Documentation: When moving around md files also fix the links in them and links to them across all others.
-Debugging: Make sure that error messages towards developer are better than just "500 Internal server error".
-k8s: When changing something in the charts, bump chart version to trigger deployment too.
+Make: Makefile: If you need intermediate result from other target, split it into two and depend on the intermediate result.
 Testing: Code test coverage is measured by codecov. Write useful tests to increase it and check key requirements to hold.
-Debugging: Inject data assertions into IO abstraction libraries to catch any data that violates them.
-Pull requests: Use Conventional Commits convention when formatting the pull request and commits, e.g. `type(scope): TICKETNUMBER title ...`. Skip ticket number if not provided. Field: Public Id.
+k8s: When changing something in the charts, bump chart version to trigger deployment too.
+Debugging: Code test coverage is measured by codecov. Write useful tests to increase it and check key requirements to hold.
+Documentation: When moving around md files also fix the links in them and links to them across all others.
 Front End: Every spot that uses external library has to be covered at least once in tests so it's easy to merge dependabot version bump PRs.
 SQL: Do not rewrite old migrations, not for style changes, not for logic changes, always create new migrations for any changes in DB
-Make: Makefile: If you need intermediate result from other target, split it into two and depend on the intermediate result.
-AI: Colloquial "vectors" are to be called "embeddings" in codebase.
+Debugging: Make sure that error messages towards developer are better than just "500 Internal server error".
+Testing: Always add a custom assertion message when writing assertions in unit tests, including as much context as possible. Incorporate input data and relevant test details so it's immediately clear what is being verified and why it might fail.
 Style: If a file with code grows longer than 500 lines, refactor it into two or move some parts into already created libraries.
 Documentation: docs/ folder has general project documentation that needs to be kept up to date.
 Testing: To run the pipeline in testing offline mode, launch `TEST_MODE=1 PYTHONPATH=. make -B -j all` and check if everything works as intended.
@@ -20,7 +18,10 @@ Debugging: Don't stub stuff out with insane fallbacks (like lat/lon=0) - instead
 Style: Every feature needs to have comprehensive up-to-date documentation near it, write it.
 Debugging: Keep working until the tests pass, do not stop before that.
 Make: Format target comments as self-documented Makefile, on same line: `target: dependencies | order_only_deps ## Description`
-Debugging: Code test coverage is measured by codecov. Write useful tests to increase it and check key requirements to hold.
+AI: Colloquial "vectors" are to be called "embeddings" in codebase.
+Pull requests: Use Conventional Commits convention when formatting the pull request and commits, e.g. `type(scope): TICKETNUMBER title ...`. Skip ticket number if not provided. Field: Public Id.
+Debugging: Inject data assertions into IO abstraction libraries to catch any data that violates them.
+Front End: New code and its business logic should be covered by tests based on adjusted requirements.
 Style: Clean stuff up if you can: fix typos, make lexics more correct in English.
 Debugging: When refactoring to move a feature, don't forget to remove the original code path.
 SQL: Values in databases and layers should be absolute as much as possible: store "birthday" or "construction date" instead of "age".
