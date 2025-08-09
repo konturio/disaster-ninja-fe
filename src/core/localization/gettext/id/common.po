@@ -840,12 +840,12 @@ msgstr "Jenis"
 msgid "Select"
 msgstr "Pilih"
 
-#: create_layer##short_text
-msgid "Short Text"
+#: create_layer##single_line_text
+msgid "Single-line text"
 msgstr "Teks Singkat"
 
-#: create_layer##long_text
-msgid "Long Text"
+#: create_layer##multi_line_text
+msgid "Multi-line text"
 msgstr "Teks Panjang"
 
 #: create_layer##link

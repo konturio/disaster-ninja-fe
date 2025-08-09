@@ -64,5 +64,15 @@
         box-shadow: 0 0 0 2px var(--complimentary-strong-down);
       }
     }
+
+    & .input.placeholder {
+      color: var(--faint-strong-up);
+      & option {
+        color: var(--base-strong);
+      }
+      & option.placeholderOption {
+        color: var(--faint-strong-up);
+      }
+    }
   }
 }

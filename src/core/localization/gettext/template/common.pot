@@ -797,12 +797,12 @@ msgstr ""
 msgid "Select"
 msgstr ""
 
-#: create_layer##short_text
-msgid "Short Text"
+#: create_layer##single_line_text
+msgid "Single-line text"
 msgstr ""
 
-#: create_layer##long_text
-msgid "Long Text"
+#: create_layer##multi_line_text
+msgid "Multi-line text"
 msgstr ""
 
 #: create_layer##link

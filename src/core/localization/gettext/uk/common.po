@@ -794,12 +794,12 @@ msgstr "Тип"
 msgid "Select"
 msgstr "Вибрати"
 
-#: create_layer##short_text
-msgid "Short Text"
+#: create_layer##single_line_text
+msgid "Single-line text"
 msgstr "Текст(короткий)"
 
-#: create_layer##long_text
-msgid "Long Text"
+#: create_layer##multi_line_text
+msgid "Multi-line text"
 msgstr "Текст(довгий)"
 
 #: create_layer##link
