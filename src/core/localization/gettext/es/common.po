@@ -1640,6 +1640,10 @@ msgstr "Guardar características"
 msgid "The list is filtered by selected area and sorted by project number"
 msgstr ""
 
+#: layer_features_panel##loading
+msgid "Loading layer features"
+msgstr "Cargando características de la capa"
+
 #: layer_features_panel##error_loading
 msgid "Failed to load layer features data. Please try again."
 msgstr ""

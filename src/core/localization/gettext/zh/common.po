@@ -1581,6 +1581,10 @@ msgstr "选择图层特征"
 msgid "The list is filtered by selected area and sorted by project number"
 msgstr "列表按所选区域筛选，并按项目编号排序"
 
+#: layer_features_panel##loading
+msgid "Loading layer features"
+msgstr "正在加载图层特征"
+
 #: layer_features_panel##error_loading
 msgid "Failed to load layer features data. Please try again."
 msgstr "加载图层特征数据失败。请重试。"

@@ -1635,6 +1635,10 @@ msgstr "특성 저장"
 msgid "The list is filtered by selected area and sorted by project number"
 msgstr ""
 
+#: layer_features_panel##loading
+msgid "Loading layer features"
+msgstr "레이어 기능을 불러오는 중"
+
 #: layer_features_panel##error_loading
 msgid "Failed to load layer features data. Please try again."
 msgstr ""

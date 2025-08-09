@@ -1622,6 +1622,10 @@ msgid "The list is filtered by selected area and sorted by project number"
 msgstr ""
 "Список отфильтрован по выделенной области и отсортирован по номеру проекта"
 
+#: layer_features_panel##loading
+msgid "Loading layer features"
+msgstr "Загрузка объектов слоя"
+
 #: layer_features_panel##error_loading
 msgid "Failed to load layer features data. Please try again."
 msgstr "Не удалось загрузить данные об объектах слоя. Попробуйте снова."
