@@ -393,7 +393,11 @@
       "title": "Success",
       "thank_you_for_subscribing": "Thank you for subscribing to our platform!",
       "after_the_page_refreshes": "After the page refreshes, you can start using Kontur Atlas"
-    }
+    },
+    "monthly": "Monthly",
+    "annually": "Annually",
+    "save_percent": "Save {{percent}}%",
+    "month_abbr": "mo"
   },
   "reports": {
     "title": "Disaster Ninja Reports",
