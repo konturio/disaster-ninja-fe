@@ -1586,6 +1586,22 @@ msgstr ""
 msgid "Selected area has been saved as reference area in your profile"
 msgstr ""
 
+#: focused_geometry_editor_modal##title
+msgid "Selected area already contains geometry"
+msgstr ""
+
+#: focused_geometry_editor_modal##question
+msgid "Do you want to draw new geometry or edit the existing one?"
+msgstr ""
+
+#: focused_geometry_editor_modal##draw_new
+msgid "Draw new geometry"
+msgstr ""
+
+#: focused_geometry_editor_modal##edit_existing
+msgid "Edit existing geometry"
+msgstr ""
+
 #: oam_auth##login_button
 msgid "Login with Google"
 msgstr ""
