@@ -53,6 +53,7 @@ export function FullAndShortStatesPanelWidget({
     skipShortState: Boolean(!fullState || !shortState),
     isMobile: isMobile,
     panelId: id,
+    persistKey: id,
   });
 
   const getProperty = useCallback(
@@ -74,6 +75,7 @@ export function FullAndShortStatesPanelWidget({
     minHeight,
     id || 'primary_and_secondary',
     isShort ? shortState?.skipAutoResize : fullState?.skipAutoResize,
+    true,
   );
 
   useAutoCollapsePanel(isOpen, closePanel);

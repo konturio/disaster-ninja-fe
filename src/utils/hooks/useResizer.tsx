@@ -1,5 +1,6 @@
 import { useCallback, useLayoutEffect, useEffect, useRef } from 'react';
 import { useColumnContext } from '~core/store/columnContext';
+import { savePanelHeight, loadPanelHeight } from '~core/panels_state';
 import type { PanelMeta } from '~core/store/columnContext';
 import type { SetStateAction } from 'react';
 
@@ -10,6 +11,7 @@ export const useHeightResizer = (
   minHeight: number,
   panelId: string,
   noResize?: boolean,
+  persistHeight?: boolean,
 ) => {
   const columnContext = useColumnContext();
   const openStateRef = useRef(isOpen);
@@ -29,8 +31,11 @@ export const useHeightResizer = (
     if (isOpen) {
       /* Save custom size */
       persistedCustomHeight.current = contentRef.current?.style.height || null;
+      if (persistHeight && persistedCustomHeight.current) {
+        savePanelHeight(panelId, persistedCustomHeight.current);
+      }
     }
-  }, [isOpen]);
+  }, [isOpen, panelId, persistHeight]);
 
   // Hackish way for update ref when it changed
   // It allow me re-apply listeners ant other staff after open-close action
@@ -41,6 +46,13 @@ export const useHeightResizer = (
       if (cleanup.current) cleanup.current();
       if (!columnContext) return;
       if (node) {
+        if (persistHeight) {
+          const storedHeight = loadPanelHeight(panelId);
+          if (storedHeight) {
+            node.style.height = storedHeight;
+            persistedCustomHeight.current = storedHeight;
+          }
+        }
         const panel: PanelMeta = {
           resizableNode: node,
           closeCb: () => setIsOpen(false),
@@ -53,8 +65,28 @@ export const useHeightResizer = (
         cleanup.current = columnContext.addPanel(panel);
       }
     },
-    [columnContext, setIsOpen, minHeight, panelId, noResize],
+    [columnContext, setIsOpen, minHeight, panelId, noResize, persistHeight],
   );
+
+  useEffect(() => {
+    if (!persistHeight || !contentRef.current) return;
+    const node = contentRef.current;
+    const observer = new ResizeObserver(() => {
+      persistedCustomHeight.current =
+        node.style.height || `${node.getBoundingClientRect().height}px`;
+      savePanelHeight(panelId, persistedCustomHeight.current);
+    });
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, [persistHeight, panelId]);
+
+  useEffect(() => {
+    return () => {
+      if (persistHeight && persistedCustomHeight.current) {
+        savePanelHeight(panelId, persistedCustomHeight.current);
+      }
+    };
+  }, [panelId, persistHeight]);
 
   return handleRefChange;
 };
