@@ -611,6 +611,10 @@ msgstr "评分"
 msgid "Compare"
 msgstr "比较"
 
+#: multivariate##score_and_compare
+msgid "Score and compare"
+msgstr "评分和比较"
+
 #: multivariate##hide_area
 msgid "Hide area"
 msgstr "隐藏区域"
@@ -622,6 +626,14 @@ msgstr "标签"
 #: multivariate##3d
 msgid "3D"
 msgstr "3D"
+
+#: multivariate##static_opacity
+msgid "Static opacity"
+msgstr "静态不透明度"
+
+#: multivariate##mcda_legend_subtitle
+msgid "Hexagons are colored as weighted average of normalized and transformed layers values"
+msgstr "六边形颜色为各图层值经归一化和变换后的加权平均"
 
 #: map_popup##value
 msgid "Value"
@@ -649,8 +661,8 @@ msgstr "你可以搜索 📍 位置"
 
 #: search##info_block_with_mcda
 msgid ""
-"You can search for 📍 locations or ask ✨ AI your question like “Where is dead "
-"wood”"
+"You can search for 📍 locations or ask ✨ AI your question like “Where is "
+"dead wood”"
 msgstr "你可以搜索 📍 地点，或向 ✨ AI 提问，例如“哪里有枯木”"
 
 #: search##input_placeholder
@@ -934,10 +946,6 @@ msgstr "没有可下载的绘图几何体"
 msgid "Polygon should not overlap itself"
 msgstr "多边形不应自重叠"
 
-#: boundary_selector##title
-msgid "Focus to administrative boundary"
-msgstr "聚焦至行政边界"
-
 #: geometry_uploader##title
 msgid "Focus to uploaded geometry"
 msgstr "聚焦至上传的几何体"
@@ -945,10 +953,6 @@ msgstr "聚焦至上传的几何体"
 #: geometry_uploader##error
 msgid "Error while reading uploaded file"
 msgstr "读取上传文件时出错"
-
-#: focus_geometry##title
-msgid "Focus to freehand geometry"
-msgstr "聚焦至手绘几何体"
 
 #: reference_area_layer##settings##name profile##reference_area##title
 msgid "Reference area"
@@ -1088,18 +1092,6 @@ msgstr "颜色图例"
 #: bivariate##color_manager##layers_tab
 msgid "Layers (indicators)"
 msgstr "图层（指标）"
-
-#: sidebar##biv_color_manager
-msgid "Сolor manager"
-msgstr "颜色管理器"
-
-#: sidebar##edit_osm
-msgid "Edit in OpenStreetMap"
-msgstr "在 OpenStreetMap 中编辑"
-
-#: sidebar##ruler
-msgid "Ruler"
-msgstr "标尺"
 
 #: sidebar##collapse
 msgid "Collapse"
@@ -1291,6 +1283,10 @@ msgstr "上传图像"
 #: modes##external##imagery_catalog
 msgid "Imagery catalog"
 msgstr "图像目录"
+
+#: modes##new_analysis new_analysis_page##title
+msgid "New analysis"
+msgstr "新建分析"
 
 #: profile##interfaceTheme
 msgid "Theme"
@@ -1608,6 +1604,45 @@ msgstr "所选区域已保存为你个人资料中的参考区域"
 #: oam_auth##login_button
 msgid "Login with Google"
 msgstr "使用 Google 登录"
+
+#: new_analysis_page##heading
+msgid "Ask ✨ AI your spatial question"
+msgstr "向 ✨ AI 提出你的空间问题"
+
+#: new_analysis_page##description
+msgid "AI will pick from 200+ layers and build a tailored analysis."
+msgstr "AI 将从 200 多个图层中挑选并构建定制化分析。"
+
+#: new_analysis_page##generate_button
+msgid "Generate analysis"
+msgstr "生成分析"
+
+#: new_analysis_page##try_map_link
+msgid "Try map by yourself"
+msgstr "自己尝试地图"
+
+#: new_analysis_page##ai_generating
+msgid "AI is generating your analysis. It takes time"
+msgstr "AI 正在生成你的分析，这需要时间"
+
+#: new_analysis_page##generated_analysis
+msgid "Generated analysis \"{{name}}\""
+msgstr "已生成的分析 \"{{name}}\""
+
+#~ msgid "Focus to administrative boundary"
+#~ msgstr "聚焦至行政边界"
+
+#~ msgid "Focus to freehand geometry"
+#~ msgstr "聚焦至手绘几何体"
+
+#~ msgid "Сolor manager"
+#~ msgstr "颜色管理器"
+
+#~ msgid "Edit in OpenStreetMap"
+#~ msgstr "在 OpenStreetMap 中编辑"
+
+#~ msgid "Ruler"
+#~ msgstr "标尺"
 
 #~ msgid "Upload MCDA"
 #~ msgstr "上传分析"
