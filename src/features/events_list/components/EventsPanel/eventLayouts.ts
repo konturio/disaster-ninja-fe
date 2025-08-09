@@ -8,6 +8,14 @@ export const eventCardLayoutTemplate = {
       type: 'Row',
       children: [
         { type: 'Title', $value: 'eventName' },
+        {
+          type: 'DisasterShield',
+          $props: {
+            eventType: 'eventType',
+            magnitude: 'magnitude',
+            cycloneCategory: 'cycloneCategory',
+          },
+        },
         { type: 'Severity', $value: 'severity' },
       ],
     },
