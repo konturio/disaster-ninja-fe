@@ -83,7 +83,8 @@
     "other": "Other",
     "elevation": "Elevation",
     "photo": "Imagery",
-    "map": "Map"
+    "map": "Map",
+    "indicators": "Indicators"
   },
   "advanced_analytics_data_list": {
     "load_world_data": "Load World Data",
