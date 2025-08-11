@@ -38,17 +38,23 @@ export const groupSettings: Record<string, GroupSettings> = {
     mutuallyExclusive: true,
     order: 2,
   },
+  axis: {
+    name: i18n.t('groups.indicators'),
+    openByDefault: false,
+    mutuallyExclusive: true,
+    order: 3,
+  },
   qa: {
     name: i18n.t('groups.qa'),
     openByDefault: true,
     mutuallyExclusive: false,
-    order: 3,
+    order: 4,
   },
   osmbasedmap: {
     name: i18n.t('groups.osmbasedmap'),
     openByDefault: false,
     mutuallyExclusive: false,
-    order: 4,
+    order: 5,
   },
   other: {
     name: i18n.t('groups.other'),
