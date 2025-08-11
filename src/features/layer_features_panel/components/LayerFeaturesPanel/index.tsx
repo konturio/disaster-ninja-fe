@@ -1,7 +1,7 @@
 import { Panel, PanelIcon } from '@konturio/ui-kit';
 import { useCallback, useMemo, useRef } from 'react';
 import { clsx } from 'clsx';
-import { Legend24 } from '@konturio/default-icons';
+import { Legend24, List24 } from '@konturio/default-icons';
 import { useAction, useAtom } from '@reatom/npm-react';
 import { Sheet } from 'react-modal-sheet';
 import { IS_MOBILE_QUERY, useMediaQuery } from '~utils/hooks/useMediaQuery';
@@ -127,6 +127,9 @@ export function LayerFeaturesPanel() {
     }
   }, []);
 
+  const panelIcon =
+    featuresPanelLayerId === HOT_PROJECTS_LAYER_ID ? <List24 /> : <Legend24 />;
+
   const getPanelContent = useMemo(() => {
     if (loading) {
       return <LoadingSpinner message={i18n.t('loading')} marginTop="none" />;
@@ -177,11 +180,7 @@ export function LayerFeaturesPanel() {
   const panel = (
     <Panel
       header={panelHeader}
-      headerIcon={
-        <div className={s.iconWrap}>
-          <Legend24 />
-        </div>
-      }
+      headerIcon={<div className={s.iconWrap}>{panelIcon}</div>}
       onHeaderClick={togglePanel}
       className={clsx(s.featuresPanel, isOpen ? s.show : s.collapse, 'knt-panel')}
       classes={{ ...panelClasses, headerTitle: s.headerTitle, header: s.header }}
@@ -230,7 +229,7 @@ export function LayerFeaturesPanel() {
       <PanelIcon
         clickHandler={openFullState}
         className={clsx(s.panelIcon, isMobile ? '' : s.desktop, 'knt-panel-icon')}
-        icon={<Legend24 />}
+        icon={panelIcon}
       />
     </>
   );

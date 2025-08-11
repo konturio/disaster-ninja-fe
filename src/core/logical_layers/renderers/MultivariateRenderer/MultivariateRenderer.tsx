@@ -10,7 +10,7 @@ import {
 import { generateMultivariatePopupContent } from './popup';
 import { createTextLayerSpecification } from './helpers/createTextLayerSpecification';
 import { createExtrusionLayerSpecification } from './helpers/createExtrusionLayerSpecification';
-import type { ExtrusionDimension, OpacityDimension, TextDimension } from './types';
+import type { ExtrusionDimension, TextDimension } from './types';
 import type { FilterSpecification, LayerSpecification } from 'maplibre-gl';
 import type { LayerTileSource } from '~core/logical_layers/types/source';
 import type { ApplicationMap } from '~components/ConnectedMap/ConnectedMap';
@@ -57,7 +57,7 @@ export class MultivariateRenderer extends ClickableFeaturesRenderer {
     extrusionDimension: ExtrusionDimension,
     mainLayerId: string,
     mainLayerSpecification: LayerSpecification,
-    opacityDimension?: OpacityDimension,
+    staticOpacity?: number,
   ) {
     const extrusionLayerId = mainLayerId + EXTRUSION_POSTFIX;
 
@@ -70,7 +70,7 @@ export class MultivariateRenderer extends ClickableFeaturesRenderer {
       mainLayerSpecification,
       filter,
       // Extrusion layers in Maplibre don't support opacity expressions
-      isNumber(opacityDimension) ? opacityDimension : undefined,
+      staticOpacity,
     );
 
     layerByOrder(map, this._layersOrderManager).addAboveLayerWithSameType(
@@ -106,7 +106,7 @@ export class MultivariateRenderer extends ClickableFeaturesRenderer {
           style.config.extrusion,
           layerId,
           mainLayerSpec,
-          style.config.opacity,
+          style.config.staticOpacity,
         );
       }
       this._layerId = layerId;

@@ -81,10 +81,7 @@ export function MultivariateAnalysisForm({
   const [dimensionsLayers, setDimensionsLayers] = useState<MVAFormDimensions>({
     score: initialConfig?.score?.config.layers ?? [],
     compare: initialConfig?.base?.config.layers ?? [],
-    opacity:
-      initialConfig?.opacity && !isNumber(initialConfig?.opacity)
-        ? initialConfig?.opacity?.config.layers
-        : [],
+    opacity: initialConfig?.opacity?.config.layers ?? [],
     text: initialConfig?.text?.mcdaValue?.config.layers ?? [],
     extrusion: initialConfig?.extrusion?.height?.config.layers ?? [],
   });
@@ -100,7 +97,9 @@ export function MultivariateAnalysisForm({
   const buttonsRowRef = useRef<HTMLDivElement>(null);
 
   const [opacityStatic, setOpacityStatic] = useState(
-    isNumber(initialConfig?.opacity) ? initialConfig?.opacity?.toString() : undefined,
+    isNumber(initialConfig?.staticOpacity)
+      ? String(initialConfig?.staticOpacity)
+      : undefined,
   );
   const [extrusionMaxHeight, setExtrusionMaxHeight] = useState(
     initialConfig?.extrusion?.maxHeight?.toString() ??
@@ -144,17 +143,10 @@ export function MultivariateAnalysisForm({
       (dimensionsLayers.score.length > 0 ||
         dimensionsLayers.compare.length > 0 ||
         dimensionsLayers.opacity.length > 0 ||
-        opacityStatic !== undefined ||
         dimensionsLayers.extrusion.length > 0 ||
         dimensionsLayers.text.length > 0) &&
       ((isCustomStepsChecked && !customStepsErrors) || !isCustomStepsChecked),
-    [
-      axesResource.data,
-      customStepsErrors,
-      dimensionsLayers,
-      opacityStatic,
-      isCustomStepsChecked,
-    ],
+    [axesResource.data, customStepsErrors, dimensionsLayers, isCustomStepsChecked],
   );
 
   const previewConfig = useMemo(() => {
@@ -181,18 +173,18 @@ export function MultivariateAnalysisForm({
         ),
       };
     }
-    // mcda opacity takes precedence
-    let opacity: number | MCDALayer[] | undefined = dimensionsLayers.opacity;
-    if (!opacity.length && opacityStatic !== undefined) {
-      opacity = parseFloat(opacityStatic);
-      if (!isNumber(opacity)) {
-        opacity = undefined;
-      } else if (opacity > 1) {
-        opacity = 1;
-      } else if (opacity < 0) {
-        opacity = 0;
+
+    let staticOpacityNum: number | undefined = parseFloat(opacityStatic ?? '');
+    if (!isNumber(staticOpacityNum)) {
+      staticOpacityNum = undefined;
+    } else {
+      if (staticOpacityNum > 1) {
+        staticOpacityNum = 1;
+      } else if (staticOpacityNum < 0) {
+        staticOpacityNum = 0;
       }
     }
+
     const text: MCDALayer[] | undefined = dimensionsLayers.text;
     return isConfigValid
       ? createMultivariateConfig({
@@ -204,7 +196,8 @@ export function MultivariateAnalysisForm({
               ? initialConfig?.colors
               : undefined,
           stepOverrides,
-          opacity: opacity,
+          opacity: dimensionsLayers.opacity,
+          staticOpacity: staticOpacityNum,
           text,
           textSettings: {
             ...initialConfig?.text,
@@ -493,7 +486,7 @@ export function MultivariateAnalysisForm({
                 topControls={getTopControlsForDimension(dimensionKey)}
               />
             ))}
-          {previewConfig && !dimensionsLayers['opacity'].length && (
+          {previewConfig && (
             <div className={clsx(s.shortInput, s.staticOpacity)}>
               <Input
                 type="text"

@@ -2,7 +2,7 @@ import fs from 'fs';
 import { test, describe, expect } from 'vitest';
 import papa from 'papaparse';
 import * as dot from 'dot-object';
-import { calculateLayerPipeline, inViewCalculations } from '.';
+import { calculateLayerPipeline } from '.';
 import type { MCDALayer, TransformationFunction } from '../types';
 
 const PRECISION = 0.0000000001;
@@ -16,7 +16,7 @@ describe('mcda calculations', async () => {
   jsonResult.forEach((testEntry) => {
     test(`${testEntry.testId}: ${testEntry.description}`, () => {
       expect(testEntry.description).toBeTruthy();
-      const calculateNumber = calculateLayerPipeline(inViewCalculations, () => ({
+      const calculateNumber = calculateLayerPipeline('view', () => ({
         num: testEntry.value.numerator,
         den: testEntry.value.denominator,
       }));

@@ -107,7 +107,12 @@ export class MapRulerRenderer extends LogicalLayerDefaultRenderer {
     function preventMousemove(e) {
       return false;
     }
-    this._removeClickListener = registerMapListener('click', preventClicking, 1);
-    this._removeMousemoveListener = registerMapListener('mousemove', preventMousemove, 1);
+    // Use the highest priority to block map interactions from other layers
+    this._removeClickListener = registerMapListener('click', preventClicking, 100);
+    this._removeMousemoveListener = registerMapListener(
+      'mousemove',
+      preventMousemove,
+      100,
+    );
   }
 }

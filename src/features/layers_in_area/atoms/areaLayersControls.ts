@@ -2,8 +2,10 @@ import { createAtom } from '~utils/atoms/createPrimitives';
 import { layersRegistryAtom } from '~core/logical_layers/atoms/layersRegistry';
 import { getLayerRenderer } from '~core/logical_layers/utils/getLayerRenderer';
 import { createUpdateActionsFromLayersDTO } from '~core/logical_layers/utils/createUpdateActionsFromLayersDTO';
+import { currentEventResourceAtom } from '~core/shared_state/currentEventResource';
 import { layersInAreaAndEventLayerResource } from './layersInAreaAndEventLayerResource';
 import { layersGlobalResource } from './layersGlobalResource';
+import { renameEventShapeLayer } from './renameEventShapeLayer';
 import type { LayerSummaryDto } from '~core/logical_layers/types/source';
 import type { Action } from '@reatom/core-v2';
 
@@ -11,12 +13,15 @@ const allLayers = createAtom(
   {
     layersGlobalResource,
     layersInAreaAndEventLayerResource,
+    currentEventResourceAtom,
   },
   ({ get }) => {
-    return [
+    const layers = [
       ...(get('layersGlobalResource').data ?? []),
       ...(get('layersInAreaAndEventLayerResource').data ?? []),
     ];
+    const eventName = get('currentEventResourceAtom').data?.eventName;
+    return renameEventShapeLayer(layers, eventName);
   },
   'allLayers',
 );
