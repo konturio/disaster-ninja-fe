@@ -15,7 +15,7 @@ export function Category({ category }: { category: CategoryWithSettings }) {
   const [openMap] = useAtomV2(layersTreeOpenStateAtom);
   const [counters] = useAtom(mountedLayersByCategoryAtom);
   const mountedLayersCounter = counters[category.id] ?? 0;
-  const isOpen = openMap.get(category.id) ?? true;
+  const isOpen = openMap.get(category.id) ?? category.openByDefault;
   const setOpen = useAction(layersTreeOpenStateAtom.set);
   const onCategoryDeselect = useAction(
     () => categoryDeselection.deselect(category.id),

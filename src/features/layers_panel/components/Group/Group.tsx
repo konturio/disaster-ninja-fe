@@ -20,7 +20,7 @@ export function Group({
   const [openMap] = useAtomV2(layersTreeOpenStateAtom);
   const [counters] = useAtom(mountedLayersByGroupAtom);
   const mountedLayersCounter = counters[group.id] ?? 0;
-  const isOpen = openMap.get(group.id) ?? true;
+  const isOpen = openMap.get(group.id) ?? group.openByDefault;
   const setOpen = useAction(layersTreeOpenStateAtom.set);
   const groupDeselectAction = useAction(
     () => groupDeselection.deselect(group.id),
