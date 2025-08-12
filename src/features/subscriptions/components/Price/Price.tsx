@@ -13,7 +13,9 @@ export function Price({ amount, className }: PriceProps) {
     <div className={clsx(s.priceWrap, className)}>
       <div className={s.dollarSign}>$</div>
       <div className={s.amount}>{amount.toLocaleString('en-US')}</div>
-      <div className={s.perMonth}>{i18n.t('currency.usd')} / mo*</div>
+      <div className={s.perMonth}>
+        {i18n.t('currency.usd')} / {i18n.t('subscription.month_abbr')}*
+      </div>
     </div>
   );
 }
