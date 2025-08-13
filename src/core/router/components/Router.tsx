@@ -9,6 +9,7 @@ import { Suspense, useMemo, useLayoutEffect } from 'react';
 import KeepAlive from 'keepalive-for-react';
 import { CommonView } from '~views/CommonView';
 import { configRepo } from '~core/config';
+import { AppFeature } from '~core/app/types';
 import { FullScreenLoader } from '~components/LoadingSpinner/LoadingSpinner';
 import { landUser, userWasLanded } from '~core/app/userWasLanded';
 import { dispatchMetricsEvent, dispatchMetricsEventOnce } from '~core/metrics/dispatch';
@@ -123,7 +124,7 @@ function initRouter() {
   }
 
   // show landing page
-  if (configRepo.get().features['about_page'] && !userWasLanded()) {
+  if (configRepo.get().features[AppFeature.ABOUT_PAGE] && !userWasLanded()) {
     // TODO: put initialRedirect in feature config, remove showForNewUsers and routes scan
     const landingPageRoute = availableRoutes.routes.find((r) => r.showForNewUsers);
 

@@ -1,6 +1,7 @@
 import { createAtom, createBooleanAtom } from '~utils/atoms';
 import { createStringAtom } from '~utils/atoms/createPrimitives';
 import { configRepo } from '~core/config';
+import { AppFeature } from '~core/app/types';
 import {
   currentMapPositionAtom,
   setCurrentMapBbox,
@@ -38,8 +39,7 @@ export const urlStoreAtom = createAtom(
   },
   ({ get, schedule, onAction, create, v3ctx }, state: UrlData | null = null) => {
     const isFeedSelectorEnabled =
-      configRepo.get().features['events_list__feed_selector'] ||
-      configRepo.get().features['feed_selector'];
+      configRepo.get().features[AppFeature.EVENTS_LIST__FEED_SELECTOR];
 
     onAction('init', (initialState) => {
       schedule(async (dispatch) => {
