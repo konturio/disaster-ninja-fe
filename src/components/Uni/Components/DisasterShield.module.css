@@ -1,0 +1,10 @@
+.shield {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 16px;
+  padding: 0 var(--unit);
+  border-radius: 999px;
+  font: 600 var(--font-xs);
+  white-space: nowrap;
+}

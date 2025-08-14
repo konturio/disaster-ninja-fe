@@ -48,6 +48,10 @@ export interface Event {
   location: string;
   /** How it important */
   severity: Severity;
+  /** Earthquake magnitude if applicable */
+  magnitude?: number;
+  /** Cyclone category (TD, TS or 1-5) */
+  cycloneCategory?: string;
   /** How many people affected. >= 0 */
   affectedPopulation: number;
   /** Settled area in km2. >= 0 */
