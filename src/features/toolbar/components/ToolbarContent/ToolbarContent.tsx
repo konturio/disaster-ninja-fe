@@ -11,7 +11,7 @@ export const ToolbarContent = () => {
   useWheelHorizontalScroll(scrollRef);
 
   return (
-    <div className={s.toolbarContent}>
+    <div ref={scrollRef} className={s.toolbarContent} data-testid="toolbar-content">
       {toolbarContent.map(({ id, settings, stateAtom }) => (
         <ToolbarControl
           id={id}
