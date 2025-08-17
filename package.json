@@ -72,7 +72,7 @@
   "dependencies": {
     "@deck.gl/layers": "^8.9.36",
     "@deck.gl/mapbox": "^8.9.36",
-    "@floating-ui/react": "^0.27.13",
+    "@floating-ui/react": "^0.27.15",
     "@github/mini-throttle": "^2.1.1",
     "@konturio/default-icons": "^2.5.1",
     "@konturio/default-theme": "~3.2.7",

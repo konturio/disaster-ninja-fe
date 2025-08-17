@@ -742,13 +742,25 @@ function v3toV2<State, Deps, V3Actions>(
 ): AtomSelfBinded<State, Tov2Actions<V3Actions>>;
 ```
 
+Notes:
+
+- Each provided v3 action becomes a v2 action creator that:
+  - accepts a single payload argument (no ctx). If you need multiple values, wrap them into a single object payload
+  - exposes a `.dispatch(payload?)` helper bound to the provided `store`
+  - has `type` equal to the v3 action name (or an auto-generated name when absent)
+- The returned v2 atom is bound to the same `store` (defaults to global store) and exposes the underlying v3 atom on `v2Atom.v3atom` for advanced integration.
+- Bridge is a v2 facade over a v3 atom:
+  - v2 action mappers are NOT called; only the first argument is forwarded as `payload`
+  - v2 reducer / `onAction` flow is NOT executed for bridged actions (the reducer is a no-op)
+  - Do not rely on multi-argument mappers or `create()` → `onAction` chains with bridged actions
+
 **Usage**:
 
 ```typescript
 // Create v3 atom
 const v3Atom = atom(0, 'counter');
-const incrementAction = action((ctx) => {
-  v3Atom(ctx, ctx.get(v3Atom) + 1);
+const incrementAction = action((ctx, amount: number = 1) => {
+  v3Atom(ctx, ctx.get(v3Atom) + amount);
 }, 'increment');
 
 // Convert to v2
@@ -757,9 +769,24 @@ const v2Atom = v3toV2(v3Atom, {
 });
 
 // Use v2 API
-v2Atom.increment.dispatch();
+v2Atom.increment.dispatch(2); // payload is forwarded to the v3 action as its payload
 const state = v2Atom.getState();
 ```
+
+Multiple values:
+
+```typescript
+// Prefer a single object payload when multiple values are needed
+const setRange = action((ctx, payload: { min: number; max: number }) => {
+  const next = Math.max(payload.min, Math.min(payload.max, ctx.get(v3Atom)));
+  v3Atom(ctx, next);
+}, 'setRange');
+
+const v2AtomWithRange = v3toV2(v3Atom, { setRange });
+v2AtomWithRange.setRange.dispatch({ min: 1, max: 10 });
+```
+
+Warning: Only the first argument is forwarded through the bridge. Do not rely on multi-parameter action mappers; wrap data into a single object payload.
 
 ### v3ActionToV2
 
@@ -785,6 +812,12 @@ const v3Action = action((ctx, value: string) => {
 const v2Action = v3ActionToV2(v3Action, 'new value', 'UPDATE_VALUE');
 store.dispatch(v2Action);
 ```
+
+Action shape:
+
+- `type: string` — v2 action type
+- `payload: unknown` — payload passed to the v3 action as its second argument
+- `v3action: v3.Action` — original v3 action reference
 
 ## Common Patterns
 
