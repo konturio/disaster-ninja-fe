@@ -1,7 +1,7 @@
 import type { MultivariateLayerConfig } from '../renderers/MultivariateRenderer/types';
 import type { Axis } from '~utils/bivariate';
 
-type SimpleLegendStepType = 'square' | 'circle' | 'hex';
+type SimpleLegendStepType = 'square' | 'circle' | 'hex' | 'letter';
 interface MapCSSProperties {
   [key: string]: any;
   // Add bivariate steps
