@@ -9,7 +9,7 @@ var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read fr
 var __privateAdd = (obj, member, value2) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value2);
 var __privateSet = (obj, member, value2, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value2) : member.set(obj, value2), value2);
 var _config, _readSessionIntercomSetting, _setIntercomSetting;
-import { u as useFixtureState, e as extendWithValue, R as React, c as createValue, i as isEqual, r as reactExports, a as requireReact, g as getDefaultExportFromCjs, b as requireReactDom, d as React$1 } from "./index-cEbYcdNR.js";
+import { u as useFixtureState, e as extendWithValue, R as React, c as createValue, i as isEqual, r as reactExports, a as requireReact, b as requireReactDom, d as React$1, g as getDefaultExportFromCjs } from "./index-D3xGtwwu.js";
 function useCurrentInputValue(inputName, defaultValue) {
   const [fixtureState] = useFixtureState("inputs");
   const inputFs = fixtureState && fixtureState[inputName];
@@ -177,477 +177,6 @@ function requireJsxRuntime() {
   return jsxRuntime.exports;
 }
 var jsxRuntimeExports = requireJsxRuntime();
-class ConfigRepository {
-  constructor() {
-    __privateAdd(this, _config);
-    /* -- Intercom staff -- */
-    __privateAdd(this, _readSessionIntercomSetting, (key) => sessionStorage.getItem(`kontur.intercom.${key}`));
-    __privateAdd(this, _setIntercomSetting, (k2, v2) => {
-      const key = `kontur.intercom.${k2}`;
-      v2 ? sessionStorage.setItem(key, v2) : sessionStorage.removeItem(key);
-    });
-  }
-  set({
-    baseUrl,
-    initialUrl,
-    initialUrlData,
-    stageConfig,
-    appConfig,
-    baseMapUrl,
-    initialUser,
-    defaultLayers,
-    activeLayers,
-    presentationMode
-  }) {
-    __privateSet(this, _config, {
-      baseUrl,
-      initialUrl,
-      initialUrlData,
-      ...stageConfig,
-      ...appConfig,
-      mapBaseStyle: baseMapUrl,
-      features: Object.keys(appConfig.features).length > 0 ? appConfig.features : stageConfig.featuresByDefault,
-      initialUser,
-      defaultLayers,
-      activeLayers,
-      presentationMode
-    });
-  }
-  get() {
-    return __privateGet(this, _config);
-  }
-  getUserDefaultFeed() {
-    return __privateGet(this, _config).initialUser.defaultFeed ?? __privateGet(this, _config).defaultFeed;
-  }
-  getIntercomSettings() {
-    return {
-      intercomAppId: __privateGet(this, _config).intercomAppId,
-      intercomSelector: __privateGet(this, _config).intercomSelector,
-      name: __privateGet(this, _readSessionIntercomSetting).call(this, "name"),
-      email: __privateGet(this, _readSessionIntercomSetting).call(this, "email"),
-      phone: __privateGet(this, _readSessionIntercomSetting).call(this, "phone")
-    };
-  }
-  updateIntercomSettings(settings) {
-    Object.entries(settings).forEach(([k2, v2]) => __privateGet(this, _setIntercomSetting).call(this, k2, v2));
-  }
-}
-_config = new WeakMap();
-_readSessionIntercomSetting = new WeakMap();
-_setIntercomSetting = new WeakMap();
-const configRepo = new ConfigRepository();
-const _configDataMock = {
-  baseUrl: "/active/",
-  initialUrl: "https://disaster.ninja/active/map?map=4.920/37.682/112.588&event=1c1eb9ce-2fb0-4660-ae2e-ee93d15f8874&layers=kontur_lines%2CactiveContributors%2CeventShape%2ChotProjects_outlines%2Cpopulation_density%2Cfocused-geometry",
-  initialUrlData: {
-    layers: ["kontur_lines", "population_density"]
-  },
-  apiGateway: "https://disaster.ninja/active/api",
-  reportsApiGateway: "/active/reports",
-  bivariateTilesRelativeUrl: "api/tiles/bivariate/v1/",
-  bivariateTilesIndicatorsClass: "all",
-  refreshIntervalSec: 300,
-  sentryDsn: "",
-  keycloakUrl: "https://keycloak01.kontur.io",
-  keycloakRealm: "kontur",
-  keycloakClientId: "kontur_platform",
-  // intercomDefaultName: null,
-  intercomAppId: "e59cl64z",
-  intercomSelector: "#kontur_header_chat_btn",
-  defaultFeed: "kontur-public",
-  osmEditors: [
-    {
-      id: "josm",
-      title: "JOSM",
-      url: "https://www.openstreetmap.org/edit?editor=remote#map="
-    },
-    {
-      id: "id",
-      title: "iD",
-      url: "https://www.openstreetmap.org/edit?editor=id&node=2188188227#map="
-    },
-    {
-      id: "rapid",
-      title: "RapiD",
-      url: "https://mapwith.ai/rapid#map="
-    }
-  ],
-  autofocusZoom: 13,
-  mapBlankSpaceId: "map-view",
-  mapBaseStyle: "https://prod-basemap-tileserver.k8s-01.konturlabs.com/layers/tiles/basemap/style_ninja_en.json",
-  featuresByDefault: {
-    events_list: true,
-    current_event: true,
-    reports: true,
-    osm_edit_link: true,
-    side_bar: true,
-    analytics_panel: true,
-    map_layers_panel: true,
-    focused_geometry_layer: true,
-    map_ruler: true,
-    boundary_selector: true,
-    geometry_uploader: true,
-    legend_panel: true,
-    layers_in_area: true,
-    toasts: true,
-    feed_selector: true,
-    intercom: true,
-    tooltip: true
-  },
-  id: "9043acf9-2cf3-48ac-9656-a5d7c4b7593d",
-  name: "Kontur Atlas",
-  description: "Kontur SAAS application",
-  ownedByUser: false,
-  extent: [-135, 0, 63, 62],
-  sidebarIconUrl: "/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/favicon.svg",
-  faviconUrl: "/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/favicon.svg",
-  faviconPack: {
-    "favicon.svg": "/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/favicon.svg",
-    "favicon.ico": "/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/favicon.ico",
-    "apple-touch-icon.png": "/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/apple-touch-icon.png",
-    "icon-192x192.png": "/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/icon-192x192.png",
-    "icon-512x512.png": "/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/icon-512x512.png"
-  },
-  // @ts-ignore
-  features: {
-    side_bar: true,
-    intercom: true,
-    tooltip: true,
-    oam_auth: {
-      requiredRoutes: ["profile-external", "upload-imagery"],
-      authUrl: "https://api.openaerialmap.org/oauth/google",
-      sessionCookieName: "oam-session",
-      sessionCheckIntervalMs: 3e4,
-      redirectUriParamName: "original_uri"
-    },
-    subscription: {
-      billingMethodsDetails: [
-        {
-          id: "paypal",
-          clientId: "xxxxxxx-xxxx-xxxxxxxxxxxxxx"
-        }
-      ],
-      billingCyclesDetails: [
-        {
-          id: "month",
-          name: "Monthly",
-          note: null
-        },
-        {
-          id: "year",
-          name: "Annually",
-          note: "Save 5%"
-        }
-      ],
-      plans: [
-        {
-          id: "kontur_atlas_edu",
-          name: "Educational",
-          style: "basic",
-          billingCycles: [
-            {
-              id: "month",
-              initialPricePerMonth: null,
-              pricePerMonth: 100,
-              pricePerYear: null,
-              billingMethods: [
-                {
-                  id: "paypal",
-                  billingPlanId: "P-000000000000000000000000"
-                }
-              ]
-            },
-            {
-              id: "year",
-              initialPricePerMonth: 100,
-              pricePerMonth: 95,
-              pricePerYear: 1140,
-              billingMethods: [
-                {
-                  id: "paypal",
-                  billingPlanId: "P-000000000000000000000000"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          id: "kontur_atlas_pro",
-          name: "Professional",
-          style: "premium",
-          billingCycles: [
-            {
-              id: "month",
-              initialPricePerMonth: null,
-              pricePerMonth: 1e3,
-              pricePerYear: null,
-              billingMethods: [
-                {
-                  id: "paypal",
-                  billingPlanId: "P-000000000000000000000000"
-                }
-              ]
-            },
-            {
-              id: "year",
-              initialPricePerMonth: 1e3,
-              pricePerMonth: 950,
-              pricePerYear: 11400,
-              billingMethods: [
-                {
-                  id: "paypal",
-                  billingPlanId: "P-000000000000000000000000"
-                }
-              ]
-            }
-          ]
-        },
-        {
-          id: "kontur_atlas_custom",
-          name: "Custom",
-          style: "custom",
-          actions: [
-            {
-              name: "contact_sales",
-              params: {
-                link: "https://calendly.com/"
-              }
-            },
-            {
-              name: "book_a_demo"
-            }
-          ]
-        }
-      ]
-    },
-    app_login: true,
-    toasts: true,
-    use_3rdparty_analytics: true,
-    about_page: {
-      tabId: "about",
-      assetUrl: "about.md",
-      subTabs: [
-        {
-          tabId: "terms",
-          assetUrl: "terms.md"
-        },
-        {
-          tabId: "privacy",
-          assetUrl: "privacy.md"
-        },
-        {
-          tabId: "user-guide",
-          assetUrl: "user_guide.md"
-        }
-      ]
-    }
-  },
-  public: true,
-  initialUser: {
-    username: "",
-    email: "",
-    fullName: "",
-    language: "en",
-    useMetricUnits: true,
-    subscribedToKonturUpdates: false,
-    bio: "",
-    osmEditor: "josm",
-    defaultFeed: "kontur-public",
-    theme: "kontur"
-  },
-  defaultLayers: [
-    {
-      id: "kontur_lines",
-      source: {
-        type: "maplibre-style-url",
-        urls: [
-          "https://prod-basemap-tileserver.k8s-01.konturlabs.com/layers/tiles/basemap/style_ninja_en.json"
-        ]
-      },
-      ownedByUser: false
-    },
-    {
-      id: "population_density",
-      // @ts-ignore
-      source: {
-        urls: [
-          "https://disaster.ninja/active/api/tiles/bivariate/v1/{z}/{x}/{y}.mvt?indicatorsClass=general"
-        ]
-      },
-      // @ts-ignore
-      legend: {
-        type: "simple",
-        steps: [
-          {
-            stepName: "0 - 1.27",
-            stepShape: "square",
-            style: {
-              color: "#F0F0D6",
-              "fill-color": "#F0F0D6",
-              "fill-opacity": 0.8
-            }
-          },
-          {
-            stepName: "1.27 - 2.45",
-            stepShape: "square",
-            style: {
-              color: "#ECECC4",
-              "fill-color": "#ECECC4",
-              "fill-opacity": 0.8
-            }
-          },
-          {
-            stepName: "2.45 - 5.75",
-            stepShape: "square",
-            style: {
-              color: "#EAEAB0",
-              "fill-color": "#EAEAB0",
-              "fill-opacity": 0.8
-            }
-          },
-          {
-            stepName: "5.75 - 12.43",
-            stepShape: "square",
-            style: {
-              color: "#E8E89D",
-              "fill-color": "#E8E89D",
-              "fill-opacity": 0.8
-            }
-          },
-          {
-            stepName: "12.43 - 28.47",
-            stepShape: "square",
-            style: {
-              color: "#E1D689",
-              "fill-color": "#E1D689",
-              "fill-opacity": 0.8
-            }
-          },
-          {
-            stepName: "28.47 - 66.03",
-            stepShape: "square",
-            style: {
-              color: "#DAC075",
-              "fill-color": "#DAC075",
-              "fill-opacity": 0.8
-            }
-          },
-          {
-            stepName: "66.03 - 172.46",
-            stepShape: "square",
-            style: {
-              color: "#D1A562",
-              "fill-color": "#D1A562",
-              "fill-opacity": 0.8
-            }
-          },
-          {
-            stepName: "172.46 - 535.67",
-            stepShape: "square",
-            style: {
-              color: "#C98A50",
-              "fill-color": "#C98A50",
-              "fill-opacity": 0.8
-            }
-          },
-          {
-            stepName: "535.67 - 46200",
-            stepShape: "square",
-            style: {
-              color: "#BF6C3F",
-              "fill-color": "#BF6C3F",
-              "fill-opacity": 0.8
-            }
-          }
-        ]
-      },
-      ownedByUser: false
-    }
-  ],
-  activeLayers: ["kontur_lines", "population_density"]
-};
-configRepo.get = () => _configDataMock;
-configRepo.getUserDefaultFeed = () => _configDataMock.initialUser.defaultFeed;
-const _md = `![Kontur Atlas](about-atlas-1.png)
-
-# Kontur Atlas
-
-Atlas is your GPS for big decisions. It's a tool that helps you use maps and data to figure out a wide range of things, from where to open a new store to exploring environmental sustainability.
-
-![Geospatial Data with Ease](about-atlas-2.png)
-
-## Geospatial Data with Ease
-
-### Browse & Choose Data
-
-We've got tons of info like who lives where and how people get around. Find the data that'll answer your questions.
-
-### Make Maps
-
-With a few clicks, Atlas turns that data into maps and visuals so it's easy to understand.
-
-### Analyze & Decide
-
-Use these insights to make smart decisions, like picking the perfect spot for your next big project or making concussions based on spatial patterns.
-
-### Jump in and start exploring
-
-Your next big opportunity is waiting to be mapped out!
-
-## _[Subscribe to Atlas](/pricing)_ wrapped in "\\_"
-
-### **[Subscribe to Atlas](/pricing)** "\\_\\_"
-
-### **_[Subscribe to Atlas](/pricing)_** "\\_\\_\\*"
-
-## How to Use
-
----
-
-![youtube](https://www.youtube.com/embed/g7WMD10DMPs?si=Gl6RdNM0L3ufi0uF::800,470,true)
-
-### Area Selection
-
-To choose an area for analysis, you can use the toolbar to select an administrative unit, draw a shape manually, or import a GeoJSON file.
-
-![youtube](https://www.youtube.com/embed/aCXaAYEW0oM::800,470,true)
-
-### Analytics Panel
-
-This panel displays essential data about your selected area.
-
-#### AI Insights
-
-Compares your area's data with global averages, alerting you to any significant discrepancies.
-
-#### Personalized AI Insights
-
-Reference Area: This allows you to set a known area as a reference point for comparisons and highlights differences.
-Bio: Here, you can record details like who you're working for, your analysis purpose, and key topics, helping to personalize AI conclusions.
-
-![youtube](https://www.youtube.com/embed/Md5Mex-POBo::800,470,true)
-
-### Creating Custom Analysis
-
-To create your own analysis, select the "MCDA" button in the toolbar.
-
-#### Choosing Relevant Layers
-
-Start by picking data layers appropriate for your requirements — this could include anything from population density to environmental risk factors.
-
-#### Browse the map
-
-By default, the map displays red hexagons in high-value areas and green hexagons where values are minimal. Click on any hexagon to access detailed info for that particular sector.
-
-#### Layer Customization
-
-Enhance your analysis by fine-tuning the range and what is bad and good of each layer. This means you can focus specifically on aspects crucial to your study.
-
----
-
-### _[Learn more on kontur.io](https://www.kontur.io/atlas)_
-`;
-const _css = "article {\n  & * {\n    outline: lime solid thin;\n  }\n}\n";
 function t() {
   return t = Object.assign ? Object.assign.bind() : function(e) {
     for (var t2 = 1; t2 < arguments.length; t2++) {
@@ -984,6473 +513,17 @@ const Markdown = (t2) => {
   }(t2, n$1);
   return reactExports.cloneElement(Xe(r2, i2), l2);
 };
-const NAVIGATE_EVENT = "KNT_NAVIGATE_TO";
-const goTo = (slug) => {
-  const evt = new CustomEvent(NAVIGATE_EVENT, { detail: { payload: slug } });
-  globalThis.dispatchEvent(evt);
-};
-const impossibleValue = Symbol(), callSafely = function(fn) {
-  try {
-    return fn(...[].slice.call(arguments, 1));
-  } catch (err) {
-    return setTimeout(() => {
-      throw err;
-    }), err instanceof Error ? err : err = new Error(err);
-  }
-};
-function throwReatomError(condition, message) {
-  if (condition) throw new Error(`Reatom error: ${message}`);
-}
-const isAtom$1 = (thing) => void 0 !== (thing == null ? void 0 : thing.__reatom), isConnected$1 = (cache) => cache.subs.size + cache.listeners.size > 0;
-function assertFunction(thing) {
-  throwReatomError("function" != typeof thing, `invalid "${typeof thing}", function expected`);
-}
-const getRootCause$2 = (cause) => null === cause.cause ? cause : getRootCause$2(cause.cause), isBrowser = () => "object" == typeof window && "object" == typeof document;
-let CTX, initiations = 0;
-const createCtx = ({ callLateEffect = callSafely, callNearEffect = callSafely, restrictMultipleContexts = isBrowser() } = {}) => {
-  restrictMultipleContexts && 1 == initiations++ && console.warn("Reatom: multiple contexts detected, which is irrelevant in browser, you should use only one context");
-  let caches = /* @__PURE__ */ new WeakMap(), read = (proto) => caches.get(proto), logsListeners = /* @__PURE__ */ new Set(), nearEffects = [], lateEffects = [], inTr = false, trError = null, trUpdates = [], trRollbacks = [], trLogs = [], trNearEffectsStart = 0, trLateEffectsStart = 0, effectsProcessing = false, walkNearEffects = () => {
-    for (let effect of nearEffects) callNearEffect(effect, ctx);
-    nearEffects = [];
-  }, walkLateEffects = () => {
-    if (!effectsProcessing) {
-      effectsProcessing = true, walkNearEffects();
-      for (let effect of lateEffects) callLateEffect(effect, ctx), nearEffects.length > 0 && walkNearEffects();
-      lateEffects = [], effectsProcessing = false;
-    }
-  }, addPatch = ({ state, proto, pubs, subs, listeners }, cause) => (proto.actual = false, trLogs.push(proto.patch = { state, proto, cause, pubs, subs, listeners }), proto.patch), enqueueComputers = (cache) => {
-    for (let subProto of cache.subs) {
-      let subCache = subProto.patch ?? read(subProto);
-      subProto.patch && !subProto.actual || 0 === addPatch(subCache, cache).listeners.size && enqueueComputers(subCache);
-    }
-  }, disconnect = (proto, pubPatch) => {
-    if (pubPatch.subs.delete(proto) && (trRollbacks.push(() => pubPatch.subs.add(proto)), !isConnected$1(pubPatch))) {
-      null !== pubPatch.proto.disconnectHooks && nearEffects.push(...pubPatch.proto.disconnectHooks);
-      for (let parentParent of pubPatch.pubs) disconnect(pubPatch.proto, parentParent);
-    }
-  }, connect = (proto, pubPatch) => {
-    if (!pubPatch.subs.has(proto)) {
-      let wasConnected = isConnected$1(pubPatch);
-      if (pubPatch.subs.add(proto), trRollbacks.push(() => pubPatch.subs.delete(proto)), !wasConnected) {
-        null !== pubPatch.proto.connectHooks && nearEffects.push(...pubPatch.proto.connectHooks);
-        for (let parentParentPatch of (pubPatch.proto.patch ?? read(pubPatch.proto)).pubs) connect(pubPatch.proto, parentParentPatch);
-      }
-    }
-  }, actualize = (ctx2, proto, updater) => {
-    let { patch, actual } = proto, updating = void 0 !== updater;
-    if (!updating && actual && (0 === patch.pubs.length || isConnected$1(patch))) return patch;
-    let cache = patch ?? read(proto), isInt = !cache, cause = updating ? ctx2.cause : read(__root);
-    if (isInt) cache = { state: proto.initState(ctx2), proto, cause, pubs: [], subs: /* @__PURE__ */ new Set(), listeners: /* @__PURE__ */ new Set() }, updating && trLogs.push(cache);
-    else if (null === proto.computer && !updating) return cache;
-    patch && !actual || (patch = addPatch(cache, cause));
-    let { state } = patch, patchCtx = { get: ctx2.get, spy: void 0, schedule: ctx2.schedule, subscribe: ctx2.subscribe, cause: patch };
-    try {
-      proto.computer && ((patchCtx2, patch2) => {
-        let { proto: proto2, pubs } = patch2, isDepsChanged = false;
-        if (0 === pubs.length || pubs.some(({ proto: proto3, state: state2 }) => !Object.is(state2, (patch2.cause = actualize(patchCtx2, proto3)).state))) {
-          let newPubs = [];
-          if (patchCtx2.spy = ({ __reatom: depProto }, cb) => {
-            let depPatch = actualize(patchCtx2, depProto), prevDepPatch = newPubs.push(depPatch) <= pubs.length ? pubs[newPubs.length - 1] : void 0, isDepChanged = (prevDepPatch == null ? void 0 : prevDepPatch.proto) !== depPatch.proto;
-            isDepsChanged || (isDepsChanged = isDepChanged);
-            let state2 = depProto.isAction && !isDepChanged ? depPatch.state.slice(prevDepPatch.state.length) : depPatch.state;
-            if (!cb || !isDepChanged && Object.is(state2, prevDepPatch.state)) return state2;
-            if (depProto.isAction) for (const call of state2) cb(call);
-            else cb(state2, isDepChanged ? void 0 : prevDepPatch == null ? void 0 : prevDepPatch.state);
-          }, patch2.state = patch2.proto.computer(patchCtx2, patch2.state), patch2.pubs = newPubs, (isDepsChanged || pubs.length > newPubs.length) && isConnected$1(patch2)) {
-            for (let { proto: depProto } of pubs) newPubs.every((dep) => dep.proto !== depProto) && disconnect(proto2, depProto.patch ?? read(depProto));
-            for (let { proto: depProto } of newPubs) pubs.every((dep) => dep.proto !== depProto) && connect(proto2, depProto.patch ?? read(depProto));
-          }
-          patchCtx2.spy = () => throwReatomError(true, "async spy"), patch2 = proto2 = pubs = newPubs = null;
-        }
-      })(patchCtx, patch), updating && (patch.cause = ctx2.cause, updater(patchCtx, patch)), proto.actual = true;
-    } catch (error2) {
-      throw patch.error = error2;
-    }
-    if (!Object.is(state, patch.state) && (patch.subs.size > 0 && (updating || patch.listeners.size > 0) && enqueueComputers(patch), proto.updateHooks)) {
-      let ctx3 = { get: patchCtx.get, spy: void 0, schedule: patchCtx.schedule, subscribe: patchCtx.subscribe, cause: patchCtx.cause };
-      proto.updateHooks.forEach((hook) => trUpdates.push(() => hook(ctx3, patch)));
-    }
-    return patch;
-  }, ctx = { get(atomOrCb) {
-    if (throwReatomError(CTX && getRootCause$2(CTX.cause) !== read(__root), "cause collision"), isAtom$1(atomOrCb)) {
-      let proto = atomOrCb.__reatom;
-      if (inTr) return actualize(this, proto).state;
-      let cache = read(proto);
-      return void 0 === cache || null !== proto.computer && !isConnected$1(cache) ? this.get(() => actualize(this, proto).state) : cache.state;
-    }
-    if (throwReatomError(null !== trError, "tr failed"), inTr) return atomOrCb(read, actualize);
-    inTr = true, trNearEffectsStart = nearEffects.length, trLateEffectsStart = lateEffects.length;
-    let start = void 0 === CTX;
-    start && (CTX = this);
-    try {
-      var result = atomOrCb(read, actualize);
-      for (let i2 = 0; i2 < trLogs.length; i2++) {
-        let { listeners, proto } = trLogs[i2];
-        if (listeners.size > 0 && actualize(this, proto), trUpdates.length > 0) for (let commit of trUpdates.splice(0)) commit(this);
-      }
-      if (trLogs.length) for (let log of logsListeners) log(trLogs);
-      for (let patch of trLogs) {
-        let { proto, state } = patch;
-        if (proto.isAction && (patch.state = []), patch === proto.patch) if (proto.patch = null, proto.actual = false, caches.set(proto, patch), proto.isAction) {
-          if (0 === state.length) continue;
-          for (let cb of patch.listeners) nearEffects.push(() => cb(state));
-        } else for (let cb of patch.listeners) lateEffects.push(() => cb(read(proto).state));
-      }
-    } catch (e) {
-      trError = e = e instanceof Error ? e : new Error(String(e));
-      for (let log of logsListeners) log(trLogs, e);
-      for (let cb of trRollbacks) callSafely(cb, e);
-      for (let { proto } of trLogs) proto.patch = null, proto.actual = false;
-      throw nearEffects.length = trNearEffectsStart, lateEffects.length = trLateEffectsStart, e;
-    } finally {
-      inTr = false, trError = null, trUpdates = [], trRollbacks = [], trLogs = [], trNearEffectsStart = 0, trLateEffectsStart = 0, start && (CTX = void 0);
-    }
-    return walkLateEffects(), result;
-  }, spy: void 0, schedule(cb, step = 1) {
-    return assertFunction(cb), throwReatomError(!this, "missed context"), new Promise((res, rej) => {
-      -1 === step ? inTr && trRollbacks.push(cb) : 0 === step ? inTr && trUpdates.push(() => cb(this)) : ((1 === step ? nearEffects : lateEffects).push(() => {
-        try {
-          let result = cb(this);
-          return result instanceof Promise ? result.then(res, rej) : res(result), result;
-        } catch (error2) {
-          throw rej(error2), error2;
-        }
-      }), inTr || walkLateEffects());
-    });
-  }, subscribe(atom2, cb = atom2) {
-    if (assertFunction(cb), atom2 === cb) return logsListeners.add(cb), () => logsListeners.delete(cb);
-    throwReatomError(!isAtom$1(atom2), "target subscriber isn't an atom");
-    let { __reatom: proto } = atom2, lastState = impossibleValue, listener = (state) => Object.is(lastState, state) || cb(lastState = state), cache = read(proto);
-    return void 0 !== cache && isConnected$1(cache) ? cache.listeners.add(listener) : this.get(() => {
-      cache = actualize(this, proto, (patchCtx, patch) => {
-      }), cache.listeners.add(listener), trRollbacks.push(() => proto.patch.listeners.delete(listener));
-      for (let pubPatch of cache.pubs) connect(proto, pubPatch);
-      null !== proto.connectHooks && nearEffects.push(...proto.connectHooks);
-    }), lastState === impossibleValue && listener((proto.patch ?? read(proto)).state), () => {
-      if (cache.listeners.delete(listener) && !isConnected$1(cache)) {
-        proto.disconnectHooks && nearEffects.push(...proto.disconnectHooks);
-        for (let pubCache of read(proto).pubs) disconnect(proto, pubCache);
-        inTr || (trRollbacks.length = 0, walkLateEffects());
-      }
-    };
-  }, cause: void 0 };
-  return (ctx.cause = ctx.get(() => actualize(ctx, __root))).cause = null, ctx;
-};
-let i$1 = 0, __count = (name) => `${name}#${++i$1}`;
-function pipe() {
-  return [].slice.call(arguments).reduce((acc, fn) => fn(acc), this);
-}
-function onChange(cb) {
-  var _a;
-  const hook = (ctx, patch) => cb(ctx, patch.state);
-  return ((_a = this.__reatom).updateHooks ?? (_a.updateHooks = /* @__PURE__ */ new Set())).add(hook), () => this.__reatom.updateHooks.delete(hook);
-}
-function onCall(cb) {
-  return this.onChange((ctx, state) => {
-    const { params, payload } = state[state.length - 1];
-    cb(ctx, payload, params);
-  });
-}
-function atom(initState, name = __count("_atom")) {
-  let theAtom = (ctx, update) => ctx.get((read, actualize) => actualize(ctx, theAtom.__reatom, (patchCtx, patch) => {
-    patch.state = "function" == typeof update ? update(patch.state, patchCtx) : update;
-  }).state), computer = null;
-  return "function" == typeof initState && (theAtom = {}, computer = initState, initState = void 0), theAtom.__reatom = { name, isAction: false, patch: null, initState: () => initState, computer, connectHooks: null, disconnectHooks: null, updateHooks: null, actual: false }, theAtom.pipe = pipe, theAtom.onChange = onChange, 0 === experimental_PLUGINS.length ? theAtom : theAtom.pipe(...experimental_PLUGINS);
-}
-const action = (fn, name) => {
-  void 0 !== fn && "string" != typeof fn || (name = fn, fn = (ctx, v2) => v2), assertFunction(fn);
-  let actionAtom = atom([], name ?? __count("_action"));
-  return actionAtom.__reatom.isAction = true, actionAtom.__reatom.unstable_fn = fn, Object.assign(function() {
-    var params = [].slice.call(arguments);
-    let state = actionAtom(params[0], (state2, patchCtx) => (params[0] = patchCtx, [...state2, { params: params.slice(1), payload: patchCtx.cause.proto.unstable_fn(...params) }]));
-    return state[state.length - 1].payload;
-  }, actionAtom, { onCall });
-}, experimental_PLUGINS = [], __root = atom(void 0, "root").__reatom;
-function pushUnique(list, el) {
-  list.includes(el) || list.push(el);
-}
-function isString$1(thing) {
-  return "string" == typeof thing;
-}
-function isObject$1(thing) {
-  return "object" == typeof thing && null !== thing;
-}
-function isFunction(thing) {
-  return "function" == typeof thing;
-}
-function isAtom(thing) {
-  return isFunction(thing) && "types" in thing;
-}
-function isActionCreator(thing) {
-  return isFunction(thing) && "type" in thing;
-}
-function isAction(thing) {
-  return isObject$1(thing) && isString$1(thing.type) && "payload" in thing;
-}
-const getRootCause$1 = (cause) => null === cause.cause ? cause : getRootCause$1(cause.cause), spyChange = (ctx, anAtom, handler) => {
-  let isChanged = false;
-  return ctx.spy(anAtom, (newState, prevState) => {
-    isChanged = true, handler == null ? void 0 : handler(newState, prevState);
-  }), isChanged;
-};
-atom(null, "initializations").__reatom.initState = () => /* @__PURE__ */ new WeakMap();
-let atomsCount = 0;
-function createAtom$1(dependencies, reducer, options = {}) {
-  let { v3atom, id = (v3atom == null ? void 0 : v3atom.__reatom.name) ?? "atom" + ++atomsCount, store: store2 = defaultStore } = isString$1(options) ? { id: options } : options;
-  const trackedTypes = [], types = [], actionCreators = {}, externalActions = {};
-  throwReatomError(!isFunction(reducer) || !isString$1(id), "atom arguments"), Object.entries(dependencies).forEach(([name, dep]) => {
-    if (throwReatomError(!isFunction(dep), `Invalid atom dependencies (type ${typeof dep}) at ${name}`), isAtom(dep)) dep.types.forEach((type) => pushUnique(types, type));
-    else {
-      let type;
-      if (isActionCreator(dep)) type = (externalActions[name] = dep).type;
-      else {
-        type = `${name}_${id}`;
-        const actionCreator = function() {
-          return { payload: dep(...[].slice.call(arguments)), type, targets: [atom$1], v3action: actionCreator.v3action };
-        };
-        actionCreator.type = type, actionCreator.dispatch = function() {
-          return store2.dispatch(actionCreator(...[].slice.call(arguments)));
-        }, actionCreator.v3action = action(type), actionCreators[name] = actionCreator, "_" != name[0] && (atom$1[name] = actionCreator);
-      }
-      pushUnique(trackedTypes, type), pushUnique(types, type);
-    }
-  });
-  const cacheReducer = /* @__PURE__ */ function(reducer2, dependencies2, trackedTypes2, actionCreators2, externalActions2) {
-    const create2 = function(name) {
-      return actionCreators2[name](...[].slice.call(arguments, 1));
-    };
-    return (v3ctx, state) => {
-      const rootCause = getRootCause$1(v3ctx.cause);
-      ctxs.has(rootCause) || ctxs.set(rootCause, /* @__PURE__ */ new WeakMap()), ctxs.get(rootCause).has(reducer2) || ctxs.get(rootCause).set(reducer2, {});
-      const ctx = ctxs.get(rootCause).get(reducer2);
-      return reducer2({ create: create2, get: (name) => v3ctx.spy(dependencies2[name].v3atom), getUnlistedState: (targetAtom) => v3ctx.get(targetAtom.v3atom), onAction: (name, reaction) => {
-        const ac = externalActions2[name] ?? actionCreators2[name];
-        throwReatomError(void 0 === ac, "Unknown action"), spyChange(v3ctx, ac.v3action, ({ payload }) => {
-          reaction(payload);
-        });
-      }, onChange: (name, reaction) => {
-        spyChange(v3ctx, dependencies2[name].v3atom, (prev, next) => reaction(prev, next));
-      }, onInit: (cb) => {
-        v3ctx.get((read) => read(v3ctx.cause.proto)) || cb();
-      }, schedule: (effect) => v3ctx.schedule(() => effect(getRootCause$1(v3ctx.cause).v2store.dispatch, ctx, []), 2), v3ctx }, state);
-    };
-  }(reducer, dependencies, 0, actionCreators, externalActions);
-  function atom$1(transaction) {
-    return transaction.v3ctx.get(atom$1.v3atom);
-  }
-  return atom$1.id = id, atom$1.getState = () => store2.getState(atom$1), atom$1.subscribe = (cb) => store2.subscribe(atom$1, cb), atom$1.types = types, (atom$1.v3atom = v3atom ?? atom(cacheReducer, id)).__reatom.v2atom = atom$1, atom$1;
-}
-const ctxs = /* @__PURE__ */ new WeakMap();
-function createStore({ callSafety = callSafely, v3ctx = createCtx({ callNearEffect: callSafety, callLateEffect: callSafety }) } = {}) {
-  const store2 = { dispatch: (action2) => {
-    const actions = Array.isArray(action2) ? action2 : [action2];
-    throwReatomError(0 == actions.length || !actions.every(isAction), "dispatch arguments"), v3ctx.get(() => {
-      actions.forEach((action3) => action3.v3action(v3ctx, action3.payload)), actions.forEach(({ targets }) => targets == null ? void 0 : targets.forEach((target) => v3ctx.get(target.v3atom)));
-    });
-  }, getCache: (atom2) => v3ctx.get((read) => read(atom2.v3atom.__reatom)), getState: (atom2) => v3ctx.get(atom2.v3atom), subscribe: (atom2, cb) => v3ctx.subscribe(atom2.v3atom, (state) => cb(state, [])), v3ctx };
-  return getRootCause$1(v3ctx.cause).v2store = store2, store2;
-}
-const defaultStore = createStore();
-let n = 0;
-function r$1(r2, c2, o2 = "primitive" + ++n) {
-  c2 ?? (c2 = { set: (e, t2) => t2, change: (e, t2) => t2(e) });
-  let { decorators: u2, ...a2 } = isString$1(o2) ? { id: o2 } : o2;
-  const l2 = createAtom$1(Object.keys(c2).reduce((e, t2) => (e[t2] = function() {
-    return [].slice.call(arguments);
-  }, e), {}), (e, t2 = r2) => {
-    for (const n2 in c2) e.onAction(n2, (e2) => {
-      t2 = c2[n2](t2, ...e2);
-    });
-    return t2;
-  }, a2);
-  return l2;
-}
-let c = 0;
-function o(e = false, t2 = "boolean" + ++c) {
-  return r$1(e, { toggle: (e2) => !e2, setTrue: () => true, setFalse: () => false, change: (e2, t3) => t3(e2), set: (e2, t3) => t3 }, t2);
-}
-const noop$3 = () => {
-}, isObject = (thing) => "object" == typeof thing && null !== thing, isShallowEqual = (a2, b2, is = Object.is) => {
-  if (Object.is(a2, b2)) return true;
-  if (!isObject(a2) || !isObject(b2) || a2.__proto__ !== b2.__proto__ || a2 instanceof Error) return false;
-  if (Symbol.iterator in a2) {
-    let equal = a2 instanceof Map ? (a3, b3) => is(a3[0], b3[0]) && is(a3[1], b3[1]) : is, aIter = a2[Symbol.iterator](), bIter = b2[Symbol.iterator]();
-    for (; ; ) {
-      let aNext = aIter.next(), bNext = bIter.next();
-      if (aNext.done || bNext.done || !equal(aNext.value, bNext.value)) return aNext.done && bNext.done;
-    }
-  }
-  if (a2 instanceof Date) return a2.getTime() === b2.getTime();
-  if (a2 instanceof RegExp) return String(a2) === String(b2);
-  for (let k2 in a2) if (k2 in b2 == 0 || !is(a2[k2], b2[k2])) return false;
-  return Object.keys(a2).length === Object.keys(b2).length;
-}, isDeepEqual = (a2, b2) => {
-  const visited = /* @__PURE__ */ new WeakMap(), is = (a3, b3) => {
-    if (isObject(a3)) {
-      if (visited.has(a3)) return visited.get(a3) === b3;
-      visited.set(a3, b3);
-    }
-    return isShallowEqual(a3, b3, is);
-  };
-  return isShallowEqual(a2, b2, is);
-}, assign = Object.assign, merge = function() {
-  return Object.assign({}, ...[].slice.call(arguments));
-};
-const { toString } = Object.prototype;
-let i = 0;
-const toAbortError = (reason) => {
-  if (reason instanceof Error == 0 || "AbortError" !== reason.name) {
-    if (reason instanceof Error) {
-      var options = { cause: reason };
-      reason = reason.message;
-    } else reason = isObject(reason) ? toString.call(reason) : String(reason);
-    reason += ` [${++i}]`, "undefined" == typeof DOMException ? (reason = new Error(reason, options)).name = "AbortError" : reason = assign(new DOMException(reason, "AbortError"), options);
-  }
-  return reason;
-}, throwIfAborted = (controller) => {
-  if (controller == null ? void 0 : controller.signal.aborted) throw toAbortError(controller.signal.reason);
-}, isAbort = (thing) => thing instanceof Error && "AbortError" === thing.name, setTimeout$1 = Object.assign(function() {
-  const intervalId = globalThis.setTimeout(...[].slice.call(arguments));
-  return "number" == typeof intervalId ? intervalId : Object.assign(intervalId, { toJSON: () => -1 });
-}, globalThis.setTimeout), MAX_SAFE_TIMEOUT = 2 ** 31 - 1;
-function _catch(body, recover) {
-  try {
-    var result = body();
-  } catch (e) {
-    return recover(e);
-  }
-  return result && result.then ? result.then(void 0, recover) : result;
-}
-class CauseContext extends WeakMap {
-  has(cause) {
-    return super.has(cause) || null !== cause.cause && this.has(cause.cause);
-  }
-  get(cause) {
-    for (; !super.has(cause) && cause.cause; ) cause = cause.cause;
-    return super.get(cause);
-  }
-}
-const abortCauseContext = new CauseContext(), getTopController = (patch) => abortCauseContext.get(patch) ?? null, onCtxAbort = (ctx, cb) => {
-  const controller = getTopController(ctx.cause);
-  if (controller) {
-    const handler = () => cb(toAbortError(controller.signal.reason)), cleanup = () => controller.signal.removeEventListener("abort", handler);
-    if (!controller.signal.aborted) return controller.signal.addEventListener("abort", handler), cleanup;
-    handler();
-  }
-}, CHAINS = /* @__PURE__ */ new WeakMap(), __thenReatomed = (ctx, origin, onFulfill, onReject) => {
-  let chain = CHAINS.get(origin);
-  if (!chain) {
-    const promise = origin.then((value2) => (ctx.get((read, actualize) => chain.then.forEach((cb) => cb(value2, read, actualize))), value2), (error2) => {
-      throw ctx.get((read, actualize) => chain.catch.forEach((cb) => cb(error2, read, actualize))), isAbort(error2) && promise.catch(noop$3), error2;
-    });
-    CHAINS.set(origin, chain = { promise, then: [], catch: [] }), CHAINS.set(promise, chain);
-  }
-  return onFulfill && chain.then.push(onFulfill), onReject && chain.catch.push(onReject), chain.promise;
-}, withAbortableSchedule = (ctx) => {
-  const { schedule } = ctx;
-  return merge(ctx, { schedule(cb, step = 1) {
-    const _this = this;
-    if (step < 1) return schedule.call(this, cb, step);
-    let resolve, reject;
-    const promise = new Promise((res, rej) => {
-      resolve = res, reject = rej;
-    }), unabort = onCtxAbort(this, (error2) => {
-      promise.catch(noop$3), reject(error2);
-    });
-    return schedule.call(this, function(_ctx) {
-      try {
-        let _temp3 = function() {
-          unabort == null ? void 0 : unabort();
-        };
-        const _temp2 = _catch(function() {
-          const controller = getTopController(_this.cause);
-          return throwIfAborted(controller), Promise.resolve(cb(_ctx)).then(function(value2) {
-            throwIfAborted(controller), resolve(value2);
-          });
-        }, function(error2) {
-          reject(error2);
-        });
-        return Promise.resolve(_temp2 && _temp2.then ? _temp2.then(_temp3) : _temp3());
-      } catch (e) {
-        return Promise.reject(e);
-      }
-    }, step).catch((error2) => {
-      reject(error2), unabort == null ? void 0 : unabort();
-    }), promise;
-  } });
-}, _spawn = action(function(ctx, fn, controller) {
-  return abortCauseContext.set(ctx.cause, controller), fn(ctx, ...[].slice.call(arguments, 3));
-}, "_spawn"), spawn = (ctx, fn, args = [], controller = new AbortController()) => _spawn(ctx, fn, controller, ...args);
-const getRootCause = (cause) => null === cause.cause ? cause : getRootCause(cause.cause), isSameCtx = (ctx1, ctx2) => getRootCause(ctx1.cause) === getRootCause(ctx2.cause), addOnConnect = (anAtom, cb) => {
-  var _a;
-  return ((_a = anAtom.__reatom).connectHooks ?? (_a.connectHooks = /* @__PURE__ */ new Set())).add(cb);
-}, addOnDisconnect = (anAtom, cb) => {
-  var _a;
-  return ((_a = anAtom.__reatom).disconnectHooks ?? (_a.disconnectHooks = /* @__PURE__ */ new Set())).add(cb);
-}, _onConnect = action((ctx, anAtom, fn, controller) => {
-  ctx.cause.cause = getRootCause(ctx.cause), abortCauseContext.set(ctx.cause, controller);
-  const result = fn(withAbortableSchedule({ ...ctx, controller, isConnected: () => isConnected(ctx, anAtom) }));
-  return result instanceof Promise && controller.signal.addEventListener("abort", () => result.catch(noop$3)), result;
-}, "_onConnect"), onConnect = (anAtom, cb) => {
-  const connectHook = (ctx) => {
-    const controller = new AbortController(), cleanup = _onConnect(ctx, anAtom, cb, controller);
-    cleanup instanceof Promise && cleanup.catch(noop$3);
-    const cleanupHook = (_ctx) => {
-      isSameCtx(ctx, _ctx) && disconnectHooks.delete(cleanupHook) && connectHooks.has(connectHook) && (controller.abort(toAbortError("disconnect " + anAtom.__reatom.name)), "function" == typeof cleanup && cleanup());
-    }, disconnectHooks = addOnDisconnect(anAtom, cleanupHook);
-  }, connectHooks = addOnConnect(anAtom, connectHook);
-  return () => connectHooks.delete(connectHook);
-}, isConnected = (ctx, { __reatom: proto }) => ctx.get((read) => {
-  const cache = proto.patch ?? read(proto);
-  return !!cache && cache.subs.size + cache.listeners.size > 0;
-}), initializations = atom(null, "initializations");
-initializations.__reatom.initState = () => /* @__PURE__ */ new WeakMap();
-const withAssign = (getProps) => (target) => assign(target, getProps(target, target.__reatom.name));
-const reatomMap = (initState = /* @__PURE__ */ new Map(), name) => {
-  const atomInitState = initState instanceof Map ? initState : new Map(initState);
-  return atom(atomInitState, name).pipe(withAssign((target, name$1) => {
-    const getOrCreate = action((ctx, key, value2) => {
-      actions.set(ctx, key, value2);
-      return value2;
-    }, `${name$1}.getOrCreate`);
-    const actions = {
-      get: (ctx, key) => ctx.get(target).get(key),
-      getOrCreate: (ctx, key, creator) => actions.has(ctx, key) ? actions.get(ctx, key) : getOrCreate(ctx, key, creator()),
-      has: (ctx, key) => ctx.get(target).has(key),
-      set: action((ctx, key, value2) => target(ctx, (prev) => {
-        const valuePrev = prev.get(key);
-        return Object.is(valuePrev, value2) && (value2 !== void 0 || prev.has(key)) ? prev : new Map(prev).set(key, value2);
-      }), `${name$1}.set`),
-      delete: action((ctx, key) => target(ctx, (prev) => {
-        if (!prev.has(key)) return prev;
-        const next = new Map(prev);
-        next.delete(key);
-        return next;
-      }), `${name$1}.delete`),
-      clear: action((ctx) => target(ctx, /* @__PURE__ */ new Map()), `${name$1}.clear`),
-      reset: action((ctx) => target(ctx, atomInitState), `${name$1}.reset`),
-      sizeAtom: atom((ctx) => ctx.spy(target).size, `${name$1}.size`)
-    };
-    return actions;
-  }));
-};
-const handleEffect = (anAsync, params, { shouldPending = true, shouldFulfill = true, shouldReject = true, effect = anAsync.__reatom.unstable_fn } = {}) => {
-  const pendingAtom = anAsync.pendingAtom;
-  const [ctx] = params;
-  if (shouldPending) pendingAtom(ctx, (s2) => ++s2);
-  const origin = ctx.schedule(() => new Promise((res, rej) => {
-    throwIfAborted(ctx.controller);
-    effect(...params).then(res, rej);
-    ctx.controller.signal.addEventListener("abort", () => rej(toAbortError(ctx.controller.signal.reason)));
-  }));
-  return assign(__thenReatomed(ctx, origin, (v2) => {
-    if (shouldFulfill) anAsync.onFulfill(ctx, v2);
-    if (shouldPending) pendingAtom(ctx, (s2) => --s2);
-  }, (e) => {
-    if (shouldReject && !isAbort(e)) anAsync.onReject(ctx, e);
-    if (shouldPending) pendingAtom(ctx, (s2) => --s2);
-  }), { controller: ctx.controller });
-};
-const NOOP_TIMEOUT_ID = -1;
-const withCache = ({ ignoreAbort = true, length = 5, paramsLength, staleTime = 5 * 60 * 1e3, swr: swrOptions = true, withPersist, paramsToKey, isEqual: isEqual2 = (ctx, a2, b2) => isDeepEqual(a2, b2) } = {}) => (anAsync) => {
-  if (!anAsync.cacheAtom) {
-    const swr = !!swrOptions;
-    const { shouldPending = false, shouldFulfill = swr, shouldReject = false } = swrOptions;
-    if (staleTime !== Infinity) staleTime = Math.min(MAX_SAFE_TIMEOUT, staleTime);
-    const find = paramsToKey ? (ctx, params, state = ctx.get(cacheAtom)) => {
-      const key = paramsToKey(ctx, params);
-      return {
-        cached: state.get(key),
-        key
-      };
-    } : (ctx, params, state = ctx.get(cacheAtom)) => {
-      for (const [key, cached] of state) if (isEqual2(ctx, key, params)) return {
-        cached,
-        key
-      };
-      return {
-        cached: void 0,
-        key: params
-      };
-    };
-    const findLatestWithValue = (ctx, state = ctx.get(cacheAtom)) => {
-      for (const cached of state.values()) if (cached.version > 0 && (!latestCached || cached.lastUpdate > latestCached.lastUpdate)) {
-        var latestCached = cached;
-      }
-      return latestCached;
-    };
-    const deleteOldest = (cache) => {
-      for (const [key, cached] of cache) if (!oldestCached || oldestCached.lastUpdate > cached.lastUpdate) {
-        var oldestKey = key;
-        var oldestCached = cached;
-      }
-      if (oldestCached) cache.delete(oldestKey);
-    };
-    const planCleanup = (ctx, key, time = staleTime) => {
-      var _a;
-      const clearTimeoutId = staleTime === Infinity ? NOOP_TIMEOUT_ID : setTimeout$1(() => {
-        var _a2;
-        if (((_a2 = cacheAtom.get(ctx, key)) == null ? void 0 : _a2.clearTimeoutId) === clearTimeoutId) cacheAtom.delete(ctx, key);
-      }, time);
-      (_a = clearTimeoutId.unref) == null ? void 0 : _a.call(clearTimeoutId);
-      ctx.schedule(() => clearTimeout(clearTimeoutId), -1);
-      return clearTimeoutId;
-    };
-    const cacheAtom = anAsync.cacheAtom = reatomMap(/* @__PURE__ */ new Map(), `${anAsync.__reatom.name}._cacheAtom`).pipe(withAssign((target, name) => ({
-      setWithParams: action((ctx, params, value2) => {
-        const { cached, key } = find(ctx, params);
-        clearTimeout(cached == null ? void 0 : cached.clearTimeoutId);
-        cacheAtom.set(ctx, key, {
-          clearTimeoutId: planCleanup(ctx, key),
-          promise: void 0,
-          value: value2,
-          version: cached ? cached.version + 1 : 1,
-          controller: new AbortController(),
-          lastUpdate: Date.now(),
-          params
-        });
-      }),
-      deleteWithParams: action((ctx, params) => {
-        const { cached, key } = find(ctx, params);
-        if (cached) cacheAtom.delete(ctx, key);
-      })
-    })));
-    cacheAtom.invalidate = action((ctx) => {
-      const latest = findLatestWithValue(ctx);
-      cacheAtom.clear(ctx);
-      if ("promiseAtom" in anAsync) return anAsync(ctx);
-      return latest ? anAsync(ctx, ...latest.params) : null;
-    }, `${cacheAtom.__reatom.name}.invalidate`);
-    cacheAtom.options = {
-      ignoreAbort,
-      length,
-      paramsLength,
-      staleTime,
-      swr,
-      withPersist
-    };
-    if (withPersist) cacheAtom.pipe(withPersist({
-      key: cacheAtom.__reatom.name,
-      fromSnapshot: (ctx, snapshot, state = /* @__PURE__ */ new Map()) => {
-        if (snapshot.length <= (state == null ? void 0 : state.size) && snapshot.every(([, { params, value: value2 }]) => {
-          const { cached } = find(ctx, params, state);
-          return !!cached && isDeepEqual(cached.value, value2);
-        })) return state;
-        const newState = new Map(snapshot);
-        for (const [key, rec] of newState) {
-          const restStaleTime = staleTime - (Date.now() - rec.lastUpdate);
-          if (restStaleTime <= 0) newState.delete(key);
-          else {
-            clearTimeout(rec.clearTimeoutId);
-            rec.clearTimeoutId = planCleanup(ctx, key, staleTime - (Date.now() - rec.lastUpdate));
-          }
-        }
-        for (const [key, rec] of state) if (rec.promise) {
-          const { cached } = find(ctx, rec.params, newState);
-          if (cached) cached.promise = rec.promise;
-          else newState.set(key, rec);
-        }
-        return newState;
-      },
-      time: Math.min(staleTime, MAX_SAFE_TIMEOUT),
-      toSnapshot: (ctx, cache) => [...cache].filter(([, rec]) => !rec.promise)
-    }));
-    const swrPendingAtom = anAsync.swrPendingAtom = atom(0, `${anAsync.__reatom.name}.swrPendingAtom`);
-    const handlePromise = (ctx, key, cached, swr$1) => {
-      clearTimeout(cached.clearTimeoutId);
-      cached.clearTimeoutId = planCleanup(ctx, key);
-      const isSame = () => {
-        var _a;
-        return ((_a = cacheAtom.get(ctx, key)) == null ? void 0 : _a.clearTimeoutId) === cached.clearTimeoutId;
-      };
-      const { unstable_fn } = anAsync.__reatom;
-      let res, rej;
-      cached.promise = new Promise((...a2) => [res, rej] = a2);
-      return async (...a2) => {
-        try {
-          const value2 = await (ignoreAbort ? spawn(a2[0], (ctx$1, ...a$1) => unstable_fn({
-            ...ctx$1,
-            controller: getTopController(ctx$1.cause)
-          }, ...a$1), a2.slice(1)) : unstable_fn(...a2));
-          res(value2);
-          ctx.get(() => {
-            if (isSame()) cacheAtom.set(ctx, key, {
-              ...cached,
-              promise: void 0,
-              value: value2,
-              version: cached.version + 1
-            });
-            if (swr$1) swrPendingAtom(ctx, (s2) => s2 - 1);
-          });
-        } catch (error2) {
-          rej(error2);
-          ctx.get(() => {
-            if (isSame()) if (cached.version > 0) cacheAtom.set(ctx, key, {
-              ...cached,
-              promise: void 0
-            });
-            else cacheAtom.delete(ctx, key);
-            if (swr$1) swrPendingAtom(ctx, (s2) => s2 - 1);
-          });
-        }
-        return cached.promise;
-      };
-    };
-    anAsync._handleCache = action(
-      // @ts-expect-error can't type the context
-      (...params) => {
-        const [ctx] = params;
-        const controller = getTopController(ctx.cause.cause);
-        abortCauseContext.set(ctx.cause, ctx.controller = controller);
-        const paramsKey = params.slice(1, 1 + (paramsLength ?? params.length));
-        let { cached = {
-          clearTimeoutId: NOOP_TIMEOUT_ID,
-          promise: void 0,
-          value: void 0,
-          version: 0,
-          controller,
-          lastUpdate: -1,
-          params: []
-        }, key } = find(ctx, paramsKey);
-        const prevController = cached.controller;
-        cached = {
-          ...cached,
-          lastUpdate: Date.now(),
-          params: paramsKey,
-          controller
-        };
-        const cache = cacheAtom.set(ctx, key, cached);
-        if (cache.size > length) deleteOldest(cache);
-        if (cached.version === 0 && !cached.promise || cached.promise && prevController.signal.aborted) return handleEffect(anAsync, params, { effect: handlePromise(ctx, key, cached, false) });
-        if (cached.version > 0) anAsync.onFulfill(ctx, cached.value);
-        if (cached.promise || !swr) return handleEffect(anAsync, params, {
-          effect: async () => cached.promise ?? cached.value,
-          shouldPending: false,
-          shouldFulfill,
-          shouldReject
-        });
-        if (swr) swrPendingAtom(ctx, (s2) => s2 + 1);
-        return handleEffect(anAsync, params, {
-          effect: handlePromise(ctx, key, cached, swr),
-          shouldPending,
-          shouldFulfill,
-          shouldReject
-        });
-      },
-      `${anAsync.__reatom.name}._handleCache`
-    );
-    if ("dataAtom" in anAsync) {
-      const { initState } = anAsync.dataAtom.__reatom;
-      anAsync.dataAtom.__reatom.initState = (ctx) => {
-        const cached = findLatestWithValue(ctx);
-        const iniState = initState(ctx);
-        return cached ? anAsync.dataAtom.mapFulfill ? anAsync.dataAtom.mapFulfill(ctx, cached.value, iniState) : cached.value : iniState;
-      };
-    }
-    if (withPersist && "dataAtom" in anAsync) onConnect(anAsync.dataAtom, (ctx) => ctx.subscribe(cacheAtom, () => {
-    }));
-  }
-  return anAsync;
-};
-const resolved = /* @__PURE__ */ new WeakSet();
-const reatomResource = (asyncComputed, name = __count("asyncAtom")) => {
-  const promises = new CauseContext();
-  const theAsync = reatomAsync((ctx) => {
-    const promise = promises.get(ctx.cause);
-    throwReatomError(!promise, "reaction manual call");
-    return promise;
-  }, name);
-  const promiseAtom = atom((_ctx, state) => {
-    if (state && !_ctx.cause.pubs.length) return state;
-    const params = [];
-    const ctx = merge(_ctx, { spy(anAtom, cb) {
-      throwReatomError(cb, "spy reactions are unsupported in ResourceAtom");
-      const value2 = _ctx.spy(anAtom);
-      params.push(value2);
-      return value2;
-    } });
-    const abortError = toAbortError("concurrent " + name);
-    const controller = new AbortController();
-    const unabort = onCtxAbort(ctx, (error2) => {
-      if (abortError !== error2 && !isConnected(ctx, theReaction)) controller.abort(error2);
-    });
-    if (unabort) controller.signal.addEventListener("abort", unabort);
-    abortCauseContext.set(ctx.cause, ctx.controller = controller);
-    const computedPromise = asyncComputed(withAbortableSchedule(ctx));
-    computedPromise.catch(noop$3);
-    promises.set(ctx.cause, computedPromise);
-    const pendingBefore = ctx.get(theAsync.pendingAtom);
-    const fulfillCallsBefore = ctx.get(theAsync.onFulfill);
-    let promise = theAsync(
-      ctx,
-      ...params
-    );
-    promise.controller.signal.addEventListener("abort", () => {
-      var _a;
-      if (!((_a = theReaction.cacheAtom) == null ? void 0 : _a.options.ignoreAbort)) controller.abort(promise.controller.signal.reason);
-    });
-    const cached = pendingBefore === ctx.get(theAsync.pendingAtom);
-    const fulfillCalls = ctx.get(theAsync.onFulfill);
-    if (cached) controller.abort(toAbortError("cached " + name));
-    if (cached && fulfillCallsBefore !== fulfillCalls) promise = Object.assign(Promise.resolve(fulfillCalls[fulfillCalls.length - 1].payload), { controller });
-    __thenReatomed(ctx, promise, () => resolved.add(promise), () => resolved.add(promise)).catch(noop$3);
-    state == null ? void 0 : state.controller.abort(abortError);
-    return promise;
-  }, `${name}._promiseAtom`);
-  onConnect(theAsync, (ctx) => ctx.subscribe(promiseAtom, noop$3));
-  onConnect(promiseAtom, (ctx) => () => {
-    ctx.get((read) => {
-      var _a;
-      const state = (_a = read(promiseAtom.__reatom)) == null ? void 0 : _a.state;
-      state == null ? void 0 : state.controller.abort(ctx.controller.signal.reason);
-      if (!resolved.has(state)) reset(ctx, promiseAtom.__reatom, ctx.controller.signal.reason);
-    });
-  });
-  const theReaction = Object.assign((ctx) => ctx.get((read, actualize) => {
-    var _a;
-    reset(ctx, promiseAtom.__reatom, toAbortError("force " + name));
-    actualize(ctx, promiseAtom.__reatom, noop$3);
-    const state = ctx.get(theAsync);
-    const payload = (_a = state[state.length - 1]) == null ? void 0 : _a.payload;
-    throwReatomError(!payload, "unexpectedly failed invalidation. Please, report the issue");
-    return payload;
-  }), theAsync, {
-    promiseAtom,
-    init(ctx) {
-      return ctx.subscribe(promiseAtom, noop$3);
-    },
-    reset: action((ctx) => {
-      reset(ctx, promiseAtom.__reatom, toAbortError("reset " + name));
-    }, `${name}.reset`)
-  });
-  Object.defineProperty(theAsync, "_handleCache", { get() {
-    return theReaction._handleCache;
-  } });
-  return theReaction;
-};
-const reset = (ctx, proto, reason) => ctx.get((read, actualize) => {
-  if (read(proto)) {
-    const { computer } = proto;
-    proto.computer = null;
-    try {
-      actualize(ctx, proto, (patchCtx, patch) => {
-        var _a;
-        (_a = patch.state) == null ? void 0 : _a.controller.abort(reason);
-        patch.pubs = [];
-        patch.state = void 0;
-      });
-    } finally {
-      proto.computer = computer;
-    }
-  }
-});
-const reatomAsync = (effect, options = {}) => {
-  const { name = __count("async"), onEffect: onEffectHook, onFulfill: onFulfillHook, onReject: onRejectHook, onSettle: onSettleHook } = typeof options === "string" ? { name: options } : options;
-  const pendingAtom = atom(0, `${name}.pendingAtom`);
-  const theAsync = Object.assign(
-    // do not put this function inside `action` to not broke effect mocking
-    (...params) => params[0].get((read, actualize) => {
-      const { state } = actualize(params[0], theAsync.__reatom, (ctx, patch) => {
-        abortCauseContext.set(ctx.cause, ctx.controller = new AbortController());
-        const unabort = onCtxAbort(params[0], (error2) => {
-          payload == null ? void 0 : payload.catch(noop$3);
-          ctx.controller.abort(error2);
-        });
-        if (unabort) ctx.controller.signal.addEventListener("abort", unabort);
-        params[0] = withAbortableSchedule(ctx);
-        var payload = theAsync._handleCache ? theAsync._handleCache(...params) : handleEffect(theAsync, params);
-        __thenReatomed(ctx, payload, void 0, () => {
-          if (onReject.__reatom.updateHooks.size > 1) payload.catch(noop$3);
-        });
-        patch.state = [...patch.state, {
-          params: params.slice(1),
-          payload
-        }];
-      });
-      return state[state.length - 1].payload;
-    }),
-    action(
-      // @ts-expect-error TODO need a better way to pass a custom Ctx.
-      effect,
-      name
-    )
-  );
-  const onFulfill = action(`${name}.onFulfill`);
-  const onReject = action(`${name}.onReject`);
-  const onSettle = action(`${name}._onSettle`);
-  onFulfill.onCall((ctx) => onSettle(ctx));
-  onReject.onCall((ctx) => onSettle(ctx));
-  if (onEffectHook) theAsync.onCall((ctx, promise, params) => onEffectHook(ctx, params, promise));
-  if (onFulfillHook) onFulfill.onCall(onFulfillHook);
-  if (onRejectHook) onReject.onCall(onRejectHook);
-  if (onSettleHook) onSettle.onCall(onSettleHook);
-  onConnect(pendingAtom, (ctx) => ctx.subscribe(theAsync, noop$3));
-  return assign(theAsync, {
-    onFulfill,
-    onReject,
-    onSettle,
-    pendingAtom
-  });
-};
-reatomAsync.from = (effect, options = {}) => {
-  if (effect.name.length > 2) if (typeof options === "object") options.name ?? (options.name = effect.name);
-  else options ?? (options = effect.name);
-  return reatomAsync((ctx, ...a2) => effect(...a2), options);
-};
-const withDataAtom = (initState, mapFulfill) => (anAsync) => {
-  if (!anAsync.dataAtom) {
-    const dataAtom = anAsync.dataAtom = Object.assign(atom(initState, `${anAsync.__reatom.name}.dataAtom`), {
-      reset: action((ctx) => {
-        dataAtom(ctx, initState);
-      }, `${anAsync.__reatom.name}.dataAtom.reset`),
-      mapFulfill
-    });
-    dataAtom.__reatom.computer = (ctx, state) => {
-      ctx.spy(anAsync.onFulfill, ({ payload }) => {
-        state = payload;
-      });
-      return state;
-    };
-    anAsync.onFulfill.onCall((ctx) => {
-      ctx.get(dataAtom);
-    });
-    onConnect(dataAtom, (ctx) => ctx.subscribe(anAsync, noop$3));
-  }
-  return anAsync;
-};
-const getCause = (patch, log = "") => log.length > 1e4 ? `${log} ...` : null !== patch.cause && patch.cause.proto !== __root ? getCause(patch.cause, log + " <-- " + (patch.cause.proto.name ?? "unnamed")) : log || "root", getTimeStampDefault = () => {
-  let ms = (/* @__PURE__ */ new Date()).getMilliseconds();
-  return ms = ms.toString().padStart(3, "0"), `${(/* @__PURE__ */ new Date()).toLocaleTimeString()} ${ms}ms`;
-};
-let timesPrecision = 10 ** 15;
-const createLogBatched = ({ debounce = 500, getTimeStamp = getTimeStampDefault, limit = 5e3, log = console.log, domain = "", shouldGroup = false, shouldLogGraph = false } = {}) => {
-  domain && (domain = `(${domain}) `);
-  let queue = [], isBatching = false, batchingStart = Date.now();
-  return (msg) => {
-    0 !== Object.keys(msg.changes).length && (isBatching || (isBatching = true, batchingStart = Date.now()), setTimeout((length) => {
-      if (isBatching = queue.length !== length && Date.now() - batchingStart < limit, isBatching) return;
-      const isFewTransactions = queue.length > 0;
-      console.groupCollapsed(`Reatom ${domain}${length} transaction${length > 1 ? "s" : ""}`), shouldLogGraph && ((logsSet) => {
-        const visited = /* @__PURE__ */ new Set(), checkCause = (patch) => {
-          !patch.cause || patch.cause.proto === __root || patch.cause.proto.name.startsWith("_") && patch.cause.proto.name.includes("._") || logsSet.has(patch.cause) || visited.has(patch.cause) || (checkCause(patch.cause), visited.add(patch.cause));
-        };
-        for (const patch of logsSet) checkCause(patch);
-        const logs = [...logsSet], maxDistance = logs.reduce((acc, patch, i2) => Math.max(acc, i2 - ((patch.cause && logs.indexOf(patch.cause)) ?? i2)), 0), shiftRatio = 20 * maxDistance, x2 = Math.floor(maxDistance / logs.length * shiftRatio) + 20;
-        let y2 = 30, body = "", width = x2;
-        for (const patch of logs) {
-          const { isAction: isAction2, name } = patch.proto, color = isAction2 ? name.endsWith(".onFulfill") ? "#E6DC73" : "#ffff80" : "#151134";
-          body += `<circle cx="${x2}" cy="${y2}" r="10" fill="${color}" />`, body += `<text x="${x2 + 15}" y="${y2 + 5}" font-size="10" fill="gray">${name}</text>`, y2 += 30, width = Math.max(width, x2 + 10 * name.length);
-        }
-        logs.forEach(({ cause }, idx) => {
-          if (!cause || cause.proto === __root || 0 === idx) return;
-          const causeIdx = logs.indexOf(cause);
-          if (causeIdx < 0) return;
-          const causeY = 30 * causeIdx + 30, shiftX = Math.floor(x2 - (idx - causeIdx) / logs.length * shiftRatio - 10), shiftY = Math.floor(30 * (causeIdx + (idx - causeIdx) / 2)) + 30, idxY = 30 * idx + 30, lineX = Math.floor(x2 - 10);
-          body += `<polyline points="${lineX},${causeY} ${shiftX},${shiftY} ${lineX},${idxY}" stroke="gray" fill="none" />`;
-        });
-        const dataUrl = `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${y2}" style="font-family: monospace;">${body}</svg>`)}`;
-        console.log("%c                         ", `font-size:${y2}px; background: url(${dataUrl}) no-repeat; font-family: monospace;`);
-      })(new Set(queue.flatMap(({ changes }) => Object.values(changes)).sort((a2, b2) => a2.time - b2.time).map(({ patch }) => patch)));
-      for (const { changes, time, error: error2 } of queue) {
-        console.log(`%c ${time}`, `padding-left: calc(50% - ${time.length / 2}em); font-size: 0.7rem;`), error2 && console.error(error2);
-        let inGroup = false;
-        Object.entries(changes).forEach(([k2, change], i2, arr) => {
-          var _a;
-          const isAction2 = "payload" in change, style = (isAction2 ? "background: #ffff80; color: #151134;" : "background: #151134; color: white;") + "font-weight: 400; padding: 0.15em;  padding-right: 1ch;", name = k2.replace(/(\d)*\./, ""), head = name.replace(/\..*/, ""), nextK = (_a = arr[i2 + 1]) == null ? void 0 : _a[0], nextName = nextK == null ? void 0 : nextK.replace(/(\d)*\./, ""), isGroup = nextName == null ? void 0 : nextName.startsWith(head);
-          shouldGroup && !inGroup && isGroup && isFewTransactions && (inGroup = true, console.groupCollapsed(`%c ${head}`, style));
-          const data = isAction2 ? change.payload : change.newState;
-          console.groupCollapsed(`%c ${name}`, style), console.log(change), console.groupEnd(), isAction2 && !isShallowEqual(change.params, [data]) && log(...change.params), log(data), shouldGroup && !isGroup && inGroup && (inGroup = false, console.groupEnd());
-        });
-      }
-      console.log("\n\n", "transactions:", queue), console.groupEnd(), queue = [];
-    }, debounce, queue.push(Object.assign(msg, { time: getTimeStamp() }))));
-  };
-}, connectLogger = (ctx, { devtools = false, historyLength = 10, domain = "", log = createLogBatched({ domain }), showCause = true, skip = () => false, skipUnnamed = true } = {}) => {
-  const history = /* @__PURE__ */ new WeakMap();
-  let read;
-  ctx.get((r2) => read = r2);
-  const ctxUnsubscribe = ctx.subscribe((logs, error2) => {
-    let i2 = -1;
-    try {
-      const states = /* @__PURE__ */ new WeakMap(), changes = {};
-      for (; ++i2 < logs.length; ) {
-        const patch = logs[i2], { cause, proto, state } = patch, { isAction: isAction2 } = proto;
-        let { name } = proto;
-        if (skip(patch)) continue;
-        if (!name || name.startsWith("_") || /\._/.test(name)) {
-          if (skipUnnamed) continue;
-          name ?? (name = "unnamed");
-        }
-        const oldCache = read(proto), oldState = states.has(proto) ? states.get(proto) : oldCache == null ? void 0 : oldCache.state;
-        if (states.set(proto, state), Object.is(state, oldState) || isAction2 && 0 === state.length) continue;
-        let atomHistory = history.get(proto) ?? [];
-        if (historyLength && (atomHistory = atomHistory.slice(0, historyLength - 1), atomHistory.unshift(isAction2 ? { ...patch, state: [...state] } : patch), history.set(proto, atomHistory)), !(oldCache || "root" !== cause.proto.name || isAction2 && 0 !== state.length)) continue;
-        const changeMsg = changes[`${i2 + 1}.${name}`] = { patch, history: atomHistory, time: (globalThis.performance ?? Date).now() + 1 / timesPrecision-- };
-        if (isAction2) {
-          const call = state.at(-1);
-          changeMsg.params = call.params, changeMsg.payload = call.payload;
-        } else changeMsg.newState = state, changeMsg.oldState = oldState;
-        changeMsg.patch = patch, showCause && (changeMsg.cause = getCause(patch));
-      }
-      log({ error: error2, changes, logs, ctx });
-    } catch (error3) {
-      console.error("Reatom/logger error with", logs[i2]), console.log(error3);
-    }
-  });
-  return () => {
-    ctxUnsubscribe();
-  };
-};
-const METRICS_EVENT = "METRICS";
-function dispatchMetricsEvent(name, payload) {
-  if (!globalThis.CustomEvent) return;
-  const evt = new CustomEvent(METRICS_EVENT, {
-    detail: {
-      name,
-      payload
-    }
-  });
-  globalThis.dispatchEvent(evt);
-}
-class FallbackStorage {
-  constructor() {
-    __publicField(this, "storage", /* @__PURE__ */ new Map());
-  }
-  setItem(key, value2) {
-    this.storage.set(key, value2);
-  }
-  getItem(key) {
-    return this.storage.get(key);
-  }
-  removeItem(key) {
-    this.storage.delete(key);
-  }
-  clear() {
-    this.storage.clear();
-  }
-  get length() {
-    return this.storage.size;
-  }
-  key(index2) {
-    return this.storage.keys()[index2] ?? null;
-  }
-}
-class StableStorage {
-  constructor(type) {
-    __publicField(this, "storage");
-    if (this.storageAvailable(type)) {
-      this.storage = globalThis[type];
-    } else {
-      this.storage = new FallbackStorage();
-    }
-  }
-  storageAvailable(type) {
-    try {
-      const storage = globalThis[type];
-      const x2 = "__storage_test__";
-      storage.setItem(x2, x2);
-      storage.removeItem(x2);
-      return true;
-    } catch (e) {
-    }
-  }
-  setItem(key, value2) {
-    return this.storage.setItem(key, value2);
-  }
-  getItem(key) {
-    return this.storage.getItem(key);
-  }
-  get length() {
-    return this.storage.length;
-  }
-  clear() {
-    return this.storage.clear();
-  }
-  key(index2) {
-    return this.storage.key(index2);
-  }
-  removeItem(key) {
-    return this.storage.removeItem(key);
-  }
-}
-new StableStorage("sessionStorage");
-const localStorage$1 = new StableStorage("localStorage");
-const KONTUR_DEBUG = !!localStorage$1.getItem("KONTUR_DEBUG");
-!!localStorage$1.getItem("KONTUR_METRICS_DEBUG");
-const KONTUR_WARN = !!localStorage$1.getItem("KONTUR_WARN");
-const KONTUR_TRACE_TYPE = localStorage$1.getItem("KONTUR_TRACE_TYPE");
-const KONTUR_TRACE_PATCH = !!localStorage$1.getItem("KONTUR_TRACE_PATCH");
-const store = createStore({});
-if (KONTUR_TRACE_PATCH) {
-  connectLogger(store.v3ctx, {
-    historyLength: 5,
-    showCause: KONTUR_TRACE_PATCH,
-    skipUnnamed: true,
-    domain: "Kontur"
-  });
-}
-const WILL_LOG = KONTUR_WARN || KONTUR_TRACE_TYPE;
-store.v3ctx.subscribe((patches) => {
-  const tag = `Reatom logged ${patches.length} transaction(s)`;
-  WILL_LOG && console.groupCollapsed(tag);
-  patches == null ? void 0 : patches.forEach((patch) => {
-    var _a;
-    const atomName = (_a = patch.proto) == null ? void 0 : _a.name;
-    if (atomName) {
-      const { state, ...rest } = patch;
-      dispatchMetricsEvent(atomName, patch == null ? void 0 : patch.state);
-      KONTUR_WARN && console.warn(atomName, state, { patch: rest });
-      if (KONTUR_TRACE_TYPE) {
-        if (atomName.includes(KONTUR_TRACE_TYPE)) {
-          console.trace("TRACE:", atomName, state, { patch: rest });
-        }
-      }
-    }
-  });
-  WILL_LOG && console.groupEnd();
-});
-const addStoreInOptions = (options) => ({
-  store,
-  ...typeof options === "string" ? { id: options } : options
-});
-const createAtom = (deps, reducer, options) => createAtom$1(deps, reducer, addStoreInOptions(options));
-const createBooleanAtom = (initState, options) => o(initState, addStoreInOptions(options));
-const JSON_MIME = "application/json";
-const CONTENT_TYPE_HEADER = "Content-Type";
-const FETCH_ERROR = Symbol();
-const CATCHER_FALLBACK = Symbol();
-function extractContentType(headers = {}) {
-  var _a;
-  const normalizedHeaders = headers instanceof Array ? Object.fromEntries(headers) : headers;
-  return (_a = Object.entries(normalizedHeaders).find(([k2]) => k2.toLowerCase() === CONTENT_TYPE_HEADER.toLowerCase())) === null || _a === void 0 ? void 0 : _a[1];
-}
-function isLikelyJsonMime(value2) {
-  return /^application\/.*json.*/.test(value2);
-}
-const mix = function(one, two, mergeArrays = false) {
-  return Object.entries(two).reduce((acc, [key, newValue]) => {
-    const value2 = one[key];
-    if (Array.isArray(value2) && Array.isArray(newValue)) {
-      acc[key] = mergeArrays ? [...value2, ...newValue] : newValue;
-    } else if (typeof value2 === "object" && typeof newValue === "object") {
-      acc[key] = mix(value2, newValue, mergeArrays);
-    } else {
-      acc[key] = newValue;
-    }
-    return acc;
-  }, { ...one });
-};
-const config$1 = {
-  // Default options
-  options: {},
-  // Error type
-  errorType: "text",
-  // Polyfills
-  polyfills: {
-    // fetch: null,
-    // FormData: null,
-    // URL: null,
-    // URLSearchParams: null,
-    // performance: null,
-    // PerformanceObserver: null,
-    // AbortController: null,
-  },
-  polyfill(p2, doThrow = true, instance2 = false, ...args) {
-    const res = this.polyfills[p2] || (typeof self !== "undefined" ? self[p2] : null) || (typeof global !== "undefined" ? global[p2] : null);
-    if (doThrow && !res)
-      throw new Error(p2 + " is not defined");
-    return instance2 && res ? new res(...args) : res;
-  }
-};
-function setOptions(options, replace = false) {
-  config$1.options = replace ? options : mix(config$1.options, options);
-}
-function setPolyfills(polyfills, replace = false) {
-  config$1.polyfills = replace ? polyfills : mix(config$1.polyfills, polyfills);
-}
-function setErrorType(errorType) {
-  config$1.errorType = errorType;
-}
-const middlewareHelper = (middlewares) => (fetchFunction) => {
-  return middlewares.reduceRight((acc, curr) => curr(acc), fetchFunction) || fetchFunction;
-};
-class WretchError extends Error {
-}
-const resolver = (wretch) => {
-  const sharedState = /* @__PURE__ */ Object.create(null);
-  wretch = wretch._addons.reduce((w2, addon) => addon.beforeRequest && addon.beforeRequest(w2, wretch._options, sharedState) || w2, wretch);
-  const { _url: url2, _options: opts, _config: config2, _catchers, _resolvers: resolvers, _middlewares: middlewares, _addons: addons } = wretch;
-  const catchers = new Map(_catchers);
-  const finalOptions = mix(config2.options, opts);
-  let finalUrl = url2;
-  const _fetchReq = middlewareHelper(middlewares)((url3, options) => {
-    finalUrl = url3;
-    return config2.polyfill("fetch")(url3, options);
-  })(url2, finalOptions);
-  const referenceError = new Error();
-  const throwingPromise = _fetchReq.catch((error2) => {
-    throw { [FETCH_ERROR]: error2 };
-  }).then((response) => {
-    var _a;
-    if (!response.ok) {
-      const err = new WretchError();
-      err["cause"] = referenceError;
-      err.stack = err.stack + "\nCAUSE: " + referenceError.stack;
-      err.response = response;
-      err.status = response.status;
-      err.url = finalUrl;
-      if (response.type === "opaque") {
-        throw err;
-      }
-      const jsonErrorType = config2.errorType === "json" || ((_a = response.headers.get("Content-Type")) === null || _a === void 0 ? void 0 : _a.split(";")[0]) === "application/json";
-      const bodyPromise = !config2.errorType ? Promise.resolve(response.body) : jsonErrorType ? response.text() : response[config2.errorType]();
-      return bodyPromise.then((body) => {
-        err.message = typeof body === "string" ? body : response.statusText;
-        if (body) {
-          if (jsonErrorType && typeof body === "string") {
-            err.text = body;
-            err.json = JSON.parse(body);
-          } else {
-            err[config2.errorType] = body;
-          }
-        }
-        throw err;
-      });
-    }
-    return response;
-  });
-  const catchersWrapper = (promise) => {
-    return promise.catch((err) => {
-      const fetchErrorFlag = Object.prototype.hasOwnProperty.call(err, FETCH_ERROR);
-      const error2 = fetchErrorFlag ? err[FETCH_ERROR] : err;
-      const catcher = (error2 === null || error2 === void 0 ? void 0 : error2.status) && catchers.get(error2.status) || catchers.get(error2 === null || error2 === void 0 ? void 0 : error2.name) || fetchErrorFlag && catchers.has(FETCH_ERROR) && catchers.get(FETCH_ERROR);
-      if (catcher)
-        return catcher(error2, wretch);
-      const catcherFallback = catchers.get(CATCHER_FALLBACK);
-      if (catcherFallback)
-        return catcherFallback(error2, wretch);
-      throw error2;
-    });
-  };
-  const bodyParser = (funName) => (cb) => funName ? (
-    // If a callback is provided, then callback with the body result otherwise return the parsed body itself.
-    catchersWrapper(throwingPromise.then((_2) => _2 && _2[funName]()).then((_2) => cb ? cb(_2) : _2))
-  ) : (
-    // No body parsing method - return the response
-    catchersWrapper(throwingPromise.then((_2) => cb ? cb(_2) : _2))
-  );
-  const responseChain = {
-    _wretchReq: wretch,
-    _fetchReq,
-    _sharedState: sharedState,
-    res: bodyParser(null),
-    json: bodyParser("json"),
-    blob: bodyParser("blob"),
-    formData: bodyParser("formData"),
-    arrayBuffer: bodyParser("arrayBuffer"),
-    text: bodyParser("text"),
-    error(errorId, cb) {
-      catchers.set(errorId, cb);
-      return this;
-    },
-    badRequest(cb) {
-      return this.error(400, cb);
-    },
-    unauthorized(cb) {
-      return this.error(401, cb);
-    },
-    forbidden(cb) {
-      return this.error(403, cb);
-    },
-    notFound(cb) {
-      return this.error(404, cb);
-    },
-    timeout(cb) {
-      return this.error(408, cb);
-    },
-    internalError(cb) {
-      return this.error(500, cb);
-    },
-    fetchError(cb) {
-      return this.error(FETCH_ERROR, cb);
-    }
-  };
-  const enhancedResponseChain = addons.reduce((chain, addon) => ({
-    ...chain,
-    ...typeof addon.resolver === "function" ? addon.resolver(chain) : addon.resolver
-  }), responseChain);
-  return resolvers.reduce((chain, r2) => r2(chain, wretch), enhancedResponseChain);
-};
-const core = {
-  _url: "",
-  _options: {},
-  _config: config$1,
-  _catchers: /* @__PURE__ */ new Map(),
-  _resolvers: [],
-  _deferred: [],
-  _middlewares: [],
-  _addons: [],
-  addon(addon) {
-    return { ...this, _addons: [...this._addons, addon], ...addon.wretch };
-  },
-  errorType(errorType) {
-    return {
-      ...this,
-      _config: {
-        ...this._config,
-        errorType
-      }
-    };
-  },
-  polyfills(polyfills, replace = false) {
-    return {
-      ...this,
-      _config: {
-        ...this._config,
-        polyfills: replace ? polyfills : mix(this._config.polyfills, polyfills)
-      }
-    };
-  },
-  url(_url, replace = false) {
-    if (replace)
-      return { ...this, _url };
-    const split = this._url.split("?");
-    return {
-      ...this,
-      _url: split.length > 1 ? split[0] + _url + "?" + split[1] : this._url + _url
-    };
-  },
-  options(options, replace = false) {
-    return { ...this, _options: replace ? options : mix(this._options, options) };
-  },
-  headers(headerValues) {
-    const headers = !headerValues ? {} : Array.isArray(headerValues) ? Object.fromEntries(headerValues) : "entries" in headerValues ? Object.fromEntries(headerValues.entries()) : headerValues;
-    return { ...this, _options: mix(this._options, { headers }) };
-  },
-  accept(headerValue) {
-    return this.headers({ Accept: headerValue });
-  },
-  content(headerValue) {
-    return this.headers({ [CONTENT_TYPE_HEADER]: headerValue });
-  },
-  auth(headerValue) {
-    return this.headers({ Authorization: headerValue });
-  },
-  catcher(errorId, catcher) {
-    const newMap = new Map(this._catchers);
-    newMap.set(errorId, catcher);
-    return { ...this, _catchers: newMap };
-  },
-  catcherFallback(catcher) {
-    return this.catcher(CATCHER_FALLBACK, catcher);
-  },
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  resolve(resolver2, clear = false) {
-    return { ...this, _resolvers: clear ? [resolver2] : [...this._resolvers, resolver2] };
-  },
-  defer(callback, clear = false) {
-    return {
-      ...this,
-      _deferred: clear ? [callback] : [...this._deferred, callback]
-    };
-  },
-  middlewares(middlewares, clear = false) {
-    return {
-      ...this,
-      _middlewares: clear ? middlewares : [...this._middlewares, ...middlewares]
-    };
-  },
-  fetch(method = this._options.method, url2 = "", body = null) {
-    let base = this.url(url2).options({ method });
-    const contentType = extractContentType(base._options.headers);
-    const formDataClass = this._config.polyfill("FormData", false);
-    const jsonify = typeof body === "object" && !(formDataClass && body instanceof formDataClass) && (!base._options.headers || !contentType || isLikelyJsonMime(contentType));
-    base = !body ? base : jsonify ? base.json(body, contentType) : base.body(body);
-    return resolver(base._deferred.reduce((acc, curr) => curr(acc, acc._url, acc._options), base));
-  },
-  get(url2 = "") {
-    return this.fetch("GET", url2);
-  },
-  delete(url2 = "") {
-    return this.fetch("DELETE", url2);
-  },
-  put(body, url2 = "") {
-    return this.fetch("PUT", url2, body);
-  },
-  post(body, url2 = "") {
-    return this.fetch("POST", url2, body);
-  },
-  patch(body, url2 = "") {
-    return this.fetch("PATCH", url2, body);
-  },
-  head(url2 = "") {
-    return this.fetch("HEAD", url2);
-  },
-  opts(url2 = "") {
-    return this.fetch("OPTIONS", url2);
-  },
-  body(contents) {
-    return { ...this, _options: { ...this._options, body: contents } };
-  },
-  json(jsObject, contentType) {
-    const currentContentType = extractContentType(this._options.headers);
-    return this.content(contentType || isLikelyJsonMime(currentContentType) && currentContentType || JSON_MIME).body(JSON.stringify(jsObject));
-  }
-};
-function factory(_url = "", _options = {}) {
-  return { ...core, _url, _options };
-}
-factory["default"] = factory;
-factory.options = setOptions;
-factory.errorType = setErrorType;
-factory.polyfills = setPolyfills;
-factory.WretchError = WretchError;
-function stringify(value2) {
-  return typeof value2 !== "undefined" ? value2 : "";
-}
-const appendQueryParams = (url2, qp, replace, omitUndefinedOrNullValues, config2) => {
-  let queryString2;
-  if (typeof qp === "string") {
-    queryString2 = qp;
-  } else {
-    const usp = config2.polyfill("URLSearchParams", true, true);
-    for (const key in qp) {
-      const value2 = qp[key];
-      if (omitUndefinedOrNullValues && (value2 === null || value2 === void 0))
-        continue;
-      if (qp[key] instanceof Array) {
-        for (const val of value2)
-          usp.append(key, stringify(val));
-      } else {
-        usp.append(key, stringify(value2));
-      }
-    }
-    queryString2 = usp.toString();
-  }
-  const split = url2.split("?");
-  if (!queryString2)
-    return replace ? split[0] : url2;
-  if (replace || split.length < 2)
-    return split[0] + "?" + queryString2;
-  return url2 + "&" + queryString2;
-};
-const queryString = {
-  wretch: {
-    query(qp, replace = false, omitUndefinedOrNullValues = false) {
-      return { ...this, _url: appendQueryParams(this._url, qp, replace, omitUndefinedOrNullValues, this._config) };
-    }
-  }
-};
-const AUTH_REQUIREMENT = {
-  MUST: "must",
-  OPTIONAL: "optional",
-  NEVER: "never"
-};
-const wait = (sec = 1, opt = {}) => new Promise(
-  (res, rej) => setTimeout(
-    (opt == null ? void 0 : opt.failWithMessage) ? () => rej({ message: opt.failWithMessage }) : res,
-    sec * 1e3
-  )
-);
-class ApiClientError extends Error {
-  constructor(message, problem, status = 0) {
-    super(message);
-    __publicField(this, "problem");
-    __publicField(this, "status", 0);
-    this.problem = problem;
-    this.status = status;
-    Object.setPrototypeOf(this, ApiClientError.prototype);
-  }
-}
-function isApiError(error2) {
-  return error2 instanceof ApiClientError;
-}
-function getApiErrorKind(error2) {
-  return isApiError(error2) ? error2.problem.kind : null;
-}
-function parseApiError(errorObj) {
-  var _a;
-  if (errorObj == null ? void 0 : errorObj.json) {
-    const errorData = errorObj == null ? void 0 : errorObj.json;
-    if (errorData == null ? void 0 : errorData.message) return errorData.message;
-    if (errorData == null ? void 0 : errorData.error_description) return errorData.error_description;
-    if (errorData !== null) {
-      if (Array.isArray(errorData)) {
-        return errorData.map(
-          (errorMsg) => errorMsg.name && errorMsg.message ? `${errorMsg.name}: ${errorMsg.message}` : errorMsg
-        ).join("<br/>");
-      }
-      if (errorData == null ? void 0 : errorData.error) return errorData["error"];
-      if ((errorData == null ? void 0 : errorData.errors) && Array.isArray(errorData["errors"])) {
-        return errorData["errors"].reduce((acc, errorObj2) => {
-          if (errorObj2 == null ? void 0 : errorObj2.message) {
-            acc.push(errorObj2["message"]);
-          }
-          return acc;
-        }, []).join("<br/>");
-      }
-    }
-    return String(errorData);
-  }
-  let res = ((_a = errorObj == null ? void 0 : errorObj.response) == null ? void 0 : _a.statusText) ?? (errorObj == null ? void 0 : errorObj.message) ?? (errorObj == null ? void 0 : errorObj.text);
-  if (res == null ? void 0 : res.startsWith("<html>")) {
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(res, "text/html");
-    const title2 = doc.querySelector("title");
-    res = title2 == null ? void 0 : title2.innerText;
-  }
-  return res ?? "Unknown Error";
-}
-function createApiError(err) {
-  var _a, _b;
-  let errorMessage = "";
-  let problem = { kind: "unknown", temporary: true };
-  let status = 0;
-  if (err instanceof ApiClientError) {
-    return err;
-  }
-  if (KONTUR_DEBUG) {
-    console.error("Raw error:", err);
-  }
-  if (err instanceof DOMException && err.name === "AbortError" || err instanceof factory.WretchError && err.name === "AbortError" || err instanceof factory.WretchError && err.cause instanceof DOMException && err.cause.name === "AbortError" || err instanceof factory.WretchError && err.message === "The operation was aborted" || err instanceof Error && err.name === "AbortError") {
-    problem = { kind: "canceled" };
-  } else if (err instanceof factory.WretchError) {
-    status = err.status;
-    if (status === 400) {
-      problem = { kind: "bad-request" };
-    } else if (status === 401) {
-      problem = { kind: "unauthorized", data: (_a = err.json) == null ? void 0 : _a.error };
-      if ((_b = err.json) == null ? void 0 : _b.message) {
-        errorMessage = err.json.message;
-      }
-    } else if (status === 403) {
-      problem = { kind: "forbidden" };
-    } else if (status === 404) {
-      problem = { kind: "not-found" };
-    } else if (status === 408 || status === 504) {
-      errorMessage = "Server not available, please try later";
-      problem = { kind: "timeout", temporary: true };
-    } else if (status >= 500) {
-      problem = { kind: "server", data: (err == null ? void 0 : err.json) ?? (err == null ? void 0 : err.text) };
-    }
-  } else {
-    problem = { kind: "client-unknown" };
-  }
-  if (!errorMessage) {
-    errorMessage = parseApiError(err);
-  }
-  return new ApiClientError(errorMessage || "Unknown error", problem, status);
-}
-const ApiMethodTypes = {
-  GET: "get",
-  POST: "post",
-  PUT: "put",
-  PATCH: "patch",
-  DELETE: "delete"
-};
-async function autoParseBody(res) {
-  if (res.status === 204) {
-    res.data = null;
-    return res;
-  }
-  if (res.ok) {
-    const contentType = res.headers.get("content-type") ?? "";
-    if (contentType.includes("application/json")) {
-      res.data = await res.json();
-    } else {
-      res.data = await res.text();
-    }
-  }
-  return res;
-}
-class ApiClient {
-  constructor({ on } = {}) {
-    __publicField(this, "AUTH_REQUIREMENT", AUTH_REQUIREMENT);
-    __publicField(this, "listeners", {
-      error: /* @__PURE__ */ new Set(),
-      poolUpdate: /* @__PURE__ */ new Set(),
-      idle: /* @__PURE__ */ new Set()
-    });
-    __publicField(this, "baseURL");
-    __publicField(this, "requestPool", /* @__PURE__ */ new Map());
-    __publicField(this, "authService");
-    if (on) {
-      Object.entries(on).forEach(
-        ([event, cb]) => {
-          if (cb) this.on(event, cb);
-        }
-      );
-    }
-  }
-  on(event, cb) {
-    this.listeners[event].add(cb);
-    return () => {
-      this.listeners[event].delete(cb);
-    };
-  }
-  _emit(type, payload) {
-    this.listeners[type].forEach((l2) => l2(payload));
-  }
-  init(cfg) {
-    let baseURL = cfg.baseUrl ?? "";
-    this.baseURL = baseURL;
-  }
-  updateRequestPool(requestId, status) {
-    if (status === null) {
-      this.requestPool.delete(requestId);
-    } else {
-      this.requestPool.set(requestId, status);
-    }
-    this._emit("poolUpdate", new Map(this.requestPool));
-    this._emit("idle", this.requestPool.size === 0);
-  }
-  /**
-   * Makes an HTTP request with configurable authentication behavior
-   * @template T - The expected response type
-   * @param {ApiMethod} method - HTTP method to use
-   * @param {string} path - Request URL or path
-   * @param {unknown} [requestParams] - Query parameters or body data
-   * @param {CustomRequestConfig} [requestConfig] - Additional request configuration
-   * @param {AuthRequirement} [requestConfig.authRequirement] - Authentication requirement level:
-   *   - MUST: Request will fail if user is not authenticated
-   *   - OPTIONAL (default): Will attempt to use auth if available, but proceed without if not possible
-   *   - NEVER: Explicitly prevents authentication
-   * @returns {Promise<T | null>} The response data
-   * @throws {ApiClientError} On request failure or auth requirement not met
-   */
-  async call(method, path2, requestParams, requestConfig = {}) {
-    var _a;
-    const RequestsWithBody = ["post", "put", "patch"];
-    const requestId = Math.random().toString(36).substring(7);
-    this.updateRequestPool(requestId, "pending");
-    const { origin, pathname, search: search2 } = path2.startsWith("http") ? new URL(path2) : {
-      origin: this.baseURL,
-      pathname: path2,
-      search: ""
-    };
-    let req = factory(origin, { mode: "cors" }).addon(queryString).url(pathname + search2);
-    if (requestConfig.signal) {
-      req = req.options({ signal: requestConfig.signal });
-    }
-    if (requestConfig.headers) {
-      req = req.headers(requestConfig.headers);
-    }
-    let isAuthenticatedRequest = false;
-    const authRequirement = requestConfig.authRequirement ?? AUTH_REQUIREMENT.OPTIONAL;
-    if (authRequirement !== AUTH_REQUIREMENT.NEVER) {
-      try {
-        const requireAuth = authRequirement === AUTH_REQUIREMENT.MUST;
-        const token = await this.authService.getAccessToken(requireAuth);
-        if (token) {
-          isAuthenticatedRequest = true;
-          req = req.auth(`Bearer ${token}`);
-        }
-      } catch (error2) {
-        if (authRequirement === AUTH_REQUIREMENT.OPTIONAL) {
-          console.warn("Authentication failed but proceeding with request:", error2);
-        } else {
-          throw error2;
-        }
-      }
-    }
-    if (requestParams) {
-      req = RequestsWithBody.includes(method) ? req.json(requestParams) : req.query(requestParams);
-    }
-    try {
-      const response = await req[method]().res(autoParseBody);
-      this.updateRequestPool(requestId, null);
-      return response.data;
-    } catch (err) {
-      this.updateRequestPool(requestId, null);
-      const apiError = createApiError(err);
-      if (getApiErrorKind(apiError) === "canceled") {
-        throw apiError;
-      }
-      if (isAuthenticatedRequest && getApiErrorKind(apiError) === "unauthorized") {
-        try {
-          const token = await this.authService.getAccessToken();
-          if (!token) {
-            throw apiError;
-          }
-        } catch (error2) {
-          throw apiError;
-        }
-        throw apiError;
-      }
-      const defaultRetryConfig = {
-        attempts: 0,
-        delayMs: 1e3,
-        onErrorKinds: ["timeout"]
-      };
-      const retryConfig = {
-        ...defaultRetryConfig,
-        ...requestConfig.retry,
-        onErrorKinds: ((_a = requestConfig.retry) == null ? void 0 : _a.onErrorKinds) ?? defaultRetryConfig.onErrorKinds
-      };
-      if (retryConfig.attempts > 0) {
-        const shouldRetry = retryConfig.onErrorKinds.includes(
-          getApiErrorKind(apiError)
-        );
-        if (shouldRetry) {
-          if (retryConfig.delayMs) {
-            await wait(retryConfig.delayMs / 1e3);
-          }
-          return this.call(method, path2, requestParams, {
-            ...requestConfig,
-            retry: {
-              ...retryConfig,
-              attempts: retryConfig.attempts - 1
-            }
-          });
-        }
-      }
-      const errorsConfig = requestConfig.errorsConfig;
-      if (errorsConfig && errorsConfig.messages) {
-        if (typeof errorsConfig.messages !== "string") {
-          if (apiError.status in errorsConfig.messages) {
-            apiError.message = errorsConfig.messages[apiError.status];
-          }
-        } else {
-          apiError.message = errorsConfig.messages;
-        }
-      }
-      if ((errorsConfig == null ? void 0 : errorsConfig.hideErrors) !== true) {
-        this._emit("error", apiError);
-      }
-      throw apiError;
-    }
-  }
-  // method shortcuts
-  async get(path2, requestParams, requestConfig) {
-    return this.call(ApiMethodTypes.GET, path2, requestParams, requestConfig);
-  }
-  async post(path2, requestParams, requestConfig) {
-    return this.call(ApiMethodTypes.POST, path2, requestParams, requestConfig);
-  }
-  async put(path2, requestParams, requestConfig) {
-    return this.call(ApiMethodTypes.PUT, path2, requestParams, requestConfig);
-  }
-  async patch(path2, requestParams, requestConfig) {
-    return this.call(ApiMethodTypes.PATCH, path2, requestParams, requestConfig);
-  }
-  async delete(path2, requestConfig) {
-    return this.call(ApiMethodTypes.DELETE, path2, void 0, requestConfig);
-  }
-}
-const urlAlphabet = "useandom-26T198340PX75pxJACKVERYMINDBUSHWOLF_GQZbfghjklqvwyzrict";
-let nanoid = (size = 21) => {
-  let id = "";
-  let bytes = crypto.getRandomValues(new Uint8Array(size |= 0));
-  while (size--) {
-    id += urlAlphabet[bytes[size] & 63];
-  }
-  return id;
-};
-const currentNotificationAtom = createAtom(
-  {
-    showNotification: (type, message, lifetimeSec) => ({ type, message, lifetimeSec }),
-    removeNotification: (id) => id
-  },
-  ({ onAction, schedule, create: create2 }, state = []) => {
-    onAction("showNotification", ({ type, message, lifetimeSec }) => {
-      const id = nanoid(4);
-      const onClose = () => currentNotificationAtom.removeNotification.dispatch(id);
-      state = [...state, { id, type, message, lifetimeSec, onClose }];
-      schedule((dispatch) => {
-        setTimeout(onClose, lifetimeSec * 1e3);
-      });
-    });
-    onAction(
-      "removeNotification",
-      (idToDelete) => state = state.filter(({ id }) => id !== idToDelete)
-    );
-    return [...state];
-  },
-  "[Shared state] currentNotificationAtom"
-);
-const _NotificationService = class _NotificationService {
-  constructor() {
-    __publicField(this, "defaultLifetimeSec", 10);
-  }
-  static getInstance() {
-    if (!_NotificationService.instance) {
-      throw new Error("You have to initialize api client first!");
-    } else {
-      return _NotificationService.instance;
-    }
-  }
-  static init() {
-    _NotificationService.instance = new _NotificationService();
-  }
-  error(message, lifetimeSec) {
-    currentNotificationAtom.showNotification.dispatch(
-      "error",
-      message,
-      lifetimeSec || this.defaultLifetimeSec
-    );
-  }
-  warning(message, lifetimeSec) {
-    currentNotificationAtom.showNotification.dispatch(
-      "warning",
-      message,
-      lifetimeSec || this.defaultLifetimeSec
-    );
-  }
-  info(message, lifetimeSec) {
-    currentNotificationAtom.showNotification.dispatch(
-      "info",
-      message,
-      lifetimeSec || this.defaultLifetimeSec
-    );
-  }
-  success(message, lifetimeSec) {
-    currentNotificationAtom.showNotification.dispatch(
-      "success",
-      message,
-      lifetimeSec || this.defaultLifetimeSec
-    );
-  }
-};
-__publicField(_NotificationService, "instance");
-let NotificationService = _NotificationService;
-NotificationService.init();
-const notificationServiceInstance = NotificationService.getInstance();
-const apiClient = new ApiClient({
-  on: {
-    error: (error2) => {
-      switch (error2.problem.kind) {
-        default:
-          notificationServiceInstance.error({
-            title: "Error",
-            description: error2.message
-          });
-      }
-    },
-    idle: () => dispatchMetricsEvent("apiClient_isIdle")
-  }
-});
-new ApiClient({
-  on: {
-    error: (error2) => {
-      switch (error2.problem.kind) {
-        default:
-          notificationServiceInstance.error({
-            title: "Error",
-            description: error2.message
-          });
-      }
-    },
-    idle: () => dispatchMetricsEvent("reportsClient_isIdle")
-  }
-});
-async function getCurrentUserSubscription() {
-  return await apiClient.get(
-    "/users/current_user/billing_subscription",
-    { appId: configRepo.get().id },
-    { authRequirement: apiClient.AUTH_REQUIREMENT.MUST }
-  );
-}
-reatomResource(async () => {
-  return await getCurrentUserSubscription();
-}, "currentUserSubscriptionResource").pipe(withDataAtom(), withCache());
-createBooleanAtom(false, "intercomVisibleAtom");
-function openIntercomChat() {
-  if (globalThis.Intercom && globalThis.intercomSettings) {
-    globalThis.Intercom("showMessages");
-  } else {
-    console.warn("Intercom is not available");
-  }
-}
-function isExternalLink(href) {
-  const externalProtocols = ["http://", "https://", "mailto:", "ftp://", "tel:"];
-  return externalProtocols.some((protocol) => href.startsWith(protocol));
-}
-function isInnerAnchorLink(href) {
-  return href.startsWith("#");
-}
-const MEDIA_PARAMS_SEPARATOR = "::";
-const MEDIA_PARAMS_DELIMITER = ",";
-function parseMediaParams(url2) {
-  const parts = url2.split(MEDIA_PARAMS_SEPARATOR);
-  if (parts.length !== 2) return { originalUrl: url2, params: null };
-  const [width, height, fullscreen] = parts[1].split(MEDIA_PARAMS_DELIMITER);
-  return {
-    originalUrl: parts[0],
-    params: {
-      ...width && { width: parseInt(width) },
-      ...height && { height: parseInt(height) },
-      ...fullscreen !== void 0 && { allowFullscreen: fullscreen === "1" }
-    }
-  };
-}
-const YOUTUBE_DOMAINS = ["youtube.com", "youtu.be"];
-const isYoutubeUrl = (url2) => {
-  try {
-    const parsedUrl = new URL(url2);
-    return YOUTUBE_DOMAINS.some((domain) => parsedUrl.hostname.endsWith(domain));
-  } catch {
-    return false;
-  }
-};
-function getYoutubeEmbedUrl(url2) {
-  try {
-    const parsedUrl = new URL(url2);
-    let videoId = null;
-    if (parsedUrl.hostname.includes("youtu.be")) {
-      videoId = parsedUrl.pathname.slice(1);
-    } else {
-      if (parsedUrl.pathname.includes("shorts")) {
-        videoId = parsedUrl.pathname.split("/shorts/")[1];
-      } else if (parsedUrl.pathname.includes("embed")) {
-        videoId = parsedUrl.pathname.split("/embed/")[1];
-      } else {
-        videoId = parsedUrl.searchParams.get("v");
-      }
-    }
-    return videoId ? `https://www.youtube.com/embed/${videoId}` : url2;
-  } catch {
-    return url2;
-  }
-}
-const appProtocolHandlers = {
-  intercom: () => openIntercomChat()
-  // Add more handlers here:
-  // someCommand: (url) => { /* handle someCommand */ },
-};
-function handleAppProtocol(url2) {
-  const handler = appProtocolHandlers[url2.hostname];
-  if (handler) {
-    handler(url2);
-    return true;
-  }
-  console.warn(`Unknown app protocol handler: ${url2.hostname}`);
-  return false;
-}
-function MarkdownLink({
-  children,
-  href,
-  title: title2
-}) {
-  const handleClick = reactExports.useCallback(
-    (e) => {
-      if (isInnerAnchorLink(href)) {
-        return;
-      }
-      try {
-        const url2 = new URL(href);
-        if (url2.protocol === "app:") {
-          handleAppProtocol(url2);
-          e.preventDefault();
-          return;
-        }
-      } catch {
-      }
-      goTo(href);
-      e.preventDefault();
-    },
-    [href]
-  );
-  if (isExternalLink(href)) {
-    return /* @__PURE__ */ jsxRuntimeExports.jsx("a", { title: title2, href, target: "_blank", rel: "noreferrer", className: "external", children });
-  }
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("a", { title: title2, href, onClick: handleClick, className: "internal", children });
-}
-function buildAssetUrl(asset) {
-  return `${configRepo.get().apiGateway}/apps/${configRepo.get().id}/assets/${asset}`;
-}
-function MarkdownMedia({
-  title: title2,
-  alt,
-  src
-}) {
-  const { originalUrl, params } = parseMediaParams(src);
-  if (isYoutubeUrl(originalUrl)) {
-    const width = (params == null ? void 0 : params.width) ?? 560;
-    const height = (params == null ? void 0 : params.height) ?? 315;
-    return /* @__PURE__ */ jsxRuntimeExports.jsx(
-      "iframe",
-      {
-        src: getYoutubeEmbedUrl(originalUrl),
-        title: title2 || alt || "YouTube video player",
-        frameBorder: "0",
-        allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
-        allowFullScreen: (params == null ? void 0 : params.allowFullscreen) ?? true,
-        referrerPolicy: "strict-origin-when-cross-origin",
-        style: { width: "100%", aspectRatio: `${width} / ${height}` }
-      }
-    );
-  }
-  let realSrc = originalUrl;
-  if (!isExternalLink(originalUrl)) {
-    realSrc = buildAssetUrl(originalUrl);
-  }
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(
-    "img",
-    {
-      src: realSrc,
-      alt,
-      title: title2,
-      ...(params == null ? void 0 : params.width) && { width: params.width },
-      ...(params == null ? void 0 : params.height) && { height: params.height }
-    }
-  );
-}
-function wrapContentInSection(content, idPrefix, classPrefix) {
-  const result = [];
-  const stack2 = [];
-  let keyCounter = 0;
-  const parentCounters = /* @__PURE__ */ new Map();
-  const wrapAndPushContent = (level) => {
-    while (stack2.length > 0 && stack2[stack2.length - 1].level >= level) {
-      const { level: stackLevel, content: content2, id } = stack2.pop();
-      if (content2.length > 0) {
-        const wrappedContent = React.createElement(
-          "div",
-          {
-            className: `${classPrefix}-${id}`,
-            key: `div-h${stackLevel}-${++keyCounter}`
-          },
-          content2
-        );
-        if (stack2.length > 0) {
-          stack2[stack2.length - 1].content.push(wrappedContent);
-        } else {
-          result.push(wrappedContent);
-        }
-      }
-    }
-  };
-  const processElement = (element) => {
-    const headingMatch = element.type.toString().match(/^h([1-6])$/);
-    if (headingMatch) {
-      const level = Number.parseInt(headingMatch[1]);
-      wrapAndPushContent(level);
-      const parentId = stack2.length > 0 ? stack2[stack2.length - 1].id : "";
-      const currentCount = (parentCounters.get(parentId) || 0) + 1;
-      parentCounters.set(parentId, currentCount);
-      const fullId = parentId ? `${parentId}-${currentCount}` : `${idPrefix}-${currentCount}`;
-      const clonedElement = React.cloneElement(element, {
-        key: `heading-${++keyCounter}`,
-        id: fullId
-      });
-      if (stack2.length > 0 && level > stack2[stack2.length - 1].level) {
-        stack2[stack2.length - 1].content.push(clonedElement);
-      } else {
-        result.push(clonedElement);
-      }
-      stack2.push({ level, content: [], id: fullId });
-    } else {
-      const clonedElement = React.cloneElement(element, {
-        key: `content-${++keyCounter}`
-      });
-      if (stack2.length > 0) {
-        stack2[stack2.length - 1].content.push(clonedElement);
-      } else {
-        result.push(clonedElement);
-      }
-    }
-  };
-  React.Children.forEach(content, (element) => {
-    if (React.isValidElement(element)) {
-      processElement(element);
-    }
-  });
-  wrapAndPushContent(0);
-  return result;
-}
-function splitIntoSections(compiled) {
-  const sections = [];
-  let currentSection = [];
-  React.Children.forEach(compiled, (element) => {
-    if (React.isValidElement(element) && element.type === "hr") {
-      if (currentSection.length > 0) {
-        sections.push(currentSection);
-        currentSection = [];
-      }
-    } else {
-      currentSection.push(element);
-    }
-  });
-  if (currentSection.length > 0) {
-    sections.push(currentSection);
-  }
-  return sections;
-}
-function structureMarkdownContent(compiled, idPrefix = "hdr", classPrefix = "wrap") {
-  const sections = splitIntoSections(compiled);
-  return sections.map(
-    (section, index2) => React.createElement(
-      "section",
-      { key: `section-${index2}` },
-      wrapContentInSection(section, idPrefix, classPrefix)
-    )
-  );
-}
-const markdownOptions = {
-  overrides: {
-    a: MarkdownLink,
-    img: MarkdownMedia,
-    h1: { props: { id: void 0 } },
-    h2: { props: { id: void 0 } },
-    h3: { props: { id: void 0 } },
-    h4: { props: { id: void 0 } },
-    h5: { props: { id: void 0 } },
-    h6: { props: { id: void 0 } }
-  },
-  wrapper: null
-};
-function StructuredMarkdownContent({ content }) {
-  const compiled = Xe(content, markdownOptions);
-  return structureMarkdownContent(compiled);
-}
-var fastDeepEqual;
-var hasRequiredFastDeepEqual;
-function requireFastDeepEqual() {
-  if (hasRequiredFastDeepEqual) return fastDeepEqual;
-  hasRequiredFastDeepEqual = 1;
-  var isArray = Array.isArray;
-  var keyList = Object.keys;
-  var hasProp = Object.prototype.hasOwnProperty;
-  fastDeepEqual = function equal(a2, b2) {
-    if (a2 === b2) return true;
-    if (a2 && b2 && typeof a2 == "object" && typeof b2 == "object") {
-      var arrA = isArray(a2), arrB = isArray(b2), i2, length, key;
-      if (arrA && arrB) {
-        length = a2.length;
-        if (length != b2.length) return false;
-        for (i2 = length; i2-- !== 0; )
-          if (!equal(a2[i2], b2[i2])) return false;
-        return true;
-      }
-      if (arrA != arrB) return false;
-      var dateA = a2 instanceof Date, dateB = b2 instanceof Date;
-      if (dateA != dateB) return false;
-      if (dateA && dateB) return a2.getTime() == b2.getTime();
-      var regexpA = a2 instanceof RegExp, regexpB = b2 instanceof RegExp;
-      if (regexpA != regexpB) return false;
-      if (regexpA && regexpB) return a2.toString() == b2.toString();
-      var keys = keyList(a2);
-      length = keys.length;
-      if (length !== keyList(b2).length)
-        return false;
-      for (i2 = length; i2-- !== 0; )
-        if (!hasProp.call(b2, keys[i2])) return false;
-      for (i2 = length; i2-- !== 0; ) {
-        key = keys[i2];
-        if (!equal(a2[key], b2[key])) return false;
-      }
-      return true;
-    }
-    return a2 !== a2 && b2 !== b2;
-  };
-  return fastDeepEqual;
-}
-var build;
-var hasRequiredBuild;
-function requireBuild() {
-  if (hasRequiredBuild) return build;
-  hasRequiredBuild = 1;
-  var __values = build && build.__values || function(o2) {
-    var s2 = typeof Symbol === "function" && Symbol.iterator, m2 = s2 && o2[s2], i2 = 0;
-    if (m2) return m2.call(o2);
-    if (o2 && typeof o2.length === "number") return {
-      next: function() {
-        if (o2 && i2 >= o2.length) o2 = void 0;
-        return { value: o2 && o2[i2++], done: !o2 };
-      }
-    };
-    throw new TypeError(s2 ? "Object is not iterable." : "Symbol.iterator is not defined.");
-  };
-  var __read = build && build.__read || function(o2, n2) {
-    var m2 = typeof Symbol === "function" && o2[Symbol.iterator];
-    if (!m2) return o2;
-    var i2 = m2.call(o2), r2, ar = [], e;
-    try {
-      while ((n2 === void 0 || n2-- > 0) && !(r2 = i2.next()).done) ar.push(r2.value);
-    } catch (error2) {
-      e = { error: error2 };
-    } finally {
-      try {
-        if (r2 && !r2.done && (m2 = i2["return"])) m2.call(i2);
-      } finally {
-        if (e) throw e.error;
-      }
-    }
-    return ar;
-  };
-  var __spreadArray = build && build.__spreadArray || function(to2, from, pack) {
-    if (pack || arguments.length === 2) for (var i2 = 0, l2 = from.length, ar; i2 < l2; i2++) {
-      if (ar || !(i2 in from)) {
-        if (!ar) ar = Array.prototype.slice.call(from, 0, i2);
-        ar[i2] = from[i2];
-      }
-    }
-    return to2.concat(ar || Array.prototype.slice.call(from));
-  };
-  var deepEqual2 = requireFastDeepEqual();
-  var promiseCaches = [];
-  var usePromise2 = function(promise, inputs, lifespan) {
-    var e_1, _a;
-    if (lifespan === void 0) {
-      lifespan = 0;
-    }
-    try {
-      for (var promiseCaches_1 = __values(promiseCaches), promiseCaches_1_1 = promiseCaches_1.next(); !promiseCaches_1_1.done; promiseCaches_1_1 = promiseCaches_1.next()) {
-        var promiseCache_1 = promiseCaches_1_1.value;
-        if (deepEqual2(inputs, promiseCache_1.inputs)) {
-          if (Object.prototype.hasOwnProperty.call(promiseCache_1, "error")) {
-            throw promiseCache_1.error;
-          } else if (Object.prototype.hasOwnProperty.call(promiseCache_1, "response")) {
-            return promiseCache_1.response;
-          }
-          throw promiseCache_1.promise;
-        }
-      }
-    } catch (e_1_1) {
-      e_1 = { error: e_1_1 };
-    } finally {
-      try {
-        if (promiseCaches_1_1 && !promiseCaches_1_1.done && (_a = promiseCaches_1.return)) _a.call(promiseCaches_1);
-      } finally {
-        if (e_1) throw e_1.error;
-      }
-    }
-    var promiseCache = {
-      promise: promise.apply(void 0, __spreadArray([], __read(inputs), false)).then(function(response) {
-        promiseCache.response = response;
-      }).catch(function(e) {
-        promiseCache.error = e;
-      }).then(function() {
-        if (lifespan > 0) {
-          setTimeout(function() {
-            var index2 = promiseCaches.indexOf(promiseCache);
-            if (index2 !== -1) {
-              promiseCaches.splice(index2, 1);
-            }
-          }, lifespan);
-        }
-      }),
-      inputs
-    };
-    promiseCaches.push(promiseCache);
-    throw promiseCache.promise;
-  };
-  build = usePromise2;
-  return build;
-}
-var buildExports = requireBuild();
-const usePromise = /* @__PURE__ */ getDefaultExportFromCjs(buildExports);
-const article = "_article_b9f5o_1";
-const s$j = {
-  article
-};
-function Article({
-  children,
-  className = "",
-  id = ""
-}) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("article", { className: `${s$j.article} ${className}`, id, children });
-}
-const isString = (obj) => typeof obj === "string";
-const defer = () => {
-  let res;
-  let rej;
-  const promise = new Promise((resolve, reject) => {
-    res = resolve;
-    rej = reject;
-  });
-  promise.resolve = res;
-  promise.reject = rej;
-  return promise;
-};
-const makeString = (object) => {
-  if (object == null) return "";
-  return "" + object;
-};
-const copy = (a2, s2, t2) => {
-  a2.forEach((m2) => {
-    if (s2[m2]) t2[m2] = s2[m2];
-  });
-};
-const lastOfPathSeparatorRegExp = /###/g;
-const cleanKey = (key) => key && key.indexOf("###") > -1 ? key.replace(lastOfPathSeparatorRegExp, ".") : key;
-const canNotTraverseDeeper = (object) => !object || isString(object);
-const getLastOfPath = (object, path2, Empty) => {
-  const stack2 = !isString(path2) ? path2 : path2.split(".");
-  let stackIndex = 0;
-  while (stackIndex < stack2.length - 1) {
-    if (canNotTraverseDeeper(object)) return {};
-    const key = cleanKey(stack2[stackIndex]);
-    if (!object[key] && Empty) object[key] = new Empty();
-    if (Object.prototype.hasOwnProperty.call(object, key)) {
-      object = object[key];
-    } else {
-      object = {};
-    }
-    ++stackIndex;
-  }
-  if (canNotTraverseDeeper(object)) return {};
-  return {
-    obj: object,
-    k: cleanKey(stack2[stackIndex])
-  };
-};
-const setPath = (object, path2, newValue) => {
-  const {
-    obj,
-    k: k2
-  } = getLastOfPath(object, path2, Object);
-  if (obj !== void 0 || path2.length === 1) {
-    obj[k2] = newValue;
-    return;
-  }
-  let e = path2[path2.length - 1];
-  let p2 = path2.slice(0, path2.length - 1);
-  let last = getLastOfPath(object, p2, Object);
-  while (last.obj === void 0 && p2.length) {
-    e = `${p2[p2.length - 1]}.${e}`;
-    p2 = p2.slice(0, p2.length - 1);
-    last = getLastOfPath(object, p2, Object);
-    if (last && last.obj && typeof last.obj[`${last.k}.${e}`] !== "undefined") {
-      last.obj = void 0;
-    }
-  }
-  last.obj[`${last.k}.${e}`] = newValue;
-};
-const pushPath = (object, path2, newValue, concat) => {
-  const {
-    obj,
-    k: k2
-  } = getLastOfPath(object, path2, Object);
-  obj[k2] = obj[k2] || [];
-  obj[k2].push(newValue);
-};
-const getPath = (object, path2) => {
-  const {
-    obj,
-    k: k2
-  } = getLastOfPath(object, path2);
-  if (!obj) return void 0;
-  return obj[k2];
-};
-const getPathWithDefaults = (data, defaultData, key) => {
-  const value2 = getPath(data, key);
-  if (value2 !== void 0) {
-    return value2;
-  }
-  return getPath(defaultData, key);
-};
-const deepExtend = (target, source, overwrite) => {
-  for (const prop in source) {
-    if (prop !== "__proto__" && prop !== "constructor") {
-      if (prop in target) {
-        if (isString(target[prop]) || target[prop] instanceof String || isString(source[prop]) || source[prop] instanceof String) {
-          if (overwrite) target[prop] = source[prop];
-        } else {
-          deepExtend(target[prop], source[prop], overwrite);
-        }
-      } else {
-        target[prop] = source[prop];
-      }
-    }
-  }
-  return target;
-};
-const regexEscape = (str) => str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-var _entityMap = {
-  "&": "&amp;",
-  "<": "&lt;",
-  ">": "&gt;",
-  '"': "&quot;",
-  "'": "&#39;",
-  "/": "&#x2F;"
-};
-const escape = (data) => {
-  if (isString(data)) {
-    return data.replace(/[&<>"'\/]/g, (s2) => _entityMap[s2]);
-  }
-  return data;
-};
-class RegExpCache {
-  constructor(capacity) {
-    this.capacity = capacity;
-    this.regExpMap = /* @__PURE__ */ new Map();
-    this.regExpQueue = [];
-  }
-  getRegExp(pattern) {
-    const regExpFromCache = this.regExpMap.get(pattern);
-    if (regExpFromCache !== void 0) {
-      return regExpFromCache;
-    }
-    const regExpNew = new RegExp(pattern);
-    if (this.regExpQueue.length === this.capacity) {
-      this.regExpMap.delete(this.regExpQueue.shift());
-    }
-    this.regExpMap.set(pattern, regExpNew);
-    this.regExpQueue.push(pattern);
-    return regExpNew;
-  }
-}
-const chars = [" ", ",", "?", "!", ";"];
-const looksLikeObjectPathRegExpCache = new RegExpCache(20);
-const looksLikeObjectPath = (key, nsSeparator, keySeparator) => {
-  nsSeparator = nsSeparator || "";
-  keySeparator = keySeparator || "";
-  const possibleChars = chars.filter((c2) => nsSeparator.indexOf(c2) < 0 && keySeparator.indexOf(c2) < 0);
-  if (possibleChars.length === 0) return true;
-  const r2 = looksLikeObjectPathRegExpCache.getRegExp(`(${possibleChars.map((c2) => c2 === "?" ? "\\?" : c2).join("|")})`);
-  let matched = !r2.test(key);
-  if (!matched) {
-    const ki = key.indexOf(keySeparator);
-    if (ki > 0 && !r2.test(key.substring(0, ki))) {
-      matched = true;
-    }
-  }
-  return matched;
-};
-const deepFind = function(obj, path2) {
-  let keySeparator = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : ".";
-  if (!obj) return void 0;
-  if (obj[path2]) return obj[path2];
-  const tokens = path2.split(keySeparator);
-  let current = obj;
-  for (let i2 = 0; i2 < tokens.length; ) {
-    if (!current || typeof current !== "object") {
-      return void 0;
-    }
-    let next;
-    let nextPath = "";
-    for (let j2 = i2; j2 < tokens.length; ++j2) {
-      if (j2 !== i2) {
-        nextPath += keySeparator;
-      }
-      nextPath += tokens[j2];
-      next = current[nextPath];
-      if (next !== void 0) {
-        if (["string", "number", "boolean"].indexOf(typeof next) > -1 && j2 < tokens.length - 1) {
-          continue;
-        }
-        i2 += j2 - i2 + 1;
-        break;
-      }
-    }
-    current = next;
-  }
-  return current;
-};
-const getCleanedCode = (code) => code && code.replace("_", "-");
-const consoleLogger = {
-  type: "logger",
-  log(args) {
-    this.output("log", args);
-  },
-  warn(args) {
-    this.output("warn", args);
-  },
-  error(args) {
-    this.output("error", args);
-  },
-  output(type, args) {
-    if (console && console[type]) console[type].apply(console, args);
-  }
-};
-class Logger {
-  constructor(concreteLogger) {
-    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
-    this.init(concreteLogger, options);
-  }
-  init(concreteLogger) {
-    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
-    this.prefix = options.prefix || "i18next:";
-    this.logger = concreteLogger || consoleLogger;
-    this.options = options;
-    this.debug = options.debug;
-  }
-  log() {
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-    return this.forward(args, "log", "", true);
-  }
-  warn() {
-    for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-      args[_key2] = arguments[_key2];
-    }
-    return this.forward(args, "warn", "", true);
-  }
-  error() {
-    for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-      args[_key3] = arguments[_key3];
-    }
-    return this.forward(args, "error", "");
-  }
-  deprecate() {
-    for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-      args[_key4] = arguments[_key4];
-    }
-    return this.forward(args, "warn", "WARNING DEPRECATED: ", true);
-  }
-  forward(args, lvl, prefix, debugOnly) {
-    if (debugOnly && !this.debug) return null;
-    if (isString(args[0])) args[0] = `${prefix}${this.prefix} ${args[0]}`;
-    return this.logger[lvl](args);
-  }
-  create(moduleName) {
-    return new Logger(this.logger, {
-      ...{
-        prefix: `${this.prefix}:${moduleName}:`
-      },
-      ...this.options
-    });
-  }
-  clone(options) {
-    options = options || this.options;
-    options.prefix = options.prefix || this.prefix;
-    return new Logger(this.logger, options);
-  }
-}
-var baseLogger = new Logger();
-class EventEmitter {
-  constructor() {
-    this.observers = {};
-  }
-  on(events, listener) {
-    events.split(" ").forEach((event) => {
-      if (!this.observers[event]) this.observers[event] = /* @__PURE__ */ new Map();
-      const numListeners = this.observers[event].get(listener) || 0;
-      this.observers[event].set(listener, numListeners + 1);
-    });
-    return this;
-  }
-  off(event, listener) {
-    if (!this.observers[event]) return;
-    if (!listener) {
-      delete this.observers[event];
-      return;
-    }
-    this.observers[event].delete(listener);
-  }
-  emit(event) {
-    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-      args[_key - 1] = arguments[_key];
-    }
-    if (this.observers[event]) {
-      const cloned = Array.from(this.observers[event].entries());
-      cloned.forEach((_ref) => {
-        let [observer, numTimesAdded] = _ref;
-        for (let i2 = 0; i2 < numTimesAdded; i2++) {
-          observer(...args);
-        }
-      });
-    }
-    if (this.observers["*"]) {
-      const cloned = Array.from(this.observers["*"].entries());
-      cloned.forEach((_ref2) => {
-        let [observer, numTimesAdded] = _ref2;
-        for (let i2 = 0; i2 < numTimesAdded; i2++) {
-          observer.apply(observer, [event, ...args]);
-        }
-      });
-    }
-  }
-}
-class ResourceStore extends EventEmitter {
-  constructor(data) {
-    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {
-      ns: ["translation"],
-      defaultNS: "translation"
-    };
-    super();
-    this.data = data || {};
-    this.options = options;
-    if (this.options.keySeparator === void 0) {
-      this.options.keySeparator = ".";
-    }
-    if (this.options.ignoreJSONStructure === void 0) {
-      this.options.ignoreJSONStructure = true;
-    }
-  }
-  addNamespaces(ns) {
-    if (this.options.ns.indexOf(ns) < 0) {
-      this.options.ns.push(ns);
-    }
-  }
-  removeNamespaces(ns) {
-    const index2 = this.options.ns.indexOf(ns);
-    if (index2 > -1) {
-      this.options.ns.splice(index2, 1);
-    }
-  }
-  getResource(lng, ns, key) {
-    let options = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : {};
-    const keySeparator = options.keySeparator !== void 0 ? options.keySeparator : this.options.keySeparator;
-    const ignoreJSONStructure = options.ignoreJSONStructure !== void 0 ? options.ignoreJSONStructure : this.options.ignoreJSONStructure;
-    let path2;
-    if (lng.indexOf(".") > -1) {
-      path2 = lng.split(".");
-    } else {
-      path2 = [lng, ns];
-      if (key) {
-        if (Array.isArray(key)) {
-          path2.push(...key);
-        } else if (isString(key) && keySeparator) {
-          path2.push(...key.split(keySeparator));
-        } else {
-          path2.push(key);
-        }
-      }
-    }
-    const result = getPath(this.data, path2);
-    if (!result && !ns && !key && lng.indexOf(".") > -1) {
-      lng = path2[0];
-      ns = path2[1];
-      key = path2.slice(2).join(".");
-    }
-    if (result || !ignoreJSONStructure || !isString(key)) return result;
-    return deepFind(this.data && this.data[lng] && this.data[lng][ns], key, keySeparator);
-  }
-  addResource(lng, ns, key, value2) {
-    let options = arguments.length > 4 && arguments[4] !== void 0 ? arguments[4] : {
-      silent: false
-    };
-    const keySeparator = options.keySeparator !== void 0 ? options.keySeparator : this.options.keySeparator;
-    let path2 = [lng, ns];
-    if (key) path2 = path2.concat(keySeparator ? key.split(keySeparator) : key);
-    if (lng.indexOf(".") > -1) {
-      path2 = lng.split(".");
-      value2 = ns;
-      ns = path2[1];
-    }
-    this.addNamespaces(ns);
-    setPath(this.data, path2, value2);
-    if (!options.silent) this.emit("added", lng, ns, key, value2);
-  }
-  addResources(lng, ns, resources) {
-    let options = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : {
-      silent: false
-    };
-    for (const m2 in resources) {
-      if (isString(resources[m2]) || Array.isArray(resources[m2])) this.addResource(lng, ns, m2, resources[m2], {
-        silent: true
-      });
-    }
-    if (!options.silent) this.emit("added", lng, ns, resources);
-  }
-  addResourceBundle(lng, ns, resources, deep, overwrite) {
-    let options = arguments.length > 5 && arguments[5] !== void 0 ? arguments[5] : {
-      silent: false,
-      skipCopy: false
-    };
-    let path2 = [lng, ns];
-    if (lng.indexOf(".") > -1) {
-      path2 = lng.split(".");
-      deep = resources;
-      resources = ns;
-      ns = path2[1];
-    }
-    this.addNamespaces(ns);
-    let pack = getPath(this.data, path2) || {};
-    if (!options.skipCopy) resources = JSON.parse(JSON.stringify(resources));
-    if (deep) {
-      deepExtend(pack, resources, overwrite);
-    } else {
-      pack = {
-        ...pack,
-        ...resources
-      };
-    }
-    setPath(this.data, path2, pack);
-    if (!options.silent) this.emit("added", lng, ns, resources);
-  }
-  removeResourceBundle(lng, ns) {
-    if (this.hasResourceBundle(lng, ns)) {
-      delete this.data[lng][ns];
-    }
-    this.removeNamespaces(ns);
-    this.emit("removed", lng, ns);
-  }
-  hasResourceBundle(lng, ns) {
-    return this.getResource(lng, ns) !== void 0;
-  }
-  getResourceBundle(lng, ns) {
-    if (!ns) ns = this.options.defaultNS;
-    if (this.options.compatibilityAPI === "v1") return {
-      ...{},
-      ...this.getResource(lng, ns)
-    };
-    return this.getResource(lng, ns);
-  }
-  getDataByLanguage(lng) {
-    return this.data[lng];
-  }
-  hasLanguageSomeTranslations(lng) {
-    const data = this.getDataByLanguage(lng);
-    const n2 = data && Object.keys(data) || [];
-    return !!n2.find((v2) => data[v2] && Object.keys(data[v2]).length > 0);
-  }
-  toJSON() {
-    return this.data;
-  }
-}
-var postProcessor = {
-  processors: {},
-  addPostProcessor(module) {
-    this.processors[module.name] = module;
-  },
-  handle(processors, value2, key, options, translator) {
-    processors.forEach((processor) => {
-      if (this.processors[processor]) value2 = this.processors[processor].process(value2, key, options, translator);
-    });
-    return value2;
-  }
-};
-const checkedLoadedFor = {};
-class Translator extends EventEmitter {
-  constructor(services) {
-    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
-    super();
-    copy(["resourceStore", "languageUtils", "pluralResolver", "interpolator", "backendConnector", "i18nFormat", "utils"], services, this);
-    this.options = options;
-    if (this.options.keySeparator === void 0) {
-      this.options.keySeparator = ".";
-    }
-    this.logger = baseLogger.create("translator");
-  }
-  changeLanguage(lng) {
-    if (lng) this.language = lng;
-  }
-  exists(key) {
-    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {
-      interpolation: {}
-    };
-    if (key === void 0 || key === null) {
-      return false;
-    }
-    const resolved2 = this.resolve(key, options);
-    return resolved2 && resolved2.res !== void 0;
-  }
-  extractFromKey(key, options) {
-    let nsSeparator = options.nsSeparator !== void 0 ? options.nsSeparator : this.options.nsSeparator;
-    if (nsSeparator === void 0) nsSeparator = ":";
-    const keySeparator = options.keySeparator !== void 0 ? options.keySeparator : this.options.keySeparator;
-    let namespaces = options.ns || this.options.defaultNS || [];
-    const wouldCheckForNsInKey = nsSeparator && key.indexOf(nsSeparator) > -1;
-    const seemsNaturalLanguage = !this.options.userDefinedKeySeparator && !options.keySeparator && !this.options.userDefinedNsSeparator && !options.nsSeparator && !looksLikeObjectPath(key, nsSeparator, keySeparator);
-    if (wouldCheckForNsInKey && !seemsNaturalLanguage) {
-      const m2 = key.match(this.interpolator.nestingRegexp);
-      if (m2 && m2.length > 0) {
-        return {
-          key,
-          namespaces: isString(namespaces) ? [namespaces] : namespaces
-        };
-      }
-      const parts = key.split(nsSeparator);
-      if (nsSeparator !== keySeparator || nsSeparator === keySeparator && this.options.ns.indexOf(parts[0]) > -1) namespaces = parts.shift();
-      key = parts.join(keySeparator);
-    }
-    return {
-      key,
-      namespaces: isString(namespaces) ? [namespaces] : namespaces
-    };
-  }
-  translate(keys, options, lastKey) {
-    if (typeof options !== "object" && this.options.overloadTranslationOptionHandler) {
-      options = this.options.overloadTranslationOptionHandler(arguments);
-    }
-    if (typeof options === "object") options = {
-      ...options
-    };
-    if (!options) options = {};
-    if (keys === void 0 || keys === null) return "";
-    if (!Array.isArray(keys)) keys = [String(keys)];
-    const returnDetails = options.returnDetails !== void 0 ? options.returnDetails : this.options.returnDetails;
-    const keySeparator = options.keySeparator !== void 0 ? options.keySeparator : this.options.keySeparator;
-    const {
-      key,
-      namespaces
-    } = this.extractFromKey(keys[keys.length - 1], options);
-    const namespace = namespaces[namespaces.length - 1];
-    const lng = options.lng || this.language;
-    const appendNamespaceToCIMode = options.appendNamespaceToCIMode || this.options.appendNamespaceToCIMode;
-    if (lng && lng.toLowerCase() === "cimode") {
-      if (appendNamespaceToCIMode) {
-        const nsSeparator = options.nsSeparator || this.options.nsSeparator;
-        if (returnDetails) {
-          return {
-            res: `${namespace}${nsSeparator}${key}`,
-            usedKey: key,
-            exactUsedKey: key,
-            usedLng: lng,
-            usedNS: namespace,
-            usedParams: this.getUsedParamsDetails(options)
-          };
-        }
-        return `${namespace}${nsSeparator}${key}`;
-      }
-      if (returnDetails) {
-        return {
-          res: key,
-          usedKey: key,
-          exactUsedKey: key,
-          usedLng: lng,
-          usedNS: namespace,
-          usedParams: this.getUsedParamsDetails(options)
-        };
-      }
-      return key;
-    }
-    const resolved2 = this.resolve(keys, options);
-    let res = resolved2 && resolved2.res;
-    const resUsedKey = resolved2 && resolved2.usedKey || key;
-    const resExactUsedKey = resolved2 && resolved2.exactUsedKey || key;
-    const resType = Object.prototype.toString.apply(res);
-    const noObject = ["[object Number]", "[object Function]", "[object RegExp]"];
-    const joinArrays = options.joinArrays !== void 0 ? options.joinArrays : this.options.joinArrays;
-    const handleAsObjectInI18nFormat = !this.i18nFormat || this.i18nFormat.handleAsObject;
-    const handleAsObject = !isString(res) && typeof res !== "boolean" && typeof res !== "number";
-    if (handleAsObjectInI18nFormat && res && handleAsObject && noObject.indexOf(resType) < 0 && !(isString(joinArrays) && Array.isArray(res))) {
-      if (!options.returnObjects && !this.options.returnObjects) {
-        if (!this.options.returnedObjectHandler) {
-          this.logger.warn("accessing an object - but returnObjects options is not enabled!");
-        }
-        const r2 = this.options.returnedObjectHandler ? this.options.returnedObjectHandler(resUsedKey, res, {
-          ...options,
-          ns: namespaces
-        }) : `key '${key} (${this.language})' returned an object instead of string.`;
-        if (returnDetails) {
-          resolved2.res = r2;
-          resolved2.usedParams = this.getUsedParamsDetails(options);
-          return resolved2;
-        }
-        return r2;
-      }
-      if (keySeparator) {
-        const resTypeIsArray = Array.isArray(res);
-        const copy2 = resTypeIsArray ? [] : {};
-        const newKeyToUse = resTypeIsArray ? resExactUsedKey : resUsedKey;
-        for (const m2 in res) {
-          if (Object.prototype.hasOwnProperty.call(res, m2)) {
-            const deepKey = `${newKeyToUse}${keySeparator}${m2}`;
-            copy2[m2] = this.translate(deepKey, {
-              ...options,
-              ...{
-                joinArrays: false,
-                ns: namespaces
-              }
-            });
-            if (copy2[m2] === deepKey) copy2[m2] = res[m2];
-          }
-        }
-        res = copy2;
-      }
-    } else if (handleAsObjectInI18nFormat && isString(joinArrays) && Array.isArray(res)) {
-      res = res.join(joinArrays);
-      if (res) res = this.extendTranslation(res, keys, options, lastKey);
-    } else {
-      let usedDefault = false;
-      let usedKey = false;
-      const needsPluralHandling = options.count !== void 0 && !isString(options.count);
-      const hasDefaultValue = Translator.hasDefaultValue(options);
-      const defaultValueSuffix = needsPluralHandling ? this.pluralResolver.getSuffix(lng, options.count, options) : "";
-      const defaultValueSuffixOrdinalFallback = options.ordinal && needsPluralHandling ? this.pluralResolver.getSuffix(lng, options.count, {
-        ordinal: false
-      }) : "";
-      const needsZeroSuffixLookup = needsPluralHandling && !options.ordinal && options.count === 0 && this.pluralResolver.shouldUseIntlApi();
-      const defaultValue = needsZeroSuffixLookup && options[`defaultValue${this.options.pluralSeparator}zero`] || options[`defaultValue${defaultValueSuffix}`] || options[`defaultValue${defaultValueSuffixOrdinalFallback}`] || options.defaultValue;
-      if (!this.isValidLookup(res) && hasDefaultValue) {
-        usedDefault = true;
-        res = defaultValue;
-      }
-      if (!this.isValidLookup(res)) {
-        usedKey = true;
-        res = key;
-      }
-      const missingKeyNoValueFallbackToKey = options.missingKeyNoValueFallbackToKey || this.options.missingKeyNoValueFallbackToKey;
-      const resForMissing = missingKeyNoValueFallbackToKey && usedKey ? void 0 : res;
-      const updateMissing = hasDefaultValue && defaultValue !== res && this.options.updateMissing;
-      if (usedKey || usedDefault || updateMissing) {
-        this.logger.log(updateMissing ? "updateKey" : "missingKey", lng, namespace, key, updateMissing ? defaultValue : res);
-        if (keySeparator) {
-          const fk = this.resolve(key, {
-            ...options,
-            keySeparator: false
-          });
-          if (fk && fk.res) this.logger.warn("Seems the loaded translations were in flat JSON format instead of nested. Either set keySeparator: false on init or make sure your translations are published in nested format.");
-        }
-        let lngs = [];
-        const fallbackLngs = this.languageUtils.getFallbackCodes(this.options.fallbackLng, options.lng || this.language);
-        if (this.options.saveMissingTo === "fallback" && fallbackLngs && fallbackLngs[0]) {
-          for (let i2 = 0; i2 < fallbackLngs.length; i2++) {
-            lngs.push(fallbackLngs[i2]);
-          }
-        } else if (this.options.saveMissingTo === "all") {
-          lngs = this.languageUtils.toResolveHierarchy(options.lng || this.language);
-        } else {
-          lngs.push(options.lng || this.language);
-        }
-        const send = (l2, k2, specificDefaultValue) => {
-          const defaultForMissing = hasDefaultValue && specificDefaultValue !== res ? specificDefaultValue : resForMissing;
-          if (this.options.missingKeyHandler) {
-            this.options.missingKeyHandler(l2, namespace, k2, defaultForMissing, updateMissing, options);
-          } else if (this.backendConnector && this.backendConnector.saveMissing) {
-            this.backendConnector.saveMissing(l2, namespace, k2, defaultForMissing, updateMissing, options);
-          }
-          this.emit("missingKey", l2, namespace, k2, res);
-        };
-        if (this.options.saveMissing) {
-          if (this.options.saveMissingPlurals && needsPluralHandling) {
-            lngs.forEach((language2) => {
-              const suffixes = this.pluralResolver.getSuffixes(language2, options);
-              if (needsZeroSuffixLookup && options[`defaultValue${this.options.pluralSeparator}zero`] && suffixes.indexOf(`${this.options.pluralSeparator}zero`) < 0) {
-                suffixes.push(`${this.options.pluralSeparator}zero`);
-              }
-              suffixes.forEach((suffix) => {
-                send([language2], key + suffix, options[`defaultValue${suffix}`] || defaultValue);
-              });
-            });
-          } else {
-            send(lngs, key, defaultValue);
-          }
-        }
-      }
-      res = this.extendTranslation(res, keys, options, resolved2, lastKey);
-      if (usedKey && res === key && this.options.appendNamespaceToMissingKey) res = `${namespace}:${key}`;
-      if ((usedKey || usedDefault) && this.options.parseMissingKeyHandler) {
-        if (this.options.compatibilityAPI !== "v1") {
-          res = this.options.parseMissingKeyHandler(this.options.appendNamespaceToMissingKey ? `${namespace}:${key}` : key, usedDefault ? res : void 0);
-        } else {
-          res = this.options.parseMissingKeyHandler(res);
-        }
-      }
-    }
-    if (returnDetails) {
-      resolved2.res = res;
-      resolved2.usedParams = this.getUsedParamsDetails(options);
-      return resolved2;
-    }
-    return res;
-  }
-  extendTranslation(res, key, options, resolved2, lastKey) {
-    var _this = this;
-    if (this.i18nFormat && this.i18nFormat.parse) {
-      res = this.i18nFormat.parse(res, {
-        ...this.options.interpolation.defaultVariables,
-        ...options
-      }, options.lng || this.language || resolved2.usedLng, resolved2.usedNS, resolved2.usedKey, {
-        resolved: resolved2
-      });
-    } else if (!options.skipInterpolation) {
-      if (options.interpolation) this.interpolator.init({
-        ...options,
-        ...{
-          interpolation: {
-            ...this.options.interpolation,
-            ...options.interpolation
-          }
-        }
-      });
-      const skipOnVariables = isString(res) && (options && options.interpolation && options.interpolation.skipOnVariables !== void 0 ? options.interpolation.skipOnVariables : this.options.interpolation.skipOnVariables);
-      let nestBef;
-      if (skipOnVariables) {
-        const nb = res.match(this.interpolator.nestingRegexp);
-        nestBef = nb && nb.length;
-      }
-      let data = options.replace && !isString(options.replace) ? options.replace : options;
-      if (this.options.interpolation.defaultVariables) data = {
-        ...this.options.interpolation.defaultVariables,
-        ...data
-      };
-      res = this.interpolator.interpolate(res, data, options.lng || this.language || resolved2.usedLng, options);
-      if (skipOnVariables) {
-        const na = res.match(this.interpolator.nestingRegexp);
-        const nestAft = na && na.length;
-        if (nestBef < nestAft) options.nest = false;
-      }
-      if (!options.lng && this.options.compatibilityAPI !== "v1" && resolved2 && resolved2.res) options.lng = this.language || resolved2.usedLng;
-      if (options.nest !== false) res = this.interpolator.nest(res, function() {
-        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-          args[_key] = arguments[_key];
-        }
-        if (lastKey && lastKey[0] === args[0] && !options.context) {
-          _this.logger.warn(`It seems you are nesting recursively key: ${args[0]} in key: ${key[0]}`);
-          return null;
-        }
-        return _this.translate(...args, key);
-      }, options);
-      if (options.interpolation) this.interpolator.reset();
-    }
-    const postProcess = options.postProcess || this.options.postProcess;
-    const postProcessorNames = isString(postProcess) ? [postProcess] : postProcess;
-    if (res !== void 0 && res !== null && postProcessorNames && postProcessorNames.length && options.applyPostProcessor !== false) {
-      res = postProcessor.handle(postProcessorNames, res, key, this.options && this.options.postProcessPassResolved ? {
-        i18nResolved: {
-          ...resolved2,
-          usedParams: this.getUsedParamsDetails(options)
-        },
-        ...options
-      } : options, this);
-    }
-    return res;
-  }
-  resolve(keys) {
-    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
-    let found;
-    let usedKey;
-    let exactUsedKey;
-    let usedLng;
-    let usedNS;
-    if (isString(keys)) keys = [keys];
-    keys.forEach((k2) => {
-      if (this.isValidLookup(found)) return;
-      const extracted = this.extractFromKey(k2, options);
-      const key = extracted.key;
-      usedKey = key;
-      let namespaces = extracted.namespaces;
-      if (this.options.fallbackNS) namespaces = namespaces.concat(this.options.fallbackNS);
-      const needsPluralHandling = options.count !== void 0 && !isString(options.count);
-      const needsZeroSuffixLookup = needsPluralHandling && !options.ordinal && options.count === 0 && this.pluralResolver.shouldUseIntlApi();
-      const needsContextHandling = options.context !== void 0 && (isString(options.context) || typeof options.context === "number") && options.context !== "";
-      const codes = options.lngs ? options.lngs : this.languageUtils.toResolveHierarchy(options.lng || this.language, options.fallbackLng);
-      namespaces.forEach((ns) => {
-        if (this.isValidLookup(found)) return;
-        usedNS = ns;
-        if (!checkedLoadedFor[`${codes[0]}-${ns}`] && this.utils && this.utils.hasLoadedNamespace && !this.utils.hasLoadedNamespace(usedNS)) {
-          checkedLoadedFor[`${codes[0]}-${ns}`] = true;
-          this.logger.warn(`key "${usedKey}" for languages "${codes.join(", ")}" won't get resolved as namespace "${usedNS}" was not yet loaded`, "This means something IS WRONG in your setup. You access the t function before i18next.init / i18next.loadNamespace / i18next.changeLanguage was done. Wait for the callback or Promise to resolve before accessing it!!!");
-        }
-        codes.forEach((code) => {
-          if (this.isValidLookup(found)) return;
-          usedLng = code;
-          const finalKeys = [key];
-          if (this.i18nFormat && this.i18nFormat.addLookupKeys) {
-            this.i18nFormat.addLookupKeys(finalKeys, key, code, ns, options);
-          } else {
-            let pluralSuffix;
-            if (needsPluralHandling) pluralSuffix = this.pluralResolver.getSuffix(code, options.count, options);
-            const zeroSuffix = `${this.options.pluralSeparator}zero`;
-            const ordinalPrefix = `${this.options.pluralSeparator}ordinal${this.options.pluralSeparator}`;
-            if (needsPluralHandling) {
-              finalKeys.push(key + pluralSuffix);
-              if (options.ordinal && pluralSuffix.indexOf(ordinalPrefix) === 0) {
-                finalKeys.push(key + pluralSuffix.replace(ordinalPrefix, this.options.pluralSeparator));
-              }
-              if (needsZeroSuffixLookup) {
-                finalKeys.push(key + zeroSuffix);
-              }
-            }
-            if (needsContextHandling) {
-              const contextKey = `${key}${this.options.contextSeparator}${options.context}`;
-              finalKeys.push(contextKey);
-              if (needsPluralHandling) {
-                finalKeys.push(contextKey + pluralSuffix);
-                if (options.ordinal && pluralSuffix.indexOf(ordinalPrefix) === 0) {
-                  finalKeys.push(contextKey + pluralSuffix.replace(ordinalPrefix, this.options.pluralSeparator));
-                }
-                if (needsZeroSuffixLookup) {
-                  finalKeys.push(contextKey + zeroSuffix);
-                }
-              }
-            }
-          }
-          let possibleKey;
-          while (possibleKey = finalKeys.pop()) {
-            if (!this.isValidLookup(found)) {
-              exactUsedKey = possibleKey;
-              found = this.getResource(code, ns, possibleKey, options);
-            }
-          }
-        });
-      });
-    });
-    return {
-      res: found,
-      usedKey,
-      exactUsedKey,
-      usedLng,
-      usedNS
-    };
-  }
-  isValidLookup(res) {
-    return res !== void 0 && !(!this.options.returnNull && res === null) && !(!this.options.returnEmptyString && res === "");
-  }
-  getResource(code, ns, key) {
-    let options = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : {};
-    if (this.i18nFormat && this.i18nFormat.getResource) return this.i18nFormat.getResource(code, ns, key, options);
-    return this.resourceStore.getResource(code, ns, key, options);
-  }
-  getUsedParamsDetails() {
-    let options = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
-    const optionsKeys = ["defaultValue", "ordinal", "context", "replace", "lng", "lngs", "fallbackLng", "ns", "keySeparator", "nsSeparator", "returnObjects", "returnDetails", "joinArrays", "postProcess", "interpolation"];
-    const useOptionsReplaceForData = options.replace && !isString(options.replace);
-    let data = useOptionsReplaceForData ? options.replace : options;
-    if (useOptionsReplaceForData && typeof options.count !== "undefined") {
-      data.count = options.count;
-    }
-    if (this.options.interpolation.defaultVariables) {
-      data = {
-        ...this.options.interpolation.defaultVariables,
-        ...data
-      };
-    }
-    if (!useOptionsReplaceForData) {
-      data = {
-        ...data
-      };
-      for (const key of optionsKeys) {
-        delete data[key];
-      }
-    }
-    return data;
-  }
-  static hasDefaultValue(options) {
-    const prefix = "defaultValue";
-    for (const option in options) {
-      if (Object.prototype.hasOwnProperty.call(options, option) && prefix === option.substring(0, prefix.length) && void 0 !== options[option]) {
-        return true;
-      }
-    }
-    return false;
-  }
-}
-const capitalize$1 = (string) => string.charAt(0).toUpperCase() + string.slice(1);
-class LanguageUtil {
-  constructor(options) {
-    this.options = options;
-    this.supportedLngs = this.options.supportedLngs || false;
-    this.logger = baseLogger.create("languageUtils");
-  }
-  getScriptPartFromCode(code) {
-    code = getCleanedCode(code);
-    if (!code || code.indexOf("-") < 0) return null;
-    const p2 = code.split("-");
-    if (p2.length === 2) return null;
-    p2.pop();
-    if (p2[p2.length - 1].toLowerCase() === "x") return null;
-    return this.formatLanguageCode(p2.join("-"));
-  }
-  getLanguagePartFromCode(code) {
-    code = getCleanedCode(code);
-    if (!code || code.indexOf("-") < 0) return code;
-    const p2 = code.split("-");
-    return this.formatLanguageCode(p2[0]);
-  }
-  formatLanguageCode(code) {
-    if (isString(code) && code.indexOf("-") > -1) {
-      if (typeof Intl !== "undefined" && typeof Intl.getCanonicalLocales !== "undefined") {
-        try {
-          let formattedCode = Intl.getCanonicalLocales(code)[0];
-          if (formattedCode && this.options.lowerCaseLng) {
-            formattedCode = formattedCode.toLowerCase();
-          }
-          if (formattedCode) return formattedCode;
-        } catch (e) {
-        }
-      }
-      const specialCases = ["hans", "hant", "latn", "cyrl", "cans", "mong", "arab"];
-      let p2 = code.split("-");
-      if (this.options.lowerCaseLng) {
-        p2 = p2.map((part) => part.toLowerCase());
-      } else if (p2.length === 2) {
-        p2[0] = p2[0].toLowerCase();
-        p2[1] = p2[1].toUpperCase();
-        if (specialCases.indexOf(p2[1].toLowerCase()) > -1) p2[1] = capitalize$1(p2[1].toLowerCase());
-      } else if (p2.length === 3) {
-        p2[0] = p2[0].toLowerCase();
-        if (p2[1].length === 2) p2[1] = p2[1].toUpperCase();
-        if (p2[0] !== "sgn" && p2[2].length === 2) p2[2] = p2[2].toUpperCase();
-        if (specialCases.indexOf(p2[1].toLowerCase()) > -1) p2[1] = capitalize$1(p2[1].toLowerCase());
-        if (specialCases.indexOf(p2[2].toLowerCase()) > -1) p2[2] = capitalize$1(p2[2].toLowerCase());
-      }
-      return p2.join("-");
-    }
-    return this.options.cleanCode || this.options.lowerCaseLng ? code.toLowerCase() : code;
-  }
-  isSupportedCode(code) {
-    if (this.options.load === "languageOnly" || this.options.nonExplicitSupportedLngs) {
-      code = this.getLanguagePartFromCode(code);
-    }
-    return !this.supportedLngs || !this.supportedLngs.length || this.supportedLngs.indexOf(code) > -1;
-  }
-  getBestMatchFromCodes(codes) {
-    if (!codes) return null;
-    let found;
-    codes.forEach((code) => {
-      if (found) return;
-      const cleanedLng = this.formatLanguageCode(code);
-      if (!this.options.supportedLngs || this.isSupportedCode(cleanedLng)) found = cleanedLng;
-    });
-    if (!found && this.options.supportedLngs) {
-      codes.forEach((code) => {
-        if (found) return;
-        const lngOnly = this.getLanguagePartFromCode(code);
-        if (this.isSupportedCode(lngOnly)) return found = lngOnly;
-        found = this.options.supportedLngs.find((supportedLng) => {
-          if (supportedLng === lngOnly) return supportedLng;
-          if (supportedLng.indexOf("-") < 0 && lngOnly.indexOf("-") < 0) return;
-          if (supportedLng.indexOf("-") > 0 && lngOnly.indexOf("-") < 0 && supportedLng.substring(0, supportedLng.indexOf("-")) === lngOnly) return supportedLng;
-          if (supportedLng.indexOf(lngOnly) === 0 && lngOnly.length > 1) return supportedLng;
-        });
-      });
-    }
-    if (!found) found = this.getFallbackCodes(this.options.fallbackLng)[0];
-    return found;
-  }
-  getFallbackCodes(fallbacks, code) {
-    if (!fallbacks) return [];
-    if (typeof fallbacks === "function") fallbacks = fallbacks(code);
-    if (isString(fallbacks)) fallbacks = [fallbacks];
-    if (Array.isArray(fallbacks)) return fallbacks;
-    if (!code) return fallbacks.default || [];
-    let found = fallbacks[code];
-    if (!found) found = fallbacks[this.getScriptPartFromCode(code)];
-    if (!found) found = fallbacks[this.formatLanguageCode(code)];
-    if (!found) found = fallbacks[this.getLanguagePartFromCode(code)];
-    if (!found) found = fallbacks.default;
-    return found || [];
-  }
-  toResolveHierarchy(code, fallbackCode) {
-    const fallbackCodes = this.getFallbackCodes(fallbackCode || this.options.fallbackLng || [], code);
-    const codes = [];
-    const addCode = (c2) => {
-      if (!c2) return;
-      if (this.isSupportedCode(c2)) {
-        codes.push(c2);
-      } else {
-        this.logger.warn(`rejecting language code not found in supportedLngs: ${c2}`);
-      }
-    };
-    if (isString(code) && (code.indexOf("-") > -1 || code.indexOf("_") > -1)) {
-      if (this.options.load !== "languageOnly") addCode(this.formatLanguageCode(code));
-      if (this.options.load !== "languageOnly" && this.options.load !== "currentOnly") addCode(this.getScriptPartFromCode(code));
-      if (this.options.load !== "currentOnly") addCode(this.getLanguagePartFromCode(code));
-    } else if (isString(code)) {
-      addCode(this.formatLanguageCode(code));
-    }
-    fallbackCodes.forEach((fc) => {
-      if (codes.indexOf(fc) < 0) addCode(this.formatLanguageCode(fc));
-    });
-    return codes;
-  }
-}
-let sets = [{
-  lngs: ["ach", "ak", "am", "arn", "br", "fil", "gun", "ln", "mfe", "mg", "mi", "oc", "pt", "pt-BR", "tg", "tl", "ti", "tr", "uz", "wa"],
-  nr: [1, 2],
-  fc: 1
-}, {
-  lngs: ["af", "an", "ast", "az", "bg", "bn", "ca", "da", "de", "dev", "el", "en", "eo", "es", "et", "eu", "fi", "fo", "fur", "fy", "gl", "gu", "ha", "hi", "hu", "hy", "ia", "it", "kk", "kn", "ku", "lb", "mai", "ml", "mn", "mr", "nah", "nap", "nb", "ne", "nl", "nn", "no", "nso", "pa", "pap", "pms", "ps", "pt-PT", "rm", "sco", "se", "si", "so", "son", "sq", "sv", "sw", "ta", "te", "tk", "ur", "yo"],
-  nr: [1, 2],
-  fc: 2
-}, {
-  lngs: ["ay", "bo", "cgg", "fa", "ht", "id", "ja", "jbo", "ka", "km", "ko", "ky", "lo", "ms", "sah", "su", "th", "tt", "ug", "vi", "wo", "zh"],
-  nr: [1],
-  fc: 3
-}, {
-  lngs: ["be", "bs", "cnr", "dz", "hr", "ru", "sr", "uk"],
-  nr: [1, 2, 5],
-  fc: 4
-}, {
-  lngs: ["ar"],
-  nr: [0, 1, 2, 3, 11, 100],
-  fc: 5
-}, {
-  lngs: ["cs", "sk"],
-  nr: [1, 2, 5],
-  fc: 6
-}, {
-  lngs: ["csb", "pl"],
-  nr: [1, 2, 5],
-  fc: 7
-}, {
-  lngs: ["cy"],
-  nr: [1, 2, 3, 8],
-  fc: 8
-}, {
-  lngs: ["fr"],
-  nr: [1, 2],
-  fc: 9
-}, {
-  lngs: ["ga"],
-  nr: [1, 2, 3, 7, 11],
-  fc: 10
-}, {
-  lngs: ["gd"],
-  nr: [1, 2, 3, 20],
-  fc: 11
-}, {
-  lngs: ["is"],
-  nr: [1, 2],
-  fc: 12
-}, {
-  lngs: ["jv"],
-  nr: [0, 1],
-  fc: 13
-}, {
-  lngs: ["kw"],
-  nr: [1, 2, 3, 4],
-  fc: 14
-}, {
-  lngs: ["lt"],
-  nr: [1, 2, 10],
-  fc: 15
-}, {
-  lngs: ["lv"],
-  nr: [1, 2, 0],
-  fc: 16
-}, {
-  lngs: ["mk"],
-  nr: [1, 2],
-  fc: 17
-}, {
-  lngs: ["mnk"],
-  nr: [0, 1, 2],
-  fc: 18
-}, {
-  lngs: ["mt"],
-  nr: [1, 2, 11, 20],
-  fc: 19
-}, {
-  lngs: ["or"],
-  nr: [2, 1],
-  fc: 2
-}, {
-  lngs: ["ro"],
-  nr: [1, 2, 20],
-  fc: 20
-}, {
-  lngs: ["sl"],
-  nr: [5, 1, 2, 3],
-  fc: 21
-}, {
-  lngs: ["he", "iw"],
-  nr: [1, 2, 20, 21],
-  fc: 22
-}];
-let _rulesPluralsTypes = {
-  1: (n2) => Number(n2 > 1),
-  2: (n2) => Number(n2 != 1),
-  3: (n2) => 0,
-  4: (n2) => Number(n2 % 10 == 1 && n2 % 100 != 11 ? 0 : n2 % 10 >= 2 && n2 % 10 <= 4 && (n2 % 100 < 10 || n2 % 100 >= 20) ? 1 : 2),
-  5: (n2) => Number(n2 == 0 ? 0 : n2 == 1 ? 1 : n2 == 2 ? 2 : n2 % 100 >= 3 && n2 % 100 <= 10 ? 3 : n2 % 100 >= 11 ? 4 : 5),
-  6: (n2) => Number(n2 == 1 ? 0 : n2 >= 2 && n2 <= 4 ? 1 : 2),
-  7: (n2) => Number(n2 == 1 ? 0 : n2 % 10 >= 2 && n2 % 10 <= 4 && (n2 % 100 < 10 || n2 % 100 >= 20) ? 1 : 2),
-  8: (n2) => Number(n2 == 1 ? 0 : n2 == 2 ? 1 : n2 != 8 && n2 != 11 ? 2 : 3),
-  9: (n2) => Number(n2 >= 2),
-  10: (n2) => Number(n2 == 1 ? 0 : n2 == 2 ? 1 : n2 < 7 ? 2 : n2 < 11 ? 3 : 4),
-  11: (n2) => Number(n2 == 1 || n2 == 11 ? 0 : n2 == 2 || n2 == 12 ? 1 : n2 > 2 && n2 < 20 ? 2 : 3),
-  12: (n2) => Number(n2 % 10 != 1 || n2 % 100 == 11),
-  13: (n2) => Number(n2 !== 0),
-  14: (n2) => Number(n2 == 1 ? 0 : n2 == 2 ? 1 : n2 == 3 ? 2 : 3),
-  15: (n2) => Number(n2 % 10 == 1 && n2 % 100 != 11 ? 0 : n2 % 10 >= 2 && (n2 % 100 < 10 || n2 % 100 >= 20) ? 1 : 2),
-  16: (n2) => Number(n2 % 10 == 1 && n2 % 100 != 11 ? 0 : n2 !== 0 ? 1 : 2),
-  17: (n2) => Number(n2 == 1 || n2 % 10 == 1 && n2 % 100 != 11 ? 0 : 1),
-  18: (n2) => Number(n2 == 0 ? 0 : n2 == 1 ? 1 : 2),
-  19: (n2) => Number(n2 == 1 ? 0 : n2 == 0 || n2 % 100 > 1 && n2 % 100 < 11 ? 1 : n2 % 100 > 10 && n2 % 100 < 20 ? 2 : 3),
-  20: (n2) => Number(n2 == 1 ? 0 : n2 == 0 || n2 % 100 > 0 && n2 % 100 < 20 ? 1 : 2),
-  21: (n2) => Number(n2 % 100 == 1 ? 1 : n2 % 100 == 2 ? 2 : n2 % 100 == 3 || n2 % 100 == 4 ? 3 : 0),
-  22: (n2) => Number(n2 == 1 ? 0 : n2 == 2 ? 1 : (n2 < 0 || n2 > 10) && n2 % 10 == 0 ? 2 : 3)
-};
-const nonIntlVersions = ["v1", "v2", "v3"];
-const intlVersions = ["v4"];
-const suffixesOrder = {
-  zero: 0,
-  one: 1,
-  two: 2,
-  few: 3,
-  many: 4,
-  other: 5
-};
-const createRules = () => {
-  const rules = {};
-  sets.forEach((set) => {
-    set.lngs.forEach((l2) => {
-      rules[l2] = {
-        numbers: set.nr,
-        plurals: _rulesPluralsTypes[set.fc]
-      };
-    });
-  });
-  return rules;
-};
-class PluralResolver {
-  constructor(languageUtils) {
-    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
-    this.languageUtils = languageUtils;
-    this.options = options;
-    this.logger = baseLogger.create("pluralResolver");
-    if ((!this.options.compatibilityJSON || intlVersions.includes(this.options.compatibilityJSON)) && (typeof Intl === "undefined" || !Intl.PluralRules)) {
-      this.options.compatibilityJSON = "v3";
-      this.logger.error("Your environment seems not to be Intl API compatible, use an Intl.PluralRules polyfill. Will fallback to the compatibilityJSON v3 format handling.");
-    }
-    this.rules = createRules();
-    this.pluralRulesCache = {};
-  }
-  addRule(lng, obj) {
-    this.rules[lng] = obj;
-  }
-  clearCache() {
-    this.pluralRulesCache = {};
-  }
-  getRule(code) {
-    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
-    if (this.shouldUseIntlApi()) {
-      const cleanedCode = getCleanedCode(code === "dev" ? "en" : code);
-      const type = options.ordinal ? "ordinal" : "cardinal";
-      const cacheKey = JSON.stringify({
-        cleanedCode,
-        type
-      });
-      if (cacheKey in this.pluralRulesCache) {
-        return this.pluralRulesCache[cacheKey];
-      }
-      let rule;
-      try {
-        rule = new Intl.PluralRules(cleanedCode, {
-          type
-        });
-      } catch (err) {
-        if (!code.match(/-|_/)) return;
-        const lngPart = this.languageUtils.getLanguagePartFromCode(code);
-        rule = this.getRule(lngPart, options);
-      }
-      this.pluralRulesCache[cacheKey] = rule;
-      return rule;
-    }
-    return this.rules[code] || this.rules[this.languageUtils.getLanguagePartFromCode(code)];
-  }
-  needsPlural(code) {
-    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
-    const rule = this.getRule(code, options);
-    if (this.shouldUseIntlApi()) {
-      return rule && rule.resolvedOptions().pluralCategories.length > 1;
-    }
-    return rule && rule.numbers.length > 1;
-  }
-  getPluralFormsOfKey(code, key) {
-    let options = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
-    return this.getSuffixes(code, options).map((suffix) => `${key}${suffix}`);
-  }
-  getSuffixes(code) {
-    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
-    const rule = this.getRule(code, options);
-    if (!rule) {
-      return [];
-    }
-    if (this.shouldUseIntlApi()) {
-      return rule.resolvedOptions().pluralCategories.sort((pluralCategory1, pluralCategory2) => suffixesOrder[pluralCategory1] - suffixesOrder[pluralCategory2]).map((pluralCategory) => `${this.options.prepend}${options.ordinal ? `ordinal${this.options.prepend}` : ""}${pluralCategory}`);
-    }
-    return rule.numbers.map((number) => this.getSuffix(code, number, options));
-  }
-  getSuffix(code, count2) {
-    let options = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
-    const rule = this.getRule(code, options);
-    if (rule) {
-      if (this.shouldUseIntlApi()) {
-        return `${this.options.prepend}${options.ordinal ? `ordinal${this.options.prepend}` : ""}${rule.select(count2)}`;
-      }
-      return this.getSuffixRetroCompatible(rule, count2);
-    }
-    this.logger.warn(`no plural rule found for: ${code}`);
-    return "";
-  }
-  getSuffixRetroCompatible(rule, count2) {
-    const idx = rule.noAbs ? rule.plurals(count2) : rule.plurals(Math.abs(count2));
-    let suffix = rule.numbers[idx];
-    if (this.options.simplifyPluralSuffix && rule.numbers.length === 2 && rule.numbers[0] === 1) {
-      if (suffix === 2) {
-        suffix = "plural";
-      } else if (suffix === 1) {
-        suffix = "";
-      }
-    }
-    const returnSuffix = () => this.options.prepend && suffix.toString() ? this.options.prepend + suffix.toString() : suffix.toString();
-    if (this.options.compatibilityJSON === "v1") {
-      if (suffix === 1) return "";
-      if (typeof suffix === "number") return `_plural_${suffix.toString()}`;
-      return returnSuffix();
-    } else if (this.options.compatibilityJSON === "v2") {
-      return returnSuffix();
-    } else if (this.options.simplifyPluralSuffix && rule.numbers.length === 2 && rule.numbers[0] === 1) {
-      return returnSuffix();
-    }
-    return this.options.prepend && idx.toString() ? this.options.prepend + idx.toString() : idx.toString();
-  }
-  shouldUseIntlApi() {
-    return !nonIntlVersions.includes(this.options.compatibilityJSON);
-  }
-}
-const deepFindWithDefaults = function(data, defaultData, key) {
-  let keySeparator = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : ".";
-  let ignoreJSONStructure = arguments.length > 4 && arguments[4] !== void 0 ? arguments[4] : true;
-  let path2 = getPathWithDefaults(data, defaultData, key);
-  if (!path2 && ignoreJSONStructure && isString(key)) {
-    path2 = deepFind(data, key, keySeparator);
-    if (path2 === void 0) path2 = deepFind(defaultData, key, keySeparator);
-  }
-  return path2;
-};
-const regexSafe = (val) => val.replace(/\$/g, "$$$$");
-class Interpolator {
-  constructor() {
-    let options = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
-    this.logger = baseLogger.create("interpolator");
-    this.options = options;
-    this.format = options.interpolation && options.interpolation.format || ((value2) => value2);
-    this.init(options);
-  }
-  init() {
-    let options = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
-    if (!options.interpolation) options.interpolation = {
-      escapeValue: true
-    };
-    const {
-      escape: escape$1,
-      escapeValue,
-      useRawValueToEscape,
-      prefix,
-      prefixEscaped,
-      suffix,
-      suffixEscaped,
-      formatSeparator,
-      unescapeSuffix,
-      unescapePrefix,
-      nestingPrefix,
-      nestingPrefixEscaped,
-      nestingSuffix,
-      nestingSuffixEscaped,
-      nestingOptionsSeparator,
-      maxReplaces,
-      alwaysFormat
-    } = options.interpolation;
-    this.escape = escape$1 !== void 0 ? escape$1 : escape;
-    this.escapeValue = escapeValue !== void 0 ? escapeValue : true;
-    this.useRawValueToEscape = useRawValueToEscape !== void 0 ? useRawValueToEscape : false;
-    this.prefix = prefix ? regexEscape(prefix) : prefixEscaped || "{{";
-    this.suffix = suffix ? regexEscape(suffix) : suffixEscaped || "}}";
-    this.formatSeparator = formatSeparator || ",";
-    this.unescapePrefix = unescapeSuffix ? "" : unescapePrefix || "-";
-    this.unescapeSuffix = this.unescapePrefix ? "" : unescapeSuffix || "";
-    this.nestingPrefix = nestingPrefix ? regexEscape(nestingPrefix) : nestingPrefixEscaped || regexEscape("$t(");
-    this.nestingSuffix = nestingSuffix ? regexEscape(nestingSuffix) : nestingSuffixEscaped || regexEscape(")");
-    this.nestingOptionsSeparator = nestingOptionsSeparator || ",";
-    this.maxReplaces = maxReplaces || 1e3;
-    this.alwaysFormat = alwaysFormat !== void 0 ? alwaysFormat : false;
-    this.resetRegExp();
-  }
-  reset() {
-    if (this.options) this.init(this.options);
-  }
-  resetRegExp() {
-    const getOrResetRegExp = (existingRegExp, pattern) => {
-      if (existingRegExp && existingRegExp.source === pattern) {
-        existingRegExp.lastIndex = 0;
-        return existingRegExp;
-      }
-      return new RegExp(pattern, "g");
-    };
-    this.regexp = getOrResetRegExp(this.regexp, `${this.prefix}(.+?)${this.suffix}`);
-    this.regexpUnescape = getOrResetRegExp(this.regexpUnescape, `${this.prefix}${this.unescapePrefix}(.+?)${this.unescapeSuffix}${this.suffix}`);
-    this.nestingRegexp = getOrResetRegExp(this.nestingRegexp, `${this.nestingPrefix}(.+?)${this.nestingSuffix}`);
-  }
-  interpolate(str, data, lng, options) {
-    let match;
-    let value2;
-    let replaces;
-    const defaultData = this.options && this.options.interpolation && this.options.interpolation.defaultVariables || {};
-    const handleFormat = (key) => {
-      if (key.indexOf(this.formatSeparator) < 0) {
-        const path2 = deepFindWithDefaults(data, defaultData, key, this.options.keySeparator, this.options.ignoreJSONStructure);
-        return this.alwaysFormat ? this.format(path2, void 0, lng, {
-          ...options,
-          ...data,
-          interpolationkey: key
-        }) : path2;
-      }
-      const p2 = key.split(this.formatSeparator);
-      const k2 = p2.shift().trim();
-      const f2 = p2.join(this.formatSeparator).trim();
-      return this.format(deepFindWithDefaults(data, defaultData, k2, this.options.keySeparator, this.options.ignoreJSONStructure), f2, lng, {
-        ...options,
-        ...data,
-        interpolationkey: k2
-      });
-    };
-    this.resetRegExp();
-    const missingInterpolationHandler = options && options.missingInterpolationHandler || this.options.missingInterpolationHandler;
-    const skipOnVariables = options && options.interpolation && options.interpolation.skipOnVariables !== void 0 ? options.interpolation.skipOnVariables : this.options.interpolation.skipOnVariables;
-    const todos = [{
-      regex: this.regexpUnescape,
-      safeValue: (val) => regexSafe(val)
-    }, {
-      regex: this.regexp,
-      safeValue: (val) => this.escapeValue ? regexSafe(this.escape(val)) : regexSafe(val)
-    }];
-    todos.forEach((todo) => {
-      replaces = 0;
-      while (match = todo.regex.exec(str)) {
-        const matchedVar = match[1].trim();
-        value2 = handleFormat(matchedVar);
-        if (value2 === void 0) {
-          if (typeof missingInterpolationHandler === "function") {
-            const temp = missingInterpolationHandler(str, match, options);
-            value2 = isString(temp) ? temp : "";
-          } else if (options && Object.prototype.hasOwnProperty.call(options, matchedVar)) {
-            value2 = "";
-          } else if (skipOnVariables) {
-            value2 = match[0];
-            continue;
-          } else {
-            this.logger.warn(`missed to pass in variable ${matchedVar} for interpolating ${str}`);
-            value2 = "";
-          }
-        } else if (!isString(value2) && !this.useRawValueToEscape) {
-          value2 = makeString(value2);
-        }
-        const safeValue = todo.safeValue(value2);
-        str = str.replace(match[0], safeValue);
-        if (skipOnVariables) {
-          todo.regex.lastIndex += value2.length;
-          todo.regex.lastIndex -= match[0].length;
-        } else {
-          todo.regex.lastIndex = 0;
-        }
-        replaces++;
-        if (replaces >= this.maxReplaces) {
-          break;
-        }
-      }
-    });
-    return str;
-  }
-  nest(str, fc) {
-    let options = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
-    let match;
-    let value2;
-    let clonedOptions;
-    const handleHasOptions = (key, inheritedOptions) => {
-      const sep = this.nestingOptionsSeparator;
-      if (key.indexOf(sep) < 0) return key;
-      const c2 = key.split(new RegExp(`${sep}[ ]*{`));
-      let optionsString = `{${c2[1]}`;
-      key = c2[0];
-      optionsString = this.interpolate(optionsString, clonedOptions);
-      const matchedSingleQuotes = optionsString.match(/'/g);
-      const matchedDoubleQuotes = optionsString.match(/"/g);
-      if (matchedSingleQuotes && matchedSingleQuotes.length % 2 === 0 && !matchedDoubleQuotes || matchedDoubleQuotes.length % 2 !== 0) {
-        optionsString = optionsString.replace(/'/g, '"');
-      }
-      try {
-        clonedOptions = JSON.parse(optionsString);
-        if (inheritedOptions) clonedOptions = {
-          ...inheritedOptions,
-          ...clonedOptions
-        };
-      } catch (e) {
-        this.logger.warn(`failed parsing options string in nesting for key ${key}`, e);
-        return `${key}${sep}${optionsString}`;
-      }
-      if (clonedOptions.defaultValue && clonedOptions.defaultValue.indexOf(this.prefix) > -1) delete clonedOptions.defaultValue;
-      return key;
-    };
-    while (match = this.nestingRegexp.exec(str)) {
-      let formatters = [];
-      clonedOptions = {
-        ...options
-      };
-      clonedOptions = clonedOptions.replace && !isString(clonedOptions.replace) ? clonedOptions.replace : clonedOptions;
-      clonedOptions.applyPostProcessor = false;
-      delete clonedOptions.defaultValue;
-      let doReduce = false;
-      if (match[0].indexOf(this.formatSeparator) !== -1 && !/{.*}/.test(match[1])) {
-        const r2 = match[1].split(this.formatSeparator).map((elem) => elem.trim());
-        match[1] = r2.shift();
-        formatters = r2;
-        doReduce = true;
-      }
-      value2 = fc(handleHasOptions.call(this, match[1].trim(), clonedOptions), clonedOptions);
-      if (value2 && match[0] === str && !isString(value2)) return value2;
-      if (!isString(value2)) value2 = makeString(value2);
-      if (!value2) {
-        this.logger.warn(`missed to resolve ${match[1]} for nesting ${str}`);
-        value2 = "";
-      }
-      if (doReduce) {
-        value2 = formatters.reduce((v2, f2) => this.format(v2, f2, options.lng, {
-          ...options,
-          interpolationkey: match[1].trim()
-        }), value2.trim());
-      }
-      str = str.replace(match[0], value2);
-      this.regexp.lastIndex = 0;
-    }
-    return str;
-  }
-}
-const parseFormatStr = (formatStr) => {
-  let formatName = formatStr.toLowerCase().trim();
-  const formatOptions = {};
-  if (formatStr.indexOf("(") > -1) {
-    const p2 = formatStr.split("(");
-    formatName = p2[0].toLowerCase().trim();
-    const optStr = p2[1].substring(0, p2[1].length - 1);
-    if (formatName === "currency" && optStr.indexOf(":") < 0) {
-      if (!formatOptions.currency) formatOptions.currency = optStr.trim();
-    } else if (formatName === "relativetime" && optStr.indexOf(":") < 0) {
-      if (!formatOptions.range) formatOptions.range = optStr.trim();
-    } else {
-      const opts = optStr.split(";");
-      opts.forEach((opt) => {
-        if (opt) {
-          const [key, ...rest] = opt.split(":");
-          const val = rest.join(":").trim().replace(/^'+|'+$/g, "");
-          const trimmedKey = key.trim();
-          if (!formatOptions[trimmedKey]) formatOptions[trimmedKey] = val;
-          if (val === "false") formatOptions[trimmedKey] = false;
-          if (val === "true") formatOptions[trimmedKey] = true;
-          if (!isNaN(val)) formatOptions[trimmedKey] = parseInt(val, 10);
-        }
-      });
-    }
-  }
-  return {
-    formatName,
-    formatOptions
-  };
-};
-const createCachedFormatter = (fn) => {
-  const cache = {};
-  return (val, lng, options) => {
-    let optForCache = options;
-    if (options && options.interpolationkey && options.formatParams && options.formatParams[options.interpolationkey] && options[options.interpolationkey]) {
-      optForCache = {
-        ...optForCache,
-        [options.interpolationkey]: void 0
-      };
-    }
-    const key = lng + JSON.stringify(optForCache);
-    let formatter = cache[key];
-    if (!formatter) {
-      formatter = fn(getCleanedCode(lng), options);
-      cache[key] = formatter;
-    }
-    return formatter(val);
-  };
-};
-class Formatter {
-  constructor() {
-    let options = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
-    this.logger = baseLogger.create("formatter");
-    this.options = options;
-    this.formats = {
-      number: createCachedFormatter((lng, opt) => {
-        const formatter = new Intl.NumberFormat(lng, {
-          ...opt
-        });
-        return (val) => formatter.format(val);
-      }),
-      currency: createCachedFormatter((lng, opt) => {
-        const formatter = new Intl.NumberFormat(lng, {
-          ...opt,
-          style: "currency"
-        });
-        return (val) => formatter.format(val);
-      }),
-      datetime: createCachedFormatter((lng, opt) => {
-        const formatter = new Intl.DateTimeFormat(lng, {
-          ...opt
-        });
-        return (val) => formatter.format(val);
-      }),
-      relativetime: createCachedFormatter((lng, opt) => {
-        const formatter = new Intl.RelativeTimeFormat(lng, {
-          ...opt
-        });
-        return (val) => formatter.format(val, opt.range || "day");
-      }),
-      list: createCachedFormatter((lng, opt) => {
-        const formatter = new Intl.ListFormat(lng, {
-          ...opt
-        });
-        return (val) => formatter.format(val);
-      })
-    };
-    this.init(options);
-  }
-  init(services) {
-    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {
-      interpolation: {}
-    };
-    this.formatSeparator = options.interpolation.formatSeparator || ",";
-  }
-  add(name, fc) {
-    this.formats[name.toLowerCase().trim()] = fc;
-  }
-  addCached(name, fc) {
-    this.formats[name.toLowerCase().trim()] = createCachedFormatter(fc);
-  }
-  format(value2, format, lng) {
-    let options = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : {};
-    const formats = format.split(this.formatSeparator);
-    if (formats.length > 1 && formats[0].indexOf("(") > 1 && formats[0].indexOf(")") < 0 && formats.find((f2) => f2.indexOf(")") > -1)) {
-      const lastIndex = formats.findIndex((f2) => f2.indexOf(")") > -1);
-      formats[0] = [formats[0], ...formats.splice(1, lastIndex)].join(this.formatSeparator);
-    }
-    const result = formats.reduce((mem, f2) => {
-      const {
-        formatName,
-        formatOptions
-      } = parseFormatStr(f2);
-      if (this.formats[formatName]) {
-        let formatted = mem;
-        try {
-          const valOptions = options && options.formatParams && options.formatParams[options.interpolationkey] || {};
-          const l2 = valOptions.locale || valOptions.lng || options.locale || options.lng || lng;
-          formatted = this.formats[formatName](mem, l2, {
-            ...formatOptions,
-            ...options,
-            ...valOptions
-          });
-        } catch (error2) {
-          this.logger.warn(error2);
-        }
-        return formatted;
-      } else {
-        this.logger.warn(`there was no format function for ${formatName}`);
-      }
-      return mem;
-    }, value2);
-    return result;
-  }
-}
-const removePending = (q2, name) => {
-  if (q2.pending[name] !== void 0) {
-    delete q2.pending[name];
-    q2.pendingCount--;
-  }
-};
-class Connector extends EventEmitter {
-  constructor(backend, store2, services) {
-    let options = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : {};
-    super();
-    this.backend = backend;
-    this.store = store2;
-    this.services = services;
-    this.languageUtils = services.languageUtils;
-    this.options = options;
-    this.logger = baseLogger.create("backendConnector");
-    this.waitingReads = [];
-    this.maxParallelReads = options.maxParallelReads || 10;
-    this.readingCalls = 0;
-    this.maxRetries = options.maxRetries >= 0 ? options.maxRetries : 5;
-    this.retryTimeout = options.retryTimeout >= 1 ? options.retryTimeout : 350;
-    this.state = {};
-    this.queue = [];
-    if (this.backend && this.backend.init) {
-      this.backend.init(services, options.backend, options);
-    }
-  }
-  queueLoad(languages, namespaces, options, callback) {
-    const toLoad = {};
-    const pending = {};
-    const toLoadLanguages = {};
-    const toLoadNamespaces = {};
-    languages.forEach((lng) => {
-      let hasAllNamespaces = true;
-      namespaces.forEach((ns) => {
-        const name = `${lng}|${ns}`;
-        if (!options.reload && this.store.hasResourceBundle(lng, ns)) {
-          this.state[name] = 2;
-        } else if (this.state[name] < 0) ;
-        else if (this.state[name] === 1) {
-          if (pending[name] === void 0) pending[name] = true;
-        } else {
-          this.state[name] = 1;
-          hasAllNamespaces = false;
-          if (pending[name] === void 0) pending[name] = true;
-          if (toLoad[name] === void 0) toLoad[name] = true;
-          if (toLoadNamespaces[ns] === void 0) toLoadNamespaces[ns] = true;
-        }
-      });
-      if (!hasAllNamespaces) toLoadLanguages[lng] = true;
-    });
-    if (Object.keys(toLoad).length || Object.keys(pending).length) {
-      this.queue.push({
-        pending,
-        pendingCount: Object.keys(pending).length,
-        loaded: {},
-        errors: [],
-        callback
-      });
-    }
-    return {
-      toLoad: Object.keys(toLoad),
-      pending: Object.keys(pending),
-      toLoadLanguages: Object.keys(toLoadLanguages),
-      toLoadNamespaces: Object.keys(toLoadNamespaces)
-    };
-  }
-  loaded(name, err, data) {
-    const s2 = name.split("|");
-    const lng = s2[0];
-    const ns = s2[1];
-    if (err) this.emit("failedLoading", lng, ns, err);
-    if (!err && data) {
-      this.store.addResourceBundle(lng, ns, data, void 0, void 0, {
-        skipCopy: true
-      });
-    }
-    this.state[name] = err ? -1 : 2;
-    if (err && data) this.state[name] = 0;
-    const loaded = {};
-    this.queue.forEach((q2) => {
-      pushPath(q2.loaded, [lng], ns);
-      removePending(q2, name);
-      if (err) q2.errors.push(err);
-      if (q2.pendingCount === 0 && !q2.done) {
-        Object.keys(q2.loaded).forEach((l2) => {
-          if (!loaded[l2]) loaded[l2] = {};
-          const loadedKeys = q2.loaded[l2];
-          if (loadedKeys.length) {
-            loadedKeys.forEach((n2) => {
-              if (loaded[l2][n2] === void 0) loaded[l2][n2] = true;
-            });
-          }
-        });
-        q2.done = true;
-        if (q2.errors.length) {
-          q2.callback(q2.errors);
-        } else {
-          q2.callback();
-        }
-      }
-    });
-    this.emit("loaded", loaded);
-    this.queue = this.queue.filter((q2) => !q2.done);
-  }
-  read(lng, ns, fcName) {
-    let tried = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : 0;
-    let wait2 = arguments.length > 4 && arguments[4] !== void 0 ? arguments[4] : this.retryTimeout;
-    let callback = arguments.length > 5 ? arguments[5] : void 0;
-    if (!lng.length) return callback(null, {});
-    if (this.readingCalls >= this.maxParallelReads) {
-      this.waitingReads.push({
-        lng,
-        ns,
-        fcName,
-        tried,
-        wait: wait2,
-        callback
-      });
-      return;
-    }
-    this.readingCalls++;
-    const resolver2 = (err, data) => {
-      this.readingCalls--;
-      if (this.waitingReads.length > 0) {
-        const next = this.waitingReads.shift();
-        this.read(next.lng, next.ns, next.fcName, next.tried, next.wait, next.callback);
-      }
-      if (err && data && tried < this.maxRetries) {
-        setTimeout(() => {
-          this.read.call(this, lng, ns, fcName, tried + 1, wait2 * 2, callback);
-        }, wait2);
-        return;
-      }
-      callback(err, data);
-    };
-    const fc = this.backend[fcName].bind(this.backend);
-    if (fc.length === 2) {
-      try {
-        const r2 = fc(lng, ns);
-        if (r2 && typeof r2.then === "function") {
-          r2.then((data) => resolver2(null, data)).catch(resolver2);
-        } else {
-          resolver2(null, r2);
-        }
-      } catch (err) {
-        resolver2(err);
-      }
-      return;
-    }
-    return fc(lng, ns, resolver2);
-  }
-  prepareLoading(languages, namespaces) {
-    let options = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
-    let callback = arguments.length > 3 ? arguments[3] : void 0;
-    if (!this.backend) {
-      this.logger.warn("No backend was added via i18next.use. Will not load resources.");
-      return callback && callback();
-    }
-    if (isString(languages)) languages = this.languageUtils.toResolveHierarchy(languages);
-    if (isString(namespaces)) namespaces = [namespaces];
-    const toLoad = this.queueLoad(languages, namespaces, options, callback);
-    if (!toLoad.toLoad.length) {
-      if (!toLoad.pending.length) callback();
-      return null;
-    }
-    toLoad.toLoad.forEach((name) => {
-      this.loadOne(name);
-    });
-  }
-  load(languages, namespaces, callback) {
-    this.prepareLoading(languages, namespaces, {}, callback);
-  }
-  reload(languages, namespaces, callback) {
-    this.prepareLoading(languages, namespaces, {
-      reload: true
-    }, callback);
-  }
-  loadOne(name) {
-    let prefix = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "";
-    const s2 = name.split("|");
-    const lng = s2[0];
-    const ns = s2[1];
-    this.read(lng, ns, "read", void 0, void 0, (err, data) => {
-      if (err) this.logger.warn(`${prefix}loading namespace ${ns} for language ${lng} failed`, err);
-      if (!err && data) this.logger.log(`${prefix}loaded namespace ${ns} for language ${lng}`, data);
-      this.loaded(name, err, data);
-    });
-  }
-  saveMissing(languages, namespace, key, fallbackValue, isUpdate) {
-    let options = arguments.length > 5 && arguments[5] !== void 0 ? arguments[5] : {};
-    let clb = arguments.length > 6 && arguments[6] !== void 0 ? arguments[6] : () => {
-    };
-    if (this.services.utils && this.services.utils.hasLoadedNamespace && !this.services.utils.hasLoadedNamespace(namespace)) {
-      this.logger.warn(`did not save key "${key}" as the namespace "${namespace}" was not yet loaded`, "This means something IS WRONG in your setup. You access the t function before i18next.init / i18next.loadNamespace / i18next.changeLanguage was done. Wait for the callback or Promise to resolve before accessing it!!!");
-      return;
-    }
-    if (key === void 0 || key === null || key === "") return;
-    if (this.backend && this.backend.create) {
-      const opts = {
-        ...options,
-        isUpdate
-      };
-      const fc = this.backend.create.bind(this.backend);
-      if (fc.length < 6) {
-        try {
-          let r2;
-          if (fc.length === 5) {
-            r2 = fc(languages, namespace, key, fallbackValue, opts);
-          } else {
-            r2 = fc(languages, namespace, key, fallbackValue);
-          }
-          if (r2 && typeof r2.then === "function") {
-            r2.then((data) => clb(null, data)).catch(clb);
-          } else {
-            clb(null, r2);
-          }
-        } catch (err) {
-          clb(err);
-        }
-      } else {
-        fc(languages, namespace, key, fallbackValue, clb, opts);
-      }
-    }
-    if (!languages || !languages[0]) return;
-    this.store.addResource(languages[0], namespace, key, fallbackValue);
-  }
-}
-const get = () => ({
-  debug: false,
-  initImmediate: true,
-  ns: ["translation"],
-  defaultNS: ["translation"],
-  fallbackLng: ["dev"],
-  fallbackNS: false,
-  supportedLngs: false,
-  nonExplicitSupportedLngs: false,
-  load: "all",
-  preload: false,
-  simplifyPluralSuffix: true,
-  keySeparator: ".",
-  nsSeparator: ":",
-  pluralSeparator: "_",
-  contextSeparator: "_",
-  partialBundledLanguages: false,
-  saveMissing: false,
-  updateMissing: false,
-  saveMissingTo: "fallback",
-  saveMissingPlurals: true,
-  missingKeyHandler: false,
-  missingInterpolationHandler: false,
-  postProcess: false,
-  postProcessPassResolved: false,
-  returnNull: false,
-  returnEmptyString: true,
-  returnObjects: false,
-  joinArrays: false,
-  returnedObjectHandler: false,
-  parseMissingKeyHandler: false,
-  appendNamespaceToMissingKey: false,
-  appendNamespaceToCIMode: false,
-  overloadTranslationOptionHandler: (args) => {
-    let ret = {};
-    if (typeof args[1] === "object") ret = args[1];
-    if (isString(args[1])) ret.defaultValue = args[1];
-    if (isString(args[2])) ret.tDescription = args[2];
-    if (typeof args[2] === "object" || typeof args[3] === "object") {
-      const options = args[3] || args[2];
-      Object.keys(options).forEach((key) => {
-        ret[key] = options[key];
-      });
-    }
-    return ret;
-  },
-  interpolation: {
-    escapeValue: true,
-    format: (value2) => value2,
-    prefix: "{{",
-    suffix: "}}",
-    formatSeparator: ",",
-    unescapePrefix: "-",
-    nestingPrefix: "$t(",
-    nestingSuffix: ")",
-    nestingOptionsSeparator: ",",
-    maxReplaces: 1e3,
-    skipOnVariables: true
-  }
-});
-const transformOptions = (options) => {
-  if (isString(options.ns)) options.ns = [options.ns];
-  if (isString(options.fallbackLng)) options.fallbackLng = [options.fallbackLng];
-  if (isString(options.fallbackNS)) options.fallbackNS = [options.fallbackNS];
-  if (options.supportedLngs && options.supportedLngs.indexOf("cimode") < 0) {
-    options.supportedLngs = options.supportedLngs.concat(["cimode"]);
-  }
-  return options;
-};
-const noop$2 = () => {
-};
-const bindMemberFunctions = (inst) => {
-  const mems = Object.getOwnPropertyNames(Object.getPrototypeOf(inst));
-  mems.forEach((mem) => {
-    if (typeof inst[mem] === "function") {
-      inst[mem] = inst[mem].bind(inst);
-    }
-  });
-};
-class I18n extends EventEmitter {
-  constructor() {
-    let options = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
-    let callback = arguments.length > 1 ? arguments[1] : void 0;
-    super();
-    this.options = transformOptions(options);
-    this.services = {};
-    this.logger = baseLogger;
-    this.modules = {
-      external: []
-    };
-    bindMemberFunctions(this);
-    if (callback && !this.isInitialized && !options.isClone) {
-      if (!this.options.initImmediate) {
-        this.init(options, callback);
-        return this;
-      }
-      setTimeout(() => {
-        this.init(options, callback);
-      }, 0);
-    }
-  }
-  init() {
-    var _this = this;
-    let options = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
-    let callback = arguments.length > 1 ? arguments[1] : void 0;
-    this.isInitializing = true;
-    if (typeof options === "function") {
-      callback = options;
-      options = {};
-    }
-    if (!options.defaultNS && options.defaultNS !== false && options.ns) {
-      if (isString(options.ns)) {
-        options.defaultNS = options.ns;
-      } else if (options.ns.indexOf("translation") < 0) {
-        options.defaultNS = options.ns[0];
-      }
-    }
-    const defOpts = get();
-    this.options = {
-      ...defOpts,
-      ...this.options,
-      ...transformOptions(options)
-    };
-    if (this.options.compatibilityAPI !== "v1") {
-      this.options.interpolation = {
-        ...defOpts.interpolation,
-        ...this.options.interpolation
-      };
-    }
-    if (options.keySeparator !== void 0) {
-      this.options.userDefinedKeySeparator = options.keySeparator;
-    }
-    if (options.nsSeparator !== void 0) {
-      this.options.userDefinedNsSeparator = options.nsSeparator;
-    }
-    const createClassOnDemand = (ClassOrObject) => {
-      if (!ClassOrObject) return null;
-      if (typeof ClassOrObject === "function") return new ClassOrObject();
-      return ClassOrObject;
-    };
-    if (!this.options.isClone) {
-      if (this.modules.logger) {
-        baseLogger.init(createClassOnDemand(this.modules.logger), this.options);
-      } else {
-        baseLogger.init(null, this.options);
-      }
-      let formatter;
-      if (this.modules.formatter) {
-        formatter = this.modules.formatter;
-      } else if (typeof Intl !== "undefined") {
-        formatter = Formatter;
-      }
-      const lu = new LanguageUtil(this.options);
-      this.store = new ResourceStore(this.options.resources, this.options);
-      const s2 = this.services;
-      s2.logger = baseLogger;
-      s2.resourceStore = this.store;
-      s2.languageUtils = lu;
-      s2.pluralResolver = new PluralResolver(lu, {
-        prepend: this.options.pluralSeparator,
-        compatibilityJSON: this.options.compatibilityJSON,
-        simplifyPluralSuffix: this.options.simplifyPluralSuffix
-      });
-      if (formatter && (!this.options.interpolation.format || this.options.interpolation.format === defOpts.interpolation.format)) {
-        s2.formatter = createClassOnDemand(formatter);
-        s2.formatter.init(s2, this.options);
-        this.options.interpolation.format = s2.formatter.format.bind(s2.formatter);
-      }
-      s2.interpolator = new Interpolator(this.options);
-      s2.utils = {
-        hasLoadedNamespace: this.hasLoadedNamespace.bind(this)
-      };
-      s2.backendConnector = new Connector(createClassOnDemand(this.modules.backend), s2.resourceStore, s2, this.options);
-      s2.backendConnector.on("*", function(event) {
-        for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-          args[_key - 1] = arguments[_key];
-        }
-        _this.emit(event, ...args);
-      });
-      if (this.modules.languageDetector) {
-        s2.languageDetector = createClassOnDemand(this.modules.languageDetector);
-        if (s2.languageDetector.init) s2.languageDetector.init(s2, this.options.detection, this.options);
-      }
-      if (this.modules.i18nFormat) {
-        s2.i18nFormat = createClassOnDemand(this.modules.i18nFormat);
-        if (s2.i18nFormat.init) s2.i18nFormat.init(this);
-      }
-      this.translator = new Translator(this.services, this.options);
-      this.translator.on("*", function(event) {
-        for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-          args[_key2 - 1] = arguments[_key2];
-        }
-        _this.emit(event, ...args);
-      });
-      this.modules.external.forEach((m2) => {
-        if (m2.init) m2.init(this);
-      });
-    }
-    this.format = this.options.interpolation.format;
-    if (!callback) callback = noop$2;
-    if (this.options.fallbackLng && !this.services.languageDetector && !this.options.lng) {
-      const codes = this.services.languageUtils.getFallbackCodes(this.options.fallbackLng);
-      if (codes.length > 0 && codes[0] !== "dev") this.options.lng = codes[0];
-    }
-    if (!this.services.languageDetector && !this.options.lng) {
-      this.logger.warn("init: no languageDetector is used and no lng is defined");
-    }
-    const storeApi = ["getResource", "hasResourceBundle", "getResourceBundle", "getDataByLanguage"];
-    storeApi.forEach((fcName) => {
-      this[fcName] = function() {
-        return _this.store[fcName](...arguments);
-      };
-    });
-    const storeApiChained = ["addResource", "addResources", "addResourceBundle", "removeResourceBundle"];
-    storeApiChained.forEach((fcName) => {
-      this[fcName] = function() {
-        _this.store[fcName](...arguments);
-        return _this;
-      };
-    });
-    const deferred = defer();
-    const load = () => {
-      const finish = (err, t2) => {
-        this.isInitializing = false;
-        if (this.isInitialized && !this.initializedStoreOnce) this.logger.warn("init: i18next is already initialized. You should call init just once!");
-        this.isInitialized = true;
-        if (!this.options.isClone) this.logger.log("initialized", this.options);
-        this.emit("initialized", this.options);
-        deferred.resolve(t2);
-        callback(err, t2);
-      };
-      if (this.languages && this.options.compatibilityAPI !== "v1" && !this.isInitialized) return finish(null, this.t.bind(this));
-      this.changeLanguage(this.options.lng, finish);
-    };
-    if (this.options.resources || !this.options.initImmediate) {
-      load();
-    } else {
-      setTimeout(load, 0);
-    }
-    return deferred;
-  }
-  loadResources(language2) {
-    let callback = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : noop$2;
-    let usedCallback = callback;
-    const usedLng = isString(language2) ? language2 : this.language;
-    if (typeof language2 === "function") usedCallback = language2;
-    if (!this.options.resources || this.options.partialBundledLanguages) {
-      if (usedLng && usedLng.toLowerCase() === "cimode" && (!this.options.preload || this.options.preload.length === 0)) return usedCallback();
-      const toLoad = [];
-      const append = (lng) => {
-        if (!lng) return;
-        if (lng === "cimode") return;
-        const lngs = this.services.languageUtils.toResolveHierarchy(lng);
-        lngs.forEach((l2) => {
-          if (l2 === "cimode") return;
-          if (toLoad.indexOf(l2) < 0) toLoad.push(l2);
-        });
-      };
-      if (!usedLng) {
-        const fallbacks = this.services.languageUtils.getFallbackCodes(this.options.fallbackLng);
-        fallbacks.forEach((l2) => append(l2));
-      } else {
-        append(usedLng);
-      }
-      if (this.options.preload) {
-        this.options.preload.forEach((l2) => append(l2));
-      }
-      this.services.backendConnector.load(toLoad, this.options.ns, (e) => {
-        if (!e && !this.resolvedLanguage && this.language) this.setResolvedLanguage(this.language);
-        usedCallback(e);
-      });
-    } else {
-      usedCallback(null);
-    }
-  }
-  reloadResources(lngs, ns, callback) {
-    const deferred = defer();
-    if (typeof lngs === "function") {
-      callback = lngs;
-      lngs = void 0;
-    }
-    if (typeof ns === "function") {
-      callback = ns;
-      ns = void 0;
-    }
-    if (!lngs) lngs = this.languages;
-    if (!ns) ns = this.options.ns;
-    if (!callback) callback = noop$2;
-    this.services.backendConnector.reload(lngs, ns, (err) => {
-      deferred.resolve();
-      callback(err);
-    });
-    return deferred;
-  }
-  use(module) {
-    if (!module) throw new Error("You are passing an undefined module! Please check the object you are passing to i18next.use()");
-    if (!module.type) throw new Error("You are passing a wrong module! Please check the object you are passing to i18next.use()");
-    if (module.type === "backend") {
-      this.modules.backend = module;
-    }
-    if (module.type === "logger" || module.log && module.warn && module.error) {
-      this.modules.logger = module;
-    }
-    if (module.type === "languageDetector") {
-      this.modules.languageDetector = module;
-    }
-    if (module.type === "i18nFormat") {
-      this.modules.i18nFormat = module;
-    }
-    if (module.type === "postProcessor") {
-      postProcessor.addPostProcessor(module);
-    }
-    if (module.type === "formatter") {
-      this.modules.formatter = module;
-    }
-    if (module.type === "3rdParty") {
-      this.modules.external.push(module);
-    }
-    return this;
-  }
-  setResolvedLanguage(l2) {
-    if (!l2 || !this.languages) return;
-    if (["cimode", "dev"].indexOf(l2) > -1) return;
-    for (let li = 0; li < this.languages.length; li++) {
-      const lngInLngs = this.languages[li];
-      if (["cimode", "dev"].indexOf(lngInLngs) > -1) continue;
-      if (this.store.hasLanguageSomeTranslations(lngInLngs)) {
-        this.resolvedLanguage = lngInLngs;
-        break;
-      }
-    }
-  }
-  changeLanguage(lng, callback) {
-    var _this2 = this;
-    this.isLanguageChangingTo = lng;
-    const deferred = defer();
-    this.emit("languageChanging", lng);
-    const setLngProps = (l2) => {
-      this.language = l2;
-      this.languages = this.services.languageUtils.toResolveHierarchy(l2);
-      this.resolvedLanguage = void 0;
-      this.setResolvedLanguage(l2);
-    };
-    const done = (err, l2) => {
-      if (l2) {
-        setLngProps(l2);
-        this.translator.changeLanguage(l2);
-        this.isLanguageChangingTo = void 0;
-        this.emit("languageChanged", l2);
-        this.logger.log("languageChanged", l2);
-      } else {
-        this.isLanguageChangingTo = void 0;
-      }
-      deferred.resolve(function() {
-        return _this2.t(...arguments);
-      });
-      if (callback) callback(err, function() {
-        return _this2.t(...arguments);
-      });
-    };
-    const setLng = (lngs) => {
-      if (!lng && !lngs && this.services.languageDetector) lngs = [];
-      const l2 = isString(lngs) ? lngs : this.services.languageUtils.getBestMatchFromCodes(lngs);
-      if (l2) {
-        if (!this.language) {
-          setLngProps(l2);
-        }
-        if (!this.translator.language) this.translator.changeLanguage(l2);
-        if (this.services.languageDetector && this.services.languageDetector.cacheUserLanguage) this.services.languageDetector.cacheUserLanguage(l2);
-      }
-      this.loadResources(l2, (err) => {
-        done(err, l2);
-      });
-    };
-    if (!lng && this.services.languageDetector && !this.services.languageDetector.async) {
-      setLng(this.services.languageDetector.detect());
-    } else if (!lng && this.services.languageDetector && this.services.languageDetector.async) {
-      if (this.services.languageDetector.detect.length === 0) {
-        this.services.languageDetector.detect().then(setLng);
-      } else {
-        this.services.languageDetector.detect(setLng);
-      }
-    } else {
-      setLng(lng);
-    }
-    return deferred;
-  }
-  getFixedT(lng, ns, keyPrefix) {
-    var _this3 = this;
-    const fixedT = function(key, opts) {
-      let options;
-      if (typeof opts !== "object") {
-        for (var _len3 = arguments.length, rest = new Array(_len3 > 2 ? _len3 - 2 : 0), _key3 = 2; _key3 < _len3; _key3++) {
-          rest[_key3 - 2] = arguments[_key3];
-        }
-        options = _this3.options.overloadTranslationOptionHandler([key, opts].concat(rest));
-      } else {
-        options = {
-          ...opts
-        };
-      }
-      options.lng = options.lng || fixedT.lng;
-      options.lngs = options.lngs || fixedT.lngs;
-      options.ns = options.ns || fixedT.ns;
-      if (options.keyPrefix !== "") options.keyPrefix = options.keyPrefix || keyPrefix || fixedT.keyPrefix;
-      const keySeparator = _this3.options.keySeparator || ".";
-      let resultKey;
-      if (options.keyPrefix && Array.isArray(key)) {
-        resultKey = key.map((k2) => `${options.keyPrefix}${keySeparator}${k2}`);
-      } else {
-        resultKey = options.keyPrefix ? `${options.keyPrefix}${keySeparator}${key}` : key;
-      }
-      return _this3.t(resultKey, options);
-    };
-    if (isString(lng)) {
-      fixedT.lng = lng;
-    } else {
-      fixedT.lngs = lng;
-    }
-    fixedT.ns = ns;
-    fixedT.keyPrefix = keyPrefix;
-    return fixedT;
-  }
-  t() {
-    return this.translator && this.translator.translate(...arguments);
-  }
-  exists() {
-    return this.translator && this.translator.exists(...arguments);
-  }
-  setDefaultNamespace(ns) {
-    this.options.defaultNS = ns;
-  }
-  hasLoadedNamespace(ns) {
-    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
-    if (!this.isInitialized) {
-      this.logger.warn("hasLoadedNamespace: i18next was not initialized", this.languages);
-      return false;
-    }
-    if (!this.languages || !this.languages.length) {
-      this.logger.warn("hasLoadedNamespace: i18n.languages were undefined or empty", this.languages);
-      return false;
-    }
-    const lng = options.lng || this.resolvedLanguage || this.languages[0];
-    const fallbackLng = this.options ? this.options.fallbackLng : false;
-    const lastLng = this.languages[this.languages.length - 1];
-    if (lng.toLowerCase() === "cimode") return true;
-    const loadNotPending = (l2, n2) => {
-      const loadState = this.services.backendConnector.state[`${l2}|${n2}`];
-      return loadState === -1 || loadState === 0 || loadState === 2;
-    };
-    if (options.precheck) {
-      const preResult = options.precheck(this, loadNotPending);
-      if (preResult !== void 0) return preResult;
-    }
-    if (this.hasResourceBundle(lng, ns)) return true;
-    if (!this.services.backendConnector.backend || this.options.resources && !this.options.partialBundledLanguages) return true;
-    if (loadNotPending(lng, ns) && (!fallbackLng || loadNotPending(lastLng, ns))) return true;
-    return false;
-  }
-  loadNamespaces(ns, callback) {
-    const deferred = defer();
-    if (!this.options.ns) {
-      if (callback) callback();
-      return Promise.resolve();
-    }
-    if (isString(ns)) ns = [ns];
-    ns.forEach((n2) => {
-      if (this.options.ns.indexOf(n2) < 0) this.options.ns.push(n2);
-    });
-    this.loadResources((err) => {
-      deferred.resolve();
-      if (callback) callback(err);
-    });
-    return deferred;
-  }
-  loadLanguages(lngs, callback) {
-    const deferred = defer();
-    if (isString(lngs)) lngs = [lngs];
-    const preloaded = this.options.preload || [];
-    const newLngs = lngs.filter((lng) => preloaded.indexOf(lng) < 0 && this.services.languageUtils.isSupportedCode(lng));
-    if (!newLngs.length) {
-      if (callback) callback();
-      return Promise.resolve();
-    }
-    this.options.preload = preloaded.concat(newLngs);
-    this.loadResources((err) => {
-      deferred.resolve();
-      if (callback) callback(err);
-    });
-    return deferred;
-  }
-  dir(lng) {
-    if (!lng) lng = this.resolvedLanguage || (this.languages && this.languages.length > 0 ? this.languages[0] : this.language);
-    if (!lng) return "rtl";
-    const rtlLngs = ["ar", "shu", "sqr", "ssh", "xaa", "yhd", "yud", "aao", "abh", "abv", "acm", "acq", "acw", "acx", "acy", "adf", "ads", "aeb", "aec", "afb", "ajp", "apc", "apd", "arb", "arq", "ars", "ary", "arz", "auz", "avl", "ayh", "ayl", "ayn", "ayp", "bbz", "pga", "he", "iw", "ps", "pbt", "pbu", "pst", "prp", "prd", "ug", "ur", "ydd", "yds", "yih", "ji", "yi", "hbo", "men", "xmn", "fa", "jpr", "peo", "pes", "prs", "dv", "sam", "ckb"];
-    const languageUtils = this.services && this.services.languageUtils || new LanguageUtil(get());
-    return rtlLngs.indexOf(languageUtils.getLanguagePartFromCode(lng)) > -1 || lng.toLowerCase().indexOf("-arab") > 1 ? "rtl" : "ltr";
-  }
-  static createInstance() {
-    let options = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
-    let callback = arguments.length > 1 ? arguments[1] : void 0;
-    return new I18n(options, callback);
-  }
-  cloneInstance() {
-    let options = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
-    let callback = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : noop$2;
-    const forkResourceStore = options.forkResourceStore;
-    if (forkResourceStore) delete options.forkResourceStore;
-    const mergedOptions = {
-      ...this.options,
-      ...options,
-      ...{
-        isClone: true
-      }
-    };
-    const clone = new I18n(mergedOptions);
-    if (options.debug !== void 0 || options.prefix !== void 0) {
-      clone.logger = clone.logger.clone(options);
-    }
-    const membersToCopy = ["store", "services", "language"];
-    membersToCopy.forEach((m2) => {
-      clone[m2] = this[m2];
-    });
-    clone.services = {
-      ...this.services
-    };
-    clone.services.utils = {
-      hasLoadedNamespace: clone.hasLoadedNamespace.bind(clone)
-    };
-    if (forkResourceStore) {
-      clone.store = new ResourceStore(this.store.data, mergedOptions);
-      clone.services.resourceStore = clone.store;
-    }
-    clone.translator = new Translator(clone.services, mergedOptions);
-    clone.translator.on("*", function(event) {
-      for (var _len4 = arguments.length, args = new Array(_len4 > 1 ? _len4 - 1 : 0), _key4 = 1; _key4 < _len4; _key4++) {
-        args[_key4 - 1] = arguments[_key4];
-      }
-      clone.emit(event, ...args);
-    });
-    clone.init(mergedOptions, callback);
-    clone.translator.options = mergedOptions;
-    clone.translator.backendConnector.services.utils = {
-      hasLoadedNamespace: clone.hasLoadedNamespace.bind(clone)
-    };
-    return clone;
-  }
-  toJSON() {
-    return {
-      options: this.options,
-      store: this.store,
-      language: this.language,
-      languages: this.languages,
-      resolvedLanguage: this.resolvedLanguage
-    };
-  }
-}
-const instance = I18n.createInstance();
-instance.createInstance = I18n.createInstance;
-instance.createInstance;
-instance.dir;
-instance.init;
-instance.loadResources;
-instance.reloadResources;
-instance.use;
-instance.changeLanguage;
-instance.getFixedT;
-instance.t;
-instance.exists;
-instance.setDefaultNamespace;
-instance.hasLoadedNamespace;
-instance.loadNamespaces;
-instance.loadLanguages;
-const matchHtmlEntity = /&(?:amp|#38|lt|#60|gt|#62|apos|#39|quot|#34|nbsp|#160|copy|#169|reg|#174|hellip|#8230|#x2F|#47);/g;
-const htmlEntities = {
-  "&amp;": "&",
-  "&#38;": "&",
-  "&lt;": "<",
-  "&#60;": "<",
-  "&gt;": ">",
-  "&#62;": ">",
-  "&apos;": "'",
-  "&#39;": "'",
-  "&quot;": '"',
-  "&#34;": '"',
-  "&nbsp;": " ",
-  "&#160;": " ",
-  "&copy;": "©",
-  "&#169;": "©",
-  "&reg;": "®",
-  "&#174;": "®",
-  "&hellip;": "…",
-  "&#8230;": "…",
-  "&#x2F;": "/",
-  "&#47;": "/"
-};
-const unescapeHtmlEntity = (m2) => htmlEntities[m2];
-const unescape = (text2) => text2.replace(matchHtmlEntity, unescapeHtmlEntity);
-let defaultOptions = {
-  bindI18n: "languageChanged",
-  bindI18nStore: "",
-  transEmptyNodeValue: "",
-  transSupportBasicHtmlNodes: true,
-  transWrapTextNodes: "",
-  transKeepBasicHtmlNodesFor: ["br", "strong", "i", "p"],
-  useSuspense: true,
-  unescape
-};
-const setDefaults = (options = {}) => {
-  defaultOptions = {
-    ...defaultOptions,
-    ...options
-  };
-};
-const initReactI18next = {
-  type: "3rdParty",
-  init(instance2) {
-    setDefaults(instance2.options.react);
-  }
-};
-const {
-  slice,
-  forEach
-} = [];
-function defaults(obj) {
-  forEach.call(slice.call(arguments, 1), (source) => {
-    if (source) {
-      for (const prop in source) {
-        if (obj[prop] === void 0) obj[prop] = source[prop];
-      }
-    }
-  });
-  return obj;
-}
-function hasXSS(input) {
-  if (typeof input !== "string") return false;
-  const xssPatterns = [/<\s*script.*?>/i, /<\s*\/\s*script\s*>/i, /<\s*img.*?on\w+\s*=/i, /<\s*\w+\s*on\w+\s*=.*?>/i, /javascript\s*:/i, /vbscript\s*:/i, /expression\s*\(/i, /eval\s*\(/i, /alert\s*\(/i, /document\.cookie/i, /document\.write\s*\(/i, /window\.location/i, /innerHTML/i];
-  return xssPatterns.some((pattern) => pattern.test(input));
-}
-const fieldContentRegExp = /^[\u0009\u0020-\u007e\u0080-\u00ff]+$/;
-const serializeCookie = function(name, val) {
-  let options = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {
-    path: "/"
-  };
-  const opt = options;
-  const value2 = encodeURIComponent(val);
-  let str = `${name}=${value2}`;
-  if (opt.maxAge > 0) {
-    const maxAge = opt.maxAge - 0;
-    if (Number.isNaN(maxAge)) throw new Error("maxAge should be a Number");
-    str += `; Max-Age=${Math.floor(maxAge)}`;
-  }
-  if (opt.domain) {
-    if (!fieldContentRegExp.test(opt.domain)) {
-      throw new TypeError("option domain is invalid");
-    }
-    str += `; Domain=${opt.domain}`;
-  }
-  if (opt.path) {
-    if (!fieldContentRegExp.test(opt.path)) {
-      throw new TypeError("option path is invalid");
-    }
-    str += `; Path=${opt.path}`;
-  }
-  if (opt.expires) {
-    if (typeof opt.expires.toUTCString !== "function") {
-      throw new TypeError("option expires is invalid");
-    }
-    str += `; Expires=${opt.expires.toUTCString()}`;
-  }
-  if (opt.httpOnly) str += "; HttpOnly";
-  if (opt.secure) str += "; Secure";
-  if (opt.sameSite) {
-    const sameSite = typeof opt.sameSite === "string" ? opt.sameSite.toLowerCase() : opt.sameSite;
-    switch (sameSite) {
-      case true:
-        str += "; SameSite=Strict";
-        break;
-      case "lax":
-        str += "; SameSite=Lax";
-        break;
-      case "strict":
-        str += "; SameSite=Strict";
-        break;
-      case "none":
-        str += "; SameSite=None";
-        break;
-      default:
-        throw new TypeError("option sameSite is invalid");
-    }
-  }
-  if (opt.partitioned) str += "; Partitioned";
-  return str;
-};
-const cookie = {
-  create(name, value2, minutes, domain) {
-    let cookieOptions = arguments.length > 4 && arguments[4] !== void 0 ? arguments[4] : {
-      path: "/",
-      sameSite: "strict"
-    };
-    if (minutes) {
-      cookieOptions.expires = /* @__PURE__ */ new Date();
-      cookieOptions.expires.setTime(cookieOptions.expires.getTime() + minutes * 60 * 1e3);
-    }
-    if (domain) cookieOptions.domain = domain;
-    document.cookie = serializeCookie(name, encodeURIComponent(value2), cookieOptions);
-  },
-  read(name) {
-    const nameEQ = `${name}=`;
-    const ca = document.cookie.split(";");
-    for (let i2 = 0; i2 < ca.length; i2++) {
-      let c2 = ca[i2];
-      while (c2.charAt(0) === " ") c2 = c2.substring(1, c2.length);
-      if (c2.indexOf(nameEQ) === 0) return c2.substring(nameEQ.length, c2.length);
-    }
-    return null;
-  },
-  remove(name) {
-    this.create(name, "", -1);
-  }
-};
-var cookie$1 = {
-  name: "cookie",
-  // Deconstruct the options object and extract the lookupCookie property
-  lookup(_ref) {
-    let {
-      lookupCookie
-    } = _ref;
-    if (lookupCookie && typeof document !== "undefined") {
-      return cookie.read(lookupCookie) || void 0;
-    }
-    return void 0;
-  },
-  // Deconstruct the options object and extract the lookupCookie, cookieMinutes, cookieDomain, and cookieOptions properties
-  cacheUserLanguage(lng, _ref2) {
-    let {
-      lookupCookie,
-      cookieMinutes,
-      cookieDomain,
-      cookieOptions
-    } = _ref2;
-    if (lookupCookie && typeof document !== "undefined") {
-      cookie.create(lookupCookie, lng, cookieMinutes, cookieDomain, cookieOptions);
-    }
-  }
-};
-var querystring = {
-  name: "querystring",
-  // Deconstruct the options object and extract the lookupQuerystring property
-  lookup(_ref) {
-    var _a;
-    let {
-      lookupQuerystring
-    } = _ref;
-    let found;
-    if (typeof window !== "undefined") {
-      let {
-        search: search2
-      } = window.location;
-      if (!window.location.search && ((_a = window.location.hash) == null ? void 0 : _a.indexOf("?")) > -1) {
-        search2 = window.location.hash.substring(window.location.hash.indexOf("?"));
-      }
-      const query = search2.substring(1);
-      const params = query.split("&");
-      for (let i2 = 0; i2 < params.length; i2++) {
-        const pos = params[i2].indexOf("=");
-        if (pos > 0) {
-          const key = params[i2].substring(0, pos);
-          if (key === lookupQuerystring) {
-            found = params[i2].substring(pos + 1);
-          }
-        }
-      }
-    }
-    return found;
-  }
-};
-let hasLocalStorageSupport = null;
-const localStorageAvailable = () => {
-  if (hasLocalStorageSupport !== null) return hasLocalStorageSupport;
-  try {
-    hasLocalStorageSupport = typeof window !== "undefined" && window.localStorage !== null;
-    if (!hasLocalStorageSupport) {
-      return false;
-    }
-    const testKey = "i18next.translate.boo";
-    window.localStorage.setItem(testKey, "foo");
-    window.localStorage.removeItem(testKey);
-  } catch (e) {
-    hasLocalStorageSupport = false;
-  }
-  return hasLocalStorageSupport;
-};
-var localStorage = {
-  name: "localStorage",
-  // Deconstruct the options object and extract the lookupLocalStorage property
-  lookup(_ref) {
-    let {
-      lookupLocalStorage
-    } = _ref;
-    if (lookupLocalStorage && localStorageAvailable()) {
-      return window.localStorage.getItem(lookupLocalStorage) || void 0;
-    }
-    return void 0;
-  },
-  // Deconstruct the options object and extract the lookupLocalStorage property
-  cacheUserLanguage(lng, _ref2) {
-    let {
-      lookupLocalStorage
-    } = _ref2;
-    if (lookupLocalStorage && localStorageAvailable()) {
-      window.localStorage.setItem(lookupLocalStorage, lng);
-    }
-  }
-};
-let hasSessionStorageSupport = null;
-const sessionStorageAvailable = () => {
-  if (hasSessionStorageSupport !== null) return hasSessionStorageSupport;
-  try {
-    hasSessionStorageSupport = typeof window !== "undefined" && window.sessionStorage !== null;
-    if (!hasSessionStorageSupport) {
-      return false;
-    }
-    const testKey = "i18next.translate.boo";
-    window.sessionStorage.setItem(testKey, "foo");
-    window.sessionStorage.removeItem(testKey);
-  } catch (e) {
-    hasSessionStorageSupport = false;
-  }
-  return hasSessionStorageSupport;
-};
-var sessionStorage$1 = {
-  name: "sessionStorage",
-  lookup(_ref) {
-    let {
-      lookupSessionStorage
-    } = _ref;
-    if (lookupSessionStorage && sessionStorageAvailable()) {
-      return window.sessionStorage.getItem(lookupSessionStorage) || void 0;
-    }
-    return void 0;
-  },
-  cacheUserLanguage(lng, _ref2) {
-    let {
-      lookupSessionStorage
-    } = _ref2;
-    if (lookupSessionStorage && sessionStorageAvailable()) {
-      window.sessionStorage.setItem(lookupSessionStorage, lng);
-    }
-  }
-};
-var navigator$1 = {
-  name: "navigator",
-  lookup(options) {
-    const found = [];
-    if (typeof navigator !== "undefined") {
-      const {
-        languages,
-        userLanguage,
-        language: language2
-      } = navigator;
-      if (languages) {
-        for (let i2 = 0; i2 < languages.length; i2++) {
-          found.push(languages[i2]);
-        }
-      }
-      if (userLanguage) {
-        found.push(userLanguage);
-      }
-      if (language2) {
-        found.push(language2);
-      }
-    }
-    return found.length > 0 ? found : void 0;
-  }
-};
-var htmlTag = {
-  name: "htmlTag",
-  // Deconstruct the options object and extract the htmlTag property
-  lookup(_ref) {
-    let {
-      htmlTag: htmlTag2
-    } = _ref;
-    let found;
-    const internalHtmlTag = htmlTag2 || (typeof document !== "undefined" ? document.documentElement : null);
-    if (internalHtmlTag && typeof internalHtmlTag.getAttribute === "function") {
-      found = internalHtmlTag.getAttribute("lang");
-    }
-    return found;
-  }
-};
-var path = {
-  name: "path",
-  // Deconstruct the options object and extract the lookupFromPathIndex property
-  lookup(_ref) {
-    var _a;
-    let {
-      lookupFromPathIndex
-    } = _ref;
-    if (typeof window === "undefined") return void 0;
-    const language2 = window.location.pathname.match(/\/([a-zA-Z-]*)/g);
-    if (!Array.isArray(language2)) return void 0;
-    const index2 = typeof lookupFromPathIndex === "number" ? lookupFromPathIndex : 0;
-    return (_a = language2[index2]) == null ? void 0 : _a.replace("/", "");
-  }
-};
-var subdomain = {
-  name: "subdomain",
-  lookup(_ref) {
-    var _a, _b;
-    let {
-      lookupFromSubdomainIndex
-    } = _ref;
-    const internalLookupFromSubdomainIndex = typeof lookupFromSubdomainIndex === "number" ? lookupFromSubdomainIndex + 1 : 1;
-    const language2 = typeof window !== "undefined" && ((_b = (_a = window.location) == null ? void 0 : _a.hostname) == null ? void 0 : _b.match(/^(\w{2,5})\.(([a-z0-9-]{1,63}\.[a-z]{2,6})|localhost)/i));
-    if (!language2) return void 0;
-    return language2[internalLookupFromSubdomainIndex];
-  }
-};
-let canCookies = false;
-try {
-  document.cookie;
-  canCookies = true;
-} catch (e) {
-}
-const order = ["querystring", "cookie", "localStorage", "sessionStorage", "navigator", "htmlTag"];
-if (!canCookies) order.splice(1, 1);
-const getDefaults = () => ({
-  order,
-  lookupQuerystring: "lng",
-  lookupCookie: "i18next",
-  lookupLocalStorage: "i18nextLng",
-  lookupSessionStorage: "i18nextLng",
-  // cache user language
-  caches: ["localStorage"],
-  excludeCacheFor: ["cimode"],
-  // cookieMinutes: 10,
-  // cookieDomain: 'myDomain'
-  convertDetectedLanguage: (l2) => l2
-});
-class Browser {
-  constructor(services) {
-    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
-    this.type = "languageDetector";
-    this.detectors = {};
-    this.init(services, options);
-  }
-  init() {
-    let services = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
-      languageUtils: {}
-    };
-    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
-    let i18nOptions = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
-    this.services = services;
-    this.options = defaults(options, this.options || {}, getDefaults());
-    if (typeof this.options.convertDetectedLanguage === "string" && this.options.convertDetectedLanguage.indexOf("15897") > -1) {
-      this.options.convertDetectedLanguage = (l2) => l2.replace("-", "_");
-    }
-    if (this.options.lookupFromUrlIndex) this.options.lookupFromPathIndex = this.options.lookupFromUrlIndex;
-    this.i18nOptions = i18nOptions;
-    this.addDetector(cookie$1);
-    this.addDetector(querystring);
-    this.addDetector(localStorage);
-    this.addDetector(sessionStorage$1);
-    this.addDetector(navigator$1);
-    this.addDetector(htmlTag);
-    this.addDetector(path);
-    this.addDetector(subdomain);
-  }
-  addDetector(detector) {
-    this.detectors[detector.name] = detector;
-    return this;
-  }
-  detect() {
-    let detectionOrder = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : this.options.order;
-    let detected = [];
-    detectionOrder.forEach((detectorName) => {
-      if (this.detectors[detectorName]) {
-        let lookup = this.detectors[detectorName].lookup(this.options);
-        if (lookup && typeof lookup === "string") lookup = [lookup];
-        if (lookup) detected = detected.concat(lookup);
-      }
-    });
-    detected = detected.filter((d2) => d2 !== void 0 && d2 !== null && !hasXSS(d2)).map((d2) => this.options.convertDetectedLanguage(d2));
-    if (this.services && this.services.languageUtils && this.services.languageUtils.getBestMatchFromCodes) return detected;
-    return detected.length > 0 ? detected[0] : null;
-  }
-  cacheUserLanguage(lng) {
-    let caches = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : this.options.caches;
-    if (!caches) return;
-    if (this.options.excludeCacheFor && this.options.excludeCacheFor.indexOf(lng) > -1) return;
-    caches.forEach((cacheName) => {
-      if (this.detectors[cacheName]) this.detectors[cacheName].cacheUserLanguage(lng, this.options);
-    });
-  }
-}
-Browser.type = "languageDetector";
-const km$9 = "km";
-const m$9 = "m";
-const to$9 = "to";
-const or$3 = "or";
-const logout$4 = "Log out";
-const save$9 = "Save";
-const cancel$9 = "Cancel";
-const ok$4 = "OK";
-const create$9 = "Create";
-const disasters$9 = "Disasters";
-const loading$9 = "Loading...";
-const preparing_data$3 = "Preparing data";
-const loading_events$3 = "Loading disasters";
-const legend$9 = "Legend";
-const maps$9 = "maps";
-const vertical_direction$9 = "Vertical direction";
-const horizontal_direction$9 = "Horizontal direction";
-const legend_presentation$9 = "Legend presentation";
-const layers$9 = "Layers";
-const layer$4 = "Layer";
-const toolbar$9 = { "map_ruler": "Measure distance", "locate_me": "Locate me", "panel_title": "Toolbar", "download": "Download", "delete": "Delete", "boundary_selector": "Select admin boundary", "create_layer": "Create layer", "geometry_uploader": "Upload GeoJSON", "focused_geometry_editor": "Draw or edit geometry", "edit_in_osm": "Edit map in OSM", "record_sensors": "Record sensors", "tools_label": "Tools", "selected_area_label": "Selected area", "upload_mcda": "Upload analysis" };
-const layer_actions$9 = { "tooltips": { "erase": "Erase", "download": "Download", "edit": "Edit", "hide": "Hide", "show": "Show", "delete": "Delete" } };
-const feed$9 = "Feed";
-const deselect$9 = "Deselect";
-const spinner_text$9 = "Gathering data";
-const updated$9 = "Updated";
-const started$3 = "Started";
-const created$4 = "Created";
-const osm_gaps$3 = "OSM gaps";
-const no_data_received$9 = "No data received";
-const wrong_data_received$9 = "Wrong data received";
-const error$b = "Error";
-const sort_icon$9 = "Sort Icon";
-const configs$9 = { "Kontur_public_feed": "Kontur Public", "Kontur_public_feed_description": "The feed contains real-time data about Cyclones, Droughts, Earthquakes, Floods, Volcanoes, Wildfires." };
-const errors$9 = { "default": "Sorry, we are having issues which will be fixed soon", "timeout": "Request timeout", "cannot_connect": "Cannot connect to server", "forbidden": "Forbidden", "not_found": "Not found", "unknown": "Unknown", "server_error": "Server error", "error_try_again": "Something went wrong. Please try again" };
-const categories$9 = { "overlays": "Overlays", "basemap": "Basemap" };
-const groups$9 = { "layers_in_selected_area": "Layers in selected area", "your_layers": "Your layers", "kontur_analytics": "Kontur analytics", "qa": "OpenStreetMap inspector", "osmbasedmap": "OpenStreetMap based", "other": "Other", "elevation": "Elevation", "photo": "Imagery", "map": "Map", "indicators": "Indicators" };
-const advanced_analytics_data_list$9 = { "load_world_data": "Load World Data", "numerator": "Numerator", "normalized_by": "Normalized By", "sum": "Sum", "min": "Min", "max": "Max", "mean": "Mean", "stddev": "Stddev", "median": "Median", "filter_numerator": "Filter Numerator", "filter_denominator": "Filter Denominator" };
-const mcda$9 = { "title": "Multi-criteria decision analysis", "name": "Create analysis", "create_mcda_hint": "Create multi-criteria decision analysis", "upload_mcda_hint": "Upload multi-criteria decision analysis", "modal_title": "Multi-criteria decision analysis", "modal_input_name": "Analysis name", "modal_input_name_placeholder": "e.g., Climate change", "modal_input_indicators": "Layer list", "modal_input_indicators_placeholder": "Select layers", "modal_input_indicators_no_options": "No options", "btn_save": "Save analysis", "error_analysis_name_cannot_be_empty": "Analysis name cannot be empty", "error_invalid_file": "Invalid analysis file format", "error_invalid_parameter": "Invalid '{{parameter}}' parameter", "error_invalid_layer_parameter": "Invalid '{{parameter}}' parameter in '{{axisName}}' layer", "error_wrong_mcda_version": "Wrong analysis version", "legend_title": "Legend", "legend_subtitle": "Hexagons are colored based on analysis layer settings. Click a hexagon to see its values.", "layer_editor": { "save_changes": "Save changes", "range": "Value range", "outliers": "Outliers", "reverse_to_good_bad": "Reverse to Good → Bad", "reverse_to_bad_good": "Reverse to Bad → Good", "weight": "Weight", "transform": "Transform", "transformation": "Transformation", "normalize": "Normalize", "normalization": "Normalization", "range_buttons": { "full_range": "Full range", "3_sigma": "3σ", "2_sigma": "2σ", "1_sigma": "1σ" }, "outliers_options": { "clamp": "Clamp", "hide": "Hide", "dont_modify": "Don't modify" }, "transformations": { "no_transformation": "No transformation", "square_root": "Square root: sign(x)⋅√|x|", "cube_root": "Cube root: ∛x", "log_one": "log₁₀(x - xmin + 1)", "log_epsilon": "log₁₀(x - xmin + ε)" }, "no": "No", "max_min": "Max-min", "errors": { "weight_cannot_be_empty": "Weight cannot be empty", "weight_must_be_a_number": "Weight must be a valid number", "range_from_cannot_be_bigger": "The ‘from’ value cannot be bigger than the ‘to’ value", "range_cannot_be_empty": "Range cannot be empty", "range_must_be_a_number": "Range must be a valid number" }, "tips": { "range": "The values that will be considered the worst and the best in your analysis.", "sentiment": "Determine the direction of sentiment for the layer's impact on the analysis:\n* **Bad → Good**: Higher values indicate a positive sentiment.\n* **Good → Bad**: Higher values indicate a negative sentiment.", "weight": "By default, all layers contribute equally to the analysis through a weighted average. Adjusting the increased weight of a layer (2, 3, etc.) allows you to assign additional importance to it in the analysis.", "transform": "Apply calculations to the values. Achieving a more linear distribution will provide more useful information for analysis.\n\n **Note**: Calculations are done before normalization.", "normalize": "Adjusts values to a standardized scale. This helps compare them easily and make decisions.\n* **Standard score scaling**: This option adjusts values to a standardized scale, ensuring they are all comparable.\n* **No (for specialists only)**: Leaves values unmodified.", "outliers": "* **Clamp**: Set values above the range to 1 and below the range to 0.\n* **Don’t modify**: Keep 0 and 1 for min and max, but allow outlier scores beyond this range.\n* **Exclude**: Exclude areas where values are out of range." } }, "bad": "Bad", "good": "Good" };
-const multivariate$9 = { "multivariate_analysis": "Multivariate Analysis", "create_analysis_layer": "Create analysis layer", "upload_analysis_layer": "Upload analysis layer", "popup": { "score_header": "Score {{level}}", "compare_header": "Compare {{level}}" }, "score": "Score", "compare": "Compare", "score_and_compare": "Score and compare", "hide_area": "Hide area", "labels": "Labels", "3d": "3D", "static_opacity": "Static opacity", "mcda_legend_subtitle": "Hexagons are colored as weighted average of normalized and transformed layers values" };
-const map_popup$9 = { "value": "Value", "range": "Range", "coefficient": "Coefficient", "normalized_value": "Normalized value" };
-const search$9 = { "search_location": "Search location", "info_block": "You can search for 📍 locations", "info_block_with_mcda": "You can search for 📍 locations or ask ✨ AI your question like “Where is dead wood”", "input_placeholder": "Search", "input_placeholder_mcda": "Search or ask AI", "locations_no_result": "No locations found", "mcda_loading_message": "AI is generating an analysis for you", "mcda_no_result": "No AI suggestion", "mcda_error_message": "AI engine did not respond. Please try again later", "mcda_create_analysis": "Create analysis", "upload_analysis": "“{{name}}” Multi-Criteria Decision Analysis has been created" };
-const event_list$9 = { "warning_title": "Cannot filter by map view", "warning_description": "Map is not ready yet, try later", "bbox_filter_button": "Filter by map view", "analytics": { "affected_people": { "tooltip": "Affected people", "value": "No humanitarian impact" }, "settled_area_tooltip": "Settled area", "loss_tooltip": "Estimated loss" }, "no_event_in_feed": "The disaster was not found in the current disaster feed", "no_selected_disaster": "No disaster selected", "chose_disaster": "Choose disaster", "no_historical_disasters": "No historical disasters in this area", "no_feed_disasters": "No disasters in this feed", "no_feed_disasters_matching_your_filters": "No disasters matching your filters", "no_disasters": "No disasters", "severity_unknown": "Unknown", "severity_termination": "Termination", "severity_minor": "Minor", "severity_moderate": "Moderate", "severity_severe": "Severe", "severity_extreme": "Extreme", "open_timeline_button": "Timeline" };
-const create_layer$9 = { "save_and_draw": "Save and draw", "edit_layer": "Edit Layer", "edit_features": "Edit Features", "delete_layer": "Delete Layer", "create_layer": "Create Layer", "saving_layer": "Saving layer...", "field_name": "Field name", "layer_name": "Layer name", "marker_icon": "Marker icon", "type": "Type", "select": "Select", "short_text": "Short Text", "long_text": "Long Text", "link": "Link", "image": "Image", "fields": "Fields", "add_field": "Add field", "location": "Location", "edit_feature_placeholder": "Select some feature for start edit feature properties" };
-const analytics_panel$9 = { "header_title": "Analytics", "error_loading": "Failed receiving data about selected area. It may be too large.", "info_short": "Calculations are made for selected area" };
-const advanced_analytics_panel$9 = { "header_title": "Advanced analytics", "error": "Error while fetching advanced analytics data" };
-const advanced_analytics_empty$9 = { "not_found": "Sorry, the requested disaster was not found", "error": "An error occurred", "analytics_for_selected": "Analytics for selected area", "will_be_provided": "will be provided here", "no_analytics": "No analytics for the selected area" };
-const llm_analytics$9 = { "header": "AI insights", "placeholder": { "select_area": "Select area (<icon1 />,<icon2 />,<icon3 />) you want to explore to get AI Insights.", "you_can_also": "You can also:", "fill_bio": "<icon /> <lnk>Fill out analysis objectives</lnk> to personalize AI analysis", "select_and_save_as_reference_area": "<icon /> Select an area and save it as a reference to compare with another one", "learn_more": "<lnk><icon/> Learn more about AI Insights</lnk>" } };
-const draw_tools$9 = { "area": "Polygon", "line": "Line", "point": "Point", "finish_drawing": "Finish Drawing", "caption": "Click on the map to begin drawing", "no_geometry_error": "No drawn geometry to download", "overlap_error": "Polygon should not overlap itself" };
-const geometry_uploader$9 = { "title": "Focus to uploaded geometry", "error": "Error while reading uploaded file" };
-const focus_geometry_layer$4 = { "settings": { "name": "Selected area" } };
-const reference_area_layer$9 = { "settings": { "name": "Reference area" } };
-const drawings$4 = { "self_directions_not_supported": "Self intersections are not supported" };
-const bivariate$9 = { "panel": { "header": "Bivariate matrix" }, "matrix": { "caption": { "base_axis": "Base axis", "annex_axis": "Annex axis", "tooltip": { "p1": "Charts involving the Base and Annex axes help establish a relationship between two data sets.", "li1": "Annex axis - parameters that we analyse", "li2": "Base axis - reference point in the analysis", "b": "Ex: the best location to open a cafe", "p2": "We can explore the number of eatery places (Annex axis) against Population density (Base axis).", "p3": "In this scenario, we are first interested in a small number of eatery places, and the number of people in that place gives us additional information." } }, "header": { "title": "Choose two layers to explore correlations", "hint": "Layers and correlations are displayed for the current Selected Area" }, "icon": { "population": "Value divided by Population", "area_km2": "Value divided by Area", "total_building_count": "Value divided by Total Buildings Estimate", "populated_area_km2": "Value divided by Populated Area", "one": "Without divider", "roads": "Value divided by Total Roads Length" }, "progress": { "rendering": "Rendering", "applied": "Applied on the map" }, "loading_error": "Unfortunately, we cannot display the matrix. Try refreshing the page or come back later." }, "legend": { "high": "High", "low": "Low", "medium": "Medium" }, "color_manager": { "not_defined": "Not defined", "sentiments_combinations_filter": "Sentiments combinations", "layers_filter": "Layers", "no_legends": "There are no legends satisfying the conditions.", "no_data": "No Data.", "sentiments_tab": "Sentiments", "color_legends_tab": "Color Legends", "layers_tab": "Layers (indicators)" } };
-const sidebar$9 = { "collapse": "Collapse", "expand": "Expand", "icon_alt": "Application logo" };
-const login$9 = { "email": "Email", "password": "Password", "login_button": "Login", "sign_up": "Sign up", "logging_in": "Logging in...", "log_in": "Log in", "forgot_password": "Forgot password?", "description": "Please log in to change your settings", "error": { "email_empty": "Email cannot be empty", "email_invalid": "Email has to be valid", "password": "Password cannot be empty", "connect": "Could not connect to authentication service" } };
-const currency$9 = { "usd": "USD" };
-const subscription$9 = { "title": "Plans & Pricing", "price_summary": "* Billed as ${{pricePerYear}} USD once yearly", "unauthorized_button": "Sign in to subscribe", "current_plan_button": "Current plan", "sales_button": "Contact sales", "book_demo_button": "Book a demo", "request_trial_button": "Request trial", "errors": { "payment_initialization": "There was an error during payment initialization. Please try again or contact our support" }, "success_modal": { "title": "Success", "thank_you_for_subscribing": "Thank you for subscribing to our platform!", "after_the_page_refreshes": "After the page refreshes, you can start using Kontur Atlas" }, "monthly": "Monthly", "annually": "Annually", "save_percent": "Save {{percent}}%", "month_abbr": "mo" };
-const reports$9 = { "title": "Disaster Ninja Reports", "no_data": "No data for this report", "sorting": "Sorting data...", "loading": "Loading data", "open_josm": "Open via JOSM remote control", "josm_logo_alt": "JOSM logo", "see_all": "See all reports", "wrong_id": "Wrong report ID", "description": "<0>Kontur </0> generates several reports that help validate OpenStreetMap quality. They contain links to areas on <4>osm.org </4> and links to open them in the JOSM editor with enabled remote control for editing." };
-const modes$9 = { "map": "Map", "about": "About", "cookies": "Cookies", "reports": "Reports", "report": "Report", "profile": "Profile", "privacy": "Privacy", "terms": "Terms", "user_guide": "User guide", "external": { "upload_imagery": "Upload imagery", "imagery_catalog": "Imagery catalog" } };
-const profile$9 = { "interfaceTheme": "Theme", "interfaceLanguage": "Language", "units": "Units", "fullName": "Full name", "email": "Email", "metric": "metric", "imperialBeta": "imperial (beta)", "profileSettingsHeader": "Personalize your experience", "your_current_job": "your current job", "area_of_expertise": "area of expertise", "challenges": "challenges", "personalization_prompt": "For better personalization, please include details such as:", "ai_tools_compatibility": "This information is compatible with AI tools", "improves_analysis": "Improves analysis", "bio_placeholder": "Bio", "bio_textarea_placeholder": "e.g. GIS specialist with 5+ years of experience in disaster risk analysis, focused on urban resilience.", "analysis_objectives": "Analysis objectives", "objectives_textarea_placeholder": "e.g. Urban planning analysis with a focus on climate resilience. My current challenge is improving flood risk mapping.", "appSettingsHeader": "Settings", "your_organization": "Your organization", "your_contacts": "Your contact info", "organization_name": "Organization name", "position": "Position", "gis_specialists": "GIS specialists in your team", "saveButton": "Save changes", "phone_number": "Phone number with country code", "linkedin": "LinkedIn profile", "konturTheme": "Kontur", "HOTTheme": "HOT", "defaultDisasterFeed": "Default disaster feed", "defaultOSMeditor": "Default OpenStreetMap editor (beta)", "successNotification": "All changes have been applied successfully", "dont_know": "I don’t know", "languageOption": { "en": "English", "es": "Spanish", "ar": "Arabic", "ko": "Korean", "id": "Indonesian", "de": "German", "be": "Belarusian", "ru": "Russian", "uk": "Ukrainian", "zh": "Chinese" }, "reference_area": { "title": "Reference area", "freehand_geometry": "Freehand geometry", "to_replace_reference_area": 'You can redefine your reference area on map. Select an area and click "Save as reference area" on toolbar.\n', "description": "Save an area you are familiar with as a reference. We will use it as a baseline to compare other areas and explain the differences.", "set_the_reference_area": "Set area on map", "tooltip_text": "1.Select an area of interest on the map using the Admin Boundary or Draw Geometry tool.\n\n 2. Click the 'Save as Reference' button on the toolbar.", "accessing_location": "Accessing your location", "accessing_location_error": "Error. Try another way.", "select_location": "Select my current location", "notification": "Your reference area {{name}} has been saved" } };
-const current_event$4 = { "not_found_request": "Sorry, the requested disaster was not found" };
-const locate_me$9 = { "get_location_error": "Error while getting location", "feature_title": "Locate me" };
-const episode$4 = "Timeline";
-const loading_episodes$9 = "Loading Episodes";
-const zoom_to_world$3 = "Zoom to the whole world";
-const cookie_banner$9 = { "header": "We value your privacy", "body": "We use absolutely necessary cookies to provide you personalized services and optional cookies to improve {{appName}} and your experience. You can manage cookie settings or withdraw consent to optional cookies at any time.\nFor more information, please, check our [Privacy Policy](about/privacy)", "decline_all": "Decline optional cookies", "accept_all": "Accept optional cookies" };
-const live_sensor$9 = { "start": "Start sensor recording", "finish": "Stop sensor recording", "finishMessage": "Recording has been finished", "startMessage": "Recording has been started", "noSensorsError": "Your device does not have the required sensors" };
-const layer_features_panel$9 = { "empty": "Layer features within selected area will be provided here", "noFeatureSelected": "No layer feature selected", "chooseFeature": "Choose layer feature", "listInfo": "The list is filtered by selected area and sorted by project number", "error_loading": "Failed to load layer features data. Please try again.", "no_features": "No features found in the selected area.", "priority": "{{level}} priority" };
-const reference_area$9 = { "save_as_reference_area": "Save as reference area", "error_couldnt_save": "Unfortunately, we could not save your reference area. Please try again.", "selected_area_saved_as_reference_area": "Selected area has been saved as reference area in your profile" };
-const oam_auth$9 = { "login_button": "Login with Google" };
-const en_common = {
-  km: km$9,
-  m: m$9,
-  to: to$9,
-  or: or$3,
-  logout: logout$4,
-  save: save$9,
-  cancel: cancel$9,
-  ok: ok$4,
-  create: create$9,
-  disasters: disasters$9,
-  loading: loading$9,
-  preparing_data: preparing_data$3,
-  loading_events: loading_events$3,
-  legend: legend$9,
-  maps: maps$9,
-  vertical_direction: vertical_direction$9,
-  horizontal_direction: horizontal_direction$9,
-  legend_presentation: legend_presentation$9,
-  layers: layers$9,
-  layer: layer$4,
-  toolbar: toolbar$9,
-  layer_actions: layer_actions$9,
-  feed: feed$9,
-  deselect: deselect$9,
-  spinner_text: spinner_text$9,
-  updated: updated$9,
-  started: started$3,
-  created: created$4,
-  osm_gaps: osm_gaps$3,
-  no_data_received: no_data_received$9,
-  wrong_data_received: wrong_data_received$9,
-  error: error$b,
-  sort_icon: sort_icon$9,
-  configs: configs$9,
-  errors: errors$9,
-  categories: categories$9,
-  groups: groups$9,
-  advanced_analytics_data_list: advanced_analytics_data_list$9,
-  mcda: mcda$9,
-  multivariate: multivariate$9,
-  map_popup: map_popup$9,
-  search: search$9,
-  event_list: event_list$9,
-  create_layer: create_layer$9,
-  analytics_panel: analytics_panel$9,
-  advanced_analytics_panel: advanced_analytics_panel$9,
-  advanced_analytics_empty: advanced_analytics_empty$9,
-  llm_analytics: llm_analytics$9,
-  draw_tools: draw_tools$9,
-  geometry_uploader: geometry_uploader$9,
-  focus_geometry_layer: focus_geometry_layer$4,
-  reference_area_layer: reference_area_layer$9,
-  drawings: drawings$4,
-  bivariate: bivariate$9,
-  sidebar: sidebar$9,
-  login: login$9,
-  currency: currency$9,
-  subscription: subscription$9,
-  reports: reports$9,
-  modes: modes$9,
-  profile: profile$9,
-  current_event: current_event$4,
-  locate_me: locate_me$9,
-  episode: episode$4,
-  loading_episodes: loading_episodes$9,
-  zoom_to_world: zoom_to_world$3,
-  cookie_banner: cookie_banner$9,
-  live_sensor: live_sensor$9,
-  layer_features_panel: layer_features_panel$9,
-  reference_area: reference_area$9,
-  oam_auth: oam_auth$9
-};
-const km$8 = "km";
-const m$8 = "m";
-const to$8 = "a";
-const maps$8 = "mapas";
-const save$8 = "Guardar";
-const cancel$8 = "Cancelar";
-const create$8 = "Crear";
-const disasters$8 = "Desastres";
-const loading$8 = "Cargando...";
-const legend$8 = "Leyenda";
-const mcda$8 = { "legend_title": "Leyenda", "layer_editor": { "outliers_options": {}, "save_changes": "Guardar cambios", "range_buttons": {}, "transformations": {}, "errors": {}, "tips": {} } };
-const vertical_direction$8 = "Dirección vertical";
-const horizontal_direction$8 = "Dirección horizontal";
-const legend_presentation$8 = "Presentación de la leyenda";
-const layers$8 = "Capas";
-const bivariate$8 = { "color_manager": { "layers_filter": "Capas", "not_defined": "No definido", "sentiments_combinations_filter": "Combinaciones de sentimientos", "no_legends": "No hay leyendas que cumplan las condiciones.", "no_data": "No hay datos.", "sentiments_tab": "Sentimientos", "color_legends_tab": "Leyendas de colores", "layers_tab": "Capas (indicadores)" }, "matrix": { "caption": { "base_axis": "Eje base", "annex_axis": "Eje anexo", "tooltip": { "p1": "Las gráficas que incluyen los ejes base y anexo ayudan a establecer una relación entre dos conjuntos de datos.", "li1": "Eje anexo: parámetros que analizamos", "li2": "Eje base: punto de referencia en el análisis", "b": "Ej.: la mejor ubicación para abrir una cafetería", "p2": "Podemos explorar el número de locales de comida (eje anexo) frente a la densidad de población (eje base).", "p3": "En este escenario, en primer lugar nos interesa un número reducido de locales de comida, y la cantidad de personas presentes nos da información adicional." } }, "header": { "title": "Elija dos capas para explorar las correlaciones", "hint": "Las capas y correlaciones se muestran para el área seleccionada actual" }, "icon": { "population": "Valor dividido por la población", "area_km2": "Valor dividido por el área", "total_building_count": "Valor dividido por la estimación total de edificios", "populated_area_km2": "Valor dividido por el área poblada", "one": "Sin divisor", "roads": "Valor dividido por la longitud total de las carreteras" }, "progress": { "rendering": "Renderizado", "applied": "Aplicado en el mapa" } }, "legend": { "high": "Alto", "low": "Bajo", "medium": "Medio" } };
-const toolbar$8 = { "locate_me": "Localizarme" };
-const locate_me$8 = { "feature_title": "Localizarme", "get_location_error": "Error al obtener la ubicación" };
-const layer_actions$8 = { "tooltips": {} };
-const feed$8 = "Fuente";
-const deselect$8 = "Anular la selección";
-const spinner_text$8 = "Recopilación de datos";
-const updated$8 = "Actualizado";
-const no_data_received$8 = "No se han recibido datos";
-const wrong_data_received$8 = "Se han recibido datos erróneos";
-const error$a = "Error";
-const sort_icon$8 = "Icono de ordenar";
-const configs$8 = { "Kontur_public_feed": "Kontur Public", "Kontur_public_feed_description": "El feed contiene datos en tiempo real sobre Ciclones, Sequías, Terremotos, Inundaciones, Volcanes, Incendios forestales." };
-const errors$8 = { "forbidden": "Prohibido", "not_found": "No encontrado", "unknown": "Desconocido" };
-const event_list$8 = { "severity_unknown": "Desconocido", "analytics": { "affected_people": { "value": "Sin impacto humanitario" }, "loss_tooltip": "Pérdida estimada" }, "no_selected_disaster": "No se ha seleccionado ningún desastre", "chose_disaster": "Seleccione el desastre" };
-const categories$8 = { "overlays": "Superposiciones", "basemap": "Mapa base" };
-const groups$8 = { "layers_in_selected_area": "Capas en el área seleccionada", "other": "Otros", "elevation": "Elevación", "map": "Mapa" };
-const modes$8 = { "map": "Mapa", "about": "Acerca de", "reports": "Informes", "profile": "Perfil", "external": {} };
-const advanced_analytics_data_list$8 = { "load_world_data": "Cargar datos mundiales", "numerator": "Numerador", "normalized_by": "Normalizado por", "sum": "Suma", "min": "Mín.", "max": "Máx.", "mean": "Media", "stddev": "Desv. est.", "median": "Mediana", "filter_denominator": "Filtrar Denominador" };
-const profile$8 = { "saveButton": "Guardar cambios", "reference_area": {}, "email": "Correo electrónico", "interfaceTheme": "Tema", "interfaceLanguage": "Idioma", "units": "Unidades", "metric": "métricas", "imperialBeta": "imperiales (beta)", "bio_placeholder": "Bio", "appSettingsHeader": "Ajustes", "konturTheme": "Kontur", "HOTTheme": "HOT", "defaultDisasterFeed": "Feed de desastres predeterminado", "defaultOSMeditor": "Editor predeterminado de OpenStreetMap (beta)", "successNotification": "Todos los cambios se han aplicado correctamente", "languageOption": { "en": "Inglés", "es": "Español", "ar": "Árabe", "ko": "Сoreano", "id": "Indonesio", "de": "Alemán", "uk": "Ucranio" } };
-const multivariate$8 = { "popup": {} };
-const map_popup$8 = {};
-const search$8 = { "search_location": "Buscar ubicación" };
-const create_layer$8 = { "edit_layer": "Editar capa", "edit_features": "Editar características", "delete_layer": "Eliminar capa", "create_layer": "Crear capa", "saving_layer": "Guardando capa...", "field_name": "Nombre de campo", "layer_name": "Nombre de la capa", "marker_icon": "Icono de marcador", "type": "Tipo", "select": "Seleccionar", "short_text": "Texto corto", "long_text": "Texto largo", "link": "Enlace", "image": "Imagen", "fields": "Campos", "add_field": "Agregar campo", "location": "Ubicación", "edit_feature_placeholder": "Seleccione una característica para comenzar a editar las propiedades de la misma" };
-const analytics_panel$8 = { "header_title": "Análisis" };
-const advanced_analytics_panel$8 = { "header_title": "Análisis avanzado", "error": "Error en la obtención de datos de análisis Avanzado" };
-const advanced_analytics_empty$8 = {};
-const llm_analytics$8 = { "placeholder": {} };
-const draw_tools$8 = { "line": "Línea", "point": "Punto", "finish_drawing": "Terminar el dibujo", "caption": "Haga clic en el mapa para empezar a dibujar", "no_geometry_error": "No hay geometría dibujada para descargar", "overlap_error": "El polígono no debe superponerse sobre sí mismo" };
-const boundary_selector$8 = { "title": "Enfocar en el límite administrativo" };
-const geometry_uploader$8 = { "title": "Enfocar en la geometría cargada", "error": "Error al leer el archivo cargado" };
-const focus_geometry$8 = { "title": "Enfocar en la geometría a mano" };
-const reference_area_layer$8 = { "settings": {} };
-const sidebar$8 = { "biv_color_manager": "Administrador de color", "edit_osm": "Editar en OpenStreetMap", "ruler": "Regla", "collapse": "Contraer", "expand": "Expandir", "icon_alt": "Logotipo de la aplicación" };
-const login$8 = { "email": "Correo electrónico", "password": "Contraseña", "login_button": "Inicio de sesión", "sign_up": "Registrarse", "logging_in": "Iniciando sesión...", "log_in": "Iniciar sesión", "description": "Acceda a su cuenta para cambiar los ajustes" };
-const currency$8 = {};
-const subscription$8 = { "errors": {}, "success_modal": {} };
-const reports$8 = { "title": "Informes de Disaster Ninja", "no_data": "No hay datos para este informe", "sorting": "Ordenando datos...", "loading": "Cargando datos", "open_josm": "Abrir a través del control remoto JOSM", "josm_logo_alt": "Logotipo de JOSM", "see_all": "Ver todos los informes", "wrong_id": "ID de informe incorrecto", "description": "<0>Kontur </0> genera una serie de informes útiles para validar la calidad de OpenStreetMap. Contienen enlaces a zonas en <4>osm.org </4> y enlaces para abrirlas en el editor JOSM con control remoto habilitado para la edición." };
-const loading_episodes$8 = "Cargando episodios";
-const cookie_banner$8 = {};
-const live_sensor$8 = {};
-const layer_features_panel$8 = {};
-const reference_area$8 = {};
-const oam_auth$8 = {};
-const es_common = {
-  km: km$8,
-  m: m$8,
-  to: to$8,
-  maps: maps$8,
-  save: save$8,
-  cancel: cancel$8,
-  create: create$8,
-  disasters: disasters$8,
-  loading: loading$8,
-  legend: legend$8,
-  mcda: mcda$8,
-  vertical_direction: vertical_direction$8,
-  horizontal_direction: horizontal_direction$8,
-  legend_presentation: legend_presentation$8,
-  layers: layers$8,
-  bivariate: bivariate$8,
-  toolbar: toolbar$8,
-  locate_me: locate_me$8,
-  layer_actions: layer_actions$8,
-  feed: feed$8,
-  deselect: deselect$8,
-  spinner_text: spinner_text$8,
-  updated: updated$8,
-  no_data_received: no_data_received$8,
-  wrong_data_received: wrong_data_received$8,
-  error: error$a,
-  sort_icon: sort_icon$8,
-  configs: configs$8,
-  errors: errors$8,
-  event_list: event_list$8,
-  categories: categories$8,
-  groups: groups$8,
-  modes: modes$8,
-  advanced_analytics_data_list: advanced_analytics_data_list$8,
-  profile: profile$8,
-  multivariate: multivariate$8,
-  map_popup: map_popup$8,
-  search: search$8,
-  create_layer: create_layer$8,
-  analytics_panel: analytics_panel$8,
-  advanced_analytics_panel: advanced_analytics_panel$8,
-  advanced_analytics_empty: advanced_analytics_empty$8,
-  llm_analytics: llm_analytics$8,
-  draw_tools: draw_tools$8,
-  boundary_selector: boundary_selector$8,
-  geometry_uploader: geometry_uploader$8,
-  focus_geometry: focus_geometry$8,
-  reference_area_layer: reference_area_layer$8,
-  sidebar: sidebar$8,
-  login: login$8,
-  currency: currency$8,
-  subscription: subscription$8,
-  reports: reports$8,
-  loading_episodes: loading_episodes$8,
-  cookie_banner: cookie_banner$8,
-  live_sensor: live_sensor$8,
-  layer_features_panel: layer_features_panel$8,
-  reference_area: reference_area$8,
-  oam_auth: oam_auth$8
-};
-const km$7 = "كم";
-const m$7 = "م";
-const to$7 = "إلى";
-const maps$7 = "خرائط";
-const save$7 = "حفظ";
-const cancel$7 = "إلغاء";
-const create$7 = "إنشاء";
-const disasters$7 = "كوارث";
-const loading$7 = "جارٍ التحميل...";
-const legend$7 = "عنوان تفسيري";
-const mcda$7 = { "legend_title": "عنوان تفسيري", "layer_editor": { "outliers_options": {}, "save_changes": "حفظ التغييرات", "range_buttons": {}, "transformations": {}, "errors": {}, "tips": {} } };
-const vertical_direction$7 = "الاتجاه الرأسي";
-const horizontal_direction$7 = "الاتجاه الأفقي";
-const legend_presentation$7 = "عرض العنوان التفسيري";
-const layers$7 = "طبقات";
-const bivariate$7 = { "color_manager": { "layers_filter": "طبقات", "not_defined": "غير معرف", "sentiments_combinations_filter": "تركيبات المشاعر", "no_legends": "لا توجد ملاحظات تفي بالشروط.", "no_data": "لايوجد بيانات.", "sentiments_tab": "المشاعر", "color_legends_tab": "مؤشرات اللون", "layers_tab": "الطبقات (المؤشرات)" }, "matrix": { "caption": { "base_axis": "المحور الأساسي", "annex_axis": "المحور الملحق", "tooltip": { "p1": "تساعد المخططات التي تتضمن محوري القاعدة والملحق في إنشاء علاقة بين مجموعتي بيانات.", "li1": "محور الملحق - المعلمات التي نقوم بتحليلها", "li2": "المحور الأساسي - النقطة المرجعية في التحليل", "b": "مثال: أفضل موقع لفتح مقهى", "p2": "يمكننا استكشاف عدد أماكن المطاعم (المحور الملحق) مقابل الكثافة السكانية (المحور الأساسي).", "p3": "في هذا السيناريو، نهتم أولاً بعدد صغير من أماكن تناول الطعام ويعطينا عدد الأشخاص في هذا المكان معلومات إضافية." } }, "header": { "title": "اختر طبقتين لاستكشاف الارتباطات", "hint": "يتم عرض الطبقات والارتباطات للمنطقة المحددة الحالية" }, "icon": { "population": "القيمة مقسومة على عدد السكان", "area_km2": "القيمة مقسومة على المنطقة", "total_building_count": "القيمة مقسومة على تقدير إجمالي المباني", "populated_area_km2": "القيمة مقسومة على المنطقة المأهولة", "one": "بدون فاصل", "roads": "القيمة مقسومة على إجمالي طول الطرق" }, "progress": { "rendering": "استدعاء", "applied": "مطبق على الخريطة" } }, "legend": { "high": "مرتفع", "low": "منخفض", "medium": "متوسط" } };
-const toolbar$7 = { "locate_me": "حدد موقعي" };
-const locate_me$7 = { "feature_title": "حدد موقعي", "get_location_error": "حدث خطأ أثناء الحصول على الموقع" };
-const layer_actions$7 = { "tooltips": {} };
-const feed$7 = "تغذية";
-const deselect$7 = "إلغاء";
-const spinner_text$7 = "جمع البيانات";
-const updated$7 = "تحديث";
-const no_data_received$7 = "لم تُستقبل أي بيانات";
-const wrong_data_received$7 = "تم استلام بيانات خاطئة";
-const error$9 = "خطأ";
-const sort_icon$7 = "أيقونة الترتيب";
-const configs$7 = { "Kontur_public_feed": "Kontur Public", "Kontur_public_feed_description": "يحتوي الموجز على بيانات فورية عن الأعاصير والجفاف والزلازل والفيضانات والبراكين وحرائق الغابات." };
-const errors$7 = { "forbidden": "محظور", "not_found": "لم يتم العثور على", "unknown": "غير معروف" };
-const event_list$7 = { "severity_unknown": "غير معروف", "analytics": { "affected_people": { "value": "لا أثر إنساني" }, "loss_tooltip": "الخسارة المقدرة" }, "no_selected_disaster": "لم يتم اختيار كارثة", "chose_disaster": "اختر كارثة" };
-const categories$7 = { "overlays": "تراكميات", "basemap": "الخريطة الأساسية" };
-const groups$7 = { "layers_in_selected_area": "طبقات في المنطقة المختارة", "other": "آخر", "elevation": "ارتفاع", "map": "الخريطة" };
-const modes$7 = { "map": "الخريطة", "about": "عن", "reports": "التقارير", "profile": "الملف الشخصي", "external": {} };
-const advanced_analytics_data_list$7 = { "load_world_data": "تحميل بيانات العالم", "numerator": "البسط", "normalized_by": "تطبيع بواسطة", "sum": "مجموع", "min": "الحد الأدنى", "max": "الحد الأقصى", "mean": "المتوسط", "stddev": "Stddev", "median": "الوسيط", "filter_denominator": "مقام المرشح" };
-const profile$7 = { "saveButton": "حفظ التغييرات", "reference_area": {}, "email": "البريد الإلكتروني", "interfaceTheme": "النسق", "interfaceLanguage": "اللغة", "units": "الوحدات", "metric": "المقياس", "imperialBeta": "إمبريالي (بيتا)", "bio_placeholder": "السيرة", "appSettingsHeader": "الإعدادات", "konturTheme": "Kontur", "HOTTheme": "حار", "defaultDisasterFeed": "موجز الكوارث الافتراضي", "defaultOSMeditor": "محرر OpenStreetMap الافتراضي (بيتا)", "successNotification": "تم تطبيق جميع التغييرات بنجاح", "languageOption": { "en": "الإنجليزية", "es": "الإسبانية", "ar": "العربية", "ko": "الكورية", "id": "الأندونيسية", "de": "ألمانية", "uk": "الأوكرانية" } };
-const multivariate$7 = { "popup": {} };
-const map_popup$7 = {};
-const search$7 = { "search_location": "البحث عن الموقع" };
-const create_layer$7 = { "edit_layer": "تعديل الطبقة", "edit_features": "تعديل الميزات", "delete_layer": "حذف الطبقة", "create_layer": "خلق الطبقة", "saving_layer": "حفظ الطبقة...", "field_name": "اسم المجال", "layer_name": "اسم الطبقة", "marker_icon": "رمز العلامة", "type": "النوع", "select": "تحديد", "short_text": "نص قصير", "long_text": "نص طويل", "link": "رابط", "image": "صورة", "fields": "مجالات", "add_field": "إضافة مجال", "location": "موقع", "edit_feature_placeholder": "حدد بعض الميزات لبدء تحرير خصائص الميزة" };
-const analytics_panel$7 = { "header_title": "التحليلات" };
-const advanced_analytics_panel$7 = { "header_title": "تحليلات متقدمة", "error": "خطأ أثناء جلب بيانات التحليلات المتقدمة" };
-const advanced_analytics_empty$7 = {};
-const llm_analytics$7 = { "placeholder": {} };
-const draw_tools$7 = { "line": "خط", "point": "نقطة", "finish_drawing": "إنهاء الرسم", "caption": "انقر على الخريطة لبدء الرسم", "no_geometry_error": "لا يوجد مجسم مرسوم للتنزيل", "overlap_error": "يجب ألا يتداخل المضلع مع نفسه" };
-const boundary_selector$7 = { "title": "التركيز على الحدود الإدارية" };
-const geometry_uploader$7 = { "title": "التركيز على المجسم المحمل", "error": "خطأ أثناء قراءة الملف الذي تم تحميله" };
-const focus_geometry$7 = { "title": "ركز على المجسم الحر" };
-const reference_area_layer$7 = { "settings": {} };
-const sidebar$7 = { "biv_color_manager": "مدير الألوان", "edit_osm": "التعديل في OpenStreetMap", "ruler": "المسطرة", "collapse": "إغلاق", "expand": "فتح", "icon_alt": "شعار التطبيق" };
-const login$7 = { "email": "البريد الإلكتروني", "password": "كلمة السر", "login_button": "تسجيل الدخول", "sign_up": "إنشاء حساب", "logging_in": "جارٍ تسجيل الدخول...", "log_in": "تسجيل الدخول", "description": "يرجى تسجيل الدخول لتغيير إعداداتك" };
-const currency$7 = {};
-const subscription$7 = { "errors": {}, "success_modal": {} };
-const reports$7 = { "title": "تقارير Disaster Ninja", "no_data": "لا توجد بيانات لهذا التقرير", "sorting": "جارٍ ترتيب البيانات...", "loading": "جارٍ تحميل البيانات", "open_josm": "الفتح من خلال وحدة تحكم JOSM عن بعد", "josm_logo_alt": "شعار JOSM", "see_all": "عرض جميع التقارير", "wrong_id": "معرف التقرير خاطئ", "description": "ينشئ <0> Kontur</0> عدة تقارير تساعد في التحقق من جودة OpenStreetMap. تحتوي هذه التقارير على روابط لمناطق على <4> osm.org </4> وروابط يمكن فتحها في محرر JOSM مع تمكين التحكم عن بعد للتحرير." };
-const loading_episodes$7 = "جارٍ تجميل الحلقات";
-const cookie_banner$7 = {};
-const live_sensor$7 = {};
-const layer_features_panel$7 = {};
-const reference_area$7 = {};
-const oam_auth$7 = {};
-const ar_common = {
-  km: km$7,
-  m: m$7,
-  to: to$7,
-  maps: maps$7,
-  save: save$7,
-  cancel: cancel$7,
-  create: create$7,
-  disasters: disasters$7,
-  loading: loading$7,
-  legend: legend$7,
-  mcda: mcda$7,
-  vertical_direction: vertical_direction$7,
-  horizontal_direction: horizontal_direction$7,
-  legend_presentation: legend_presentation$7,
-  layers: layers$7,
-  bivariate: bivariate$7,
-  toolbar: toolbar$7,
-  locate_me: locate_me$7,
-  layer_actions: layer_actions$7,
-  feed: feed$7,
-  deselect: deselect$7,
-  spinner_text: spinner_text$7,
-  updated: updated$7,
-  no_data_received: no_data_received$7,
-  wrong_data_received: wrong_data_received$7,
-  error: error$9,
-  sort_icon: sort_icon$7,
-  configs: configs$7,
-  errors: errors$7,
-  event_list: event_list$7,
-  categories: categories$7,
-  groups: groups$7,
-  modes: modes$7,
-  advanced_analytics_data_list: advanced_analytics_data_list$7,
-  profile: profile$7,
-  multivariate: multivariate$7,
-  map_popup: map_popup$7,
-  search: search$7,
-  create_layer: create_layer$7,
-  analytics_panel: analytics_panel$7,
-  advanced_analytics_panel: advanced_analytics_panel$7,
-  advanced_analytics_empty: advanced_analytics_empty$7,
-  llm_analytics: llm_analytics$7,
-  draw_tools: draw_tools$7,
-  boundary_selector: boundary_selector$7,
-  geometry_uploader: geometry_uploader$7,
-  focus_geometry: focus_geometry$7,
-  reference_area_layer: reference_area_layer$7,
-  sidebar: sidebar$7,
-  login: login$7,
-  currency: currency$7,
-  subscription: subscription$7,
-  reports: reports$7,
-  loading_episodes: loading_episodes$7,
-  cookie_banner: cookie_banner$7,
-  live_sensor: live_sensor$7,
-  layer_features_panel: layer_features_panel$7,
-  reference_area: reference_area$7,
-  oam_auth: oam_auth$7
-};
-const km$6 = "킬로미터";
-const m$6 = "미터";
-const to$6 = "목적지";
-const maps$6 = "지도";
-const save$6 = "저장";
-const cancel$6 = "취소";
-const create$6 = "생성";
-const disasters$6 = "재난";
-const loading$6 = "로딩 중...";
-const legend$6 = "범례";
-const mcda$6 = { "legend_title": "범례", "layer_editor": { "outliers_options": {}, "save_changes": "변경 사항 저장", "range_buttons": {}, "transformations": {}, "errors": {}, "tips": {} } };
-const vertical_direction$6 = "수직 방향";
-const horizontal_direction$6 = "수평 방향";
-const legend_presentation$6 = "범례 표시";
-const layers$6 = "레이어";
-const bivariate$6 = { "color_manager": { "layers_filter": "레이어", "not_defined": "정의되지 않음", "sentiments_combinations_filter": "감정 조합", "no_legends": "조건을 충족하는 범례가 없습니다.", "no_data": "데이터가 없습니다.", "sentiments_tab": "감정", "color_legends_tab": "색상 범례", "layers_tab": "레이어(지표)" }, "matrix": { "caption": { "base_axis": "기본 축", "annex_axis": "보조 축", "tooltip": { "p1": "기본 축과 보조 축이 포함된 차트를 통해 두 데이터 세트 간의 관계를 설정할 수 있습니다.", "li1": "보조 축 - 분석 대상 매개변수", "li2": "기본 축 - 분석의 기준점", "b": "예: 카페 개업에 최적의 위치", "p2": "인구 밀도(기본 축)에 대한 음식점 개수(보조 축)를 알아볼 수 있습니다.", "p3": "이 경우에는 주로 소수의 음식점에 관심이 있는 것이며, 추가적으로 그 장소에 있는 사람 수를 알아볼 수 있습니다." } }, "header": { "title": "상관 관계를 알아보려면 두 개의 레이어를 선택합니다.", "hint": "레이어와 상관 관계가 현재 선택된 영역에 표시됩니다." }, "icon": { "population": "인구로 나눈 값", "area_km2": "영역으로 나눈 값", "total_building_count": "전체 건물 추정치로 나눈 값", "populated_area_km2": "인구 밀집 지역으로 나눈 값", "one": "나누지 않음", "roads": "전체 도로 길이로 나눈 값" }, "progress": { "rendering": "렌더링", "applied": "지도에 적용됨" } }, "legend": { "high": "높음", "low": "낮음", "medium": "중간" } };
-const toolbar$6 = { "locate_me": "내 위치 확인" };
-const locate_me$6 = { "feature_title": "내 위치 확인", "get_location_error": "위치를 가져오는 중에 오류가 발생했습니다." };
-const layer_actions$6 = { "tooltips": {} };
-const feed$6 = "피드";
-const deselect$6 = "선택 취소";
-const spinner_text$6 = "데이터 수집";
-const updated$6 = "업데이트됨";
-const no_data_received$6 = "수신한 데이터 없음";
-const wrong_data_received$6 = "잘못된 데이터 수신";
-const error$8 = "오류";
-const sort_icon$6 = "정렬 아이콘";
-const configs$6 = { "Kontur_public_feed": "Kontur Public", "Kontur_public_feed_description": "피드에는 사이클론, 가뭄, 지진, 홍수, 화산 폭발, 산불에 대한 실시간 데이터가 포함됩니다." };
-const errors$6 = { "forbidden": "사용할 수 없음", "not_found": "찾을 수 없음", "unknown": "알 수 없음" };
-const event_list$6 = { "severity_unknown": "알 수 없음", "analytics": { "affected_people": { "value": "인도주의적 영향 없음" }, "loss_tooltip": "예상 손해" }, "no_selected_disaster": "선택된 재난 없음", "chose_disaster": "재난 선택" };
-const categories$6 = { "overlays": "오버레이", "basemap": "백지도" };
-const groups$6 = { "layers_in_selected_area": "선택 영역 내 레이어", "other": "기타", "elevation": "입면도", "map": "지도" };
-const modes$6 = { "map": "지도", "about": "정보", "reports": "보고서", "profile": "프로필", "external": {} };
-const advanced_analytics_data_list$6 = { "load_world_data": "전 세계 데이터 로드하기", "numerator": "분자", "normalized_by": "정규화 기준:", "sum": "합계", "min": "최소", "max": "최대", "mean": "평균", "stddev": "표본 표준 편차", "median": "중앙값", "filter_denominator": "분모 필터" };
-const profile$6 = { "saveButton": "변경 사항 저장", "reference_area": {}, "email": "이메일", "interfaceTheme": "주제", "interfaceLanguage": "언어", "units": "단위", "metric": "미터법", "imperialBeta": "영국식 단위(베타)", "bio_placeholder": "Bio", "appSettingsHeader": "설정", "konturTheme": "Kontur", "HOTTheme": "HOT", "defaultDisasterFeed": "기본 재난 피드", "defaultOSMeditor": "기본 OpenStreetMap 편집기(베타)", "successNotification": "모든 변경 사항이 성공적으로 적용되었습니다.", "languageOption": { "en": "영어", "es": "스페인어", "ar": "아랍어", "ko": "한국어", "id": "인도네시아 인", "de": "독일 말", "uk": "우크라이나 인" } };
-const multivariate$6 = { "popup": {} };
-const map_popup$6 = {};
-const search$6 = { "search_location": "위치 검색" };
-const create_layer$6 = { "edit_layer": "레이어 편집", "edit_features": "특성 편집", "delete_layer": "레이어 삭제", "create_layer": "레이어 생성", "saving_layer": "레이어 저장 중...", "field_name": "필드 이름", "layer_name": "레이어 이름", "marker_icon": "마커 아이콘", "type": "유형", "select": "선택", "short_text": "짧은 텍스트", "long_text": "긴 텍스트", "link": "링크", "image": "이미지", "fields": "필드", "add_field": "필드 추가", "location": "위치", "edit_feature_placeholder": "일부 특성을 선택하여 특성 속성 편집을 시작하세요." };
-const analytics_panel$6 = { "header_title": "분석" };
-const advanced_analytics_panel$6 = { "header_title": "고급 분석", "error": "고급 분석 데이터를 가져오는 중에 오류가 발생했습니다." };
-const advanced_analytics_empty$6 = {};
-const llm_analytics$6 = { "placeholder": {} };
-const draw_tools$6 = { "line": "라인", "point": "점", "finish_drawing": "그리기 완료", "caption": "그리기를 시작하려면 지도를 클릭하세요.", "no_geometry_error": "다운로드할 수 있는 기하 도형이 없습니다.", "overlap_error": "다각형은 그 자체로 겹치지 않아야 합니다." };
-const boundary_selector$6 = { "title": "행정 경계에 초점 맞추기" };
-const geometry_uploader$6 = { "title": "업로드된 기하 도형에 초점 맞추기", "error": "업로드된 파일을 읽는 중 오류가 발생했습니다." };
-const focus_geometry$6 = { "title": "손으로 직접 그린 기하 도형에 초점 맞추기" };
-const reference_area_layer$6 = { "settings": {} };
-const sidebar$6 = { "biv_color_manager": "색상 관리자", "edit_osm": "OpenStreetMap에서 편집", "ruler": "눈금자", "collapse": "접기", "expand": "펼치기", "icon_alt": "애플리케이션 로고" };
-const login$6 = { "email": "이메일", "password": "비밀번호", "login_button": "로그인", "sign_up": "가입", "logging_in": "로그인 중...", "log_in": "로그인", "description": "설정을 변경하려면 로그인하세요." };
-const currency$6 = {};
-const subscription$6 = { "errors": {}, "success_modal": {} };
-const reports$6 = { "title": "Disaster Ninja 보고서", "no_data": "이 보고서에 데이터가 없습니다.", "sorting": "데이터 정렬 중...", "loading": "데이터 로딩 중", "open_josm": "JOSM 원격 제어를 통해 열기", "josm_logo_alt": "JOSM 로고", "see_all": "모든 보고서 보기", "wrong_id": "잘못된 보고서 ID", "description": "<0>Kontur</0>는 몇 가지 보고서를 생성하여 OpenStreetMap 품질을 평가하도록 지원합니다. 보고서에는 <4>osm.org </4>의 영역으로 연결되는 링크, 원격 제어가 활성화된 JOSM 편집기에서 해당 영역을 열어 편집할 수 있는 링크가 포함되어 있습니다." };
-const loading_episodes$6 = "에피소드 로딩 중";
-const cookie_banner$6 = {};
-const live_sensor$6 = {};
-const layer_features_panel$6 = {};
-const reference_area$6 = {};
-const oam_auth$6 = {};
-const ko_common = {
-  km: km$6,
-  m: m$6,
-  to: to$6,
-  maps: maps$6,
-  save: save$6,
-  cancel: cancel$6,
-  create: create$6,
-  disasters: disasters$6,
-  loading: loading$6,
-  legend: legend$6,
-  mcda: mcda$6,
-  vertical_direction: vertical_direction$6,
-  horizontal_direction: horizontal_direction$6,
-  legend_presentation: legend_presentation$6,
-  layers: layers$6,
-  bivariate: bivariate$6,
-  toolbar: toolbar$6,
-  locate_me: locate_me$6,
-  layer_actions: layer_actions$6,
-  feed: feed$6,
-  deselect: deselect$6,
-  spinner_text: spinner_text$6,
-  updated: updated$6,
-  no_data_received: no_data_received$6,
-  wrong_data_received: wrong_data_received$6,
-  error: error$8,
-  sort_icon: sort_icon$6,
-  configs: configs$6,
-  errors: errors$6,
-  event_list: event_list$6,
-  categories: categories$6,
-  groups: groups$6,
-  modes: modes$6,
-  advanced_analytics_data_list: advanced_analytics_data_list$6,
-  profile: profile$6,
-  multivariate: multivariate$6,
-  map_popup: map_popup$6,
-  search: search$6,
-  create_layer: create_layer$6,
-  analytics_panel: analytics_panel$6,
-  advanced_analytics_panel: advanced_analytics_panel$6,
-  advanced_analytics_empty: advanced_analytics_empty$6,
-  llm_analytics: llm_analytics$6,
-  draw_tools: draw_tools$6,
-  boundary_selector: boundary_selector$6,
-  geometry_uploader: geometry_uploader$6,
-  focus_geometry: focus_geometry$6,
-  reference_area_layer: reference_area_layer$6,
-  sidebar: sidebar$6,
-  login: login$6,
-  currency: currency$6,
-  subscription: subscription$6,
-  reports: reports$6,
-  loading_episodes: loading_episodes$6,
-  cookie_banner: cookie_banner$6,
-  live_sensor: live_sensor$6,
-  layer_features_panel: layer_features_panel$6,
-  reference_area: reference_area$6,
-  oam_auth: oam_auth$6
-};
-const km$5 = "km";
-const m$5 = "m";
-const to$5 = "ke";
-const maps$5 = "peta";
-const save$5 = "Simpan";
-const cancel$5 = "Batalkan";
-const create$5 = "Buat";
-const disasters$5 = "Bencana";
-const loading$5 = "Memuat...";
-const legend$5 = "Legenda";
-const mcda$5 = { "legend_title": "Legenda", "layer_editor": { "outliers_options": {}, "save_changes": "Simpan perubahan", "range_buttons": {}, "transformations": {}, "errors": {}, "tips": {} } };
-const vertical_direction$5 = "Arah vertikal";
-const horizontal_direction$5 = "Arah horizontal";
-const legend_presentation$5 = "Penyajian legenda";
-const layers$5 = "Lapisan";
-const bivariate$5 = { "color_manager": { "layers_filter": "Lapisan", "not_defined": "Tidak terdefinisi", "sentiments_combinations_filter": "Gabungan sentimen", "no_legends": "Tidak ada legenda yang memenuhi kondisi ini.", "no_data": "Tidak Ada Data.", "sentiments_tab": "Sentimen", "color_legends_tab": "Legenda Warna", "layers_tab": "Lapisan (indikator)" }, "matrix": { "caption": { "base_axis": "Sumbu Dasar", "annex_axis": "Sumbu Tambahan", "tooltip": { "p1": "Diagram yang mencakup sumbu Dasar dan sumbu Tambahan membantu menetapkan hubungan antara dua kumpulan data.", "li1": "Sumbu Tambahan - parameter yang kita analisis", "li2": "Sumbu Dasar - titik referensi dalam analisis", "b": "Contoh: lokasi terbaik untuk membuka kafe", "p2": "Kita dapat menyelidiki jumlah tempat makan (sumbu Tambahan) terhadap Kerapatan populasi (sumbu Dasar).", "p3": "Dalam skenario ini, pada awalnya kita tertarik dengan beberapa tempat makan, lalu kita mendapatkan informasi tambahan dari jumlah orang di tempat itu." } }, "header": { "title": "Pilih dua lapisan untuk memeriksa korelasi", "hint": "Lapisan dan korelasi ditampilkan untuk Area Pilihan terkini" }, "icon": { "population": "Nilai dibagi dengan Populasi", "area_km2": "Nilai dibagi dengan Area", "total_building_count": "Nilai dibagi dengan Perkiraan Jumlah Bangunan", "populated_area_km2": "Nilai dibagi dengan Area Berpenduduk", "one": "Tanpa pembagi", "roads": "Nilai dibagi dengan Total Panjang Jalan" }, "progress": { "rendering": "Merender", "applied": "Diterapkan pada peta" } }, "legend": { "high": "Tinggi", "low": "Rendah", "medium": "Sedang" } };
-const toolbar$5 = { "locate_me": "Temukan saya" };
-const locate_me$5 = { "feature_title": "Temukan saya", "get_location_error": "Kesalahan saat memperoleh lokasi" };
-const layer_actions$5 = { "tooltips": {} };
-const feed$5 = "Feed";
-const deselect$5 = "Batalkan Pilihan";
-const spinner_text$5 = "Mengumpulkan data";
-const updated$5 = "Diperbarui";
-const no_data_received$5 = "Tidak ada data yang diterima";
-const wrong_data_received$5 = "Data yang diterima salah";
-const error$7 = "Kesalahan";
-const sort_icon$5 = "Sortir Ikon";
-const configs$5 = { "Kontur_public_feed": "Publik Kontur", "Kontur_public_feed_description": "Feed berisi data waktu-nyata tentang Angin Topan, Kekeringan, Gempa, Banjir, Gunung Meletus, Kebakaran Hutan." };
-const errors$5 = { "forbidden": "Terlarang", "not_found": "Tidak ditemukan", "unknown": "Tidak diketahui" };
-const event_list$5 = { "severity_unknown": "Tidak diketahui", "analytics": { "affected_people": { "value": "Tidak berdampak kemanusiaan" }, "loss_tooltip": "Estimasi kerugian" }, "no_selected_disaster": "Tidak ada bencana yang dipilih", "chose_disaster": "Pilih bencana" };
-const categories$5 = { "overlays": "Tumpang Susun", "basemap": "Peta Dasar" };
-const groups$5 = { "layers_in_selected_area": "Lapisan di area pilihan", "other": "Lainnya", "elevation": "Elevasi", "map": "Peta" };
-const modes$5 = { "map": "Peta", "about": "Tentang", "reports": "Laporan", "profile": "Profil", "external": {} };
-const advanced_analytics_data_list$5 = { "load_world_data": "Memuat Data Dunia", "numerator": "Pembilang", "normalized_by": "Dinormalkan Dengan", "sum": "Jumlah", "min": "Min", "max": "Maks", "mean": "Rerata", "stddev": "Simpangan baku", "median": "Median", "filter_denominator": "Filter Penyebut" };
-const profile$5 = { "saveButton": "Simpan perubahan", "reference_area": {}, "email": "Email", "interfaceTheme": "Tema", "interfaceLanguage": "Bahasa", "units": "Satuan", "metric": "metrik", "imperialBeta": "imperial (beta)", "bio_placeholder": "Bio", "appSettingsHeader": "Pengaturan", "konturTheme": "Kontur", "HOTTheme": "HANGAT", "defaultDisasterFeed": "Feed bencana bawaan", "defaultOSMeditor": "Editor OpenStreetMap bawaan (beta)", "successNotification": "Semua perubahan telah berhasil diterapkan", "languageOption": { "en": "Inggris", "es": "Spanyol", "ar": "Arab", "ko": "Korea", "id": "Indonesia", "de": "Jerman", "uk": "Orang Ukraina" } };
-const multivariate$5 = { "popup": {} };
-const map_popup$5 = {};
-const search$5 = { "search_location": "Cari lokasi" };
-const create_layer$5 = { "edit_layer": "Edit Lapisan", "edit_features": "Edit Fitur", "delete_layer": "Hapus Lapisan", "create_layer": "Buat Lapisan", "saving_layer": "Menyimpan lapisan...", "field_name": "Nama bidang", "layer_name": "Nama lapisan", "marker_icon": "Ikon penanda", "type": "Jenis", "select": "Pilih", "short_text": "Teks Singkat", "long_text": "Teks Panjang", "link": "Tautan", "image": "Gambar", "fields": "Bidang", "add_field": "Tambahkan bidang", "location": "Lokasi", "edit_feature_placeholder": "Pilih beberapa fitur untuk mulai mengedit properti fitur" };
-const analytics_panel$5 = { "header_title": "Analitik" };
-const advanced_analytics_panel$5 = { "header_title": "Analitik tingkat lanjut", "error": "Kesalahan saat mengambil data analitik tingkat lanjut" };
-const advanced_analytics_empty$5 = {};
-const llm_analytics$5 = { "placeholder": {} };
-const draw_tools$5 = { "line": "Garis", "point": "Titik", "finish_drawing": "Selesai Menggambar", "caption": "Klik peta untuk mulai menggambar", "no_geometry_error": "Tidak ada gambar geometri untuk diunduh", "overlap_error": "Poligon tidak boleh bertumpang-tindih sendiri" };
-const boundary_selector$5 = { "title": "Fokus ke batas administratif" };
-const geometry_uploader$5 = { "title": "Fokus ke geometri unggahan", "error": "Kesalahan saat membaca file unggahan" };
-const focus_geometry$5 = { "title": "Fokus ke geometri bebas" };
-const reference_area_layer$5 = { "settings": {} };
-const sidebar$5 = { "biv_color_manager": "Pengelola warna", "edit_osm": "Edit di OpenStreetMap", "ruler": "Penggaris", "collapse": "Ciutkan", "expand": "Bentangkan", "icon_alt": "Logo aplikasi" };
-const login$5 = { "email": "Email", "password": "Kata Sandi", "login_button": "Masuk", "sign_up": "Daftar", "logging_in": "Masuk...", "log_in": "Masuk", "description": "Masuk untuk mengubah pengaturan Anda" };
-const currency$5 = {};
-const subscription$5 = { "errors": {}, "success_modal": {} };
-const reports$5 = { "title": "Laporan Disaster Ninja", "no_data": "Tidak ada data untuk laporan ini", "sorting": "Menyortir data...", "loading": "Memuat data", "open_josm": "Buka melalui kendali jarak jaruh JOSM", "josm_logo_alt": "Logo JOSM", "see_all": "Lihat semua laporan", "wrong_id": "ID laporan salah", "description": "<0>Kontur </0> menghasilkan beberapa laporan yang membantu memvalidasi kualitas OpenStreetMap. Laporan tersebut berisi tautan ke area di <4>osm.org </4> dan tautan untuk membukanya di editor JOSM dengan kendali jarak jauh untuk pengeditan yang diaktifkan." };
-const loading_episodes$5 = "Memuat Episode";
-const cookie_banner$5 = {};
-const live_sensor$5 = {};
-const layer_features_panel$5 = {};
-const reference_area$5 = {};
-const oam_auth$5 = {};
-const id_common = {
-  km: km$5,
-  m: m$5,
-  to: to$5,
-  maps: maps$5,
-  save: save$5,
-  cancel: cancel$5,
-  create: create$5,
-  disasters: disasters$5,
-  loading: loading$5,
-  legend: legend$5,
-  mcda: mcda$5,
-  vertical_direction: vertical_direction$5,
-  horizontal_direction: horizontal_direction$5,
-  legend_presentation: legend_presentation$5,
-  layers: layers$5,
-  bivariate: bivariate$5,
-  toolbar: toolbar$5,
-  locate_me: locate_me$5,
-  layer_actions: layer_actions$5,
-  feed: feed$5,
-  deselect: deselect$5,
-  spinner_text: spinner_text$5,
-  updated: updated$5,
-  no_data_received: no_data_received$5,
-  wrong_data_received: wrong_data_received$5,
-  error: error$7,
-  sort_icon: sort_icon$5,
-  configs: configs$5,
-  errors: errors$5,
-  event_list: event_list$5,
-  categories: categories$5,
-  groups: groups$5,
-  modes: modes$5,
-  advanced_analytics_data_list: advanced_analytics_data_list$5,
-  profile: profile$5,
-  multivariate: multivariate$5,
-  map_popup: map_popup$5,
-  search: search$5,
-  create_layer: create_layer$5,
-  analytics_panel: analytics_panel$5,
-  advanced_analytics_panel: advanced_analytics_panel$5,
-  advanced_analytics_empty: advanced_analytics_empty$5,
-  llm_analytics: llm_analytics$5,
-  draw_tools: draw_tools$5,
-  boundary_selector: boundary_selector$5,
-  geometry_uploader: geometry_uploader$5,
-  focus_geometry: focus_geometry$5,
-  reference_area_layer: reference_area_layer$5,
-  sidebar: sidebar$5,
-  login: login$5,
-  currency: currency$5,
-  subscription: subscription$5,
-  reports: reports$5,
-  loading_episodes: loading_episodes$5,
-  cookie_banner: cookie_banner$5,
-  live_sensor: live_sensor$5,
-  layer_features_panel: layer_features_panel$5,
-  reference_area: reference_area$5,
-  oam_auth: oam_auth$5
-};
-const km$4 = "km";
-const m$4 = "m";
-const to$4 = "bis";
-const maps$4 = "Karten";
-const save$4 = "Speichern";
-const cancel$4 = "Abbrechen";
-const create$4 = "Erstellen";
-const disasters$4 = "Katastrophen";
-const loading$4 = "Wird geladen...";
-const legend$4 = "Legende";
-const mcda$4 = { "legend_title": "Legende", "layer_editor": { "outliers_options": {}, "save_changes": "Änderungen speichern", "range_buttons": {}, "transformations": {}, "errors": {}, "tips": {} } };
-const vertical_direction$4 = "Vertikale Richtung";
-const horizontal_direction$4 = "Horizontale Richtung";
-const legend_presentation$4 = "Darstellung der Legende";
-const layers$4 = "Ebenen";
-const bivariate$4 = { "color_manager": { "layers_filter": "Ebenen", "not_defined": "Nicht definiert", "sentiments_combinations_filter": "Stimmungs-Kombinationen", "no_legends": "Es gibt keine Legenden, die den Kriterien entsprechen.", "no_data": "Keine Daten.", "sentiments_tab": "Stimmungen", "color_legends_tab": "Farbe Legenden", "layers_tab": "Ebenen (Indikatoren)" }, "matrix": { "caption": { "base_axis": "Basisachse", "annex_axis": "Hilfsachse", "tooltip": { "p1": "Diagramme mit der Basis- und der Hilfsachse helfen, eine Beziehung zwischen zwei Datensätzen herzustellen.", "li1": "Hilfsachse - Parameter, die wir analysieren", "li2": "Basisachse - Referenzpunkt in der Analyse", "b": "Beispiel: der beste Standort für die Eröffnung eines Cafés", "p2": "Wir können die Anzahl der Lokale (Hilfsachse) gegen die Bevölkerungsdichte (Basisachse) untersuchen.", "p3": "In diesem Szenario liegt unser Interesse zunächst auf einer kleinen Anzahl von Lokalen, wobei uns die Anzahl der Personen in diesem Ort zusätzliche Informationen liefert." } }, "header": { "title": "Wählen Sie zwei Ebenen, um Zusammenhänge zu untersuchen", "hint": "Die Ebenen und Zusammenhänge werden für den aktuellen ausgewählten Bereich angezeigt" }, "icon": { "population": "Wert geteilt durch Einwohnerzahl", "area_km2": "Wert geteilt durch Fläche", "total_building_count": "Wert geteilt durch geschätzte Gesamtbebauung", "populated_area_km2": "Wert geteilt durch bevölkerte Fläche", "one": "Ohne Teilung", "roads": "Wert geteilt durch die Gesamtlänge der Straßen" }, "progress": { "rendering": "Übertragung", "applied": "Wird auf die Karte angewendet" } }, "legend": { "high": "Hoch", "low": "Niedrig", "medium": "Mittel" } };
-const toolbar$4 = { "locate_me": "Standort finden" };
-const locate_me$4 = { "feature_title": "Standort finden", "get_location_error": "Fehler beim Abrufen des Standorts" };
-const layer_actions$4 = { "tooltips": {} };
-const feed$4 = "Feed";
-const deselect$4 = "Auswahl aufheben";
-const spinner_text$4 = "Daten sammeln";
-const updated$4 = "Aktualisiert";
-const no_data_received$4 = "Keine Daten erhalten";
-const wrong_data_received$4 = "Falsche Daten empfangen";
-const error$6 = "Fehler";
-const sort_icon$4 = "Sortiersymbol";
-const configs$4 = { "Kontur_public_feed": "Kontur Öffentlichkeit", "Kontur_public_feed_description": "Der Feed enthält Echtzeitdaten über Wirbelstürme, Dürren, Erdbeben, Überschwemmungen, Vulkanausbrüche und Waldbrände." };
-const errors$4 = { "forbidden": "Verboten", "not_found": "Nicht gefunden", "unknown": "Unbekannt" };
-const event_list$4 = { "severity_unknown": "Unbekannt", "analytics": { "affected_people": { "value": "Keine humanitären Auswirkungen" }, "loss_tooltip": "Geschätzter Verlust" }, "no_selected_disaster": "Keine Katastrophe ausgewählt", "chose_disaster": "Katastrophe auswählen" };
-const categories$4 = { "overlays": "Überlagerungen", "basemap": "Basiskarte" };
-const groups$4 = { "layers_in_selected_area": "Ebenen im ausgewählten Bereich", "other": "Andere", "elevation": "Höhe", "map": "Karte" };
-const modes$4 = { "map": "Karte", "about": "Über uns", "reports": "Berichte", "profile": "Profil", "external": {} };
-const advanced_analytics_data_list$4 = { "load_world_data": "Weltdaten laden", "numerator": "Zähler", "normalized_by": "Normalisiert auf", "sum": "Summe", "min": "Min", "max": "Max", "mean": "Mittelwert", "stddev": "SD", "median": "Median", "filter_denominator": "Filter Nenner" };
-const profile$4 = { "saveButton": "Änderungen speichern", "reference_area": {}, "email": "E-Mail", "interfaceTheme": "Thema", "interfaceLanguage": "Sprache", "units": "Einheiten", "metric": "metrisch", "imperialBeta": "imperial (beta)", "bio_placeholder": "Bio", "appSettingsHeader": "Einstellungen", "konturTheme": "Kontur", "HOTTheme": "HOT", "defaultDisasterFeed": "Standardmäßige Katastrophenmeldung", "defaultOSMeditor": "Standardmäßiger OpenStreetMap-Editor (Beta)", "successNotification": "Alle Änderungen wurden erfolgreich übernommen", "languageOption": { "en": "Englisch", "es": "Spanisch", "ar": "Arabisch", "ko": "Koreanisch", "id": "Indonesisch", "de": "Deutsch", "uk": "Ukrainisch" } };
-const multivariate$4 = { "popup": {} };
-const map_popup$4 = {};
-const search$4 = { "search_location": "Standort suchen" };
-const create_layer$4 = { "edit_layer": "Ebene bearbeiten", "edit_features": "Merkmale bearbeiten", "delete_layer": "Ebene löschen", "create_layer": "Ebene erstellen", "saving_layer": "Ebene wird gespeichert...", "field_name": "Feldname", "layer_name": "Name der Ebene", "marker_icon": "Markierungssymbol", "type": "Typ", "select": "Auswählen", "short_text": "Kurzer Text", "long_text": "Langer Text", "link": "Link", "image": "Bild", "fields": "Felder", "add_field": "Feld hinzufügen", "location": "Standort", "edit_feature_placeholder": "Wählen Sie einige Merkmale aus, um Merkmalseigenschaften zu bearbeiten" };
-const analytics_panel$4 = { "header_title": "Analytik" };
-const advanced_analytics_panel$4 = { "header_title": "Erweiterte Analytik", "error": "Fehler beim Abrufen von erweiterten Analysedaten" };
-const advanced_analytics_empty$4 = {};
-const llm_analytics$4 = { "placeholder": {} };
-const draw_tools$4 = { "line": "Linie", "point": "Punkt", "finish_drawing": "Zeichnen beenden", "caption": "Klicken Sie auf die Karte, um mit dem Zeichnen zu beginnen", "no_geometry_error": "Keine gezeichnete Formen zum Herunterladen", "overlap_error": "Das Polygon darf sich nicht überschneiden" };
-const boundary_selector$4 = { "title": "Fokus auf die Verwaltungsgrenze" };
-const geometry_uploader$4 = { "title": "Fokus auf die hochgeladene geometrische Form", "error": "Fehler beim Lesen der hochgeladenen Datei" };
-const focus_geometry$4 = { "title": "Fokus auf freihändig gezeichnete Formen" };
-const reference_area_layer$4 = { "settings": {} };
-const sidebar$4 = { "biv_color_manager": "Farbmanager", "edit_osm": "In OpenStreetMap bearbeiten", "ruler": "Lineal", "collapse": "Zusammenklappen", "expand": "Erweitern", "icon_alt": "Logo der Anwendung" };
-const login$4 = { "email": "E-Mail", "password": "Passwort", "login_button": "Anmelden", "sign_up": "Registrieren", "logging_in": "Anmelden...", "log_in": "Einloggen", "description": "Bitte melden Sie sich an, um Ihre Einstellungen zu ändern" };
-const currency$4 = {};
-const subscription$4 = { "errors": {}, "success_modal": {} };
-const reports$4 = { "title": "Disaster Ninja Berichte", "no_data": "Keine Daten für diesen Bericht", "sorting": "Daten werden sortiert...", "loading": "Daten werden geladen", "open_josm": "Öffnen über die JOSM-Fernsteuerung", "josm_logo_alt": "JOSM-Logo", "see_all": "Alle Berichte anzeigen", "wrong_id": "Falsche Berichts-ID", "description": "<0>Kontur </0> generiert verschiedene Berichte, die bei der Überprüfung der Qualität von OpenStreetMap helfen. Sie enthalten Links zu Gebieten auf <4>osm.org </4> und Links, um sie im JOSM-Editor mit aktivierter Fernsteuerung zur Bearbeitung öffnen zu können." };
-const loading_episodes$4 = "Episoden werden geladen";
-const cookie_banner$4 = {};
-const live_sensor$4 = {};
-const layer_features_panel$4 = {};
-const reference_area$4 = {};
-const oam_auth$4 = {};
-const de_common = {
-  km: km$4,
-  m: m$4,
-  to: to$4,
-  maps: maps$4,
-  save: save$4,
-  cancel: cancel$4,
-  create: create$4,
-  disasters: disasters$4,
-  loading: loading$4,
-  legend: legend$4,
-  mcda: mcda$4,
-  vertical_direction: vertical_direction$4,
-  horizontal_direction: horizontal_direction$4,
-  legend_presentation: legend_presentation$4,
-  layers: layers$4,
-  bivariate: bivariate$4,
-  toolbar: toolbar$4,
-  locate_me: locate_me$4,
-  layer_actions: layer_actions$4,
-  feed: feed$4,
-  deselect: deselect$4,
-  spinner_text: spinner_text$4,
-  updated: updated$4,
-  no_data_received: no_data_received$4,
-  wrong_data_received: wrong_data_received$4,
-  error: error$6,
-  sort_icon: sort_icon$4,
-  configs: configs$4,
-  errors: errors$4,
-  event_list: event_list$4,
-  categories: categories$4,
-  groups: groups$4,
-  modes: modes$4,
-  advanced_analytics_data_list: advanced_analytics_data_list$4,
-  profile: profile$4,
-  multivariate: multivariate$4,
-  map_popup: map_popup$4,
-  search: search$4,
-  create_layer: create_layer$4,
-  analytics_panel: analytics_panel$4,
-  advanced_analytics_panel: advanced_analytics_panel$4,
-  advanced_analytics_empty: advanced_analytics_empty$4,
-  llm_analytics: llm_analytics$4,
-  draw_tools: draw_tools$4,
-  boundary_selector: boundary_selector$4,
-  geometry_uploader: geometry_uploader$4,
-  focus_geometry: focus_geometry$4,
-  reference_area_layer: reference_area_layer$4,
-  sidebar: sidebar$4,
-  login: login$4,
-  currency: currency$4,
-  subscription: subscription$4,
-  reports: reports$4,
-  loading_episodes: loading_episodes$4,
-  cookie_banner: cookie_banner$4,
-  live_sensor: live_sensor$4,
-  layer_features_panel: layer_features_panel$4,
-  reference_area: reference_area$4,
-  oam_auth: oam_auth$4
-};
-const km$3 = "км";
-const m$3 = "м";
-const to$3 = "до";
-const maps$3 = "мапи";
-const logout$3 = "Вийти";
-const save$3 = "Зберегти";
-const cancel$3 = "Скасувати";
-const ok$3 = "OK";
-const create$3 = "Створити";
-const disasters$3 = "Катастрофа";
-const loading$3 = "Завантаження...";
-const legend$3 = "Легенда";
-const mcda$3 = { "legend_title": "Легенда", "layer_editor": { "outliers_options": { "hide": "Приховати" }, "save_changes": "Зберегти зміни", "range_buttons": {}, "transformations": {}, "errors": {}, "tips": {} }, "name": "Створити аналіз" };
-const vertical_direction$3 = "По вертикалі";
-const horizontal_direction$3 = "По горизонталі";
-const legend_presentation$3 = "Презентація легенди";
-const layers$3 = "Шари";
-const bivariate$3 = { "color_manager": { "layers_filter": "Шари", "not_defined": "Не задано", "sentiments_combinations_filter": "Комбінація сентиментів", "no_legends": "Немає легенд, що задовольняють умовам.", "no_data": "Немає даних.", "sentiments_tab": "Сентименти", "color_legends_tab": "Легенда кольорів", "layers_tab": "Шари (індикатори)" }, "panel": { "header": "Біваріативна Матриця" }, "matrix": { "caption": { "base_axis": "Базова вісь", "annex_axis": "Додаткова вісь", "tooltip": { "p1": "Діаграми, що містять базову та додаткову осі, допомагають встановити зв’язок між двома наборами даних.", "li1": "Додаткова вісь - параметри, які ми аналізуємо", "li2": "Базова вісь - орієнтир при аналізі", "b": "Наприклад: найкраще місце щоб відкрити кафе", "p2": "Ми можемо дослідити кількість закладів харчування (додаткова вісь) проти щільності населення (базова вісь).", "p3": "У цьому сценарії нас спочатку цікавить невелика кількість закладів харчування, а кількість людей у цьому місці дає нам додаткову інформацію." } }, "header": { "title": "Виберіть два шари, щоб дослідити їх кореляції", "hint": "Шари та кореляції показані для виділеної області" }, "icon": { "population": "Значення, поділене на кількість населення", "area_km2": "Значення, поділене на площу", "total_building_count": "Значення, поділене на загальну кількість будівель", "populated_area_km2": "Значення, поділене на заселену площу", "one": "Без знаменника", "roads": "Значення, поділене на загальну довжину доріг" }, "progress": { "rendering": "Візуалізація", "applied": "Нанесено на карту" }, "loading_error": "На жаль, ми не можемо показати матрицю. Спробуйте оновити сторінку або зачекать." }, "legend": { "high": "Високий", "low": "Низький", "medium": "Середній" } };
-const layer$3 = "Шар";
-const toolbar$3 = { "map_ruler": "Виміряти відстань", "locate_me": "Знайти мене", "panel_title": "Панель інструментів", "download": "Завантажити", "delete": "Видалити", "boundary_selector": "Вибрати адміністративний кордон", "create_layer": "Створити шар", "geometry_uploader": "Завантажити GeoJSON", "focused_geometry_editor": "Намалювати або редагувати геометрію", "edit_in_osm": "Редагувати мапу в OpenStreetMap", "record_sensors": "Записати дані сенсорів", "tools_label": "Інструменти", "selected_area_label": "Вибрана область" };
-const locate_me$3 = { "feature_title": "Знайти мене", "get_location_error": "Помилка під час визначення місцеположення" };
-const layer_actions$3 = { "tooltips": { "download": "Завантажити", "delete": "Видалити", "erase": "Стерти", "edit": "Редагувати", "hide": "Приховати", "show": "Показати" } };
-const focus_geometry_layer$3 = { "settings": { "name": "Вибрана область" } };
-const feed$3 = "Стрічка";
-const deselect$3 = "Зняти вибір";
-const spinner_text$3 = "Збираємо дані";
-const updated$3 = "Оновлено";
-const created$3 = "Створено";
-const no_data_received$3 = "Немає даних";
-const wrong_data_received$3 = "Отримано неправильні дані";
-const error$5 = "Помилка";
-const sort_icon$3 = "Значок сортування";
-const configs$3 = { "Kontur_public_feed_description": "Стрічка містить дані в реальному часі про циклони, посухи, землетруси, повені, вулкани, лісові пожежі." };
-const errors$3 = { "default": "Вибачте, у нас виникли проблеми, які незабаром будуть вирішені", "timeout": "Час очікування запиту минув", "cannot_connect": "Не вдається під'єднатися до сервера", "forbidden": "Заборонено", "not_found": "Не знайдено", "unknown": "Невідомий", "server_error": "Помилка серверу", "error_try_again": "Щось пішло не так. Будь ласка, спробуйте знову" };
-const event_list$3 = { "severity_unknown": "Невідомий", "warning_description": "Карта ще не готова, спробуйте пізніше", "analytics": { "affected_people": { "tooltip": "Люди які постраждали", "value": "Жодного гуманітарного впливу" }, "settled_area_tooltip": "Заселений район", "loss_tooltip": "Орієнтовні збитки" }, "no_selected_disaster": "Катастрофа не вибрана", "chose_disaster": "Виберіть катастрофу", "no_historical_disasters": "Катастроф на цій території не знайдено", "no_feed_disasters": "У стрічці немає катастроф", "no_disasters": "Ніяких катастроф", "severity_termination": "Припинення", "severity_minor": "Незначний", "severity_moderate": "Помірний", "severity_severe": "Сильний", "severity_extreme": "Екстримальний", "open_timeline_button": "Відкрити темпоральну шкалу" };
-const categories$3 = { "overlays": "Оверлеї", "basemap": "Базова карта" };
-const groups$3 = { "layers_in_selected_area": "Шари у вибраній області", "your_layers": "Ваші шари", "kontur_analytics": "Аналітика Kontur", "qa": "Інспектор OpenStreetMap", "osmbasedmap": "На основі OpenStreetMap", "other": "Інше", "elevation": "Рел'єф", "photo": "Зображення", "map": "Мапа" };
-const modes$3 = { "map": "Мапа", "about": "Про нас", "reports": "Звіти", "profile": "Профіль", "privacy": "Конфіденційність", "external": {} };
-const advanced_analytics_data_list$3 = { "load_world_data": "Завантажити дані на всю планету", "numerator": "Чисельник", "normalized_by": "Нормалізовано за", "sum": "Сума", "min": "Мін.", "max": "Макс.", "mean": "Середнє", "stddev": "Стандартне відхилення", "median": "Медіана", "filter_numerator": "Фільтр чисельника", "filter_denominator": "Фільтр знаменника" };
-const search$3 = { "mcda_create_analysis": "Створити аналіз", "search_location": "Знайти місцеположення" };
-const profile$3 = { "saveButton": "Зберегти зміни", "reference_area": {}, "email": "Електронна пошта", "interfaceTheme": "Тема", "interfaceLanguage": "Мова", "units": "Одиниці вимірювання", "metric": "метрична система", "imperialBeta": "англійська система (бета)", "bio_placeholder": "Про себе", "appSettingsHeader": "Налаштування", "position": "Позиція", "defaultDisasterFeed": "Стрічка катастроф за замовчуванням", "defaultOSMeditor": "Редактор OpenStreetMap за замовчуванням (бета)", "successNotification": "Усі зміни успішно застосовано", "languageOption": { "en": "Англійська", "es": "Іспанська", "ar": "Арабська", "ko": "Корейська", "id": "Індонезійська", "de": "Німецька", "be": "Білоруська", "ru": "Російська", "uk": "Українська" } };
-const multivariate$3 = { "popup": {} };
-const map_popup$3 = {};
-const episode$3 = "Відкрити темпоральну шкалу";
-const create_layer$3 = { "edit_layer": "Редагувати шар", "edit_features": "Редагувати об'єкт", "delete_layer": "Видалити шар", "create_layer": "Створити шар", "saving_layer": "Зберігаємо зміни...", "field_name": "Назва поля", "layer_name": "Назва шару", "marker_icon": "Значок маркера", "type": "Тип", "select": "Вибрати", "short_text": "Текст(короткий)", "long_text": "Текст(довгий)", "link": "Посилання", "image": "Зображення", "fields": "Поля", "add_field": "Додати поле", "location": "Позиція", "edit_feature_placeholder": "Виберіть об’єкт для редагування його значень" };
-const analytics_panel$3 = { "header_title": "Аналітика", "info_short": "Аналітика для обраної території" };
-const advanced_analytics_panel$3 = { "header_title": "Розширена аналітика", "error": "Помилка під час отримання даних розширеної аналітики" };
-const advanced_analytics_empty$3 = { "not_found": "Вибачте, запитана катастрофа не знайдена", "error": "Сталася помилка", "analytics_for_selected": "Аналітика для обраної території", "will_be_provided": "буде надано тут" };
-const current_event$3 = { "not_found_request": "Вибачте, запитана катастрофа не знайдена" };
-const llm_analytics$3 = { "placeholder": {} };
-const draw_tools$3 = { "line": "Лінія", "point": "Точка", "finish_drawing": "Закінчити малювання", "caption": "Натисніть на карту, щоб почати малювати", "no_geometry_error": "Немає геометрії для завантаження", "overlap_error": "Полігон не має перетинати сам себе" };
-const boundary_selector$3 = { "title": "Фокусувати на адміністративну одиницю" };
-const geometry_uploader$3 = { "title": "Фокусувати на завантажену геометрію", "error": "Помилка під час завантаження файлу" };
-const focus_geometry$3 = { "title": "Фокусувати на намальовану геометрію" };
-const reference_area_layer$3 = { "settings": {} };
-const drawings$3 = { "self_directions_not_supported": "Самоперетин не підтримується!" };
-const sidebar$3 = { "biv_color_manager": "Редактор кольорів", "edit_osm": "Редагувати в OpenStreetMap", "ruler": "Лінійка", "collapse": "Згорнути", "expand": "Розгорнути", "icon_alt": "Логотип аплікації" };
-const login$3 = { "email": "Електронна пошта", "password": "Пароль", "login_button": "Логін", "sign_up": "Зареєструватися", "logging_in": "Входимо...", "log_in": "Увійти", "forgot_password": "Забули пароль?", "description": "Увійдіть, щоб змінити налаштування", "error": { "email_empty": "Електронна пошта не може бути пустою", "email_invalid": "Електронна пошта має бути коректною", "password": "Пароль не може бути пустим", "connect": "Не вдалося під'єднатися до служби аутентифікації" } };
-const currency$3 = {};
-const subscription$3 = { "errors": {}, "success_modal": {} };
-const reports$3 = { "title": "Звіти Disaster Ninja", "no_data": "Нема даних для звіту", "sorting": "Сортуємо дані...", "loading": "Завантажуємо дані", "open_josm": "Відкрити в JOSM", "josm_logo_alt": "Логотип JOSM", "see_all": "Дивитися всі звіти", "wrong_id": "Неправильний ID звіту", "description": "<0>Kontur </0> генерує декілька звітів які допомагають перевіряти якість даних OpenStreetMap. Вони містять посилання на <4>osm.org</4> і посилання, щоб відкрити їх у редакторі JOSM для редагування." };
-const loading_episodes$3 = "Завантаження епізодів";
-const cookie_banner$3 = { "header": "Ми цінуємо вашу приватність", "body": "Ми використовуємо абсолютно необхідні файли cookies, щоб надавати вам персоналізовані послуги, і додаткові файли cookies, щоб покращити Disaster Ninja та ваш досвід. Ви можете будь-коли змінити налаштування файлів cookies або відкликати згоду на використання додаткових файлів cookies.\nЩоб дізнатися більше, перегляньте нашу [Політику конфіденційності](about/privacy)", "decline_all": "Відхилити файли cookies", "accept_all": "Прийняти файли cookies" };
-const live_sensor$3 = { "start": "Почати запис даних з сенсорів", "finish": "Зупинити запис даних з сенсорів", "finishMessage": "Запис даних завершенно", "startMessage": "Запис даних розпочато", "noSensorsError": "Ваш пристрій не має необхідних сенсорів" };
-const layer_features_panel$3 = {};
-const reference_area$3 = {};
-const oam_auth$3 = {};
-const uk_common = {
-  km: km$3,
-  m: m$3,
-  to: to$3,
-  maps: maps$3,
-  logout: logout$3,
-  save: save$3,
-  cancel: cancel$3,
-  ok: ok$3,
-  create: create$3,
-  disasters: disasters$3,
-  loading: loading$3,
-  legend: legend$3,
-  mcda: mcda$3,
-  vertical_direction: vertical_direction$3,
-  horizontal_direction: horizontal_direction$3,
-  legend_presentation: legend_presentation$3,
-  layers: layers$3,
-  bivariate: bivariate$3,
-  layer: layer$3,
-  toolbar: toolbar$3,
-  locate_me: locate_me$3,
-  layer_actions: layer_actions$3,
-  focus_geometry_layer: focus_geometry_layer$3,
-  feed: feed$3,
-  deselect: deselect$3,
-  spinner_text: spinner_text$3,
-  updated: updated$3,
-  created: created$3,
-  no_data_received: no_data_received$3,
-  wrong_data_received: wrong_data_received$3,
-  error: error$5,
-  sort_icon: sort_icon$3,
-  configs: configs$3,
-  errors: errors$3,
-  event_list: event_list$3,
-  categories: categories$3,
-  groups: groups$3,
-  modes: modes$3,
-  advanced_analytics_data_list: advanced_analytics_data_list$3,
-  search: search$3,
-  profile: profile$3,
-  multivariate: multivariate$3,
-  map_popup: map_popup$3,
-  episode: episode$3,
-  create_layer: create_layer$3,
-  analytics_panel: analytics_panel$3,
-  advanced_analytics_panel: advanced_analytics_panel$3,
-  advanced_analytics_empty: advanced_analytics_empty$3,
-  current_event: current_event$3,
-  llm_analytics: llm_analytics$3,
-  draw_tools: draw_tools$3,
-  boundary_selector: boundary_selector$3,
-  geometry_uploader: geometry_uploader$3,
-  focus_geometry: focus_geometry$3,
-  reference_area_layer: reference_area_layer$3,
-  drawings: drawings$3,
-  sidebar: sidebar$3,
-  login: login$3,
-  currency: currency$3,
-  subscription: subscription$3,
-  reports: reports$3,
-  loading_episodes: loading_episodes$3,
-  cookie_banner: cookie_banner$3,
-  live_sensor: live_sensor$3,
-  layer_features_panel: layer_features_panel$3,
-  reference_area: reference_area$3,
-  oam_auth: oam_auth$3
-};
-const km$2 = "км";
-const m$2 = "м";
-const to$2 = "да";
-const or$2 = "ці";
-const maps$2 = "Мапы";
-const logout$2 = "Выйсці";
-const save$2 = "Захаваць";
-const cancel$2 = "Адмяніць";
-const ok$2 = "ОК";
-const create$2 = "Стварыць";
-const disasters$2 = "Катастрофы";
-const loading$2 = "Загрузка...";
-const preparing_data$2 = "Падрыхтоўка даных";
-const loading_events$2 = "Загрузка катастроф";
-const legend$2 = "Легенда";
-const mcda$2 = { "legend_title": "Легенда", "layer_editor": { "outliers_options": { "hide": "Схаваць", "clamp": "Абмежаваць", "dont_modify": "Не змяняць" }, "save_changes": "Захаваць змены", "range": "Дыяпазон значэнняў", "outliers": "Выбітныя значэнні", "reverse_to_good_bad": "Перавярнуць на Добра → Дрэнна", "reverse_to_bad_good": "Перавярнуць на Дрэнна → Добра", "weight": "Вага", "transform": "Трансфармаваць", "transformation": "Трансфармацыя", "normalize": "Нармалізаваць", "normalization": "Нармалізацыя", "range_buttons": { "full_range": "Поўны дыяпазон", "3_sigma": "3σ", "2_sigma": "2σ", "1_sigma": "1σ" }, "transformations": { "no_transformation": "Без трансфармацыі", "square_root": "Квадратны корань: sign(x)⋅√|x|", "cube_root": "Кубічны корань: ∛x", "log": "log₁₀(x - xmin + 1)", "log_epsilon": "log₁₀(x - xmin + ε)" }, "no": "Без нармалізацыі", "max_min": "Максімум-мінімум", "errors": { "weight_cannot_be_empty": "Вага не можа быць пустой", "weight_must_be_a_number": "Вага павінна быць лікам", "range_from_cannot_be_bigger": "Значэнне ‘ад’ не можа быць большым за значэнне ‘да’", "range_cannot_be_empty": "Дыяпазон не можа быць пустым", "range_must_be_a_number": "Дыяпазон павінен быць лікам" }, "tips": { "range": "Значэнні, якія будуць лічыцца найгоршымі і найлепшымі ў вашым аналізе.", "sentiment": "Вызначце кірунак уздзеяння для аналізу:\n* **Дрэнна → Добра**: Больш высокія значэнні паказваюць на станоўчы напрамак.\n* **Добра → Дрэнна**: Больш высокія значэнні паказваюць на адмоўны напрамак.", "weight": "Па змаўчанні ўсе слаі аднолькава ўплываюць на аналіз праз узважаную сярэднюю. Павелічэнне вагі слоя (напрыклад, 2, 3 і г.д.) дазваляе вам надаць яму большую важкасць у аналізе.", "transform": "Прымяняйце разлікі да значэнняў. Атрыманне больш лінейнага размеркавання забяспечыць карысную інфармацыю для аналізу.\n\n **Заўвага**: Разлікі выконваюцца перад нармалізацыяй.", "normalize": "Прыводзіць значэнні да стандартызаванай шкалы. Гэта дапамагае лёгка параўноўваць іх і прымаць рашэнні.\n* **Стандартная шкала адзнак**: Гэты варыянт прыводзіць значэнні да стандартызаванай шкалы, робячы іх супастаўнымі.\n* **Не (толькі для спецыялістаў)**: Пакідае значэнні без змен.", "outliers": "* **Абмежаваць**: Задаць значэнні вышэй за дыяпазон як 1, ніжэй — як 0.\n* **Не змяняць**: Захаваць 0 і 1 як мінімум і максімум, але дапускаць значэнні за межамі гэтага дыяпазону.\n* **Выключыць**: Выключыць з аналізу вобласці, дзе значэнні выходзяць за межы дыяпазону." } }, "title": "Шматкрытэрыяльны аналіз", "modal_title": "Шматкрытэрыяльны аналіз", "name": "Стварыць аналіз", "create_mcda_hint": "Стварыць шматкрытэрыяльны аналіз слаёў", "upload_mcda_hint": "Загрузіць шматкрытэрыяльны аналіз слаёў", "modal_input_name": "Назва аналізу", "modal_input_name_placeholder": "Напрыклад, Кліматычныя змены", "modal_input_indicators": "Спіс слаёў", "modal_input_indicators_placeholder": "Абраць слаі", "modal_input_indicators_no_options": "Няма варыянтаў", "btn_save": "Захаваць аналіз", "error_analysis_name_cannot_be_empty": "Назва аналізу не можа быць пустой", "error_invalid_parameter": "Няправільны параметр '{{parameter}}'", "error_invalid_layer_parameter": "Няправільны параметр '{{parameter}}' у слоі '{{axisName}}'", "legend_subtitle": "Шасцікутнікі афарбаваны згодна з наладамі аналітычных слаёў. Націсніце на шасцікутнік, каб убачыць яго значэнні.", "bad": "Дрэнна", "good": "Добра" };
-const vertical_direction$2 = "Вертыкальны напрамак";
-const horizontal_direction$2 = "Гарызантальны напрамак";
-const legend_presentation$2 = "Адлюстраванне легенды";
-const layers$2 = "Слаі";
-const bivariate$2 = { "color_manager": { "layers_filter": "Слаі", "not_defined": "Не вызначана", "sentiments_combinations_filter": "Спалучэнні напрамкаў", "no_legends": "Няма легенд, якія адпавядаюць умовам.", "no_data": "Няма даных", "sentiments_tab": "Напрамак", "color_legends_tab": "Каляровыя легенды", "layers_tab": "Слаі (індыкатары)" }, "panel": { "header": "Біварыятыўная матрыца" }, "matrix": { "caption": { "base_axis": "Базавая вось", "annex_axis": "Дапаможная вось", "tooltip": { "p1": "Графікі, якія выкарыстоўваюць базавую і дапаможную восі, дапамагаюць вызначыць сувязь паміж двума наборамі даных.", "li1": "Дапаможная вось - параметры, якія мы аналізуем", "li2": "Базавая вось - апорная кропка ў аналізе", "b": "Напрыклад: найлепшае месца для адкрыцця кавярні", "p2": "Мы можам даследаваць колькасць месцаў грамадскага харчавання (дапаможная вось) у параўнанні са шчыльнасцю насельніцтва (базавая вось).", "p3": "У гэтым выпадку нас найперш цікавіць невялікая колькасць месцаў грамадскага харчавання, а колькасць людзей у гэтым месцы дае дадатковую інфармацыю." } }, "header": { "title": "Выберыце два слоя для даследавання карэляцый", "hint": "Слаі і карэляцыі адлюстроўваюцца для вылучанай вобласці" }, "icon": { "population": "Значэнне, падзеленае на насельніцтва", "area_km2": "Значэнне, падзеленае на плошчу", "total_building_count": "Значэнне, падзеленае на агульную колькасць будынкаў", "populated_area_km2": "Значэнне, падзеленае на заселеную тэрыторыю", "one": "Без дзялення", "roads": "Значэнне, падзеленае на агульную даўжыню дарог" }, "progress": { "rendering": "Адмалёўка", "applied": "Ужыта на карце" }, "loading_error": "На жаль, мы не можам адлюстраваць матрыцу. Паспрабуйце абнавіць старонку ці вярнуцца пазней." }, "legend": { "high": "Высокі", "low": "Нізкі", "medium": "Сярэдні" } };
-const layer$2 = "Слой";
-const toolbar$2 = { "map_ruler": "Вымераць адлегласць", "locate_me": "Знайсці мяне", "panel_title": "Панэль інструментаў", "download": "Спампаваць", "delete": "Выдаліць", "boundary_selector": "Вылучыць адміністрацыйную мяжу", "create_layer": "Стварыць слой", "geometry_uploader": "Загрузіць GeoJSON", "focused_geometry_editor": "Маляваць або рэдагаваць геаметрыю", "edit_in_osm": "Рэдагаваць мапу ў OSM", "record_sensors": "Запісваць даныя датчыкаў", "tools_label": "Інструменты", "selected_area_label": "Вылучаная вобласць", "upload_mcda": "Загрузіць аналіз" };
-const locate_me$2 = { "feature_title": "Знайсці мяне", "get_location_error": "Памылка пры атрыманні месцазнаходжання" };
-const layer_actions$2 = { "tooltips": { "download": "Спампаваць", "delete": "Выдаліць", "erase": "Сцерці", "edit": "Рэдагаваць", "hide": "Схаваць", "show": "Паказаць" } };
-const focus_geometry_layer$2 = { "settings": { "name": "Вылучаная вобласць" } };
-const feed$2 = "Стужка";
-const deselect$2 = "Зняць вылучэнне";
-const spinner_text$2 = "Збор даных";
-const updated$2 = "Абноўлена";
-const started$2 = "Пачалося";
-const created$2 = "Створаны";
-const osm_gaps$2 = "Прабелы ў OSM";
-const no_data_received$2 = "Даныя не атрыманы";
-const wrong_data_received$2 = "Атрыманы памылковыя даныя";
-const error$4 = "Памылка";
-const sort_icon$2 = "Сартаванне";
-const configs$2 = { "Kontur_public_feed": "Kontur Public", "Kontur_public_feed_description": "Стужка змяшчае даныя ў рэжыме рэальнага часу аб цыклонах, засухах, землятрусах, паводках, вулканах і лясных пажарах." };
-const errors$2 = { "default": "Прабачце, узніклі праблемы, якія хутка будуць выпраўлены", "timeout": "Час чакання запыту скончыўся", "cannot_connect": "Не атрымалася злучыцца з серверам", "forbidden": "Забаронена", "not_found": "Не знойдзена", "unknown": "Невядома", "server_error": "Памылка сервера", "error_try_again": "Нешта пайшло не так. Калі ласка, паспрабуйце зноў" };
-const event_list$2 = { "severity_unknown": "Невядома", "warning_title": "Немагчыма адфільтраваць па віду мапы", "warning_description": "Мапа яшчэ не гатовая, паспрабуйце пазней", "bbox_filter_button": "Адфільтраваць па віду мапы", "analytics": { "affected_people": { "tooltip": "Пацярпелыя людзі", "value": "Няма гуманітарных наступстваў" }, "settled_area_tooltip": "Заселеная тэрыторыя", "loss_tooltip": "Прыблізныя страты" }, "no_event_in_feed": "Катастрофа не была знойдзеная ў цякучай стужцы катастроф", "no_selected_disaster": "Катастрофа не выбрана", "chose_disaster": "Выбраць катастрофу", "no_historical_disasters": "Няма гістарычных катастроф у дадзеным раёне", "no_feed_disasters": "Няма катастроф у гэтай стужцы", "no_feed_disasters_matching_your_filters": "Няма катастроф, што адпавядаюць вашым фільтрам", "no_disasters": "Няма катастроф", "severity_termination": "Спыненне", "severity_minor": "Нязначная", "severity_moderate": "Умераная", "severity_severe": "Сур'ёзная", "severity_extreme": "Экстрэмальная", "open_timeline_button": "Часавая шкала" };
-const categories$2 = { "overlays": "Оверлэі", "basemap": "Базавая мапа" };
-const groups$2 = { "layers_in_selected_area": "Слаі ў вылучанай зоне", "your_layers": "Вашы слаі", "kontur_analytics": "Аналітыка Kontur", "qa": "Інспектар OpenStreetMap", "osmbasedmap": "На аснове OpenStreetMap", "other": "Іншае", "elevation": "Вышыня", "photo": "Здымкі", "map": "Мапа" };
-const modes$2 = { "map": "Мапа", "about": "Пра сервіс", "cookies": "Файлы cookie", "reports": "Справаздачы", "report": "Справаздача", "profile": "Профіль", "privacy": "Прыватнасць", "terms": "Умовы", "user_guide": "Дапаможнік", "external": { "upload_imagery": "Загрузіць здымак" } };
-const advanced_analytics_data_list$2 = { "load_world_data": "Загрузіць сусветныя даныя", "numerator": "Лічнік", "normalized_by": "Нармалізавана па", "sum": "Сума", "min": "Мінімум", "max": "Максімум", "mean": "Сярэдняе", "stddev": "Стандартнае адхіленне", "median": "Медыяна", "filter_numerator": "Фільтр па лічніку", "filter_denominator": "Фільтр па назоўніку" };
-const search$2 = { "mcda_create_analysis": "Стварыць аналіз", "search_location": "Шукаць месца", "info_block": "Вы можаце шукаць 📍 месцы", "info_block_with_mcda": "Вы можаце шукаць 📍 месцы або задаць ✨ AI ваша пытанне, напрыклад: «Дзе знаходзіцца сухастой?»", "input_placeholder": "Пошук", "input_placeholder_mcda": "Шукаць або спытацца ў AI", "locations_no_result": "Няма знойдзеных месцаў", "mcda_loading_message": "AI стварае аналіз для вас", "mcda_no_result": "Няма прапаноў ад AI", "mcda_error_message": "AI не адказаў. Паспрабуйце пазней", "upload_analysis": "“{{name}}” шматкрытэрыяльны аналіз быў створаны" };
-const profile$2 = { "saveButton": "Захаваць змены", "reference_area": { "title": "Эталонная вобласць", "freehand_geometry": "Адвольная геаметрыя", "to_replace_reference_area": 'Вы можаце пераназначыць вашу эталонную вобласць на карце. Вылучыце вобласць і націсніце "Захаваць як эталонную вобласць" у панэлі інструментаў.\n', "description": "Захавайце знаёмую вам вобласць як эталонную. Мы будзем выкарыстоўваць яе як падставу для параўнання іншых абласцей і тлумачэння адрозненняў.", "set_the_reference_area": "Вылучыць вобласць на карце", "accessing_location": "Атрыманне вашага месцазнаходжання", "accessing_location_error": "Памылка. Паспрабуйце іншы спосаб.", "select_location": "Абраць маё цякучае месцазнаходжанне", "notification": "Ваша эталонная вобласць {{name}} была захаваная" }, "email": "Электронная пошта", "interfaceTheme": "Тэма", "interfaceLanguage": "Мова", "units": "Адзінкі вымярэння", "fullName": "Поўнае імя", "metric": "метрычная сістэма", "imperialBeta": "імперская сістэма (бэта)", "profileSettingsHeader": "Наладзьце свой вопыт выкарыстання", "your_current_job": "ваша цяперашняя пасада", "area_of_expertise": "сфера дзейнасці", "challenges": "праблемы", "personalization_prompt": "Для лепшай персаналізацыі, калі ласка, пазначце наступнае:", "ai_tools_compatibility": "Гэтая інфармацыя сумяшчальная з інструментамі AI", "improves_analysis": "Паляпшае аналіз", "bio_placeholder": "Аб сабе", "bio_textarea_placeholder": "Напрыклад, спецыяліст у галіне ГІС з 5+ гадамі вопыту ў аналізе рызыкаў катастроф, арыентаваны на гарадскую ўстойлівасць.", "analysis_objectives": "Мэты аналізу", "objectives_textarea_placeholder": "Напрыклад, аналіз гарадскога планавання з акцэнтам на кліматычную ўстойлівасць. Мая цяперашняя задача — паляпшэнне картаграфавання рызыкаў паводак.", "appSettingsHeader": "Налады", "your_organization": "Ваша арганізацыя", "your_contacts": "Вашыя кантактныя даныя", "organization_name": "Назва арганізацыі", "position": "Пасада", "gis_specialists": "ГІС-спецыялісты ў вашай камандзе", "phone_number": "Нумар тэлефона з кодам краіны", "linkedin": "Профіль у LinkedIn", "konturTheme": "Kontur", "HOTTheme": "HOT", "defaultDisasterFeed": "Стужка катастроф па змаўчанні", "defaultOSMeditor": "Рэдактар OpenStreetMap па змаўчанні (бэта)", "successNotification": "Усе змены былі паспяхова захаваны", "dont_know": "Я не ведаю", "languageOption": { "en": "Англійская", "es": "Іспанская", "ar": "Арабская", "ko": "Карэйская", "id": "Інданезійская", "de": "Нямецкая", "be": "Беларуская", "ru": "Руская", "uk": "Украінская", "zh": "Кітайская" } };
-const multivariate$2 = { "multivariate_analysis": "Шматварыянтны аналіз", "create_analysis_layer": "Стварыць аналіз слаёў", "upload_analysis_layer": "Загрузіць аналіз слаёў", "popup": { "score_header": "Адзнака {{level}}", "compare_header": "Параўнанне {{level}}" }, "score": "Адзнака", "compare": "Параўнанне", "labels": "Подпісы", "3d": "3D" };
-const map_popup$2 = { "range": "Дыяпазон", "coefficient": "Каэфіцыент", "normalized_value": "Нармалізаванае значэнне" };
-const episode$2 = "Часавая шкала";
-const create_layer$2 = { "edit_layer": "Рэдагаваць слой", "edit_features": "Рэдагаваць аб'екты", "delete_layer": "Выдаліць слой", "create_layer": "Стварыць слой", "saving_layer": "Захаванне слоя...", "field_name": "Назва поля", "layer_name": "Назва слоя", "marker_icon": "Іконка маркера", "type": "Тып", "select": "Выбраць", "short_text": "Кароткі тэкст", "long_text": "Доўгі тэкст", "link": "Спасылка", "image": "Выява", "fields": "Палі", "add_field": "Дадаць поле", "location": "Месцазнаходжанне", "edit_feature_placeholder": "Выберыце аб'ект для пачатку рэдагавання яго ўласцівасцей" };
-const analytics_panel$2 = { "header_title": "Аналітыка", "error_loading": "Не атрымалася атрымаць даныя аб вылучанай вобласці. Магчыма, яна занадта вялікая.", "info_short": "Разлікі зробленыя для вылучанай вобласці" };
-const advanced_analytics_panel$2 = { "header_title": "Пашыраная аналітыка", "error": "Памылка падчас атрымання даных пашыранай аналітыкі" };
-const advanced_analytics_empty$2 = { "not_found": "Прабачце, запытаная катастрофа не знойдзена", "error": "Адбылася памылка", "analytics_for_selected": "Аналітыка для вылучанай вобласці", "will_be_provided": "будзе пададзена тут", "no_analytics": "Няма аналітыкі для вылучанай вобласці" };
-const current_event$2 = { "not_found_request": "Прабачце, запытаная катастрофа не знойдзена" };
-const llm_analytics$2 = { "header": "Аналітыка AI", "placeholder": { "select_area": "Вылучыце вобласць (<icon1 />,<icon2 />,<icon3 />), якую хочаце даследаваць для атрымання Аналітыкі AI.", "you_can_also": "Вы таксама можаце:", "fill_bio": "<icon /> <lnk>Запоўніце мэты аналізу</lnk>, каб персаналізаваць AI аналіз", "select_and_save_as_reference_area": "<icon /> Вылучыце вобласць і захавайце яе як эталонную для параўнання з іншай", "learn_more": "<lnk><icon/> Даведайцеся больш пра Аналітыку AI</lnk>" } };
-const draw_tools$2 = { "area": "Шматкутнік", "line": "Лінія", "point": "Кропка", "finish_drawing": "Скончыць маляванне", "caption": "Націсніце на мапу, каб пачаць маляванне", "no_geometry_error": "Няма намаляванай геаметрыі для загрузкі", "overlap_error": "Шматкутнік не павінен перакрываць сам сябе" };
-const boundary_selector$2 = { "title": "Фокус на адміністрацыйную мяжу" };
-const geometry_uploader$2 = { "title": "Фокус на загружаную геаметрыю", "error": "Памылка пры чытанні загружанага файла" };
-const focus_geometry$2 = { "title": "Фокус на адвольную геаметрыю" };
-const reference_area_layer$2 = { "settings": { "name": "Эталонная вобласць" } };
-const drawings$2 = { "self_directions_not_supported": "Самаперакрыцці не падтрымліваюцца" };
-const sidebar$2 = { "edit_osm": "Рэдагаваць у OpenStreetMap", "ruler": "Лінейка", "collapse": "Згарнуць", "expand": "Разгарнуць", "icon_alt": "Лагатып дадатку" };
-const login$2 = { "email": "Электронная пошта", "password": "Пароль", "login_button": "Увайсці", "sign_up": "Зарэгістравацца", "logging_in": "Уваход...", "log_in": "Увайсці", "forgot_password": "Забыліся пароль?", "description": "Калі ласка, увайдзіце, каб змяніць налады", "error": { "email_empty": "Поле электроннай пошты не можа быць пустым", "email_invalid": "Увядзіце сапраўдны адрас электроннай пошты", "password": "Поле пароля не можа быць пустым", "connect": "Не ўдалося падключыцца да службы аўтэнтыфікацыі" } };
-const currency$2 = { "usd": "USD" };
-const subscription$2 = { "title": "Тарыфы і цэны", "price_summary": "* Выстаўляецца рахунак ${{pricePerYear}} USD раз на год", "unauthorized_button": "Увайдзіце, каб аформіць падпіску", "current_plan_button": "Цяперашні план", "sales_button": "Звязацца з аддзелам продажаў", "book_demo_button": "Замовіць дэма", "request_trial_button": "Запытаць пробны перыяд", "errors": { "payment_initialization": "Адбылася памылка падчас ініцыялізацыі плацяжу. Калі ласка, паспрабуйце яшчэ раз ці звяжыцеся са службай падтрымкі" }, "success_modal": { "title": "Паспяхова", "thank_you_for_subscribing": "Дзякуй за падпіску на нашу платформу!", "after_the_page_refreshes": "Пасля абнаўлення старонкі вы можаце пачаць выкарыстоўваць Kontur Atlas" } };
-const reports$2 = { "title": "Справаздачы Disaster Ninja", "no_data": "Няма даных для гэтай справаздачы", "sorting": "Сартыроўка даных...", "loading": "Загрузка даных", "open_josm": "Адкрыць праз дыстанцыйнае кіраванне JOSM", "josm_logo_alt": "Лагатып JOSM", "see_all": "Паглядзець усе справаздачы", "wrong_id": "Няправільны ідэнтыфікатар справаздачы", "description": "<0>Kontur </0> стварае некалькі справаздач, якія дапамагаюць ацаніць якасць OpenStreetMap. Яны ўтрымліваюць спасылкі на вобласці на <4>osm.org </4> і спасылкі для адкрыцця іх у рэдактары JOSM з уключаным дыстанцыйным кіраваннем." };
-const loading_episodes$2 = "Загрузка эпізодаў";
-const zoom_to_world$2 = "Аддаліцца да ўсяго свету";
-const cookie_banner$2 = { "header": "Мы цэнім вашу прыватнасць", "body": "Мы выкарыстоўваем неабходныя файлы cookie для прадастаўлення вам персаналізаваных паслуг, а таксама дадатковыя файлы cookie для паляпшэння {{appName}} і вашага вопыту выкарыстання. Вы можаце кіраваць наладамі cookie або адклікаць згоду на дадатковыя cookie ў любы момант.\nДля атрымання дадатковай інфармацыі азнаёмцеся з нашай [Палітыкай прыватнасці](about/privacy)", "decline_all": "Адмовіцца ад дадатковых cookie", "accept_all": "Прыняць дадатковыя cookie" };
-const live_sensor$2 = { "start": "Пачаць запіс з датчыкаў", "finish": "Спыніць запіс з датчыкаў", "finishMessage": "Запіс завершаны", "startMessage": "Запіс пачаты", "noSensorsError": "Вашае прылада не мае неабходных датчыкаў" };
-const layer_features_panel$2 = { "empty": "Аб'екты слоя ў вылучанай вобласці будуць паказаны тут", "noFeatureSelected": "Не абраны аб'ект слоя", "chooseFeature": "Абярыце аб'ект слоя", "listInfo": "Спіс адфільтраваны па вылучанай вобласці і адсартаваны па нумары праекта", "error_loading": "Не атрымалася загрузіць даныя аб'ектаў слоя. Калі ласка, паспрабуйце яшчэ раз.", "no_features": "У вылучанай вобласці не знойдзена аб'ектаў.", "priority": "{{level}} прыярытэт" };
-const reference_area$2 = { "save_as_reference_area": "Захаваць як эталонную вобласць", "error_couldnt_save": "На жаль, не атрымалася захаваць вашу эталонную вобласць. Калі ласка, паспрабуйце яшчэ раз.", "selected_area_saved_as_reference_area": "Вылучаная вобласць была захаваная як эталонная ў вашым профілі" };
-const oam_auth$2 = { "login_button": "Ўвайсці праз Google" };
-const be_common = {
-  km: km$2,
-  m: m$2,
-  to: to$2,
-  or: or$2,
-  maps: maps$2,
-  logout: logout$2,
-  save: save$2,
-  cancel: cancel$2,
-  ok: ok$2,
-  create: create$2,
-  disasters: disasters$2,
-  loading: loading$2,
-  preparing_data: preparing_data$2,
-  loading_events: loading_events$2,
-  legend: legend$2,
-  mcda: mcda$2,
-  vertical_direction: vertical_direction$2,
-  horizontal_direction: horizontal_direction$2,
-  legend_presentation: legend_presentation$2,
-  layers: layers$2,
-  bivariate: bivariate$2,
-  layer: layer$2,
-  toolbar: toolbar$2,
-  locate_me: locate_me$2,
-  layer_actions: layer_actions$2,
-  focus_geometry_layer: focus_geometry_layer$2,
-  feed: feed$2,
-  deselect: deselect$2,
-  spinner_text: spinner_text$2,
-  updated: updated$2,
-  started: started$2,
-  created: created$2,
-  osm_gaps: osm_gaps$2,
-  no_data_received: no_data_received$2,
-  wrong_data_received: wrong_data_received$2,
-  error: error$4,
-  sort_icon: sort_icon$2,
-  configs: configs$2,
-  errors: errors$2,
-  event_list: event_list$2,
-  categories: categories$2,
-  groups: groups$2,
-  modes: modes$2,
-  advanced_analytics_data_list: advanced_analytics_data_list$2,
-  search: search$2,
-  profile: profile$2,
-  multivariate: multivariate$2,
-  map_popup: map_popup$2,
-  episode: episode$2,
-  create_layer: create_layer$2,
-  analytics_panel: analytics_panel$2,
-  advanced_analytics_panel: advanced_analytics_panel$2,
-  advanced_analytics_empty: advanced_analytics_empty$2,
-  current_event: current_event$2,
-  llm_analytics: llm_analytics$2,
-  draw_tools: draw_tools$2,
-  boundary_selector: boundary_selector$2,
-  geometry_uploader: geometry_uploader$2,
-  focus_geometry: focus_geometry$2,
-  reference_area_layer: reference_area_layer$2,
-  drawings: drawings$2,
-  sidebar: sidebar$2,
-  login: login$2,
-  currency: currency$2,
-  subscription: subscription$2,
-  reports: reports$2,
-  loading_episodes: loading_episodes$2,
-  zoom_to_world: zoom_to_world$2,
-  cookie_banner: cookie_banner$2,
-  live_sensor: live_sensor$2,
-  layer_features_panel: layer_features_panel$2,
-  reference_area: reference_area$2,
-  oam_auth: oam_auth$2
-};
-const km$1 = "км";
-const m$1 = "м";
-const to$1 = "до";
-const or$1 = "или";
-const maps$1 = "Карты";
-const logout$1 = "Выйти";
-const save$1 = "Сохранить";
-const cancel$1 = "Отменить";
-const ok$1 = "ОК";
-const create$1 = "Создать";
-const disasters$1 = "Катастрофы";
-const loading$1 = "Загрузка...";
-const preparing_data$1 = "Подготовка данных";
-const loading_events$1 = "Загрузка катастроф";
-const legend$1 = "Легенда";
-const mcda$1 = { "legend_title": "Легенда", "layer_editor": { "outliers_options": { "hide": "Скрыть", "clamp": "Ограничить", "dont_modify": "Не изменять" }, "save_changes": "Сохранить изменения", "range": "Диапазон значений", "outliers": "Выпадающие значения", "reverse_to_good_bad": "Перевернуть: Хорошо → Плохо", "reverse_to_bad_good": "Перевернуть: Плохо → Хорошо", "weight": "Вес", "transform": "Трансформировать", "transformation": "Трансформация", "normalize": "Нормализовать", "normalization": "Нормализация", "range_buttons": { "full_range": "Полный диапазон", "3_sigma": "3σ", "2_sigma": "2σ", "1_sigma": "1σ" }, "transformations": { "no_transformation": "Без трансформации", "square_root": "Квадратный корень: sign(x)⋅√|x|", "cube_root": "Кубический корень: ∛x", "log": "log₁₀(x - xmin + 1)", "log_epsilon": "log₁₀(x - xmin + ε)" }, "no": "Без нормализации", "max_min": "Макс-мин", "errors": { "weight_cannot_be_empty": "Вес не может быть пустым", "weight_must_be_a_number": "Вес должен быть числом", "range_from_cannot_be_bigger": "Значение «от» не может быть больше, чем значение «до»", "range_cannot_be_empty": "Диапазон не может быть пустым", "range_must_be_a_number": "Диапазон должен быть числом" }, "tips": { "range": "Значения, которые будут считаться наихудшими и наилучшими в вашем анализе.", "sentiment": "Определите направление коннотаций слоя на анализ:\n* **Плохо → Хорошо**: Более высокие значения указывают на положительное направление.\n* **Хорошо → Плохо**: Более высокие значения указывают на отрицательное направление.", "weight": "По умолчанию все слои вносят равный вклад в анализ через средневзвешенное значение. Увеличение веса слоя (2, 3 и т. д.) позволяет придать ему дополнительную значимость в анализе.", "transform": "Примените вычисления к значениям. Достижение более линейного распределения обеспечит более полезную информацию для анализа.\n\n **Примечание**: Вычисления выполняются перед нормализацией.", "normalize": "Приводит значения к стандартизированной шкале. Это упрощает их сравнение и принятие решений.\n* **Стандартная шкала оценки**: Этот вариант приводит значения к стандартизированной шкале, чтобы они были сопоставимы.\n* **Нет (только для специалистов)**: Оставляет значения без изменений.", "outliers": "* **Ограничить**: Установить значения выше диапазона как 1, а ниже диапазона – как 0.\n* **Не изменять**: Сохранить 0 и 1 для минимального и максимального значений, но допустить выбросы за пределами этого диапазона.\n* **Исключить**: Исключить области, где значения выходят за пределы диапазона." } }, "title": "Многокритериальный анализ", "modal_title": "Многокритериальный анализ", "name": "Создать анализ", "create_mcda_hint": "Создать многокритериальный анализ слоёв", "upload_mcda_hint": "Загрузить многокритериальный анализ слоёв", "modal_input_name": "Название анализа", "modal_input_name_placeholder": "Например, Изменение климата", "modal_input_indicators": "Список слоёв", "modal_input_indicators_placeholder": "Выберите слои", "modal_input_indicators_no_options": "Нет доступных вариантов", "btn_save": "Сохранить анализ", "error_analysis_name_cannot_be_empty": "Название анализа не может быть пустым", "error_invalid_file": "Некорректный формат файла анализа", "error_invalid_parameter": "Некорректный параметр '{{parameter}}'", "error_invalid_layer_parameter": "Некорректный параметр '{{parameter}}' в слое '{{axisName}}'", "error_wrong_mcda_version": "Неподдерживаемая версия анализа", "legend_subtitle": "Шестиугольники окрашены в соответствии с настройками анализа слоя. Нажмите на шестиугольник, чтобы увидеть его значения.", "bad": "Плохо", "good": "Хорошо" };
-const vertical_direction$1 = "Вертикальное направление";
-const horizontal_direction$1 = "Горизонтальное направление";
-const legend_presentation$1 = "Отображение легенды";
-const layers$1 = "Слои";
-const bivariate$1 = { "color_manager": { "layers_filter": "Слои", "not_defined": "Не определено", "sentiments_combinations_filter": "Комбинации направлений", "no_legends": "Нет легенд, удовлетворяющих условиям.", "no_data": "Нет данных.", "sentiments_tab": "Направление", "color_legends_tab": "Цветовые легенды", "layers_tab": "Слои (индикаторы)" }, "panel": { "header": "Бивариативная матрица" }, "matrix": { "caption": { "base_axis": "Базовая ось", "annex_axis": "Дополнительная ось", "tooltip": { "p1": "Графики с базовой и дополнительной осями помогают установить взаимосвязь между двумя наборами данных.", "li1": "Дополнительная ось – параметры, которые мы анализируем", "li2": "Базовая ось – эталонная точка в анализе", "b": "Например: лучшее место для открытия кафе", "p2": "Мы можем изучить количество мест общественного питания (дополнительная ось) по отношению к плотности населения (базовая ось).", "p3": "В этом сценарии нас интересует небольшое количество мест общественного питания, а количество людей в этом месте даёт дополнительную информацию." } }, "header": { "title": "Выберите два слоя для исследования корреляций", "hint": "Слои и корреляции отображаются для текущей выделенной области" }, "icon": { "population": "Значение, делённое на население", "area_km2": "Значение, делённое на площадь", "total_building_count": "Значение, делённое на общее количество зданий", "populated_area_km2": "Значение, делённое на заселённую площадь", "one": "Без делителя", "roads": "Значение, делённое на общую длину дорог" }, "progress": { "rendering": "Отрисовка", "applied": "Применено на карте" }, "loading_error": "К сожалению, мы не можем отобразить матрицу. Попробуйте обновить страницу или зайдите позже." }, "legend": { "high": "Высокий", "low": "Низкий", "medium": "Средний" } };
-const layer$1 = "Слой";
-const toolbar$1 = { "map_ruler": "Измерить расстояние", "locate_me": "Найти меня", "panel_title": "Панель инструментов", "download": "Скачать", "delete": "Удалить", "boundary_selector": "Выделить административную границу", "create_layer": "Создать слой", "geometry_uploader": "Загрузить GeoJSON", "focused_geometry_editor": "Рисовать или редактировать геометрию", "edit_in_osm": "Редактировать карту в OSM", "record_sensors": "Записать данные с датчиков", "tools_label": "Инструменты", "selected_area_label": "Выделенная область", "upload_mcda": "Загрузить анализ" };
-const locate_me$1 = { "feature_title": "Найти меня", "get_location_error": "Ошибка при определении местоположения" };
-const layer_actions$1 = { "tooltips": { "download": "Скачать", "delete": "Удалить", "erase": "Стереть", "edit": "Редактировать", "hide": "Скрыть", "show": "Показать" } };
-const focus_geometry_layer$1 = { "settings": { "name": "Выделенная область" } };
-const feed$1 = "Лента";
-const deselect$1 = "Снять выделение";
-const spinner_text$1 = "Сбор данных";
-const updated$1 = "Обновлено";
-const started$1 = "Началось";
-const created$1 = "Создано";
-const osm_gaps$1 = "Пробелы в OSM";
-const no_data_received$1 = "Данные не получены";
-const wrong_data_received$1 = "Получены неверные данные";
-const error$3 = "Ошибка";
-const sort_icon$1 = "Сортировка";
-const configs$1 = { "Kontur_public_feed": "Kontur Public", "Kontur_public_feed_description": "Лента содержит данные в реальном времени о циклонах, засухах, землетрясениях, наводнениях, вулканах, лесных пожарах." };
-const errors$1 = { "default": "Извините, у нас возникли проблемы, которые скоро будут исправлены", "timeout": "Время ожидания запроса истекло", "cannot_connect": "Не удается подключиться к серверу", "forbidden": "Доступ запрещен", "not_found": "Не найдено", "unknown": "Неизвестно", "server_error": "Ошибка сервера", "error_try_again": "Что-то пошло не так. Пожалуйста, попробуйте снова" };
-const event_list$1 = { "severity_unknown": "Неизвестно", "warning_title": "Невозможно отфильтровать по виду карты", "warning_description": "Карта еще не готова, попробуйте позже", "bbox_filter_button": "Фильтровать по виду карты", "analytics": { "affected_people": { "tooltip": "Пострадавшие люди", "value": "Гуманитарного воздействия нет" }, "settled_area_tooltip": "Заселённая территория", "loss_tooltip": "Предполагаемый ущерб" }, "no_event_in_feed": "Катастрофа не найдена в текущей ленте катастроф", "no_selected_disaster": "Катастрофа не выбрана", "chose_disaster": "Выберите катастрофу", "no_historical_disasters": "В этой области нет исторических катастроф", "no_feed_disasters": "В этой ленте нет катастроф", "no_feed_disasters_matching_your_filters": "Нет катастроф, соответствующих вашим фильтрам", "no_disasters": "Нет катастроф", "severity_termination": "Прекращение", "severity_minor": "Незначительное", "severity_moderate": "Умеренное", "severity_severe": "Серьезное", "severity_extreme": "Экстремальное", "open_timeline_button": "Таймлайн" };
-const categories$1 = { "overlays": "Оверлеи", "basemap": "Базовая карта" };
-const groups$1 = { "layers_in_selected_area": "Слои в выделенной области", "your_layers": "Ваши слои", "kontur_analytics": "Аналитика Kontur", "qa": "Инспектор OpenStreetMap", "osmbasedmap": "На основе OpenStreetMap", "other": "Другое", "elevation": "Высота", "photo": "Изображения", "map": "Карта" };
-const modes$1 = { "map": "Карта", "about": "О сервисе", "cookies": "Файлы cookie", "reports": "Отчёты", "report": "Отчёт", "profile": "Профиль", "privacy": "Конфиденциальность", "terms": "Условия", "user_guide": "Руководство", "external": { "upload_imagery": "Загрузить изображение", "imagery_catalog": "Каталог изображений" } };
-const advanced_analytics_data_list$1 = { "load_world_data": "Загрузить мировые данные", "numerator": "Числитель", "normalized_by": "Нормализовано по", "sum": "Сумма", "min": "Минимум", "max": "Максимум", "mean": "Среднее", "stddev": "Стандартное отклонение", "median": "Медиана", "filter_numerator": "Фильтр числителя", "filter_denominator": "Фильтр знаменателя" };
-const profile$1 = { "saveButton": "Сохранить изменения", "reference_area": { "title": "Эталонная область", "freehand_geometry": "Свободная геометрия", "to_replace_reference_area": 'Вы можете переопределить свою эталонную область на карте. Выберите область и нажмите "Сохранить как эталонную область" на панели инструментов.\n', "description": "Сохраните знакомую вам область как эталонную. Мы будем использовать её в качестве основания для сравнения с другими областями и объяснения различий.", "set_the_reference_area": "Выделить область на карте", "accessing_location": "Определение вашего местоположения", "accessing_location_error": "Ошибка. Попробуйте другой способ.", "select_location": "Выбрать моё текущее местоположение", "notification": "Ваша эталонная область {{name}} была сохранена" }, "email": "Электронная почта", "interfaceTheme": "Тема", "interfaceLanguage": "Язык", "units": "Единицы измерения", "fullName": "Полное имя", "metric": "метрическая", "imperialBeta": "имперская (бета)", "profileSettingsHeader": "Персонализируйте свой опыт", "your_current_job": "ваша текущая должность", "area_of_expertise": "область экспертизы", "challenges": "задачи", "personalization_prompt": "Для лучшей персонализации укажите, например:", "ai_tools_compatibility": "Эта информация совместима с инструментами AI", "improves_analysis": "Улучшает аналитику", "bio_placeholder": "О себе", "bio_textarea_placeholder": "Например, ГИС-специалист с более чем 5-летним опытом анализа рисков катастроф, с фокусом на устойчивость городов.", "analysis_objectives": "Цели анализа", "objectives_textarea_placeholder": "Например, анализ городского планирования с акцентом на устойчивость к климатическим изменениям. Моя текущая задача — улучшение картографирования рисков наводнений.", "appSettingsHeader": "Настройки", "your_organization": "Ваша организация", "your_contacts": "Ваши контактные данные", "organization_name": "Название организации", "position": "Должность", "gis_specialists": "ГИС-специалисты в вашей команде", "phone_number": "Номер телефона с кодом страны", "linkedin": "Профиль в LinkedIn", "konturTheme": "Kontur", "HOTTheme": "HOT", "defaultDisasterFeed": "Лента катастроф по умолчанию", "defaultOSMeditor": "Редактор OpenStreetMap по умолчанию (бета)", "successNotification": "Все изменения успешно применены", "dont_know": "Не знаю", "languageOption": { "en": "Английский", "es": "Испанский", "ar": "Арабский", "ko": "Корейский", "id": "Индонезийский", "de": "Немецкий", "be": "Белорусский", "ru": "Русский", "uk": "Украинский", "zh": "Китайский" } };
-const multivariate$1 = { "multivariate_analysis": "Многомерный анализ", "create_analysis_layer": "Создать анализ слоёв", "upload_analysis_layer": "Загрузить анализ слоёв", "popup": { "score_header": "Оценка {{level}}", "compare_header": "Сравнение {{level}}" }, "score": "Оценка", "compare": "Сравнение", "hide_area": "Скрыть область", "labels": "Подписи", "3d": "3D" };
-const map_popup$1 = { "value": "Значение", "range": "Диапазон", "coefficient": "Коэффициент", "normalized_value": "Нормализованное значение" };
-const search$1 = { "search_location": "Поиск мест", "info_block": "Вы можете искать 📍 места", "info_block_with_mcda": "Вы можете искать 📍 места или задать ✨ AI вопрос, например: «Где находится сухостой?»", "input_placeholder": "Поиск", "input_placeholder_mcda": "Найти или спросить AI", "locations_no_result": "Места не найдены", "mcda_loading_message": "AI создаёт анализ для вас", "mcda_no_result": "Нет предложений от AI", "mcda_error_message": "AI не ответил. Пожалуйста, попробуйте позже", "mcda_create_analysis": "Создать анализ", "upload_analysis": "Многокритериальный анализ «{{name}}» создан" };
-const episode$1 = "Таймлайн";
-const create_layer$1 = { "save_and_draw": "Сохранить и рисовать", "edit_layer": "Редактировать слой", "edit_features": "Редактировать объекты", "delete_layer": "Удалить слой", "create_layer": "Создать слой", "saving_layer": "Сохранение слоя...", "field_name": "Название поля", "layer_name": "Название слоя", "marker_icon": "Иконка маркера", "type": "Тип", "select": "Выбрать", "short_text": "Короткий текст", "long_text": "Длинный текст", "link": "Ссылка", "image": "Изображение", "fields": "Поля", "add_field": "Добавить поле", "location": "Местоположение", "edit_feature_placeholder": "Выберите объект, чтобы начать редактирование его свойств" };
-const analytics_panel$1 = { "header_title": "Аналитика", "error_loading": "Не удалось получить данные о выделенной области. Возможно, она слишком велика.", "info_short": "Расчеты выполняются для выделенной области" };
-const advanced_analytics_panel$1 = { "header_title": "Расширенная аналитика", "error": "Ошибка при получении данных расширенной аналитики" };
-const advanced_analytics_empty$1 = { "not_found": "Извините, запрашиваемая катастрофа не найдена", "error": "Произошла ошибка", "analytics_for_selected": "Аналитика для выделенной области", "will_be_provided": "будет представлена здесь", "no_analytics": "Нет аналитики для выделенной области" };
-const current_event$1 = { "not_found_request": "Извините, запрашиваемая катастрофа не найдена" };
-const llm_analytics$1 = { "header": "Аналитика AI", "placeholder": { "select_area": "Выберите область (<icon1 />,<icon2 />,<icon3 />), которую хотите исследовать, чтобы получить аналитику AI.", "you_can_also": "Вы также можете:", "fill_bio": "<icon /> <lnk>Заполните цели анализа</lnk>, чтобы персонализировать AI анализ", "select_and_save_as_reference_area": "<icon /> Выберите область и сохраните её как эталонную, чтобы сравнивать с другой", "learn_more": "<lnk><icon/> Узнать больше об аналитике AI</lnk>" } };
-const draw_tools$1 = { "area": "Многоугольник", "line": "Линия", "point": "Точка", "finish_drawing": "Завершить рисование", "caption": "Нажмите на карту, чтобы начать рисование", "no_geometry_error": "Нет нарисованной геометрии для загрузки", "overlap_error": "Полигон не должен пересекаться сам с собой" };
-const boundary_selector$1 = { "title": "Фокус на административной границе" };
-const geometry_uploader$1 = { "title": "Фокус на загруженной геометрии", "error": "Ошибка при чтении загруженного файла" };
-const focus_geometry$1 = { "title": "Фокус на свободно нарисованной геометрии" };
-const reference_area_layer$1 = { "settings": { "name": "Эталонная область" } };
-const drawings$1 = { "self_directions_not_supported": "Самопересечения не поддерживаются" };
-const sidebar$1 = { "biv_color_manager": "Менеджер цветов", "edit_osm": "Редактировать в OpenStreetMap", "ruler": "Линейка", "collapse": "Свернуть", "expand": "Развернуть", "icon_alt": "Логотип приложения" };
-const login$1 = { "email": "Электронная почта", "password": "Пароль", "login_button": "Войти", "sign_up": "Регистрация", "logging_in": "Вход в систему...", "log_in": "Войти", "forgot_password": "Забыли пароль?", "description": "Пожалуйста, войдите в систему, чтобы изменить настройки", "error": { "email_empty": "Поле электронной почты не может быть пустым", "email_invalid": "Введите корректный адрес электронной почты", "password": "Пароль не может быть пустым", "connect": "Не удалось подключиться к службе аутентификации" } };
-const currency$1 = { "usd": "USD" };
-const subscription$1 = { "title": "Тарифы и цены", "price_summary": "* Выставляется счёт на ${{pricePerYear}} USD раз в год", "unauthorized_button": "Войдите, чтобы подписаться", "current_plan_button": "Текущий план", "sales_button": "Связаться с отделом продаж", "book_demo_button": "Записаться на демонстрацию", "request_trial_button": "Запросить пробную версию", "errors": { "payment_initialization": "Произошла ошибка при инициализации платежа. Попробуйте снова или свяжитесь со службой поддержки" }, "success_modal": { "title": "Успех", "thank_you_for_subscribing": "Спасибо за подписку на нашу платформу!", "after_the_page_refreshes": "После обновления страницы вы сможете начать использовать Kontur Atlas" } };
-const reports$1 = { "title": "Отчёты Disaster Ninja", "no_data": "Нет данных для этого отчёта", "sorting": "Сортировка данных...", "loading": "Загрузка данных", "open_josm": "Открыть через удалённое управление JOSM", "josm_logo_alt": "Логотип JOSM", "see_all": "Посмотреть все отчёты", "wrong_id": "Неверный идентификатор отчёта", "description": "<0>Kontur </0> создаёт несколько отчётов, которые помогают проверять качество OpenStreetMap. Они содержат ссылки на области на <4>osm.org</4> и ссылки для открытия их в редакторе JOSM с включённым удалённым управлением." };
-const loading_episodes$1 = "Загрузка эпизодов";
-const zoom_to_world$1 = "Отдалиться ко всему миру";
-const cookie_banner$1 = { "header": "Мы ценим вашу конфиденциальность", "body": "Мы используем исключительно необходимые файлы cookie для предоставления персонализированных услуг, а также дополнительные файлы cookie для улучшения {{appName}} и вашего опыта. Вы можете управлять настройками cookie или отозвать согласие на их использование в любое время.\nДополнительную информацию можно найти в нашей [Политике конфиденциальности](about/privacy).", "decline_all": "Отклонить необязательные файлы cookie", "accept_all": "Принять необязательные файлы cookie" };
-const live_sensor$1 = { "start": "Начать запись данных с сенсоров", "finish": "Остановить запись данных с сенсоров", "finishMessage": "Запись завершена", "startMessage": "Запись началась", "noSensorsError": "Ваше устройство не имеет необходимые сенсоры" };
-const layer_features_panel$1 = { "empty": "Здесь будут отображены объекты слоёв в выделенной области", "noFeatureSelected": "Не выбрано ни одного объекта слоя", "chooseFeature": "Выберите объект слоя", "listInfo": "Список отфильтрован по выделенной области и отсортирован по номеру проекта", "error_loading": "Не удалось загрузить данные об объектах слоя. Попробуйте снова.", "no_features": "В выделенной области не найдено ни одного объекта.", "priority": "{{level}} приоритет" };
-const reference_area$1 = { "save_as_reference_area": "Сохранить как эталонную область", "error_couldnt_save": "К сожалению, не удалось сохранить вашу эталонную область. Попробуйте снова.", "selected_area_saved_as_reference_area": "Выбранная область сохранена как эталонная область в вашем профиле" };
-const oam_auth$1 = { "login_button": "Войти через Google" };
-const ru_common = {
-  km: km$1,
-  m: m$1,
-  to: to$1,
-  or: or$1,
-  maps: maps$1,
-  logout: logout$1,
-  save: save$1,
-  cancel: cancel$1,
-  ok: ok$1,
-  create: create$1,
-  disasters: disasters$1,
-  loading: loading$1,
-  preparing_data: preparing_data$1,
-  loading_events: loading_events$1,
-  legend: legend$1,
-  mcda: mcda$1,
-  vertical_direction: vertical_direction$1,
-  horizontal_direction: horizontal_direction$1,
-  legend_presentation: legend_presentation$1,
-  layers: layers$1,
-  bivariate: bivariate$1,
-  layer: layer$1,
-  toolbar: toolbar$1,
-  locate_me: locate_me$1,
-  layer_actions: layer_actions$1,
-  focus_geometry_layer: focus_geometry_layer$1,
-  feed: feed$1,
-  deselect: deselect$1,
-  spinner_text: spinner_text$1,
-  updated: updated$1,
-  started: started$1,
-  created: created$1,
-  osm_gaps: osm_gaps$1,
-  no_data_received: no_data_received$1,
-  wrong_data_received: wrong_data_received$1,
-  error: error$3,
-  sort_icon: sort_icon$1,
-  configs: configs$1,
-  errors: errors$1,
-  event_list: event_list$1,
-  categories: categories$1,
-  groups: groups$1,
-  modes: modes$1,
-  advanced_analytics_data_list: advanced_analytics_data_list$1,
-  profile: profile$1,
-  multivariate: multivariate$1,
-  map_popup: map_popup$1,
-  search: search$1,
-  episode: episode$1,
-  create_layer: create_layer$1,
-  analytics_panel: analytics_panel$1,
-  advanced_analytics_panel: advanced_analytics_panel$1,
-  advanced_analytics_empty: advanced_analytics_empty$1,
-  current_event: current_event$1,
-  llm_analytics: llm_analytics$1,
-  draw_tools: draw_tools$1,
-  boundary_selector: boundary_selector$1,
-  geometry_uploader: geometry_uploader$1,
-  focus_geometry: focus_geometry$1,
-  reference_area_layer: reference_area_layer$1,
-  drawings: drawings$1,
-  sidebar: sidebar$1,
-  login: login$1,
-  currency: currency$1,
-  subscription: subscription$1,
-  reports: reports$1,
-  loading_episodes: loading_episodes$1,
-  zoom_to_world: zoom_to_world$1,
-  cookie_banner: cookie_banner$1,
-  live_sensor: live_sensor$1,
-  layer_features_panel: layer_features_panel$1,
-  reference_area: reference_area$1,
-  oam_auth: oam_auth$1
-};
-const km = "公里";
-const m = "米";
-const to = "到";
-const or = "或";
-const maps = "地图";
-const logout = "登出";
-const save = "保存";
-const cancel = "取消";
-const ok = "确定";
-const create = "创建";
-const disasters = "灾害";
-const loading = "加载中...";
-const preparing_data = "准备数据中";
-const loading_events = "加载灾害信息";
-const legend = "图例";
-const mcda = { "legend_title": "图例", "layer_editor": { "outliers_options": { "hide": "隐藏", "clamp": "截断", "dont_modify": "不修改" }, "save_changes": "保存更改", "range": "值范围", "outliers": "异常值", "reverse_to_good_bad": "反转为 好 → 坏", "reverse_to_bad_good": "反转为 坏 → 好", "weight": "权重", "transform": "转换", "transformation": "转换方式", "normalize": "归一化", "normalization": "归一化处理", "range_buttons": { "full_range": "完整范围", "3_sigma": "3σ", "2_sigma": "2σ", "1_sigma": "1σ" }, "transformations": { "no_transformation": "不转换", "square_root": "平方根：sign(x)⋅√|x|", "cube_root": "立方根：∛x", "log": "log₁₀(x - xmin + 1)", "log_epsilon": "log₁₀(x - xmin + ε)" }, "no": "否", "max_min": "最大-最小", "errors": { "weight_cannot_be_empty": "权重不能为空", "weight_must_be_a_number": "权重必须为有效数字", "range_from_cannot_be_bigger": "“起始值”不能大于“结束值”", "range_cannot_be_empty": "范围不能为空", "range_must_be_a_number": "范围必须为有效数字" }, "tips": { "range": "将被视为分析中最差与最优的值范围。", "sentiment": "定义图层对分析的倾向方向：\n* **坏 → 好**：数值越高表示越积极。\n* **好 → 坏**：数值越高表示越消极。", "weight": "默认所有图层以加权平均方式等同参与分析。您可通过设置权重 (如 2、3) 来提高某个图层在分析中的重要性。", "transform": "对值应用计算，以实现更线性的分布，从而获得更有效的分析信息。\n\n**注意**：计算在归一化之前执行。", "normalize": "将数值调整为标准化范围，便于比较与决策。\n* **标准化缩放**：将数值调整到统一比例。\n* **否（仅供专家）**：保留原始值。", "outliers": "* **截断**：超出范围的值设为 1，低于范围的值设为 0。\n* **不修改**：保留最小值为 0，最大值为 1，允许存在异常值。\n* **排除**：排除值超出范围的区域。" } }, "title": "多标准决策分析", "modal_title": "多标准决策分析", "name": "创建分析", "modal_input_name": "分析名称", "modal_input_name_placeholder": "例如：气候变化", "modal_input_indicators": "图层列表", "modal_input_indicators_placeholder": "选择图层", "modal_input_indicators_no_options": "无可选项", "btn_save": "保存分析", "error_analysis_name_cannot_be_empty": "分析名称不能为空", "error_invalid_parameter": "无效的参数 '{{parameter}}'", "error_invalid_layer_parameter": "图层 '{{axisName}}' 中的参数 '{{parameter}}' 无效", "legend_subtitle": "六边形根据图层设置着色。点击六边形可查看对应值。", "bad": "坏", "good": "好" };
-const vertical_direction = "垂直方向";
-const horizontal_direction = "水平方向";
-const legend_presentation = "图例显示方式";
-const layers = "图层";
-const bivariate = { "color_manager": { "layers_filter": "图层", "not_defined": "未定义", "sentiments_combinations_filter": "倾向性设置", "no_legends": "没有符合条件的图例。", "no_data": "无数据", "sentiments_tab": "倾向性", "color_legends_tab": "颜色图例", "layers_tab": "图层（指标）" }, "panel": { "header": "双变量矩阵" }, "matrix": { "caption": { "base_axis": "基础轴", "annex_axis": "附属轴", "tooltip": { "p1": "涉及基础轴和附属轴的图表有助于建立两个数据集之间的关系。", "li1": "附属轴 - 我们要分析的参数", "li2": "基础轴 - 分析中的参考点", "b": "例如：开设咖啡馆的最佳地点", "p2": "我们可以探讨餐饮场所数量（附属轴）与人口密度（基础轴）之间的关系。", "p3": "在这种情况下，我们首先关注较少的餐饮场所数量，该地的人口数量为我们提供了更多信息。" } }, "header": { "title": "选择两个图层以探索相关性", "hint": "图层和相关性显示于当前所选区域" }, "icon": { "population": "数值除以人口", "area_km2": "数值除以面积", "total_building_count": "数值除以估算的建筑总数", "populated_area_km2": "数值除以有人口的面积", "one": "不使用除数", "roads": "数值除以道路总长度" }, "progress": { "rendering": "渲染中", "applied": "已应用于地图" }, "loading_error": "很抱歉，我们无法显示矩阵。请尝试刷新页面或稍后重试。" }, "legend": { "high": "高", "low": "低", "medium": "中" } };
-const layer = "图层";
-const toolbar = { "map_ruler": "测量距离", "locate_me": "定位我", "panel_title": "工具栏", "download": "下载", "delete": "删除", "boundary_selector": "选择行政边界", "create_layer": "创建图层", "geometry_uploader": "上传 GeoJSON", "focused_geometry_editor": "绘制或编辑几何图形", "edit_in_osm": "在 OSM 中编辑地图", "record_sensors": "记录传感器", "tools_label": "工具", "selected_area_label": "选定区域" };
-const locate_me = { "feature_title": "定位我", "get_location_error": "获取位置时出错" };
-const layer_actions = { "tooltips": { "download": "下载", "delete": "删除", "erase": "擦除", "edit": "编辑", "hide": "隐藏", "show": "显示" } };
-const focus_geometry_layer = { "settings": { "name": "选定区域" } };
-const feed = "信息流";
-const deselect = "取消选择";
-const spinner_text = "收集数据中";
-const updated = "已更新";
-const started = "已开始";
-const created = "已创建";
-const osm_gaps = "OSM 缺口";
-const no_data_received = "未收到数据";
-const wrong_data_received = "收到错误数据";
-const error$2 = "错误";
-const sort_icon = "排序图标";
-const configs = { "Kontur_public_feed": "Kontur 公共数据源", "Kontur_public_feed_description": "该数据源包含有关气旋、干旱、地震、洪水、火山、野火的实时数据。" };
-const errors = { "default": "抱歉，我们遇到了一些问题，很快会修复", "timeout": "请求超时", "cannot_connect": "无法连接服务器", "forbidden": "禁止访问", "not_found": "未找到", "unknown": "未知", "server_error": "服务器错误", "error_try_again": "出现错误，请重试" };
-const event_list = { "severity_unknown": "未知", "warning_title": "无法按地图视图筛选", "warning_description": "地图尚未加载完成，请稍后再试", "bbox_filter_button": "按地图视图筛选", "analytics": { "affected_people": { "tooltip": "受影响人数", "value": "无人道影响" }, "settled_area_tooltip": "已定居区域", "loss_tooltip": "估计损失" }, "no_event_in_feed": "当前灾害列表中未找到该灾害", "no_selected_disaster": "未选择灾害", "chose_disaster": "选择灾害", "no_historical_disasters": "该区域没有历史灾害", "no_feed_disasters": "此源中无灾害", "no_feed_disasters_matching_your_filters": "没有符合筛选条件的灾害", "no_disasters": "无灾害", "severity_termination": "结束", "severity_minor": "轻微", "severity_moderate": "中等", "severity_severe": "严重", "severity_extreme": "极端", "open_timeline_button": "时间线" };
-const categories = { "overlays": "叠加图层", "basemap": "底图" };
-const groups = { "layers_in_selected_area": "所选区域的图层", "your_layers": "您的图层", "kontur_analytics": "Kontur 分析", "qa": "OpenStreetMap 检查工具", "osmbasedmap": "基于 OpenStreetMap", "other": "其他", "elevation": "海拔", "photo": "影像图", "map": "地图" };
-const modes = { "map": "地图", "about": "关于", "cookies": "Cookie", "reports": "报告", "report": "报告", "profile": "个人资料", "privacy": "隐私", "terms": "条款", "user_guide": "用户指南", "external": { "upload_imagery": "上传图像", "imagery_catalog": "图像目录" } };
-const advanced_analytics_data_list = { "load_world_data": "加载全球数据", "numerator": "分子", "normalized_by": "归一化方式", "sum": "总和", "min": "最小值", "max": "最大值", "mean": "平均值", "stddev": "标准差", "median": "中位数", "filter_numerator": "筛选分子", "filter_denominator": "筛选分母" };
-const search = { "mcda_create_analysis": "创建分析", "search_location": "搜索地点", "info_block": "你可以搜索 📍 位置", "info_block_with_mcda": "你可以搜索 📍 地点，或向 ✨ AI 提问，例如“哪里有枯木”", "input_placeholder": "搜索", "input_placeholder_mcda": "搜索或向 AI 提问", "locations_no_result": "未找到位置", "mcda_loading_message": "AI 正在为你生成分析", "mcda_no_result": "无 AI 建议", "mcda_error_message": "AI 引擎未响应，请稍后重试", "upload_analysis": "“{{name}}” 多标准决策分析已创建" };
-const profile = { "saveButton": "保存更改", "reference_area": { "title": "参考区域", "freehand_geometry": "手绘几何", "to_replace_reference_area": "你可以在地图上重新定义参考区域。选择一个区域并点击工具栏上的“保存为参考区域”。\n", "description": "将你熟悉的区域保存为参考，我们将其用作基准来比较其他区域并说明差异。", "set_the_reference_area": "在地图上设置区域", "accessing_location": "正在获取你的位置", "accessing_location_error": "出错了。请尝试其他方式。", "select_location": "选择我的当前位置", "notification": "你的参考区域 {{name}} 已保存" }, "email": "电子邮件", "interfaceTheme": "主题", "interfaceLanguage": "语言", "units": "单位", "fullName": "全名", "metric": "公制", "imperialBeta": "英制（测试版）", "profileSettingsHeader": "个性化您的体验", "your_current_job": "您目前的工作", "area_of_expertise": "专业领域", "challenges": "挑战", "personalization_prompt": "为实现更好的个性化，请提供以下详细信息：", "ai_tools_compatibility": "此信息可兼容 AI 工具", "improves_analysis": "提升分析效果", "bio_placeholder": "简介", "bio_textarea_placeholder": "例如：拥有 5 年以上灾害风险分析经验的 GIS 专家，专注于城市韧性。", "analysis_objectives": "分析目标", "objectives_textarea_placeholder": "例如：聚焦气候韧性的城市规划分析。目前的挑战是改进洪水风险图绘制。", "appSettingsHeader": "设置", "your_organization": "您的公司", "your_contacts": "您的联系方式", "organization_name": "公司名称", "position": "职位", "gis_specialists": "您团队中的 GIS 专家", "phone_number": "带国家代码的电话号码", "linkedin": "LinkedIn 个人资料", "konturTheme": "Kontur", "HOTTheme": "HOT", "defaultDisasterFeed": "默认灾害数据源", "defaultOSMeditor": "默认 OpenStreetMap 编辑器（测试版）", "successNotification": "所有更改已成功应用", "dont_know": "我不知道", "languageOption": { "en": "英语", "es": "西班牙语", "ar": "阿拉伯语", "ko": "韩语", "id": "印尼语", "de": "德语", "be": "白俄罗斯语", "ru": "俄语", "uk": "乌克兰语", "zh": "中文" } };
-const multivariate = { "multivariate_analysis": "多变量分析", "create_analysis_layer": "创建分析图层", "upload_analysis_layer": "上传分析图层", "popup": { "score_header": "评分 {{level}}" }, "score": "评分", "compare": "比较", "hide_area": "隐藏区域", "labels": "标签", "3d": "3D" };
-const map_popup = { "value": "数值", "range": "范围", "coefficient": "系数", "normalized_value": "归一化值" };
-const episode = "时间线";
-const create_layer = { "save_and_draw": "保存并绘制", "edit_layer": "编辑图层", "edit_features": "编辑要素", "delete_layer": "删除图层", "create_layer": "创建图层", "saving_layer": "正在保存图层...", "field_name": "字段名称", "layer_name": "图层名称", "marker_icon": "标记图标", "type": "类型", "select": "选择", "short_text": "短文本", "long_text": "长文本", "link": "链接", "image": "图像", "fields": "字段", "add_field": "添加字段", "location": "位置", "edit_feature_placeholder": "选择要素以开始编辑属性" };
-const analytics_panel = { "header_title": "分析", "error_loading": "获取选定区域数据失败，可能区域过大。", "info_short": "计算基于所选区域" };
-const advanced_analytics_panel = { "header_title": "高级分析", "error": "获取高级分析数据时出错" };
-const advanced_analytics_empty = { "not_found": "抱歉，未找到请求的灾害", "error": "发生错误", "analytics_for_selected": "所选区域的分析", "will_be_provided": "将在此提供", "no_analytics": "所选区域没有分析" };
-const current_event = { "not_found_request": "抱歉，未找到请求的灾害" };
-const llm_analytics = { "header": "AI 洞察", "placeholder": { "select_area": "选择要探索的区域（<icon1 />,<icon2 />,<icon3 />）以获取 AI 洞察。", "you_can_also": "你也可以：", "fill_bio": "<icon /> <lnk>填写分析目标</lnk> 以个性化 AI 分析", "select_and_save_as_reference_area": "<icon /> 选择一个区域并保存为参考，以与其他区域进行比较", "learn_more": "<lnk><icon/> 了解更多关于 AI 洞察的信息</lnk>" } };
-const draw_tools = { "area": "多边形", "line": "线条", "point": "点", "finish_drawing": "完成绘制", "caption": "点击地图开始绘制", "no_geometry_error": "没有可下载的绘图几何体", "overlap_error": "多边形不应自重叠" };
-const boundary_selector = { "title": "聚焦至行政边界" };
-const geometry_uploader = { "title": "聚焦至上传的几何体", "error": "读取上传文件时出错" };
-const focus_geometry = { "title": "聚焦至手绘几何体" };
-const reference_area_layer = { "settings": { "name": "参考区域" } };
-const drawings = { "self_directions_not_supported": "不支持自相交" };
-const sidebar = { "biv_color_manager": "颜色管理器", "edit_osm": "在 OpenStreetMap 中编辑", "ruler": "标尺", "collapse": "折叠", "expand": "展开", "icon_alt": "应用程序标志" };
-const login = { "email": "电子邮件", "password": "密码", "login_button": "登录", "sign_up": "注册", "logging_in": "正在登录...", "log_in": "登录", "forgot_password": "忘记密码？", "description": "请登录以更改您的设置", "error": { "email_empty": "电子邮件不能为空", "email_invalid": "电子邮件必须有效", "password": "密码不能为空", "connect": "无法连接到身份验证服务" } };
-const currency = { "usd": "USD" };
-const subscription = { "title": "套餐与价格", "price_summary": "* 每年一次性计费 ${{pricePerYear}} 美元", "unauthorized_button": "登录以订阅", "current_plan_button": "当前套餐", "sales_button": "联系销售", "book_demo_button": "预约演示", "request_trial_button": "申请试用", "errors": { "payment_initialization": "初始化付款时出错。请重试或联系客服" }, "success_modal": { "title": "成功", "thank_you_for_subscribing": "感谢您订阅我们的平台！", "after_the_page_refreshes": "页面刷新后，您可以开始使用 Kontur Atlas" } };
-const reports = { "title": "Disaster Ninja报告", "no_data": "该报告暂无数据", "sorting": "正在排序数据...", "loading": "正在加载数据", "open_josm": "通过 JOSM 远程控制打开", "josm_logo_alt": "JOSM 标志", "see_all": "查看所有报告", "wrong_id": "报告 ID 错误", "description": "<0>Kontur </0> 生成多个报告以帮助验证 OpenStreetMap 的质量。报告包含指向 <4>osm.org </4> 区域的链接，以及可在启用远程控制的 JOSM 编辑器中打开的链接。" };
-const loading_episodes = "正在加载内容";
-const zoom_to_world = "缩放至全世界";
-const cookie_banner = { "header": "我们重视您的隐私", "body": "我们使用必要的 cookie 来提供个性化服务，也使用可选 cookie 来改善 {{appName}} 和你的体验。你可以随时管理 cookie 设置或撤回对可选 cookie 的同意。\n更多信息请查看我们的 [隐私政策](about/privacy)", "decline_all": "拒绝可选 cookie", "accept_all": "接受可选 cookie" };
-const live_sensor = { "start": "开始传感器记录", "finish": "停止传感器记录", "finishMessage": "记录已完成", "startMessage": "记录已开始", "noSensorsError": "你的设备没有所需的传感器" };
-const layer_features_panel = { "empty": "所选区域的图层特征将显示在此处", "noFeatureSelected": "未选择图层特征", "chooseFeature": "选择图层特征", "listInfo": "列表按所选区域筛选，并按项目编号排序", "error_loading": "加载图层特征数据失败。请重试。", "no_features": "所选区域未发现特征。", "priority": "{{level}} 优先" };
-const reference_area = { "save_as_reference_area": "保存为参考区域", "error_couldnt_save": "很遗憾，无法保存你的参考区域。请重试。", "selected_area_saved_as_reference_area": "所选区域已保存为你个人资料中的参考区域" };
-const oam_auth = { "login_button": "使用 Google 登录" };
-const zh_common = {
-  km,
-  m,
-  to,
-  or,
-  maps,
-  logout,
-  save,
-  cancel,
-  ok,
-  create,
-  disasters,
-  loading,
-  preparing_data,
-  loading_events,
-  legend,
-  mcda,
-  vertical_direction,
-  horizontal_direction,
-  legend_presentation,
-  layers,
-  bivariate,
-  layer,
-  toolbar,
-  locate_me,
-  layer_actions,
-  focus_geometry_layer,
-  feed,
-  deselect,
-  spinner_text,
-  updated,
-  started,
-  created,
-  osm_gaps,
-  no_data_received,
-  wrong_data_received,
-  error: error$2,
-  sort_icon,
-  configs,
-  errors,
-  event_list,
-  categories,
-  groups,
-  modes,
-  advanced_analytics_data_list,
-  search,
-  profile,
-  multivariate,
-  map_popup,
-  episode,
-  create_layer,
-  analytics_panel,
-  advanced_analytics_panel,
-  advanced_analytics_empty,
-  current_event,
-  llm_analytics,
-  draw_tools,
-  boundary_selector,
-  geometry_uploader,
-  focus_geometry,
-  reference_area_layer,
-  drawings,
-  sidebar,
-  login,
-  currency,
-  subscription,
-  reports,
-  loading_episodes,
-  zoom_to_world,
-  cookie_banner,
-  live_sensor,
-  layer_features_panel,
-  reference_area,
-  oam_auth
-};
-const I18N_FALLBACK_LANGUAGE = "en";
-const languageResources = {
-  en: { common: en_common },
-  es: { common: es_common },
-  ar: { common: ar_common },
-  ko: { common: ko_common },
-  id: { common: id_common },
-  de: { common: de_common },
-  uk: { common: uk_common },
-  be: { common: be_common },
-  ru: { common: ru_common },
-  zh: { common: zh_common }
-};
-instance.use(Browser).use(initReactI18next).init({
-  fallbackLng: I18N_FALLBACK_LANGUAGE,
-  debug: false,
-  defaultNS: "common",
-  interpolation: {
-    escapeValue: false
-  },
-  contextSeparator: ":",
-  pluralSeparator: ":",
-  resources: {
-    ...languageResources
-  }
-});
-const TranslationService = {
-  t: (key, options) => {
-    const translation = instance.t(key, options);
-    if (typeof translation === "string") return translation;
-    if ((options == null ? void 0 : options.returnObjects) && typeof translation === "object") {
-      return translation;
-    }
-    console.error(`Not supported translation result for key: ${key}`);
-    return key;
-  },
-  getSupportedLanguage: (preferredLanguages, fallbackLanguage) => {
-    for (const langCode of preferredLanguages) {
-      try {
-        const language2 = new Intl.Locale(langCode).language;
-        if (language2 in languageResources) {
-          return language2;
-        }
-      } catch {
-        console.error("Couldn't parse language code:", langCode);
-      }
-    }
-    if (!(fallbackLanguage in languageResources)) {
-      console.error(`Provided fallback language (${fallbackLanguage}) isn't supported`);
-    }
-    return fallbackLanguage;
-  },
-  instance
-};
-function getAsset(asset, abortController) {
-  const endpoint = `/apps/${configRepo.get().id}/assets`;
-  return apiClient.get(`${endpoint}/${asset}`, void 0, {
-    headers: { "user-language": TranslationService.instance.language },
-    signal: void 0
-  });
-}
-const PagesDocumentElementRenderers = {
-  css: CssElement,
-  md: MarkdownElement
-};
-function fetchPagesDocument(doc) {
-  return Promise.all(
-    doc.map(async (element) => {
-      if (element.url) {
-        try {
-          const res = await getAsset(element.url);
-          return { ...element, data: res };
-        } catch (error2) {
-          console.error(`Failed to load asset from ${element.url}:`, error2);
-        }
-      }
-      return { ...element, data: element.data || "" };
-    })
-  );
-}
-function CssElement({ data }) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: data });
-}
-function MarkdownElement({ data }) {
-  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "app-pages-element-markdown", children: /* @__PURE__ */ jsxRuntimeExports.jsx(StructuredMarkdownContent, { content: data }) });
-}
-function PagesDocument({
-  doc,
-  wrapperComponent: Wrapper = Article,
-  id
-}) {
-  const data = usePromise(fetchPagesDocument, [doc]);
-  return /* @__PURE__ */ jsxRuntimeExports.jsx(Wrapper, { id: `app-pages-docid-${id}`, children: data.map((element, index2) => {
-    const Renderer = PagesDocumentElementRenderers[element.type];
-    return /* @__PURE__ */ jsxRuntimeExports.jsx(Renderer, { ...element }, index2);
-  }) });
-}
-console.info("test app id", configRepo.get().id);
-const PagesDocument_fixture = {
-  "PagesDocument with custom css": /* @__PURE__ */ jsxRuntimeExports.jsx(
-    PagesDocument,
-    {
-      id: "",
-      doc: [
-        {
-          type: "md",
-          data: `
-#Kontur Atlas
-Atlas is your GPS for big decisions. It's a tool that helps you use maps and data to figure out a wide range of things, from where to open a new store to exploring environmental sustainability.
-`
-        },
-        {
-          type: "css",
-          data: `
-h1 { background-color: #f2f2f2; }
-p { background-color: #BF6C3F; }
-`
-        }
-      ]
-    }
-  ),
-  "Links test": /* @__PURE__ */ jsxRuntimeExports.jsx(
-    PagesDocument,
-    {
-      id: "",
-      doc: [
-        {
-          type: "md",
-          data: `
-[Link](https://example.com)
-
-Controller using this email: [hello@kontur.io](mailto:hello@kontur.io) or contact address.
-
-Controller using this email: <hello@kontur.io> or contact address.
-
-hello@kontur.io
-
-kancelaria@uodo.gov.pl
-
-ng: <kancelaria@uodo.gov.pl>
-
-http://www.youronlinechoices.com/
-
-ng: <http://www.youronlinechoices.com/>
-`
-        }
-      ]
-    }
-  ),
-  "PagesDocument markdown sample": /* @__PURE__ */ jsxRuntimeExports.jsx(
-    PagesDocument,
-    {
-      id: "",
-      doc: [
-        {
-          type: "md",
-          data: _md
-        },
-        {
-          type: "css",
-          data: _css
-        }
-      ]
-    }
-  )
-};
-const fixture0 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
-  __proto__: null,
-  default: PagesDocument_fixture
-}, Symbol.toStringTag, { value: "Module" }));
-function r(e) {
+function r$1(e) {
   var t2, f2, n2 = "";
   if ("string" == typeof e || "number" == typeof e) n2 += e;
   else if ("object" == typeof e) if (Array.isArray(e)) {
     var o2 = e.length;
-    for (t2 = 0; t2 < o2; t2++) e[t2] && (f2 = r(e[t2])) && (n2 && (n2 += " "), n2 += f2);
+    for (t2 = 0; t2 < o2; t2++) e[t2] && (f2 = r$1(e[t2])) && (n2 && (n2 += " "), n2 += f2);
   } else for (f2 in e) e[f2] && (n2 && (n2 += " "), n2 += f2);
   return n2;
 }
 function clsx() {
-  for (var e, t2, f2 = 0, n2 = "", o2 = arguments.length; f2 < o2; f2++) (e = arguments[f2]) && (t2 = r(e)) && (n2 && (n2 += " "), n2 += t2);
+  for (var e, t2, f2 = 0, n2 = "", o2 = arguments.length; f2 < o2; f2++) (e = arguments[f2]) && (t2 = r$1(e)) && (n2 && (n2 += " "), n2 += t2);
   return n2;
 }
 const SearchIcon = reactExports.memo((props) => jsxRuntimeExports.jsxs("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "none", ...props, children: [jsxRuntimeExports.jsx("path", { d: "M14 14L18 18", stroke: "currentColor", strokeWidth: "2", strokeLinecap: "round" }), jsxRuntimeExports.jsx("circle", { cx: "10", cy: "10", r: "5", stroke: "currentColor", strokeWidth: "2" })] }));
@@ -8301,7 +1374,7 @@ const iconAfter = "_iconAfter_1231j_156";
 const primary = "_primary_1231j_163";
 const active = "_active_1231j_174";
 const invert = "_invert_1231j_180";
-const s$i = {
+const s$j = {
   button,
   buttonDark,
   buttonInner,
@@ -8322,13 +1395,13 @@ const s$i = {
 const Button = reactExports.forwardRef(({ children, className, active: active2, variant = "primary", size = "medium", dark = false, iconBefore: iconBefore2, iconAfter: iconAfter2, ...props }, ref) => {
   const hasContent = reactExports.Children.count(children) > 0;
   const hasIcon = iconBefore2 || iconAfter2;
-  return jsxRuntimeExports.jsx("button", { ref, className: clsx(s$i.button, {
-    [s$i.buttonDark]: dark
-  }, s$i[variant], s$i[size], {
-    [s$i.active]: active2,
-    [s$i.withContent]: hasContent,
-    [s$i.withIcon]: hasIcon
-  }, className), ...props, children: jsxRuntimeExports.jsxs("div", { className: clsx(s$i.buttonInner), children: [iconBefore2 && jsxRuntimeExports.jsx("div", { className: s$i.iconBefore, children: iconBefore2 }), hasContent && jsxRuntimeExports.jsx("span", { className: s$i.buttonContent, children }), iconAfter2 && jsxRuntimeExports.jsx("div", { className: s$i.iconAfter, children: iconAfter2 })] }) });
+  return jsxRuntimeExports.jsx("button", { ref, className: clsx(s$j.button, {
+    [s$j.buttonDark]: dark
+  }, s$j[variant], s$j[size], {
+    [s$j.active]: active2,
+    [s$j.withContent]: hasContent,
+    [s$j.withIcon]: hasIcon
+  }, className), ...props, children: jsxRuntimeExports.jsxs("div", { className: clsx(s$j.buttonInner), children: [iconBefore2 && jsxRuntimeExports.jsx("div", { className: s$j.iconBefore, children: iconBefore2 }), hasContent && jsxRuntimeExports.jsx("span", { className: s$j.buttonContent, children }), iconAfter2 && jsxRuntimeExports.jsx("div", { className: s$j.iconAfter, children: iconAfter2 })] }) });
 });
 Button.displayName = "Button";
 var reactDomExports = requireReactDom();
@@ -9688,9 +2761,9 @@ const computePosition = (reference, floating, options) => {
   });
 };
 var isClient$1 = typeof document !== "undefined";
-var noop$1 = function noop() {
+var noop$3 = function noop() {
 };
-var index$1 = isClient$1 ? reactExports.useLayoutEffect : noop$1;
+var index$1 = isClient$1 ? reactExports.useLayoutEffect : noop$3;
 function deepEqual(a2, b2) {
   if (a2 === b2) {
     return true;
@@ -10441,9 +3514,9 @@ function isMouseLikePointerType(pointerType, strict) {
   return values.includes(pointerType);
 }
 var isClient = typeof document !== "undefined";
-var noop2 = function noop22() {
+var noop$2 = function noop2() {
 };
-var index = isClient ? reactExports.useLayoutEffect : noop2;
+var index = isClient ? reactExports.useLayoutEffect : noop$2;
 const SafeReact$1 = {
   ...React$1
 };
@@ -12673,6 +5746,6448 @@ function Legend({ cells: cells2, size, axis: axis2, title: title2, showAxisLabel
     gridTemplateRows: `repeat(${size + 2}, auto)`
   }, children: [showAxisLabels && axis2.x.label ? xAxisLabel() : null, showAxisLabels && axis2.y.label ? yAxisLabel() : null, jsxRuntimeExports.jsx("div", { className: styles$1.arrowX, children: showArrowHeads && jsxRuntimeExports.jsx(ArrowHead, { type: "horizontal", className: styles$1.arrowHeadX }) }), jsxRuntimeExports.jsx("div", { className: styles$1.arrowY, children: showArrowHeads && jsxRuntimeExports.jsx(ArrowHead, { type: "vertical", className: clsx({ [styles$1.arrowHeadY]: true, [styles$1.arrowHeadY_angle0]: !showAxisLabels }) }) }), gridCells.map((cell2) => jsxRuntimeExports.jsx("div", { style: Object.assign(getCellPositionStyle(cell2._position.x, cell2._position.y), cell2.style), className: clsx(cell2.className, styles$1.cell), onPointerOver: cell2.onPointerOver, onPointerLeave: cell2.onPointerLeave, children: cell2.label }, `${cell2._position.x}|${cell2._position.y}`))] })] });
 }
+const NAVIGATE_EVENT = "KNT_NAVIGATE_TO";
+const goTo = (slug) => {
+  const evt = new CustomEvent(NAVIGATE_EVENT, { detail: { payload: slug } });
+  globalThis.dispatchEvent(evt);
+};
+const impossibleValue = Symbol(), callSafely = function(fn) {
+  try {
+    return fn(...[].slice.call(arguments, 1));
+  } catch (err) {
+    return setTimeout(() => {
+      throw err;
+    }), err instanceof Error ? err : err = new Error(err);
+  }
+};
+function throwReatomError(condition, message) {
+  if (condition) throw new Error(`Reatom error: ${message}`);
+}
+const isAtom$1 = (thing) => void 0 !== (thing == null ? void 0 : thing.__reatom), isConnected$1 = (cache) => cache.subs.size + cache.listeners.size > 0;
+function assertFunction(thing) {
+  throwReatomError("function" != typeof thing, `invalid "${typeof thing}", function expected`);
+}
+const getRootCause$2 = (cause) => null === cause.cause ? cause : getRootCause$2(cause.cause), isBrowser = () => "object" == typeof window && "object" == typeof document;
+let CTX, initiations = 0;
+const createCtx = ({ callLateEffect = callSafely, callNearEffect = callSafely, restrictMultipleContexts = isBrowser() } = {}) => {
+  restrictMultipleContexts && 1 == initiations++ && console.warn("Reatom: multiple contexts detected, which is irrelevant in browser, you should use only one context");
+  let caches = /* @__PURE__ */ new WeakMap(), read = (proto) => caches.get(proto), logsListeners = /* @__PURE__ */ new Set(), nearEffects = [], lateEffects = [], inTr = false, trError = null, trUpdates = [], trRollbacks = [], trLogs = [], trNearEffectsStart = 0, trLateEffectsStart = 0, effectsProcessing = false, walkNearEffects = () => {
+    for (let effect of nearEffects) callNearEffect(effect, ctx);
+    nearEffects = [];
+  }, walkLateEffects = () => {
+    if (!effectsProcessing) {
+      effectsProcessing = true, walkNearEffects();
+      for (let effect of lateEffects) callLateEffect(effect, ctx), nearEffects.length > 0 && walkNearEffects();
+      lateEffects = [], effectsProcessing = false;
+    }
+  }, addPatch = ({ state, proto, pubs, subs, listeners }, cause) => (proto.actual = false, trLogs.push(proto.patch = { state, proto, cause, pubs, subs, listeners }), proto.patch), enqueueComputers = (cache) => {
+    for (let subProto of cache.subs) {
+      let subCache = subProto.patch ?? read(subProto);
+      subProto.patch && !subProto.actual || 0 === addPatch(subCache, cache).listeners.size && enqueueComputers(subCache);
+    }
+  }, disconnect = (proto, pubPatch) => {
+    if (pubPatch.subs.delete(proto) && (trRollbacks.push(() => pubPatch.subs.add(proto)), !isConnected$1(pubPatch))) {
+      null !== pubPatch.proto.disconnectHooks && nearEffects.push(...pubPatch.proto.disconnectHooks);
+      for (let parentParent of pubPatch.pubs) disconnect(pubPatch.proto, parentParent);
+    }
+  }, connect = (proto, pubPatch) => {
+    if (!pubPatch.subs.has(proto)) {
+      let wasConnected = isConnected$1(pubPatch);
+      if (pubPatch.subs.add(proto), trRollbacks.push(() => pubPatch.subs.delete(proto)), !wasConnected) {
+        null !== pubPatch.proto.connectHooks && nearEffects.push(...pubPatch.proto.connectHooks);
+        for (let parentParentPatch of (pubPatch.proto.patch ?? read(pubPatch.proto)).pubs) connect(pubPatch.proto, parentParentPatch);
+      }
+    }
+  }, actualize = (ctx2, proto, updater) => {
+    let { patch, actual } = proto, updating = void 0 !== updater;
+    if (!updating && actual && (0 === patch.pubs.length || isConnected$1(patch))) return patch;
+    let cache = patch ?? read(proto), isInt = !cache, cause = updating ? ctx2.cause : read(__root);
+    if (isInt) cache = { state: proto.initState(ctx2), proto, cause, pubs: [], subs: /* @__PURE__ */ new Set(), listeners: /* @__PURE__ */ new Set() }, updating && trLogs.push(cache);
+    else if (null === proto.computer && !updating) return cache;
+    patch && !actual || (patch = addPatch(cache, cause));
+    let { state } = patch, patchCtx = { get: ctx2.get, spy: void 0, schedule: ctx2.schedule, subscribe: ctx2.subscribe, cause: patch };
+    try {
+      proto.computer && ((patchCtx2, patch2) => {
+        let { proto: proto2, pubs } = patch2, isDepsChanged = false;
+        if (0 === pubs.length || pubs.some(({ proto: proto3, state: state2 }) => !Object.is(state2, (patch2.cause = actualize(patchCtx2, proto3)).state))) {
+          let newPubs = [];
+          if (patchCtx2.spy = ({ __reatom: depProto }, cb) => {
+            let depPatch = actualize(patchCtx2, depProto), prevDepPatch = newPubs.push(depPatch) <= pubs.length ? pubs[newPubs.length - 1] : void 0, isDepChanged = (prevDepPatch == null ? void 0 : prevDepPatch.proto) !== depPatch.proto;
+            isDepsChanged || (isDepsChanged = isDepChanged);
+            let state2 = depProto.isAction && !isDepChanged ? depPatch.state.slice(prevDepPatch.state.length) : depPatch.state;
+            if (!cb || !isDepChanged && Object.is(state2, prevDepPatch.state)) return state2;
+            if (depProto.isAction) for (const call of state2) cb(call);
+            else cb(state2, isDepChanged ? void 0 : prevDepPatch == null ? void 0 : prevDepPatch.state);
+          }, patch2.state = patch2.proto.computer(patchCtx2, patch2.state), patch2.pubs = newPubs, (isDepsChanged || pubs.length > newPubs.length) && isConnected$1(patch2)) {
+            for (let { proto: depProto } of pubs) newPubs.every((dep) => dep.proto !== depProto) && disconnect(proto2, depProto.patch ?? read(depProto));
+            for (let { proto: depProto } of newPubs) pubs.every((dep) => dep.proto !== depProto) && connect(proto2, depProto.patch ?? read(depProto));
+          }
+          patchCtx2.spy = () => throwReatomError(true, "async spy"), patch2 = proto2 = pubs = newPubs = null;
+        }
+      })(patchCtx, patch), updating && (patch.cause = ctx2.cause, updater(patchCtx, patch)), proto.actual = true;
+    } catch (error2) {
+      throw patch.error = error2;
+    }
+    if (!Object.is(state, patch.state) && (patch.subs.size > 0 && (updating || patch.listeners.size > 0) && enqueueComputers(patch), proto.updateHooks)) {
+      let ctx3 = { get: patchCtx.get, spy: void 0, schedule: patchCtx.schedule, subscribe: patchCtx.subscribe, cause: patchCtx.cause };
+      proto.updateHooks.forEach((hook) => trUpdates.push(() => hook(ctx3, patch)));
+    }
+    return patch;
+  }, ctx = { get(atomOrCb) {
+    if (throwReatomError(CTX && getRootCause$2(CTX.cause) !== read(__root), "cause collision"), isAtom$1(atomOrCb)) {
+      let proto = atomOrCb.__reatom;
+      if (inTr) return actualize(this, proto).state;
+      let cache = read(proto);
+      return void 0 === cache || null !== proto.computer && !isConnected$1(cache) ? this.get(() => actualize(this, proto).state) : cache.state;
+    }
+    if (throwReatomError(null !== trError, "tr failed"), inTr) return atomOrCb(read, actualize);
+    inTr = true, trNearEffectsStart = nearEffects.length, trLateEffectsStart = lateEffects.length;
+    let start = void 0 === CTX;
+    start && (CTX = this);
+    try {
+      var result = atomOrCb(read, actualize);
+      for (let i2 = 0; i2 < trLogs.length; i2++) {
+        let { listeners, proto } = trLogs[i2];
+        if (listeners.size > 0 && actualize(this, proto), trUpdates.length > 0) for (let commit of trUpdates.splice(0)) commit(this);
+      }
+      if (trLogs.length) for (let log of logsListeners) log(trLogs);
+      for (let patch of trLogs) {
+        let { proto, state } = patch;
+        if (proto.isAction && (patch.state = []), patch === proto.patch) if (proto.patch = null, proto.actual = false, caches.set(proto, patch), proto.isAction) {
+          if (0 === state.length) continue;
+          for (let cb of patch.listeners) nearEffects.push(() => cb(state));
+        } else for (let cb of patch.listeners) lateEffects.push(() => cb(read(proto).state));
+      }
+    } catch (e) {
+      trError = e = e instanceof Error ? e : new Error(String(e));
+      for (let log of logsListeners) log(trLogs, e);
+      for (let cb of trRollbacks) callSafely(cb, e);
+      for (let { proto } of trLogs) proto.patch = null, proto.actual = false;
+      throw nearEffects.length = trNearEffectsStart, lateEffects.length = trLateEffectsStart, e;
+    } finally {
+      inTr = false, trError = null, trUpdates = [], trRollbacks = [], trLogs = [], trNearEffectsStart = 0, trLateEffectsStart = 0, start && (CTX = void 0);
+    }
+    return walkLateEffects(), result;
+  }, spy: void 0, schedule(cb, step = 1) {
+    return assertFunction(cb), throwReatomError(!this, "missed context"), new Promise((res, rej) => {
+      -1 === step ? inTr && trRollbacks.push(cb) : 0 === step ? inTr && trUpdates.push(() => cb(this)) : ((1 === step ? nearEffects : lateEffects).push(() => {
+        try {
+          let result = cb(this);
+          return result instanceof Promise ? result.then(res, rej) : res(result), result;
+        } catch (error2) {
+          throw rej(error2), error2;
+        }
+      }), inTr || walkLateEffects());
+    });
+  }, subscribe(atom2, cb = atom2) {
+    if (assertFunction(cb), atom2 === cb) return logsListeners.add(cb), () => logsListeners.delete(cb);
+    throwReatomError(!isAtom$1(atom2), "target subscriber isn't an atom");
+    let { __reatom: proto } = atom2, lastState = impossibleValue, listener = (state) => Object.is(lastState, state) || cb(lastState = state), cache = read(proto);
+    return void 0 !== cache && isConnected$1(cache) ? cache.listeners.add(listener) : this.get(() => {
+      cache = actualize(this, proto, (patchCtx, patch) => {
+      }), cache.listeners.add(listener), trRollbacks.push(() => proto.patch.listeners.delete(listener));
+      for (let pubPatch of cache.pubs) connect(proto, pubPatch);
+      null !== proto.connectHooks && nearEffects.push(...proto.connectHooks);
+    }), lastState === impossibleValue && listener((proto.patch ?? read(proto)).state), () => {
+      if (cache.listeners.delete(listener) && !isConnected$1(cache)) {
+        proto.disconnectHooks && nearEffects.push(...proto.disconnectHooks);
+        for (let pubCache of read(proto).pubs) disconnect(proto, pubCache);
+        inTr || (trRollbacks.length = 0, walkLateEffects());
+      }
+    };
+  }, cause: void 0 };
+  return (ctx.cause = ctx.get(() => actualize(ctx, __root))).cause = null, ctx;
+};
+let i$1 = 0, __count = (name) => `${name}#${++i$1}`;
+function pipe() {
+  return [].slice.call(arguments).reduce((acc, fn) => fn(acc), this);
+}
+function onChange(cb) {
+  var _a;
+  const hook = (ctx, patch) => cb(ctx, patch.state);
+  return ((_a = this.__reatom).updateHooks ?? (_a.updateHooks = /* @__PURE__ */ new Set())).add(hook), () => this.__reatom.updateHooks.delete(hook);
+}
+function onCall(cb) {
+  return this.onChange((ctx, state) => {
+    const { params, payload } = state[state.length - 1];
+    cb(ctx, payload, params);
+  });
+}
+function atom(initState, name = __count("_atom")) {
+  let theAtom = (ctx, update) => ctx.get((read, actualize) => actualize(ctx, theAtom.__reatom, (patchCtx, patch) => {
+    patch.state = "function" == typeof update ? update(patch.state, patchCtx) : update;
+  }).state), computer = null;
+  return "function" == typeof initState && (theAtom = {}, computer = initState, initState = void 0), theAtom.__reatom = { name, isAction: false, patch: null, initState: () => initState, computer, connectHooks: null, disconnectHooks: null, updateHooks: null, actual: false }, theAtom.pipe = pipe, theAtom.onChange = onChange, 0 === experimental_PLUGINS.length ? theAtom : theAtom.pipe(...experimental_PLUGINS);
+}
+const action = (fn, name) => {
+  void 0 !== fn && "string" != typeof fn || (name = fn, fn = (ctx, v2) => v2), assertFunction(fn);
+  let actionAtom = atom([], name ?? __count("_action"));
+  return actionAtom.__reatom.isAction = true, actionAtom.__reatom.unstable_fn = fn, Object.assign(function() {
+    var params = [].slice.call(arguments);
+    let state = actionAtom(params[0], (state2, patchCtx) => (params[0] = patchCtx, [...state2, { params: params.slice(1), payload: patchCtx.cause.proto.unstable_fn(...params) }]));
+    return state[state.length - 1].payload;
+  }, actionAtom, { onCall });
+}, experimental_PLUGINS = [], __root = atom(void 0, "root").__reatom;
+function pushUnique(list, el) {
+  list.includes(el) || list.push(el);
+}
+function isString$1(thing) {
+  return "string" == typeof thing;
+}
+function isObject$1(thing) {
+  return "object" == typeof thing && null !== thing;
+}
+function isFunction(thing) {
+  return "function" == typeof thing;
+}
+function isAtom(thing) {
+  return isFunction(thing) && "types" in thing;
+}
+function isActionCreator(thing) {
+  return isFunction(thing) && "type" in thing;
+}
+function isAction(thing) {
+  return isObject$1(thing) && isString$1(thing.type) && "payload" in thing;
+}
+const getRootCause$1 = (cause) => null === cause.cause ? cause : getRootCause$1(cause.cause), spyChange = (ctx, anAtom, handler) => {
+  let isChanged = false;
+  return ctx.spy(anAtom, (newState, prevState) => {
+    isChanged = true, handler == null ? void 0 : handler(newState, prevState);
+  }), isChanged;
+};
+atom(null, "initializations").__reatom.initState = () => /* @__PURE__ */ new WeakMap();
+let atomsCount = 0;
+function createAtom$1(dependencies, reducer, options = {}) {
+  let { v3atom, id = (v3atom == null ? void 0 : v3atom.__reatom.name) ?? "atom" + ++atomsCount, store: store2 = defaultStore } = isString$1(options) ? { id: options } : options;
+  const trackedTypes = [], types = [], actionCreators = {}, externalActions = {};
+  throwReatomError(!isFunction(reducer) || !isString$1(id), "atom arguments"), Object.entries(dependencies).forEach(([name, dep]) => {
+    if (throwReatomError(!isFunction(dep), `Invalid atom dependencies (type ${typeof dep}) at ${name}`), isAtom(dep)) dep.types.forEach((type) => pushUnique(types, type));
+    else {
+      let type;
+      if (isActionCreator(dep)) type = (externalActions[name] = dep).type;
+      else {
+        type = `${name}_${id}`;
+        const actionCreator = function() {
+          return { payload: dep(...[].slice.call(arguments)), type, targets: [atom$1], v3action: actionCreator.v3action };
+        };
+        actionCreator.type = type, actionCreator.dispatch = function() {
+          return store2.dispatch(actionCreator(...[].slice.call(arguments)));
+        }, actionCreator.v3action = action(type), actionCreators[name] = actionCreator, "_" != name[0] && (atom$1[name] = actionCreator);
+      }
+      pushUnique(trackedTypes, type), pushUnique(types, type);
+    }
+  });
+  const cacheReducer = /* @__PURE__ */ function(reducer2, dependencies2, trackedTypes2, actionCreators2, externalActions2) {
+    const create2 = function(name) {
+      return actionCreators2[name](...[].slice.call(arguments, 1));
+    };
+    return (v3ctx, state) => {
+      const rootCause = getRootCause$1(v3ctx.cause);
+      ctxs.has(rootCause) || ctxs.set(rootCause, /* @__PURE__ */ new WeakMap()), ctxs.get(rootCause).has(reducer2) || ctxs.get(rootCause).set(reducer2, {});
+      const ctx = ctxs.get(rootCause).get(reducer2);
+      return reducer2({ create: create2, get: (name) => v3ctx.spy(dependencies2[name].v3atom), getUnlistedState: (targetAtom) => v3ctx.get(targetAtom.v3atom), onAction: (name, reaction) => {
+        const ac = externalActions2[name] ?? actionCreators2[name];
+        throwReatomError(void 0 === ac, "Unknown action"), spyChange(v3ctx, ac.v3action, ({ payload }) => {
+          reaction(payload);
+        });
+      }, onChange: (name, reaction) => {
+        spyChange(v3ctx, dependencies2[name].v3atom, (prev, next) => reaction(prev, next));
+      }, onInit: (cb) => {
+        v3ctx.get((read) => read(v3ctx.cause.proto)) || cb();
+      }, schedule: (effect) => v3ctx.schedule(() => effect(getRootCause$1(v3ctx.cause).v2store.dispatch, ctx, []), 2), v3ctx }, state);
+    };
+  }(reducer, dependencies, 0, actionCreators, externalActions);
+  function atom$1(transaction) {
+    return transaction.v3ctx.get(atom$1.v3atom);
+  }
+  return atom$1.id = id, atom$1.getState = () => store2.getState(atom$1), atom$1.subscribe = (cb) => store2.subscribe(atom$1, cb), atom$1.types = types, (atom$1.v3atom = v3atom ?? atom(cacheReducer, id)).__reatom.v2atom = atom$1, atom$1;
+}
+const ctxs = /* @__PURE__ */ new WeakMap();
+function createStore({ callSafety = callSafely, v3ctx = createCtx({ callNearEffect: callSafety, callLateEffect: callSafety }) } = {}) {
+  const store2 = { dispatch: (action2) => {
+    const actions = Array.isArray(action2) ? action2 : [action2];
+    throwReatomError(0 == actions.length || !actions.every(isAction), "dispatch arguments"), v3ctx.get(() => {
+      actions.forEach((action3) => action3.v3action(v3ctx, action3.payload)), actions.forEach(({ targets }) => targets == null ? void 0 : targets.forEach((target) => v3ctx.get(target.v3atom)));
+    });
+  }, getCache: (atom2) => v3ctx.get((read) => read(atom2.v3atom.__reatom)), getState: (atom2) => v3ctx.get(atom2.v3atom), subscribe: (atom2, cb) => v3ctx.subscribe(atom2.v3atom, (state) => cb(state, [])), v3ctx };
+  return getRootCause$1(v3ctx.cause).v2store = store2, store2;
+}
+const defaultStore = createStore();
+let n = 0;
+function r(r2, c2, o2 = "primitive" + ++n) {
+  c2 ?? (c2 = { set: (e, t2) => t2, change: (e, t2) => t2(e) });
+  let { decorators: u2, ...a2 } = isString$1(o2) ? { id: o2 } : o2;
+  const l2 = createAtom$1(Object.keys(c2).reduce((e, t2) => (e[t2] = function() {
+    return [].slice.call(arguments);
+  }, e), {}), (e, t2 = r2) => {
+    for (const n2 in c2) e.onAction(n2, (e2) => {
+      t2 = c2[n2](t2, ...e2);
+    });
+    return t2;
+  }, a2);
+  return l2;
+}
+let c = 0;
+function o(e = false, t2 = "boolean" + ++c) {
+  return r(e, { toggle: (e2) => !e2, setTrue: () => true, setFalse: () => false, change: (e2, t3) => t3(e2), set: (e2, t3) => t3 }, t2);
+}
+const noop$1 = () => {
+}, isObject = (thing) => "object" == typeof thing && null !== thing, isShallowEqual = (a2, b2, is = Object.is) => {
+  if (Object.is(a2, b2)) return true;
+  if (!isObject(a2) || !isObject(b2) || a2.__proto__ !== b2.__proto__ || a2 instanceof Error) return false;
+  if (Symbol.iterator in a2) {
+    let equal = a2 instanceof Map ? (a3, b3) => is(a3[0], b3[0]) && is(a3[1], b3[1]) : is, aIter = a2[Symbol.iterator](), bIter = b2[Symbol.iterator]();
+    for (; ; ) {
+      let aNext = aIter.next(), bNext = bIter.next();
+      if (aNext.done || bNext.done || !equal(aNext.value, bNext.value)) return aNext.done && bNext.done;
+    }
+  }
+  if (a2 instanceof Date) return a2.getTime() === b2.getTime();
+  if (a2 instanceof RegExp) return String(a2) === String(b2);
+  for (let k2 in a2) if (k2 in b2 == 0 || !is(a2[k2], b2[k2])) return false;
+  return Object.keys(a2).length === Object.keys(b2).length;
+}, isDeepEqual = (a2, b2) => {
+  const visited = /* @__PURE__ */ new WeakMap(), is = (a3, b3) => {
+    if (isObject(a3)) {
+      if (visited.has(a3)) return visited.get(a3) === b3;
+      visited.set(a3, b3);
+    }
+    return isShallowEqual(a3, b3, is);
+  };
+  return isShallowEqual(a2, b2, is);
+}, assign = Object.assign, merge = function() {
+  return Object.assign({}, ...[].slice.call(arguments));
+};
+const { toString } = Object.prototype;
+let i = 0;
+const toAbortError = (reason) => {
+  if (reason instanceof Error == 0 || "AbortError" !== reason.name) {
+    if (reason instanceof Error) {
+      var options = { cause: reason };
+      reason = reason.message;
+    } else reason = isObject(reason) ? toString.call(reason) : String(reason);
+    reason += ` [${++i}]`, "undefined" == typeof DOMException ? (reason = new Error(reason, options)).name = "AbortError" : reason = assign(new DOMException(reason, "AbortError"), options);
+  }
+  return reason;
+}, throwIfAborted = (controller) => {
+  if (controller == null ? void 0 : controller.signal.aborted) throw toAbortError(controller.signal.reason);
+}, isAbort = (thing) => thing instanceof Error && "AbortError" === thing.name, setTimeout$1 = Object.assign(function() {
+  const intervalId = globalThis.setTimeout(...[].slice.call(arguments));
+  return "number" == typeof intervalId ? intervalId : Object.assign(intervalId, { toJSON: () => -1 });
+}, globalThis.setTimeout), MAX_SAFE_TIMEOUT = 2 ** 31 - 1;
+function _catch(body, recover) {
+  try {
+    var result = body();
+  } catch (e) {
+    return recover(e);
+  }
+  return result && result.then ? result.then(void 0, recover) : result;
+}
+class CauseContext extends WeakMap {
+  has(cause) {
+    return super.has(cause) || null !== cause.cause && this.has(cause.cause);
+  }
+  get(cause) {
+    for (; !super.has(cause) && cause.cause; ) cause = cause.cause;
+    return super.get(cause);
+  }
+}
+const abortCauseContext = new CauseContext(), getTopController = (patch) => abortCauseContext.get(patch) ?? null, onCtxAbort = (ctx, cb) => {
+  const controller = getTopController(ctx.cause);
+  if (controller) {
+    const handler = () => cb(toAbortError(controller.signal.reason)), cleanup = () => controller.signal.removeEventListener("abort", handler);
+    if (!controller.signal.aborted) return controller.signal.addEventListener("abort", handler), cleanup;
+    handler();
+  }
+}, CHAINS = /* @__PURE__ */ new WeakMap(), __thenReatomed = (ctx, origin, onFulfill, onReject) => {
+  let chain = CHAINS.get(origin);
+  if (!chain) {
+    const promise = origin.then((value2) => (ctx.get((read, actualize) => chain.then.forEach((cb) => cb(value2, read, actualize))), value2), (error2) => {
+      throw ctx.get((read, actualize) => chain.catch.forEach((cb) => cb(error2, read, actualize))), isAbort(error2) && promise.catch(noop$1), error2;
+    });
+    CHAINS.set(origin, chain = { promise, then: [], catch: [] }), CHAINS.set(promise, chain);
+  }
+  return onFulfill && chain.then.push(onFulfill), onReject && chain.catch.push(onReject), chain.promise;
+}, withAbortableSchedule = (ctx) => {
+  const { schedule } = ctx;
+  return merge(ctx, { schedule(cb, step = 1) {
+    const _this = this;
+    if (step < 1) return schedule.call(this, cb, step);
+    let resolve, reject;
+    const promise = new Promise((res, rej) => {
+      resolve = res, reject = rej;
+    }), unabort = onCtxAbort(this, (error2) => {
+      promise.catch(noop$1), reject(error2);
+    });
+    return schedule.call(this, function(_ctx) {
+      try {
+        let _temp3 = function() {
+          unabort == null ? void 0 : unabort();
+        };
+        const _temp2 = _catch(function() {
+          const controller = getTopController(_this.cause);
+          return throwIfAborted(controller), Promise.resolve(cb(_ctx)).then(function(value2) {
+            throwIfAborted(controller), resolve(value2);
+          });
+        }, function(error2) {
+          reject(error2);
+        });
+        return Promise.resolve(_temp2 && _temp2.then ? _temp2.then(_temp3) : _temp3());
+      } catch (e) {
+        return Promise.reject(e);
+      }
+    }, step).catch((error2) => {
+      reject(error2), unabort == null ? void 0 : unabort();
+    }), promise;
+  } });
+}, _spawn = action(function(ctx, fn, controller) {
+  return abortCauseContext.set(ctx.cause, controller), fn(ctx, ...[].slice.call(arguments, 3));
+}, "_spawn"), spawn = (ctx, fn, args = [], controller = new AbortController()) => _spawn(ctx, fn, controller, ...args);
+const getRootCause = (cause) => null === cause.cause ? cause : getRootCause(cause.cause), isSameCtx = (ctx1, ctx2) => getRootCause(ctx1.cause) === getRootCause(ctx2.cause), addOnConnect = (anAtom, cb) => {
+  var _a;
+  return ((_a = anAtom.__reatom).connectHooks ?? (_a.connectHooks = /* @__PURE__ */ new Set())).add(cb);
+}, addOnDisconnect = (anAtom, cb) => {
+  var _a;
+  return ((_a = anAtom.__reatom).disconnectHooks ?? (_a.disconnectHooks = /* @__PURE__ */ new Set())).add(cb);
+}, _onConnect = action((ctx, anAtom, fn, controller) => {
+  ctx.cause.cause = getRootCause(ctx.cause), abortCauseContext.set(ctx.cause, controller);
+  const result = fn(withAbortableSchedule({ ...ctx, controller, isConnected: () => isConnected(ctx, anAtom) }));
+  return result instanceof Promise && controller.signal.addEventListener("abort", () => result.catch(noop$1)), result;
+}, "_onConnect"), onConnect = (anAtom, cb) => {
+  const connectHook = (ctx) => {
+    const controller = new AbortController(), cleanup = _onConnect(ctx, anAtom, cb, controller);
+    cleanup instanceof Promise && cleanup.catch(noop$1);
+    const cleanupHook = (_ctx) => {
+      isSameCtx(ctx, _ctx) && disconnectHooks.delete(cleanupHook) && connectHooks.has(connectHook) && (controller.abort(toAbortError("disconnect " + anAtom.__reatom.name)), "function" == typeof cleanup && cleanup());
+    }, disconnectHooks = addOnDisconnect(anAtom, cleanupHook);
+  }, connectHooks = addOnConnect(anAtom, connectHook);
+  return () => connectHooks.delete(connectHook);
+}, isConnected = (ctx, { __reatom: proto }) => ctx.get((read) => {
+  const cache = proto.patch ?? read(proto);
+  return !!cache && cache.subs.size + cache.listeners.size > 0;
+}), initializations = atom(null, "initializations");
+initializations.__reatom.initState = () => /* @__PURE__ */ new WeakMap();
+const withAssign = (getProps) => (target) => assign(target, getProps(target, target.__reatom.name));
+const reatomMap = (initState = /* @__PURE__ */ new Map(), name) => {
+  const atomInitState = initState instanceof Map ? initState : new Map(initState);
+  return atom(atomInitState, name).pipe(withAssign((target, name$1) => {
+    const getOrCreate = action((ctx, key, value2) => {
+      actions.set(ctx, key, value2);
+      return value2;
+    }, `${name$1}.getOrCreate`);
+    const actions = {
+      get: (ctx, key) => ctx.get(target).get(key),
+      getOrCreate: (ctx, key, creator) => actions.has(ctx, key) ? actions.get(ctx, key) : getOrCreate(ctx, key, creator()),
+      has: (ctx, key) => ctx.get(target).has(key),
+      set: action((ctx, key, value2) => target(ctx, (prev) => {
+        const valuePrev = prev.get(key);
+        return Object.is(valuePrev, value2) && (value2 !== void 0 || prev.has(key)) ? prev : new Map(prev).set(key, value2);
+      }), `${name$1}.set`),
+      delete: action((ctx, key) => target(ctx, (prev) => {
+        if (!prev.has(key)) return prev;
+        const next = new Map(prev);
+        next.delete(key);
+        return next;
+      }), `${name$1}.delete`),
+      clear: action((ctx) => target(ctx, /* @__PURE__ */ new Map()), `${name$1}.clear`),
+      reset: action((ctx) => target(ctx, atomInitState), `${name$1}.reset`),
+      sizeAtom: atom((ctx) => ctx.spy(target).size, `${name$1}.size`)
+    };
+    return actions;
+  }));
+};
+const handleEffect = (anAsync, params, { shouldPending = true, shouldFulfill = true, shouldReject = true, effect = anAsync.__reatom.unstable_fn } = {}) => {
+  const pendingAtom = anAsync.pendingAtom;
+  const [ctx] = params;
+  if (shouldPending) pendingAtom(ctx, (s2) => ++s2);
+  const origin = ctx.schedule(() => new Promise((res, rej) => {
+    throwIfAborted(ctx.controller);
+    effect(...params).then(res, rej);
+    ctx.controller.signal.addEventListener("abort", () => rej(toAbortError(ctx.controller.signal.reason)));
+  }));
+  return assign(__thenReatomed(ctx, origin, (v2) => {
+    if (shouldFulfill) anAsync.onFulfill(ctx, v2);
+    if (shouldPending) pendingAtom(ctx, (s2) => --s2);
+  }, (e) => {
+    if (shouldReject && !isAbort(e)) anAsync.onReject(ctx, e);
+    if (shouldPending) pendingAtom(ctx, (s2) => --s2);
+  }), { controller: ctx.controller });
+};
+const NOOP_TIMEOUT_ID = -1;
+const withCache = ({ ignoreAbort = true, length = 5, paramsLength, staleTime = 5 * 60 * 1e3, swr: swrOptions = true, withPersist, paramsToKey, isEqual: isEqual2 = (ctx, a2, b2) => isDeepEqual(a2, b2) } = {}) => (anAsync) => {
+  if (!anAsync.cacheAtom) {
+    const swr = !!swrOptions;
+    const { shouldPending = false, shouldFulfill = swr, shouldReject = false } = swrOptions;
+    if (staleTime !== Infinity) staleTime = Math.min(MAX_SAFE_TIMEOUT, staleTime);
+    const find = paramsToKey ? (ctx, params, state = ctx.get(cacheAtom)) => {
+      const key = paramsToKey(ctx, params);
+      return {
+        cached: state.get(key),
+        key
+      };
+    } : (ctx, params, state = ctx.get(cacheAtom)) => {
+      for (const [key, cached] of state) if (isEqual2(ctx, key, params)) return {
+        cached,
+        key
+      };
+      return {
+        cached: void 0,
+        key: params
+      };
+    };
+    const findLatestWithValue = (ctx, state = ctx.get(cacheAtom)) => {
+      for (const cached of state.values()) if (cached.version > 0 && (!latestCached || cached.lastUpdate > latestCached.lastUpdate)) {
+        var latestCached = cached;
+      }
+      return latestCached;
+    };
+    const deleteOldest = (cache) => {
+      for (const [key, cached] of cache) if (!oldestCached || oldestCached.lastUpdate > cached.lastUpdate) {
+        var oldestKey = key;
+        var oldestCached = cached;
+      }
+      if (oldestCached) cache.delete(oldestKey);
+    };
+    const planCleanup = (ctx, key, time = staleTime) => {
+      var _a;
+      const clearTimeoutId = staleTime === Infinity ? NOOP_TIMEOUT_ID : setTimeout$1(() => {
+        var _a2;
+        if (((_a2 = cacheAtom.get(ctx, key)) == null ? void 0 : _a2.clearTimeoutId) === clearTimeoutId) cacheAtom.delete(ctx, key);
+      }, time);
+      (_a = clearTimeoutId.unref) == null ? void 0 : _a.call(clearTimeoutId);
+      ctx.schedule(() => clearTimeout(clearTimeoutId), -1);
+      return clearTimeoutId;
+    };
+    const cacheAtom = anAsync.cacheAtom = reatomMap(/* @__PURE__ */ new Map(), `${anAsync.__reatom.name}._cacheAtom`).pipe(withAssign((target, name) => ({
+      setWithParams: action((ctx, params, value2) => {
+        const { cached, key } = find(ctx, params);
+        clearTimeout(cached == null ? void 0 : cached.clearTimeoutId);
+        cacheAtom.set(ctx, key, {
+          clearTimeoutId: planCleanup(ctx, key),
+          promise: void 0,
+          value: value2,
+          version: cached ? cached.version + 1 : 1,
+          controller: new AbortController(),
+          lastUpdate: Date.now(),
+          params
+        });
+      }),
+      deleteWithParams: action((ctx, params) => {
+        const { cached, key } = find(ctx, params);
+        if (cached) cacheAtom.delete(ctx, key);
+      })
+    })));
+    cacheAtom.invalidate = action((ctx) => {
+      const latest = findLatestWithValue(ctx);
+      cacheAtom.clear(ctx);
+      if ("promiseAtom" in anAsync) return anAsync(ctx);
+      return latest ? anAsync(ctx, ...latest.params) : null;
+    }, `${cacheAtom.__reatom.name}.invalidate`);
+    cacheAtom.options = {
+      ignoreAbort,
+      length,
+      paramsLength,
+      staleTime,
+      swr,
+      withPersist
+    };
+    if (withPersist) cacheAtom.pipe(withPersist({
+      key: cacheAtom.__reatom.name,
+      fromSnapshot: (ctx, snapshot, state = /* @__PURE__ */ new Map()) => {
+        if (snapshot.length <= (state == null ? void 0 : state.size) && snapshot.every(([, { params, value: value2 }]) => {
+          const { cached } = find(ctx, params, state);
+          return !!cached && isDeepEqual(cached.value, value2);
+        })) return state;
+        const newState = new Map(snapshot);
+        for (const [key, rec] of newState) {
+          const restStaleTime = staleTime - (Date.now() - rec.lastUpdate);
+          if (restStaleTime <= 0) newState.delete(key);
+          else {
+            clearTimeout(rec.clearTimeoutId);
+            rec.clearTimeoutId = planCleanup(ctx, key, staleTime - (Date.now() - rec.lastUpdate));
+          }
+        }
+        for (const [key, rec] of state) if (rec.promise) {
+          const { cached } = find(ctx, rec.params, newState);
+          if (cached) cached.promise = rec.promise;
+          else newState.set(key, rec);
+        }
+        return newState;
+      },
+      time: Math.min(staleTime, MAX_SAFE_TIMEOUT),
+      toSnapshot: (ctx, cache) => [...cache].filter(([, rec]) => !rec.promise)
+    }));
+    const swrPendingAtom = anAsync.swrPendingAtom = atom(0, `${anAsync.__reatom.name}.swrPendingAtom`);
+    const handlePromise = (ctx, key, cached, swr$1) => {
+      clearTimeout(cached.clearTimeoutId);
+      cached.clearTimeoutId = planCleanup(ctx, key);
+      const isSame = () => {
+        var _a;
+        return ((_a = cacheAtom.get(ctx, key)) == null ? void 0 : _a.clearTimeoutId) === cached.clearTimeoutId;
+      };
+      const { unstable_fn } = anAsync.__reatom;
+      let res, rej;
+      cached.promise = new Promise((...a2) => [res, rej] = a2);
+      return async (...a2) => {
+        try {
+          const value2 = await (ignoreAbort ? spawn(a2[0], (ctx$1, ...a$1) => unstable_fn({
+            ...ctx$1,
+            controller: getTopController(ctx$1.cause)
+          }, ...a$1), a2.slice(1)) : unstable_fn(...a2));
+          res(value2);
+          ctx.get(() => {
+            if (isSame()) cacheAtom.set(ctx, key, {
+              ...cached,
+              promise: void 0,
+              value: value2,
+              version: cached.version + 1
+            });
+            if (swr$1) swrPendingAtom(ctx, (s2) => s2 - 1);
+          });
+        } catch (error2) {
+          rej(error2);
+          ctx.get(() => {
+            if (isSame()) if (cached.version > 0) cacheAtom.set(ctx, key, {
+              ...cached,
+              promise: void 0
+            });
+            else cacheAtom.delete(ctx, key);
+            if (swr$1) swrPendingAtom(ctx, (s2) => s2 - 1);
+          });
+        }
+        return cached.promise;
+      };
+    };
+    anAsync._handleCache = action(
+      // @ts-expect-error can't type the context
+      (...params) => {
+        const [ctx] = params;
+        const controller = getTopController(ctx.cause.cause);
+        abortCauseContext.set(ctx.cause, ctx.controller = controller);
+        const paramsKey = params.slice(1, 1 + (paramsLength ?? params.length));
+        let { cached = {
+          clearTimeoutId: NOOP_TIMEOUT_ID,
+          promise: void 0,
+          value: void 0,
+          version: 0,
+          controller,
+          lastUpdate: -1,
+          params: []
+        }, key } = find(ctx, paramsKey);
+        const prevController = cached.controller;
+        cached = {
+          ...cached,
+          lastUpdate: Date.now(),
+          params: paramsKey,
+          controller
+        };
+        const cache = cacheAtom.set(ctx, key, cached);
+        if (cache.size > length) deleteOldest(cache);
+        if (cached.version === 0 && !cached.promise || cached.promise && prevController.signal.aborted) return handleEffect(anAsync, params, { effect: handlePromise(ctx, key, cached, false) });
+        if (cached.version > 0) anAsync.onFulfill(ctx, cached.value);
+        if (cached.promise || !swr) return handleEffect(anAsync, params, {
+          effect: async () => cached.promise ?? cached.value,
+          shouldPending: false,
+          shouldFulfill,
+          shouldReject
+        });
+        if (swr) swrPendingAtom(ctx, (s2) => s2 + 1);
+        return handleEffect(anAsync, params, {
+          effect: handlePromise(ctx, key, cached, swr),
+          shouldPending,
+          shouldFulfill,
+          shouldReject
+        });
+      },
+      `${anAsync.__reatom.name}._handleCache`
+    );
+    if ("dataAtom" in anAsync) {
+      const { initState } = anAsync.dataAtom.__reatom;
+      anAsync.dataAtom.__reatom.initState = (ctx) => {
+        const cached = findLatestWithValue(ctx);
+        const iniState = initState(ctx);
+        return cached ? anAsync.dataAtom.mapFulfill ? anAsync.dataAtom.mapFulfill(ctx, cached.value, iniState) : cached.value : iniState;
+      };
+    }
+    if (withPersist && "dataAtom" in anAsync) onConnect(anAsync.dataAtom, (ctx) => ctx.subscribe(cacheAtom, () => {
+    }));
+  }
+  return anAsync;
+};
+const resolved = /* @__PURE__ */ new WeakSet();
+const reatomResource = (asyncComputed, name = __count("asyncAtom")) => {
+  const promises = new CauseContext();
+  const theAsync = reatomAsync((ctx) => {
+    const promise = promises.get(ctx.cause);
+    throwReatomError(!promise, "reaction manual call");
+    return promise;
+  }, name);
+  const promiseAtom = atom((_ctx, state) => {
+    if (state && !_ctx.cause.pubs.length) return state;
+    const params = [];
+    const ctx = merge(_ctx, { spy(anAtom, cb) {
+      throwReatomError(cb, "spy reactions are unsupported in ResourceAtom");
+      const value2 = _ctx.spy(anAtom);
+      params.push(value2);
+      return value2;
+    } });
+    const abortError = toAbortError("concurrent " + name);
+    const controller = new AbortController();
+    const unabort = onCtxAbort(ctx, (error2) => {
+      if (abortError !== error2 && !isConnected(ctx, theReaction)) controller.abort(error2);
+    });
+    if (unabort) controller.signal.addEventListener("abort", unabort);
+    abortCauseContext.set(ctx.cause, ctx.controller = controller);
+    const computedPromise = asyncComputed(withAbortableSchedule(ctx));
+    computedPromise.catch(noop$1);
+    promises.set(ctx.cause, computedPromise);
+    const pendingBefore = ctx.get(theAsync.pendingAtom);
+    const fulfillCallsBefore = ctx.get(theAsync.onFulfill);
+    let promise = theAsync(
+      ctx,
+      ...params
+    );
+    promise.controller.signal.addEventListener("abort", () => {
+      var _a;
+      if (!((_a = theReaction.cacheAtom) == null ? void 0 : _a.options.ignoreAbort)) controller.abort(promise.controller.signal.reason);
+    });
+    const cached = pendingBefore === ctx.get(theAsync.pendingAtom);
+    const fulfillCalls = ctx.get(theAsync.onFulfill);
+    if (cached) controller.abort(toAbortError("cached " + name));
+    if (cached && fulfillCallsBefore !== fulfillCalls) promise = Object.assign(Promise.resolve(fulfillCalls[fulfillCalls.length - 1].payload), { controller });
+    __thenReatomed(ctx, promise, () => resolved.add(promise), () => resolved.add(promise)).catch(noop$1);
+    state == null ? void 0 : state.controller.abort(abortError);
+    return promise;
+  }, `${name}._promiseAtom`);
+  onConnect(theAsync, (ctx) => ctx.subscribe(promiseAtom, noop$1));
+  onConnect(promiseAtom, (ctx) => () => {
+    ctx.get((read) => {
+      var _a;
+      const state = (_a = read(promiseAtom.__reatom)) == null ? void 0 : _a.state;
+      state == null ? void 0 : state.controller.abort(ctx.controller.signal.reason);
+      if (!resolved.has(state)) reset(ctx, promiseAtom.__reatom, ctx.controller.signal.reason);
+    });
+  });
+  const theReaction = Object.assign((ctx) => ctx.get((read, actualize) => {
+    var _a;
+    reset(ctx, promiseAtom.__reatom, toAbortError("force " + name));
+    actualize(ctx, promiseAtom.__reatom, noop$1);
+    const state = ctx.get(theAsync);
+    const payload = (_a = state[state.length - 1]) == null ? void 0 : _a.payload;
+    throwReatomError(!payload, "unexpectedly failed invalidation. Please, report the issue");
+    return payload;
+  }), theAsync, {
+    promiseAtom,
+    init(ctx) {
+      return ctx.subscribe(promiseAtom, noop$1);
+    },
+    reset: action((ctx) => {
+      reset(ctx, promiseAtom.__reatom, toAbortError("reset " + name));
+    }, `${name}.reset`)
+  });
+  Object.defineProperty(theAsync, "_handleCache", { get() {
+    return theReaction._handleCache;
+  } });
+  return theReaction;
+};
+const reset = (ctx, proto, reason) => ctx.get((read, actualize) => {
+  if (read(proto)) {
+    const { computer } = proto;
+    proto.computer = null;
+    try {
+      actualize(ctx, proto, (patchCtx, patch) => {
+        var _a;
+        (_a = patch.state) == null ? void 0 : _a.controller.abort(reason);
+        patch.pubs = [];
+        patch.state = void 0;
+      });
+    } finally {
+      proto.computer = computer;
+    }
+  }
+});
+const reatomAsync = (effect, options = {}) => {
+  const { name = __count("async"), onEffect: onEffectHook, onFulfill: onFulfillHook, onReject: onRejectHook, onSettle: onSettleHook } = typeof options === "string" ? { name: options } : options;
+  const pendingAtom = atom(0, `${name}.pendingAtom`);
+  const theAsync = Object.assign(
+    // do not put this function inside `action` to not broke effect mocking
+    (...params) => params[0].get((read, actualize) => {
+      const { state } = actualize(params[0], theAsync.__reatom, (ctx, patch) => {
+        abortCauseContext.set(ctx.cause, ctx.controller = new AbortController());
+        const unabort = onCtxAbort(params[0], (error2) => {
+          payload == null ? void 0 : payload.catch(noop$1);
+          ctx.controller.abort(error2);
+        });
+        if (unabort) ctx.controller.signal.addEventListener("abort", unabort);
+        params[0] = withAbortableSchedule(ctx);
+        var payload = theAsync._handleCache ? theAsync._handleCache(...params) : handleEffect(theAsync, params);
+        __thenReatomed(ctx, payload, void 0, () => {
+          if (onReject.__reatom.updateHooks.size > 1) payload.catch(noop$1);
+        });
+        patch.state = [...patch.state, {
+          params: params.slice(1),
+          payload
+        }];
+      });
+      return state[state.length - 1].payload;
+    }),
+    action(
+      // @ts-expect-error TODO need a better way to pass a custom Ctx.
+      effect,
+      name
+    )
+  );
+  const onFulfill = action(`${name}.onFulfill`);
+  const onReject = action(`${name}.onReject`);
+  const onSettle = action(`${name}._onSettle`);
+  onFulfill.onCall((ctx) => onSettle(ctx));
+  onReject.onCall((ctx) => onSettle(ctx));
+  if (onEffectHook) theAsync.onCall((ctx, promise, params) => onEffectHook(ctx, params, promise));
+  if (onFulfillHook) onFulfill.onCall(onFulfillHook);
+  if (onRejectHook) onReject.onCall(onRejectHook);
+  if (onSettleHook) onSettle.onCall(onSettleHook);
+  onConnect(pendingAtom, (ctx) => ctx.subscribe(theAsync, noop$1));
+  return assign(theAsync, {
+    onFulfill,
+    onReject,
+    onSettle,
+    pendingAtom
+  });
+};
+reatomAsync.from = (effect, options = {}) => {
+  if (effect.name.length > 2) if (typeof options === "object") options.name ?? (options.name = effect.name);
+  else options ?? (options = effect.name);
+  return reatomAsync((ctx, ...a2) => effect(...a2), options);
+};
+const withDataAtom = (initState, mapFulfill) => (anAsync) => {
+  if (!anAsync.dataAtom) {
+    const dataAtom = anAsync.dataAtom = Object.assign(atom(initState, `${anAsync.__reatom.name}.dataAtom`), {
+      reset: action((ctx) => {
+        dataAtom(ctx, initState);
+      }, `${anAsync.__reatom.name}.dataAtom.reset`),
+      mapFulfill
+    });
+    dataAtom.__reatom.computer = (ctx, state) => {
+      ctx.spy(anAsync.onFulfill, ({ payload }) => {
+        state = payload;
+      });
+      return state;
+    };
+    anAsync.onFulfill.onCall((ctx) => {
+      ctx.get(dataAtom);
+    });
+    onConnect(dataAtom, (ctx) => ctx.subscribe(anAsync, noop$1));
+  }
+  return anAsync;
+};
+const getCause = (patch, log = "") => log.length > 1e4 ? `${log} ...` : null !== patch.cause && patch.cause.proto !== __root ? getCause(patch.cause, log + " <-- " + (patch.cause.proto.name ?? "unnamed")) : log || "root", getTimeStampDefault = () => {
+  let ms = (/* @__PURE__ */ new Date()).getMilliseconds();
+  return ms = ms.toString().padStart(3, "0"), `${(/* @__PURE__ */ new Date()).toLocaleTimeString()} ${ms}ms`;
+};
+let timesPrecision = 10 ** 15;
+const createLogBatched = ({ debounce = 500, getTimeStamp = getTimeStampDefault, limit = 5e3, log = console.log, domain = "", shouldGroup = false, shouldLogGraph = false } = {}) => {
+  domain && (domain = `(${domain}) `);
+  let queue = [], isBatching = false, batchingStart = Date.now();
+  return (msg) => {
+    0 !== Object.keys(msg.changes).length && (isBatching || (isBatching = true, batchingStart = Date.now()), setTimeout((length) => {
+      if (isBatching = queue.length !== length && Date.now() - batchingStart < limit, isBatching) return;
+      const isFewTransactions = queue.length > 0;
+      console.groupCollapsed(`Reatom ${domain}${length} transaction${length > 1 ? "s" : ""}`), shouldLogGraph && ((logsSet) => {
+        const visited = /* @__PURE__ */ new Set(), checkCause = (patch) => {
+          !patch.cause || patch.cause.proto === __root || patch.cause.proto.name.startsWith("_") && patch.cause.proto.name.includes("._") || logsSet.has(patch.cause) || visited.has(patch.cause) || (checkCause(patch.cause), visited.add(patch.cause));
+        };
+        for (const patch of logsSet) checkCause(patch);
+        const logs = [...logsSet], maxDistance = logs.reduce((acc, patch, i2) => Math.max(acc, i2 - ((patch.cause && logs.indexOf(patch.cause)) ?? i2)), 0), shiftRatio = 20 * maxDistance, x2 = Math.floor(maxDistance / logs.length * shiftRatio) + 20;
+        let y2 = 30, body = "", width = x2;
+        for (const patch of logs) {
+          const { isAction: isAction2, name } = patch.proto, color = isAction2 ? name.endsWith(".onFulfill") ? "#E6DC73" : "#ffff80" : "#151134";
+          body += `<circle cx="${x2}" cy="${y2}" r="10" fill="${color}" />`, body += `<text x="${x2 + 15}" y="${y2 + 5}" font-size="10" fill="gray">${name}</text>`, y2 += 30, width = Math.max(width, x2 + 10 * name.length);
+        }
+        logs.forEach(({ cause }, idx) => {
+          if (!cause || cause.proto === __root || 0 === idx) return;
+          const causeIdx = logs.indexOf(cause);
+          if (causeIdx < 0) return;
+          const causeY = 30 * causeIdx + 30, shiftX = Math.floor(x2 - (idx - causeIdx) / logs.length * shiftRatio - 10), shiftY = Math.floor(30 * (causeIdx + (idx - causeIdx) / 2)) + 30, idxY = 30 * idx + 30, lineX = Math.floor(x2 - 10);
+          body += `<polyline points="${lineX},${causeY} ${shiftX},${shiftY} ${lineX},${idxY}" stroke="gray" fill="none" />`;
+        });
+        const dataUrl = `data:image/svg+xml,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${y2}" style="font-family: monospace;">${body}</svg>`)}`;
+        console.log("%c                         ", `font-size:${y2}px; background: url(${dataUrl}) no-repeat; font-family: monospace;`);
+      })(new Set(queue.flatMap(({ changes }) => Object.values(changes)).sort((a2, b2) => a2.time - b2.time).map(({ patch }) => patch)));
+      for (const { changes, time, error: error2 } of queue) {
+        console.log(`%c ${time}`, `padding-left: calc(50% - ${time.length / 2}em); font-size: 0.7rem;`), error2 && console.error(error2);
+        let inGroup = false;
+        Object.entries(changes).forEach(([k2, change], i2, arr) => {
+          var _a;
+          const isAction2 = "payload" in change, style = (isAction2 ? "background: #ffff80; color: #151134;" : "background: #151134; color: white;") + "font-weight: 400; padding: 0.15em;  padding-right: 1ch;", name = k2.replace(/(\d)*\./, ""), head = name.replace(/\..*/, ""), nextK = (_a = arr[i2 + 1]) == null ? void 0 : _a[0], nextName = nextK == null ? void 0 : nextK.replace(/(\d)*\./, ""), isGroup = nextName == null ? void 0 : nextName.startsWith(head);
+          shouldGroup && !inGroup && isGroup && isFewTransactions && (inGroup = true, console.groupCollapsed(`%c ${head}`, style));
+          const data = isAction2 ? change.payload : change.newState;
+          console.groupCollapsed(`%c ${name}`, style), console.log(change), console.groupEnd(), isAction2 && !isShallowEqual(change.params, [data]) && log(...change.params), log(data), shouldGroup && !isGroup && inGroup && (inGroup = false, console.groupEnd());
+        });
+      }
+      console.log("\n\n", "transactions:", queue), console.groupEnd(), queue = [];
+    }, debounce, queue.push(Object.assign(msg, { time: getTimeStamp() }))));
+  };
+}, connectLogger = (ctx, { devtools = false, historyLength = 10, domain = "", log = createLogBatched({ domain }), showCause = true, skip = () => false, skipUnnamed = true } = {}) => {
+  const history = /* @__PURE__ */ new WeakMap();
+  let read;
+  ctx.get((r2) => read = r2);
+  const ctxUnsubscribe = ctx.subscribe((logs, error2) => {
+    let i2 = -1;
+    try {
+      const states = /* @__PURE__ */ new WeakMap(), changes = {};
+      for (; ++i2 < logs.length; ) {
+        const patch = logs[i2], { cause, proto, state } = patch, { isAction: isAction2 } = proto;
+        let { name } = proto;
+        if (skip(patch)) continue;
+        if (!name || name.startsWith("_") || /\._/.test(name)) {
+          if (skipUnnamed) continue;
+          name ?? (name = "unnamed");
+        }
+        const oldCache = read(proto), oldState = states.has(proto) ? states.get(proto) : oldCache == null ? void 0 : oldCache.state;
+        if (states.set(proto, state), Object.is(state, oldState) || isAction2 && 0 === state.length) continue;
+        let atomHistory = history.get(proto) ?? [];
+        if (historyLength && (atomHistory = atomHistory.slice(0, historyLength - 1), atomHistory.unshift(isAction2 ? { ...patch, state: [...state] } : patch), history.set(proto, atomHistory)), !(oldCache || "root" !== cause.proto.name || isAction2 && 0 !== state.length)) continue;
+        const changeMsg = changes[`${i2 + 1}.${name}`] = { patch, history: atomHistory, time: (globalThis.performance ?? Date).now() + 1 / timesPrecision-- };
+        if (isAction2) {
+          const call = state.at(-1);
+          changeMsg.params = call.params, changeMsg.payload = call.payload;
+        } else changeMsg.newState = state, changeMsg.oldState = oldState;
+        changeMsg.patch = patch, showCause && (changeMsg.cause = getCause(patch));
+      }
+      log({ error: error2, changes, logs, ctx });
+    } catch (error3) {
+      console.error("Reatom/logger error with", logs[i2]), console.log(error3);
+    }
+  });
+  return () => {
+    ctxUnsubscribe();
+  };
+};
+class ConfigRepository {
+  constructor() {
+    __privateAdd(this, _config);
+    /* -- Intercom staff -- */
+    __privateAdd(this, _readSessionIntercomSetting, (key) => sessionStorage.getItem(`kontur.intercom.${key}`));
+    __privateAdd(this, _setIntercomSetting, (k2, v2) => {
+      const key = `kontur.intercom.${k2}`;
+      v2 ? sessionStorage.setItem(key, v2) : sessionStorage.removeItem(key);
+    });
+  }
+  set({
+    baseUrl,
+    initialUrl,
+    initialUrlData,
+    stageConfig,
+    appConfig,
+    baseMapUrl,
+    initialUser,
+    defaultLayers,
+    activeLayers,
+    presentationMode
+  }) {
+    __privateSet(this, _config, {
+      baseUrl,
+      initialUrl,
+      initialUrlData,
+      ...stageConfig,
+      ...appConfig,
+      mapBaseStyle: baseMapUrl,
+      features: Object.keys(appConfig.features).length > 0 ? appConfig.features : stageConfig.featuresByDefault,
+      initialUser,
+      defaultLayers,
+      activeLayers,
+      presentationMode
+    });
+  }
+  get() {
+    return __privateGet(this, _config);
+  }
+  getUserDefaultFeed() {
+    return __privateGet(this, _config).initialUser.defaultFeed ?? __privateGet(this, _config).defaultFeed;
+  }
+  getIntercomSettings() {
+    return {
+      intercomAppId: __privateGet(this, _config).intercomAppId,
+      intercomSelector: __privateGet(this, _config).intercomSelector,
+      name: __privateGet(this, _readSessionIntercomSetting).call(this, "name"),
+      email: __privateGet(this, _readSessionIntercomSetting).call(this, "email"),
+      phone: __privateGet(this, _readSessionIntercomSetting).call(this, "phone")
+    };
+  }
+  updateIntercomSettings(settings) {
+    Object.entries(settings).forEach(([k2, v2]) => __privateGet(this, _setIntercomSetting).call(this, k2, v2));
+  }
+}
+_config = new WeakMap();
+_readSessionIntercomSetting = new WeakMap();
+_setIntercomSetting = new WeakMap();
+const configRepo = new ConfigRepository();
+const METRICS_EVENT = "METRICS";
+function dispatchMetricsEvent(name, payload) {
+  if (!globalThis.CustomEvent) return;
+  const evt = new CustomEvent(METRICS_EVENT, {
+    detail: {
+      name,
+      payload
+    }
+  });
+  globalThis.dispatchEvent(evt);
+}
+class FallbackStorage {
+  constructor() {
+    __publicField(this, "storage", /* @__PURE__ */ new Map());
+  }
+  setItem(key, value2) {
+    this.storage.set(key, value2);
+  }
+  getItem(key) {
+    return this.storage.get(key);
+  }
+  removeItem(key) {
+    this.storage.delete(key);
+  }
+  clear() {
+    this.storage.clear();
+  }
+  get length() {
+    return this.storage.size;
+  }
+  key(index2) {
+    return this.storage.keys()[index2] ?? null;
+  }
+}
+class StableStorage {
+  constructor(type) {
+    __publicField(this, "storage");
+    if (this.storageAvailable(type)) {
+      this.storage = globalThis[type];
+    } else {
+      this.storage = new FallbackStorage();
+    }
+  }
+  storageAvailable(type) {
+    try {
+      const storage = globalThis[type];
+      const x2 = "__storage_test__";
+      storage.setItem(x2, x2);
+      storage.removeItem(x2);
+      return true;
+    } catch (e) {
+    }
+  }
+  setItem(key, value2) {
+    return this.storage.setItem(key, value2);
+  }
+  getItem(key) {
+    return this.storage.getItem(key);
+  }
+  get length() {
+    return this.storage.length;
+  }
+  clear() {
+    return this.storage.clear();
+  }
+  key(index2) {
+    return this.storage.key(index2);
+  }
+  removeItem(key) {
+    return this.storage.removeItem(key);
+  }
+}
+new StableStorage("sessionStorage");
+const localStorage$1 = new StableStorage("localStorage");
+const KONTUR_DEBUG = !!localStorage$1.getItem("KONTUR_DEBUG");
+!!localStorage$1.getItem("KONTUR_METRICS_DEBUG");
+const KONTUR_WARN = !!localStorage$1.getItem("KONTUR_WARN");
+const KONTUR_TRACE_TYPE = localStorage$1.getItem("KONTUR_TRACE_TYPE");
+const KONTUR_TRACE_PATCH = !!localStorage$1.getItem("KONTUR_TRACE_PATCH");
+const store = createStore({});
+if (KONTUR_TRACE_PATCH) {
+  connectLogger(store.v3ctx, {
+    historyLength: 5,
+    showCause: KONTUR_TRACE_PATCH,
+    skipUnnamed: true,
+    domain: "Kontur"
+  });
+}
+const WILL_LOG = KONTUR_WARN || KONTUR_TRACE_TYPE;
+store.v3ctx.subscribe((patches) => {
+  const tag = `Reatom logged ${patches.length} transaction(s)`;
+  WILL_LOG && console.groupCollapsed(tag);
+  patches == null ? void 0 : patches.forEach((patch) => {
+    var _a;
+    const atomName = (_a = patch.proto) == null ? void 0 : _a.name;
+    if (atomName) {
+      const { state, ...rest } = patch;
+      dispatchMetricsEvent(atomName, patch == null ? void 0 : patch.state);
+      KONTUR_WARN && console.warn(atomName, state, { patch: rest });
+      if (KONTUR_TRACE_TYPE) {
+        if (atomName.includes(KONTUR_TRACE_TYPE)) {
+          console.trace("TRACE:", atomName, state, { patch: rest });
+        }
+      }
+    }
+  });
+  WILL_LOG && console.groupEnd();
+});
+const addStoreInOptions = (options) => ({
+  store,
+  ...typeof options === "string" ? { id: options } : options
+});
+const createAtom = (deps, reducer, options) => createAtom$1(deps, reducer, addStoreInOptions(options));
+const createBooleanAtom = (initState, options) => o(initState, addStoreInOptions(options));
+const JSON_MIME = "application/json";
+const CONTENT_TYPE_HEADER = "Content-Type";
+const FETCH_ERROR = Symbol();
+const CATCHER_FALLBACK = Symbol();
+function extractContentType(headers = {}) {
+  var _a;
+  const normalizedHeaders = headers instanceof Array ? Object.fromEntries(headers) : headers;
+  return (_a = Object.entries(normalizedHeaders).find(([k2]) => k2.toLowerCase() === CONTENT_TYPE_HEADER.toLowerCase())) === null || _a === void 0 ? void 0 : _a[1];
+}
+function isLikelyJsonMime(value2) {
+  return /^application\/.*json.*/.test(value2);
+}
+const mix = function(one, two, mergeArrays = false) {
+  return Object.entries(two).reduce((acc, [key, newValue]) => {
+    const value2 = one[key];
+    if (Array.isArray(value2) && Array.isArray(newValue)) {
+      acc[key] = mergeArrays ? [...value2, ...newValue] : newValue;
+    } else if (typeof value2 === "object" && typeof newValue === "object") {
+      acc[key] = mix(value2, newValue, mergeArrays);
+    } else {
+      acc[key] = newValue;
+    }
+    return acc;
+  }, { ...one });
+};
+const config$1 = {
+  // Default options
+  options: {},
+  // Error type
+  errorType: "text",
+  // Polyfills
+  polyfills: {
+    // fetch: null,
+    // FormData: null,
+    // URL: null,
+    // URLSearchParams: null,
+    // performance: null,
+    // PerformanceObserver: null,
+    // AbortController: null,
+  },
+  polyfill(p2, doThrow = true, instance2 = false, ...args) {
+    const res = this.polyfills[p2] || (typeof self !== "undefined" ? self[p2] : null) || (typeof global !== "undefined" ? global[p2] : null);
+    if (doThrow && !res)
+      throw new Error(p2 + " is not defined");
+    return instance2 && res ? new res(...args) : res;
+  }
+};
+function setOptions(options, replace = false) {
+  config$1.options = replace ? options : mix(config$1.options, options);
+}
+function setPolyfills(polyfills, replace = false) {
+  config$1.polyfills = replace ? polyfills : mix(config$1.polyfills, polyfills);
+}
+function setErrorType(errorType) {
+  config$1.errorType = errorType;
+}
+const middlewareHelper = (middlewares) => (fetchFunction) => {
+  return middlewares.reduceRight((acc, curr) => curr(acc), fetchFunction) || fetchFunction;
+};
+class WretchError extends Error {
+}
+const resolver = (wretch) => {
+  const sharedState = /* @__PURE__ */ Object.create(null);
+  wretch = wretch._addons.reduce((w2, addon) => addon.beforeRequest && addon.beforeRequest(w2, wretch._options, sharedState) || w2, wretch);
+  const { _url: url2, _options: opts, _config: config2, _catchers, _resolvers: resolvers, _middlewares: middlewares, _addons: addons } = wretch;
+  const catchers = new Map(_catchers);
+  const finalOptions = mix(config2.options, opts);
+  let finalUrl = url2;
+  const _fetchReq = middlewareHelper(middlewares)((url3, options) => {
+    finalUrl = url3;
+    return config2.polyfill("fetch")(url3, options);
+  })(url2, finalOptions);
+  const referenceError = new Error();
+  const throwingPromise = _fetchReq.catch((error2) => {
+    throw { [FETCH_ERROR]: error2 };
+  }).then((response) => {
+    var _a;
+    if (!response.ok) {
+      const err = new WretchError();
+      err["cause"] = referenceError;
+      err.stack = err.stack + "\nCAUSE: " + referenceError.stack;
+      err.response = response;
+      err.status = response.status;
+      err.url = finalUrl;
+      if (response.type === "opaque") {
+        throw err;
+      }
+      const jsonErrorType = config2.errorType === "json" || ((_a = response.headers.get("Content-Type")) === null || _a === void 0 ? void 0 : _a.split(";")[0]) === "application/json";
+      const bodyPromise = !config2.errorType ? Promise.resolve(response.body) : jsonErrorType ? response.text() : response[config2.errorType]();
+      return bodyPromise.then((body) => {
+        err.message = typeof body === "string" ? body : response.statusText;
+        if (body) {
+          if (jsonErrorType && typeof body === "string") {
+            err.text = body;
+            err.json = JSON.parse(body);
+          } else {
+            err[config2.errorType] = body;
+          }
+        }
+        throw err;
+      });
+    }
+    return response;
+  });
+  const catchersWrapper = (promise) => {
+    return promise.catch((err) => {
+      const fetchErrorFlag = Object.prototype.hasOwnProperty.call(err, FETCH_ERROR);
+      const error2 = fetchErrorFlag ? err[FETCH_ERROR] : err;
+      const catcher = (error2 === null || error2 === void 0 ? void 0 : error2.status) && catchers.get(error2.status) || catchers.get(error2 === null || error2 === void 0 ? void 0 : error2.name) || fetchErrorFlag && catchers.has(FETCH_ERROR) && catchers.get(FETCH_ERROR);
+      if (catcher)
+        return catcher(error2, wretch);
+      const catcherFallback = catchers.get(CATCHER_FALLBACK);
+      if (catcherFallback)
+        return catcherFallback(error2, wretch);
+      throw error2;
+    });
+  };
+  const bodyParser = (funName) => (cb) => funName ? (
+    // If a callback is provided, then callback with the body result otherwise return the parsed body itself.
+    catchersWrapper(throwingPromise.then((_2) => _2 && _2[funName]()).then((_2) => cb ? cb(_2) : _2))
+  ) : (
+    // No body parsing method - return the response
+    catchersWrapper(throwingPromise.then((_2) => cb ? cb(_2) : _2))
+  );
+  const responseChain = {
+    _wretchReq: wretch,
+    _fetchReq,
+    _sharedState: sharedState,
+    res: bodyParser(null),
+    json: bodyParser("json"),
+    blob: bodyParser("blob"),
+    formData: bodyParser("formData"),
+    arrayBuffer: bodyParser("arrayBuffer"),
+    text: bodyParser("text"),
+    error(errorId, cb) {
+      catchers.set(errorId, cb);
+      return this;
+    },
+    badRequest(cb) {
+      return this.error(400, cb);
+    },
+    unauthorized(cb) {
+      return this.error(401, cb);
+    },
+    forbidden(cb) {
+      return this.error(403, cb);
+    },
+    notFound(cb) {
+      return this.error(404, cb);
+    },
+    timeout(cb) {
+      return this.error(408, cb);
+    },
+    internalError(cb) {
+      return this.error(500, cb);
+    },
+    fetchError(cb) {
+      return this.error(FETCH_ERROR, cb);
+    }
+  };
+  const enhancedResponseChain = addons.reduce((chain, addon) => ({
+    ...chain,
+    ...typeof addon.resolver === "function" ? addon.resolver(chain) : addon.resolver
+  }), responseChain);
+  return resolvers.reduce((chain, r2) => r2(chain, wretch), enhancedResponseChain);
+};
+const core = {
+  _url: "",
+  _options: {},
+  _config: config$1,
+  _catchers: /* @__PURE__ */ new Map(),
+  _resolvers: [],
+  _deferred: [],
+  _middlewares: [],
+  _addons: [],
+  addon(addon) {
+    return { ...this, _addons: [...this._addons, addon], ...addon.wretch };
+  },
+  errorType(errorType) {
+    return {
+      ...this,
+      _config: {
+        ...this._config,
+        errorType
+      }
+    };
+  },
+  polyfills(polyfills, replace = false) {
+    return {
+      ...this,
+      _config: {
+        ...this._config,
+        polyfills: replace ? polyfills : mix(this._config.polyfills, polyfills)
+      }
+    };
+  },
+  url(_url, replace = false) {
+    if (replace)
+      return { ...this, _url };
+    const split = this._url.split("?");
+    return {
+      ...this,
+      _url: split.length > 1 ? split[0] + _url + "?" + split[1] : this._url + _url
+    };
+  },
+  options(options, replace = false) {
+    return { ...this, _options: replace ? options : mix(this._options, options) };
+  },
+  headers(headerValues) {
+    const headers = !headerValues ? {} : Array.isArray(headerValues) ? Object.fromEntries(headerValues) : "entries" in headerValues ? Object.fromEntries(headerValues.entries()) : headerValues;
+    return { ...this, _options: mix(this._options, { headers }) };
+  },
+  accept(headerValue) {
+    return this.headers({ Accept: headerValue });
+  },
+  content(headerValue) {
+    return this.headers({ [CONTENT_TYPE_HEADER]: headerValue });
+  },
+  auth(headerValue) {
+    return this.headers({ Authorization: headerValue });
+  },
+  catcher(errorId, catcher) {
+    const newMap = new Map(this._catchers);
+    newMap.set(errorId, catcher);
+    return { ...this, _catchers: newMap };
+  },
+  catcherFallback(catcher) {
+    return this.catcher(CATCHER_FALLBACK, catcher);
+  },
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  resolve(resolver2, clear = false) {
+    return { ...this, _resolvers: clear ? [resolver2] : [...this._resolvers, resolver2] };
+  },
+  defer(callback, clear = false) {
+    return {
+      ...this,
+      _deferred: clear ? [callback] : [...this._deferred, callback]
+    };
+  },
+  middlewares(middlewares, clear = false) {
+    return {
+      ...this,
+      _middlewares: clear ? middlewares : [...this._middlewares, ...middlewares]
+    };
+  },
+  fetch(method = this._options.method, url2 = "", body = null) {
+    let base = this.url(url2).options({ method });
+    const contentType = extractContentType(base._options.headers);
+    const formDataClass = this._config.polyfill("FormData", false);
+    const jsonify = typeof body === "object" && !(formDataClass && body instanceof formDataClass) && (!base._options.headers || !contentType || isLikelyJsonMime(contentType));
+    base = !body ? base : jsonify ? base.json(body, contentType) : base.body(body);
+    return resolver(base._deferred.reduce((acc, curr) => curr(acc, acc._url, acc._options), base));
+  },
+  get(url2 = "") {
+    return this.fetch("GET", url2);
+  },
+  delete(url2 = "") {
+    return this.fetch("DELETE", url2);
+  },
+  put(body, url2 = "") {
+    return this.fetch("PUT", url2, body);
+  },
+  post(body, url2 = "") {
+    return this.fetch("POST", url2, body);
+  },
+  patch(body, url2 = "") {
+    return this.fetch("PATCH", url2, body);
+  },
+  head(url2 = "") {
+    return this.fetch("HEAD", url2);
+  },
+  opts(url2 = "") {
+    return this.fetch("OPTIONS", url2);
+  },
+  body(contents) {
+    return { ...this, _options: { ...this._options, body: contents } };
+  },
+  json(jsObject, contentType) {
+    const currentContentType = extractContentType(this._options.headers);
+    return this.content(contentType || isLikelyJsonMime(currentContentType) && currentContentType || JSON_MIME).body(JSON.stringify(jsObject));
+  }
+};
+function factory(_url = "", _options = {}) {
+  return { ...core, _url, _options };
+}
+factory["default"] = factory;
+factory.options = setOptions;
+factory.errorType = setErrorType;
+factory.polyfills = setPolyfills;
+factory.WretchError = WretchError;
+function stringify(value2) {
+  return typeof value2 !== "undefined" ? value2 : "";
+}
+const appendQueryParams = (url2, qp, replace, omitUndefinedOrNullValues, config2) => {
+  let queryString2;
+  if (typeof qp === "string") {
+    queryString2 = qp;
+  } else {
+    const usp = config2.polyfill("URLSearchParams", true, true);
+    for (const key in qp) {
+      const value2 = qp[key];
+      if (omitUndefinedOrNullValues && (value2 === null || value2 === void 0))
+        continue;
+      if (qp[key] instanceof Array) {
+        for (const val of value2)
+          usp.append(key, stringify(val));
+      } else {
+        usp.append(key, stringify(value2));
+      }
+    }
+    queryString2 = usp.toString();
+  }
+  const split = url2.split("?");
+  if (!queryString2)
+    return replace ? split[0] : url2;
+  if (replace || split.length < 2)
+    return split[0] + "?" + queryString2;
+  return url2 + "&" + queryString2;
+};
+const queryString = {
+  wretch: {
+    query(qp, replace = false, omitUndefinedOrNullValues = false) {
+      return { ...this, _url: appendQueryParams(this._url, qp, replace, omitUndefinedOrNullValues, this._config) };
+    }
+  }
+};
+const AUTH_REQUIREMENT = {
+  MUST: "must",
+  OPTIONAL: "optional",
+  NEVER: "never"
+};
+const wait = (sec = 1, opt = {}) => new Promise(
+  (res, rej) => setTimeout(
+    (opt == null ? void 0 : opt.failWithMessage) ? () => rej({ message: opt.failWithMessage }) : res,
+    sec * 1e3
+  )
+);
+class ApiClientError extends Error {
+  constructor(message, problem, status = 0) {
+    super(message);
+    __publicField(this, "problem");
+    __publicField(this, "status", 0);
+    this.problem = problem;
+    this.status = status;
+    Object.setPrototypeOf(this, ApiClientError.prototype);
+  }
+}
+function isApiError(error2) {
+  return error2 instanceof ApiClientError;
+}
+function getApiErrorKind(error2) {
+  return isApiError(error2) ? error2.problem.kind : null;
+}
+function parseApiError(errorObj) {
+  var _a;
+  if (errorObj == null ? void 0 : errorObj.json) {
+    const errorData = errorObj == null ? void 0 : errorObj.json;
+    if (errorData == null ? void 0 : errorData.message) return errorData.message;
+    if (errorData == null ? void 0 : errorData.error_description) return errorData.error_description;
+    if (errorData !== null) {
+      if (Array.isArray(errorData)) {
+        return errorData.map(
+          (errorMsg) => errorMsg.name && errorMsg.message ? `${errorMsg.name}: ${errorMsg.message}` : errorMsg
+        ).join("<br/>");
+      }
+      if (errorData == null ? void 0 : errorData.error) return errorData["error"];
+      if ((errorData == null ? void 0 : errorData.errors) && Array.isArray(errorData["errors"])) {
+        return errorData["errors"].reduce((acc, errorObj2) => {
+          if (errorObj2 == null ? void 0 : errorObj2.message) {
+            acc.push(errorObj2["message"]);
+          }
+          return acc;
+        }, []).join("<br/>");
+      }
+    }
+    return String(errorData);
+  }
+  let res = ((_a = errorObj == null ? void 0 : errorObj.response) == null ? void 0 : _a.statusText) ?? (errorObj == null ? void 0 : errorObj.message) ?? (errorObj == null ? void 0 : errorObj.text);
+  if (res == null ? void 0 : res.startsWith("<html>")) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(res, "text/html");
+    const title2 = doc.querySelector("title");
+    res = title2 == null ? void 0 : title2.innerText;
+  }
+  return res ?? "Unknown Error";
+}
+function createApiError(err) {
+  var _a, _b;
+  let errorMessage = "";
+  let problem = { kind: "unknown", temporary: true };
+  let status = 0;
+  if (err instanceof ApiClientError) {
+    return err;
+  }
+  if (KONTUR_DEBUG) {
+    console.error("Raw error:", err);
+  }
+  if (err instanceof DOMException && err.name === "AbortError" || err instanceof factory.WretchError && err.name === "AbortError" || err instanceof factory.WretchError && err.cause instanceof DOMException && err.cause.name === "AbortError" || err instanceof factory.WretchError && err.message === "The operation was aborted" || err instanceof Error && err.name === "AbortError") {
+    problem = { kind: "canceled" };
+  } else if (err instanceof factory.WretchError) {
+    status = err.status;
+    if (status === 400) {
+      problem = { kind: "bad-request" };
+    } else if (status === 401) {
+      problem = { kind: "unauthorized", data: (_a = err.json) == null ? void 0 : _a.error };
+      if ((_b = err.json) == null ? void 0 : _b.message) {
+        errorMessage = err.json.message;
+      }
+    } else if (status === 403) {
+      problem = { kind: "forbidden" };
+    } else if (status === 404) {
+      problem = { kind: "not-found" };
+    } else if (status === 408 || status === 504) {
+      errorMessage = "Server not available, please try later";
+      problem = { kind: "timeout", temporary: true };
+    } else if (status >= 500) {
+      problem = { kind: "server", data: (err == null ? void 0 : err.json) ?? (err == null ? void 0 : err.text) };
+    }
+  } else {
+    problem = { kind: "client-unknown" };
+  }
+  if (!errorMessage) {
+    errorMessage = parseApiError(err);
+  }
+  return new ApiClientError(errorMessage || "Unknown error", problem, status);
+}
+const ApiMethodTypes = {
+  GET: "get",
+  POST: "post",
+  PUT: "put",
+  PATCH: "patch",
+  DELETE: "delete"
+};
+async function autoParseBody(res) {
+  if (res.status === 204) {
+    res.data = null;
+    return res;
+  }
+  if (res.ok) {
+    const contentType = res.headers.get("content-type") ?? "";
+    if (contentType.includes("application/json")) {
+      res.data = await res.json();
+    } else {
+      res.data = await res.text();
+    }
+  }
+  return res;
+}
+class ApiClient {
+  constructor({ on } = {}) {
+    __publicField(this, "AUTH_REQUIREMENT", AUTH_REQUIREMENT);
+    __publicField(this, "listeners", {
+      error: /* @__PURE__ */ new Set(),
+      poolUpdate: /* @__PURE__ */ new Set(),
+      idle: /* @__PURE__ */ new Set()
+    });
+    __publicField(this, "baseURL");
+    __publicField(this, "requestPool", /* @__PURE__ */ new Map());
+    __publicField(this, "authService");
+    if (on) {
+      Object.entries(on).forEach(
+        ([event, cb]) => {
+          if (cb) this.on(event, cb);
+        }
+      );
+    }
+  }
+  on(event, cb) {
+    this.listeners[event].add(cb);
+    return () => {
+      this.listeners[event].delete(cb);
+    };
+  }
+  _emit(type, payload) {
+    this.listeners[type].forEach((l2) => l2(payload));
+  }
+  init(cfg) {
+    let baseURL = cfg.baseUrl ?? "";
+    this.baseURL = baseURL;
+  }
+  updateRequestPool(requestId, status) {
+    if (status === null) {
+      this.requestPool.delete(requestId);
+    } else {
+      this.requestPool.set(requestId, status);
+    }
+    this._emit("poolUpdate", new Map(this.requestPool));
+    this._emit("idle", this.requestPool.size === 0);
+  }
+  /**
+   * Makes an HTTP request with configurable authentication behavior
+   * @template T - The expected response type
+   * @param {ApiMethod} method - HTTP method to use
+   * @param {string} path - Request URL or path
+   * @param {unknown} [requestParams] - Query parameters or body data
+   * @param {CustomRequestConfig} [requestConfig] - Additional request configuration
+   * @param {AuthRequirement} [requestConfig.authRequirement] - Authentication requirement level:
+   *   - MUST: Request will fail if user is not authenticated
+   *   - OPTIONAL (default): Will attempt to use auth if available, but proceed without if not possible
+   *   - NEVER: Explicitly prevents authentication
+   * @returns {Promise<T | null>} The response data
+   * @throws {ApiClientError} On request failure or auth requirement not met
+   */
+  async call(method, path2, requestParams, requestConfig = {}) {
+    var _a;
+    const RequestsWithBody = ["post", "put", "patch"];
+    const requestId = Math.random().toString(36).substring(7);
+    this.updateRequestPool(requestId, "pending");
+    const { origin, pathname, search: search2 } = path2.startsWith("http") ? new URL(path2) : {
+      origin: this.baseURL,
+      pathname: path2,
+      search: ""
+    };
+    let req = factory(origin, { mode: "cors" }).addon(queryString).url(pathname + search2);
+    if (requestConfig.signal) {
+      req = req.options({ signal: requestConfig.signal });
+    }
+    if (requestConfig.headers) {
+      req = req.headers(requestConfig.headers);
+    }
+    let isAuthenticatedRequest = false;
+    const authRequirement = requestConfig.authRequirement ?? AUTH_REQUIREMENT.OPTIONAL;
+    if (authRequirement !== AUTH_REQUIREMENT.NEVER) {
+      try {
+        const requireAuth = authRequirement === AUTH_REQUIREMENT.MUST;
+        const token = await this.authService.getAccessToken(requireAuth);
+        if (token) {
+          isAuthenticatedRequest = true;
+          req = req.auth(`Bearer ${token}`);
+        }
+      } catch (error2) {
+        if (authRequirement === AUTH_REQUIREMENT.OPTIONAL) {
+          console.warn("Authentication failed but proceeding with request:", error2);
+        } else {
+          throw error2;
+        }
+      }
+    }
+    if (requestParams) {
+      req = RequestsWithBody.includes(method) ? req.json(requestParams) : req.query(requestParams);
+    }
+    try {
+      const response = await req[method]().res(autoParseBody);
+      this.updateRequestPool(requestId, null);
+      return response.data;
+    } catch (err) {
+      this.updateRequestPool(requestId, null);
+      const apiError = createApiError(err);
+      if (getApiErrorKind(apiError) === "canceled") {
+        throw apiError;
+      }
+      if (isAuthenticatedRequest && getApiErrorKind(apiError) === "unauthorized") {
+        try {
+          const token = await this.authService.getAccessToken();
+          if (!token) {
+            throw apiError;
+          }
+        } catch (error2) {
+          throw apiError;
+        }
+        throw apiError;
+      }
+      const defaultRetryConfig = {
+        attempts: 0,
+        delayMs: 1e3,
+        onErrorKinds: ["timeout"]
+      };
+      const retryConfig = {
+        ...defaultRetryConfig,
+        ...requestConfig.retry,
+        onErrorKinds: ((_a = requestConfig.retry) == null ? void 0 : _a.onErrorKinds) ?? defaultRetryConfig.onErrorKinds
+      };
+      if (retryConfig.attempts > 0) {
+        const shouldRetry = retryConfig.onErrorKinds.includes(
+          getApiErrorKind(apiError)
+        );
+        if (shouldRetry) {
+          if (retryConfig.delayMs) {
+            await wait(retryConfig.delayMs / 1e3);
+          }
+          return this.call(method, path2, requestParams, {
+            ...requestConfig,
+            retry: {
+              ...retryConfig,
+              attempts: retryConfig.attempts - 1
+            }
+          });
+        }
+      }
+      const errorsConfig = requestConfig.errorsConfig;
+      if (errorsConfig && errorsConfig.messages) {
+        if (typeof errorsConfig.messages !== "string") {
+          if (apiError.status in errorsConfig.messages) {
+            apiError.message = errorsConfig.messages[apiError.status];
+          }
+        } else {
+          apiError.message = errorsConfig.messages;
+        }
+      }
+      if ((errorsConfig == null ? void 0 : errorsConfig.hideErrors) !== true) {
+        this._emit("error", apiError);
+      }
+      throw apiError;
+    }
+  }
+  // method shortcuts
+  async get(path2, requestParams, requestConfig) {
+    return this.call(ApiMethodTypes.GET, path2, requestParams, requestConfig);
+  }
+  async post(path2, requestParams, requestConfig) {
+    return this.call(ApiMethodTypes.POST, path2, requestParams, requestConfig);
+  }
+  async put(path2, requestParams, requestConfig) {
+    return this.call(ApiMethodTypes.PUT, path2, requestParams, requestConfig);
+  }
+  async patch(path2, requestParams, requestConfig) {
+    return this.call(ApiMethodTypes.PATCH, path2, requestParams, requestConfig);
+  }
+  async delete(path2, requestConfig) {
+    return this.call(ApiMethodTypes.DELETE, path2, void 0, requestConfig);
+  }
+}
+const urlAlphabet = "useandom-26T198340PX75pxJACKVERYMINDBUSHWOLF_GQZbfghjklqvwyzrict";
+let nanoid = (size = 21) => {
+  let id = "";
+  let bytes = crypto.getRandomValues(new Uint8Array(size |= 0));
+  while (size--) {
+    id += urlAlphabet[bytes[size] & 63];
+  }
+  return id;
+};
+const currentNotificationAtom = createAtom(
+  {
+    showNotification: (type, message, lifetimeSec) => ({ type, message, lifetimeSec }),
+    removeNotification: (id) => id
+  },
+  ({ onAction, schedule, create: create2 }, state = []) => {
+    onAction("showNotification", ({ type, message, lifetimeSec }) => {
+      const id = nanoid(4);
+      const onClose = () => currentNotificationAtom.removeNotification.dispatch(id);
+      state = [...state, { id, type, message, lifetimeSec, onClose }];
+      schedule((dispatch) => {
+        setTimeout(onClose, lifetimeSec * 1e3);
+      });
+    });
+    onAction(
+      "removeNotification",
+      (idToDelete) => state = state.filter(({ id }) => id !== idToDelete)
+    );
+    return [...state];
+  },
+  "[Shared state] currentNotificationAtom"
+);
+const _NotificationService = class _NotificationService {
+  constructor() {
+    __publicField(this, "defaultLifetimeSec", 10);
+  }
+  static getInstance() {
+    if (!_NotificationService.instance) {
+      throw new Error("You have to initialize api client first!");
+    } else {
+      return _NotificationService.instance;
+    }
+  }
+  static init() {
+    _NotificationService.instance = new _NotificationService();
+  }
+  error(message, lifetimeSec) {
+    currentNotificationAtom.showNotification.dispatch(
+      "error",
+      message,
+      lifetimeSec || this.defaultLifetimeSec
+    );
+  }
+  warning(message, lifetimeSec) {
+    currentNotificationAtom.showNotification.dispatch(
+      "warning",
+      message,
+      lifetimeSec || this.defaultLifetimeSec
+    );
+  }
+  info(message, lifetimeSec) {
+    currentNotificationAtom.showNotification.dispatch(
+      "info",
+      message,
+      lifetimeSec || this.defaultLifetimeSec
+    );
+  }
+  success(message, lifetimeSec) {
+    currentNotificationAtom.showNotification.dispatch(
+      "success",
+      message,
+      lifetimeSec || this.defaultLifetimeSec
+    );
+  }
+};
+__publicField(_NotificationService, "instance");
+let NotificationService = _NotificationService;
+NotificationService.init();
+const notificationServiceInstance = NotificationService.getInstance();
+const apiClient = new ApiClient({
+  on: {
+    error: (error2) => {
+      switch (error2.problem.kind) {
+        default:
+          notificationServiceInstance.error({
+            title: "Error",
+            description: error2.message
+          });
+      }
+    },
+    idle: () => dispatchMetricsEvent("apiClient_isIdle")
+  }
+});
+new ApiClient({
+  on: {
+    error: (error2) => {
+      switch (error2.problem.kind) {
+        default:
+          notificationServiceInstance.error({
+            title: "Error",
+            description: error2.message
+          });
+      }
+    },
+    idle: () => dispatchMetricsEvent("reportsClient_isIdle")
+  }
+});
+async function getCurrentUserSubscription() {
+  return await apiClient.get(
+    "/users/current_user/billing_subscription",
+    { appId: configRepo.get().id },
+    { authRequirement: apiClient.AUTH_REQUIREMENT.MUST }
+  );
+}
+reatomResource(async () => {
+  return await getCurrentUserSubscription();
+}, "currentUserSubscriptionResource").pipe(withDataAtom(), withCache());
+createBooleanAtom(false, "intercomVisibleAtom");
+function openIntercomChat() {
+  if (globalThis.Intercom && globalThis.intercomSettings) {
+    globalThis.Intercom("showMessages");
+  } else {
+    console.warn("Intercom is not available");
+  }
+}
+function isExternalLink(href) {
+  const externalProtocols = ["http://", "https://", "mailto:", "ftp://", "tel:"];
+  return externalProtocols.some((protocol) => href.startsWith(protocol));
+}
+function isInnerAnchorLink(href) {
+  return href.startsWith("#");
+}
+const MEDIA_PARAMS_SEPARATOR = "::";
+const MEDIA_PARAMS_DELIMITER = ",";
+function parseMediaParams(url2) {
+  const parts = url2.split(MEDIA_PARAMS_SEPARATOR);
+  if (parts.length !== 2) return { originalUrl: url2, params: null };
+  const [width, height, fullscreen] = parts[1].split(MEDIA_PARAMS_DELIMITER);
+  return {
+    originalUrl: parts[0],
+    params: {
+      ...width && { width: parseInt(width) },
+      ...height && { height: parseInt(height) },
+      ...fullscreen !== void 0 && { allowFullscreen: fullscreen === "1" }
+    }
+  };
+}
+const YOUTUBE_DOMAINS = ["youtube.com", "youtu.be"];
+const isYoutubeUrl = (url2) => {
+  try {
+    const parsedUrl = new URL(url2);
+    return YOUTUBE_DOMAINS.some((domain) => parsedUrl.hostname.endsWith(domain));
+  } catch {
+    return false;
+  }
+};
+function getYoutubeEmbedUrl(url2) {
+  try {
+    const parsedUrl = new URL(url2);
+    let videoId = null;
+    if (parsedUrl.hostname.includes("youtu.be")) {
+      videoId = parsedUrl.pathname.slice(1);
+    } else {
+      if (parsedUrl.pathname.includes("shorts")) {
+        videoId = parsedUrl.pathname.split("/shorts/")[1];
+      } else if (parsedUrl.pathname.includes("embed")) {
+        videoId = parsedUrl.pathname.split("/embed/")[1];
+      } else {
+        videoId = parsedUrl.searchParams.get("v");
+      }
+    }
+    return videoId ? `https://www.youtube.com/embed/${videoId}` : url2;
+  } catch {
+    return url2;
+  }
+}
+const appProtocolHandlers = {
+  intercom: () => openIntercomChat()
+  // Add more handlers here:
+  // someCommand: (url) => { /* handle someCommand */ },
+};
+function handleAppProtocol(url2) {
+  const handler = appProtocolHandlers[url2.hostname];
+  if (handler) {
+    handler(url2);
+    return true;
+  }
+  console.warn(`Unknown app protocol handler: ${url2.hostname}`);
+  return false;
+}
+function MarkdownLink({
+  children,
+  href,
+  title: title2
+}) {
+  const handleClick = reactExports.useCallback(
+    (e) => {
+      if (isInnerAnchorLink(href)) {
+        return;
+      }
+      try {
+        const url2 = new URL(href);
+        if (url2.protocol === "app:") {
+          handleAppProtocol(url2);
+          e.preventDefault();
+          return;
+        }
+      } catch {
+      }
+      goTo(href);
+      e.preventDefault();
+    },
+    [href]
+  );
+  if (isExternalLink(href)) {
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("a", { title: title2, href, target: "_blank", rel: "noreferrer", className: "external", children });
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("a", { title: title2, href, onClick: handleClick, className: "internal", children });
+}
+function buildAssetUrl(asset) {
+  return `${configRepo.get().apiGateway}/apps/${configRepo.get().id}/assets/${asset}`;
+}
+function MarkdownMedia({
+  title: title2,
+  alt,
+  src
+}) {
+  const { originalUrl, params } = parseMediaParams(src);
+  if (isYoutubeUrl(originalUrl)) {
+    const width = (params == null ? void 0 : params.width) ?? 560;
+    const height = (params == null ? void 0 : params.height) ?? 315;
+    return /* @__PURE__ */ jsxRuntimeExports.jsx(
+      "iframe",
+      {
+        src: getYoutubeEmbedUrl(originalUrl),
+        title: title2 || alt || "YouTube video player",
+        frameBorder: "0",
+        allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
+        allowFullScreen: (params == null ? void 0 : params.allowFullscreen) ?? true,
+        referrerPolicy: "strict-origin-when-cross-origin",
+        style: { width: "100%", aspectRatio: `${width} / ${height}` }
+      }
+    );
+  }
+  let realSrc = originalUrl;
+  if (!isExternalLink(originalUrl)) {
+    realSrc = buildAssetUrl(originalUrl);
+  }
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(
+    "img",
+    {
+      src: realSrc,
+      alt,
+      title: title2,
+      ...(params == null ? void 0 : params.width) && { width: params.width },
+      ...(params == null ? void 0 : params.height) && { height: params.height }
+    }
+  );
+}
+function wrapContentInSection(content, idPrefix, classPrefix) {
+  const result = [];
+  const stack2 = [];
+  let keyCounter = 0;
+  const parentCounters = /* @__PURE__ */ new Map();
+  const wrapAndPushContent = (level) => {
+    while (stack2.length > 0 && stack2[stack2.length - 1].level >= level) {
+      const { level: stackLevel, content: content2, id } = stack2.pop();
+      if (content2.length > 0) {
+        const wrappedContent = React.createElement(
+          "div",
+          {
+            className: `${classPrefix}-${id}`,
+            key: `div-h${stackLevel}-${++keyCounter}`
+          },
+          content2
+        );
+        if (stack2.length > 0) {
+          stack2[stack2.length - 1].content.push(wrappedContent);
+        } else {
+          result.push(wrappedContent);
+        }
+      }
+    }
+  };
+  const processElement = (element) => {
+    const headingMatch = element.type.toString().match(/^h([1-6])$/);
+    if (headingMatch) {
+      const level = Number.parseInt(headingMatch[1]);
+      wrapAndPushContent(level);
+      const parentId = stack2.length > 0 ? stack2[stack2.length - 1].id : "";
+      const currentCount = (parentCounters.get(parentId) || 0) + 1;
+      parentCounters.set(parentId, currentCount);
+      const fullId = parentId ? `${parentId}-${currentCount}` : `${idPrefix}-${currentCount}`;
+      const clonedElement = React.cloneElement(element, {
+        key: `heading-${++keyCounter}`,
+        id: fullId
+      });
+      if (stack2.length > 0 && level > stack2[stack2.length - 1].level) {
+        stack2[stack2.length - 1].content.push(clonedElement);
+      } else {
+        result.push(clonedElement);
+      }
+      stack2.push({ level, content: [], id: fullId });
+    } else {
+      const clonedElement = React.cloneElement(element, {
+        key: `content-${++keyCounter}`
+      });
+      if (stack2.length > 0) {
+        stack2[stack2.length - 1].content.push(clonedElement);
+      } else {
+        result.push(clonedElement);
+      }
+    }
+  };
+  React.Children.forEach(content, (element) => {
+    if (React.isValidElement(element)) {
+      processElement(element);
+    }
+  });
+  wrapAndPushContent(0);
+  return result;
+}
+function splitIntoSections(compiled) {
+  const sections = [];
+  let currentSection = [];
+  React.Children.forEach(compiled, (element) => {
+    if (React.isValidElement(element) && element.type === "hr") {
+      if (currentSection.length > 0) {
+        sections.push(currentSection);
+        currentSection = [];
+      }
+    } else {
+      currentSection.push(element);
+    }
+  });
+  if (currentSection.length > 0) {
+    sections.push(currentSection);
+  }
+  return sections;
+}
+function structureMarkdownContent(compiled, idPrefix = "hdr", classPrefix = "wrap") {
+  const sections = splitIntoSections(compiled);
+  return sections.map(
+    (section, index2) => React.createElement(
+      "section",
+      { key: `section-${index2}` },
+      wrapContentInSection(section, idPrefix, classPrefix)
+    )
+  );
+}
+const markdownOptions = {
+  overrides: {
+    a: MarkdownLink,
+    img: MarkdownMedia,
+    h1: { props: { id: void 0 } },
+    h2: { props: { id: void 0 } },
+    h3: { props: { id: void 0 } },
+    h4: { props: { id: void 0 } },
+    h5: { props: { id: void 0 } },
+    h6: { props: { id: void 0 } }
+  },
+  wrapper: null
+};
+function StructuredMarkdownContent({ content }) {
+  const compiled = Xe(content, markdownOptions);
+  return structureMarkdownContent(compiled);
+}
+var fastDeepEqual;
+var hasRequiredFastDeepEqual;
+function requireFastDeepEqual() {
+  if (hasRequiredFastDeepEqual) return fastDeepEqual;
+  hasRequiredFastDeepEqual = 1;
+  var isArray = Array.isArray;
+  var keyList = Object.keys;
+  var hasProp = Object.prototype.hasOwnProperty;
+  fastDeepEqual = function equal(a2, b2) {
+    if (a2 === b2) return true;
+    if (a2 && b2 && typeof a2 == "object" && typeof b2 == "object") {
+      var arrA = isArray(a2), arrB = isArray(b2), i2, length, key;
+      if (arrA && arrB) {
+        length = a2.length;
+        if (length != b2.length) return false;
+        for (i2 = length; i2-- !== 0; )
+          if (!equal(a2[i2], b2[i2])) return false;
+        return true;
+      }
+      if (arrA != arrB) return false;
+      var dateA = a2 instanceof Date, dateB = b2 instanceof Date;
+      if (dateA != dateB) return false;
+      if (dateA && dateB) return a2.getTime() == b2.getTime();
+      var regexpA = a2 instanceof RegExp, regexpB = b2 instanceof RegExp;
+      if (regexpA != regexpB) return false;
+      if (regexpA && regexpB) return a2.toString() == b2.toString();
+      var keys = keyList(a2);
+      length = keys.length;
+      if (length !== keyList(b2).length)
+        return false;
+      for (i2 = length; i2-- !== 0; )
+        if (!hasProp.call(b2, keys[i2])) return false;
+      for (i2 = length; i2-- !== 0; ) {
+        key = keys[i2];
+        if (!equal(a2[key], b2[key])) return false;
+      }
+      return true;
+    }
+    return a2 !== a2 && b2 !== b2;
+  };
+  return fastDeepEqual;
+}
+var build;
+var hasRequiredBuild;
+function requireBuild() {
+  if (hasRequiredBuild) return build;
+  hasRequiredBuild = 1;
+  var __values = build && build.__values || function(o2) {
+    var s2 = typeof Symbol === "function" && Symbol.iterator, m2 = s2 && o2[s2], i2 = 0;
+    if (m2) return m2.call(o2);
+    if (o2 && typeof o2.length === "number") return {
+      next: function() {
+        if (o2 && i2 >= o2.length) o2 = void 0;
+        return { value: o2 && o2[i2++], done: !o2 };
+      }
+    };
+    throw new TypeError(s2 ? "Object is not iterable." : "Symbol.iterator is not defined.");
+  };
+  var __read = build && build.__read || function(o2, n2) {
+    var m2 = typeof Symbol === "function" && o2[Symbol.iterator];
+    if (!m2) return o2;
+    var i2 = m2.call(o2), r2, ar = [], e;
+    try {
+      while ((n2 === void 0 || n2-- > 0) && !(r2 = i2.next()).done) ar.push(r2.value);
+    } catch (error2) {
+      e = { error: error2 };
+    } finally {
+      try {
+        if (r2 && !r2.done && (m2 = i2["return"])) m2.call(i2);
+      } finally {
+        if (e) throw e.error;
+      }
+    }
+    return ar;
+  };
+  var __spreadArray = build && build.__spreadArray || function(to2, from, pack) {
+    if (pack || arguments.length === 2) for (var i2 = 0, l2 = from.length, ar; i2 < l2; i2++) {
+      if (ar || !(i2 in from)) {
+        if (!ar) ar = Array.prototype.slice.call(from, 0, i2);
+        ar[i2] = from[i2];
+      }
+    }
+    return to2.concat(ar || Array.prototype.slice.call(from));
+  };
+  var deepEqual2 = requireFastDeepEqual();
+  var promiseCaches = [];
+  var usePromise2 = function(promise, inputs, lifespan) {
+    var e_1, _a;
+    if (lifespan === void 0) {
+      lifespan = 0;
+    }
+    try {
+      for (var promiseCaches_1 = __values(promiseCaches), promiseCaches_1_1 = promiseCaches_1.next(); !promiseCaches_1_1.done; promiseCaches_1_1 = promiseCaches_1.next()) {
+        var promiseCache_1 = promiseCaches_1_1.value;
+        if (deepEqual2(inputs, promiseCache_1.inputs)) {
+          if (Object.prototype.hasOwnProperty.call(promiseCache_1, "error")) {
+            throw promiseCache_1.error;
+          } else if (Object.prototype.hasOwnProperty.call(promiseCache_1, "response")) {
+            return promiseCache_1.response;
+          }
+          throw promiseCache_1.promise;
+        }
+      }
+    } catch (e_1_1) {
+      e_1 = { error: e_1_1 };
+    } finally {
+      try {
+        if (promiseCaches_1_1 && !promiseCaches_1_1.done && (_a = promiseCaches_1.return)) _a.call(promiseCaches_1);
+      } finally {
+        if (e_1) throw e_1.error;
+      }
+    }
+    var promiseCache = {
+      promise: promise.apply(void 0, __spreadArray([], __read(inputs), false)).then(function(response) {
+        promiseCache.response = response;
+      }).catch(function(e) {
+        promiseCache.error = e;
+      }).then(function() {
+        if (lifespan > 0) {
+          setTimeout(function() {
+            var index2 = promiseCaches.indexOf(promiseCache);
+            if (index2 !== -1) {
+              promiseCaches.splice(index2, 1);
+            }
+          }, lifespan);
+        }
+      }),
+      inputs
+    };
+    promiseCaches.push(promiseCache);
+    throw promiseCache.promise;
+  };
+  build = usePromise2;
+  return build;
+}
+var buildExports = requireBuild();
+const usePromise = /* @__PURE__ */ getDefaultExportFromCjs(buildExports);
+const article = "_article_b9f5o_1";
+const s$i = {
+  article
+};
+function Article({
+  children,
+  className = "",
+  id = ""
+}) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("article", { className: `${s$i.article} ${className}`, id, children });
+}
+const isString = (obj) => typeof obj === "string";
+const defer = () => {
+  let res;
+  let rej;
+  const promise = new Promise((resolve, reject) => {
+    res = resolve;
+    rej = reject;
+  });
+  promise.resolve = res;
+  promise.reject = rej;
+  return promise;
+};
+const makeString = (object) => {
+  if (object == null) return "";
+  return "" + object;
+};
+const copy = (a2, s2, t2) => {
+  a2.forEach((m2) => {
+    if (s2[m2]) t2[m2] = s2[m2];
+  });
+};
+const lastOfPathSeparatorRegExp = /###/g;
+const cleanKey = (key) => key && key.indexOf("###") > -1 ? key.replace(lastOfPathSeparatorRegExp, ".") : key;
+const canNotTraverseDeeper = (object) => !object || isString(object);
+const getLastOfPath = (object, path2, Empty) => {
+  const stack2 = !isString(path2) ? path2 : path2.split(".");
+  let stackIndex = 0;
+  while (stackIndex < stack2.length - 1) {
+    if (canNotTraverseDeeper(object)) return {};
+    const key = cleanKey(stack2[stackIndex]);
+    if (!object[key] && Empty) object[key] = new Empty();
+    if (Object.prototype.hasOwnProperty.call(object, key)) {
+      object = object[key];
+    } else {
+      object = {};
+    }
+    ++stackIndex;
+  }
+  if (canNotTraverseDeeper(object)) return {};
+  return {
+    obj: object,
+    k: cleanKey(stack2[stackIndex])
+  };
+};
+const setPath = (object, path2, newValue) => {
+  const {
+    obj,
+    k: k2
+  } = getLastOfPath(object, path2, Object);
+  if (obj !== void 0 || path2.length === 1) {
+    obj[k2] = newValue;
+    return;
+  }
+  let e = path2[path2.length - 1];
+  let p2 = path2.slice(0, path2.length - 1);
+  let last = getLastOfPath(object, p2, Object);
+  while (last.obj === void 0 && p2.length) {
+    e = `${p2[p2.length - 1]}.${e}`;
+    p2 = p2.slice(0, p2.length - 1);
+    last = getLastOfPath(object, p2, Object);
+    if (last && last.obj && typeof last.obj[`${last.k}.${e}`] !== "undefined") {
+      last.obj = void 0;
+    }
+  }
+  last.obj[`${last.k}.${e}`] = newValue;
+};
+const pushPath = (object, path2, newValue, concat) => {
+  const {
+    obj,
+    k: k2
+  } = getLastOfPath(object, path2, Object);
+  obj[k2] = obj[k2] || [];
+  obj[k2].push(newValue);
+};
+const getPath = (object, path2) => {
+  const {
+    obj,
+    k: k2
+  } = getLastOfPath(object, path2);
+  if (!obj) return void 0;
+  return obj[k2];
+};
+const getPathWithDefaults = (data, defaultData, key) => {
+  const value2 = getPath(data, key);
+  if (value2 !== void 0) {
+    return value2;
+  }
+  return getPath(defaultData, key);
+};
+const deepExtend = (target, source, overwrite) => {
+  for (const prop in source) {
+    if (prop !== "__proto__" && prop !== "constructor") {
+      if (prop in target) {
+        if (isString(target[prop]) || target[prop] instanceof String || isString(source[prop]) || source[prop] instanceof String) {
+          if (overwrite) target[prop] = source[prop];
+        } else {
+          deepExtend(target[prop], source[prop], overwrite);
+        }
+      } else {
+        target[prop] = source[prop];
+      }
+    }
+  }
+  return target;
+};
+const regexEscape = (str) => str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+var _entityMap = {
+  "&": "&amp;",
+  "<": "&lt;",
+  ">": "&gt;",
+  '"': "&quot;",
+  "'": "&#39;",
+  "/": "&#x2F;"
+};
+const escape = (data) => {
+  if (isString(data)) {
+    return data.replace(/[&<>"'\/]/g, (s2) => _entityMap[s2]);
+  }
+  return data;
+};
+class RegExpCache {
+  constructor(capacity) {
+    this.capacity = capacity;
+    this.regExpMap = /* @__PURE__ */ new Map();
+    this.regExpQueue = [];
+  }
+  getRegExp(pattern) {
+    const regExpFromCache = this.regExpMap.get(pattern);
+    if (regExpFromCache !== void 0) {
+      return regExpFromCache;
+    }
+    const regExpNew = new RegExp(pattern);
+    if (this.regExpQueue.length === this.capacity) {
+      this.regExpMap.delete(this.regExpQueue.shift());
+    }
+    this.regExpMap.set(pattern, regExpNew);
+    this.regExpQueue.push(pattern);
+    return regExpNew;
+  }
+}
+const chars = [" ", ",", "?", "!", ";"];
+const looksLikeObjectPathRegExpCache = new RegExpCache(20);
+const looksLikeObjectPath = (key, nsSeparator, keySeparator) => {
+  nsSeparator = nsSeparator || "";
+  keySeparator = keySeparator || "";
+  const possibleChars = chars.filter((c2) => nsSeparator.indexOf(c2) < 0 && keySeparator.indexOf(c2) < 0);
+  if (possibleChars.length === 0) return true;
+  const r2 = looksLikeObjectPathRegExpCache.getRegExp(`(${possibleChars.map((c2) => c2 === "?" ? "\\?" : c2).join("|")})`);
+  let matched = !r2.test(key);
+  if (!matched) {
+    const ki = key.indexOf(keySeparator);
+    if (ki > 0 && !r2.test(key.substring(0, ki))) {
+      matched = true;
+    }
+  }
+  return matched;
+};
+const deepFind = function(obj, path2) {
+  let keySeparator = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : ".";
+  if (!obj) return void 0;
+  if (obj[path2]) return obj[path2];
+  const tokens = path2.split(keySeparator);
+  let current = obj;
+  for (let i2 = 0; i2 < tokens.length; ) {
+    if (!current || typeof current !== "object") {
+      return void 0;
+    }
+    let next;
+    let nextPath = "";
+    for (let j2 = i2; j2 < tokens.length; ++j2) {
+      if (j2 !== i2) {
+        nextPath += keySeparator;
+      }
+      nextPath += tokens[j2];
+      next = current[nextPath];
+      if (next !== void 0) {
+        if (["string", "number", "boolean"].indexOf(typeof next) > -1 && j2 < tokens.length - 1) {
+          continue;
+        }
+        i2 += j2 - i2 + 1;
+        break;
+      }
+    }
+    current = next;
+  }
+  return current;
+};
+const getCleanedCode = (code) => code && code.replace("_", "-");
+const consoleLogger = {
+  type: "logger",
+  log(args) {
+    this.output("log", args);
+  },
+  warn(args) {
+    this.output("warn", args);
+  },
+  error(args) {
+    this.output("error", args);
+  },
+  output(type, args) {
+    if (console && console[type]) console[type].apply(console, args);
+  }
+};
+class Logger {
+  constructor(concreteLogger) {
+    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    this.init(concreteLogger, options);
+  }
+  init(concreteLogger) {
+    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    this.prefix = options.prefix || "i18next:";
+    this.logger = concreteLogger || consoleLogger;
+    this.options = options;
+    this.debug = options.debug;
+  }
+  log() {
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+    return this.forward(args, "log", "", true);
+  }
+  warn() {
+    for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+      args[_key2] = arguments[_key2];
+    }
+    return this.forward(args, "warn", "", true);
+  }
+  error() {
+    for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
+      args[_key3] = arguments[_key3];
+    }
+    return this.forward(args, "error", "");
+  }
+  deprecate() {
+    for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
+      args[_key4] = arguments[_key4];
+    }
+    return this.forward(args, "warn", "WARNING DEPRECATED: ", true);
+  }
+  forward(args, lvl, prefix, debugOnly) {
+    if (debugOnly && !this.debug) return null;
+    if (isString(args[0])) args[0] = `${prefix}${this.prefix} ${args[0]}`;
+    return this.logger[lvl](args);
+  }
+  create(moduleName) {
+    return new Logger(this.logger, {
+      ...{
+        prefix: `${this.prefix}:${moduleName}:`
+      },
+      ...this.options
+    });
+  }
+  clone(options) {
+    options = options || this.options;
+    options.prefix = options.prefix || this.prefix;
+    return new Logger(this.logger, options);
+  }
+}
+var baseLogger = new Logger();
+class EventEmitter {
+  constructor() {
+    this.observers = {};
+  }
+  on(events, listener) {
+    events.split(" ").forEach((event) => {
+      if (!this.observers[event]) this.observers[event] = /* @__PURE__ */ new Map();
+      const numListeners = this.observers[event].get(listener) || 0;
+      this.observers[event].set(listener, numListeners + 1);
+    });
+    return this;
+  }
+  off(event, listener) {
+    if (!this.observers[event]) return;
+    if (!listener) {
+      delete this.observers[event];
+      return;
+    }
+    this.observers[event].delete(listener);
+  }
+  emit(event) {
+    for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+      args[_key - 1] = arguments[_key];
+    }
+    if (this.observers[event]) {
+      const cloned = Array.from(this.observers[event].entries());
+      cloned.forEach((_ref) => {
+        let [observer, numTimesAdded] = _ref;
+        for (let i2 = 0; i2 < numTimesAdded; i2++) {
+          observer(...args);
+        }
+      });
+    }
+    if (this.observers["*"]) {
+      const cloned = Array.from(this.observers["*"].entries());
+      cloned.forEach((_ref2) => {
+        let [observer, numTimesAdded] = _ref2;
+        for (let i2 = 0; i2 < numTimesAdded; i2++) {
+          observer.apply(observer, [event, ...args]);
+        }
+      });
+    }
+  }
+}
+class ResourceStore extends EventEmitter {
+  constructor(data) {
+    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {
+      ns: ["translation"],
+      defaultNS: "translation"
+    };
+    super();
+    this.data = data || {};
+    this.options = options;
+    if (this.options.keySeparator === void 0) {
+      this.options.keySeparator = ".";
+    }
+    if (this.options.ignoreJSONStructure === void 0) {
+      this.options.ignoreJSONStructure = true;
+    }
+  }
+  addNamespaces(ns) {
+    if (this.options.ns.indexOf(ns) < 0) {
+      this.options.ns.push(ns);
+    }
+  }
+  removeNamespaces(ns) {
+    const index2 = this.options.ns.indexOf(ns);
+    if (index2 > -1) {
+      this.options.ns.splice(index2, 1);
+    }
+  }
+  getResource(lng, ns, key) {
+    let options = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : {};
+    const keySeparator = options.keySeparator !== void 0 ? options.keySeparator : this.options.keySeparator;
+    const ignoreJSONStructure = options.ignoreJSONStructure !== void 0 ? options.ignoreJSONStructure : this.options.ignoreJSONStructure;
+    let path2;
+    if (lng.indexOf(".") > -1) {
+      path2 = lng.split(".");
+    } else {
+      path2 = [lng, ns];
+      if (key) {
+        if (Array.isArray(key)) {
+          path2.push(...key);
+        } else if (isString(key) && keySeparator) {
+          path2.push(...key.split(keySeparator));
+        } else {
+          path2.push(key);
+        }
+      }
+    }
+    const result = getPath(this.data, path2);
+    if (!result && !ns && !key && lng.indexOf(".") > -1) {
+      lng = path2[0];
+      ns = path2[1];
+      key = path2.slice(2).join(".");
+    }
+    if (result || !ignoreJSONStructure || !isString(key)) return result;
+    return deepFind(this.data && this.data[lng] && this.data[lng][ns], key, keySeparator);
+  }
+  addResource(lng, ns, key, value2) {
+    let options = arguments.length > 4 && arguments[4] !== void 0 ? arguments[4] : {
+      silent: false
+    };
+    const keySeparator = options.keySeparator !== void 0 ? options.keySeparator : this.options.keySeparator;
+    let path2 = [lng, ns];
+    if (key) path2 = path2.concat(keySeparator ? key.split(keySeparator) : key);
+    if (lng.indexOf(".") > -1) {
+      path2 = lng.split(".");
+      value2 = ns;
+      ns = path2[1];
+    }
+    this.addNamespaces(ns);
+    setPath(this.data, path2, value2);
+    if (!options.silent) this.emit("added", lng, ns, key, value2);
+  }
+  addResources(lng, ns, resources) {
+    let options = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : {
+      silent: false
+    };
+    for (const m2 in resources) {
+      if (isString(resources[m2]) || Array.isArray(resources[m2])) this.addResource(lng, ns, m2, resources[m2], {
+        silent: true
+      });
+    }
+    if (!options.silent) this.emit("added", lng, ns, resources);
+  }
+  addResourceBundle(lng, ns, resources, deep, overwrite) {
+    let options = arguments.length > 5 && arguments[5] !== void 0 ? arguments[5] : {
+      silent: false,
+      skipCopy: false
+    };
+    let path2 = [lng, ns];
+    if (lng.indexOf(".") > -1) {
+      path2 = lng.split(".");
+      deep = resources;
+      resources = ns;
+      ns = path2[1];
+    }
+    this.addNamespaces(ns);
+    let pack = getPath(this.data, path2) || {};
+    if (!options.skipCopy) resources = JSON.parse(JSON.stringify(resources));
+    if (deep) {
+      deepExtend(pack, resources, overwrite);
+    } else {
+      pack = {
+        ...pack,
+        ...resources
+      };
+    }
+    setPath(this.data, path2, pack);
+    if (!options.silent) this.emit("added", lng, ns, resources);
+  }
+  removeResourceBundle(lng, ns) {
+    if (this.hasResourceBundle(lng, ns)) {
+      delete this.data[lng][ns];
+    }
+    this.removeNamespaces(ns);
+    this.emit("removed", lng, ns);
+  }
+  hasResourceBundle(lng, ns) {
+    return this.getResource(lng, ns) !== void 0;
+  }
+  getResourceBundle(lng, ns) {
+    if (!ns) ns = this.options.defaultNS;
+    if (this.options.compatibilityAPI === "v1") return {
+      ...{},
+      ...this.getResource(lng, ns)
+    };
+    return this.getResource(lng, ns);
+  }
+  getDataByLanguage(lng) {
+    return this.data[lng];
+  }
+  hasLanguageSomeTranslations(lng) {
+    const data = this.getDataByLanguage(lng);
+    const n2 = data && Object.keys(data) || [];
+    return !!n2.find((v2) => data[v2] && Object.keys(data[v2]).length > 0);
+  }
+  toJSON() {
+    return this.data;
+  }
+}
+var postProcessor = {
+  processors: {},
+  addPostProcessor(module) {
+    this.processors[module.name] = module;
+  },
+  handle(processors, value2, key, options, translator) {
+    processors.forEach((processor) => {
+      if (this.processors[processor]) value2 = this.processors[processor].process(value2, key, options, translator);
+    });
+    return value2;
+  }
+};
+const checkedLoadedFor = {};
+class Translator extends EventEmitter {
+  constructor(services) {
+    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    super();
+    copy(["resourceStore", "languageUtils", "pluralResolver", "interpolator", "backendConnector", "i18nFormat", "utils"], services, this);
+    this.options = options;
+    if (this.options.keySeparator === void 0) {
+      this.options.keySeparator = ".";
+    }
+    this.logger = baseLogger.create("translator");
+  }
+  changeLanguage(lng) {
+    if (lng) this.language = lng;
+  }
+  exists(key) {
+    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {
+      interpolation: {}
+    };
+    if (key === void 0 || key === null) {
+      return false;
+    }
+    const resolved2 = this.resolve(key, options);
+    return resolved2 && resolved2.res !== void 0;
+  }
+  extractFromKey(key, options) {
+    let nsSeparator = options.nsSeparator !== void 0 ? options.nsSeparator : this.options.nsSeparator;
+    if (nsSeparator === void 0) nsSeparator = ":";
+    const keySeparator = options.keySeparator !== void 0 ? options.keySeparator : this.options.keySeparator;
+    let namespaces = options.ns || this.options.defaultNS || [];
+    const wouldCheckForNsInKey = nsSeparator && key.indexOf(nsSeparator) > -1;
+    const seemsNaturalLanguage = !this.options.userDefinedKeySeparator && !options.keySeparator && !this.options.userDefinedNsSeparator && !options.nsSeparator && !looksLikeObjectPath(key, nsSeparator, keySeparator);
+    if (wouldCheckForNsInKey && !seemsNaturalLanguage) {
+      const m2 = key.match(this.interpolator.nestingRegexp);
+      if (m2 && m2.length > 0) {
+        return {
+          key,
+          namespaces: isString(namespaces) ? [namespaces] : namespaces
+        };
+      }
+      const parts = key.split(nsSeparator);
+      if (nsSeparator !== keySeparator || nsSeparator === keySeparator && this.options.ns.indexOf(parts[0]) > -1) namespaces = parts.shift();
+      key = parts.join(keySeparator);
+    }
+    return {
+      key,
+      namespaces: isString(namespaces) ? [namespaces] : namespaces
+    };
+  }
+  translate(keys, options, lastKey) {
+    if (typeof options !== "object" && this.options.overloadTranslationOptionHandler) {
+      options = this.options.overloadTranslationOptionHandler(arguments);
+    }
+    if (typeof options === "object") options = {
+      ...options
+    };
+    if (!options) options = {};
+    if (keys === void 0 || keys === null) return "";
+    if (!Array.isArray(keys)) keys = [String(keys)];
+    const returnDetails = options.returnDetails !== void 0 ? options.returnDetails : this.options.returnDetails;
+    const keySeparator = options.keySeparator !== void 0 ? options.keySeparator : this.options.keySeparator;
+    const {
+      key,
+      namespaces
+    } = this.extractFromKey(keys[keys.length - 1], options);
+    const namespace = namespaces[namespaces.length - 1];
+    const lng = options.lng || this.language;
+    const appendNamespaceToCIMode = options.appendNamespaceToCIMode || this.options.appendNamespaceToCIMode;
+    if (lng && lng.toLowerCase() === "cimode") {
+      if (appendNamespaceToCIMode) {
+        const nsSeparator = options.nsSeparator || this.options.nsSeparator;
+        if (returnDetails) {
+          return {
+            res: `${namespace}${nsSeparator}${key}`,
+            usedKey: key,
+            exactUsedKey: key,
+            usedLng: lng,
+            usedNS: namespace,
+            usedParams: this.getUsedParamsDetails(options)
+          };
+        }
+        return `${namespace}${nsSeparator}${key}`;
+      }
+      if (returnDetails) {
+        return {
+          res: key,
+          usedKey: key,
+          exactUsedKey: key,
+          usedLng: lng,
+          usedNS: namespace,
+          usedParams: this.getUsedParamsDetails(options)
+        };
+      }
+      return key;
+    }
+    const resolved2 = this.resolve(keys, options);
+    let res = resolved2 && resolved2.res;
+    const resUsedKey = resolved2 && resolved2.usedKey || key;
+    const resExactUsedKey = resolved2 && resolved2.exactUsedKey || key;
+    const resType = Object.prototype.toString.apply(res);
+    const noObject = ["[object Number]", "[object Function]", "[object RegExp]"];
+    const joinArrays = options.joinArrays !== void 0 ? options.joinArrays : this.options.joinArrays;
+    const handleAsObjectInI18nFormat = !this.i18nFormat || this.i18nFormat.handleAsObject;
+    const handleAsObject = !isString(res) && typeof res !== "boolean" && typeof res !== "number";
+    if (handleAsObjectInI18nFormat && res && handleAsObject && noObject.indexOf(resType) < 0 && !(isString(joinArrays) && Array.isArray(res))) {
+      if (!options.returnObjects && !this.options.returnObjects) {
+        if (!this.options.returnedObjectHandler) {
+          this.logger.warn("accessing an object - but returnObjects options is not enabled!");
+        }
+        const r2 = this.options.returnedObjectHandler ? this.options.returnedObjectHandler(resUsedKey, res, {
+          ...options,
+          ns: namespaces
+        }) : `key '${key} (${this.language})' returned an object instead of string.`;
+        if (returnDetails) {
+          resolved2.res = r2;
+          resolved2.usedParams = this.getUsedParamsDetails(options);
+          return resolved2;
+        }
+        return r2;
+      }
+      if (keySeparator) {
+        const resTypeIsArray = Array.isArray(res);
+        const copy2 = resTypeIsArray ? [] : {};
+        const newKeyToUse = resTypeIsArray ? resExactUsedKey : resUsedKey;
+        for (const m2 in res) {
+          if (Object.prototype.hasOwnProperty.call(res, m2)) {
+            const deepKey = `${newKeyToUse}${keySeparator}${m2}`;
+            copy2[m2] = this.translate(deepKey, {
+              ...options,
+              ...{
+                joinArrays: false,
+                ns: namespaces
+              }
+            });
+            if (copy2[m2] === deepKey) copy2[m2] = res[m2];
+          }
+        }
+        res = copy2;
+      }
+    } else if (handleAsObjectInI18nFormat && isString(joinArrays) && Array.isArray(res)) {
+      res = res.join(joinArrays);
+      if (res) res = this.extendTranslation(res, keys, options, lastKey);
+    } else {
+      let usedDefault = false;
+      let usedKey = false;
+      const needsPluralHandling = options.count !== void 0 && !isString(options.count);
+      const hasDefaultValue = Translator.hasDefaultValue(options);
+      const defaultValueSuffix = needsPluralHandling ? this.pluralResolver.getSuffix(lng, options.count, options) : "";
+      const defaultValueSuffixOrdinalFallback = options.ordinal && needsPluralHandling ? this.pluralResolver.getSuffix(lng, options.count, {
+        ordinal: false
+      }) : "";
+      const needsZeroSuffixLookup = needsPluralHandling && !options.ordinal && options.count === 0 && this.pluralResolver.shouldUseIntlApi();
+      const defaultValue = needsZeroSuffixLookup && options[`defaultValue${this.options.pluralSeparator}zero`] || options[`defaultValue${defaultValueSuffix}`] || options[`defaultValue${defaultValueSuffixOrdinalFallback}`] || options.defaultValue;
+      if (!this.isValidLookup(res) && hasDefaultValue) {
+        usedDefault = true;
+        res = defaultValue;
+      }
+      if (!this.isValidLookup(res)) {
+        usedKey = true;
+        res = key;
+      }
+      const missingKeyNoValueFallbackToKey = options.missingKeyNoValueFallbackToKey || this.options.missingKeyNoValueFallbackToKey;
+      const resForMissing = missingKeyNoValueFallbackToKey && usedKey ? void 0 : res;
+      const updateMissing = hasDefaultValue && defaultValue !== res && this.options.updateMissing;
+      if (usedKey || usedDefault || updateMissing) {
+        this.logger.log(updateMissing ? "updateKey" : "missingKey", lng, namespace, key, updateMissing ? defaultValue : res);
+        if (keySeparator) {
+          const fk = this.resolve(key, {
+            ...options,
+            keySeparator: false
+          });
+          if (fk && fk.res) this.logger.warn("Seems the loaded translations were in flat JSON format instead of nested. Either set keySeparator: false on init or make sure your translations are published in nested format.");
+        }
+        let lngs = [];
+        const fallbackLngs = this.languageUtils.getFallbackCodes(this.options.fallbackLng, options.lng || this.language);
+        if (this.options.saveMissingTo === "fallback" && fallbackLngs && fallbackLngs[0]) {
+          for (let i2 = 0; i2 < fallbackLngs.length; i2++) {
+            lngs.push(fallbackLngs[i2]);
+          }
+        } else if (this.options.saveMissingTo === "all") {
+          lngs = this.languageUtils.toResolveHierarchy(options.lng || this.language);
+        } else {
+          lngs.push(options.lng || this.language);
+        }
+        const send = (l2, k2, specificDefaultValue) => {
+          const defaultForMissing = hasDefaultValue && specificDefaultValue !== res ? specificDefaultValue : resForMissing;
+          if (this.options.missingKeyHandler) {
+            this.options.missingKeyHandler(l2, namespace, k2, defaultForMissing, updateMissing, options);
+          } else if (this.backendConnector && this.backendConnector.saveMissing) {
+            this.backendConnector.saveMissing(l2, namespace, k2, defaultForMissing, updateMissing, options);
+          }
+          this.emit("missingKey", l2, namespace, k2, res);
+        };
+        if (this.options.saveMissing) {
+          if (this.options.saveMissingPlurals && needsPluralHandling) {
+            lngs.forEach((language2) => {
+              const suffixes = this.pluralResolver.getSuffixes(language2, options);
+              if (needsZeroSuffixLookup && options[`defaultValue${this.options.pluralSeparator}zero`] && suffixes.indexOf(`${this.options.pluralSeparator}zero`) < 0) {
+                suffixes.push(`${this.options.pluralSeparator}zero`);
+              }
+              suffixes.forEach((suffix) => {
+                send([language2], key + suffix, options[`defaultValue${suffix}`] || defaultValue);
+              });
+            });
+          } else {
+            send(lngs, key, defaultValue);
+          }
+        }
+      }
+      res = this.extendTranslation(res, keys, options, resolved2, lastKey);
+      if (usedKey && res === key && this.options.appendNamespaceToMissingKey) res = `${namespace}:${key}`;
+      if ((usedKey || usedDefault) && this.options.parseMissingKeyHandler) {
+        if (this.options.compatibilityAPI !== "v1") {
+          res = this.options.parseMissingKeyHandler(this.options.appendNamespaceToMissingKey ? `${namespace}:${key}` : key, usedDefault ? res : void 0);
+        } else {
+          res = this.options.parseMissingKeyHandler(res);
+        }
+      }
+    }
+    if (returnDetails) {
+      resolved2.res = res;
+      resolved2.usedParams = this.getUsedParamsDetails(options);
+      return resolved2;
+    }
+    return res;
+  }
+  extendTranslation(res, key, options, resolved2, lastKey) {
+    var _this = this;
+    if (this.i18nFormat && this.i18nFormat.parse) {
+      res = this.i18nFormat.parse(res, {
+        ...this.options.interpolation.defaultVariables,
+        ...options
+      }, options.lng || this.language || resolved2.usedLng, resolved2.usedNS, resolved2.usedKey, {
+        resolved: resolved2
+      });
+    } else if (!options.skipInterpolation) {
+      if (options.interpolation) this.interpolator.init({
+        ...options,
+        ...{
+          interpolation: {
+            ...this.options.interpolation,
+            ...options.interpolation
+          }
+        }
+      });
+      const skipOnVariables = isString(res) && (options && options.interpolation && options.interpolation.skipOnVariables !== void 0 ? options.interpolation.skipOnVariables : this.options.interpolation.skipOnVariables);
+      let nestBef;
+      if (skipOnVariables) {
+        const nb = res.match(this.interpolator.nestingRegexp);
+        nestBef = nb && nb.length;
+      }
+      let data = options.replace && !isString(options.replace) ? options.replace : options;
+      if (this.options.interpolation.defaultVariables) data = {
+        ...this.options.interpolation.defaultVariables,
+        ...data
+      };
+      res = this.interpolator.interpolate(res, data, options.lng || this.language || resolved2.usedLng, options);
+      if (skipOnVariables) {
+        const na = res.match(this.interpolator.nestingRegexp);
+        const nestAft = na && na.length;
+        if (nestBef < nestAft) options.nest = false;
+      }
+      if (!options.lng && this.options.compatibilityAPI !== "v1" && resolved2 && resolved2.res) options.lng = this.language || resolved2.usedLng;
+      if (options.nest !== false) res = this.interpolator.nest(res, function() {
+        for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+          args[_key] = arguments[_key];
+        }
+        if (lastKey && lastKey[0] === args[0] && !options.context) {
+          _this.logger.warn(`It seems you are nesting recursively key: ${args[0]} in key: ${key[0]}`);
+          return null;
+        }
+        return _this.translate(...args, key);
+      }, options);
+      if (options.interpolation) this.interpolator.reset();
+    }
+    const postProcess = options.postProcess || this.options.postProcess;
+    const postProcessorNames = isString(postProcess) ? [postProcess] : postProcess;
+    if (res !== void 0 && res !== null && postProcessorNames && postProcessorNames.length && options.applyPostProcessor !== false) {
+      res = postProcessor.handle(postProcessorNames, res, key, this.options && this.options.postProcessPassResolved ? {
+        i18nResolved: {
+          ...resolved2,
+          usedParams: this.getUsedParamsDetails(options)
+        },
+        ...options
+      } : options, this);
+    }
+    return res;
+  }
+  resolve(keys) {
+    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    let found;
+    let usedKey;
+    let exactUsedKey;
+    let usedLng;
+    let usedNS;
+    if (isString(keys)) keys = [keys];
+    keys.forEach((k2) => {
+      if (this.isValidLookup(found)) return;
+      const extracted = this.extractFromKey(k2, options);
+      const key = extracted.key;
+      usedKey = key;
+      let namespaces = extracted.namespaces;
+      if (this.options.fallbackNS) namespaces = namespaces.concat(this.options.fallbackNS);
+      const needsPluralHandling = options.count !== void 0 && !isString(options.count);
+      const needsZeroSuffixLookup = needsPluralHandling && !options.ordinal && options.count === 0 && this.pluralResolver.shouldUseIntlApi();
+      const needsContextHandling = options.context !== void 0 && (isString(options.context) || typeof options.context === "number") && options.context !== "";
+      const codes = options.lngs ? options.lngs : this.languageUtils.toResolveHierarchy(options.lng || this.language, options.fallbackLng);
+      namespaces.forEach((ns) => {
+        if (this.isValidLookup(found)) return;
+        usedNS = ns;
+        if (!checkedLoadedFor[`${codes[0]}-${ns}`] && this.utils && this.utils.hasLoadedNamespace && !this.utils.hasLoadedNamespace(usedNS)) {
+          checkedLoadedFor[`${codes[0]}-${ns}`] = true;
+          this.logger.warn(`key "${usedKey}" for languages "${codes.join(", ")}" won't get resolved as namespace "${usedNS}" was not yet loaded`, "This means something IS WRONG in your setup. You access the t function before i18next.init / i18next.loadNamespace / i18next.changeLanguage was done. Wait for the callback or Promise to resolve before accessing it!!!");
+        }
+        codes.forEach((code) => {
+          if (this.isValidLookup(found)) return;
+          usedLng = code;
+          const finalKeys = [key];
+          if (this.i18nFormat && this.i18nFormat.addLookupKeys) {
+            this.i18nFormat.addLookupKeys(finalKeys, key, code, ns, options);
+          } else {
+            let pluralSuffix;
+            if (needsPluralHandling) pluralSuffix = this.pluralResolver.getSuffix(code, options.count, options);
+            const zeroSuffix = `${this.options.pluralSeparator}zero`;
+            const ordinalPrefix = `${this.options.pluralSeparator}ordinal${this.options.pluralSeparator}`;
+            if (needsPluralHandling) {
+              finalKeys.push(key + pluralSuffix);
+              if (options.ordinal && pluralSuffix.indexOf(ordinalPrefix) === 0) {
+                finalKeys.push(key + pluralSuffix.replace(ordinalPrefix, this.options.pluralSeparator));
+              }
+              if (needsZeroSuffixLookup) {
+                finalKeys.push(key + zeroSuffix);
+              }
+            }
+            if (needsContextHandling) {
+              const contextKey = `${key}${this.options.contextSeparator}${options.context}`;
+              finalKeys.push(contextKey);
+              if (needsPluralHandling) {
+                finalKeys.push(contextKey + pluralSuffix);
+                if (options.ordinal && pluralSuffix.indexOf(ordinalPrefix) === 0) {
+                  finalKeys.push(contextKey + pluralSuffix.replace(ordinalPrefix, this.options.pluralSeparator));
+                }
+                if (needsZeroSuffixLookup) {
+                  finalKeys.push(contextKey + zeroSuffix);
+                }
+              }
+            }
+          }
+          let possibleKey;
+          while (possibleKey = finalKeys.pop()) {
+            if (!this.isValidLookup(found)) {
+              exactUsedKey = possibleKey;
+              found = this.getResource(code, ns, possibleKey, options);
+            }
+          }
+        });
+      });
+    });
+    return {
+      res: found,
+      usedKey,
+      exactUsedKey,
+      usedLng,
+      usedNS
+    };
+  }
+  isValidLookup(res) {
+    return res !== void 0 && !(!this.options.returnNull && res === null) && !(!this.options.returnEmptyString && res === "");
+  }
+  getResource(code, ns, key) {
+    let options = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : {};
+    if (this.i18nFormat && this.i18nFormat.getResource) return this.i18nFormat.getResource(code, ns, key, options);
+    return this.resourceStore.getResource(code, ns, key, options);
+  }
+  getUsedParamsDetails() {
+    let options = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
+    const optionsKeys = ["defaultValue", "ordinal", "context", "replace", "lng", "lngs", "fallbackLng", "ns", "keySeparator", "nsSeparator", "returnObjects", "returnDetails", "joinArrays", "postProcess", "interpolation"];
+    const useOptionsReplaceForData = options.replace && !isString(options.replace);
+    let data = useOptionsReplaceForData ? options.replace : options;
+    if (useOptionsReplaceForData && typeof options.count !== "undefined") {
+      data.count = options.count;
+    }
+    if (this.options.interpolation.defaultVariables) {
+      data = {
+        ...this.options.interpolation.defaultVariables,
+        ...data
+      };
+    }
+    if (!useOptionsReplaceForData) {
+      data = {
+        ...data
+      };
+      for (const key of optionsKeys) {
+        delete data[key];
+      }
+    }
+    return data;
+  }
+  static hasDefaultValue(options) {
+    const prefix = "defaultValue";
+    for (const option in options) {
+      if (Object.prototype.hasOwnProperty.call(options, option) && prefix === option.substring(0, prefix.length) && void 0 !== options[option]) {
+        return true;
+      }
+    }
+    return false;
+  }
+}
+const capitalize$1 = (string) => string.charAt(0).toUpperCase() + string.slice(1);
+class LanguageUtil {
+  constructor(options) {
+    this.options = options;
+    this.supportedLngs = this.options.supportedLngs || false;
+    this.logger = baseLogger.create("languageUtils");
+  }
+  getScriptPartFromCode(code) {
+    code = getCleanedCode(code);
+    if (!code || code.indexOf("-") < 0) return null;
+    const p2 = code.split("-");
+    if (p2.length === 2) return null;
+    p2.pop();
+    if (p2[p2.length - 1].toLowerCase() === "x") return null;
+    return this.formatLanguageCode(p2.join("-"));
+  }
+  getLanguagePartFromCode(code) {
+    code = getCleanedCode(code);
+    if (!code || code.indexOf("-") < 0) return code;
+    const p2 = code.split("-");
+    return this.formatLanguageCode(p2[0]);
+  }
+  formatLanguageCode(code) {
+    if (isString(code) && code.indexOf("-") > -1) {
+      if (typeof Intl !== "undefined" && typeof Intl.getCanonicalLocales !== "undefined") {
+        try {
+          let formattedCode = Intl.getCanonicalLocales(code)[0];
+          if (formattedCode && this.options.lowerCaseLng) {
+            formattedCode = formattedCode.toLowerCase();
+          }
+          if (formattedCode) return formattedCode;
+        } catch (e) {
+        }
+      }
+      const specialCases = ["hans", "hant", "latn", "cyrl", "cans", "mong", "arab"];
+      let p2 = code.split("-");
+      if (this.options.lowerCaseLng) {
+        p2 = p2.map((part) => part.toLowerCase());
+      } else if (p2.length === 2) {
+        p2[0] = p2[0].toLowerCase();
+        p2[1] = p2[1].toUpperCase();
+        if (specialCases.indexOf(p2[1].toLowerCase()) > -1) p2[1] = capitalize$1(p2[1].toLowerCase());
+      } else if (p2.length === 3) {
+        p2[0] = p2[0].toLowerCase();
+        if (p2[1].length === 2) p2[1] = p2[1].toUpperCase();
+        if (p2[0] !== "sgn" && p2[2].length === 2) p2[2] = p2[2].toUpperCase();
+        if (specialCases.indexOf(p2[1].toLowerCase()) > -1) p2[1] = capitalize$1(p2[1].toLowerCase());
+        if (specialCases.indexOf(p2[2].toLowerCase()) > -1) p2[2] = capitalize$1(p2[2].toLowerCase());
+      }
+      return p2.join("-");
+    }
+    return this.options.cleanCode || this.options.lowerCaseLng ? code.toLowerCase() : code;
+  }
+  isSupportedCode(code) {
+    if (this.options.load === "languageOnly" || this.options.nonExplicitSupportedLngs) {
+      code = this.getLanguagePartFromCode(code);
+    }
+    return !this.supportedLngs || !this.supportedLngs.length || this.supportedLngs.indexOf(code) > -1;
+  }
+  getBestMatchFromCodes(codes) {
+    if (!codes) return null;
+    let found;
+    codes.forEach((code) => {
+      if (found) return;
+      const cleanedLng = this.formatLanguageCode(code);
+      if (!this.options.supportedLngs || this.isSupportedCode(cleanedLng)) found = cleanedLng;
+    });
+    if (!found && this.options.supportedLngs) {
+      codes.forEach((code) => {
+        if (found) return;
+        const lngOnly = this.getLanguagePartFromCode(code);
+        if (this.isSupportedCode(lngOnly)) return found = lngOnly;
+        found = this.options.supportedLngs.find((supportedLng) => {
+          if (supportedLng === lngOnly) return supportedLng;
+          if (supportedLng.indexOf("-") < 0 && lngOnly.indexOf("-") < 0) return;
+          if (supportedLng.indexOf("-") > 0 && lngOnly.indexOf("-") < 0 && supportedLng.substring(0, supportedLng.indexOf("-")) === lngOnly) return supportedLng;
+          if (supportedLng.indexOf(lngOnly) === 0 && lngOnly.length > 1) return supportedLng;
+        });
+      });
+    }
+    if (!found) found = this.getFallbackCodes(this.options.fallbackLng)[0];
+    return found;
+  }
+  getFallbackCodes(fallbacks, code) {
+    if (!fallbacks) return [];
+    if (typeof fallbacks === "function") fallbacks = fallbacks(code);
+    if (isString(fallbacks)) fallbacks = [fallbacks];
+    if (Array.isArray(fallbacks)) return fallbacks;
+    if (!code) return fallbacks.default || [];
+    let found = fallbacks[code];
+    if (!found) found = fallbacks[this.getScriptPartFromCode(code)];
+    if (!found) found = fallbacks[this.formatLanguageCode(code)];
+    if (!found) found = fallbacks[this.getLanguagePartFromCode(code)];
+    if (!found) found = fallbacks.default;
+    return found || [];
+  }
+  toResolveHierarchy(code, fallbackCode) {
+    const fallbackCodes = this.getFallbackCodes(fallbackCode || this.options.fallbackLng || [], code);
+    const codes = [];
+    const addCode = (c2) => {
+      if (!c2) return;
+      if (this.isSupportedCode(c2)) {
+        codes.push(c2);
+      } else {
+        this.logger.warn(`rejecting language code not found in supportedLngs: ${c2}`);
+      }
+    };
+    if (isString(code) && (code.indexOf("-") > -1 || code.indexOf("_") > -1)) {
+      if (this.options.load !== "languageOnly") addCode(this.formatLanguageCode(code));
+      if (this.options.load !== "languageOnly" && this.options.load !== "currentOnly") addCode(this.getScriptPartFromCode(code));
+      if (this.options.load !== "currentOnly") addCode(this.getLanguagePartFromCode(code));
+    } else if (isString(code)) {
+      addCode(this.formatLanguageCode(code));
+    }
+    fallbackCodes.forEach((fc) => {
+      if (codes.indexOf(fc) < 0) addCode(this.formatLanguageCode(fc));
+    });
+    return codes;
+  }
+}
+let sets = [{
+  lngs: ["ach", "ak", "am", "arn", "br", "fil", "gun", "ln", "mfe", "mg", "mi", "oc", "pt", "pt-BR", "tg", "tl", "ti", "tr", "uz", "wa"],
+  nr: [1, 2],
+  fc: 1
+}, {
+  lngs: ["af", "an", "ast", "az", "bg", "bn", "ca", "da", "de", "dev", "el", "en", "eo", "es", "et", "eu", "fi", "fo", "fur", "fy", "gl", "gu", "ha", "hi", "hu", "hy", "ia", "it", "kk", "kn", "ku", "lb", "mai", "ml", "mn", "mr", "nah", "nap", "nb", "ne", "nl", "nn", "no", "nso", "pa", "pap", "pms", "ps", "pt-PT", "rm", "sco", "se", "si", "so", "son", "sq", "sv", "sw", "ta", "te", "tk", "ur", "yo"],
+  nr: [1, 2],
+  fc: 2
+}, {
+  lngs: ["ay", "bo", "cgg", "fa", "ht", "id", "ja", "jbo", "ka", "km", "ko", "ky", "lo", "ms", "sah", "su", "th", "tt", "ug", "vi", "wo", "zh"],
+  nr: [1],
+  fc: 3
+}, {
+  lngs: ["be", "bs", "cnr", "dz", "hr", "ru", "sr", "uk"],
+  nr: [1, 2, 5],
+  fc: 4
+}, {
+  lngs: ["ar"],
+  nr: [0, 1, 2, 3, 11, 100],
+  fc: 5
+}, {
+  lngs: ["cs", "sk"],
+  nr: [1, 2, 5],
+  fc: 6
+}, {
+  lngs: ["csb", "pl"],
+  nr: [1, 2, 5],
+  fc: 7
+}, {
+  lngs: ["cy"],
+  nr: [1, 2, 3, 8],
+  fc: 8
+}, {
+  lngs: ["fr"],
+  nr: [1, 2],
+  fc: 9
+}, {
+  lngs: ["ga"],
+  nr: [1, 2, 3, 7, 11],
+  fc: 10
+}, {
+  lngs: ["gd"],
+  nr: [1, 2, 3, 20],
+  fc: 11
+}, {
+  lngs: ["is"],
+  nr: [1, 2],
+  fc: 12
+}, {
+  lngs: ["jv"],
+  nr: [0, 1],
+  fc: 13
+}, {
+  lngs: ["kw"],
+  nr: [1, 2, 3, 4],
+  fc: 14
+}, {
+  lngs: ["lt"],
+  nr: [1, 2, 10],
+  fc: 15
+}, {
+  lngs: ["lv"],
+  nr: [1, 2, 0],
+  fc: 16
+}, {
+  lngs: ["mk"],
+  nr: [1, 2],
+  fc: 17
+}, {
+  lngs: ["mnk"],
+  nr: [0, 1, 2],
+  fc: 18
+}, {
+  lngs: ["mt"],
+  nr: [1, 2, 11, 20],
+  fc: 19
+}, {
+  lngs: ["or"],
+  nr: [2, 1],
+  fc: 2
+}, {
+  lngs: ["ro"],
+  nr: [1, 2, 20],
+  fc: 20
+}, {
+  lngs: ["sl"],
+  nr: [5, 1, 2, 3],
+  fc: 21
+}, {
+  lngs: ["he", "iw"],
+  nr: [1, 2, 20, 21],
+  fc: 22
+}];
+let _rulesPluralsTypes = {
+  1: (n2) => Number(n2 > 1),
+  2: (n2) => Number(n2 != 1),
+  3: (n2) => 0,
+  4: (n2) => Number(n2 % 10 == 1 && n2 % 100 != 11 ? 0 : n2 % 10 >= 2 && n2 % 10 <= 4 && (n2 % 100 < 10 || n2 % 100 >= 20) ? 1 : 2),
+  5: (n2) => Number(n2 == 0 ? 0 : n2 == 1 ? 1 : n2 == 2 ? 2 : n2 % 100 >= 3 && n2 % 100 <= 10 ? 3 : n2 % 100 >= 11 ? 4 : 5),
+  6: (n2) => Number(n2 == 1 ? 0 : n2 >= 2 && n2 <= 4 ? 1 : 2),
+  7: (n2) => Number(n2 == 1 ? 0 : n2 % 10 >= 2 && n2 % 10 <= 4 && (n2 % 100 < 10 || n2 % 100 >= 20) ? 1 : 2),
+  8: (n2) => Number(n2 == 1 ? 0 : n2 == 2 ? 1 : n2 != 8 && n2 != 11 ? 2 : 3),
+  9: (n2) => Number(n2 >= 2),
+  10: (n2) => Number(n2 == 1 ? 0 : n2 == 2 ? 1 : n2 < 7 ? 2 : n2 < 11 ? 3 : 4),
+  11: (n2) => Number(n2 == 1 || n2 == 11 ? 0 : n2 == 2 || n2 == 12 ? 1 : n2 > 2 && n2 < 20 ? 2 : 3),
+  12: (n2) => Number(n2 % 10 != 1 || n2 % 100 == 11),
+  13: (n2) => Number(n2 !== 0),
+  14: (n2) => Number(n2 == 1 ? 0 : n2 == 2 ? 1 : n2 == 3 ? 2 : 3),
+  15: (n2) => Number(n2 % 10 == 1 && n2 % 100 != 11 ? 0 : n2 % 10 >= 2 && (n2 % 100 < 10 || n2 % 100 >= 20) ? 1 : 2),
+  16: (n2) => Number(n2 % 10 == 1 && n2 % 100 != 11 ? 0 : n2 !== 0 ? 1 : 2),
+  17: (n2) => Number(n2 == 1 || n2 % 10 == 1 && n2 % 100 != 11 ? 0 : 1),
+  18: (n2) => Number(n2 == 0 ? 0 : n2 == 1 ? 1 : 2),
+  19: (n2) => Number(n2 == 1 ? 0 : n2 == 0 || n2 % 100 > 1 && n2 % 100 < 11 ? 1 : n2 % 100 > 10 && n2 % 100 < 20 ? 2 : 3),
+  20: (n2) => Number(n2 == 1 ? 0 : n2 == 0 || n2 % 100 > 0 && n2 % 100 < 20 ? 1 : 2),
+  21: (n2) => Number(n2 % 100 == 1 ? 1 : n2 % 100 == 2 ? 2 : n2 % 100 == 3 || n2 % 100 == 4 ? 3 : 0),
+  22: (n2) => Number(n2 == 1 ? 0 : n2 == 2 ? 1 : (n2 < 0 || n2 > 10) && n2 % 10 == 0 ? 2 : 3)
+};
+const nonIntlVersions = ["v1", "v2", "v3"];
+const intlVersions = ["v4"];
+const suffixesOrder = {
+  zero: 0,
+  one: 1,
+  two: 2,
+  few: 3,
+  many: 4,
+  other: 5
+};
+const createRules = () => {
+  const rules = {};
+  sets.forEach((set) => {
+    set.lngs.forEach((l2) => {
+      rules[l2] = {
+        numbers: set.nr,
+        plurals: _rulesPluralsTypes[set.fc]
+      };
+    });
+  });
+  return rules;
+};
+class PluralResolver {
+  constructor(languageUtils) {
+    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    this.languageUtils = languageUtils;
+    this.options = options;
+    this.logger = baseLogger.create("pluralResolver");
+    if ((!this.options.compatibilityJSON || intlVersions.includes(this.options.compatibilityJSON)) && (typeof Intl === "undefined" || !Intl.PluralRules)) {
+      this.options.compatibilityJSON = "v3";
+      this.logger.error("Your environment seems not to be Intl API compatible, use an Intl.PluralRules polyfill. Will fallback to the compatibilityJSON v3 format handling.");
+    }
+    this.rules = createRules();
+    this.pluralRulesCache = {};
+  }
+  addRule(lng, obj) {
+    this.rules[lng] = obj;
+  }
+  clearCache() {
+    this.pluralRulesCache = {};
+  }
+  getRule(code) {
+    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    if (this.shouldUseIntlApi()) {
+      const cleanedCode = getCleanedCode(code === "dev" ? "en" : code);
+      const type = options.ordinal ? "ordinal" : "cardinal";
+      const cacheKey = JSON.stringify({
+        cleanedCode,
+        type
+      });
+      if (cacheKey in this.pluralRulesCache) {
+        return this.pluralRulesCache[cacheKey];
+      }
+      let rule;
+      try {
+        rule = new Intl.PluralRules(cleanedCode, {
+          type
+        });
+      } catch (err) {
+        if (!code.match(/-|_/)) return;
+        const lngPart = this.languageUtils.getLanguagePartFromCode(code);
+        rule = this.getRule(lngPart, options);
+      }
+      this.pluralRulesCache[cacheKey] = rule;
+      return rule;
+    }
+    return this.rules[code] || this.rules[this.languageUtils.getLanguagePartFromCode(code)];
+  }
+  needsPlural(code) {
+    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    const rule = this.getRule(code, options);
+    if (this.shouldUseIntlApi()) {
+      return rule && rule.resolvedOptions().pluralCategories.length > 1;
+    }
+    return rule && rule.numbers.length > 1;
+  }
+  getPluralFormsOfKey(code, key) {
+    let options = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
+    return this.getSuffixes(code, options).map((suffix) => `${key}${suffix}`);
+  }
+  getSuffixes(code) {
+    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    const rule = this.getRule(code, options);
+    if (!rule) {
+      return [];
+    }
+    if (this.shouldUseIntlApi()) {
+      return rule.resolvedOptions().pluralCategories.sort((pluralCategory1, pluralCategory2) => suffixesOrder[pluralCategory1] - suffixesOrder[pluralCategory2]).map((pluralCategory) => `${this.options.prepend}${options.ordinal ? `ordinal${this.options.prepend}` : ""}${pluralCategory}`);
+    }
+    return rule.numbers.map((number) => this.getSuffix(code, number, options));
+  }
+  getSuffix(code, count2) {
+    let options = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
+    const rule = this.getRule(code, options);
+    if (rule) {
+      if (this.shouldUseIntlApi()) {
+        return `${this.options.prepend}${options.ordinal ? `ordinal${this.options.prepend}` : ""}${rule.select(count2)}`;
+      }
+      return this.getSuffixRetroCompatible(rule, count2);
+    }
+    this.logger.warn(`no plural rule found for: ${code}`);
+    return "";
+  }
+  getSuffixRetroCompatible(rule, count2) {
+    const idx = rule.noAbs ? rule.plurals(count2) : rule.plurals(Math.abs(count2));
+    let suffix = rule.numbers[idx];
+    if (this.options.simplifyPluralSuffix && rule.numbers.length === 2 && rule.numbers[0] === 1) {
+      if (suffix === 2) {
+        suffix = "plural";
+      } else if (suffix === 1) {
+        suffix = "";
+      }
+    }
+    const returnSuffix = () => this.options.prepend && suffix.toString() ? this.options.prepend + suffix.toString() : suffix.toString();
+    if (this.options.compatibilityJSON === "v1") {
+      if (suffix === 1) return "";
+      if (typeof suffix === "number") return `_plural_${suffix.toString()}`;
+      return returnSuffix();
+    } else if (this.options.compatibilityJSON === "v2") {
+      return returnSuffix();
+    } else if (this.options.simplifyPluralSuffix && rule.numbers.length === 2 && rule.numbers[0] === 1) {
+      return returnSuffix();
+    }
+    return this.options.prepend && idx.toString() ? this.options.prepend + idx.toString() : idx.toString();
+  }
+  shouldUseIntlApi() {
+    return !nonIntlVersions.includes(this.options.compatibilityJSON);
+  }
+}
+const deepFindWithDefaults = function(data, defaultData, key) {
+  let keySeparator = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : ".";
+  let ignoreJSONStructure = arguments.length > 4 && arguments[4] !== void 0 ? arguments[4] : true;
+  let path2 = getPathWithDefaults(data, defaultData, key);
+  if (!path2 && ignoreJSONStructure && isString(key)) {
+    path2 = deepFind(data, key, keySeparator);
+    if (path2 === void 0) path2 = deepFind(defaultData, key, keySeparator);
+  }
+  return path2;
+};
+const regexSafe = (val) => val.replace(/\$/g, "$$$$");
+class Interpolator {
+  constructor() {
+    let options = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
+    this.logger = baseLogger.create("interpolator");
+    this.options = options;
+    this.format = options.interpolation && options.interpolation.format || ((value2) => value2);
+    this.init(options);
+  }
+  init() {
+    let options = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
+    if (!options.interpolation) options.interpolation = {
+      escapeValue: true
+    };
+    const {
+      escape: escape$1,
+      escapeValue,
+      useRawValueToEscape,
+      prefix,
+      prefixEscaped,
+      suffix,
+      suffixEscaped,
+      formatSeparator,
+      unescapeSuffix,
+      unescapePrefix,
+      nestingPrefix,
+      nestingPrefixEscaped,
+      nestingSuffix,
+      nestingSuffixEscaped,
+      nestingOptionsSeparator,
+      maxReplaces,
+      alwaysFormat
+    } = options.interpolation;
+    this.escape = escape$1 !== void 0 ? escape$1 : escape;
+    this.escapeValue = escapeValue !== void 0 ? escapeValue : true;
+    this.useRawValueToEscape = useRawValueToEscape !== void 0 ? useRawValueToEscape : false;
+    this.prefix = prefix ? regexEscape(prefix) : prefixEscaped || "{{";
+    this.suffix = suffix ? regexEscape(suffix) : suffixEscaped || "}}";
+    this.formatSeparator = formatSeparator || ",";
+    this.unescapePrefix = unescapeSuffix ? "" : unescapePrefix || "-";
+    this.unescapeSuffix = this.unescapePrefix ? "" : unescapeSuffix || "";
+    this.nestingPrefix = nestingPrefix ? regexEscape(nestingPrefix) : nestingPrefixEscaped || regexEscape("$t(");
+    this.nestingSuffix = nestingSuffix ? regexEscape(nestingSuffix) : nestingSuffixEscaped || regexEscape(")");
+    this.nestingOptionsSeparator = nestingOptionsSeparator || ",";
+    this.maxReplaces = maxReplaces || 1e3;
+    this.alwaysFormat = alwaysFormat !== void 0 ? alwaysFormat : false;
+    this.resetRegExp();
+  }
+  reset() {
+    if (this.options) this.init(this.options);
+  }
+  resetRegExp() {
+    const getOrResetRegExp = (existingRegExp, pattern) => {
+      if (existingRegExp && existingRegExp.source === pattern) {
+        existingRegExp.lastIndex = 0;
+        return existingRegExp;
+      }
+      return new RegExp(pattern, "g");
+    };
+    this.regexp = getOrResetRegExp(this.regexp, `${this.prefix}(.+?)${this.suffix}`);
+    this.regexpUnescape = getOrResetRegExp(this.regexpUnescape, `${this.prefix}${this.unescapePrefix}(.+?)${this.unescapeSuffix}${this.suffix}`);
+    this.nestingRegexp = getOrResetRegExp(this.nestingRegexp, `${this.nestingPrefix}(.+?)${this.nestingSuffix}`);
+  }
+  interpolate(str, data, lng, options) {
+    let match;
+    let value2;
+    let replaces;
+    const defaultData = this.options && this.options.interpolation && this.options.interpolation.defaultVariables || {};
+    const handleFormat = (key) => {
+      if (key.indexOf(this.formatSeparator) < 0) {
+        const path2 = deepFindWithDefaults(data, defaultData, key, this.options.keySeparator, this.options.ignoreJSONStructure);
+        return this.alwaysFormat ? this.format(path2, void 0, lng, {
+          ...options,
+          ...data,
+          interpolationkey: key
+        }) : path2;
+      }
+      const p2 = key.split(this.formatSeparator);
+      const k2 = p2.shift().trim();
+      const f2 = p2.join(this.formatSeparator).trim();
+      return this.format(deepFindWithDefaults(data, defaultData, k2, this.options.keySeparator, this.options.ignoreJSONStructure), f2, lng, {
+        ...options,
+        ...data,
+        interpolationkey: k2
+      });
+    };
+    this.resetRegExp();
+    const missingInterpolationHandler = options && options.missingInterpolationHandler || this.options.missingInterpolationHandler;
+    const skipOnVariables = options && options.interpolation && options.interpolation.skipOnVariables !== void 0 ? options.interpolation.skipOnVariables : this.options.interpolation.skipOnVariables;
+    const todos = [{
+      regex: this.regexpUnescape,
+      safeValue: (val) => regexSafe(val)
+    }, {
+      regex: this.regexp,
+      safeValue: (val) => this.escapeValue ? regexSafe(this.escape(val)) : regexSafe(val)
+    }];
+    todos.forEach((todo) => {
+      replaces = 0;
+      while (match = todo.regex.exec(str)) {
+        const matchedVar = match[1].trim();
+        value2 = handleFormat(matchedVar);
+        if (value2 === void 0) {
+          if (typeof missingInterpolationHandler === "function") {
+            const temp = missingInterpolationHandler(str, match, options);
+            value2 = isString(temp) ? temp : "";
+          } else if (options && Object.prototype.hasOwnProperty.call(options, matchedVar)) {
+            value2 = "";
+          } else if (skipOnVariables) {
+            value2 = match[0];
+            continue;
+          } else {
+            this.logger.warn(`missed to pass in variable ${matchedVar} for interpolating ${str}`);
+            value2 = "";
+          }
+        } else if (!isString(value2) && !this.useRawValueToEscape) {
+          value2 = makeString(value2);
+        }
+        const safeValue = todo.safeValue(value2);
+        str = str.replace(match[0], safeValue);
+        if (skipOnVariables) {
+          todo.regex.lastIndex += value2.length;
+          todo.regex.lastIndex -= match[0].length;
+        } else {
+          todo.regex.lastIndex = 0;
+        }
+        replaces++;
+        if (replaces >= this.maxReplaces) {
+          break;
+        }
+      }
+    });
+    return str;
+  }
+  nest(str, fc) {
+    let options = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
+    let match;
+    let value2;
+    let clonedOptions;
+    const handleHasOptions = (key, inheritedOptions) => {
+      const sep = this.nestingOptionsSeparator;
+      if (key.indexOf(sep) < 0) return key;
+      const c2 = key.split(new RegExp(`${sep}[ ]*{`));
+      let optionsString = `{${c2[1]}`;
+      key = c2[0];
+      optionsString = this.interpolate(optionsString, clonedOptions);
+      const matchedSingleQuotes = optionsString.match(/'/g);
+      const matchedDoubleQuotes = optionsString.match(/"/g);
+      if (matchedSingleQuotes && matchedSingleQuotes.length % 2 === 0 && !matchedDoubleQuotes || matchedDoubleQuotes.length % 2 !== 0) {
+        optionsString = optionsString.replace(/'/g, '"');
+      }
+      try {
+        clonedOptions = JSON.parse(optionsString);
+        if (inheritedOptions) clonedOptions = {
+          ...inheritedOptions,
+          ...clonedOptions
+        };
+      } catch (e) {
+        this.logger.warn(`failed parsing options string in nesting for key ${key}`, e);
+        return `${key}${sep}${optionsString}`;
+      }
+      if (clonedOptions.defaultValue && clonedOptions.defaultValue.indexOf(this.prefix) > -1) delete clonedOptions.defaultValue;
+      return key;
+    };
+    while (match = this.nestingRegexp.exec(str)) {
+      let formatters = [];
+      clonedOptions = {
+        ...options
+      };
+      clonedOptions = clonedOptions.replace && !isString(clonedOptions.replace) ? clonedOptions.replace : clonedOptions;
+      clonedOptions.applyPostProcessor = false;
+      delete clonedOptions.defaultValue;
+      let doReduce = false;
+      if (match[0].indexOf(this.formatSeparator) !== -1 && !/{.*}/.test(match[1])) {
+        const r2 = match[1].split(this.formatSeparator).map((elem) => elem.trim());
+        match[1] = r2.shift();
+        formatters = r2;
+        doReduce = true;
+      }
+      value2 = fc(handleHasOptions.call(this, match[1].trim(), clonedOptions), clonedOptions);
+      if (value2 && match[0] === str && !isString(value2)) return value2;
+      if (!isString(value2)) value2 = makeString(value2);
+      if (!value2) {
+        this.logger.warn(`missed to resolve ${match[1]} for nesting ${str}`);
+        value2 = "";
+      }
+      if (doReduce) {
+        value2 = formatters.reduce((v2, f2) => this.format(v2, f2, options.lng, {
+          ...options,
+          interpolationkey: match[1].trim()
+        }), value2.trim());
+      }
+      str = str.replace(match[0], value2);
+      this.regexp.lastIndex = 0;
+    }
+    return str;
+  }
+}
+const parseFormatStr = (formatStr) => {
+  let formatName = formatStr.toLowerCase().trim();
+  const formatOptions = {};
+  if (formatStr.indexOf("(") > -1) {
+    const p2 = formatStr.split("(");
+    formatName = p2[0].toLowerCase().trim();
+    const optStr = p2[1].substring(0, p2[1].length - 1);
+    if (formatName === "currency" && optStr.indexOf(":") < 0) {
+      if (!formatOptions.currency) formatOptions.currency = optStr.trim();
+    } else if (formatName === "relativetime" && optStr.indexOf(":") < 0) {
+      if (!formatOptions.range) formatOptions.range = optStr.trim();
+    } else {
+      const opts = optStr.split(";");
+      opts.forEach((opt) => {
+        if (opt) {
+          const [key, ...rest] = opt.split(":");
+          const val = rest.join(":").trim().replace(/^'+|'+$/g, "");
+          const trimmedKey = key.trim();
+          if (!formatOptions[trimmedKey]) formatOptions[trimmedKey] = val;
+          if (val === "false") formatOptions[trimmedKey] = false;
+          if (val === "true") formatOptions[trimmedKey] = true;
+          if (!isNaN(val)) formatOptions[trimmedKey] = parseInt(val, 10);
+        }
+      });
+    }
+  }
+  return {
+    formatName,
+    formatOptions
+  };
+};
+const createCachedFormatter = (fn) => {
+  const cache = {};
+  return (val, lng, options) => {
+    let optForCache = options;
+    if (options && options.interpolationkey && options.formatParams && options.formatParams[options.interpolationkey] && options[options.interpolationkey]) {
+      optForCache = {
+        ...optForCache,
+        [options.interpolationkey]: void 0
+      };
+    }
+    const key = lng + JSON.stringify(optForCache);
+    let formatter = cache[key];
+    if (!formatter) {
+      formatter = fn(getCleanedCode(lng), options);
+      cache[key] = formatter;
+    }
+    return formatter(val);
+  };
+};
+class Formatter {
+  constructor() {
+    let options = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
+    this.logger = baseLogger.create("formatter");
+    this.options = options;
+    this.formats = {
+      number: createCachedFormatter((lng, opt) => {
+        const formatter = new Intl.NumberFormat(lng, {
+          ...opt
+        });
+        return (val) => formatter.format(val);
+      }),
+      currency: createCachedFormatter((lng, opt) => {
+        const formatter = new Intl.NumberFormat(lng, {
+          ...opt,
+          style: "currency"
+        });
+        return (val) => formatter.format(val);
+      }),
+      datetime: createCachedFormatter((lng, opt) => {
+        const formatter = new Intl.DateTimeFormat(lng, {
+          ...opt
+        });
+        return (val) => formatter.format(val);
+      }),
+      relativetime: createCachedFormatter((lng, opt) => {
+        const formatter = new Intl.RelativeTimeFormat(lng, {
+          ...opt
+        });
+        return (val) => formatter.format(val, opt.range || "day");
+      }),
+      list: createCachedFormatter((lng, opt) => {
+        const formatter = new Intl.ListFormat(lng, {
+          ...opt
+        });
+        return (val) => formatter.format(val);
+      })
+    };
+    this.init(options);
+  }
+  init(services) {
+    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {
+      interpolation: {}
+    };
+    this.formatSeparator = options.interpolation.formatSeparator || ",";
+  }
+  add(name, fc) {
+    this.formats[name.toLowerCase().trim()] = fc;
+  }
+  addCached(name, fc) {
+    this.formats[name.toLowerCase().trim()] = createCachedFormatter(fc);
+  }
+  format(value2, format, lng) {
+    let options = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : {};
+    const formats = format.split(this.formatSeparator);
+    if (formats.length > 1 && formats[0].indexOf("(") > 1 && formats[0].indexOf(")") < 0 && formats.find((f2) => f2.indexOf(")") > -1)) {
+      const lastIndex = formats.findIndex((f2) => f2.indexOf(")") > -1);
+      formats[0] = [formats[0], ...formats.splice(1, lastIndex)].join(this.formatSeparator);
+    }
+    const result = formats.reduce((mem, f2) => {
+      const {
+        formatName,
+        formatOptions
+      } = parseFormatStr(f2);
+      if (this.formats[formatName]) {
+        let formatted = mem;
+        try {
+          const valOptions = options && options.formatParams && options.formatParams[options.interpolationkey] || {};
+          const l2 = valOptions.locale || valOptions.lng || options.locale || options.lng || lng;
+          formatted = this.formats[formatName](mem, l2, {
+            ...formatOptions,
+            ...options,
+            ...valOptions
+          });
+        } catch (error2) {
+          this.logger.warn(error2);
+        }
+        return formatted;
+      } else {
+        this.logger.warn(`there was no format function for ${formatName}`);
+      }
+      return mem;
+    }, value2);
+    return result;
+  }
+}
+const removePending = (q2, name) => {
+  if (q2.pending[name] !== void 0) {
+    delete q2.pending[name];
+    q2.pendingCount--;
+  }
+};
+class Connector extends EventEmitter {
+  constructor(backend, store2, services) {
+    let options = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : {};
+    super();
+    this.backend = backend;
+    this.store = store2;
+    this.services = services;
+    this.languageUtils = services.languageUtils;
+    this.options = options;
+    this.logger = baseLogger.create("backendConnector");
+    this.waitingReads = [];
+    this.maxParallelReads = options.maxParallelReads || 10;
+    this.readingCalls = 0;
+    this.maxRetries = options.maxRetries >= 0 ? options.maxRetries : 5;
+    this.retryTimeout = options.retryTimeout >= 1 ? options.retryTimeout : 350;
+    this.state = {};
+    this.queue = [];
+    if (this.backend && this.backend.init) {
+      this.backend.init(services, options.backend, options);
+    }
+  }
+  queueLoad(languages, namespaces, options, callback) {
+    const toLoad = {};
+    const pending = {};
+    const toLoadLanguages = {};
+    const toLoadNamespaces = {};
+    languages.forEach((lng) => {
+      let hasAllNamespaces = true;
+      namespaces.forEach((ns) => {
+        const name = `${lng}|${ns}`;
+        if (!options.reload && this.store.hasResourceBundle(lng, ns)) {
+          this.state[name] = 2;
+        } else if (this.state[name] < 0) ;
+        else if (this.state[name] === 1) {
+          if (pending[name] === void 0) pending[name] = true;
+        } else {
+          this.state[name] = 1;
+          hasAllNamespaces = false;
+          if (pending[name] === void 0) pending[name] = true;
+          if (toLoad[name] === void 0) toLoad[name] = true;
+          if (toLoadNamespaces[ns] === void 0) toLoadNamespaces[ns] = true;
+        }
+      });
+      if (!hasAllNamespaces) toLoadLanguages[lng] = true;
+    });
+    if (Object.keys(toLoad).length || Object.keys(pending).length) {
+      this.queue.push({
+        pending,
+        pendingCount: Object.keys(pending).length,
+        loaded: {},
+        errors: [],
+        callback
+      });
+    }
+    return {
+      toLoad: Object.keys(toLoad),
+      pending: Object.keys(pending),
+      toLoadLanguages: Object.keys(toLoadLanguages),
+      toLoadNamespaces: Object.keys(toLoadNamespaces)
+    };
+  }
+  loaded(name, err, data) {
+    const s2 = name.split("|");
+    const lng = s2[0];
+    const ns = s2[1];
+    if (err) this.emit("failedLoading", lng, ns, err);
+    if (!err && data) {
+      this.store.addResourceBundle(lng, ns, data, void 0, void 0, {
+        skipCopy: true
+      });
+    }
+    this.state[name] = err ? -1 : 2;
+    if (err && data) this.state[name] = 0;
+    const loaded = {};
+    this.queue.forEach((q2) => {
+      pushPath(q2.loaded, [lng], ns);
+      removePending(q2, name);
+      if (err) q2.errors.push(err);
+      if (q2.pendingCount === 0 && !q2.done) {
+        Object.keys(q2.loaded).forEach((l2) => {
+          if (!loaded[l2]) loaded[l2] = {};
+          const loadedKeys = q2.loaded[l2];
+          if (loadedKeys.length) {
+            loadedKeys.forEach((n2) => {
+              if (loaded[l2][n2] === void 0) loaded[l2][n2] = true;
+            });
+          }
+        });
+        q2.done = true;
+        if (q2.errors.length) {
+          q2.callback(q2.errors);
+        } else {
+          q2.callback();
+        }
+      }
+    });
+    this.emit("loaded", loaded);
+    this.queue = this.queue.filter((q2) => !q2.done);
+  }
+  read(lng, ns, fcName) {
+    let tried = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : 0;
+    let wait2 = arguments.length > 4 && arguments[4] !== void 0 ? arguments[4] : this.retryTimeout;
+    let callback = arguments.length > 5 ? arguments[5] : void 0;
+    if (!lng.length) return callback(null, {});
+    if (this.readingCalls >= this.maxParallelReads) {
+      this.waitingReads.push({
+        lng,
+        ns,
+        fcName,
+        tried,
+        wait: wait2,
+        callback
+      });
+      return;
+    }
+    this.readingCalls++;
+    const resolver2 = (err, data) => {
+      this.readingCalls--;
+      if (this.waitingReads.length > 0) {
+        const next = this.waitingReads.shift();
+        this.read(next.lng, next.ns, next.fcName, next.tried, next.wait, next.callback);
+      }
+      if (err && data && tried < this.maxRetries) {
+        setTimeout(() => {
+          this.read.call(this, lng, ns, fcName, tried + 1, wait2 * 2, callback);
+        }, wait2);
+        return;
+      }
+      callback(err, data);
+    };
+    const fc = this.backend[fcName].bind(this.backend);
+    if (fc.length === 2) {
+      try {
+        const r2 = fc(lng, ns);
+        if (r2 && typeof r2.then === "function") {
+          r2.then((data) => resolver2(null, data)).catch(resolver2);
+        } else {
+          resolver2(null, r2);
+        }
+      } catch (err) {
+        resolver2(err);
+      }
+      return;
+    }
+    return fc(lng, ns, resolver2);
+  }
+  prepareLoading(languages, namespaces) {
+    let options = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
+    let callback = arguments.length > 3 ? arguments[3] : void 0;
+    if (!this.backend) {
+      this.logger.warn("No backend was added via i18next.use. Will not load resources.");
+      return callback && callback();
+    }
+    if (isString(languages)) languages = this.languageUtils.toResolveHierarchy(languages);
+    if (isString(namespaces)) namespaces = [namespaces];
+    const toLoad = this.queueLoad(languages, namespaces, options, callback);
+    if (!toLoad.toLoad.length) {
+      if (!toLoad.pending.length) callback();
+      return null;
+    }
+    toLoad.toLoad.forEach((name) => {
+      this.loadOne(name);
+    });
+  }
+  load(languages, namespaces, callback) {
+    this.prepareLoading(languages, namespaces, {}, callback);
+  }
+  reload(languages, namespaces, callback) {
+    this.prepareLoading(languages, namespaces, {
+      reload: true
+    }, callback);
+  }
+  loadOne(name) {
+    let prefix = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : "";
+    const s2 = name.split("|");
+    const lng = s2[0];
+    const ns = s2[1];
+    this.read(lng, ns, "read", void 0, void 0, (err, data) => {
+      if (err) this.logger.warn(`${prefix}loading namespace ${ns} for language ${lng} failed`, err);
+      if (!err && data) this.logger.log(`${prefix}loaded namespace ${ns} for language ${lng}`, data);
+      this.loaded(name, err, data);
+    });
+  }
+  saveMissing(languages, namespace, key, fallbackValue, isUpdate) {
+    let options = arguments.length > 5 && arguments[5] !== void 0 ? arguments[5] : {};
+    let clb = arguments.length > 6 && arguments[6] !== void 0 ? arguments[6] : () => {
+    };
+    if (this.services.utils && this.services.utils.hasLoadedNamespace && !this.services.utils.hasLoadedNamespace(namespace)) {
+      this.logger.warn(`did not save key "${key}" as the namespace "${namespace}" was not yet loaded`, "This means something IS WRONG in your setup. You access the t function before i18next.init / i18next.loadNamespace / i18next.changeLanguage was done. Wait for the callback or Promise to resolve before accessing it!!!");
+      return;
+    }
+    if (key === void 0 || key === null || key === "") return;
+    if (this.backend && this.backend.create) {
+      const opts = {
+        ...options,
+        isUpdate
+      };
+      const fc = this.backend.create.bind(this.backend);
+      if (fc.length < 6) {
+        try {
+          let r2;
+          if (fc.length === 5) {
+            r2 = fc(languages, namespace, key, fallbackValue, opts);
+          } else {
+            r2 = fc(languages, namespace, key, fallbackValue);
+          }
+          if (r2 && typeof r2.then === "function") {
+            r2.then((data) => clb(null, data)).catch(clb);
+          } else {
+            clb(null, r2);
+          }
+        } catch (err) {
+          clb(err);
+        }
+      } else {
+        fc(languages, namespace, key, fallbackValue, clb, opts);
+      }
+    }
+    if (!languages || !languages[0]) return;
+    this.store.addResource(languages[0], namespace, key, fallbackValue);
+  }
+}
+const get = () => ({
+  debug: false,
+  initImmediate: true,
+  ns: ["translation"],
+  defaultNS: ["translation"],
+  fallbackLng: ["dev"],
+  fallbackNS: false,
+  supportedLngs: false,
+  nonExplicitSupportedLngs: false,
+  load: "all",
+  preload: false,
+  simplifyPluralSuffix: true,
+  keySeparator: ".",
+  nsSeparator: ":",
+  pluralSeparator: "_",
+  contextSeparator: "_",
+  partialBundledLanguages: false,
+  saveMissing: false,
+  updateMissing: false,
+  saveMissingTo: "fallback",
+  saveMissingPlurals: true,
+  missingKeyHandler: false,
+  missingInterpolationHandler: false,
+  postProcess: false,
+  postProcessPassResolved: false,
+  returnNull: false,
+  returnEmptyString: true,
+  returnObjects: false,
+  joinArrays: false,
+  returnedObjectHandler: false,
+  parseMissingKeyHandler: false,
+  appendNamespaceToMissingKey: false,
+  appendNamespaceToCIMode: false,
+  overloadTranslationOptionHandler: (args) => {
+    let ret = {};
+    if (typeof args[1] === "object") ret = args[1];
+    if (isString(args[1])) ret.defaultValue = args[1];
+    if (isString(args[2])) ret.tDescription = args[2];
+    if (typeof args[2] === "object" || typeof args[3] === "object") {
+      const options = args[3] || args[2];
+      Object.keys(options).forEach((key) => {
+        ret[key] = options[key];
+      });
+    }
+    return ret;
+  },
+  interpolation: {
+    escapeValue: true,
+    format: (value2) => value2,
+    prefix: "{{",
+    suffix: "}}",
+    formatSeparator: ",",
+    unescapePrefix: "-",
+    nestingPrefix: "$t(",
+    nestingSuffix: ")",
+    nestingOptionsSeparator: ",",
+    maxReplaces: 1e3,
+    skipOnVariables: true
+  }
+});
+const transformOptions = (options) => {
+  if (isString(options.ns)) options.ns = [options.ns];
+  if (isString(options.fallbackLng)) options.fallbackLng = [options.fallbackLng];
+  if (isString(options.fallbackNS)) options.fallbackNS = [options.fallbackNS];
+  if (options.supportedLngs && options.supportedLngs.indexOf("cimode") < 0) {
+    options.supportedLngs = options.supportedLngs.concat(["cimode"]);
+  }
+  return options;
+};
+const noop3 = () => {
+};
+const bindMemberFunctions = (inst) => {
+  const mems = Object.getOwnPropertyNames(Object.getPrototypeOf(inst));
+  mems.forEach((mem) => {
+    if (typeof inst[mem] === "function") {
+      inst[mem] = inst[mem].bind(inst);
+    }
+  });
+};
+class I18n extends EventEmitter {
+  constructor() {
+    let options = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
+    let callback = arguments.length > 1 ? arguments[1] : void 0;
+    super();
+    this.options = transformOptions(options);
+    this.services = {};
+    this.logger = baseLogger;
+    this.modules = {
+      external: []
+    };
+    bindMemberFunctions(this);
+    if (callback && !this.isInitialized && !options.isClone) {
+      if (!this.options.initImmediate) {
+        this.init(options, callback);
+        return this;
+      }
+      setTimeout(() => {
+        this.init(options, callback);
+      }, 0);
+    }
+  }
+  init() {
+    var _this = this;
+    let options = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
+    let callback = arguments.length > 1 ? arguments[1] : void 0;
+    this.isInitializing = true;
+    if (typeof options === "function") {
+      callback = options;
+      options = {};
+    }
+    if (!options.defaultNS && options.defaultNS !== false && options.ns) {
+      if (isString(options.ns)) {
+        options.defaultNS = options.ns;
+      } else if (options.ns.indexOf("translation") < 0) {
+        options.defaultNS = options.ns[0];
+      }
+    }
+    const defOpts = get();
+    this.options = {
+      ...defOpts,
+      ...this.options,
+      ...transformOptions(options)
+    };
+    if (this.options.compatibilityAPI !== "v1") {
+      this.options.interpolation = {
+        ...defOpts.interpolation,
+        ...this.options.interpolation
+      };
+    }
+    if (options.keySeparator !== void 0) {
+      this.options.userDefinedKeySeparator = options.keySeparator;
+    }
+    if (options.nsSeparator !== void 0) {
+      this.options.userDefinedNsSeparator = options.nsSeparator;
+    }
+    const createClassOnDemand = (ClassOrObject) => {
+      if (!ClassOrObject) return null;
+      if (typeof ClassOrObject === "function") return new ClassOrObject();
+      return ClassOrObject;
+    };
+    if (!this.options.isClone) {
+      if (this.modules.logger) {
+        baseLogger.init(createClassOnDemand(this.modules.logger), this.options);
+      } else {
+        baseLogger.init(null, this.options);
+      }
+      let formatter;
+      if (this.modules.formatter) {
+        formatter = this.modules.formatter;
+      } else if (typeof Intl !== "undefined") {
+        formatter = Formatter;
+      }
+      const lu = new LanguageUtil(this.options);
+      this.store = new ResourceStore(this.options.resources, this.options);
+      const s2 = this.services;
+      s2.logger = baseLogger;
+      s2.resourceStore = this.store;
+      s2.languageUtils = lu;
+      s2.pluralResolver = new PluralResolver(lu, {
+        prepend: this.options.pluralSeparator,
+        compatibilityJSON: this.options.compatibilityJSON,
+        simplifyPluralSuffix: this.options.simplifyPluralSuffix
+      });
+      if (formatter && (!this.options.interpolation.format || this.options.interpolation.format === defOpts.interpolation.format)) {
+        s2.formatter = createClassOnDemand(formatter);
+        s2.formatter.init(s2, this.options);
+        this.options.interpolation.format = s2.formatter.format.bind(s2.formatter);
+      }
+      s2.interpolator = new Interpolator(this.options);
+      s2.utils = {
+        hasLoadedNamespace: this.hasLoadedNamespace.bind(this)
+      };
+      s2.backendConnector = new Connector(createClassOnDemand(this.modules.backend), s2.resourceStore, s2, this.options);
+      s2.backendConnector.on("*", function(event) {
+        for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+          args[_key - 1] = arguments[_key];
+        }
+        _this.emit(event, ...args);
+      });
+      if (this.modules.languageDetector) {
+        s2.languageDetector = createClassOnDemand(this.modules.languageDetector);
+        if (s2.languageDetector.init) s2.languageDetector.init(s2, this.options.detection, this.options);
+      }
+      if (this.modules.i18nFormat) {
+        s2.i18nFormat = createClassOnDemand(this.modules.i18nFormat);
+        if (s2.i18nFormat.init) s2.i18nFormat.init(this);
+      }
+      this.translator = new Translator(this.services, this.options);
+      this.translator.on("*", function(event) {
+        for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+          args[_key2 - 1] = arguments[_key2];
+        }
+        _this.emit(event, ...args);
+      });
+      this.modules.external.forEach((m2) => {
+        if (m2.init) m2.init(this);
+      });
+    }
+    this.format = this.options.interpolation.format;
+    if (!callback) callback = noop3;
+    if (this.options.fallbackLng && !this.services.languageDetector && !this.options.lng) {
+      const codes = this.services.languageUtils.getFallbackCodes(this.options.fallbackLng);
+      if (codes.length > 0 && codes[0] !== "dev") this.options.lng = codes[0];
+    }
+    if (!this.services.languageDetector && !this.options.lng) {
+      this.logger.warn("init: no languageDetector is used and no lng is defined");
+    }
+    const storeApi = ["getResource", "hasResourceBundle", "getResourceBundle", "getDataByLanguage"];
+    storeApi.forEach((fcName) => {
+      this[fcName] = function() {
+        return _this.store[fcName](...arguments);
+      };
+    });
+    const storeApiChained = ["addResource", "addResources", "addResourceBundle", "removeResourceBundle"];
+    storeApiChained.forEach((fcName) => {
+      this[fcName] = function() {
+        _this.store[fcName](...arguments);
+        return _this;
+      };
+    });
+    const deferred = defer();
+    const load = () => {
+      const finish = (err, t2) => {
+        this.isInitializing = false;
+        if (this.isInitialized && !this.initializedStoreOnce) this.logger.warn("init: i18next is already initialized. You should call init just once!");
+        this.isInitialized = true;
+        if (!this.options.isClone) this.logger.log("initialized", this.options);
+        this.emit("initialized", this.options);
+        deferred.resolve(t2);
+        callback(err, t2);
+      };
+      if (this.languages && this.options.compatibilityAPI !== "v1" && !this.isInitialized) return finish(null, this.t.bind(this));
+      this.changeLanguage(this.options.lng, finish);
+    };
+    if (this.options.resources || !this.options.initImmediate) {
+      load();
+    } else {
+      setTimeout(load, 0);
+    }
+    return deferred;
+  }
+  loadResources(language2) {
+    let callback = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : noop3;
+    let usedCallback = callback;
+    const usedLng = isString(language2) ? language2 : this.language;
+    if (typeof language2 === "function") usedCallback = language2;
+    if (!this.options.resources || this.options.partialBundledLanguages) {
+      if (usedLng && usedLng.toLowerCase() === "cimode" && (!this.options.preload || this.options.preload.length === 0)) return usedCallback();
+      const toLoad = [];
+      const append = (lng) => {
+        if (!lng) return;
+        if (lng === "cimode") return;
+        const lngs = this.services.languageUtils.toResolveHierarchy(lng);
+        lngs.forEach((l2) => {
+          if (l2 === "cimode") return;
+          if (toLoad.indexOf(l2) < 0) toLoad.push(l2);
+        });
+      };
+      if (!usedLng) {
+        const fallbacks = this.services.languageUtils.getFallbackCodes(this.options.fallbackLng);
+        fallbacks.forEach((l2) => append(l2));
+      } else {
+        append(usedLng);
+      }
+      if (this.options.preload) {
+        this.options.preload.forEach((l2) => append(l2));
+      }
+      this.services.backendConnector.load(toLoad, this.options.ns, (e) => {
+        if (!e && !this.resolvedLanguage && this.language) this.setResolvedLanguage(this.language);
+        usedCallback(e);
+      });
+    } else {
+      usedCallback(null);
+    }
+  }
+  reloadResources(lngs, ns, callback) {
+    const deferred = defer();
+    if (typeof lngs === "function") {
+      callback = lngs;
+      lngs = void 0;
+    }
+    if (typeof ns === "function") {
+      callback = ns;
+      ns = void 0;
+    }
+    if (!lngs) lngs = this.languages;
+    if (!ns) ns = this.options.ns;
+    if (!callback) callback = noop3;
+    this.services.backendConnector.reload(lngs, ns, (err) => {
+      deferred.resolve();
+      callback(err);
+    });
+    return deferred;
+  }
+  use(module) {
+    if (!module) throw new Error("You are passing an undefined module! Please check the object you are passing to i18next.use()");
+    if (!module.type) throw new Error("You are passing a wrong module! Please check the object you are passing to i18next.use()");
+    if (module.type === "backend") {
+      this.modules.backend = module;
+    }
+    if (module.type === "logger" || module.log && module.warn && module.error) {
+      this.modules.logger = module;
+    }
+    if (module.type === "languageDetector") {
+      this.modules.languageDetector = module;
+    }
+    if (module.type === "i18nFormat") {
+      this.modules.i18nFormat = module;
+    }
+    if (module.type === "postProcessor") {
+      postProcessor.addPostProcessor(module);
+    }
+    if (module.type === "formatter") {
+      this.modules.formatter = module;
+    }
+    if (module.type === "3rdParty") {
+      this.modules.external.push(module);
+    }
+    return this;
+  }
+  setResolvedLanguage(l2) {
+    if (!l2 || !this.languages) return;
+    if (["cimode", "dev"].indexOf(l2) > -1) return;
+    for (let li = 0; li < this.languages.length; li++) {
+      const lngInLngs = this.languages[li];
+      if (["cimode", "dev"].indexOf(lngInLngs) > -1) continue;
+      if (this.store.hasLanguageSomeTranslations(lngInLngs)) {
+        this.resolvedLanguage = lngInLngs;
+        break;
+      }
+    }
+  }
+  changeLanguage(lng, callback) {
+    var _this2 = this;
+    this.isLanguageChangingTo = lng;
+    const deferred = defer();
+    this.emit("languageChanging", lng);
+    const setLngProps = (l2) => {
+      this.language = l2;
+      this.languages = this.services.languageUtils.toResolveHierarchy(l2);
+      this.resolvedLanguage = void 0;
+      this.setResolvedLanguage(l2);
+    };
+    const done = (err, l2) => {
+      if (l2) {
+        setLngProps(l2);
+        this.translator.changeLanguage(l2);
+        this.isLanguageChangingTo = void 0;
+        this.emit("languageChanged", l2);
+        this.logger.log("languageChanged", l2);
+      } else {
+        this.isLanguageChangingTo = void 0;
+      }
+      deferred.resolve(function() {
+        return _this2.t(...arguments);
+      });
+      if (callback) callback(err, function() {
+        return _this2.t(...arguments);
+      });
+    };
+    const setLng = (lngs) => {
+      if (!lng && !lngs && this.services.languageDetector) lngs = [];
+      const l2 = isString(lngs) ? lngs : this.services.languageUtils.getBestMatchFromCodes(lngs);
+      if (l2) {
+        if (!this.language) {
+          setLngProps(l2);
+        }
+        if (!this.translator.language) this.translator.changeLanguage(l2);
+        if (this.services.languageDetector && this.services.languageDetector.cacheUserLanguage) this.services.languageDetector.cacheUserLanguage(l2);
+      }
+      this.loadResources(l2, (err) => {
+        done(err, l2);
+      });
+    };
+    if (!lng && this.services.languageDetector && !this.services.languageDetector.async) {
+      setLng(this.services.languageDetector.detect());
+    } else if (!lng && this.services.languageDetector && this.services.languageDetector.async) {
+      if (this.services.languageDetector.detect.length === 0) {
+        this.services.languageDetector.detect().then(setLng);
+      } else {
+        this.services.languageDetector.detect(setLng);
+      }
+    } else {
+      setLng(lng);
+    }
+    return deferred;
+  }
+  getFixedT(lng, ns, keyPrefix) {
+    var _this3 = this;
+    const fixedT = function(key, opts) {
+      let options;
+      if (typeof opts !== "object") {
+        for (var _len3 = arguments.length, rest = new Array(_len3 > 2 ? _len3 - 2 : 0), _key3 = 2; _key3 < _len3; _key3++) {
+          rest[_key3 - 2] = arguments[_key3];
+        }
+        options = _this3.options.overloadTranslationOptionHandler([key, opts].concat(rest));
+      } else {
+        options = {
+          ...opts
+        };
+      }
+      options.lng = options.lng || fixedT.lng;
+      options.lngs = options.lngs || fixedT.lngs;
+      options.ns = options.ns || fixedT.ns;
+      if (options.keyPrefix !== "") options.keyPrefix = options.keyPrefix || keyPrefix || fixedT.keyPrefix;
+      const keySeparator = _this3.options.keySeparator || ".";
+      let resultKey;
+      if (options.keyPrefix && Array.isArray(key)) {
+        resultKey = key.map((k2) => `${options.keyPrefix}${keySeparator}${k2}`);
+      } else {
+        resultKey = options.keyPrefix ? `${options.keyPrefix}${keySeparator}${key}` : key;
+      }
+      return _this3.t(resultKey, options);
+    };
+    if (isString(lng)) {
+      fixedT.lng = lng;
+    } else {
+      fixedT.lngs = lng;
+    }
+    fixedT.ns = ns;
+    fixedT.keyPrefix = keyPrefix;
+    return fixedT;
+  }
+  t() {
+    return this.translator && this.translator.translate(...arguments);
+  }
+  exists() {
+    return this.translator && this.translator.exists(...arguments);
+  }
+  setDefaultNamespace(ns) {
+    this.options.defaultNS = ns;
+  }
+  hasLoadedNamespace(ns) {
+    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    if (!this.isInitialized) {
+      this.logger.warn("hasLoadedNamespace: i18next was not initialized", this.languages);
+      return false;
+    }
+    if (!this.languages || !this.languages.length) {
+      this.logger.warn("hasLoadedNamespace: i18n.languages were undefined or empty", this.languages);
+      return false;
+    }
+    const lng = options.lng || this.resolvedLanguage || this.languages[0];
+    const fallbackLng = this.options ? this.options.fallbackLng : false;
+    const lastLng = this.languages[this.languages.length - 1];
+    if (lng.toLowerCase() === "cimode") return true;
+    const loadNotPending = (l2, n2) => {
+      const loadState = this.services.backendConnector.state[`${l2}|${n2}`];
+      return loadState === -1 || loadState === 0 || loadState === 2;
+    };
+    if (options.precheck) {
+      const preResult = options.precheck(this, loadNotPending);
+      if (preResult !== void 0) return preResult;
+    }
+    if (this.hasResourceBundle(lng, ns)) return true;
+    if (!this.services.backendConnector.backend || this.options.resources && !this.options.partialBundledLanguages) return true;
+    if (loadNotPending(lng, ns) && (!fallbackLng || loadNotPending(lastLng, ns))) return true;
+    return false;
+  }
+  loadNamespaces(ns, callback) {
+    const deferred = defer();
+    if (!this.options.ns) {
+      if (callback) callback();
+      return Promise.resolve();
+    }
+    if (isString(ns)) ns = [ns];
+    ns.forEach((n2) => {
+      if (this.options.ns.indexOf(n2) < 0) this.options.ns.push(n2);
+    });
+    this.loadResources((err) => {
+      deferred.resolve();
+      if (callback) callback(err);
+    });
+    return deferred;
+  }
+  loadLanguages(lngs, callback) {
+    const deferred = defer();
+    if (isString(lngs)) lngs = [lngs];
+    const preloaded = this.options.preload || [];
+    const newLngs = lngs.filter((lng) => preloaded.indexOf(lng) < 0 && this.services.languageUtils.isSupportedCode(lng));
+    if (!newLngs.length) {
+      if (callback) callback();
+      return Promise.resolve();
+    }
+    this.options.preload = preloaded.concat(newLngs);
+    this.loadResources((err) => {
+      deferred.resolve();
+      if (callback) callback(err);
+    });
+    return deferred;
+  }
+  dir(lng) {
+    if (!lng) lng = this.resolvedLanguage || (this.languages && this.languages.length > 0 ? this.languages[0] : this.language);
+    if (!lng) return "rtl";
+    const rtlLngs = ["ar", "shu", "sqr", "ssh", "xaa", "yhd", "yud", "aao", "abh", "abv", "acm", "acq", "acw", "acx", "acy", "adf", "ads", "aeb", "aec", "afb", "ajp", "apc", "apd", "arb", "arq", "ars", "ary", "arz", "auz", "avl", "ayh", "ayl", "ayn", "ayp", "bbz", "pga", "he", "iw", "ps", "pbt", "pbu", "pst", "prp", "prd", "ug", "ur", "ydd", "yds", "yih", "ji", "yi", "hbo", "men", "xmn", "fa", "jpr", "peo", "pes", "prs", "dv", "sam", "ckb"];
+    const languageUtils = this.services && this.services.languageUtils || new LanguageUtil(get());
+    return rtlLngs.indexOf(languageUtils.getLanguagePartFromCode(lng)) > -1 || lng.toLowerCase().indexOf("-arab") > 1 ? "rtl" : "ltr";
+  }
+  static createInstance() {
+    let options = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
+    let callback = arguments.length > 1 ? arguments[1] : void 0;
+    return new I18n(options, callback);
+  }
+  cloneInstance() {
+    let options = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
+    let callback = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : noop3;
+    const forkResourceStore = options.forkResourceStore;
+    if (forkResourceStore) delete options.forkResourceStore;
+    const mergedOptions = {
+      ...this.options,
+      ...options,
+      ...{
+        isClone: true
+      }
+    };
+    const clone = new I18n(mergedOptions);
+    if (options.debug !== void 0 || options.prefix !== void 0) {
+      clone.logger = clone.logger.clone(options);
+    }
+    const membersToCopy = ["store", "services", "language"];
+    membersToCopy.forEach((m2) => {
+      clone[m2] = this[m2];
+    });
+    clone.services = {
+      ...this.services
+    };
+    clone.services.utils = {
+      hasLoadedNamespace: clone.hasLoadedNamespace.bind(clone)
+    };
+    if (forkResourceStore) {
+      clone.store = new ResourceStore(this.store.data, mergedOptions);
+      clone.services.resourceStore = clone.store;
+    }
+    clone.translator = new Translator(clone.services, mergedOptions);
+    clone.translator.on("*", function(event) {
+      for (var _len4 = arguments.length, args = new Array(_len4 > 1 ? _len4 - 1 : 0), _key4 = 1; _key4 < _len4; _key4++) {
+        args[_key4 - 1] = arguments[_key4];
+      }
+      clone.emit(event, ...args);
+    });
+    clone.init(mergedOptions, callback);
+    clone.translator.options = mergedOptions;
+    clone.translator.backendConnector.services.utils = {
+      hasLoadedNamespace: clone.hasLoadedNamespace.bind(clone)
+    };
+    return clone;
+  }
+  toJSON() {
+    return {
+      options: this.options,
+      store: this.store,
+      language: this.language,
+      languages: this.languages,
+      resolvedLanguage: this.resolvedLanguage
+    };
+  }
+}
+const instance = I18n.createInstance();
+instance.createInstance = I18n.createInstance;
+instance.createInstance;
+instance.dir;
+instance.init;
+instance.loadResources;
+instance.reloadResources;
+instance.use;
+instance.changeLanguage;
+instance.getFixedT;
+instance.t;
+instance.exists;
+instance.setDefaultNamespace;
+instance.hasLoadedNamespace;
+instance.loadNamespaces;
+instance.loadLanguages;
+const matchHtmlEntity = /&(?:amp|#38|lt|#60|gt|#62|apos|#39|quot|#34|nbsp|#160|copy|#169|reg|#174|hellip|#8230|#x2F|#47);/g;
+const htmlEntities = {
+  "&amp;": "&",
+  "&#38;": "&",
+  "&lt;": "<",
+  "&#60;": "<",
+  "&gt;": ">",
+  "&#62;": ">",
+  "&apos;": "'",
+  "&#39;": "'",
+  "&quot;": '"',
+  "&#34;": '"',
+  "&nbsp;": " ",
+  "&#160;": " ",
+  "&copy;": "©",
+  "&#169;": "©",
+  "&reg;": "®",
+  "&#174;": "®",
+  "&hellip;": "…",
+  "&#8230;": "…",
+  "&#x2F;": "/",
+  "&#47;": "/"
+};
+const unescapeHtmlEntity = (m2) => htmlEntities[m2];
+const unescape = (text2) => text2.replace(matchHtmlEntity, unescapeHtmlEntity);
+let defaultOptions = {
+  bindI18n: "languageChanged",
+  bindI18nStore: "",
+  transEmptyNodeValue: "",
+  transSupportBasicHtmlNodes: true,
+  transWrapTextNodes: "",
+  transKeepBasicHtmlNodesFor: ["br", "strong", "i", "p"],
+  useSuspense: true,
+  unescape
+};
+const setDefaults = (options = {}) => {
+  defaultOptions = {
+    ...defaultOptions,
+    ...options
+  };
+};
+const initReactI18next = {
+  type: "3rdParty",
+  init(instance2) {
+    setDefaults(instance2.options.react);
+  }
+};
+const {
+  slice,
+  forEach
+} = [];
+function defaults(obj) {
+  forEach.call(slice.call(arguments, 1), (source) => {
+    if (source) {
+      for (const prop in source) {
+        if (obj[prop] === void 0) obj[prop] = source[prop];
+      }
+    }
+  });
+  return obj;
+}
+function hasXSS(input) {
+  if (typeof input !== "string") return false;
+  const xssPatterns = [/<\s*script.*?>/i, /<\s*\/\s*script\s*>/i, /<\s*img.*?on\w+\s*=/i, /<\s*\w+\s*on\w+\s*=.*?>/i, /javascript\s*:/i, /vbscript\s*:/i, /expression\s*\(/i, /eval\s*\(/i, /alert\s*\(/i, /document\.cookie/i, /document\.write\s*\(/i, /window\.location/i, /innerHTML/i];
+  return xssPatterns.some((pattern) => pattern.test(input));
+}
+const fieldContentRegExp = /^[\u0009\u0020-\u007e\u0080-\u00ff]+$/;
+const serializeCookie = function(name, val) {
+  let options = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {
+    path: "/"
+  };
+  const opt = options;
+  const value2 = encodeURIComponent(val);
+  let str = `${name}=${value2}`;
+  if (opt.maxAge > 0) {
+    const maxAge = opt.maxAge - 0;
+    if (Number.isNaN(maxAge)) throw new Error("maxAge should be a Number");
+    str += `; Max-Age=${Math.floor(maxAge)}`;
+  }
+  if (opt.domain) {
+    if (!fieldContentRegExp.test(opt.domain)) {
+      throw new TypeError("option domain is invalid");
+    }
+    str += `; Domain=${opt.domain}`;
+  }
+  if (opt.path) {
+    if (!fieldContentRegExp.test(opt.path)) {
+      throw new TypeError("option path is invalid");
+    }
+    str += `; Path=${opt.path}`;
+  }
+  if (opt.expires) {
+    if (typeof opt.expires.toUTCString !== "function") {
+      throw new TypeError("option expires is invalid");
+    }
+    str += `; Expires=${opt.expires.toUTCString()}`;
+  }
+  if (opt.httpOnly) str += "; HttpOnly";
+  if (opt.secure) str += "; Secure";
+  if (opt.sameSite) {
+    const sameSite = typeof opt.sameSite === "string" ? opt.sameSite.toLowerCase() : opt.sameSite;
+    switch (sameSite) {
+      case true:
+        str += "; SameSite=Strict";
+        break;
+      case "lax":
+        str += "; SameSite=Lax";
+        break;
+      case "strict":
+        str += "; SameSite=Strict";
+        break;
+      case "none":
+        str += "; SameSite=None";
+        break;
+      default:
+        throw new TypeError("option sameSite is invalid");
+    }
+  }
+  if (opt.partitioned) str += "; Partitioned";
+  return str;
+};
+const cookie = {
+  create(name, value2, minutes, domain) {
+    let cookieOptions = arguments.length > 4 && arguments[4] !== void 0 ? arguments[4] : {
+      path: "/",
+      sameSite: "strict"
+    };
+    if (minutes) {
+      cookieOptions.expires = /* @__PURE__ */ new Date();
+      cookieOptions.expires.setTime(cookieOptions.expires.getTime() + minutes * 60 * 1e3);
+    }
+    if (domain) cookieOptions.domain = domain;
+    document.cookie = serializeCookie(name, encodeURIComponent(value2), cookieOptions);
+  },
+  read(name) {
+    const nameEQ = `${name}=`;
+    const ca = document.cookie.split(";");
+    for (let i2 = 0; i2 < ca.length; i2++) {
+      let c2 = ca[i2];
+      while (c2.charAt(0) === " ") c2 = c2.substring(1, c2.length);
+      if (c2.indexOf(nameEQ) === 0) return c2.substring(nameEQ.length, c2.length);
+    }
+    return null;
+  },
+  remove(name) {
+    this.create(name, "", -1);
+  }
+};
+var cookie$1 = {
+  name: "cookie",
+  // Deconstruct the options object and extract the lookupCookie property
+  lookup(_ref) {
+    let {
+      lookupCookie
+    } = _ref;
+    if (lookupCookie && typeof document !== "undefined") {
+      return cookie.read(lookupCookie) || void 0;
+    }
+    return void 0;
+  },
+  // Deconstruct the options object and extract the lookupCookie, cookieMinutes, cookieDomain, and cookieOptions properties
+  cacheUserLanguage(lng, _ref2) {
+    let {
+      lookupCookie,
+      cookieMinutes,
+      cookieDomain,
+      cookieOptions
+    } = _ref2;
+    if (lookupCookie && typeof document !== "undefined") {
+      cookie.create(lookupCookie, lng, cookieMinutes, cookieDomain, cookieOptions);
+    }
+  }
+};
+var querystring = {
+  name: "querystring",
+  // Deconstruct the options object and extract the lookupQuerystring property
+  lookup(_ref) {
+    var _a;
+    let {
+      lookupQuerystring
+    } = _ref;
+    let found;
+    if (typeof window !== "undefined") {
+      let {
+        search: search2
+      } = window.location;
+      if (!window.location.search && ((_a = window.location.hash) == null ? void 0 : _a.indexOf("?")) > -1) {
+        search2 = window.location.hash.substring(window.location.hash.indexOf("?"));
+      }
+      const query = search2.substring(1);
+      const params = query.split("&");
+      for (let i2 = 0; i2 < params.length; i2++) {
+        const pos = params[i2].indexOf("=");
+        if (pos > 0) {
+          const key = params[i2].substring(0, pos);
+          if (key === lookupQuerystring) {
+            found = params[i2].substring(pos + 1);
+          }
+        }
+      }
+    }
+    return found;
+  }
+};
+let hasLocalStorageSupport = null;
+const localStorageAvailable = () => {
+  if (hasLocalStorageSupport !== null) return hasLocalStorageSupport;
+  try {
+    hasLocalStorageSupport = typeof window !== "undefined" && window.localStorage !== null;
+    if (!hasLocalStorageSupport) {
+      return false;
+    }
+    const testKey = "i18next.translate.boo";
+    window.localStorage.setItem(testKey, "foo");
+    window.localStorage.removeItem(testKey);
+  } catch (e) {
+    hasLocalStorageSupport = false;
+  }
+  return hasLocalStorageSupport;
+};
+var localStorage = {
+  name: "localStorage",
+  // Deconstruct the options object and extract the lookupLocalStorage property
+  lookup(_ref) {
+    let {
+      lookupLocalStorage
+    } = _ref;
+    if (lookupLocalStorage && localStorageAvailable()) {
+      return window.localStorage.getItem(lookupLocalStorage) || void 0;
+    }
+    return void 0;
+  },
+  // Deconstruct the options object and extract the lookupLocalStorage property
+  cacheUserLanguage(lng, _ref2) {
+    let {
+      lookupLocalStorage
+    } = _ref2;
+    if (lookupLocalStorage && localStorageAvailable()) {
+      window.localStorage.setItem(lookupLocalStorage, lng);
+    }
+  }
+};
+let hasSessionStorageSupport = null;
+const sessionStorageAvailable = () => {
+  if (hasSessionStorageSupport !== null) return hasSessionStorageSupport;
+  try {
+    hasSessionStorageSupport = typeof window !== "undefined" && window.sessionStorage !== null;
+    if (!hasSessionStorageSupport) {
+      return false;
+    }
+    const testKey = "i18next.translate.boo";
+    window.sessionStorage.setItem(testKey, "foo");
+    window.sessionStorage.removeItem(testKey);
+  } catch (e) {
+    hasSessionStorageSupport = false;
+  }
+  return hasSessionStorageSupport;
+};
+var sessionStorage$1 = {
+  name: "sessionStorage",
+  lookup(_ref) {
+    let {
+      lookupSessionStorage
+    } = _ref;
+    if (lookupSessionStorage && sessionStorageAvailable()) {
+      return window.sessionStorage.getItem(lookupSessionStorage) || void 0;
+    }
+    return void 0;
+  },
+  cacheUserLanguage(lng, _ref2) {
+    let {
+      lookupSessionStorage
+    } = _ref2;
+    if (lookupSessionStorage && sessionStorageAvailable()) {
+      window.sessionStorage.setItem(lookupSessionStorage, lng);
+    }
+  }
+};
+var navigator$1 = {
+  name: "navigator",
+  lookup(options) {
+    const found = [];
+    if (typeof navigator !== "undefined") {
+      const {
+        languages,
+        userLanguage,
+        language: language2
+      } = navigator;
+      if (languages) {
+        for (let i2 = 0; i2 < languages.length; i2++) {
+          found.push(languages[i2]);
+        }
+      }
+      if (userLanguage) {
+        found.push(userLanguage);
+      }
+      if (language2) {
+        found.push(language2);
+      }
+    }
+    return found.length > 0 ? found : void 0;
+  }
+};
+var htmlTag = {
+  name: "htmlTag",
+  // Deconstruct the options object and extract the htmlTag property
+  lookup(_ref) {
+    let {
+      htmlTag: htmlTag2
+    } = _ref;
+    let found;
+    const internalHtmlTag = htmlTag2 || (typeof document !== "undefined" ? document.documentElement : null);
+    if (internalHtmlTag && typeof internalHtmlTag.getAttribute === "function") {
+      found = internalHtmlTag.getAttribute("lang");
+    }
+    return found;
+  }
+};
+var path = {
+  name: "path",
+  // Deconstruct the options object and extract the lookupFromPathIndex property
+  lookup(_ref) {
+    var _a;
+    let {
+      lookupFromPathIndex
+    } = _ref;
+    if (typeof window === "undefined") return void 0;
+    const language2 = window.location.pathname.match(/\/([a-zA-Z-]*)/g);
+    if (!Array.isArray(language2)) return void 0;
+    const index2 = typeof lookupFromPathIndex === "number" ? lookupFromPathIndex : 0;
+    return (_a = language2[index2]) == null ? void 0 : _a.replace("/", "");
+  }
+};
+var subdomain = {
+  name: "subdomain",
+  lookup(_ref) {
+    var _a, _b;
+    let {
+      lookupFromSubdomainIndex
+    } = _ref;
+    const internalLookupFromSubdomainIndex = typeof lookupFromSubdomainIndex === "number" ? lookupFromSubdomainIndex + 1 : 1;
+    const language2 = typeof window !== "undefined" && ((_b = (_a = window.location) == null ? void 0 : _a.hostname) == null ? void 0 : _b.match(/^(\w{2,5})\.(([a-z0-9-]{1,63}\.[a-z]{2,6})|localhost)/i));
+    if (!language2) return void 0;
+    return language2[internalLookupFromSubdomainIndex];
+  }
+};
+let canCookies = false;
+try {
+  document.cookie;
+  canCookies = true;
+} catch (e) {
+}
+const order = ["querystring", "cookie", "localStorage", "sessionStorage", "navigator", "htmlTag"];
+if (!canCookies) order.splice(1, 1);
+const getDefaults = () => ({
+  order,
+  lookupQuerystring: "lng",
+  lookupCookie: "i18next",
+  lookupLocalStorage: "i18nextLng",
+  lookupSessionStorage: "i18nextLng",
+  // cache user language
+  caches: ["localStorage"],
+  excludeCacheFor: ["cimode"],
+  // cookieMinutes: 10,
+  // cookieDomain: 'myDomain'
+  convertDetectedLanguage: (l2) => l2
+});
+class Browser {
+  constructor(services) {
+    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    this.type = "languageDetector";
+    this.detectors = {};
+    this.init(services, options);
+  }
+  init() {
+    let services = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {
+      languageUtils: {}
+    };
+    let options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
+    let i18nOptions = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : {};
+    this.services = services;
+    this.options = defaults(options, this.options || {}, getDefaults());
+    if (typeof this.options.convertDetectedLanguage === "string" && this.options.convertDetectedLanguage.indexOf("15897") > -1) {
+      this.options.convertDetectedLanguage = (l2) => l2.replace("-", "_");
+    }
+    if (this.options.lookupFromUrlIndex) this.options.lookupFromPathIndex = this.options.lookupFromUrlIndex;
+    this.i18nOptions = i18nOptions;
+    this.addDetector(cookie$1);
+    this.addDetector(querystring);
+    this.addDetector(localStorage);
+    this.addDetector(sessionStorage$1);
+    this.addDetector(navigator$1);
+    this.addDetector(htmlTag);
+    this.addDetector(path);
+    this.addDetector(subdomain);
+  }
+  addDetector(detector) {
+    this.detectors[detector.name] = detector;
+    return this;
+  }
+  detect() {
+    let detectionOrder = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : this.options.order;
+    let detected = [];
+    detectionOrder.forEach((detectorName) => {
+      if (this.detectors[detectorName]) {
+        let lookup = this.detectors[detectorName].lookup(this.options);
+        if (lookup && typeof lookup === "string") lookup = [lookup];
+        if (lookup) detected = detected.concat(lookup);
+      }
+    });
+    detected = detected.filter((d2) => d2 !== void 0 && d2 !== null && !hasXSS(d2)).map((d2) => this.options.convertDetectedLanguage(d2));
+    if (this.services && this.services.languageUtils && this.services.languageUtils.getBestMatchFromCodes) return detected;
+    return detected.length > 0 ? detected[0] : null;
+  }
+  cacheUserLanguage(lng) {
+    let caches = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : this.options.caches;
+    if (!caches) return;
+    if (this.options.excludeCacheFor && this.options.excludeCacheFor.indexOf(lng) > -1) return;
+    caches.forEach((cacheName) => {
+      if (this.detectors[cacheName]) this.detectors[cacheName].cacheUserLanguage(lng, this.options);
+    });
+  }
+}
+Browser.type = "languageDetector";
+const km$9 = "km";
+const m$9 = "m";
+const to$9 = "to";
+const or$3 = "or";
+const logout$4 = "Log out";
+const save$9 = "Save";
+const cancel$9 = "Cancel";
+const ok$4 = "OK";
+const create$9 = "Create";
+const disasters$9 = "Disasters";
+const loading$9 = "Loading...";
+const preparing_data$3 = "Preparing data";
+const loading_events$3 = "Loading disasters";
+const legend$9 = "Legend";
+const maps$9 = "maps";
+const vertical_direction$9 = "Vertical direction";
+const horizontal_direction$9 = "Horizontal direction";
+const legend_presentation$9 = "Legend presentation";
+const layers$9 = "Layers";
+const layer$4 = "Layer";
+const toolbar$9 = { "map_ruler": "Measure distance", "locate_me": "Locate me", "panel_title": "Toolbar", "download": "Download", "delete": "Delete", "boundary_selector": "Select admin boundary", "create_layer": "Create layer", "geometry_uploader": "Upload GeoJSON", "focused_geometry_editor": "Draw or edit geometry", "edit_in_osm": "Edit map in OSM", "record_sensors": "Record sensors", "tools_label": "Tools", "selected_area_label": "Selected area", "upload_mcda": "Upload analysis" };
+const layer_actions$9 = { "tooltips": { "erase": "Erase", "download": "Download", "edit": "Edit", "hide": "Hide", "show": "Show", "delete": "Delete" } };
+const feed$9 = "Feed";
+const deselect$9 = "Deselect";
+const spinner_text$9 = "Gathering data";
+const updated$9 = "Updated";
+const started$3 = "Started";
+const created$4 = "Created";
+const osm_gaps$3 = "OSM gaps";
+const no_data_received$9 = "No data received";
+const wrong_data_received$9 = "Wrong data received";
+const error$b = "Error";
+const sort_icon$9 = "Sort Icon";
+const configs$9 = { "Kontur_public_feed": "Kontur Public", "Kontur_public_feed_description": "The feed contains real-time data about Cyclones, Droughts, Earthquakes, Floods, Volcanoes, Wildfires." };
+const errors$9 = { "default": "Sorry, we are having issues which will be fixed soon", "timeout": "Request timeout", "cannot_connect": "Cannot connect to server", "forbidden": "Forbidden", "not_found": "Not found", "unknown": "Unknown", "server_error": "Server error", "error_try_again": "Something went wrong. Please try again" };
+const categories$9 = { "overlays": "Overlays", "basemap": "Basemap" };
+const groups$9 = { "layers_in_selected_area": "Layers in selected area", "your_layers": "Your layers", "kontur_analytics": "Kontur analytics", "qa": "OpenStreetMap inspector", "osmbasedmap": "OpenStreetMap based", "other": "Other", "elevation": "Elevation", "photo": "Imagery", "map": "Map", "indicators": "Indicators" };
+const advanced_analytics_data_list$9 = { "load_world_data": "Load World Data", "numerator": "Numerator", "normalized_by": "Normalized By", "sum": "Sum", "min": "Min", "max": "Max", "mean": "Mean", "stddev": "Stddev", "median": "Median", "filter_numerator": "Filter Numerator", "filter_denominator": "Filter Denominator" };
+const mcda$9 = { "title": "Multi-criteria decision analysis", "name": "Create analysis", "create_mcda_hint": "Create multi-criteria decision analysis", "upload_mcda_hint": "Upload multi-criteria decision analysis", "modal_title": "Multi-criteria decision analysis", "modal_input_name": "Analysis name", "modal_input_name_placeholder": "e.g., Climate change", "modal_input_indicators": "Layer list", "modal_input_indicators_placeholder": "Select layers", "modal_input_indicators_no_options": "No options", "btn_save": "Save analysis", "error_analysis_name_cannot_be_empty": "Analysis name cannot be empty", "error_invalid_file": "Invalid analysis file format", "error_invalid_parameter": "Invalid '{{parameter}}' parameter", "error_invalid_layer_parameter": "Invalid '{{parameter}}' parameter in '{{axisName}}' layer", "error_wrong_mcda_version": "Wrong analysis version", "legend_title": "Legend", "legend_subtitle": "Hexagons are colored based on analysis layer settings. Click a hexagon to see its values.", "layer_editor": { "save_changes": "Save changes", "range": "Value range", "outliers": "Outliers", "reverse_to_good_bad": "Reverse to Good → Bad", "reverse_to_bad_good": "Reverse to Bad → Good", "weight": "Weight", "transform": "Transform", "transformation": "Transformation", "normalize": "Normalize", "normalization": "Normalization", "range_buttons": { "full_range": "Full range", "3_sigma": "3σ", "2_sigma": "2σ", "1_sigma": "1σ" }, "outliers_options": { "clamp": "Clamp", "hide": "Hide", "dont_modify": "Don't modify" }, "transformations": { "no_transformation": "No transformation", "square_root": "Square root: sign(x)⋅√|x|", "cube_root": "Cube root: ∛x", "log_one": "log₁₀(x - xmin + 1)", "log_epsilon": "log₁₀(x - xmin + ε)" }, "no": "No", "max_min": "Max-min", "errors": { "weight_cannot_be_empty": "Weight cannot be empty", "weight_must_be_a_number": "Weight must be a valid number", "range_from_cannot_be_bigger": "The ‘from’ value cannot be bigger than the ‘to’ value", "range_cannot_be_empty": "Range cannot be empty", "range_must_be_a_number": "Range must be a valid number" }, "tips": { "range": "The values that will be considered the worst and the best in your analysis.", "sentiment": "Determine the direction of sentiment for the layer's impact on the analysis:\n* **Bad → Good**: Higher values indicate a positive sentiment.\n* **Good → Bad**: Higher values indicate a negative sentiment.", "weight": "By default, all layers contribute equally to the analysis through a weighted average. Adjusting the increased weight of a layer (2, 3, etc.) allows you to assign additional importance to it in the analysis.", "transform": "Apply calculations to the values. Achieving a more linear distribution will provide more useful information for analysis.\n\n **Note**: Calculations are done before normalization.", "normalize": "Adjusts values to a standardized scale. This helps compare them easily and make decisions.\n* **Standard score scaling**: This option adjusts values to a standardized scale, ensuring they are all comparable.\n* **No (for specialists only)**: Leaves values unmodified.", "outliers": "* **Clamp**: Set values above the range to 1 and below the range to 0.\n* **Don’t modify**: Keep 0 and 1 for min and max, but allow outlier scores beyond this range.\n* **Exclude**: Exclude areas where values are out of range." } }, "bad": "Bad", "good": "Good" };
+const multivariate$9 = { "multivariate_analysis": "Multivariate Analysis", "create_analysis_layer": "Create analysis layer", "upload_analysis_layer": "Upload analysis layer", "popup": { "score_header": "Score {{level}}", "compare_header": "Compare {{level}}" }, "score": "Score", "compare": "Compare", "score_and_compare": "Score and compare", "hide_area": "Hide area", "labels": "Labels", "3d": "3D", "static_opacity": "Static opacity", "mcda_legend_subtitle": "Hexagons are colored as weighted average of normalized and transformed layers values" };
+const map_popup$9 = { "value": "Value", "range": "Range", "coefficient": "Coefficient", "normalized_value": "Normalized value" };
+const search$9 = { "search_location": "Search location", "info_block": "You can search for 📍 locations", "info_block_with_mcda": "You can search for 📍 locations or ask ✨ AI your question like “Where is dead wood”", "input_placeholder": "Search", "input_placeholder_mcda": "Search or ask AI", "locations_no_result": "No locations found", "mcda_loading_message": "AI is generating an analysis for you", "mcda_no_result": "No AI suggestion", "mcda_error_message": "AI engine did not respond. Please try again later", "mcda_create_analysis": "Create analysis", "upload_analysis": "“{{name}}” Multi-Criteria Decision Analysis has been created" };
+const event_list$9 = { "warning_title": "Cannot filter by map view", "warning_description": "Map is not ready yet, try later", "bbox_filter_button": "Filter by map view", "analytics": { "affected_people": { "tooltip": "Affected people", "value": "No humanitarian impact" }, "settled_area_tooltip": "Settled area", "loss_tooltip": "Estimated loss" }, "no_event_in_feed": "The disaster was not found in the current disaster feed", "no_selected_disaster": "No disaster selected", "chose_disaster": "Choose disaster", "no_historical_disasters": "No historical disasters in this area", "no_feed_disasters": "No disasters in this feed", "no_feed_disasters_matching_your_filters": "No disasters matching your filters", "no_disasters": "No disasters", "severity_unknown": "Unknown", "severity_termination": "Termination", "severity_minor": "Minor", "severity_moderate": "Moderate", "severity_severe": "Severe", "severity_extreme": "Extreme", "open_timeline_button": "Timeline" };
+const create_layer$9 = { "save_and_draw": "Save and draw", "edit_layer": "Edit Layer", "edit_features": "Edit Features", "delete_layer": "Delete Layer", "create_layer": "Create Layer", "saving_layer": "Saving layer...", "field_name": "Field name", "layer_name": "Layer name", "marker_icon": "Marker icon", "type": "Type", "select": "Select", "short_text": "Short Text", "long_text": "Long Text", "link": "Link", "image": "Image", "fields": "Fields", "add_field": "Add field", "location": "Location", "edit_feature_placeholder": "Select some feature for start edit feature properties" };
+const analytics_panel$9 = { "header_title": "Analytics", "error_loading": "Failed receiving data about selected area. It may be too large.", "info_short": "Calculations are made for selected area" };
+const advanced_analytics_panel$9 = { "header_title": "Advanced analytics", "error": "Error while fetching advanced analytics data" };
+const advanced_analytics_empty$9 = { "not_found": "Sorry, the requested disaster was not found", "error": "An error occurred", "analytics_for_selected": "Analytics for selected area", "will_be_provided": "will be provided here", "no_analytics": "No analytics for the selected area" };
+const llm_analytics$9 = { "header": "AI insights", "placeholder": { "select_area": "Select area (<icon1 />,<icon2 />,<icon3 />) you want to explore to get AI Insights.", "you_can_also": "You can also:", "fill_bio": "<icon /> <lnk>Fill out analysis objectives</lnk> to personalize AI analysis", "select_and_save_as_reference_area": "<icon /> Select an area and save it as a reference to compare with another one", "learn_more": "<lnk><icon/> Learn more about AI Insights</lnk>" } };
+const draw_tools$9 = { "area": "Polygon", "line": "Line", "point": "Point", "finish_drawing": "Finish Drawing", "caption": "Click on the map to begin drawing", "no_geometry_error": "No drawn geometry to download", "overlap_error": "Polygon should not overlap itself" };
+const geometry_uploader$9 = { "title": "Focus to uploaded geometry", "error": "Error while reading uploaded file" };
+const focus_geometry_layer$4 = { "settings": { "name": "Selected area" } };
+const reference_area_layer$9 = { "settings": { "name": "Reference area" } };
+const drawings$4 = { "self_directions_not_supported": "Self intersections are not supported" };
+const bivariate$9 = { "panel": { "header": "Bivariate matrix" }, "matrix": { "caption": { "base_axis": "Base axis", "annex_axis": "Annex axis", "tooltip": { "p1": "Charts involving the Base and Annex axes help establish a relationship between two data sets.", "li1": "Annex axis - parameters that we analyse", "li2": "Base axis - reference point in the analysis", "b": "Ex: the best location to open a cafe", "p2": "We can explore the number of eatery places (Annex axis) against Population density (Base axis).", "p3": "In this scenario, we are first interested in a small number of eatery places, and the number of people in that place gives us additional information." } }, "header": { "title": "Choose two layers to explore correlations", "hint": "Layers and correlations are displayed for the current Selected Area" }, "icon": { "population": "Value divided by Population", "area_km2": "Value divided by Area", "total_building_count": "Value divided by Total Buildings Estimate", "populated_area_km2": "Value divided by Populated Area", "one": "Without divider", "roads": "Value divided by Total Roads Length" }, "progress": { "rendering": "Rendering", "applied": "Applied on the map" }, "loading_error": "Unfortunately, we cannot display the matrix. Try refreshing the page or come back later." }, "legend": { "high": "High", "low": "Low", "medium": "Medium" }, "color_manager": { "not_defined": "Not defined", "sentiments_combinations_filter": "Sentiments combinations", "layers_filter": "Layers", "no_legends": "There are no legends satisfying the conditions.", "no_data": "No Data.", "sentiments_tab": "Sentiments", "color_legends_tab": "Color Legends", "layers_tab": "Layers (indicators)" } };
+const sidebar$9 = { "collapse": "Collapse", "expand": "Expand", "icon_alt": "Application logo" };
+const login$9 = { "email": "Email", "password": "Password", "login_button": "Login", "sign_up": "Sign up", "logging_in": "Logging in...", "log_in": "Log in", "forgot_password": "Forgot password?", "description": "Please log in to change your settings", "error": { "email_empty": "Email cannot be empty", "email_invalid": "Email has to be valid", "password": "Password cannot be empty", "connect": "Could not connect to authentication service" } };
+const currency$9 = { "usd": "USD" };
+const subscription$9 = { "title": "Plans & Pricing", "price_summary": "* Billed as ${{pricePerYear}} USD once yearly", "unauthorized_button": "Sign in to subscribe", "current_plan_button": "Current plan", "sales_button": "Contact sales", "book_demo_button": "Book a demo", "request_trial_button": "Request trial", "errors": { "payment_initialization": "There was an error during payment initialization. Please try again or contact our support" }, "success_modal": { "title": "Success", "thank_you_for_subscribing": "Thank you for subscribing to our platform!", "after_the_page_refreshes": "After the page refreshes, you can start using Kontur Atlas" }, "monthly": "Monthly", "annually": "Annually", "save_percent": "Save {{percent}}%", "month_abbr": "mo" };
+const reports$9 = { "title": "Disaster Ninja Reports", "no_data": "No data for this report", "sorting": "Sorting data...", "loading": "Loading data", "open_josm": "Open via JOSM remote control", "josm_logo_alt": "JOSM logo", "see_all": "See all reports", "wrong_id": "Wrong report ID", "description": "<0>Kontur </0> generates several reports that help validate OpenStreetMap quality. They contain links to areas on <4>osm.org </4> and links to open them in the JOSM editor with enabled remote control for editing." };
+const modes$9 = { "map": "Map", "about": "About", "cookies": "Cookies", "reports": "Reports", "report": "Report", "profile": "Profile", "privacy": "Privacy", "terms": "Terms", "user_guide": "User guide", "external": { "upload_imagery": "Upload imagery", "imagery_catalog": "Imagery catalog" } };
+const profile$9 = { "interfaceTheme": "Theme", "interfaceLanguage": "Language", "units": "Units", "fullName": "Full name", "email": "Email", "metric": "metric", "imperialBeta": "imperial (beta)", "profileSettingsHeader": "Personalize your experience", "your_current_job": "your current job", "area_of_expertise": "area of expertise", "challenges": "challenges", "personalization_prompt": "For better personalization, please include details such as:", "ai_tools_compatibility": "This information is compatible with AI tools", "improves_analysis": "Improves analysis", "bio_placeholder": "Bio", "bio_textarea_placeholder": "e.g. GIS specialist with 5+ years of experience in disaster risk analysis, focused on urban resilience.", "analysis_objectives": "Analysis objectives", "objectives_textarea_placeholder": "e.g. Urban planning analysis with a focus on climate resilience. My current challenge is improving flood risk mapping.", "appSettingsHeader": "Settings", "your_organization": "Your organization", "your_contacts": "Your contact info", "organization_name": "Organization name", "position": "Position", "gis_specialists": "GIS specialists in your team", "saveButton": "Save changes", "phone_number": "Phone number with country code", "linkedin": "LinkedIn profile", "konturTheme": "Kontur", "HOTTheme": "HOT", "defaultDisasterFeed": "Default disaster feed", "defaultOSMeditor": "Default OpenStreetMap editor (beta)", "successNotification": "All changes have been applied successfully", "dont_know": "I don’t know", "languageOption": { "en": "English", "es": "Spanish", "ar": "Arabic", "ko": "Korean", "id": "Indonesian", "de": "German", "be": "Belarusian", "ru": "Russian", "uk": "Ukrainian", "zh": "Chinese" }, "reference_area": { "title": "Reference area", "freehand_geometry": "Freehand geometry", "to_replace_reference_area": 'You can redefine your reference area on map. Select an area and click "Save as reference area" on toolbar.\n', "description": "Save an area you are familiar with as a reference. We will use it as a baseline to compare other areas and explain the differences.", "set_the_reference_area": "Set area on map", "tooltip_text": "1.Select an area of interest on the map using the Admin Boundary or Draw Geometry tool.\n\n 2. Click the 'Save as Reference' button on the toolbar.", "accessing_location": "Accessing your location", "accessing_location_error": "Error. Try another way.", "select_location": "Select my current location", "notification": "Your reference area {{name}} has been saved" } };
+const current_event$4 = { "not_found_request": "Sorry, the requested disaster was not found" };
+const locate_me$9 = { "get_location_error": "Error while getting location", "feature_title": "Locate me" };
+const episode$4 = "Timeline";
+const loading_episodes$9 = "Loading Episodes";
+const zoom_to_world$3 = "Zoom to the whole world";
+const cookie_banner$9 = { "header": "We value your privacy", "body": "We use absolutely necessary cookies to provide you personalized services and optional cookies to improve {{appName}} and your experience. You can manage cookie settings or withdraw consent to optional cookies at any time.\nFor more information, please, check our [Privacy Policy](about/privacy)", "decline_all": "Decline optional cookies", "accept_all": "Accept optional cookies" };
+const live_sensor$9 = { "start": "Start sensor recording", "finish": "Stop sensor recording", "finishMessage": "Recording has been finished", "startMessage": "Recording has been started", "noSensorsError": "Your device does not have the required sensors" };
+const layer_features_panel$9 = { "empty": "Layer features within selected area will be provided here", "noFeatureSelected": "No layer feature selected", "chooseFeature": "Choose layer feature", "listInfo": "The list is filtered by selected area and sorted by project number", "error_loading": "Failed to load layer features data. Please try again.", "no_features": "No features found in the selected area.", "priority": "{{level}} priority" };
+const reference_area$9 = { "save_as_reference_area": "Save as reference area", "error_couldnt_save": "Unfortunately, we could not save your reference area. Please try again.", "selected_area_saved_as_reference_area": "Selected area has been saved as reference area in your profile" };
+const oam_auth$9 = { "login_button": "Login with Google" };
+const en_common = {
+  km: km$9,
+  m: m$9,
+  to: to$9,
+  or: or$3,
+  logout: logout$4,
+  save: save$9,
+  cancel: cancel$9,
+  ok: ok$4,
+  create: create$9,
+  disasters: disasters$9,
+  loading: loading$9,
+  preparing_data: preparing_data$3,
+  loading_events: loading_events$3,
+  legend: legend$9,
+  maps: maps$9,
+  vertical_direction: vertical_direction$9,
+  horizontal_direction: horizontal_direction$9,
+  legend_presentation: legend_presentation$9,
+  layers: layers$9,
+  layer: layer$4,
+  toolbar: toolbar$9,
+  layer_actions: layer_actions$9,
+  feed: feed$9,
+  deselect: deselect$9,
+  spinner_text: spinner_text$9,
+  updated: updated$9,
+  started: started$3,
+  created: created$4,
+  osm_gaps: osm_gaps$3,
+  no_data_received: no_data_received$9,
+  wrong_data_received: wrong_data_received$9,
+  error: error$b,
+  sort_icon: sort_icon$9,
+  configs: configs$9,
+  errors: errors$9,
+  categories: categories$9,
+  groups: groups$9,
+  advanced_analytics_data_list: advanced_analytics_data_list$9,
+  mcda: mcda$9,
+  multivariate: multivariate$9,
+  map_popup: map_popup$9,
+  search: search$9,
+  event_list: event_list$9,
+  create_layer: create_layer$9,
+  analytics_panel: analytics_panel$9,
+  advanced_analytics_panel: advanced_analytics_panel$9,
+  advanced_analytics_empty: advanced_analytics_empty$9,
+  llm_analytics: llm_analytics$9,
+  draw_tools: draw_tools$9,
+  geometry_uploader: geometry_uploader$9,
+  focus_geometry_layer: focus_geometry_layer$4,
+  reference_area_layer: reference_area_layer$9,
+  drawings: drawings$4,
+  bivariate: bivariate$9,
+  sidebar: sidebar$9,
+  login: login$9,
+  currency: currency$9,
+  subscription: subscription$9,
+  reports: reports$9,
+  modes: modes$9,
+  profile: profile$9,
+  current_event: current_event$4,
+  locate_me: locate_me$9,
+  episode: episode$4,
+  loading_episodes: loading_episodes$9,
+  zoom_to_world: zoom_to_world$3,
+  cookie_banner: cookie_banner$9,
+  live_sensor: live_sensor$9,
+  layer_features_panel: layer_features_panel$9,
+  reference_area: reference_area$9,
+  oam_auth: oam_auth$9
+};
+const km$8 = "km";
+const m$8 = "m";
+const to$8 = "a";
+const maps$8 = "mapas";
+const save$8 = "Guardar";
+const cancel$8 = "Cancelar";
+const create$8 = "Crear";
+const disasters$8 = "Desastres";
+const loading$8 = "Cargando...";
+const legend$8 = "Leyenda";
+const mcda$8 = { "legend_title": "Leyenda", "layer_editor": { "outliers_options": {}, "save_changes": "Guardar cambios", "range_buttons": {}, "transformations": {}, "errors": {}, "tips": {} } };
+const vertical_direction$8 = "Dirección vertical";
+const horizontal_direction$8 = "Dirección horizontal";
+const legend_presentation$8 = "Presentación de la leyenda";
+const layers$8 = "Capas";
+const bivariate$8 = { "color_manager": { "layers_filter": "Capas", "not_defined": "No definido", "sentiments_combinations_filter": "Combinaciones de sentimientos", "no_legends": "No hay leyendas que cumplan las condiciones.", "no_data": "No hay datos.", "sentiments_tab": "Sentimientos", "color_legends_tab": "Leyendas de colores", "layers_tab": "Capas (indicadores)" }, "matrix": { "caption": { "base_axis": "Eje base", "annex_axis": "Eje anexo", "tooltip": { "p1": "Las gráficas que incluyen los ejes base y anexo ayudan a establecer una relación entre dos conjuntos de datos.", "li1": "Eje anexo: parámetros que analizamos", "li2": "Eje base: punto de referencia en el análisis", "b": "Ej.: la mejor ubicación para abrir una cafetería", "p2": "Podemos explorar el número de locales de comida (eje anexo) frente a la densidad de población (eje base).", "p3": "En este escenario, en primer lugar nos interesa un número reducido de locales de comida, y la cantidad de personas presentes nos da información adicional." } }, "header": { "title": "Elija dos capas para explorar las correlaciones", "hint": "Las capas y correlaciones se muestran para el área seleccionada actual" }, "icon": { "population": "Valor dividido por la población", "area_km2": "Valor dividido por el área", "total_building_count": "Valor dividido por la estimación total de edificios", "populated_area_km2": "Valor dividido por el área poblada", "one": "Sin divisor", "roads": "Valor dividido por la longitud total de las carreteras" }, "progress": { "rendering": "Renderizado", "applied": "Aplicado en el mapa" } }, "legend": { "high": "Alto", "low": "Bajo", "medium": "Medio" } };
+const toolbar$8 = { "locate_me": "Localizarme" };
+const locate_me$8 = { "feature_title": "Localizarme", "get_location_error": "Error al obtener la ubicación" };
+const layer_actions$8 = { "tooltips": {} };
+const feed$8 = "Fuente";
+const deselect$8 = "Anular la selección";
+const spinner_text$8 = "Recopilación de datos";
+const updated$8 = "Actualizado";
+const no_data_received$8 = "No se han recibido datos";
+const wrong_data_received$8 = "Se han recibido datos erróneos";
+const error$a = "Error";
+const sort_icon$8 = "Icono de ordenar";
+const configs$8 = { "Kontur_public_feed": "Kontur Public", "Kontur_public_feed_description": "El feed contiene datos en tiempo real sobre Ciclones, Sequías, Terremotos, Inundaciones, Volcanes, Incendios forestales." };
+const errors$8 = { "forbidden": "Prohibido", "not_found": "No encontrado", "unknown": "Desconocido" };
+const event_list$8 = { "severity_unknown": "Desconocido", "analytics": { "affected_people": { "value": "Sin impacto humanitario" }, "loss_tooltip": "Pérdida estimada" }, "no_selected_disaster": "No se ha seleccionado ningún desastre", "chose_disaster": "Seleccione el desastre" };
+const categories$8 = { "overlays": "Superposiciones", "basemap": "Mapa base" };
+const groups$8 = { "layers_in_selected_area": "Capas en el área seleccionada", "other": "Otros", "elevation": "Elevación", "map": "Mapa" };
+const modes$8 = { "map": "Mapa", "about": "Acerca de", "reports": "Informes", "profile": "Perfil", "external": {} };
+const advanced_analytics_data_list$8 = { "load_world_data": "Cargar datos mundiales", "numerator": "Numerador", "normalized_by": "Normalizado por", "sum": "Suma", "min": "Mín.", "max": "Máx.", "mean": "Media", "stddev": "Desv. est.", "median": "Mediana", "filter_denominator": "Filtrar Denominador" };
+const profile$8 = { "saveButton": "Guardar cambios", "reference_area": {}, "email": "Correo electrónico", "interfaceTheme": "Tema", "interfaceLanguage": "Idioma", "units": "Unidades", "metric": "métricas", "imperialBeta": "imperiales (beta)", "bio_placeholder": "Bio", "appSettingsHeader": "Ajustes", "konturTheme": "Kontur", "HOTTheme": "HOT", "defaultDisasterFeed": "Feed de desastres predeterminado", "defaultOSMeditor": "Editor predeterminado de OpenStreetMap (beta)", "successNotification": "Todos los cambios se han aplicado correctamente", "languageOption": { "en": "Inglés", "es": "Español", "ar": "Árabe", "ko": "Сoreano", "id": "Indonesio", "de": "Alemán", "uk": "Ucranio" } };
+const multivariate$8 = { "popup": {} };
+const map_popup$8 = {};
+const search$8 = { "search_location": "Buscar ubicación" };
+const create_layer$8 = { "edit_layer": "Editar capa", "edit_features": "Editar características", "delete_layer": "Eliminar capa", "create_layer": "Crear capa", "saving_layer": "Guardando capa...", "field_name": "Nombre de campo", "layer_name": "Nombre de la capa", "marker_icon": "Icono de marcador", "type": "Tipo", "select": "Seleccionar", "short_text": "Texto corto", "long_text": "Texto largo", "link": "Enlace", "image": "Imagen", "fields": "Campos", "add_field": "Agregar campo", "location": "Ubicación", "edit_feature_placeholder": "Seleccione una característica para comenzar a editar las propiedades de la misma" };
+const analytics_panel$8 = { "header_title": "Análisis" };
+const advanced_analytics_panel$8 = { "header_title": "Análisis avanzado", "error": "Error en la obtención de datos de análisis Avanzado" };
+const advanced_analytics_empty$8 = {};
+const llm_analytics$8 = { "placeholder": {} };
+const draw_tools$8 = { "line": "Línea", "point": "Punto", "finish_drawing": "Terminar el dibujo", "caption": "Haga clic en el mapa para empezar a dibujar", "no_geometry_error": "No hay geometría dibujada para descargar", "overlap_error": "El polígono no debe superponerse sobre sí mismo" };
+const boundary_selector$8 = { "title": "Enfocar en el límite administrativo" };
+const geometry_uploader$8 = { "title": "Enfocar en la geometría cargada", "error": "Error al leer el archivo cargado" };
+const focus_geometry$8 = { "title": "Enfocar en la geometría a mano" };
+const reference_area_layer$8 = { "settings": {} };
+const sidebar$8 = { "biv_color_manager": "Administrador de color", "edit_osm": "Editar en OpenStreetMap", "ruler": "Regla", "collapse": "Contraer", "expand": "Expandir", "icon_alt": "Logotipo de la aplicación" };
+const login$8 = { "email": "Correo electrónico", "password": "Contraseña", "login_button": "Inicio de sesión", "sign_up": "Registrarse", "logging_in": "Iniciando sesión...", "log_in": "Iniciar sesión", "description": "Acceda a su cuenta para cambiar los ajustes" };
+const currency$8 = {};
+const subscription$8 = { "errors": {}, "success_modal": {} };
+const reports$8 = { "title": "Informes de Disaster Ninja", "no_data": "No hay datos para este informe", "sorting": "Ordenando datos...", "loading": "Cargando datos", "open_josm": "Abrir a través del control remoto JOSM", "josm_logo_alt": "Logotipo de JOSM", "see_all": "Ver todos los informes", "wrong_id": "ID de informe incorrecto", "description": "<0>Kontur </0> genera una serie de informes útiles para validar la calidad de OpenStreetMap. Contienen enlaces a zonas en <4>osm.org </4> y enlaces para abrirlas en el editor JOSM con control remoto habilitado para la edición." };
+const loading_episodes$8 = "Cargando episodios";
+const cookie_banner$8 = {};
+const live_sensor$8 = {};
+const layer_features_panel$8 = {};
+const reference_area$8 = {};
+const oam_auth$8 = {};
+const es_common = {
+  km: km$8,
+  m: m$8,
+  to: to$8,
+  maps: maps$8,
+  save: save$8,
+  cancel: cancel$8,
+  create: create$8,
+  disasters: disasters$8,
+  loading: loading$8,
+  legend: legend$8,
+  mcda: mcda$8,
+  vertical_direction: vertical_direction$8,
+  horizontal_direction: horizontal_direction$8,
+  legend_presentation: legend_presentation$8,
+  layers: layers$8,
+  bivariate: bivariate$8,
+  toolbar: toolbar$8,
+  locate_me: locate_me$8,
+  layer_actions: layer_actions$8,
+  feed: feed$8,
+  deselect: deselect$8,
+  spinner_text: spinner_text$8,
+  updated: updated$8,
+  no_data_received: no_data_received$8,
+  wrong_data_received: wrong_data_received$8,
+  error: error$a,
+  sort_icon: sort_icon$8,
+  configs: configs$8,
+  errors: errors$8,
+  event_list: event_list$8,
+  categories: categories$8,
+  groups: groups$8,
+  modes: modes$8,
+  advanced_analytics_data_list: advanced_analytics_data_list$8,
+  profile: profile$8,
+  multivariate: multivariate$8,
+  map_popup: map_popup$8,
+  search: search$8,
+  create_layer: create_layer$8,
+  analytics_panel: analytics_panel$8,
+  advanced_analytics_panel: advanced_analytics_panel$8,
+  advanced_analytics_empty: advanced_analytics_empty$8,
+  llm_analytics: llm_analytics$8,
+  draw_tools: draw_tools$8,
+  boundary_selector: boundary_selector$8,
+  geometry_uploader: geometry_uploader$8,
+  focus_geometry: focus_geometry$8,
+  reference_area_layer: reference_area_layer$8,
+  sidebar: sidebar$8,
+  login: login$8,
+  currency: currency$8,
+  subscription: subscription$8,
+  reports: reports$8,
+  loading_episodes: loading_episodes$8,
+  cookie_banner: cookie_banner$8,
+  live_sensor: live_sensor$8,
+  layer_features_panel: layer_features_panel$8,
+  reference_area: reference_area$8,
+  oam_auth: oam_auth$8
+};
+const km$7 = "كم";
+const m$7 = "م";
+const to$7 = "إلى";
+const maps$7 = "خرائط";
+const save$7 = "حفظ";
+const cancel$7 = "إلغاء";
+const create$7 = "إنشاء";
+const disasters$7 = "كوارث";
+const loading$7 = "جارٍ التحميل...";
+const legend$7 = "عنوان تفسيري";
+const mcda$7 = { "legend_title": "عنوان تفسيري", "layer_editor": { "outliers_options": {}, "save_changes": "حفظ التغييرات", "range_buttons": {}, "transformations": {}, "errors": {}, "tips": {} } };
+const vertical_direction$7 = "الاتجاه الرأسي";
+const horizontal_direction$7 = "الاتجاه الأفقي";
+const legend_presentation$7 = "عرض العنوان التفسيري";
+const layers$7 = "طبقات";
+const bivariate$7 = { "color_manager": { "layers_filter": "طبقات", "not_defined": "غير معرف", "sentiments_combinations_filter": "تركيبات المشاعر", "no_legends": "لا توجد ملاحظات تفي بالشروط.", "no_data": "لايوجد بيانات.", "sentiments_tab": "المشاعر", "color_legends_tab": "مؤشرات اللون", "layers_tab": "الطبقات (المؤشرات)" }, "matrix": { "caption": { "base_axis": "المحور الأساسي", "annex_axis": "المحور الملحق", "tooltip": { "p1": "تساعد المخططات التي تتضمن محوري القاعدة والملحق في إنشاء علاقة بين مجموعتي بيانات.", "li1": "محور الملحق - المعلمات التي نقوم بتحليلها", "li2": "المحور الأساسي - النقطة المرجعية في التحليل", "b": "مثال: أفضل موقع لفتح مقهى", "p2": "يمكننا استكشاف عدد أماكن المطاعم (المحور الملحق) مقابل الكثافة السكانية (المحور الأساسي).", "p3": "في هذا السيناريو، نهتم أولاً بعدد صغير من أماكن تناول الطعام ويعطينا عدد الأشخاص في هذا المكان معلومات إضافية." } }, "header": { "title": "اختر طبقتين لاستكشاف الارتباطات", "hint": "يتم عرض الطبقات والارتباطات للمنطقة المحددة الحالية" }, "icon": { "population": "القيمة مقسومة على عدد السكان", "area_km2": "القيمة مقسومة على المنطقة", "total_building_count": "القيمة مقسومة على تقدير إجمالي المباني", "populated_area_km2": "القيمة مقسومة على المنطقة المأهولة", "one": "بدون فاصل", "roads": "القيمة مقسومة على إجمالي طول الطرق" }, "progress": { "rendering": "استدعاء", "applied": "مطبق على الخريطة" } }, "legend": { "high": "مرتفع", "low": "منخفض", "medium": "متوسط" } };
+const toolbar$7 = { "locate_me": "حدد موقعي" };
+const locate_me$7 = { "feature_title": "حدد موقعي", "get_location_error": "حدث خطأ أثناء الحصول على الموقع" };
+const layer_actions$7 = { "tooltips": {} };
+const feed$7 = "تغذية";
+const deselect$7 = "إلغاء";
+const spinner_text$7 = "جمع البيانات";
+const updated$7 = "تحديث";
+const no_data_received$7 = "لم تُستقبل أي بيانات";
+const wrong_data_received$7 = "تم استلام بيانات خاطئة";
+const error$9 = "خطأ";
+const sort_icon$7 = "أيقونة الترتيب";
+const configs$7 = { "Kontur_public_feed": "Kontur Public", "Kontur_public_feed_description": "يحتوي الموجز على بيانات فورية عن الأعاصير والجفاف والزلازل والفيضانات والبراكين وحرائق الغابات." };
+const errors$7 = { "forbidden": "محظور", "not_found": "لم يتم العثور على", "unknown": "غير معروف" };
+const event_list$7 = { "severity_unknown": "غير معروف", "analytics": { "affected_people": { "value": "لا أثر إنساني" }, "loss_tooltip": "الخسارة المقدرة" }, "no_selected_disaster": "لم يتم اختيار كارثة", "chose_disaster": "اختر كارثة" };
+const categories$7 = { "overlays": "تراكميات", "basemap": "الخريطة الأساسية" };
+const groups$7 = { "layers_in_selected_area": "طبقات في المنطقة المختارة", "other": "آخر", "elevation": "ارتفاع", "map": "الخريطة" };
+const modes$7 = { "map": "الخريطة", "about": "عن", "reports": "التقارير", "profile": "الملف الشخصي", "external": {} };
+const advanced_analytics_data_list$7 = { "load_world_data": "تحميل بيانات العالم", "numerator": "البسط", "normalized_by": "تطبيع بواسطة", "sum": "مجموع", "min": "الحد الأدنى", "max": "الحد الأقصى", "mean": "المتوسط", "stddev": "Stddev", "median": "الوسيط", "filter_denominator": "مقام المرشح" };
+const profile$7 = { "saveButton": "حفظ التغييرات", "reference_area": {}, "email": "البريد الإلكتروني", "interfaceTheme": "النسق", "interfaceLanguage": "اللغة", "units": "الوحدات", "metric": "المقياس", "imperialBeta": "إمبريالي (بيتا)", "bio_placeholder": "السيرة", "appSettingsHeader": "الإعدادات", "konturTheme": "Kontur", "HOTTheme": "حار", "defaultDisasterFeed": "موجز الكوارث الافتراضي", "defaultOSMeditor": "محرر OpenStreetMap الافتراضي (بيتا)", "successNotification": "تم تطبيق جميع التغييرات بنجاح", "languageOption": { "en": "الإنجليزية", "es": "الإسبانية", "ar": "العربية", "ko": "الكورية", "id": "الأندونيسية", "de": "ألمانية", "uk": "الأوكرانية" } };
+const multivariate$7 = { "popup": {} };
+const map_popup$7 = {};
+const search$7 = { "search_location": "البحث عن الموقع" };
+const create_layer$7 = { "edit_layer": "تعديل الطبقة", "edit_features": "تعديل الميزات", "delete_layer": "حذف الطبقة", "create_layer": "خلق الطبقة", "saving_layer": "حفظ الطبقة...", "field_name": "اسم المجال", "layer_name": "اسم الطبقة", "marker_icon": "رمز العلامة", "type": "النوع", "select": "تحديد", "short_text": "نص قصير", "long_text": "نص طويل", "link": "رابط", "image": "صورة", "fields": "مجالات", "add_field": "إضافة مجال", "location": "موقع", "edit_feature_placeholder": "حدد بعض الميزات لبدء تحرير خصائص الميزة" };
+const analytics_panel$7 = { "header_title": "التحليلات" };
+const advanced_analytics_panel$7 = { "header_title": "تحليلات متقدمة", "error": "خطأ أثناء جلب بيانات التحليلات المتقدمة" };
+const advanced_analytics_empty$7 = {};
+const llm_analytics$7 = { "placeholder": {} };
+const draw_tools$7 = { "line": "خط", "point": "نقطة", "finish_drawing": "إنهاء الرسم", "caption": "انقر على الخريطة لبدء الرسم", "no_geometry_error": "لا يوجد مجسم مرسوم للتنزيل", "overlap_error": "يجب ألا يتداخل المضلع مع نفسه" };
+const boundary_selector$7 = { "title": "التركيز على الحدود الإدارية" };
+const geometry_uploader$7 = { "title": "التركيز على المجسم المحمل", "error": "خطأ أثناء قراءة الملف الذي تم تحميله" };
+const focus_geometry$7 = { "title": "ركز على المجسم الحر" };
+const reference_area_layer$7 = { "settings": {} };
+const sidebar$7 = { "biv_color_manager": "مدير الألوان", "edit_osm": "التعديل في OpenStreetMap", "ruler": "المسطرة", "collapse": "إغلاق", "expand": "فتح", "icon_alt": "شعار التطبيق" };
+const login$7 = { "email": "البريد الإلكتروني", "password": "كلمة السر", "login_button": "تسجيل الدخول", "sign_up": "إنشاء حساب", "logging_in": "جارٍ تسجيل الدخول...", "log_in": "تسجيل الدخول", "description": "يرجى تسجيل الدخول لتغيير إعداداتك" };
+const currency$7 = {};
+const subscription$7 = { "errors": {}, "success_modal": {} };
+const reports$7 = { "title": "تقارير Disaster Ninja", "no_data": "لا توجد بيانات لهذا التقرير", "sorting": "جارٍ ترتيب البيانات...", "loading": "جارٍ تحميل البيانات", "open_josm": "الفتح من خلال وحدة تحكم JOSM عن بعد", "josm_logo_alt": "شعار JOSM", "see_all": "عرض جميع التقارير", "wrong_id": "معرف التقرير خاطئ", "description": "ينشئ <0> Kontur</0> عدة تقارير تساعد في التحقق من جودة OpenStreetMap. تحتوي هذه التقارير على روابط لمناطق على <4> osm.org </4> وروابط يمكن فتحها في محرر JOSM مع تمكين التحكم عن بعد للتحرير." };
+const loading_episodes$7 = "جارٍ تجميل الحلقات";
+const cookie_banner$7 = {};
+const live_sensor$7 = {};
+const layer_features_panel$7 = {};
+const reference_area$7 = {};
+const oam_auth$7 = {};
+const ar_common = {
+  km: km$7,
+  m: m$7,
+  to: to$7,
+  maps: maps$7,
+  save: save$7,
+  cancel: cancel$7,
+  create: create$7,
+  disasters: disasters$7,
+  loading: loading$7,
+  legend: legend$7,
+  mcda: mcda$7,
+  vertical_direction: vertical_direction$7,
+  horizontal_direction: horizontal_direction$7,
+  legend_presentation: legend_presentation$7,
+  layers: layers$7,
+  bivariate: bivariate$7,
+  toolbar: toolbar$7,
+  locate_me: locate_me$7,
+  layer_actions: layer_actions$7,
+  feed: feed$7,
+  deselect: deselect$7,
+  spinner_text: spinner_text$7,
+  updated: updated$7,
+  no_data_received: no_data_received$7,
+  wrong_data_received: wrong_data_received$7,
+  error: error$9,
+  sort_icon: sort_icon$7,
+  configs: configs$7,
+  errors: errors$7,
+  event_list: event_list$7,
+  categories: categories$7,
+  groups: groups$7,
+  modes: modes$7,
+  advanced_analytics_data_list: advanced_analytics_data_list$7,
+  profile: profile$7,
+  multivariate: multivariate$7,
+  map_popup: map_popup$7,
+  search: search$7,
+  create_layer: create_layer$7,
+  analytics_panel: analytics_panel$7,
+  advanced_analytics_panel: advanced_analytics_panel$7,
+  advanced_analytics_empty: advanced_analytics_empty$7,
+  llm_analytics: llm_analytics$7,
+  draw_tools: draw_tools$7,
+  boundary_selector: boundary_selector$7,
+  geometry_uploader: geometry_uploader$7,
+  focus_geometry: focus_geometry$7,
+  reference_area_layer: reference_area_layer$7,
+  sidebar: sidebar$7,
+  login: login$7,
+  currency: currency$7,
+  subscription: subscription$7,
+  reports: reports$7,
+  loading_episodes: loading_episodes$7,
+  cookie_banner: cookie_banner$7,
+  live_sensor: live_sensor$7,
+  layer_features_panel: layer_features_panel$7,
+  reference_area: reference_area$7,
+  oam_auth: oam_auth$7
+};
+const km$6 = "킬로미터";
+const m$6 = "미터";
+const to$6 = "목적지";
+const maps$6 = "지도";
+const save$6 = "저장";
+const cancel$6 = "취소";
+const create$6 = "생성";
+const disasters$6 = "재난";
+const loading$6 = "로딩 중...";
+const legend$6 = "범례";
+const mcda$6 = { "legend_title": "범례", "layer_editor": { "outliers_options": {}, "save_changes": "변경 사항 저장", "range_buttons": {}, "transformations": {}, "errors": {}, "tips": {} } };
+const vertical_direction$6 = "수직 방향";
+const horizontal_direction$6 = "수평 방향";
+const legend_presentation$6 = "범례 표시";
+const layers$6 = "레이어";
+const bivariate$6 = { "color_manager": { "layers_filter": "레이어", "not_defined": "정의되지 않음", "sentiments_combinations_filter": "감정 조합", "no_legends": "조건을 충족하는 범례가 없습니다.", "no_data": "데이터가 없습니다.", "sentiments_tab": "감정", "color_legends_tab": "색상 범례", "layers_tab": "레이어(지표)" }, "matrix": { "caption": { "base_axis": "기본 축", "annex_axis": "보조 축", "tooltip": { "p1": "기본 축과 보조 축이 포함된 차트를 통해 두 데이터 세트 간의 관계를 설정할 수 있습니다.", "li1": "보조 축 - 분석 대상 매개변수", "li2": "기본 축 - 분석의 기준점", "b": "예: 카페 개업에 최적의 위치", "p2": "인구 밀도(기본 축)에 대한 음식점 개수(보조 축)를 알아볼 수 있습니다.", "p3": "이 경우에는 주로 소수의 음식점에 관심이 있는 것이며, 추가적으로 그 장소에 있는 사람 수를 알아볼 수 있습니다." } }, "header": { "title": "상관 관계를 알아보려면 두 개의 레이어를 선택합니다.", "hint": "레이어와 상관 관계가 현재 선택된 영역에 표시됩니다." }, "icon": { "population": "인구로 나눈 값", "area_km2": "영역으로 나눈 값", "total_building_count": "전체 건물 추정치로 나눈 값", "populated_area_km2": "인구 밀집 지역으로 나눈 값", "one": "나누지 않음", "roads": "전체 도로 길이로 나눈 값" }, "progress": { "rendering": "렌더링", "applied": "지도에 적용됨" } }, "legend": { "high": "높음", "low": "낮음", "medium": "중간" } };
+const toolbar$6 = { "locate_me": "내 위치 확인" };
+const locate_me$6 = { "feature_title": "내 위치 확인", "get_location_error": "위치를 가져오는 중에 오류가 발생했습니다." };
+const layer_actions$6 = { "tooltips": {} };
+const feed$6 = "피드";
+const deselect$6 = "선택 취소";
+const spinner_text$6 = "데이터 수집";
+const updated$6 = "업데이트됨";
+const no_data_received$6 = "수신한 데이터 없음";
+const wrong_data_received$6 = "잘못된 데이터 수신";
+const error$8 = "오류";
+const sort_icon$6 = "정렬 아이콘";
+const configs$6 = { "Kontur_public_feed": "Kontur Public", "Kontur_public_feed_description": "피드에는 사이클론, 가뭄, 지진, 홍수, 화산 폭발, 산불에 대한 실시간 데이터가 포함됩니다." };
+const errors$6 = { "forbidden": "사용할 수 없음", "not_found": "찾을 수 없음", "unknown": "알 수 없음" };
+const event_list$6 = { "severity_unknown": "알 수 없음", "analytics": { "affected_people": { "value": "인도주의적 영향 없음" }, "loss_tooltip": "예상 손해" }, "no_selected_disaster": "선택된 재난 없음", "chose_disaster": "재난 선택" };
+const categories$6 = { "overlays": "오버레이", "basemap": "백지도" };
+const groups$6 = { "layers_in_selected_area": "선택 영역 내 레이어", "other": "기타", "elevation": "입면도", "map": "지도" };
+const modes$6 = { "map": "지도", "about": "정보", "reports": "보고서", "profile": "프로필", "external": {} };
+const advanced_analytics_data_list$6 = { "load_world_data": "전 세계 데이터 로드하기", "numerator": "분자", "normalized_by": "정규화 기준:", "sum": "합계", "min": "최소", "max": "최대", "mean": "평균", "stddev": "표본 표준 편차", "median": "중앙값", "filter_denominator": "분모 필터" };
+const profile$6 = { "saveButton": "변경 사항 저장", "reference_area": {}, "email": "이메일", "interfaceTheme": "주제", "interfaceLanguage": "언어", "units": "단위", "metric": "미터법", "imperialBeta": "영국식 단위(베타)", "bio_placeholder": "Bio", "appSettingsHeader": "설정", "konturTheme": "Kontur", "HOTTheme": "HOT", "defaultDisasterFeed": "기본 재난 피드", "defaultOSMeditor": "기본 OpenStreetMap 편집기(베타)", "successNotification": "모든 변경 사항이 성공적으로 적용되었습니다.", "languageOption": { "en": "영어", "es": "스페인어", "ar": "아랍어", "ko": "한국어", "id": "인도네시아 인", "de": "독일 말", "uk": "우크라이나 인" } };
+const multivariate$6 = { "popup": {} };
+const map_popup$6 = {};
+const search$6 = { "search_location": "위치 검색" };
+const create_layer$6 = { "edit_layer": "레이어 편집", "edit_features": "특성 편집", "delete_layer": "레이어 삭제", "create_layer": "레이어 생성", "saving_layer": "레이어 저장 중...", "field_name": "필드 이름", "layer_name": "레이어 이름", "marker_icon": "마커 아이콘", "type": "유형", "select": "선택", "short_text": "짧은 텍스트", "long_text": "긴 텍스트", "link": "링크", "image": "이미지", "fields": "필드", "add_field": "필드 추가", "location": "위치", "edit_feature_placeholder": "일부 특성을 선택하여 특성 속성 편집을 시작하세요." };
+const analytics_panel$6 = { "header_title": "분석" };
+const advanced_analytics_panel$6 = { "header_title": "고급 분석", "error": "고급 분석 데이터를 가져오는 중에 오류가 발생했습니다." };
+const advanced_analytics_empty$6 = {};
+const llm_analytics$6 = { "placeholder": {} };
+const draw_tools$6 = { "line": "라인", "point": "점", "finish_drawing": "그리기 완료", "caption": "그리기를 시작하려면 지도를 클릭하세요.", "no_geometry_error": "다운로드할 수 있는 기하 도형이 없습니다.", "overlap_error": "다각형은 그 자체로 겹치지 않아야 합니다." };
+const boundary_selector$6 = { "title": "행정 경계에 초점 맞추기" };
+const geometry_uploader$6 = { "title": "업로드된 기하 도형에 초점 맞추기", "error": "업로드된 파일을 읽는 중 오류가 발생했습니다." };
+const focus_geometry$6 = { "title": "손으로 직접 그린 기하 도형에 초점 맞추기" };
+const reference_area_layer$6 = { "settings": {} };
+const sidebar$6 = { "biv_color_manager": "색상 관리자", "edit_osm": "OpenStreetMap에서 편집", "ruler": "눈금자", "collapse": "접기", "expand": "펼치기", "icon_alt": "애플리케이션 로고" };
+const login$6 = { "email": "이메일", "password": "비밀번호", "login_button": "로그인", "sign_up": "가입", "logging_in": "로그인 중...", "log_in": "로그인", "description": "설정을 변경하려면 로그인하세요." };
+const currency$6 = {};
+const subscription$6 = { "errors": {}, "success_modal": {} };
+const reports$6 = { "title": "Disaster Ninja 보고서", "no_data": "이 보고서에 데이터가 없습니다.", "sorting": "데이터 정렬 중...", "loading": "데이터 로딩 중", "open_josm": "JOSM 원격 제어를 통해 열기", "josm_logo_alt": "JOSM 로고", "see_all": "모든 보고서 보기", "wrong_id": "잘못된 보고서 ID", "description": "<0>Kontur</0>는 몇 가지 보고서를 생성하여 OpenStreetMap 품질을 평가하도록 지원합니다. 보고서에는 <4>osm.org </4>의 영역으로 연결되는 링크, 원격 제어가 활성화된 JOSM 편집기에서 해당 영역을 열어 편집할 수 있는 링크가 포함되어 있습니다." };
+const loading_episodes$6 = "에피소드 로딩 중";
+const cookie_banner$6 = {};
+const live_sensor$6 = {};
+const layer_features_panel$6 = {};
+const reference_area$6 = {};
+const oam_auth$6 = {};
+const ko_common = {
+  km: km$6,
+  m: m$6,
+  to: to$6,
+  maps: maps$6,
+  save: save$6,
+  cancel: cancel$6,
+  create: create$6,
+  disasters: disasters$6,
+  loading: loading$6,
+  legend: legend$6,
+  mcda: mcda$6,
+  vertical_direction: vertical_direction$6,
+  horizontal_direction: horizontal_direction$6,
+  legend_presentation: legend_presentation$6,
+  layers: layers$6,
+  bivariate: bivariate$6,
+  toolbar: toolbar$6,
+  locate_me: locate_me$6,
+  layer_actions: layer_actions$6,
+  feed: feed$6,
+  deselect: deselect$6,
+  spinner_text: spinner_text$6,
+  updated: updated$6,
+  no_data_received: no_data_received$6,
+  wrong_data_received: wrong_data_received$6,
+  error: error$8,
+  sort_icon: sort_icon$6,
+  configs: configs$6,
+  errors: errors$6,
+  event_list: event_list$6,
+  categories: categories$6,
+  groups: groups$6,
+  modes: modes$6,
+  advanced_analytics_data_list: advanced_analytics_data_list$6,
+  profile: profile$6,
+  multivariate: multivariate$6,
+  map_popup: map_popup$6,
+  search: search$6,
+  create_layer: create_layer$6,
+  analytics_panel: analytics_panel$6,
+  advanced_analytics_panel: advanced_analytics_panel$6,
+  advanced_analytics_empty: advanced_analytics_empty$6,
+  llm_analytics: llm_analytics$6,
+  draw_tools: draw_tools$6,
+  boundary_selector: boundary_selector$6,
+  geometry_uploader: geometry_uploader$6,
+  focus_geometry: focus_geometry$6,
+  reference_area_layer: reference_area_layer$6,
+  sidebar: sidebar$6,
+  login: login$6,
+  currency: currency$6,
+  subscription: subscription$6,
+  reports: reports$6,
+  loading_episodes: loading_episodes$6,
+  cookie_banner: cookie_banner$6,
+  live_sensor: live_sensor$6,
+  layer_features_panel: layer_features_panel$6,
+  reference_area: reference_area$6,
+  oam_auth: oam_auth$6
+};
+const km$5 = "km";
+const m$5 = "m";
+const to$5 = "ke";
+const maps$5 = "peta";
+const save$5 = "Simpan";
+const cancel$5 = "Batalkan";
+const create$5 = "Buat";
+const disasters$5 = "Bencana";
+const loading$5 = "Memuat...";
+const legend$5 = "Legenda";
+const mcda$5 = { "legend_title": "Legenda", "layer_editor": { "outliers_options": {}, "save_changes": "Simpan perubahan", "range_buttons": {}, "transformations": {}, "errors": {}, "tips": {} } };
+const vertical_direction$5 = "Arah vertikal";
+const horizontal_direction$5 = "Arah horizontal";
+const legend_presentation$5 = "Penyajian legenda";
+const layers$5 = "Lapisan";
+const bivariate$5 = { "color_manager": { "layers_filter": "Lapisan", "not_defined": "Tidak terdefinisi", "sentiments_combinations_filter": "Gabungan sentimen", "no_legends": "Tidak ada legenda yang memenuhi kondisi ini.", "no_data": "Tidak Ada Data.", "sentiments_tab": "Sentimen", "color_legends_tab": "Legenda Warna", "layers_tab": "Lapisan (indikator)" }, "matrix": { "caption": { "base_axis": "Sumbu Dasar", "annex_axis": "Sumbu Tambahan", "tooltip": { "p1": "Diagram yang mencakup sumbu Dasar dan sumbu Tambahan membantu menetapkan hubungan antara dua kumpulan data.", "li1": "Sumbu Tambahan - parameter yang kita analisis", "li2": "Sumbu Dasar - titik referensi dalam analisis", "b": "Contoh: lokasi terbaik untuk membuka kafe", "p2": "Kita dapat menyelidiki jumlah tempat makan (sumbu Tambahan) terhadap Kerapatan populasi (sumbu Dasar).", "p3": "Dalam skenario ini, pada awalnya kita tertarik dengan beberapa tempat makan, lalu kita mendapatkan informasi tambahan dari jumlah orang di tempat itu." } }, "header": { "title": "Pilih dua lapisan untuk memeriksa korelasi", "hint": "Lapisan dan korelasi ditampilkan untuk Area Pilihan terkini" }, "icon": { "population": "Nilai dibagi dengan Populasi", "area_km2": "Nilai dibagi dengan Area", "total_building_count": "Nilai dibagi dengan Perkiraan Jumlah Bangunan", "populated_area_km2": "Nilai dibagi dengan Area Berpenduduk", "one": "Tanpa pembagi", "roads": "Nilai dibagi dengan Total Panjang Jalan" }, "progress": { "rendering": "Merender", "applied": "Diterapkan pada peta" } }, "legend": { "high": "Tinggi", "low": "Rendah", "medium": "Sedang" } };
+const toolbar$5 = { "locate_me": "Temukan saya" };
+const locate_me$5 = { "feature_title": "Temukan saya", "get_location_error": "Kesalahan saat memperoleh lokasi" };
+const layer_actions$5 = { "tooltips": {} };
+const feed$5 = "Feed";
+const deselect$5 = "Batalkan Pilihan";
+const spinner_text$5 = "Mengumpulkan data";
+const updated$5 = "Diperbarui";
+const no_data_received$5 = "Tidak ada data yang diterima";
+const wrong_data_received$5 = "Data yang diterima salah";
+const error$7 = "Kesalahan";
+const sort_icon$5 = "Sortir Ikon";
+const configs$5 = { "Kontur_public_feed": "Publik Kontur", "Kontur_public_feed_description": "Feed berisi data waktu-nyata tentang Angin Topan, Kekeringan, Gempa, Banjir, Gunung Meletus, Kebakaran Hutan." };
+const errors$5 = { "forbidden": "Terlarang", "not_found": "Tidak ditemukan", "unknown": "Tidak diketahui" };
+const event_list$5 = { "severity_unknown": "Tidak diketahui", "analytics": { "affected_people": { "value": "Tidak berdampak kemanusiaan" }, "loss_tooltip": "Estimasi kerugian" }, "no_selected_disaster": "Tidak ada bencana yang dipilih", "chose_disaster": "Pilih bencana" };
+const categories$5 = { "overlays": "Tumpang Susun", "basemap": "Peta Dasar" };
+const groups$5 = { "layers_in_selected_area": "Lapisan di area pilihan", "other": "Lainnya", "elevation": "Elevasi", "map": "Peta" };
+const modes$5 = { "map": "Peta", "about": "Tentang", "reports": "Laporan", "profile": "Profil", "external": {} };
+const advanced_analytics_data_list$5 = { "load_world_data": "Memuat Data Dunia", "numerator": "Pembilang", "normalized_by": "Dinormalkan Dengan", "sum": "Jumlah", "min": "Min", "max": "Maks", "mean": "Rerata", "stddev": "Simpangan baku", "median": "Median", "filter_denominator": "Filter Penyebut" };
+const profile$5 = { "saveButton": "Simpan perubahan", "reference_area": {}, "email": "Email", "interfaceTheme": "Tema", "interfaceLanguage": "Bahasa", "units": "Satuan", "metric": "metrik", "imperialBeta": "imperial (beta)", "bio_placeholder": "Bio", "appSettingsHeader": "Pengaturan", "konturTheme": "Kontur", "HOTTheme": "HANGAT", "defaultDisasterFeed": "Feed bencana bawaan", "defaultOSMeditor": "Editor OpenStreetMap bawaan (beta)", "successNotification": "Semua perubahan telah berhasil diterapkan", "languageOption": { "en": "Inggris", "es": "Spanyol", "ar": "Arab", "ko": "Korea", "id": "Indonesia", "de": "Jerman", "uk": "Orang Ukraina" } };
+const multivariate$5 = { "popup": {} };
+const map_popup$5 = {};
+const search$5 = { "search_location": "Cari lokasi" };
+const create_layer$5 = { "edit_layer": "Edit Lapisan", "edit_features": "Edit Fitur", "delete_layer": "Hapus Lapisan", "create_layer": "Buat Lapisan", "saving_layer": "Menyimpan lapisan...", "field_name": "Nama bidang", "layer_name": "Nama lapisan", "marker_icon": "Ikon penanda", "type": "Jenis", "select": "Pilih", "short_text": "Teks Singkat", "long_text": "Teks Panjang", "link": "Tautan", "image": "Gambar", "fields": "Bidang", "add_field": "Tambahkan bidang", "location": "Lokasi", "edit_feature_placeholder": "Pilih beberapa fitur untuk mulai mengedit properti fitur" };
+const analytics_panel$5 = { "header_title": "Analitik" };
+const advanced_analytics_panel$5 = { "header_title": "Analitik tingkat lanjut", "error": "Kesalahan saat mengambil data analitik tingkat lanjut" };
+const advanced_analytics_empty$5 = {};
+const llm_analytics$5 = { "placeholder": {} };
+const draw_tools$5 = { "line": "Garis", "point": "Titik", "finish_drawing": "Selesai Menggambar", "caption": "Klik peta untuk mulai menggambar", "no_geometry_error": "Tidak ada gambar geometri untuk diunduh", "overlap_error": "Poligon tidak boleh bertumpang-tindih sendiri" };
+const boundary_selector$5 = { "title": "Fokus ke batas administratif" };
+const geometry_uploader$5 = { "title": "Fokus ke geometri unggahan", "error": "Kesalahan saat membaca file unggahan" };
+const focus_geometry$5 = { "title": "Fokus ke geometri bebas" };
+const reference_area_layer$5 = { "settings": {} };
+const sidebar$5 = { "biv_color_manager": "Pengelola warna", "edit_osm": "Edit di OpenStreetMap", "ruler": "Penggaris", "collapse": "Ciutkan", "expand": "Bentangkan", "icon_alt": "Logo aplikasi" };
+const login$5 = { "email": "Email", "password": "Kata Sandi", "login_button": "Masuk", "sign_up": "Daftar", "logging_in": "Masuk...", "log_in": "Masuk", "description": "Masuk untuk mengubah pengaturan Anda" };
+const currency$5 = {};
+const subscription$5 = { "errors": {}, "success_modal": {} };
+const reports$5 = { "title": "Laporan Disaster Ninja", "no_data": "Tidak ada data untuk laporan ini", "sorting": "Menyortir data...", "loading": "Memuat data", "open_josm": "Buka melalui kendali jarak jaruh JOSM", "josm_logo_alt": "Logo JOSM", "see_all": "Lihat semua laporan", "wrong_id": "ID laporan salah", "description": "<0>Kontur </0> menghasilkan beberapa laporan yang membantu memvalidasi kualitas OpenStreetMap. Laporan tersebut berisi tautan ke area di <4>osm.org </4> dan tautan untuk membukanya di editor JOSM dengan kendali jarak jauh untuk pengeditan yang diaktifkan." };
+const loading_episodes$5 = "Memuat Episode";
+const cookie_banner$5 = {};
+const live_sensor$5 = {};
+const layer_features_panel$5 = {};
+const reference_area$5 = {};
+const oam_auth$5 = {};
+const id_common = {
+  km: km$5,
+  m: m$5,
+  to: to$5,
+  maps: maps$5,
+  save: save$5,
+  cancel: cancel$5,
+  create: create$5,
+  disasters: disasters$5,
+  loading: loading$5,
+  legend: legend$5,
+  mcda: mcda$5,
+  vertical_direction: vertical_direction$5,
+  horizontal_direction: horizontal_direction$5,
+  legend_presentation: legend_presentation$5,
+  layers: layers$5,
+  bivariate: bivariate$5,
+  toolbar: toolbar$5,
+  locate_me: locate_me$5,
+  layer_actions: layer_actions$5,
+  feed: feed$5,
+  deselect: deselect$5,
+  spinner_text: spinner_text$5,
+  updated: updated$5,
+  no_data_received: no_data_received$5,
+  wrong_data_received: wrong_data_received$5,
+  error: error$7,
+  sort_icon: sort_icon$5,
+  configs: configs$5,
+  errors: errors$5,
+  event_list: event_list$5,
+  categories: categories$5,
+  groups: groups$5,
+  modes: modes$5,
+  advanced_analytics_data_list: advanced_analytics_data_list$5,
+  profile: profile$5,
+  multivariate: multivariate$5,
+  map_popup: map_popup$5,
+  search: search$5,
+  create_layer: create_layer$5,
+  analytics_panel: analytics_panel$5,
+  advanced_analytics_panel: advanced_analytics_panel$5,
+  advanced_analytics_empty: advanced_analytics_empty$5,
+  llm_analytics: llm_analytics$5,
+  draw_tools: draw_tools$5,
+  boundary_selector: boundary_selector$5,
+  geometry_uploader: geometry_uploader$5,
+  focus_geometry: focus_geometry$5,
+  reference_area_layer: reference_area_layer$5,
+  sidebar: sidebar$5,
+  login: login$5,
+  currency: currency$5,
+  subscription: subscription$5,
+  reports: reports$5,
+  loading_episodes: loading_episodes$5,
+  cookie_banner: cookie_banner$5,
+  live_sensor: live_sensor$5,
+  layer_features_panel: layer_features_panel$5,
+  reference_area: reference_area$5,
+  oam_auth: oam_auth$5
+};
+const km$4 = "km";
+const m$4 = "m";
+const to$4 = "bis";
+const maps$4 = "Karten";
+const save$4 = "Speichern";
+const cancel$4 = "Abbrechen";
+const create$4 = "Erstellen";
+const disasters$4 = "Katastrophen";
+const loading$4 = "Wird geladen...";
+const legend$4 = "Legende";
+const mcda$4 = { "legend_title": "Legende", "layer_editor": { "outliers_options": {}, "save_changes": "Änderungen speichern", "range_buttons": {}, "transformations": {}, "errors": {}, "tips": {} } };
+const vertical_direction$4 = "Vertikale Richtung";
+const horizontal_direction$4 = "Horizontale Richtung";
+const legend_presentation$4 = "Darstellung der Legende";
+const layers$4 = "Ebenen";
+const bivariate$4 = { "color_manager": { "layers_filter": "Ebenen", "not_defined": "Nicht definiert", "sentiments_combinations_filter": "Stimmungs-Kombinationen", "no_legends": "Es gibt keine Legenden, die den Kriterien entsprechen.", "no_data": "Keine Daten.", "sentiments_tab": "Stimmungen", "color_legends_tab": "Farbe Legenden", "layers_tab": "Ebenen (Indikatoren)" }, "matrix": { "caption": { "base_axis": "Basisachse", "annex_axis": "Hilfsachse", "tooltip": { "p1": "Diagramme mit der Basis- und der Hilfsachse helfen, eine Beziehung zwischen zwei Datensätzen herzustellen.", "li1": "Hilfsachse - Parameter, die wir analysieren", "li2": "Basisachse - Referenzpunkt in der Analyse", "b": "Beispiel: der beste Standort für die Eröffnung eines Cafés", "p2": "Wir können die Anzahl der Lokale (Hilfsachse) gegen die Bevölkerungsdichte (Basisachse) untersuchen.", "p3": "In diesem Szenario liegt unser Interesse zunächst auf einer kleinen Anzahl von Lokalen, wobei uns die Anzahl der Personen in diesem Ort zusätzliche Informationen liefert." } }, "header": { "title": "Wählen Sie zwei Ebenen, um Zusammenhänge zu untersuchen", "hint": "Die Ebenen und Zusammenhänge werden für den aktuellen ausgewählten Bereich angezeigt" }, "icon": { "population": "Wert geteilt durch Einwohnerzahl", "area_km2": "Wert geteilt durch Fläche", "total_building_count": "Wert geteilt durch geschätzte Gesamtbebauung", "populated_area_km2": "Wert geteilt durch bevölkerte Fläche", "one": "Ohne Teilung", "roads": "Wert geteilt durch die Gesamtlänge der Straßen" }, "progress": { "rendering": "Übertragung", "applied": "Wird auf die Karte angewendet" } }, "legend": { "high": "Hoch", "low": "Niedrig", "medium": "Mittel" } };
+const toolbar$4 = { "locate_me": "Standort finden" };
+const locate_me$4 = { "feature_title": "Standort finden", "get_location_error": "Fehler beim Abrufen des Standorts" };
+const layer_actions$4 = { "tooltips": {} };
+const feed$4 = "Feed";
+const deselect$4 = "Auswahl aufheben";
+const spinner_text$4 = "Daten sammeln";
+const updated$4 = "Aktualisiert";
+const no_data_received$4 = "Keine Daten erhalten";
+const wrong_data_received$4 = "Falsche Daten empfangen";
+const error$6 = "Fehler";
+const sort_icon$4 = "Sortiersymbol";
+const configs$4 = { "Kontur_public_feed": "Kontur Öffentlichkeit", "Kontur_public_feed_description": "Der Feed enthält Echtzeitdaten über Wirbelstürme, Dürren, Erdbeben, Überschwemmungen, Vulkanausbrüche und Waldbrände." };
+const errors$4 = { "forbidden": "Verboten", "not_found": "Nicht gefunden", "unknown": "Unbekannt" };
+const event_list$4 = { "severity_unknown": "Unbekannt", "analytics": { "affected_people": { "value": "Keine humanitären Auswirkungen" }, "loss_tooltip": "Geschätzter Verlust" }, "no_selected_disaster": "Keine Katastrophe ausgewählt", "chose_disaster": "Katastrophe auswählen" };
+const categories$4 = { "overlays": "Überlagerungen", "basemap": "Basiskarte" };
+const groups$4 = { "layers_in_selected_area": "Ebenen im ausgewählten Bereich", "other": "Andere", "elevation": "Höhe", "map": "Karte" };
+const modes$4 = { "map": "Karte", "about": "Über uns", "reports": "Berichte", "profile": "Profil", "external": {} };
+const advanced_analytics_data_list$4 = { "load_world_data": "Weltdaten laden", "numerator": "Zähler", "normalized_by": "Normalisiert auf", "sum": "Summe", "min": "Min", "max": "Max", "mean": "Mittelwert", "stddev": "SD", "median": "Median", "filter_denominator": "Filter Nenner" };
+const profile$4 = { "saveButton": "Änderungen speichern", "reference_area": {}, "email": "E-Mail", "interfaceTheme": "Thema", "interfaceLanguage": "Sprache", "units": "Einheiten", "metric": "metrisch", "imperialBeta": "imperial (beta)", "bio_placeholder": "Bio", "appSettingsHeader": "Einstellungen", "konturTheme": "Kontur", "HOTTheme": "HOT", "defaultDisasterFeed": "Standardmäßige Katastrophenmeldung", "defaultOSMeditor": "Standardmäßiger OpenStreetMap-Editor (Beta)", "successNotification": "Alle Änderungen wurden erfolgreich übernommen", "languageOption": { "en": "Englisch", "es": "Spanisch", "ar": "Arabisch", "ko": "Koreanisch", "id": "Indonesisch", "de": "Deutsch", "uk": "Ukrainisch" } };
+const multivariate$4 = { "popup": {} };
+const map_popup$4 = {};
+const search$4 = { "search_location": "Standort suchen" };
+const create_layer$4 = { "edit_layer": "Ebene bearbeiten", "edit_features": "Merkmale bearbeiten", "delete_layer": "Ebene löschen", "create_layer": "Ebene erstellen", "saving_layer": "Ebene wird gespeichert...", "field_name": "Feldname", "layer_name": "Name der Ebene", "marker_icon": "Markierungssymbol", "type": "Typ", "select": "Auswählen", "short_text": "Kurzer Text", "long_text": "Langer Text", "link": "Link", "image": "Bild", "fields": "Felder", "add_field": "Feld hinzufügen", "location": "Standort", "edit_feature_placeholder": "Wählen Sie einige Merkmale aus, um Merkmalseigenschaften zu bearbeiten" };
+const analytics_panel$4 = { "header_title": "Analytik" };
+const advanced_analytics_panel$4 = { "header_title": "Erweiterte Analytik", "error": "Fehler beim Abrufen von erweiterten Analysedaten" };
+const advanced_analytics_empty$4 = {};
+const llm_analytics$4 = { "placeholder": {} };
+const draw_tools$4 = { "line": "Linie", "point": "Punkt", "finish_drawing": "Zeichnen beenden", "caption": "Klicken Sie auf die Karte, um mit dem Zeichnen zu beginnen", "no_geometry_error": "Keine gezeichnete Formen zum Herunterladen", "overlap_error": "Das Polygon darf sich nicht überschneiden" };
+const boundary_selector$4 = { "title": "Fokus auf die Verwaltungsgrenze" };
+const geometry_uploader$4 = { "title": "Fokus auf die hochgeladene geometrische Form", "error": "Fehler beim Lesen der hochgeladenen Datei" };
+const focus_geometry$4 = { "title": "Fokus auf freihändig gezeichnete Formen" };
+const reference_area_layer$4 = { "settings": {} };
+const sidebar$4 = { "biv_color_manager": "Farbmanager", "edit_osm": "In OpenStreetMap bearbeiten", "ruler": "Lineal", "collapse": "Zusammenklappen", "expand": "Erweitern", "icon_alt": "Logo der Anwendung" };
+const login$4 = { "email": "E-Mail", "password": "Passwort", "login_button": "Anmelden", "sign_up": "Registrieren", "logging_in": "Anmelden...", "log_in": "Einloggen", "description": "Bitte melden Sie sich an, um Ihre Einstellungen zu ändern" };
+const currency$4 = {};
+const subscription$4 = { "errors": {}, "success_modal": {} };
+const reports$4 = { "title": "Disaster Ninja Berichte", "no_data": "Keine Daten für diesen Bericht", "sorting": "Daten werden sortiert...", "loading": "Daten werden geladen", "open_josm": "Öffnen über die JOSM-Fernsteuerung", "josm_logo_alt": "JOSM-Logo", "see_all": "Alle Berichte anzeigen", "wrong_id": "Falsche Berichts-ID", "description": "<0>Kontur </0> generiert verschiedene Berichte, die bei der Überprüfung der Qualität von OpenStreetMap helfen. Sie enthalten Links zu Gebieten auf <4>osm.org </4> und Links, um sie im JOSM-Editor mit aktivierter Fernsteuerung zur Bearbeitung öffnen zu können." };
+const loading_episodes$4 = "Episoden werden geladen";
+const cookie_banner$4 = {};
+const live_sensor$4 = {};
+const layer_features_panel$4 = {};
+const reference_area$4 = {};
+const oam_auth$4 = {};
+const de_common = {
+  km: km$4,
+  m: m$4,
+  to: to$4,
+  maps: maps$4,
+  save: save$4,
+  cancel: cancel$4,
+  create: create$4,
+  disasters: disasters$4,
+  loading: loading$4,
+  legend: legend$4,
+  mcda: mcda$4,
+  vertical_direction: vertical_direction$4,
+  horizontal_direction: horizontal_direction$4,
+  legend_presentation: legend_presentation$4,
+  layers: layers$4,
+  bivariate: bivariate$4,
+  toolbar: toolbar$4,
+  locate_me: locate_me$4,
+  layer_actions: layer_actions$4,
+  feed: feed$4,
+  deselect: deselect$4,
+  spinner_text: spinner_text$4,
+  updated: updated$4,
+  no_data_received: no_data_received$4,
+  wrong_data_received: wrong_data_received$4,
+  error: error$6,
+  sort_icon: sort_icon$4,
+  configs: configs$4,
+  errors: errors$4,
+  event_list: event_list$4,
+  categories: categories$4,
+  groups: groups$4,
+  modes: modes$4,
+  advanced_analytics_data_list: advanced_analytics_data_list$4,
+  profile: profile$4,
+  multivariate: multivariate$4,
+  map_popup: map_popup$4,
+  search: search$4,
+  create_layer: create_layer$4,
+  analytics_panel: analytics_panel$4,
+  advanced_analytics_panel: advanced_analytics_panel$4,
+  advanced_analytics_empty: advanced_analytics_empty$4,
+  llm_analytics: llm_analytics$4,
+  draw_tools: draw_tools$4,
+  boundary_selector: boundary_selector$4,
+  geometry_uploader: geometry_uploader$4,
+  focus_geometry: focus_geometry$4,
+  reference_area_layer: reference_area_layer$4,
+  sidebar: sidebar$4,
+  login: login$4,
+  currency: currency$4,
+  subscription: subscription$4,
+  reports: reports$4,
+  loading_episodes: loading_episodes$4,
+  cookie_banner: cookie_banner$4,
+  live_sensor: live_sensor$4,
+  layer_features_panel: layer_features_panel$4,
+  reference_area: reference_area$4,
+  oam_auth: oam_auth$4
+};
+const km$3 = "км";
+const m$3 = "м";
+const to$3 = "до";
+const maps$3 = "мапи";
+const logout$3 = "Вийти";
+const save$3 = "Зберегти";
+const cancel$3 = "Скасувати";
+const ok$3 = "OK";
+const create$3 = "Створити";
+const disasters$3 = "Катастрофа";
+const loading$3 = "Завантаження...";
+const legend$3 = "Легенда";
+const mcda$3 = { "legend_title": "Легенда", "layer_editor": { "outliers_options": { "hide": "Приховати" }, "save_changes": "Зберегти зміни", "range_buttons": {}, "transformations": {}, "errors": {}, "tips": {} }, "name": "Створити аналіз" };
+const vertical_direction$3 = "По вертикалі";
+const horizontal_direction$3 = "По горизонталі";
+const legend_presentation$3 = "Презентація легенди";
+const layers$3 = "Шари";
+const bivariate$3 = { "color_manager": { "layers_filter": "Шари", "not_defined": "Не задано", "sentiments_combinations_filter": "Комбінація сентиментів", "no_legends": "Немає легенд, що задовольняють умовам.", "no_data": "Немає даних.", "sentiments_tab": "Сентименти", "color_legends_tab": "Легенда кольорів", "layers_tab": "Шари (індикатори)" }, "panel": { "header": "Біваріативна Матриця" }, "matrix": { "caption": { "base_axis": "Базова вісь", "annex_axis": "Додаткова вісь", "tooltip": { "p1": "Діаграми, що містять базову та додаткову осі, допомагають встановити зв’язок між двома наборами даних.", "li1": "Додаткова вісь - параметри, які ми аналізуємо", "li2": "Базова вісь - орієнтир при аналізі", "b": "Наприклад: найкраще місце щоб відкрити кафе", "p2": "Ми можемо дослідити кількість закладів харчування (додаткова вісь) проти щільності населення (базова вісь).", "p3": "У цьому сценарії нас спочатку цікавить невелика кількість закладів харчування, а кількість людей у цьому місці дає нам додаткову інформацію." } }, "header": { "title": "Виберіть два шари, щоб дослідити їх кореляції", "hint": "Шари та кореляції показані для виділеної області" }, "icon": { "population": "Значення, поділене на кількість населення", "area_km2": "Значення, поділене на площу", "total_building_count": "Значення, поділене на загальну кількість будівель", "populated_area_km2": "Значення, поділене на заселену площу", "one": "Без знаменника", "roads": "Значення, поділене на загальну довжину доріг" }, "progress": { "rendering": "Візуалізація", "applied": "Нанесено на карту" }, "loading_error": "На жаль, ми не можемо показати матрицю. Спробуйте оновити сторінку або зачекать." }, "legend": { "high": "Високий", "low": "Низький", "medium": "Середній" } };
+const layer$3 = "Шар";
+const toolbar$3 = { "map_ruler": "Виміряти відстань", "locate_me": "Знайти мене", "panel_title": "Панель інструментів", "download": "Завантажити", "delete": "Видалити", "boundary_selector": "Вибрати адміністративний кордон", "create_layer": "Створити шар", "geometry_uploader": "Завантажити GeoJSON", "focused_geometry_editor": "Намалювати або редагувати геометрію", "edit_in_osm": "Редагувати мапу в OpenStreetMap", "record_sensors": "Записати дані сенсорів", "tools_label": "Інструменти", "selected_area_label": "Вибрана область" };
+const locate_me$3 = { "feature_title": "Знайти мене", "get_location_error": "Помилка під час визначення місцеположення" };
+const layer_actions$3 = { "tooltips": { "download": "Завантажити", "delete": "Видалити", "erase": "Стерти", "edit": "Редагувати", "hide": "Приховати", "show": "Показати" } };
+const focus_geometry_layer$3 = { "settings": { "name": "Вибрана область" } };
+const feed$3 = "Стрічка";
+const deselect$3 = "Зняти вибір";
+const spinner_text$3 = "Збираємо дані";
+const updated$3 = "Оновлено";
+const created$3 = "Створено";
+const no_data_received$3 = "Немає даних";
+const wrong_data_received$3 = "Отримано неправильні дані";
+const error$5 = "Помилка";
+const sort_icon$3 = "Значок сортування";
+const configs$3 = { "Kontur_public_feed_description": "Стрічка містить дані в реальному часі про циклони, посухи, землетруси, повені, вулкани, лісові пожежі." };
+const errors$3 = { "default": "Вибачте, у нас виникли проблеми, які незабаром будуть вирішені", "timeout": "Час очікування запиту минув", "cannot_connect": "Не вдається під'єднатися до сервера", "forbidden": "Заборонено", "not_found": "Не знайдено", "unknown": "Невідомий", "server_error": "Помилка серверу", "error_try_again": "Щось пішло не так. Будь ласка, спробуйте знову" };
+const event_list$3 = { "severity_unknown": "Невідомий", "warning_description": "Карта ще не готова, спробуйте пізніше", "analytics": { "affected_people": { "tooltip": "Люди які постраждали", "value": "Жодного гуманітарного впливу" }, "settled_area_tooltip": "Заселений район", "loss_tooltip": "Орієнтовні збитки" }, "no_selected_disaster": "Катастрофа не вибрана", "chose_disaster": "Виберіть катастрофу", "no_historical_disasters": "Катастроф на цій території не знайдено", "no_feed_disasters": "У стрічці немає катастроф", "no_disasters": "Ніяких катастроф", "severity_termination": "Припинення", "severity_minor": "Незначний", "severity_moderate": "Помірний", "severity_severe": "Сильний", "severity_extreme": "Екстримальний", "open_timeline_button": "Відкрити темпоральну шкалу" };
+const categories$3 = { "overlays": "Оверлеї", "basemap": "Базова карта" };
+const groups$3 = { "layers_in_selected_area": "Шари у вибраній області", "your_layers": "Ваші шари", "kontur_analytics": "Аналітика Kontur", "qa": "Інспектор OpenStreetMap", "osmbasedmap": "На основі OpenStreetMap", "other": "Інше", "elevation": "Рел'єф", "photo": "Зображення", "map": "Мапа" };
+const modes$3 = { "map": "Мапа", "about": "Про нас", "reports": "Звіти", "profile": "Профіль", "privacy": "Конфіденційність", "external": {} };
+const advanced_analytics_data_list$3 = { "load_world_data": "Завантажити дані на всю планету", "numerator": "Чисельник", "normalized_by": "Нормалізовано за", "sum": "Сума", "min": "Мін.", "max": "Макс.", "mean": "Середнє", "stddev": "Стандартне відхилення", "median": "Медіана", "filter_numerator": "Фільтр чисельника", "filter_denominator": "Фільтр знаменника" };
+const search$3 = { "mcda_create_analysis": "Створити аналіз", "search_location": "Знайти місцеположення" };
+const profile$3 = { "saveButton": "Зберегти зміни", "reference_area": {}, "email": "Електронна пошта", "interfaceTheme": "Тема", "interfaceLanguage": "Мова", "units": "Одиниці вимірювання", "metric": "метрична система", "imperialBeta": "англійська система (бета)", "bio_placeholder": "Про себе", "appSettingsHeader": "Налаштування", "position": "Позиція", "defaultDisasterFeed": "Стрічка катастроф за замовчуванням", "defaultOSMeditor": "Редактор OpenStreetMap за замовчуванням (бета)", "successNotification": "Усі зміни успішно застосовано", "languageOption": { "en": "Англійська", "es": "Іспанська", "ar": "Арабська", "ko": "Корейська", "id": "Індонезійська", "de": "Німецька", "be": "Білоруська", "ru": "Російська", "uk": "Українська" } };
+const multivariate$3 = { "popup": {} };
+const map_popup$3 = {};
+const episode$3 = "Відкрити темпоральну шкалу";
+const create_layer$3 = { "edit_layer": "Редагувати шар", "edit_features": "Редагувати об'єкт", "delete_layer": "Видалити шар", "create_layer": "Створити шар", "saving_layer": "Зберігаємо зміни...", "field_name": "Назва поля", "layer_name": "Назва шару", "marker_icon": "Значок маркера", "type": "Тип", "select": "Вибрати", "short_text": "Текст(короткий)", "long_text": "Текст(довгий)", "link": "Посилання", "image": "Зображення", "fields": "Поля", "add_field": "Додати поле", "location": "Позиція", "edit_feature_placeholder": "Виберіть об’єкт для редагування його значень" };
+const analytics_panel$3 = { "header_title": "Аналітика", "info_short": "Аналітика для обраної території" };
+const advanced_analytics_panel$3 = { "header_title": "Розширена аналітика", "error": "Помилка під час отримання даних розширеної аналітики" };
+const advanced_analytics_empty$3 = { "not_found": "Вибачте, запитана катастрофа не знайдена", "error": "Сталася помилка", "analytics_for_selected": "Аналітика для обраної території", "will_be_provided": "буде надано тут" };
+const current_event$3 = { "not_found_request": "Вибачте, запитана катастрофа не знайдена" };
+const llm_analytics$3 = { "placeholder": {} };
+const draw_tools$3 = { "line": "Лінія", "point": "Точка", "finish_drawing": "Закінчити малювання", "caption": "Натисніть на карту, щоб почати малювати", "no_geometry_error": "Немає геометрії для завантаження", "overlap_error": "Полігон не має перетинати сам себе" };
+const boundary_selector$3 = { "title": "Фокусувати на адміністративну одиницю" };
+const geometry_uploader$3 = { "title": "Фокусувати на завантажену геометрію", "error": "Помилка під час завантаження файлу" };
+const focus_geometry$3 = { "title": "Фокусувати на намальовану геометрію" };
+const reference_area_layer$3 = { "settings": {} };
+const drawings$3 = { "self_directions_not_supported": "Самоперетин не підтримується!" };
+const sidebar$3 = { "biv_color_manager": "Редактор кольорів", "edit_osm": "Редагувати в OpenStreetMap", "ruler": "Лінійка", "collapse": "Згорнути", "expand": "Розгорнути", "icon_alt": "Логотип аплікації" };
+const login$3 = { "email": "Електронна пошта", "password": "Пароль", "login_button": "Логін", "sign_up": "Зареєструватися", "logging_in": "Входимо...", "log_in": "Увійти", "forgot_password": "Забули пароль?", "description": "Увійдіть, щоб змінити налаштування", "error": { "email_empty": "Електронна пошта не може бути пустою", "email_invalid": "Електронна пошта має бути коректною", "password": "Пароль не може бути пустим", "connect": "Не вдалося під'єднатися до служби аутентифікації" } };
+const currency$3 = {};
+const subscription$3 = { "errors": {}, "success_modal": {} };
+const reports$3 = { "title": "Звіти Disaster Ninja", "no_data": "Нема даних для звіту", "sorting": "Сортуємо дані...", "loading": "Завантажуємо дані", "open_josm": "Відкрити в JOSM", "josm_logo_alt": "Логотип JOSM", "see_all": "Дивитися всі звіти", "wrong_id": "Неправильний ID звіту", "description": "<0>Kontur </0> генерує декілька звітів які допомагають перевіряти якість даних OpenStreetMap. Вони містять посилання на <4>osm.org</4> і посилання, щоб відкрити їх у редакторі JOSM для редагування." };
+const loading_episodes$3 = "Завантаження епізодів";
+const cookie_banner$3 = { "header": "Ми цінуємо вашу приватність", "body": "Ми використовуємо абсолютно необхідні файли cookies, щоб надавати вам персоналізовані послуги, і додаткові файли cookies, щоб покращити Disaster Ninja та ваш досвід. Ви можете будь-коли змінити налаштування файлів cookies або відкликати згоду на використання додаткових файлів cookies.\nЩоб дізнатися більше, перегляньте нашу [Політику конфіденційності](about/privacy)", "decline_all": "Відхилити файли cookies", "accept_all": "Прийняти файли cookies" };
+const live_sensor$3 = { "start": "Почати запис даних з сенсорів", "finish": "Зупинити запис даних з сенсорів", "finishMessage": "Запис даних завершенно", "startMessage": "Запис даних розпочато", "noSensorsError": "Ваш пристрій не має необхідних сенсорів" };
+const layer_features_panel$3 = {};
+const reference_area$3 = {};
+const oam_auth$3 = {};
+const uk_common = {
+  km: km$3,
+  m: m$3,
+  to: to$3,
+  maps: maps$3,
+  logout: logout$3,
+  save: save$3,
+  cancel: cancel$3,
+  ok: ok$3,
+  create: create$3,
+  disasters: disasters$3,
+  loading: loading$3,
+  legend: legend$3,
+  mcda: mcda$3,
+  vertical_direction: vertical_direction$3,
+  horizontal_direction: horizontal_direction$3,
+  legend_presentation: legend_presentation$3,
+  layers: layers$3,
+  bivariate: bivariate$3,
+  layer: layer$3,
+  toolbar: toolbar$3,
+  locate_me: locate_me$3,
+  layer_actions: layer_actions$3,
+  focus_geometry_layer: focus_geometry_layer$3,
+  feed: feed$3,
+  deselect: deselect$3,
+  spinner_text: spinner_text$3,
+  updated: updated$3,
+  created: created$3,
+  no_data_received: no_data_received$3,
+  wrong_data_received: wrong_data_received$3,
+  error: error$5,
+  sort_icon: sort_icon$3,
+  configs: configs$3,
+  errors: errors$3,
+  event_list: event_list$3,
+  categories: categories$3,
+  groups: groups$3,
+  modes: modes$3,
+  advanced_analytics_data_list: advanced_analytics_data_list$3,
+  search: search$3,
+  profile: profile$3,
+  multivariate: multivariate$3,
+  map_popup: map_popup$3,
+  episode: episode$3,
+  create_layer: create_layer$3,
+  analytics_panel: analytics_panel$3,
+  advanced_analytics_panel: advanced_analytics_panel$3,
+  advanced_analytics_empty: advanced_analytics_empty$3,
+  current_event: current_event$3,
+  llm_analytics: llm_analytics$3,
+  draw_tools: draw_tools$3,
+  boundary_selector: boundary_selector$3,
+  geometry_uploader: geometry_uploader$3,
+  focus_geometry: focus_geometry$3,
+  reference_area_layer: reference_area_layer$3,
+  drawings: drawings$3,
+  sidebar: sidebar$3,
+  login: login$3,
+  currency: currency$3,
+  subscription: subscription$3,
+  reports: reports$3,
+  loading_episodes: loading_episodes$3,
+  cookie_banner: cookie_banner$3,
+  live_sensor: live_sensor$3,
+  layer_features_panel: layer_features_panel$3,
+  reference_area: reference_area$3,
+  oam_auth: oam_auth$3
+};
+const km$2 = "км";
+const m$2 = "м";
+const to$2 = "да";
+const or$2 = "ці";
+const maps$2 = "Мапы";
+const logout$2 = "Выйсці";
+const save$2 = "Захаваць";
+const cancel$2 = "Адмяніць";
+const ok$2 = "ОК";
+const create$2 = "Стварыць";
+const disasters$2 = "Катастрофы";
+const loading$2 = "Загрузка...";
+const preparing_data$2 = "Падрыхтоўка даных";
+const loading_events$2 = "Загрузка катастроф";
+const legend$2 = "Легенда";
+const mcda$2 = { "legend_title": "Легенда", "layer_editor": { "outliers_options": { "hide": "Схаваць", "clamp": "Абмежаваць", "dont_modify": "Не змяняць" }, "save_changes": "Захаваць змены", "range": "Дыяпазон значэнняў", "outliers": "Выбітныя значэнні", "reverse_to_good_bad": "Перавярнуць на Добра → Дрэнна", "reverse_to_bad_good": "Перавярнуць на Дрэнна → Добра", "weight": "Вага", "transform": "Трансфармаваць", "transformation": "Трансфармацыя", "normalize": "Нармалізаваць", "normalization": "Нармалізацыя", "range_buttons": { "full_range": "Поўны дыяпазон", "3_sigma": "3σ", "2_sigma": "2σ", "1_sigma": "1σ" }, "transformations": { "no_transformation": "Без трансфармацыі", "square_root": "Квадратны корань: sign(x)⋅√|x|", "cube_root": "Кубічны корань: ∛x", "log": "log₁₀(x - xmin + 1)", "log_epsilon": "log₁₀(x - xmin + ε)" }, "no": "Без нармалізацыі", "max_min": "Максімум-мінімум", "errors": { "weight_cannot_be_empty": "Вага не можа быць пустой", "weight_must_be_a_number": "Вага павінна быць лікам", "range_from_cannot_be_bigger": "Значэнне ‘ад’ не можа быць большым за значэнне ‘да’", "range_cannot_be_empty": "Дыяпазон не можа быць пустым", "range_must_be_a_number": "Дыяпазон павінен быць лікам" }, "tips": { "range": "Значэнні, якія будуць лічыцца найгоршымі і найлепшымі ў вашым аналізе.", "sentiment": "Вызначце кірунак уздзеяння для аналізу:\n* **Дрэнна → Добра**: Больш высокія значэнні паказваюць на станоўчы напрамак.\n* **Добра → Дрэнна**: Больш высокія значэнні паказваюць на адмоўны напрамак.", "weight": "Па змаўчанні ўсе слаі аднолькава ўплываюць на аналіз праз узважаную сярэднюю. Павелічэнне вагі слоя (напрыклад, 2, 3 і г.д.) дазваляе вам надаць яму большую важкасць у аналізе.", "transform": "Прымяняйце разлікі да значэнняў. Атрыманне больш лінейнага размеркавання забяспечыць карысную інфармацыю для аналізу.\n\n **Заўвага**: Разлікі выконваюцца перад нармалізацыяй.", "normalize": "Прыводзіць значэнні да стандартызаванай шкалы. Гэта дапамагае лёгка параўноўваць іх і прымаць рашэнні.\n* **Стандартная шкала адзнак**: Гэты варыянт прыводзіць значэнні да стандартызаванай шкалы, робячы іх супастаўнымі.\n* **Не (толькі для спецыялістаў)**: Пакідае значэнні без змен.", "outliers": "* **Абмежаваць**: Задаць значэнні вышэй за дыяпазон як 1, ніжэй — як 0.\n* **Не змяняць**: Захаваць 0 і 1 як мінімум і максімум, але дапускаць значэнні за межамі гэтага дыяпазону.\n* **Выключыць**: Выключыць з аналізу вобласці, дзе значэнні выходзяць за межы дыяпазону." } }, "title": "Шматкрытэрыяльны аналіз", "modal_title": "Шматкрытэрыяльны аналіз", "name": "Стварыць аналіз", "create_mcda_hint": "Стварыць шматкрытэрыяльны аналіз слаёў", "upload_mcda_hint": "Загрузіць шматкрытэрыяльны аналіз слаёў", "modal_input_name": "Назва аналізу", "modal_input_name_placeholder": "Напрыклад, Кліматычныя змены", "modal_input_indicators": "Спіс слаёў", "modal_input_indicators_placeholder": "Абраць слаі", "modal_input_indicators_no_options": "Няма варыянтаў", "btn_save": "Захаваць аналіз", "error_analysis_name_cannot_be_empty": "Назва аналізу не можа быць пустой", "error_invalid_parameter": "Няправільны параметр '{{parameter}}'", "error_invalid_layer_parameter": "Няправільны параметр '{{parameter}}' у слоі '{{axisName}}'", "legend_subtitle": "Шасцікутнікі афарбаваны згодна з наладамі аналітычных слаёў. Націсніце на шасцікутнік, каб убачыць яго значэнні.", "bad": "Дрэнна", "good": "Добра" };
+const vertical_direction$2 = "Вертыкальны напрамак";
+const horizontal_direction$2 = "Гарызантальны напрамак";
+const legend_presentation$2 = "Адлюстраванне легенды";
+const layers$2 = "Слаі";
+const bivariate$2 = { "color_manager": { "layers_filter": "Слаі", "not_defined": "Не вызначана", "sentiments_combinations_filter": "Спалучэнні напрамкаў", "no_legends": "Няма легенд, якія адпавядаюць умовам.", "no_data": "Няма даных", "sentiments_tab": "Напрамак", "color_legends_tab": "Каляровыя легенды", "layers_tab": "Слаі (індыкатары)" }, "panel": { "header": "Біварыятыўная матрыца" }, "matrix": { "caption": { "base_axis": "Базавая вось", "annex_axis": "Дапаможная вось", "tooltip": { "p1": "Графікі, якія выкарыстоўваюць базавую і дапаможную восі, дапамагаюць вызначыць сувязь паміж двума наборамі даных.", "li1": "Дапаможная вось - параметры, якія мы аналізуем", "li2": "Базавая вось - апорная кропка ў аналізе", "b": "Напрыклад: найлепшае месца для адкрыцця кавярні", "p2": "Мы можам даследаваць колькасць месцаў грамадскага харчавання (дапаможная вось) у параўнанні са шчыльнасцю насельніцтва (базавая вось).", "p3": "У гэтым выпадку нас найперш цікавіць невялікая колькасць месцаў грамадскага харчавання, а колькасць людзей у гэтым месцы дае дадатковую інфармацыю." } }, "header": { "title": "Выберыце два слоя для даследавання карэляцый", "hint": "Слаі і карэляцыі адлюстроўваюцца для вылучанай вобласці" }, "icon": { "population": "Значэнне, падзеленае на насельніцтва", "area_km2": "Значэнне, падзеленае на плошчу", "total_building_count": "Значэнне, падзеленае на агульную колькасць будынкаў", "populated_area_km2": "Значэнне, падзеленае на заселеную тэрыторыю", "one": "Без дзялення", "roads": "Значэнне, падзеленае на агульную даўжыню дарог" }, "progress": { "rendering": "Адмалёўка", "applied": "Ужыта на карце" }, "loading_error": "На жаль, мы не можам адлюстраваць матрыцу. Паспрабуйце абнавіць старонку ці вярнуцца пазней." }, "legend": { "high": "Высокі", "low": "Нізкі", "medium": "Сярэдні" } };
+const layer$2 = "Слой";
+const toolbar$2 = { "map_ruler": "Вымераць адлегласць", "locate_me": "Знайсці мяне", "panel_title": "Панэль інструментаў", "download": "Спампаваць", "delete": "Выдаліць", "boundary_selector": "Вылучыць адміністрацыйную мяжу", "create_layer": "Стварыць слой", "geometry_uploader": "Загрузіць GeoJSON", "focused_geometry_editor": "Маляваць або рэдагаваць геаметрыю", "edit_in_osm": "Рэдагаваць мапу ў OSM", "record_sensors": "Запісваць даныя датчыкаў", "tools_label": "Інструменты", "selected_area_label": "Вылучаная вобласць", "upload_mcda": "Загрузіць аналіз" };
+const locate_me$2 = { "feature_title": "Знайсці мяне", "get_location_error": "Памылка пры атрыманні месцазнаходжання" };
+const layer_actions$2 = { "tooltips": { "download": "Спампаваць", "delete": "Выдаліць", "erase": "Сцерці", "edit": "Рэдагаваць", "hide": "Схаваць", "show": "Паказаць" } };
+const focus_geometry_layer$2 = { "settings": { "name": "Вылучаная вобласць" } };
+const feed$2 = "Стужка";
+const deselect$2 = "Зняць вылучэнне";
+const spinner_text$2 = "Збор даных";
+const updated$2 = "Абноўлена";
+const started$2 = "Пачалося";
+const created$2 = "Створаны";
+const osm_gaps$2 = "Прабелы ў OSM";
+const no_data_received$2 = "Даныя не атрыманы";
+const wrong_data_received$2 = "Атрыманы памылковыя даныя";
+const error$4 = "Памылка";
+const sort_icon$2 = "Сартаванне";
+const configs$2 = { "Kontur_public_feed": "Kontur Public", "Kontur_public_feed_description": "Стужка змяшчае даныя ў рэжыме рэальнага часу аб цыклонах, засухах, землятрусах, паводках, вулканах і лясных пажарах." };
+const errors$2 = { "default": "Прабачце, узніклі праблемы, якія хутка будуць выпраўлены", "timeout": "Час чакання запыту скончыўся", "cannot_connect": "Не атрымалася злучыцца з серверам", "forbidden": "Забаронена", "not_found": "Не знойдзена", "unknown": "Невядома", "server_error": "Памылка сервера", "error_try_again": "Нешта пайшло не так. Калі ласка, паспрабуйце зноў" };
+const event_list$2 = { "severity_unknown": "Невядома", "warning_title": "Немагчыма адфільтраваць па віду мапы", "warning_description": "Мапа яшчэ не гатовая, паспрабуйце пазней", "bbox_filter_button": "Адфільтраваць па віду мапы", "analytics": { "affected_people": { "tooltip": "Пацярпелыя людзі", "value": "Няма гуманітарных наступстваў" }, "settled_area_tooltip": "Заселеная тэрыторыя", "loss_tooltip": "Прыблізныя страты" }, "no_event_in_feed": "Катастрофа не была знойдзеная ў цякучай стужцы катастроф", "no_selected_disaster": "Катастрофа не выбрана", "chose_disaster": "Выбраць катастрофу", "no_historical_disasters": "Няма гістарычных катастроф у дадзеным раёне", "no_feed_disasters": "Няма катастроф у гэтай стужцы", "no_feed_disasters_matching_your_filters": "Няма катастроф, што адпавядаюць вашым фільтрам", "no_disasters": "Няма катастроф", "severity_termination": "Спыненне", "severity_minor": "Нязначная", "severity_moderate": "Умераная", "severity_severe": "Сур'ёзная", "severity_extreme": "Экстрэмальная", "open_timeline_button": "Часавая шкала" };
+const categories$2 = { "overlays": "Оверлэі", "basemap": "Базавая мапа" };
+const groups$2 = { "layers_in_selected_area": "Слаі ў вылучанай зоне", "your_layers": "Вашы слаі", "kontur_analytics": "Аналітыка Kontur", "qa": "Інспектар OpenStreetMap", "osmbasedmap": "На аснове OpenStreetMap", "other": "Іншае", "elevation": "Вышыня", "photo": "Здымкі", "map": "Мапа" };
+const modes$2 = { "map": "Мапа", "about": "Пра сервіс", "cookies": "Файлы cookie", "reports": "Справаздачы", "report": "Справаздача", "profile": "Профіль", "privacy": "Прыватнасць", "terms": "Умовы", "user_guide": "Дапаможнік", "external": { "upload_imagery": "Загрузіць здымак" } };
+const advanced_analytics_data_list$2 = { "load_world_data": "Загрузіць сусветныя даныя", "numerator": "Лічнік", "normalized_by": "Нармалізавана па", "sum": "Сума", "min": "Мінімум", "max": "Максімум", "mean": "Сярэдняе", "stddev": "Стандартнае адхіленне", "median": "Медыяна", "filter_numerator": "Фільтр па лічніку", "filter_denominator": "Фільтр па назоўніку" };
+const search$2 = { "mcda_create_analysis": "Стварыць аналіз", "search_location": "Шукаць месца", "info_block": "Вы можаце шукаць 📍 месцы", "info_block_with_mcda": "Вы можаце шукаць 📍 месцы або задаць ✨ AI ваша пытанне, напрыклад: «Дзе знаходзіцца сухастой?»", "input_placeholder": "Пошук", "input_placeholder_mcda": "Шукаць або спытацца ў AI", "locations_no_result": "Няма знойдзеных месцаў", "mcda_loading_message": "AI стварае аналіз для вас", "mcda_no_result": "Няма прапаноў ад AI", "mcda_error_message": "AI не адказаў. Паспрабуйце пазней", "upload_analysis": "“{{name}}” шматкрытэрыяльны аналіз быў створаны" };
+const profile$2 = { "saveButton": "Захаваць змены", "reference_area": { "title": "Эталонная вобласць", "freehand_geometry": "Адвольная геаметрыя", "to_replace_reference_area": 'Вы можаце пераназначыць вашу эталонную вобласць на карце. Вылучыце вобласць і націсніце "Захаваць як эталонную вобласць" у панэлі інструментаў.\n', "description": "Захавайце знаёмую вам вобласць як эталонную. Мы будзем выкарыстоўваць яе як падставу для параўнання іншых абласцей і тлумачэння адрозненняў.", "set_the_reference_area": "Вылучыць вобласць на карце", "accessing_location": "Атрыманне вашага месцазнаходжання", "accessing_location_error": "Памылка. Паспрабуйце іншы спосаб.", "select_location": "Абраць маё цякучае месцазнаходжанне", "notification": "Ваша эталонная вобласць {{name}} была захаваная" }, "email": "Электронная пошта", "interfaceTheme": "Тэма", "interfaceLanguage": "Мова", "units": "Адзінкі вымярэння", "fullName": "Поўнае імя", "metric": "метрычная сістэма", "imperialBeta": "імперская сістэма (бэта)", "profileSettingsHeader": "Наладзьце свой вопыт выкарыстання", "your_current_job": "ваша цяперашняя пасада", "area_of_expertise": "сфера дзейнасці", "challenges": "праблемы", "personalization_prompt": "Для лепшай персаналізацыі, калі ласка, пазначце наступнае:", "ai_tools_compatibility": "Гэтая інфармацыя сумяшчальная з інструментамі AI", "improves_analysis": "Паляпшае аналіз", "bio_placeholder": "Аб сабе", "bio_textarea_placeholder": "Напрыклад, спецыяліст у галіне ГІС з 5+ гадамі вопыту ў аналізе рызыкаў катастроф, арыентаваны на гарадскую ўстойлівасць.", "analysis_objectives": "Мэты аналізу", "objectives_textarea_placeholder": "Напрыклад, аналіз гарадскога планавання з акцэнтам на кліматычную ўстойлівасць. Мая цяперашняя задача — паляпшэнне картаграфавання рызыкаў паводак.", "appSettingsHeader": "Налады", "your_organization": "Ваша арганізацыя", "your_contacts": "Вашыя кантактныя даныя", "organization_name": "Назва арганізацыі", "position": "Пасада", "gis_specialists": "ГІС-спецыялісты ў вашай камандзе", "phone_number": "Нумар тэлефона з кодам краіны", "linkedin": "Профіль у LinkedIn", "konturTheme": "Kontur", "HOTTheme": "HOT", "defaultDisasterFeed": "Стужка катастроф па змаўчанні", "defaultOSMeditor": "Рэдактар OpenStreetMap па змаўчанні (бэта)", "successNotification": "Усе змены былі паспяхова захаваны", "dont_know": "Я не ведаю", "languageOption": { "en": "Англійская", "es": "Іспанская", "ar": "Арабская", "ko": "Карэйская", "id": "Інданезійская", "de": "Нямецкая", "be": "Беларуская", "ru": "Руская", "uk": "Украінская", "zh": "Кітайская" } };
+const multivariate$2 = { "multivariate_analysis": "Шматварыянтны аналіз", "create_analysis_layer": "Стварыць аналіз слаёў", "upload_analysis_layer": "Загрузіць аналіз слаёў", "popup": { "score_header": "Адзнака {{level}}", "compare_header": "Параўнанне {{level}}" }, "score": "Адзнака", "compare": "Параўнанне", "labels": "Подпісы", "3d": "3D" };
+const map_popup$2 = { "range": "Дыяпазон", "coefficient": "Каэфіцыент", "normalized_value": "Нармалізаванае значэнне" };
+const episode$2 = "Часавая шкала";
+const create_layer$2 = { "edit_layer": "Рэдагаваць слой", "edit_features": "Рэдагаваць аб'екты", "delete_layer": "Выдаліць слой", "create_layer": "Стварыць слой", "saving_layer": "Захаванне слоя...", "field_name": "Назва поля", "layer_name": "Назва слоя", "marker_icon": "Іконка маркера", "type": "Тып", "select": "Выбраць", "short_text": "Кароткі тэкст", "long_text": "Доўгі тэкст", "link": "Спасылка", "image": "Выява", "fields": "Палі", "add_field": "Дадаць поле", "location": "Месцазнаходжанне", "edit_feature_placeholder": "Выберыце аб'ект для пачатку рэдагавання яго ўласцівасцей" };
+const analytics_panel$2 = { "header_title": "Аналітыка", "error_loading": "Не атрымалася атрымаць даныя аб вылучанай вобласці. Магчыма, яна занадта вялікая.", "info_short": "Разлікі зробленыя для вылучанай вобласці" };
+const advanced_analytics_panel$2 = { "header_title": "Пашыраная аналітыка", "error": "Памылка падчас атрымання даных пашыранай аналітыкі" };
+const advanced_analytics_empty$2 = { "not_found": "Прабачце, запытаная катастрофа не знойдзена", "error": "Адбылася памылка", "analytics_for_selected": "Аналітыка для вылучанай вобласці", "will_be_provided": "будзе пададзена тут", "no_analytics": "Няма аналітыкі для вылучанай вобласці" };
+const current_event$2 = { "not_found_request": "Прабачце, запытаная катастрофа не знойдзена" };
+const llm_analytics$2 = { "header": "Аналітыка AI", "placeholder": { "select_area": "Вылучыце вобласць (<icon1 />,<icon2 />,<icon3 />), якую хочаце даследаваць для атрымання Аналітыкі AI.", "you_can_also": "Вы таксама можаце:", "fill_bio": "<icon /> <lnk>Запоўніце мэты аналізу</lnk>, каб персаналізаваць AI аналіз", "select_and_save_as_reference_area": "<icon /> Вылучыце вобласць і захавайце яе як эталонную для параўнання з іншай", "learn_more": "<lnk><icon/> Даведайцеся больш пра Аналітыку AI</lnk>" } };
+const draw_tools$2 = { "area": "Шматкутнік", "line": "Лінія", "point": "Кропка", "finish_drawing": "Скончыць маляванне", "caption": "Націсніце на мапу, каб пачаць маляванне", "no_geometry_error": "Няма намаляванай геаметрыі для загрузкі", "overlap_error": "Шматкутнік не павінен перакрываць сам сябе" };
+const boundary_selector$2 = { "title": "Фокус на адміністрацыйную мяжу" };
+const geometry_uploader$2 = { "title": "Фокус на загружаную геаметрыю", "error": "Памылка пры чытанні загружанага файла" };
+const focus_geometry$2 = { "title": "Фокус на адвольную геаметрыю" };
+const reference_area_layer$2 = { "settings": { "name": "Эталонная вобласць" } };
+const drawings$2 = { "self_directions_not_supported": "Самаперакрыцці не падтрымліваюцца" };
+const sidebar$2 = { "edit_osm": "Рэдагаваць у OpenStreetMap", "ruler": "Лінейка", "collapse": "Згарнуць", "expand": "Разгарнуць", "icon_alt": "Лагатып дадатку" };
+const login$2 = { "email": "Электронная пошта", "password": "Пароль", "login_button": "Увайсці", "sign_up": "Зарэгістравацца", "logging_in": "Уваход...", "log_in": "Увайсці", "forgot_password": "Забыліся пароль?", "description": "Калі ласка, увайдзіце, каб змяніць налады", "error": { "email_empty": "Поле электроннай пошты не можа быць пустым", "email_invalid": "Увядзіце сапраўдны адрас электроннай пошты", "password": "Поле пароля не можа быць пустым", "connect": "Не ўдалося падключыцца да службы аўтэнтыфікацыі" } };
+const currency$2 = { "usd": "USD" };
+const subscription$2 = { "title": "Тарыфы і цэны", "price_summary": "* Выстаўляецца рахунак ${{pricePerYear}} USD раз на год", "unauthorized_button": "Увайдзіце, каб аформіць падпіску", "current_plan_button": "Цяперашні план", "sales_button": "Звязацца з аддзелам продажаў", "book_demo_button": "Замовіць дэма", "request_trial_button": "Запытаць пробны перыяд", "errors": { "payment_initialization": "Адбылася памылка падчас ініцыялізацыі плацяжу. Калі ласка, паспрабуйце яшчэ раз ці звяжыцеся са службай падтрымкі" }, "success_modal": { "title": "Паспяхова", "thank_you_for_subscribing": "Дзякуй за падпіску на нашу платформу!", "after_the_page_refreshes": "Пасля абнаўлення старонкі вы можаце пачаць выкарыстоўваць Kontur Atlas" } };
+const reports$2 = { "title": "Справаздачы Disaster Ninja", "no_data": "Няма даных для гэтай справаздачы", "sorting": "Сартыроўка даных...", "loading": "Загрузка даных", "open_josm": "Адкрыць праз дыстанцыйнае кіраванне JOSM", "josm_logo_alt": "Лагатып JOSM", "see_all": "Паглядзець усе справаздачы", "wrong_id": "Няправільны ідэнтыфікатар справаздачы", "description": "<0>Kontur </0> стварае некалькі справаздач, якія дапамагаюць ацаніць якасць OpenStreetMap. Яны ўтрымліваюць спасылкі на вобласці на <4>osm.org </4> і спасылкі для адкрыцця іх у рэдактары JOSM з уключаным дыстанцыйным кіраваннем." };
+const loading_episodes$2 = "Загрузка эпізодаў";
+const zoom_to_world$2 = "Аддаліцца да ўсяго свету";
+const cookie_banner$2 = { "header": "Мы цэнім вашу прыватнасць", "body": "Мы выкарыстоўваем неабходныя файлы cookie для прадастаўлення вам персаналізаваных паслуг, а таксама дадатковыя файлы cookie для паляпшэння {{appName}} і вашага вопыту выкарыстання. Вы можаце кіраваць наладамі cookie або адклікаць згоду на дадатковыя cookie ў любы момант.\nДля атрымання дадатковай інфармацыі азнаёмцеся з нашай [Палітыкай прыватнасці](about/privacy)", "decline_all": "Адмовіцца ад дадатковых cookie", "accept_all": "Прыняць дадатковыя cookie" };
+const live_sensor$2 = { "start": "Пачаць запіс з датчыкаў", "finish": "Спыніць запіс з датчыкаў", "finishMessage": "Запіс завершаны", "startMessage": "Запіс пачаты", "noSensorsError": "Вашае прылада не мае неабходных датчыкаў" };
+const layer_features_panel$2 = { "empty": "Аб'екты слоя ў вылучанай вобласці будуць паказаны тут", "noFeatureSelected": "Не абраны аб'ект слоя", "chooseFeature": "Абярыце аб'ект слоя", "listInfo": "Спіс адфільтраваны па вылучанай вобласці і адсартаваны па нумары праекта", "error_loading": "Не атрымалася загрузіць даныя аб'ектаў слоя. Калі ласка, паспрабуйце яшчэ раз.", "no_features": "У вылучанай вобласці не знойдзена аб'ектаў.", "priority": "{{level}} прыярытэт" };
+const reference_area$2 = { "save_as_reference_area": "Захаваць як эталонную вобласць", "error_couldnt_save": "На жаль, не атрымалася захаваць вашу эталонную вобласць. Калі ласка, паспрабуйце яшчэ раз.", "selected_area_saved_as_reference_area": "Вылучаная вобласць была захаваная як эталонная ў вашым профілі" };
+const oam_auth$2 = { "login_button": "Ўвайсці праз Google" };
+const be_common = {
+  km: km$2,
+  m: m$2,
+  to: to$2,
+  or: or$2,
+  maps: maps$2,
+  logout: logout$2,
+  save: save$2,
+  cancel: cancel$2,
+  ok: ok$2,
+  create: create$2,
+  disasters: disasters$2,
+  loading: loading$2,
+  preparing_data: preparing_data$2,
+  loading_events: loading_events$2,
+  legend: legend$2,
+  mcda: mcda$2,
+  vertical_direction: vertical_direction$2,
+  horizontal_direction: horizontal_direction$2,
+  legend_presentation: legend_presentation$2,
+  layers: layers$2,
+  bivariate: bivariate$2,
+  layer: layer$2,
+  toolbar: toolbar$2,
+  locate_me: locate_me$2,
+  layer_actions: layer_actions$2,
+  focus_geometry_layer: focus_geometry_layer$2,
+  feed: feed$2,
+  deselect: deselect$2,
+  spinner_text: spinner_text$2,
+  updated: updated$2,
+  started: started$2,
+  created: created$2,
+  osm_gaps: osm_gaps$2,
+  no_data_received: no_data_received$2,
+  wrong_data_received: wrong_data_received$2,
+  error: error$4,
+  sort_icon: sort_icon$2,
+  configs: configs$2,
+  errors: errors$2,
+  event_list: event_list$2,
+  categories: categories$2,
+  groups: groups$2,
+  modes: modes$2,
+  advanced_analytics_data_list: advanced_analytics_data_list$2,
+  search: search$2,
+  profile: profile$2,
+  multivariate: multivariate$2,
+  map_popup: map_popup$2,
+  episode: episode$2,
+  create_layer: create_layer$2,
+  analytics_panel: analytics_panel$2,
+  advanced_analytics_panel: advanced_analytics_panel$2,
+  advanced_analytics_empty: advanced_analytics_empty$2,
+  current_event: current_event$2,
+  llm_analytics: llm_analytics$2,
+  draw_tools: draw_tools$2,
+  boundary_selector: boundary_selector$2,
+  geometry_uploader: geometry_uploader$2,
+  focus_geometry: focus_geometry$2,
+  reference_area_layer: reference_area_layer$2,
+  drawings: drawings$2,
+  sidebar: sidebar$2,
+  login: login$2,
+  currency: currency$2,
+  subscription: subscription$2,
+  reports: reports$2,
+  loading_episodes: loading_episodes$2,
+  zoom_to_world: zoom_to_world$2,
+  cookie_banner: cookie_banner$2,
+  live_sensor: live_sensor$2,
+  layer_features_panel: layer_features_panel$2,
+  reference_area: reference_area$2,
+  oam_auth: oam_auth$2
+};
+const km$1 = "км";
+const m$1 = "м";
+const to$1 = "до";
+const or$1 = "или";
+const maps$1 = "Карты";
+const logout$1 = "Выйти";
+const save$1 = "Сохранить";
+const cancel$1 = "Отменить";
+const ok$1 = "ОК";
+const create$1 = "Создать";
+const disasters$1 = "Катастрофы";
+const loading$1 = "Загрузка...";
+const preparing_data$1 = "Подготовка данных";
+const loading_events$1 = "Загрузка катастроф";
+const legend$1 = "Легенда";
+const mcda$1 = { "legend_title": "Легенда", "layer_editor": { "outliers_options": { "hide": "Скрыть", "clamp": "Ограничить", "dont_modify": "Не изменять" }, "save_changes": "Сохранить изменения", "range": "Диапазон значений", "outliers": "Выпадающие значения", "reverse_to_good_bad": "Перевернуть: Хорошо → Плохо", "reverse_to_bad_good": "Перевернуть: Плохо → Хорошо", "weight": "Вес", "transform": "Трансформировать", "transformation": "Трансформация", "normalize": "Нормализовать", "normalization": "Нормализация", "range_buttons": { "full_range": "Полный диапазон", "3_sigma": "3σ", "2_sigma": "2σ", "1_sigma": "1σ" }, "transformations": { "no_transformation": "Без трансформации", "square_root": "Квадратный корень: sign(x)⋅√|x|", "cube_root": "Кубический корень: ∛x", "log": "log₁₀(x - xmin + 1)", "log_epsilon": "log₁₀(x - xmin + ε)" }, "no": "Без нормализации", "max_min": "Макс-мин", "errors": { "weight_cannot_be_empty": "Вес не может быть пустым", "weight_must_be_a_number": "Вес должен быть числом", "range_from_cannot_be_bigger": "Значение «от» не может быть больше, чем значение «до»", "range_cannot_be_empty": "Диапазон не может быть пустым", "range_must_be_a_number": "Диапазон должен быть числом" }, "tips": { "range": "Значения, которые будут считаться наихудшими и наилучшими в вашем анализе.", "sentiment": "Определите направление коннотаций слоя на анализ:\n* **Плохо → Хорошо**: Более высокие значения указывают на положительное направление.\n* **Хорошо → Плохо**: Более высокие значения указывают на отрицательное направление.", "weight": "По умолчанию все слои вносят равный вклад в анализ через средневзвешенное значение. Увеличение веса слоя (2, 3 и т. д.) позволяет придать ему дополнительную значимость в анализе.", "transform": "Примените вычисления к значениям. Достижение более линейного распределения обеспечит более полезную информацию для анализа.\n\n **Примечание**: Вычисления выполняются перед нормализацией.", "normalize": "Приводит значения к стандартизированной шкале. Это упрощает их сравнение и принятие решений.\n* **Стандартная шкала оценки**: Этот вариант приводит значения к стандартизированной шкале, чтобы они были сопоставимы.\n* **Нет (только для специалистов)**: Оставляет значения без изменений.", "outliers": "* **Ограничить**: Установить значения выше диапазона как 1, а ниже диапазона – как 0.\n* **Не изменять**: Сохранить 0 и 1 для минимального и максимального значений, но допустить выбросы за пределами этого диапазона.\n* **Исключить**: Исключить области, где значения выходят за пределы диапазона." } }, "title": "Многокритериальный анализ", "modal_title": "Многокритериальный анализ", "name": "Создать анализ", "create_mcda_hint": "Создать многокритериальный анализ слоёв", "upload_mcda_hint": "Загрузить многокритериальный анализ слоёв", "modal_input_name": "Название анализа", "modal_input_name_placeholder": "Например, Изменение климата", "modal_input_indicators": "Список слоёв", "modal_input_indicators_placeholder": "Выберите слои", "modal_input_indicators_no_options": "Нет доступных вариантов", "btn_save": "Сохранить анализ", "error_analysis_name_cannot_be_empty": "Название анализа не может быть пустым", "error_invalid_file": "Некорректный формат файла анализа", "error_invalid_parameter": "Некорректный параметр '{{parameter}}'", "error_invalid_layer_parameter": "Некорректный параметр '{{parameter}}' в слое '{{axisName}}'", "error_wrong_mcda_version": "Неподдерживаемая версия анализа", "legend_subtitle": "Шестиугольники окрашены в соответствии с настройками анализа слоя. Нажмите на шестиугольник, чтобы увидеть его значения.", "bad": "Плохо", "good": "Хорошо" };
+const vertical_direction$1 = "Вертикальное направление";
+const horizontal_direction$1 = "Горизонтальное направление";
+const legend_presentation$1 = "Отображение легенды";
+const layers$1 = "Слои";
+const bivariate$1 = { "color_manager": { "layers_filter": "Слои", "not_defined": "Не определено", "sentiments_combinations_filter": "Комбинации направлений", "no_legends": "Нет легенд, удовлетворяющих условиям.", "no_data": "Нет данных.", "sentiments_tab": "Направление", "color_legends_tab": "Цветовые легенды", "layers_tab": "Слои (индикаторы)" }, "panel": { "header": "Бивариативная матрица" }, "matrix": { "caption": { "base_axis": "Базовая ось", "annex_axis": "Дополнительная ось", "tooltip": { "p1": "Графики с базовой и дополнительной осями помогают установить взаимосвязь между двумя наборами данных.", "li1": "Дополнительная ось – параметры, которые мы анализируем", "li2": "Базовая ось – эталонная точка в анализе", "b": "Например: лучшее место для открытия кафе", "p2": "Мы можем изучить количество мест общественного питания (дополнительная ось) по отношению к плотности населения (базовая ось).", "p3": "В этом сценарии нас интересует небольшое количество мест общественного питания, а количество людей в этом месте даёт дополнительную информацию." } }, "header": { "title": "Выберите два слоя для исследования корреляций", "hint": "Слои и корреляции отображаются для текущей выделенной области" }, "icon": { "population": "Значение, делённое на население", "area_km2": "Значение, делённое на площадь", "total_building_count": "Значение, делённое на общее количество зданий", "populated_area_km2": "Значение, делённое на заселённую площадь", "one": "Без делителя", "roads": "Значение, делённое на общую длину дорог" }, "progress": { "rendering": "Отрисовка", "applied": "Применено на карте" }, "loading_error": "К сожалению, мы не можем отобразить матрицу. Попробуйте обновить страницу или зайдите позже." }, "legend": { "high": "Высокий", "low": "Низкий", "medium": "Средний" } };
+const layer$1 = "Слой";
+const toolbar$1 = { "map_ruler": "Измерить расстояние", "locate_me": "Найти меня", "panel_title": "Панель инструментов", "download": "Скачать", "delete": "Удалить", "boundary_selector": "Выделить административную границу", "create_layer": "Создать слой", "geometry_uploader": "Загрузить GeoJSON", "focused_geometry_editor": "Рисовать или редактировать геометрию", "edit_in_osm": "Редактировать карту в OSM", "record_sensors": "Записать данные с датчиков", "tools_label": "Инструменты", "selected_area_label": "Выделенная область", "upload_mcda": "Загрузить анализ" };
+const locate_me$1 = { "feature_title": "Найти меня", "get_location_error": "Ошибка при определении местоположения" };
+const layer_actions$1 = { "tooltips": { "download": "Скачать", "delete": "Удалить", "erase": "Стереть", "edit": "Редактировать", "hide": "Скрыть", "show": "Показать" } };
+const focus_geometry_layer$1 = { "settings": { "name": "Выделенная область" } };
+const feed$1 = "Лента";
+const deselect$1 = "Снять выделение";
+const spinner_text$1 = "Сбор данных";
+const updated$1 = "Обновлено";
+const started$1 = "Началось";
+const created$1 = "Создано";
+const osm_gaps$1 = "Пробелы в OSM";
+const no_data_received$1 = "Данные не получены";
+const wrong_data_received$1 = "Получены неверные данные";
+const error$3 = "Ошибка";
+const sort_icon$1 = "Сортировка";
+const configs$1 = { "Kontur_public_feed": "Kontur Public", "Kontur_public_feed_description": "Лента содержит данные в реальном времени о циклонах, засухах, землетрясениях, наводнениях, вулканах, лесных пожарах." };
+const errors$1 = { "default": "Извините, у нас возникли проблемы, которые скоро будут исправлены", "timeout": "Время ожидания запроса истекло", "cannot_connect": "Не удается подключиться к серверу", "forbidden": "Доступ запрещен", "not_found": "Не найдено", "unknown": "Неизвестно", "server_error": "Ошибка сервера", "error_try_again": "Что-то пошло не так. Пожалуйста, попробуйте снова" };
+const event_list$1 = { "severity_unknown": "Неизвестно", "warning_title": "Невозможно отфильтровать по виду карты", "warning_description": "Карта еще не готова, попробуйте позже", "bbox_filter_button": "Фильтровать по виду карты", "analytics": { "affected_people": { "tooltip": "Пострадавшие люди", "value": "Гуманитарного воздействия нет" }, "settled_area_tooltip": "Заселённая территория", "loss_tooltip": "Предполагаемый ущерб" }, "no_event_in_feed": "Катастрофа не найдена в текущей ленте катастроф", "no_selected_disaster": "Катастрофа не выбрана", "chose_disaster": "Выберите катастрофу", "no_historical_disasters": "В этой области нет исторических катастроф", "no_feed_disasters": "В этой ленте нет катастроф", "no_feed_disasters_matching_your_filters": "Нет катастроф, соответствующих вашим фильтрам", "no_disasters": "Нет катастроф", "severity_termination": "Прекращение", "severity_minor": "Незначительное", "severity_moderate": "Умеренное", "severity_severe": "Серьезное", "severity_extreme": "Экстремальное", "open_timeline_button": "Таймлайн" };
+const categories$1 = { "overlays": "Оверлеи", "basemap": "Базовая карта" };
+const groups$1 = { "layers_in_selected_area": "Слои в выделенной области", "your_layers": "Ваши слои", "kontur_analytics": "Аналитика Kontur", "qa": "Инспектор OpenStreetMap", "osmbasedmap": "На основе OpenStreetMap", "other": "Другое", "elevation": "Высота", "photo": "Изображения", "map": "Карта" };
+const modes$1 = { "map": "Карта", "about": "О сервисе", "cookies": "Файлы cookie", "reports": "Отчёты", "report": "Отчёт", "profile": "Профиль", "privacy": "Конфиденциальность", "terms": "Условия", "user_guide": "Руководство", "external": { "upload_imagery": "Загрузить изображение", "imagery_catalog": "Каталог изображений" } };
+const advanced_analytics_data_list$1 = { "load_world_data": "Загрузить мировые данные", "numerator": "Числитель", "normalized_by": "Нормализовано по", "sum": "Сумма", "min": "Минимум", "max": "Максимум", "mean": "Среднее", "stddev": "Стандартное отклонение", "median": "Медиана", "filter_numerator": "Фильтр числителя", "filter_denominator": "Фильтр знаменателя" };
+const profile$1 = { "saveButton": "Сохранить изменения", "reference_area": { "title": "Эталонная область", "freehand_geometry": "Свободная геометрия", "to_replace_reference_area": 'Вы можете переопределить свою эталонную область на карте. Выберите область и нажмите "Сохранить как эталонную область" на панели инструментов.\n', "description": "Сохраните знакомую вам область как эталонную. Мы будем использовать её в качестве основания для сравнения с другими областями и объяснения различий.", "set_the_reference_area": "Выделить область на карте", "accessing_location": "Определение вашего местоположения", "accessing_location_error": "Ошибка. Попробуйте другой способ.", "select_location": "Выбрать моё текущее местоположение", "notification": "Ваша эталонная область {{name}} была сохранена" }, "email": "Электронная почта", "interfaceTheme": "Тема", "interfaceLanguage": "Язык", "units": "Единицы измерения", "fullName": "Полное имя", "metric": "метрическая", "imperialBeta": "имперская (бета)", "profileSettingsHeader": "Персонализируйте свой опыт", "your_current_job": "ваша текущая должность", "area_of_expertise": "область экспертизы", "challenges": "задачи", "personalization_prompt": "Для лучшей персонализации укажите, например:", "ai_tools_compatibility": "Эта информация совместима с инструментами AI", "improves_analysis": "Улучшает аналитику", "bio_placeholder": "О себе", "bio_textarea_placeholder": "Например, ГИС-специалист с более чем 5-летним опытом анализа рисков катастроф, с фокусом на устойчивость городов.", "analysis_objectives": "Цели анализа", "objectives_textarea_placeholder": "Например, анализ городского планирования с акцентом на устойчивость к климатическим изменениям. Моя текущая задача — улучшение картографирования рисков наводнений.", "appSettingsHeader": "Настройки", "your_organization": "Ваша организация", "your_contacts": "Ваши контактные данные", "organization_name": "Название организации", "position": "Должность", "gis_specialists": "ГИС-специалисты в вашей команде", "phone_number": "Номер телефона с кодом страны", "linkedin": "Профиль в LinkedIn", "konturTheme": "Kontur", "HOTTheme": "HOT", "defaultDisasterFeed": "Лента катастроф по умолчанию", "defaultOSMeditor": "Редактор OpenStreetMap по умолчанию (бета)", "successNotification": "Все изменения успешно применены", "dont_know": "Не знаю", "languageOption": { "en": "Английский", "es": "Испанский", "ar": "Арабский", "ko": "Корейский", "id": "Индонезийский", "de": "Немецкий", "be": "Белорусский", "ru": "Русский", "uk": "Украинский", "zh": "Китайский" } };
+const multivariate$1 = { "multivariate_analysis": "Многомерный анализ", "create_analysis_layer": "Создать анализ слоёв", "upload_analysis_layer": "Загрузить анализ слоёв", "popup": { "score_header": "Оценка {{level}}", "compare_header": "Сравнение {{level}}" }, "score": "Оценка", "compare": "Сравнение", "hide_area": "Скрыть область", "labels": "Подписи", "3d": "3D" };
+const map_popup$1 = { "value": "Значение", "range": "Диапазон", "coefficient": "Коэффициент", "normalized_value": "Нормализованное значение" };
+const search$1 = { "search_location": "Поиск мест", "info_block": "Вы можете искать 📍 места", "info_block_with_mcda": "Вы можете искать 📍 места или задать ✨ AI вопрос, например: «Где находится сухостой?»", "input_placeholder": "Поиск", "input_placeholder_mcda": "Найти или спросить AI", "locations_no_result": "Места не найдены", "mcda_loading_message": "AI создаёт анализ для вас", "mcda_no_result": "Нет предложений от AI", "mcda_error_message": "AI не ответил. Пожалуйста, попробуйте позже", "mcda_create_analysis": "Создать анализ", "upload_analysis": "Многокритериальный анализ «{{name}}» создан" };
+const episode$1 = "Таймлайн";
+const create_layer$1 = { "save_and_draw": "Сохранить и рисовать", "edit_layer": "Редактировать слой", "edit_features": "Редактировать объекты", "delete_layer": "Удалить слой", "create_layer": "Создать слой", "saving_layer": "Сохранение слоя...", "field_name": "Название поля", "layer_name": "Название слоя", "marker_icon": "Иконка маркера", "type": "Тип", "select": "Выбрать", "short_text": "Короткий текст", "long_text": "Длинный текст", "link": "Ссылка", "image": "Изображение", "fields": "Поля", "add_field": "Добавить поле", "location": "Местоположение", "edit_feature_placeholder": "Выберите объект, чтобы начать редактирование его свойств" };
+const analytics_panel$1 = { "header_title": "Аналитика", "error_loading": "Не удалось получить данные о выделенной области. Возможно, она слишком велика.", "info_short": "Расчеты выполняются для выделенной области" };
+const advanced_analytics_panel$1 = { "header_title": "Расширенная аналитика", "error": "Ошибка при получении данных расширенной аналитики" };
+const advanced_analytics_empty$1 = { "not_found": "Извините, запрашиваемая катастрофа не найдена", "error": "Произошла ошибка", "analytics_for_selected": "Аналитика для выделенной области", "will_be_provided": "будет представлена здесь", "no_analytics": "Нет аналитики для выделенной области" };
+const current_event$1 = { "not_found_request": "Извините, запрашиваемая катастрофа не найдена" };
+const llm_analytics$1 = { "header": "Аналитика AI", "placeholder": { "select_area": "Выберите область (<icon1 />,<icon2 />,<icon3 />), которую хотите исследовать, чтобы получить аналитику AI.", "you_can_also": "Вы также можете:", "fill_bio": "<icon /> <lnk>Заполните цели анализа</lnk>, чтобы персонализировать AI анализ", "select_and_save_as_reference_area": "<icon /> Выберите область и сохраните её как эталонную, чтобы сравнивать с другой", "learn_more": "<lnk><icon/> Узнать больше об аналитике AI</lnk>" } };
+const draw_tools$1 = { "area": "Многоугольник", "line": "Линия", "point": "Точка", "finish_drawing": "Завершить рисование", "caption": "Нажмите на карту, чтобы начать рисование", "no_geometry_error": "Нет нарисованной геометрии для загрузки", "overlap_error": "Полигон не должен пересекаться сам с собой" };
+const boundary_selector$1 = { "title": "Фокус на административной границе" };
+const geometry_uploader$1 = { "title": "Фокус на загруженной геометрии", "error": "Ошибка при чтении загруженного файла" };
+const focus_geometry$1 = { "title": "Фокус на свободно нарисованной геометрии" };
+const reference_area_layer$1 = { "settings": { "name": "Эталонная область" } };
+const drawings$1 = { "self_directions_not_supported": "Самопересечения не поддерживаются" };
+const sidebar$1 = { "biv_color_manager": "Менеджер цветов", "edit_osm": "Редактировать в OpenStreetMap", "ruler": "Линейка", "collapse": "Свернуть", "expand": "Развернуть", "icon_alt": "Логотип приложения" };
+const login$1 = { "email": "Электронная почта", "password": "Пароль", "login_button": "Войти", "sign_up": "Регистрация", "logging_in": "Вход в систему...", "log_in": "Войти", "forgot_password": "Забыли пароль?", "description": "Пожалуйста, войдите в систему, чтобы изменить настройки", "error": { "email_empty": "Поле электронной почты не может быть пустым", "email_invalid": "Введите корректный адрес электронной почты", "password": "Пароль не может быть пустым", "connect": "Не удалось подключиться к службе аутентификации" } };
+const currency$1 = { "usd": "USD" };
+const subscription$1 = { "title": "Тарифы и цены", "price_summary": "* Выставляется счёт на ${{pricePerYear}} USD раз в год", "unauthorized_button": "Войдите, чтобы подписаться", "current_plan_button": "Текущий план", "sales_button": "Связаться с отделом продаж", "book_demo_button": "Записаться на демонстрацию", "request_trial_button": "Запросить пробную версию", "errors": { "payment_initialization": "Произошла ошибка при инициализации платежа. Попробуйте снова или свяжитесь со службой поддержки" }, "success_modal": { "title": "Успех", "thank_you_for_subscribing": "Спасибо за подписку на нашу платформу!", "after_the_page_refreshes": "После обновления страницы вы сможете начать использовать Kontur Atlas" } };
+const reports$1 = { "title": "Отчёты Disaster Ninja", "no_data": "Нет данных для этого отчёта", "sorting": "Сортировка данных...", "loading": "Загрузка данных", "open_josm": "Открыть через удалённое управление JOSM", "josm_logo_alt": "Логотип JOSM", "see_all": "Посмотреть все отчёты", "wrong_id": "Неверный идентификатор отчёта", "description": "<0>Kontur </0> создаёт несколько отчётов, которые помогают проверять качество OpenStreetMap. Они содержат ссылки на области на <4>osm.org</4> и ссылки для открытия их в редакторе JOSM с включённым удалённым управлением." };
+const loading_episodes$1 = "Загрузка эпизодов";
+const zoom_to_world$1 = "Отдалиться ко всему миру";
+const cookie_banner$1 = { "header": "Мы ценим вашу конфиденциальность", "body": "Мы используем исключительно необходимые файлы cookie для предоставления персонализированных услуг, а также дополнительные файлы cookie для улучшения {{appName}} и вашего опыта. Вы можете управлять настройками cookie или отозвать согласие на их использование в любое время.\nДополнительную информацию можно найти в нашей [Политике конфиденциальности](about/privacy).", "decline_all": "Отклонить необязательные файлы cookie", "accept_all": "Принять необязательные файлы cookie" };
+const live_sensor$1 = { "start": "Начать запись данных с сенсоров", "finish": "Остановить запись данных с сенсоров", "finishMessage": "Запись завершена", "startMessage": "Запись началась", "noSensorsError": "Ваше устройство не имеет необходимые сенсоры" };
+const layer_features_panel$1 = { "empty": "Здесь будут отображены объекты слоёв в выделенной области", "noFeatureSelected": "Не выбрано ни одного объекта слоя", "chooseFeature": "Выберите объект слоя", "listInfo": "Список отфильтрован по выделенной области и отсортирован по номеру проекта", "error_loading": "Не удалось загрузить данные об объектах слоя. Попробуйте снова.", "no_features": "В выделенной области не найдено ни одного объекта.", "priority": "{{level}} приоритет" };
+const reference_area$1 = { "save_as_reference_area": "Сохранить как эталонную область", "error_couldnt_save": "К сожалению, не удалось сохранить вашу эталонную область. Попробуйте снова.", "selected_area_saved_as_reference_area": "Выбранная область сохранена как эталонная область в вашем профиле" };
+const oam_auth$1 = { "login_button": "Войти через Google" };
+const ru_common = {
+  km: km$1,
+  m: m$1,
+  to: to$1,
+  or: or$1,
+  maps: maps$1,
+  logout: logout$1,
+  save: save$1,
+  cancel: cancel$1,
+  ok: ok$1,
+  create: create$1,
+  disasters: disasters$1,
+  loading: loading$1,
+  preparing_data: preparing_data$1,
+  loading_events: loading_events$1,
+  legend: legend$1,
+  mcda: mcda$1,
+  vertical_direction: vertical_direction$1,
+  horizontal_direction: horizontal_direction$1,
+  legend_presentation: legend_presentation$1,
+  layers: layers$1,
+  bivariate: bivariate$1,
+  layer: layer$1,
+  toolbar: toolbar$1,
+  locate_me: locate_me$1,
+  layer_actions: layer_actions$1,
+  focus_geometry_layer: focus_geometry_layer$1,
+  feed: feed$1,
+  deselect: deselect$1,
+  spinner_text: spinner_text$1,
+  updated: updated$1,
+  started: started$1,
+  created: created$1,
+  osm_gaps: osm_gaps$1,
+  no_data_received: no_data_received$1,
+  wrong_data_received: wrong_data_received$1,
+  error: error$3,
+  sort_icon: sort_icon$1,
+  configs: configs$1,
+  errors: errors$1,
+  event_list: event_list$1,
+  categories: categories$1,
+  groups: groups$1,
+  modes: modes$1,
+  advanced_analytics_data_list: advanced_analytics_data_list$1,
+  profile: profile$1,
+  multivariate: multivariate$1,
+  map_popup: map_popup$1,
+  search: search$1,
+  episode: episode$1,
+  create_layer: create_layer$1,
+  analytics_panel: analytics_panel$1,
+  advanced_analytics_panel: advanced_analytics_panel$1,
+  advanced_analytics_empty: advanced_analytics_empty$1,
+  current_event: current_event$1,
+  llm_analytics: llm_analytics$1,
+  draw_tools: draw_tools$1,
+  boundary_selector: boundary_selector$1,
+  geometry_uploader: geometry_uploader$1,
+  focus_geometry: focus_geometry$1,
+  reference_area_layer: reference_area_layer$1,
+  drawings: drawings$1,
+  sidebar: sidebar$1,
+  login: login$1,
+  currency: currency$1,
+  subscription: subscription$1,
+  reports: reports$1,
+  loading_episodes: loading_episodes$1,
+  zoom_to_world: zoom_to_world$1,
+  cookie_banner: cookie_banner$1,
+  live_sensor: live_sensor$1,
+  layer_features_panel: layer_features_panel$1,
+  reference_area: reference_area$1,
+  oam_auth: oam_auth$1
+};
+const km = "公里";
+const m = "米";
+const to = "到";
+const or = "或";
+const maps = "地图";
+const logout = "登出";
+const save = "保存";
+const cancel = "取消";
+const ok = "确定";
+const create = "创建";
+const disasters = "灾害";
+const loading = "加载中...";
+const preparing_data = "准备数据中";
+const loading_events = "加载灾害信息";
+const legend = "图例";
+const mcda = { "legend_title": "图例", "layer_editor": { "outliers_options": { "hide": "隐藏", "clamp": "截断", "dont_modify": "不修改" }, "save_changes": "保存更改", "range": "值范围", "outliers": "异常值", "reverse_to_good_bad": "反转为 好 → 坏", "reverse_to_bad_good": "反转为 坏 → 好", "weight": "权重", "transform": "转换", "transformation": "转换方式", "normalize": "归一化", "normalization": "归一化处理", "range_buttons": { "full_range": "完整范围", "3_sigma": "3σ", "2_sigma": "2σ", "1_sigma": "1σ" }, "transformations": { "no_transformation": "不转换", "square_root": "平方根：sign(x)⋅√|x|", "cube_root": "立方根：∛x", "log": "log₁₀(x - xmin + 1)", "log_epsilon": "log₁₀(x - xmin + ε)" }, "no": "否", "max_min": "最大-最小", "errors": { "weight_cannot_be_empty": "权重不能为空", "weight_must_be_a_number": "权重必须为有效数字", "range_from_cannot_be_bigger": "“起始值”不能大于“结束值”", "range_cannot_be_empty": "范围不能为空", "range_must_be_a_number": "范围必须为有效数字" }, "tips": { "range": "将被视为分析中最差与最优的值范围。", "sentiment": "定义图层对分析的倾向方向：\n* **坏 → 好**：数值越高表示越积极。\n* **好 → 坏**：数值越高表示越消极。", "weight": "默认所有图层以加权平均方式等同参与分析。您可通过设置权重 (如 2、3) 来提高某个图层在分析中的重要性。", "transform": "对值应用计算，以实现更线性的分布，从而获得更有效的分析信息。\n\n**注意**：计算在归一化之前执行。", "normalize": "将数值调整为标准化范围，便于比较与决策。\n* **标准化缩放**：将数值调整到统一比例。\n* **否（仅供专家）**：保留原始值。", "outliers": "* **截断**：超出范围的值设为 1，低于范围的值设为 0。\n* **不修改**：保留最小值为 0，最大值为 1，允许存在异常值。\n* **排除**：排除值超出范围的区域。" } }, "title": "多标准决策分析", "modal_title": "多标准决策分析", "name": "创建分析", "modal_input_name": "分析名称", "modal_input_name_placeholder": "例如：气候变化", "modal_input_indicators": "图层列表", "modal_input_indicators_placeholder": "选择图层", "modal_input_indicators_no_options": "无可选项", "btn_save": "保存分析", "error_analysis_name_cannot_be_empty": "分析名称不能为空", "error_invalid_parameter": "无效的参数 '{{parameter}}'", "error_invalid_layer_parameter": "图层 '{{axisName}}' 中的参数 '{{parameter}}' 无效", "legend_subtitle": "六边形根据图层设置着色。点击六边形可查看对应值。", "bad": "坏", "good": "好" };
+const vertical_direction = "垂直方向";
+const horizontal_direction = "水平方向";
+const legend_presentation = "图例显示方式";
+const layers = "图层";
+const bivariate = { "color_manager": { "layers_filter": "图层", "not_defined": "未定义", "sentiments_combinations_filter": "倾向性设置", "no_legends": "没有符合条件的图例。", "no_data": "无数据", "sentiments_tab": "倾向性", "color_legends_tab": "颜色图例", "layers_tab": "图层（指标）" }, "panel": { "header": "双变量矩阵" }, "matrix": { "caption": { "base_axis": "基础轴", "annex_axis": "附属轴", "tooltip": { "p1": "涉及基础轴和附属轴的图表有助于建立两个数据集之间的关系。", "li1": "附属轴 - 我们要分析的参数", "li2": "基础轴 - 分析中的参考点", "b": "例如：开设咖啡馆的最佳地点", "p2": "我们可以探讨餐饮场所数量（附属轴）与人口密度（基础轴）之间的关系。", "p3": "在这种情况下，我们首先关注较少的餐饮场所数量，该地的人口数量为我们提供了更多信息。" } }, "header": { "title": "选择两个图层以探索相关性", "hint": "图层和相关性显示于当前所选区域" }, "icon": { "population": "数值除以人口", "area_km2": "数值除以面积", "total_building_count": "数值除以估算的建筑总数", "populated_area_km2": "数值除以有人口的面积", "one": "不使用除数", "roads": "数值除以道路总长度" }, "progress": { "rendering": "渲染中", "applied": "已应用于地图" }, "loading_error": "很抱歉，我们无法显示矩阵。请尝试刷新页面或稍后重试。" }, "legend": { "high": "高", "low": "低", "medium": "中" } };
+const layer = "图层";
+const toolbar = { "map_ruler": "测量距离", "locate_me": "定位我", "panel_title": "工具栏", "download": "下载", "delete": "删除", "boundary_selector": "选择行政边界", "create_layer": "创建图层", "geometry_uploader": "上传 GeoJSON", "focused_geometry_editor": "绘制或编辑几何图形", "edit_in_osm": "在 OSM 中编辑地图", "record_sensors": "记录传感器", "tools_label": "工具", "selected_area_label": "选定区域" };
+const locate_me = { "feature_title": "定位我", "get_location_error": "获取位置时出错" };
+const layer_actions = { "tooltips": { "download": "下载", "delete": "删除", "erase": "擦除", "edit": "编辑", "hide": "隐藏", "show": "显示" } };
+const focus_geometry_layer = { "settings": { "name": "选定区域" } };
+const feed = "信息流";
+const deselect = "取消选择";
+const spinner_text = "收集数据中";
+const updated = "已更新";
+const started = "已开始";
+const created = "已创建";
+const osm_gaps = "OSM 缺口";
+const no_data_received = "未收到数据";
+const wrong_data_received = "收到错误数据";
+const error$2 = "错误";
+const sort_icon = "排序图标";
+const configs = { "Kontur_public_feed": "Kontur 公共数据源", "Kontur_public_feed_description": "该数据源包含有关气旋、干旱、地震、洪水、火山、野火的实时数据。" };
+const errors = { "default": "抱歉，我们遇到了一些问题，很快会修复", "timeout": "请求超时", "cannot_connect": "无法连接服务器", "forbidden": "禁止访问", "not_found": "未找到", "unknown": "未知", "server_error": "服务器错误", "error_try_again": "出现错误，请重试" };
+const event_list = { "severity_unknown": "未知", "warning_title": "无法按地图视图筛选", "warning_description": "地图尚未加载完成，请稍后再试", "bbox_filter_button": "按地图视图筛选", "analytics": { "affected_people": { "tooltip": "受影响人数", "value": "无人道影响" }, "settled_area_tooltip": "已定居区域", "loss_tooltip": "估计损失" }, "no_event_in_feed": "当前灾害列表中未找到该灾害", "no_selected_disaster": "未选择灾害", "chose_disaster": "选择灾害", "no_historical_disasters": "该区域没有历史灾害", "no_feed_disasters": "此源中无灾害", "no_feed_disasters_matching_your_filters": "没有符合筛选条件的灾害", "no_disasters": "无灾害", "severity_termination": "结束", "severity_minor": "轻微", "severity_moderate": "中等", "severity_severe": "严重", "severity_extreme": "极端", "open_timeline_button": "时间线" };
+const categories = { "overlays": "叠加图层", "basemap": "底图" };
+const groups = { "layers_in_selected_area": "所选区域的图层", "your_layers": "您的图层", "kontur_analytics": "Kontur 分析", "qa": "OpenStreetMap 检查工具", "osmbasedmap": "基于 OpenStreetMap", "other": "其他", "elevation": "海拔", "photo": "影像图", "map": "地图" };
+const modes = { "map": "地图", "about": "关于", "cookies": "Cookie", "reports": "报告", "report": "报告", "profile": "个人资料", "privacy": "隐私", "terms": "条款", "user_guide": "用户指南", "external": { "upload_imagery": "上传图像", "imagery_catalog": "图像目录" } };
+const advanced_analytics_data_list = { "load_world_data": "加载全球数据", "numerator": "分子", "normalized_by": "归一化方式", "sum": "总和", "min": "最小值", "max": "最大值", "mean": "平均值", "stddev": "标准差", "median": "中位数", "filter_numerator": "筛选分子", "filter_denominator": "筛选分母" };
+const search = { "mcda_create_analysis": "创建分析", "search_location": "搜索地点", "info_block": "你可以搜索 📍 位置", "info_block_with_mcda": "你可以搜索 📍 地点，或向 ✨ AI 提问，例如“哪里有枯木”", "input_placeholder": "搜索", "input_placeholder_mcda": "搜索或向 AI 提问", "locations_no_result": "未找到位置", "mcda_loading_message": "AI 正在为你生成分析", "mcda_no_result": "无 AI 建议", "mcda_error_message": "AI 引擎未响应，请稍后重试", "upload_analysis": "“{{name}}” 多标准决策分析已创建" };
+const profile = { "saveButton": "保存更改", "reference_area": { "title": "参考区域", "freehand_geometry": "手绘几何", "to_replace_reference_area": "你可以在地图上重新定义参考区域。选择一个区域并点击工具栏上的“保存为参考区域”。\n", "description": "将你熟悉的区域保存为参考，我们将其用作基准来比较其他区域并说明差异。", "set_the_reference_area": "在地图上设置区域", "accessing_location": "正在获取你的位置", "accessing_location_error": "出错了。请尝试其他方式。", "select_location": "选择我的当前位置", "notification": "你的参考区域 {{name}} 已保存" }, "email": "电子邮件", "interfaceTheme": "主题", "interfaceLanguage": "语言", "units": "单位", "fullName": "全名", "metric": "公制", "imperialBeta": "英制（测试版）", "profileSettingsHeader": "个性化您的体验", "your_current_job": "您目前的工作", "area_of_expertise": "专业领域", "challenges": "挑战", "personalization_prompt": "为实现更好的个性化，请提供以下详细信息：", "ai_tools_compatibility": "此信息可兼容 AI 工具", "improves_analysis": "提升分析效果", "bio_placeholder": "简介", "bio_textarea_placeholder": "例如：拥有 5 年以上灾害风险分析经验的 GIS 专家，专注于城市韧性。", "analysis_objectives": "分析目标", "objectives_textarea_placeholder": "例如：聚焦气候韧性的城市规划分析。目前的挑战是改进洪水风险图绘制。", "appSettingsHeader": "设置", "your_organization": "您的公司", "your_contacts": "您的联系方式", "organization_name": "公司名称", "position": "职位", "gis_specialists": "您团队中的 GIS 专家", "phone_number": "带国家代码的电话号码", "linkedin": "LinkedIn 个人资料", "konturTheme": "Kontur", "HOTTheme": "HOT", "defaultDisasterFeed": "默认灾害数据源", "defaultOSMeditor": "默认 OpenStreetMap 编辑器（测试版）", "successNotification": "所有更改已成功应用", "dont_know": "我不知道", "languageOption": { "en": "英语", "es": "西班牙语", "ar": "阿拉伯语", "ko": "韩语", "id": "印尼语", "de": "德语", "be": "白俄罗斯语", "ru": "俄语", "uk": "乌克兰语", "zh": "中文" } };
+const multivariate = { "multivariate_analysis": "多变量分析", "create_analysis_layer": "创建分析图层", "upload_analysis_layer": "上传分析图层", "popup": { "score_header": "评分 {{level}}" }, "score": "评分", "compare": "比较", "hide_area": "隐藏区域", "labels": "标签", "3d": "3D" };
+const map_popup = { "value": "数值", "range": "范围", "coefficient": "系数", "normalized_value": "归一化值" };
+const episode = "时间线";
+const create_layer = { "save_and_draw": "保存并绘制", "edit_layer": "编辑图层", "edit_features": "编辑要素", "delete_layer": "删除图层", "create_layer": "创建图层", "saving_layer": "正在保存图层...", "field_name": "字段名称", "layer_name": "图层名称", "marker_icon": "标记图标", "type": "类型", "select": "选择", "short_text": "短文本", "long_text": "长文本", "link": "链接", "image": "图像", "fields": "字段", "add_field": "添加字段", "location": "位置", "edit_feature_placeholder": "选择要素以开始编辑属性" };
+const analytics_panel = { "header_title": "分析", "error_loading": "获取选定区域数据失败，可能区域过大。", "info_short": "计算基于所选区域" };
+const advanced_analytics_panel = { "header_title": "高级分析", "error": "获取高级分析数据时出错" };
+const advanced_analytics_empty = { "not_found": "抱歉，未找到请求的灾害", "error": "发生错误", "analytics_for_selected": "所选区域的分析", "will_be_provided": "将在此提供", "no_analytics": "所选区域没有分析" };
+const current_event = { "not_found_request": "抱歉，未找到请求的灾害" };
+const llm_analytics = { "header": "AI 洞察", "placeholder": { "select_area": "选择要探索的区域（<icon1 />,<icon2 />,<icon3 />）以获取 AI 洞察。", "you_can_also": "你也可以：", "fill_bio": "<icon /> <lnk>填写分析目标</lnk> 以个性化 AI 分析", "select_and_save_as_reference_area": "<icon /> 选择一个区域并保存为参考，以与其他区域进行比较", "learn_more": "<lnk><icon/> 了解更多关于 AI 洞察的信息</lnk>" } };
+const draw_tools = { "area": "多边形", "line": "线条", "point": "点", "finish_drawing": "完成绘制", "caption": "点击地图开始绘制", "no_geometry_error": "没有可下载的绘图几何体", "overlap_error": "多边形不应自重叠" };
+const boundary_selector = { "title": "聚焦至行政边界" };
+const geometry_uploader = { "title": "聚焦至上传的几何体", "error": "读取上传文件时出错" };
+const focus_geometry = { "title": "聚焦至手绘几何体" };
+const reference_area_layer = { "settings": { "name": "参考区域" } };
+const drawings = { "self_directions_not_supported": "不支持自相交" };
+const sidebar = { "biv_color_manager": "颜色管理器", "edit_osm": "在 OpenStreetMap 中编辑", "ruler": "标尺", "collapse": "折叠", "expand": "展开", "icon_alt": "应用程序标志" };
+const login = { "email": "电子邮件", "password": "密码", "login_button": "登录", "sign_up": "注册", "logging_in": "正在登录...", "log_in": "登录", "forgot_password": "忘记密码？", "description": "请登录以更改您的设置", "error": { "email_empty": "电子邮件不能为空", "email_invalid": "电子邮件必须有效", "password": "密码不能为空", "connect": "无法连接到身份验证服务" } };
+const currency = { "usd": "USD" };
+const subscription = { "title": "套餐与价格", "price_summary": "* 每年一次性计费 ${{pricePerYear}} 美元", "unauthorized_button": "登录以订阅", "current_plan_button": "当前套餐", "sales_button": "联系销售", "book_demo_button": "预约演示", "request_trial_button": "申请试用", "errors": { "payment_initialization": "初始化付款时出错。请重试或联系客服" }, "success_modal": { "title": "成功", "thank_you_for_subscribing": "感谢您订阅我们的平台！", "after_the_page_refreshes": "页面刷新后，您可以开始使用 Kontur Atlas" } };
+const reports = { "title": "Disaster Ninja报告", "no_data": "该报告暂无数据", "sorting": "正在排序数据...", "loading": "正在加载数据", "open_josm": "通过 JOSM 远程控制打开", "josm_logo_alt": "JOSM 标志", "see_all": "查看所有报告", "wrong_id": "报告 ID 错误", "description": "<0>Kontur </0> 生成多个报告以帮助验证 OpenStreetMap 的质量。报告包含指向 <4>osm.org </4> 区域的链接，以及可在启用远程控制的 JOSM 编辑器中打开的链接。" };
+const loading_episodes = "正在加载内容";
+const zoom_to_world = "缩放至全世界";
+const cookie_banner = { "header": "我们重视您的隐私", "body": "我们使用必要的 cookie 来提供个性化服务，也使用可选 cookie 来改善 {{appName}} 和你的体验。你可以随时管理 cookie 设置或撤回对可选 cookie 的同意。\n更多信息请查看我们的 [隐私政策](about/privacy)", "decline_all": "拒绝可选 cookie", "accept_all": "接受可选 cookie" };
+const live_sensor = { "start": "开始传感器记录", "finish": "停止传感器记录", "finishMessage": "记录已完成", "startMessage": "记录已开始", "noSensorsError": "你的设备没有所需的传感器" };
+const layer_features_panel = { "empty": "所选区域的图层特征将显示在此处", "noFeatureSelected": "未选择图层特征", "chooseFeature": "选择图层特征", "listInfo": "列表按所选区域筛选，并按项目编号排序", "error_loading": "加载图层特征数据失败。请重试。", "no_features": "所选区域未发现特征。", "priority": "{{level}} 优先" };
+const reference_area = { "save_as_reference_area": "保存为参考区域", "error_couldnt_save": "很遗憾，无法保存你的参考区域。请重试。", "selected_area_saved_as_reference_area": "所选区域已保存为你个人资料中的参考区域" };
+const oam_auth = { "login_button": "使用 Google 登录" };
+const zh_common = {
+  km,
+  m,
+  to,
+  or,
+  maps,
+  logout,
+  save,
+  cancel,
+  ok,
+  create,
+  disasters,
+  loading,
+  preparing_data,
+  loading_events,
+  legend,
+  mcda,
+  vertical_direction,
+  horizontal_direction,
+  legend_presentation,
+  layers,
+  bivariate,
+  layer,
+  toolbar,
+  locate_me,
+  layer_actions,
+  focus_geometry_layer,
+  feed,
+  deselect,
+  spinner_text,
+  updated,
+  started,
+  created,
+  osm_gaps,
+  no_data_received,
+  wrong_data_received,
+  error: error$2,
+  sort_icon,
+  configs,
+  errors,
+  event_list,
+  categories,
+  groups,
+  modes,
+  advanced_analytics_data_list,
+  search,
+  profile,
+  multivariate,
+  map_popup,
+  episode,
+  create_layer,
+  analytics_panel,
+  advanced_analytics_panel,
+  advanced_analytics_empty,
+  current_event,
+  llm_analytics,
+  draw_tools,
+  boundary_selector,
+  geometry_uploader,
+  focus_geometry,
+  reference_area_layer,
+  drawings,
+  sidebar,
+  login,
+  currency,
+  subscription,
+  reports,
+  loading_episodes,
+  zoom_to_world,
+  cookie_banner,
+  live_sensor,
+  layer_features_panel,
+  reference_area,
+  oam_auth
+};
+const I18N_FALLBACK_LANGUAGE = "en";
+const languageResources = {
+  en: { common: en_common },
+  es: { common: es_common },
+  ar: { common: ar_common },
+  ko: { common: ko_common },
+  id: { common: id_common },
+  de: { common: de_common },
+  uk: { common: uk_common },
+  be: { common: be_common },
+  ru: { common: ru_common },
+  zh: { common: zh_common }
+};
+instance.use(Browser).use(initReactI18next).init({
+  fallbackLng: I18N_FALLBACK_LANGUAGE,
+  debug: false,
+  defaultNS: "common",
+  interpolation: {
+    escapeValue: false
+  },
+  contextSeparator: ":",
+  pluralSeparator: ":",
+  resources: {
+    ...languageResources
+  }
+});
+const TranslationService = {
+  t: (key, options) => {
+    const translation = instance.t(key, options);
+    if (typeof translation === "string") return translation;
+    if ((options == null ? void 0 : options.returnObjects) && typeof translation === "object") {
+      return translation;
+    }
+    console.error(`Not supported translation result for key: ${key}`);
+    return key;
+  },
+  getSupportedLanguage: (preferredLanguages, fallbackLanguage) => {
+    for (const langCode of preferredLanguages) {
+      try {
+        const language2 = new Intl.Locale(langCode).language;
+        if (language2 in languageResources) {
+          return language2;
+        }
+      } catch {
+        console.error("Couldn't parse language code:", langCode);
+      }
+    }
+    if (!(fallbackLanguage in languageResources)) {
+      console.error(`Provided fallback language (${fallbackLanguage}) isn't supported`);
+    }
+    return fallbackLanguage;
+  },
+  instance
+};
+function getAsset(asset, abortController) {
+  const endpoint = `/apps/${configRepo.get().id}/assets`;
+  return apiClient.get(`${endpoint}/${asset}`, void 0, {
+    headers: { "user-language": TranslationService.instance.language },
+    signal: void 0
+  });
+}
+const PagesDocumentElementRenderers = {
+  css: CssElement,
+  md: MarkdownElement
+};
+function fetchPagesDocument(doc) {
+  return Promise.all(
+    doc.map(async (element) => {
+      if (element.url) {
+        try {
+          const res = await getAsset(element.url);
+          return { ...element, data: res };
+        } catch (error2) {
+          console.error(`Failed to load asset from ${element.url}:`, error2);
+        }
+      }
+      return { ...element, data: element.data || "" };
+    })
+  );
+}
+function CssElement({ data }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("style", { children: data });
+}
+function MarkdownElement({ data }) {
+  return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "app-pages-element-markdown", children: /* @__PURE__ */ jsxRuntimeExports.jsx(StructuredMarkdownContent, { content: data }) });
+}
+function PagesDocument({
+  doc,
+  wrapperComponent: Wrapper = Article,
+  id
+}) {
+  const data = usePromise(fetchPagesDocument, [doc]);
+  return /* @__PURE__ */ jsxRuntimeExports.jsx(Wrapper, { id: `app-pages-docid-${id}`, children: data.map((element, index2) => {
+    const Renderer = PagesDocumentElementRenderers[element.type];
+    return /* @__PURE__ */ jsxRuntimeExports.jsx(Renderer, { ...element }, index2);
+  }) });
+}
 const PaymentPlanCardFooter = reactExports.memo(function PaymentPlanCardFooter2({
   planConfig,
   isUserAuthorized,
@@ -12902,9 +12417,494 @@ function Plans({ styling = "", markdown: markdown2 = _plans, isUserAuthorized = 
     }) }) })
   ] });
 }
-const fixture1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const fixture0 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   default: Plans_fixture
+}, Symbol.toStringTag, { value: "Module" }));
+const _configDataMock = {
+  baseUrl: "/active/",
+  initialUrl: "https://disaster.ninja/active/map?map=4.920/37.682/112.588&event=1c1eb9ce-2fb0-4660-ae2e-ee93d15f8874&layers=kontur_lines%2CactiveContributors%2CeventShape%2ChotProjects_outlines%2Cpopulation_density%2Cfocused-geometry",
+  initialUrlData: {
+    layers: ["kontur_lines", "population_density"]
+  },
+  apiGateway: "https://disaster.ninja/active/api",
+  reportsApiGateway: "/active/reports",
+  bivariateTilesRelativeUrl: "api/tiles/bivariate/v1/",
+  bivariateTilesIndicatorsClass: "all",
+  refreshIntervalSec: 300,
+  sentryDsn: "",
+  keycloakUrl: "https://keycloak01.kontur.io",
+  keycloakRealm: "kontur",
+  keycloakClientId: "kontur_platform",
+  // intercomDefaultName: null,
+  intercomAppId: "e59cl64z",
+  intercomSelector: "#kontur_header_chat_btn",
+  defaultFeed: "kontur-public",
+  osmEditors: [
+    {
+      id: "josm",
+      title: "JOSM",
+      url: "https://www.openstreetmap.org/edit?editor=remote#map="
+    },
+    {
+      id: "id",
+      title: "iD",
+      url: "https://www.openstreetmap.org/edit?editor=id&node=2188188227#map="
+    },
+    {
+      id: "rapid",
+      title: "RapiD",
+      url: "https://mapwith.ai/rapid#map="
+    }
+  ],
+  autofocusZoom: 13,
+  mapBlankSpaceId: "map-view",
+  mapBaseStyle: "https://prod-basemap-tileserver.k8s-01.konturlabs.com/layers/tiles/basemap/style_ninja_en.json",
+  featuresByDefault: {
+    events_list: true,
+    current_event: true,
+    reports: true,
+    osm_edit_link: true,
+    side_bar: true,
+    analytics_panel: true,
+    map_layers_panel: true,
+    focused_geometry_layer: true,
+    map_ruler: true,
+    boundary_selector: true,
+    geometry_uploader: true,
+    legend_panel: true,
+    layers_in_area: true,
+    toasts: true,
+    feed_selector: true,
+    intercom: true,
+    tooltip: true
+  },
+  id: "9043acf9-2cf3-48ac-9656-a5d7c4b7593d",
+  name: "Kontur Atlas",
+  description: "Kontur SAAS application",
+  ownedByUser: false,
+  extent: [-135, 0, 63, 62],
+  sidebarIconUrl: "/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/favicon.svg",
+  faviconUrl: "/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/favicon.svg",
+  faviconPack: {
+    "favicon.svg": "/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/favicon.svg",
+    "favicon.ico": "/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/favicon.ico",
+    "apple-touch-icon.png": "/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/apple-touch-icon.png",
+    "icon-192x192.png": "/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/icon-192x192.png",
+    "icon-512x512.png": "/active/api/apps/9043acf9-2cf3-48ac-9656-a5d7c4b7593d/assets/icon-512x512.png"
+  },
+  // @ts-ignore
+  features: {
+    side_bar: true,
+    intercom: true,
+    tooltip: true,
+    oam_auth: {
+      requiredRoutes: ["profile-external", "upload-imagery"],
+      authUrl: "https://api.openaerialmap.org/oauth/google",
+      sessionCookieName: "oam-session",
+      sessionCheckIntervalMs: 3e4,
+      redirectUriParamName: "original_uri"
+    },
+    subscription: {
+      billingMethodsDetails: [
+        {
+          id: "paypal",
+          clientId: "xxxxxxx-xxxx-xxxxxxxxxxxxxx"
+        }
+      ],
+      billingCyclesDetails: [
+        {
+          id: "month",
+          name: "Monthly",
+          note: null
+        },
+        {
+          id: "year",
+          name: "Annually",
+          note: "Save 5%"
+        }
+      ],
+      plans: [
+        {
+          id: "kontur_atlas_edu",
+          name: "Educational",
+          style: "basic",
+          billingCycles: [
+            {
+              id: "month",
+              initialPricePerMonth: null,
+              pricePerMonth: 100,
+              pricePerYear: null,
+              billingMethods: [
+                {
+                  id: "paypal",
+                  billingPlanId: "P-000000000000000000000000"
+                }
+              ]
+            },
+            {
+              id: "year",
+              initialPricePerMonth: 100,
+              pricePerMonth: 95,
+              pricePerYear: 1140,
+              billingMethods: [
+                {
+                  id: "paypal",
+                  billingPlanId: "P-000000000000000000000000"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: "kontur_atlas_pro",
+          name: "Professional",
+          style: "premium",
+          billingCycles: [
+            {
+              id: "month",
+              initialPricePerMonth: null,
+              pricePerMonth: 1e3,
+              pricePerYear: null,
+              billingMethods: [
+                {
+                  id: "paypal",
+                  billingPlanId: "P-000000000000000000000000"
+                }
+              ]
+            },
+            {
+              id: "year",
+              initialPricePerMonth: 1e3,
+              pricePerMonth: 950,
+              pricePerYear: 11400,
+              billingMethods: [
+                {
+                  id: "paypal",
+                  billingPlanId: "P-000000000000000000000000"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          id: "kontur_atlas_custom",
+          name: "Custom",
+          style: "custom",
+          actions: [
+            {
+              name: "contact_sales",
+              params: {
+                link: "https://calendly.com/"
+              }
+            },
+            {
+              name: "book_a_demo"
+            }
+          ]
+        }
+      ]
+    },
+    app_login: true,
+    toasts: true,
+    use_3rdparty_analytics: true,
+    about_page: {
+      tabId: "about",
+      assetUrl: "about.md",
+      subTabs: [
+        {
+          tabId: "terms",
+          assetUrl: "terms.md"
+        },
+        {
+          tabId: "privacy",
+          assetUrl: "privacy.md"
+        },
+        {
+          tabId: "user-guide",
+          assetUrl: "user_guide.md"
+        }
+      ]
+    }
+  },
+  public: true,
+  initialUser: {
+    username: "",
+    email: "",
+    fullName: "",
+    language: "en",
+    useMetricUnits: true,
+    subscribedToKonturUpdates: false,
+    bio: "",
+    osmEditor: "josm",
+    defaultFeed: "kontur-public",
+    theme: "kontur"
+  },
+  defaultLayers: [
+    {
+      id: "kontur_lines",
+      source: {
+        type: "maplibre-style-url",
+        urls: [
+          "https://prod-basemap-tileserver.k8s-01.konturlabs.com/layers/tiles/basemap/style_ninja_en.json"
+        ]
+      },
+      ownedByUser: false
+    },
+    {
+      id: "population_density",
+      // @ts-ignore
+      source: {
+        urls: [
+          "https://disaster.ninja/active/api/tiles/bivariate/v1/{z}/{x}/{y}.mvt?indicatorsClass=general"
+        ]
+      },
+      // @ts-ignore
+      legend: {
+        type: "simple",
+        steps: [
+          {
+            stepName: "0 - 1.27",
+            stepShape: "square",
+            style: {
+              color: "#F0F0D6",
+              "fill-color": "#F0F0D6",
+              "fill-opacity": 0.8
+            }
+          },
+          {
+            stepName: "1.27 - 2.45",
+            stepShape: "square",
+            style: {
+              color: "#ECECC4",
+              "fill-color": "#ECECC4",
+              "fill-opacity": 0.8
+            }
+          },
+          {
+            stepName: "2.45 - 5.75",
+            stepShape: "square",
+            style: {
+              color: "#EAEAB0",
+              "fill-color": "#EAEAB0",
+              "fill-opacity": 0.8
+            }
+          },
+          {
+            stepName: "5.75 - 12.43",
+            stepShape: "square",
+            style: {
+              color: "#E8E89D",
+              "fill-color": "#E8E89D",
+              "fill-opacity": 0.8
+            }
+          },
+          {
+            stepName: "12.43 - 28.47",
+            stepShape: "square",
+            style: {
+              color: "#E1D689",
+              "fill-color": "#E1D689",
+              "fill-opacity": 0.8
+            }
+          },
+          {
+            stepName: "28.47 - 66.03",
+            stepShape: "square",
+            style: {
+              color: "#DAC075",
+              "fill-color": "#DAC075",
+              "fill-opacity": 0.8
+            }
+          },
+          {
+            stepName: "66.03 - 172.46",
+            stepShape: "square",
+            style: {
+              color: "#D1A562",
+              "fill-color": "#D1A562",
+              "fill-opacity": 0.8
+            }
+          },
+          {
+            stepName: "172.46 - 535.67",
+            stepShape: "square",
+            style: {
+              color: "#C98A50",
+              "fill-color": "#C98A50",
+              "fill-opacity": 0.8
+            }
+          },
+          {
+            stepName: "535.67 - 46200",
+            stepShape: "square",
+            style: {
+              color: "#BF6C3F",
+              "fill-color": "#BF6C3F",
+              "fill-opacity": 0.8
+            }
+          }
+        ]
+      },
+      ownedByUser: false
+    }
+  ],
+  activeLayers: ["kontur_lines", "population_density"]
+};
+configRepo.get = () => _configDataMock;
+configRepo.getUserDefaultFeed = () => _configDataMock.initialUser.defaultFeed;
+const _md = `![Kontur Atlas](about-atlas-1.png)
+
+# Kontur Atlas
+
+Atlas is your GPS for big decisions. It's a tool that helps you use maps and data to figure out a wide range of things, from where to open a new store to exploring environmental sustainability.
+
+![Geospatial Data with Ease](about-atlas-2.png)
+
+## Geospatial Data with Ease
+
+### Browse & Choose Data
+
+We've got tons of info like who lives where and how people get around. Find the data that'll answer your questions.
+
+### Make Maps
+
+With a few clicks, Atlas turns that data into maps and visuals so it's easy to understand.
+
+### Analyze & Decide
+
+Use these insights to make smart decisions, like picking the perfect spot for your next big project or making concussions based on spatial patterns.
+
+### Jump in and start exploring
+
+Your next big opportunity is waiting to be mapped out!
+
+## _[Subscribe to Atlas](/pricing)_ wrapped in "\\_"
+
+### **[Subscribe to Atlas](/pricing)** "\\_\\_"
+
+### **_[Subscribe to Atlas](/pricing)_** "\\_\\_\\*"
+
+## How to Use
+
+---
+
+![youtube](https://www.youtube.com/embed/g7WMD10DMPs?si=Gl6RdNM0L3ufi0uF::800,470,true)
+
+### Area Selection
+
+To choose an area for analysis, you can use the toolbar to select an administrative unit, draw a shape manually, or import a GeoJSON file.
+
+![youtube](https://www.youtube.com/embed/aCXaAYEW0oM::800,470,true)
+
+### Analytics Panel
+
+This panel displays essential data about your selected area.
+
+#### AI Insights
+
+Compares your area's data with global averages, alerting you to any significant discrepancies.
+
+#### Personalized AI Insights
+
+Reference Area: This allows you to set a known area as a reference point for comparisons and highlights differences.
+Bio: Here, you can record details like who you're working for, your analysis purpose, and key topics, helping to personalize AI conclusions.
+
+![youtube](https://www.youtube.com/embed/Md5Mex-POBo::800,470,true)
+
+### Creating Custom Analysis
+
+To create your own analysis, select the "MCDA" button in the toolbar.
+
+#### Choosing Relevant Layers
+
+Start by picking data layers appropriate for your requirements — this could include anything from population density to environmental risk factors.
+
+#### Browse the map
+
+By default, the map displays red hexagons in high-value areas and green hexagons where values are minimal. Click on any hexagon to access detailed info for that particular sector.
+
+#### Layer Customization
+
+Enhance your analysis by fine-tuning the range and what is bad and good of each layer. This means you can focus specifically on aspects crucial to your study.
+
+---
+
+### _[Learn more on kontur.io](https://www.kontur.io/atlas)_
+`;
+const _css = "article {\n  & * {\n    outline: lime solid thin;\n  }\n}\n";
+console.info("test app id", configRepo.get().id);
+const PagesDocument_fixture = {
+  "PagesDocument with custom css": /* @__PURE__ */ jsxRuntimeExports.jsx(
+    PagesDocument,
+    {
+      id: "",
+      doc: [
+        {
+          type: "md",
+          data: `
+#Kontur Atlas
+Atlas is your GPS for big decisions. It's a tool that helps you use maps and data to figure out a wide range of things, from where to open a new store to exploring environmental sustainability.
+`
+        },
+        {
+          type: "css",
+          data: `
+h1 { background-color: #f2f2f2; }
+p { background-color: #BF6C3F; }
+`
+        }
+      ]
+    }
+  ),
+  "Links test": /* @__PURE__ */ jsxRuntimeExports.jsx(
+    PagesDocument,
+    {
+      id: "",
+      doc: [
+        {
+          type: "md",
+          data: `
+[Link](https://example.com)
+
+Controller using this email: [hello@kontur.io](mailto:hello@kontur.io) or contact address.
+
+Controller using this email: <hello@kontur.io> or contact address.
+
+hello@kontur.io
+
+kancelaria@uodo.gov.pl
+
+ng: <kancelaria@uodo.gov.pl>
+
+http://www.youronlinechoices.com/
+
+ng: <http://www.youronlinechoices.com/>
+`
+        }
+      ]
+    }
+  ),
+  "PagesDocument markdown sample": /* @__PURE__ */ jsxRuntimeExports.jsx(
+    PagesDocument,
+    {
+      id: "",
+      doc: [
+        {
+          type: "md",
+          data: _md
+        },
+        {
+          type: "css",
+          data: _css
+        }
+      ]
+    }
+  )
+};
+const fixture1 = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+  __proto__: null,
+  default: PagesDocument_fixture
 }, Symbol.toStringTag, { value: "Module" }));
 const eventCardLayoutTemplate = {
   type: "Card",
@@ -33754,8 +33754,8 @@ const rendererConfig = {
   "containerQuerySelector": null
 };
 const fixtures = {
-  "src/core/pages/PagesDocument.fixture.tsx": { module: fixture0 },
-  "src/features/subscriptions/Plans.fixture.tsx": { module: fixture1 },
+  "src/features/subscriptions/Plans.fixture.tsx": { module: fixture0 },
+  "src/core/pages/PagesDocument.fixture.tsx": { module: fixture1 },
   "src/components/Uni/LayoutDebugger.fixture.tsx": { module: fixture2 },
   "src/components/Uni/FieldsRegistry.fixture.tsx": { module: fixture3 },
   "src/components/Uni/ComponentsRegistry.fixture.tsx": { module: fixture4 },
