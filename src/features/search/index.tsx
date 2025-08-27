@@ -7,7 +7,6 @@ import { i18n } from '~core/localization';
 import { useShortPanelState } from '~utils/hooks/useShortPanelState';
 import { useAutoCollapsePanel } from '~utils/hooks/useAutoCollapsePanel';
 import { SearchBar } from '~features/search/componets/SearchBar/SearchBar';
-import { initSearchHighlightLayer } from './initSearchHighlightLayer';
 import s from './styles.module.css';
 
 export function Search() {
@@ -18,13 +17,6 @@ export function Search() {
 
   const inputRef = useRef<HTMLInputElement>(null);
   const isMobile = useMediaQuery(IS_MOBILE_QUERY);
-
-  useEffect(() => {
-    const destroyHighlightLayer = initSearchHighlightLayer();
-    return () => {
-      destroyHighlightLayer?.();
-    };
-  }, []);
 
   useEffect(() => {
     if (isOpen && isMobile) {
