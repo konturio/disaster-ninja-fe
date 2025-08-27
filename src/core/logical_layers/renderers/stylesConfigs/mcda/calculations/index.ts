@@ -178,7 +178,11 @@ export const calculateLayerPipeline =
     type: 'view' | 'layerStyle',
     getValue: (axis: { num: string; den: string }) => { num: T; den: T },
   ) =>
-  (layer: MCDALayer, forceMinMaxInLayerStyle?: boolean) => {
+  (
+    layer: MCDALayer,
+    forceMinMaxInLayerStyle?: boolean,
+    preventValueInversion?: boolean,
+  ) => {
     const {
       axis,
       range,
@@ -256,7 +260,7 @@ export const calculateLayerPipeline =
       normalized = operations.normalize({ x: tX, min: tMin, max: tMax });
     }
     let oriented = inverted ? operations.invert(normalized) : normalized;
-    if (type === 'view' && normalization === 'no') {
+    if ((type === 'view' && normalization === 'no') || preventValueInversion) {
       // don't invert non-normalized values, because applying (1-value) doesn't make sense for them
       oriented = normalized;
     }
