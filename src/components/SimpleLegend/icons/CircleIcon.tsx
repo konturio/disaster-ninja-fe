@@ -17,6 +17,14 @@ export function CircleIcon({
   fill?: string;
   stroke?: string;
 }) {
+  const fillColor = fill || styles['fill-color'] || styles['circle-color'] || 'none';
+  const strokeColor =
+    stroke ||
+    styles['circle-stroke-color'] ||
+    styles.color ||
+    styles['circle-color'] ||
+    '#000000';
+
   return (
     <svg
       width={sizes[size]}
@@ -26,20 +34,25 @@ export function CircleIcon({
       xmlns="http://www.w3.org/2000/svg"
       className={className}
     >
-      <circle
-        cx="9"
-        cy="9"
-        r="7"
-        fill={fill || styles['fill-color'] || styles['circle-color'] || 'none'}
-        stroke={
-          stroke ||
-          styles['circle-stroke-color'] ||
-          styles.color ||
-          styles['circle-color'] ||
-          '#000000'
-        }
-        strokeWidth={styles.width ?? 4}
-      />
+      {fillColor === 'none' ? (
+        <line
+          x1="2"
+          y1="9"
+          x2="16"
+          y2="9"
+          stroke={strokeColor}
+          strokeWidth={styles.width ?? 4}
+        />
+      ) : (
+        <circle
+          cx="9"
+          cy="9"
+          r="7"
+          fill={fillColor}
+          stroke={strokeColor}
+          strokeWidth={styles.width ?? 4}
+        />
+      )}
     </svg>
   );
 }
