@@ -191,8 +191,8 @@ export function createMCDAStyle(config: MCDAConfig): FillLayerSpecification {
 
   // always apply min-max normalization for mcda style with sentiments colors,
   // because we need to have (0..1) values in expressions for proper colors interpolation in sentiments colors (see sentimentPaint())
-  const forceMinMaxForLayeStyle = config.colors.type === 'sentiments';
-  const mcdaResult = linearNormalization(config.layers, forceMinMaxForLayeStyle);
+  const forceMinMaxForLayerStyle = config.colors.type === 'sentiments';
+  const mcdaResult = linearNormalization(config.layers, forceMinMaxForLayerStyle);
 
   const layerStyle: FillLayerSpecification = {
     // TODO: this id is useless and gets replaced in renderer. Needs refactoring
