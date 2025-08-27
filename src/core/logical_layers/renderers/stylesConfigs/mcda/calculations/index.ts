@@ -4,7 +4,7 @@ import { arraysAreEqualWithStrictOrder } from '~utils/common/equality';
 import { sentimentDefault, sentimentReversed } from './constants';
 import { JsMath, MapMath } from './operations';
 import type { IsomorphMath } from './operations';
-import type { MCDAConfig, TransformationFunction } from '../types';
+import type { MCDALayer, TransformationFunction } from '../types';
 
 const equalSentiments = (a: Array<string>, b: Array<string>) =>
   arraysAreEqualWithStrictOrder(a, b);
@@ -178,17 +178,22 @@ export const calculateLayerPipeline =
     type: 'view' | 'layerStyle',
     getValue: (axis: { num: string; den: string }) => { num: T; den: T },
   ) =>
-  ({
-    axis,
-    range,
-    coefficient,
-    sentiment,
-    transformationFunction,
-    transformation,
-    normalization,
-    outliers,
-    datasetStats,
-  }: MCDAConfig['layers'][0]) => {
+  (
+    layer: MCDALayer,
+    forceMinMaxInLayerStyle?: boolean,
+    preventValueInversion?: boolean,
+  ) => {
+    const {
+      axis,
+      range,
+      coefficient,
+      sentiment,
+      transformationFunction,
+      transformation,
+      normalization,
+      outliers,
+      datasetStats,
+    } = layer;
     // @ts-expect-error - IsomorphCalculations typing needs fixing. The code works though, so for now ignoring the ts error
     const operations: IsomorphCalculations<number> =
       type === 'layerStyle' ? inStyleCalculations : inViewCalculations;
@@ -246,13 +251,16 @@ export const calculateLayerPipeline =
       }
     }
     let normalized = tX;
-    if (normalization === 'max-min' || type === 'layerStyle') {
-      // always apply min-max normalization for layer style,
-      // because we need to have (0..1) values in expressions for proper colors interpolation
+    if (
+      normalization === 'max-min' ||
+      (type === 'layerStyle' && forceMinMaxInLayerStyle)
+    ) {
+      // always apply min-max normalization for mcda style with sentiments colors,
+      // because we need to have (0..1) values in expressions for proper colors interpolation in sentiments colors (see sentimentPaint())
       normalized = operations.normalize({ x: tX, min: tMin, max: tMax });
     }
     let oriented = inverted ? operations.invert(normalized) : normalized;
-    if (type === 'view' && normalization === 'no') {
+    if ((type === 'view' && normalization === 'no') || preventValueInversion) {
       // don't invert non-normalized values, because applying (1-value) doesn't make sense for them
       oriented = normalized;
     }

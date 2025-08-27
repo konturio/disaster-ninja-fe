@@ -62,11 +62,20 @@ export function filterSetup(
 
 export function linearNormalization(
   layers: MCDAConfig['layers'],
+  forceMinMax: boolean = false,
 ): ExpressionSpecification {
   if (layers.length === 1) {
-    return ['/', calculateMCDALayer(layers.at(0)!), layers.at(0)!.coefficient];
+    return [
+      '/',
+      calculateMCDALayer(layers.at(0)!, forceMinMax),
+      layers.at(0)!.coefficient,
+    ];
   } else {
-    return ['/', ['+', ...layers.map(calculateMCDALayer)], sumBy(layers, 'coefficient')];
+    return [
+      '/',
+      ['+', ...layers.map((layer) => calculateMCDALayer(layer, forceMinMax))],
+      sumBy(layers, 'coefficient'),
+    ];
   }
 }
 
@@ -180,7 +189,10 @@ export function createMCDAStyle(config: MCDAConfig): FillLayerSpecification {
     [] as [number, number] | [],
   );
 
-  const mcdaResult = linearNormalization(config.layers);
+  // always apply min-max normalization for mcda style with sentiments colors,
+  // because we need to have (0..1) values in expressions for proper colors interpolation in sentiments colors (see sentimentPaint())
+  const forceMinMaxForLayerStyle = config.colors.type === 'sentiments';
+  const mcdaResult = linearNormalization(config.layers, forceMinMaxForLayerStyle);
 
   const layerStyle: FillLayerSpecification = {
     // TODO: this id is useless and gets replaced in renderer. Needs refactoring

@@ -28,7 +28,7 @@ export function createTextLayerSpecification(
     } else {
       // @ts-expect-error - typing for calculateMCDALayer needs fixing, it actually returns ExpressionSpecification
       values = textDimension.mcdaValue.config.layers.map((layer) =>
-        calculateMCDALayer(layer),
+        calculateMCDALayer(layer, false, layer.normalization === 'no'),
       );
       units = textDimension.mcdaValue.config.layers.map((layer) =>
         layer.normalization === 'no' ? (layer.unit ?? '') : '',
