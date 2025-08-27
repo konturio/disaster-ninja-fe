@@ -8,11 +8,7 @@ import {
   withStatusesAtom,
 } from '@reatom/framework';
 import { getLocations } from '~core/api/search';
-import {
-  setCurrentMapBbox,
-  focusOnGeometry,
-} from '~core/shared_state/currentMapPosition';
-import { focusedGeometryAtom } from '~core/focused_geometry/model';
+import { setCurrentMapBbox } from '~core/shared_state/currentMapPosition';
 
 export const fetchLocationsAsyncResource = reatomAsync(
   (ctx, query: string) => getLocations(query, ctx.controller),
@@ -32,13 +28,6 @@ export const searchLocationsAtom = atom((ctx) => {
 export const selectLocationItemAction = action((ctx, item) => {
   const bbox = item.properties.bbox;
   setCurrentMapBbox(ctx, bbox);
-  if (item.geometry) {
-    focusedGeometryAtom.setFocusedGeometry.v3action(ctx, {
-      source: { type: 'custom' },
-      geometry: item,
-    });
-    focusOnGeometry(ctx, item);
-  }
 });
 
 export const resetLocationSearchAction = action((ctx) => {

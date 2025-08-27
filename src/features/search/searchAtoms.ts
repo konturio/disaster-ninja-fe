@@ -12,8 +12,6 @@ import {
   selectMCDAItemAction,
   isMCDASearchEnabled,
 } from '~features/search/searchMcdaAtoms';
-import { searchHighlightedGeometryAtom } from './atoms/highlightedGeometry';
-import { EMPTY_HIGHLIGHT } from './constants';
 import type { LocationProperties } from '~core/api/search';
 import type { Geometry } from 'geojson';
 import type { MCDAConfig } from '~core/logical_layers/renderers/stylesConfigs/mcda/types';
@@ -65,7 +63,6 @@ export const itemSelectAction = action((ctx, item: AggregatedSearchItem) => {
   } else if (item.source === 'mcda') {
     selectMCDAItemAction(ctx);
   }
-  searchHighlightedGeometryAtom(ctx, EMPTY_HIGHLIGHT);
 });
 
 export const resetSearchAction = action((ctx) => {
