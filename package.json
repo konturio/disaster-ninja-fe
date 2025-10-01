@@ -190,7 +190,7 @@
     "husky": "^9.1.7",
     "i18next-scanner": "^4.6.0",
     "jose": "^6.0.11",
-    "lint-staged": "^15.5.2",
+    "lint-staged": "^16.2.3",
     "minimist": "^1.2.8",
     "npm-run-all": "^4.1.5",
     "open-cli": "^8.0.0",
